@@ -2,6 +2,8 @@
 
 ## 2026-10-04 — Replay reliability and product cleanup
 
+- Restored strict Expert-to-Beginner sweep ordering: route confidence now only prioritizes maps inside their own category. Older saved queues are repaired without changing their within-category order; duplicate saved entries and unknown-category ordering are covered by regression checks.
+
 - Excluded explicit user-pause time from navigation, round-stall and maximum-duration watchdogs. A focused test covers a twenty-minute pause, resume and a subsequent real active stall.
 
 - Corrected strategy deduplication when a tower's identifier equals its type: Dart and Ninja placements now remain distinct. Added collision regression tests.

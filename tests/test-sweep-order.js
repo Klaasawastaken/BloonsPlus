@@ -1,0 +1,11 @@
+const assert = require('node:assert/strict');
+const { buildSweepMapOrder } = require('../lib/automation');
+const maps = ['candy_falls', 'polyphemus', 'dark_castle', 'another_brick', 'not_a_map'];
+const fresh = buildSweepMapOrder(maps, [], map => map === 'candy_falls');
+assert.deepEqual(fresh, ['dark_castle', 'another_brick', 'polyphemus', 'candy_falls', 'not_a_map']);
+const resumed = buildSweepMapOrder(maps, maps, () => false);
+assert.deepEqual(resumed, fresh);
+assert.deepEqual(maps, ['candy_falls', 'polyphemus', 'dark_castle', 'another_brick', 'not_a_map'], 'Saved queue must not be mutated');
+const duplicateSaved = buildSweepMapOrder(maps, ['dark_castle','dark_castle','another_brick','polyphemus','candy_falls'], () => false);
+assert.equal(new Set(duplicateSaved).size, maps.length);
+console.log('Expert-first and resume queue checks passed.');
