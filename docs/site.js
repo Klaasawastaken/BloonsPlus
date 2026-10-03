@@ -100,9 +100,9 @@
       const url = new URL(asset.browser_download_url);
       if (url.protocol !== 'https:' || url.hostname !== 'github.com' || !url.pathname.startsWith('/Klaasawastaken/BloonsPlus/releases/download/')) return false;
       download.href = url.href;
-      download.textContent = 'Download Windows installer â†“';
-      releaseStatus.textContent = `${release.tag_name} Â· Windows x64 preview`;
-      detail.textContent = `${(asset.size / 1048576).toFixed(1)} MB Â· Dependencies download during setup`;
+      download.textContent = 'Download Windows installer ↓';
+      releaseStatus.textContent = `${release.tag_name} · Windows x64 preview`;
+      detail.textContent = `${(asset.size / 1048576).toFixed(1)} MB · Dependencies download during setup`;
       notes.href = release.html_url;
       return true;
     }
@@ -130,3 +130,10 @@ wikiSearch?.addEventListener('input', () => {
   document.querySelectorAll('.wiki-entry').forEach(card => { const visible = (card.dataset.search || card.textContent).toLowerCase().includes(query); card.hidden = !visible; if (visible) matches++; });
   document.querySelector('#wiki-no-results').hidden = matches > 0;
 });
+
+// A slim progress indicator follows document scrolling without polling.
+const readingProgress = document.createElement('div'); readingProgress.className = 'reading-progress'; readingProgress.setAttribute('aria-hidden', 'true'); document.body.append(readingProgress);
+let progressFrame = 0;
+function updateReadingProgress() { progressFrame = 0; const height = document.documentElement.scrollHeight - innerHeight; readingProgress.style.transform = `scaleX(${height > 0 ? Math.min(1, scrollY / height) : 0})`; }
+addEventListener('scroll', () => { if (!progressFrame) progressFrame = requestAnimationFrame(updateReadingProgress); }, { passive: true });
+addEventListener('resize', updateReadingProgress); updateReadingProgress();

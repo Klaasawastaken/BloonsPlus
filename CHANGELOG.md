@@ -1,5 +1,14 @@
 # Changelog
 
+## 2026-10-03 — Motion and community polish
+
+- Added a linked Discord community banner to the homepage and a shareable PNG asset.
+- Added tower entrance animations, responsive card feedback and button arrow motion.
+- Added a scroll progress indicator, updated through animation frames rather than polling.
+- Preserved reduced-motion support and toned down the banner in dark mode.
+- Fixed incorrectly encoded checkmarks and download labels.
+
+
 ## 2026-10-03 — Website and documentation refresh
 
 - Added clean product URLs, Docs and a searchable wiki with seven reference articles.
