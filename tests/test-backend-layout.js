@@ -20,6 +20,11 @@ const root = path.resolve(__dirname, '..');
   const actual = await require('../lib/automation').getAvailableCombos();
   assert.equal(JSON.stringify(actual), JSON.stringify(expected), 'Route selection changed during the move');
   assert.ok(Object.keys(actual).length > 70, 'Catalog unexpectedly empty');
+  // This exact unsupported reuse lost at round 24 in the old guest controller.
+  // Keep it out of unattended ABR selection unless this target actually wins.
+  const spaAbr = actual.spa_pits?.alternate_bloons_rounds || [];
+  assert.ok(!spaAbr.some(entry => entry.filename === 'spa_pits#alternate_bloons_rounds#1920x1080#converted#source_chimps.btd6'
+    && !entry.localWinVerified), 'Unverified CHIMPS-derived Spa Pits ABR route was selected');
   const { strategySignature: signature } = require('../lib/route-validation');
   assert.equal(signature('place dart a at 1, 2\nupgrade a path 0'), signature('# alias\nplace dart z at 1,2\nupgrade z path 0'));
   assert.notEqual(signature('place dart a at 1,2'), signature('place dart a at 2,2'));
