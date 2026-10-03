@@ -640,21 +640,41 @@ class TowerTracker:
 # With BTD6's placement confirmation on, a placement click only positions the tower: a green
 # check (and red X) appears top-right and the tower is bought only when the check is pressed.
 CONFIRM_BUTTON_1080 = (1600, 205)
+_confirmButton1080 = CONFIRM_BUTTON_1080
 
 
 def confirmButtonVisible(frame):
+    global _confirmButton1080
     h, w = frame.shape[:2]
     s = w / 1920
+    # Current BTD6 shows placement-confirm controls at the bottom of the tower
+    # sidebar. Require BOTH red cancel and green confirm, so the ordinary green
+    # play button and map-mechanic buttons cannot be mistaken for a purchase.
+    def colorFraction(rect, green):
+        x1, y1, x2, y2 = rect
+        crop = frame[int(y1 * s):int(y2 * s), int(x1 * s):int(x2 * s)].astype(np.int32)
+        if not crop.size:
+            return 0.0
+        b, g, r = crop[..., 0], crop[..., 1], crop[..., 2]
+        pixels = ((g > 120) & (g > r * 1.35) & (g > b * 1.3)) if green else ((r > 140) & (r > g * 1.4) & (r > b * 1.4))
+        return float(pixels.mean())
+    if (colorFraction((1770, 990, 1860, 1080), True) > 0.12
+            and colorFraction((1645, 990, 1745, 1080), False) > 0.12):
+        _confirmButton1080 = (1808, 1030)
+        return True
     crop = frame[int(183 * s):int(228 * s), int(1578 * s):int(1623 * s)].astype(np.int32)
     if crop.size == 0:
         return False
     b, g, r = crop[..., 0], crop[..., 1], crop[..., 2]
-    return float(((g > 150) & (g > r * 1.4) & (g > b * 1.4)).mean()) > 0.25
+    visible = float(((g > 150) & (g > r * 1.4) & (g > b * 1.4)).mean()) > 0.25
+    if visible:
+        _confirmButton1080 = CONFIRM_BUTTON_1080
+    return visible
 
 
 def confirmButtonPos(frameWidth):
     s = frameWidth / 1920
-    return (int(CONFIRM_BUTTON_1080[0] * s), int(CONFIRM_BUTTON_1080[1] * s))
+    return (int(_confirmButton1080[0] * s), int(_confirmButton1080[1] * s))
 
 
 def isDynamicPlacementMap(mapName):
@@ -1886,6 +1906,8 @@ def main():
         except (OSError, ValueError, TypeError):
             customPrint('DEBUG resume found no matching persisted tower/path ledger')
         currentGameState.observe(round_number=resumeRound, screen=resumeScreen.name)
+        observedRound = resumeRound
+        observedRoundStartedAt = time.time()
         saveGameState(currentGameState)
         routeCheckpoint['runId'] = upgradeRunId
         writeRouteCheckpoint(routeCheckpoint)
@@ -2257,12 +2279,14 @@ def main():
                                                        + [o for o in ('sell', 'retarget', 'special') if keybinds['others'].get(o) is None]
                                                        + ['ability' + str(a) for a, v in keybinds.get('abilities', {}).items() if v is None])))
                 victoryRecorded = False
+                observedRound = None
+                observedRoundStartedAt = None
                 surplusUpgradeAttempts.clear()
                 surplusUpgradeStopped = False
                 surplusBlockedPaths.clear()
                 startLives = None
                 lastLives = None
-                terrainMotion = TerrainMotion(mapConfig['map'])
+                terrainMotion = TerrainMotion(mapConfig['map']) if isDynamicPlacementMap(mapConfig['map']) else None
                 towerTracker = TowerTracker()
                 pathHeat = PathHeat(mapConfig['map'])
                 lastGoodMoney = 0
@@ -2530,12 +2554,41 @@ def main():
                 thisIterationAction = None
                 skippingIteration = False
 
+                # Read the HUD fields independently. A transient OCR failure in the cash box
+                # must not throw away a valid round reading (and vice versa), because that can
+                # make the route wait forever or issue a late action at the wrong round.
                 try:
                     currentValues['money'] = int(custom_ocr(images[2]))
-                    currentValues['round'] = int(custom_ocr(images[3]).split('/')[0])
-                except ValueError:
+                except (TypeError, ValueError):
                     currentValues['money'] = -1
+                try:
+                    currentValues['round'] = int(custom_ocr(images[3]).split('/')[0])
+                except (AttributeError, TypeError, ValueError):
                     currentValues['round'] = -1
+
+                # OCR can concatenate the round label/slash into the numerator (6 -> 46
+                # or 76). A replay cannot jump dozens of rounds between captures. Reject
+                # these values before they update the ledger or release await_round steps.
+                readingRound = currentValues['round']
+                startRound = 31 if mapConfig.get('gamemode') == 'deflation' else (6 if mapConfig.get('gamemode') in ('chimps', 'impoppable') else (3 if mapConfig.get('difficulty') == 'hard' else 1))
+                anchorRound = observedRound if observedRound is not None else startRound
+                if readingRound >= 0 and not anchorRound <= readingRound <= anchorRound + 3:
+                    customPrint('WARNING rejecting implausible round OCR ' + str(readingRound)
+                                + ' after ' + str(anchorRound))
+                    currentValues['round'] = -1
+                if currentValues['round'] == -1:
+                    # A slightly stricter white threshold recovers glyph edges on snowy
+                    # maps. Accept it only if it also follows the known round sequence.
+                    try:
+                        alternateRound = int(custom_ocr(images[3], white_threshold=230).split('/')[0])
+                        if anchorRound <= alternateRound <= anchorRound + 3:
+                            currentValues['round'] = alternateRound
+                            customPrint('DEBUG round OCR recovered at threshold 230: ' + str(alternateRound))
+                    except (AttributeError, TypeError, ValueError):
+                        pass
+                if observedRound is None and lastGoodMoney == 0 and currentValues['money'] > (25000 if mapConfig.get('gamemode') == 'deflation' else 5000):
+                    customPrint('WARNING rejecting implausible opening cash OCR ' + str(currentValues['money']))
+                    currentValues['money'] = -1
 
                 # OCR sometimes inserts a digit (45628 -> 452506). A lone jump to several times the
                 # last good reading is treated as unreadable unless the next frame repeats it.
@@ -2573,7 +2626,10 @@ def main():
                         lastLives = livesReading
                         if currentGameState is not None:
                             currentGameState.lives = livesReading
-                        if startLives > 1 and livesReading < startLives * 0.7:
+                        # Trigger recovery before a route is one leak away from defeat. This is
+                        # especially important on Alternate Bloons rounds, where a single missed
+                        # defense can drain lives for several rounds before the route notices.
+                        if startLives > 1 and livesReading < startLives * 0.85:
                             lowLivesFrames += 1
                         else:
                             lowLivesFrames = 0
@@ -2862,6 +2918,21 @@ def main():
                 # allowed above only after every planned action has been executed; buying
                 # optional crosspaths mid-route can make later recorded upgrades illegal.
 
+                # Emergency recovery may spend only actions already present in the route. If a
+                # route placed its next defense behind an await_round step, release that wait when
+                # the action is affordable instead of knowingly letting bloons leak until the
+                # recorded round. No new tower or upgrade is invented here.
+                if emergencySpend and mapConfig.get('gamemode') != 'chimps':
+                    while len(mapConfig['steps']) and mapConfig['steps'][0].get('action') == 'await_round':
+                        upcoming = next((step for step in mapConfig['steps'][1:]
+                                         if step.get('action') not in ('await_round', 'await_cash', 'speed')), None)
+                        if upcoming is None or currentValues.get('money', -1) < int(upcoming.get('cost', 0) or 0):
+                            break
+                        skippedWait = mapConfig['steps'].pop(0)
+                        customPrint('EMERGENCY_SPEND releasing await_round=' + str(skippedWait.get('round'))
+                                    + ' for planned action=' + str(upcoming.get('name'))
+                                    + ' cost=' + str(upcoming.get('cost')))
+
                 if len(mapConfig['steps']):
                     customPrint('DEBUG next_action=' + str(mapConfig['steps'][0]) + ' balance=' + str(lastIterationBalance) + ' cost=' + str(lastIterationCost))
                     if mapConfig['steps'][0]['action'] == 'sell':
@@ -2905,7 +2976,7 @@ def main():
                         unreadableCashFrames += 1
                     if currentValues['round'] == -1:
                         unreadableRoundFrames += 1
-                    if (unreadableCashFrames >= 3 or unreadableRoundFrames >= 15) and time.time() - lastPanelCloseAt > 3:
+                    if (unreadableCashFrames >= 6 or unreadableRoundFrames >= 20) and time.time() - lastPanelCloseAt > 3:
                         centre = (screenshot.shape[1] // 2, screenshot.shape[0] // 2)
                         customPrint('WARNING cash/round unreadable for ' + str(unreadableCashFrames) + '/' + str(unreadableRoundFrames) + ' frames; closing any open tower panel (two clicks at screen centre ' + str(centre) + ')')
                         unreadableRecoveries += 1
@@ -2918,20 +2989,17 @@ def main():
                                 customPrint('FAILURE_SHOT ' + os.path.abspath(shot) + ' reason=round/cash unreadable')
                             except Exception as error:
                                 customPrint('WARNING could not save unreadable-HUD screenshot: ' + str(error))
-                        if unreadableRecoveries % 3 == 0:
-                            # Clicks alone didn't clear it (an end_of_the_road run lost a minute blind
-                            # this way). Esc closes any open panel/menu; if it pauses instead, the
-                            # INGAME_PAUSED branch resumes on the next frames.
-                            customPrint('WARNING HUD still unreadable after ' + str(unreadableRecoveries) + ' recoveries; sending Esc')
-                            sendKey('{Esc}')
-                        else:
-                            # A tower ghost still held on the cursor also hides the round counter;
-                            # a centre click would buy it at a random spot. Right-click drops it first.
-                            pyautogui.click(button='right')
+                        # Never use Esc here: in BTD6 it is also the pause shortcut. A recovery
+                        # that pauses the game can create a false stuck state and cost lives while
+                        # the runner waits for the HUD to return. Cancel a held tower ghost first,
+                        # then use the same safe centre clicks on every recovery attempt.
+                        customPrint('DEBUG HUD recovery ' + str(unreadableRecoveries) +
+                                    ': cancelling ghost and clicking centre twice (no pause key)')
+                        pyautogui.click(button='right')
+                        time.sleep(0.2)
+                        for _ in range(2):
+                            pyautogui.click(centre)
                             time.sleep(0.2)
-                            for _ in range(2):
-                                pyautogui.click(centre)
-                                time.sleep(0.2)
                         lastPanelCloseAt = time.time()
                 elif mode != Mode.VALIDATE_COSTS and lastIterationBalance - lastIterationCost > currentValues['money']:
                     cashErrorSignature = (lastIterationBalance, lastIterationCost, currentValues['money'])
@@ -3027,12 +3095,14 @@ def main():
                         # On maps whose placeable ground itself moves (Sanctuary's stones, Geared's gears)
                         # the recorded spot moving is expected; TowerTracker follows the tower, so only
                         # avoid moving ground on maps where it is an occasional hazard.
-                        originMoving = (not dynamicHere and terrainMotion is not None
-                                        and terrainMotion.isMoving(action['pos'], frameWidth))
+                        # Frame differences also include bloons, projectiles and decorative
+                        # animation. They are not evidence that a recorded placement on a
+                        # static map has moved. Keep the route's exact starting coordinate.
+                        originMoving = False
                         # The range tint is only a hint (line-of-sight shading and map colours read as
                         # red), and acting on it skipped spots the game then accepted. The recorded spot
                         # is always tried first; only a real refusal (cash unchanged) marks it illegal.
-                        if not confirmPlacementMode and not knownSpotIsIllegal(mapName, placeClass, action['pos'], frameWidth):
+                        if not confirmPlacementMode and not action.get('placeAttempts', 0):
                             originVerdict = None if originVerdict is True else originVerdict
                         rangePx = towerRangePx(action, frameWidth)
                         supportPx = supportRangePx(action.get('type'), frameWidth)
@@ -3052,16 +3122,26 @@ def main():
                             poorSupport = nearbyReach >= originReach + 2
                         originCoverage = pathHeat.coverage(action['pos'], rangePx, frameWidth) if pathHeat is not None else None
                         poorCoverage = False
-                        if originCoverage is not None and originVerdict is False:
+                        # A neutral placement tint only means the spot is legal; it does not
+                        # mean the tower covers the active path. Once PathHeat has enough frames,
+                        # use coverage as an independent signal on stable maps so alternate-path
+                        # routes do not silently keep a legal but ineffective placement.
+                        if (os.environ.get('BLOONS_EXPERIMENTAL_PLACEMENT') == '1'
+                                and mapConfig.get('gamemode') != 'chimps'
+                                and originCoverage is not None and not dynamicHere):
                             # Recorded spot is legal but may barely reach the bloon path (converted
                             # routes drift); compare with the best reachable coverage nearby.
                             nearbyBest = max((pathHeat.coverage((int(action['pos'][0] + rr * math.cos(math.radians(a)) * frameWidth / 1920),
                                                                  int(action['pos'][1] + rr * math.sin(math.radians(a)) * frameWidth / 1920)),
                                                                 rangePx, frameWidth) or 0)
                                              for rr in (40, 80, 120) for a in range(0, 360, 45))
-                            poorCoverage = nearbyBest > 0 and originCoverage < 0.35 * nearbyBest
-                        if (originVerdict is True or originMoving or poorCoverage or poorSupport
-                                or knownSpotIsIllegal(mapName, placeClass, action['pos'], frameWidth)):
+                            poorCoverage = nearbyBest > 0 and originCoverage < 0.55 * nearbyBest
+                        # A learned "illegal" cell may come from an old ghost/UI failure.
+                        # Always try the recorded point first; search after a real refused
+                        # placement, or an explicit live red-tint verdict.
+                        if (originVerdict is True or poorCoverage or poorSupport
+                                or (action.get('placeAttempts', 0) > 0
+                                    and knownSpotIsIllegal(mapName, placeClass, action['pos'], frameWidth))):
                             # Ranked search: learned terrain model + proven spots, skipping occupied
                             # and moving ground, confirmed against the live ghost tint.
                             # Planned later placements are reserved: taking one strands that tower.
@@ -3114,8 +3194,7 @@ def main():
                         # also gives the game a frame to receive focus before the
                         # path hotkey is sent.
                         towerName = str(action.get('name'))
-                        if (isDynamicPlacementMap(mapConfig.get('map'))
-                                or (terrainMotion is not None and terrainMotion.isMoving(action['pos'], screenshot.shape[1]))):
+                        if isDynamicPlacementMap(mapConfig.get('map')):
                             tracked = towerTracker.locate(towerName, screenshot)
                             if tracked is not None:
                                 newPos, inliers = tracked

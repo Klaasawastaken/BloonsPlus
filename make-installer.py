@@ -155,7 +155,7 @@ def stage_app() -> None:
             continue
         if item.name in {".venv", "node_modules", ".git", "dist", "__pycache__", "make-installer.py", "make-installer.ps1", "install-bloons-plus.ps1", "install-bloons-plus.cmd", "installer-bootstrap.cs", "TODO.md"}:
             continue
-        if item.is_file() and item.suffix.lower() in {".js", ".html", ".css", ".json", ".md", ".txt"}:
+        if item.is_file() and item.suffix.lower() in {".js", ".html", ".css", ".json", ".md", ".txt", ".ico"}:
             if item.name.lower().startswith("debug-"):
                 continue
             shutil.copy2(item, app / item.name)
@@ -210,6 +210,7 @@ def build_installer() -> None:
         str(compiler), "/nologo", "/target:winexe", "/platform:x64", "/optimize+",
         "/reference:System.Windows.Forms.dll", "/reference:System.Drawing.dll",
         "/reference:System.IO.Compression.dll", "/reference:Microsoft.CSharp.dll",
+        "/win32icon:" + str(ROOT / "bloonsplus.ico"),
         "/out:" + str(bootstrap), str(source),
     ], check=True)
     for stale in (DIST / "BloonsPlusSetup.sed", DIST / "~BloonsPlusSetup.DDF", DIST / "~BloonsPlusSetup.CAB"):

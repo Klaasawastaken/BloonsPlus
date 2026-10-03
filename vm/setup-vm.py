@@ -164,12 +164,16 @@ def online_vm(client, iso, allow_create):
 
 def wait_ssh(client, name):
     deadline = time.time() + 600
+    next_report = 0
     while True:
         info = client.ssh_info(name)
         if info.get('sshState') == 4 and info.get('keyDeployed') is True:
             return info
         if time.time() > deadline:
             sys.exit('SSH never became ready in the VM (state %s, key deployed %s)' % (info.get('sshState'), info.get('keyDeployed')))
+        if time.time() >= next_report:
+            log('VM online; waiting for SSH (state %s, key deployed %s, %ss remaining)' % (info.get('sshState'), info.get('keyDeployed'), int(deadline - time.time())))
+            next_report = time.time() + 20
         time.sleep(5)
 
 
@@ -252,6 +256,14 @@ def main(argv=None):
         # returns a non-zero command error. Enumerate processes and compare exact
         # names instead; an absent process is a normal state, not a setup failure.
         busy = ssh(info, "Get-Process -ErrorAction SilentlyContinue | Where-Object { $_.Name -eq 'Bloons+' -or $_.Name -eq 'BloonsPlusSetup' } | Select-Object -First 1 -ExpandProperty Name")
+        if busy == 'BloonsPlusSetup':
+            deadline = time.time() + 300
+            while busy == 'BloonsPlusSetup' and time.time() < deadline:
+                log('Guest installer is finishing; waiting before starting Bloons+…')
+                time.sleep(10)
+                busy = ssh(info, "Get-Process -ErrorAction SilentlyContinue | Where-Object { $_.Name -eq 'Bloons+' -or $_.Name -eq 'BloonsPlusSetup' } | Select-Object -First 1 -ExpandProperty Name")
+            if busy == 'BloonsPlusSetup':
+                raise RuntimeError('Guest installer is still running after 5 minutes. Check its setup window; retry once installation finishes.')
         if busy:
             log('%s is already running in the VM; waiting for it' % busy)
             return

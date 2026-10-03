@@ -172,11 +172,18 @@ function getRecordedCombos() {
   for (const pt of listPlaythroughs()) {
     if (pt.generated) continue;
     const route = fs.readFileSync(path.join(PLAYTHROUGHS_DIR, pt.file), 'utf8');
+    if (require('./route-validation').validateRoute(route, pt.gamemodeSlug, towerFile).length) continue;
     const groups = [...new Set([...route.matchAll(/^place\s+([a-z_]+)\s+/gm)]
       .map(match => towerData[match[1]]?.type).filter(Boolean))];
     const allowed = { primary_only: 'primary', military_only: 'military', magic_monkeys_only: 'magic' }[pt.gamemodeSlug];
     if (allowed && (groups.length === 0 || groups.some(group => group !== allowed))) continue;
     const confirmed = !!(verified[pt.file]?.[pt.gamemodeSlug]?.hash === routeHash(pt.file));
+    // Renaming a CHIMPS recording does not adapt its opening to ABR, Half Cash,
+    // tower restrictions or other rule changes. Only the explicitly supported
+    // standard-mode reuse list may use unchanged CHIMPS actions without a target win.
+    const renamedSource = pt.generatedSourceGamemode;
+    if (!confirmed && renamedSource === 'chimps' && pt.gamemodeSlug !== 'chimps'
+        && !CHIMPS_REUSE_MODES.includes(pt.gamemodeSlug)) continue;
     // Conversions that dropped actions are drafts until this exact file wins.
     if (pt.flags.includes('lossy') && !confirmed) continue;
     const guide = onlineGuides[pt.file];
@@ -185,8 +192,8 @@ function getRecordedCombos() {
       filename: pt.file, gamemodeSlug: pt.gamemodeSlug, sourceGamemodeSlug: pt.gamemodeSlug,
       isOriginalGamemode: true, resolution: pt.resolution, towerGroups: groups,
       requirements: routeRequirements(route, towerData, towerFile.heros || {}),
-      // Converted routes are BTD6bot's published plans, so they count as proven strategies.
-      converted: pt.converted, verifiedForTarget: confirmed || sourceVerified || pt.converted || !guide,
+      // Conversion preserves a plan; it does not prove its execution in this engine.
+      converted: pt.converted, verifiedForTarget: confirmed || sourceVerified || (!pt.converted && !guide),
       sourceVerified,
       onlineGuideSource: guide?.source || null,
       localWinVerified: confirmed,
@@ -728,6 +735,8 @@ const FAILURES_LOG_PATH = path.join(__dirname, 'route-failures.log');
 function classifyRouteFailure({ reason, lastRound, rawLastRound, finalRound, sameRun, log }) {
   const text = (log || []).join('\n');
   if (/placed twice|unknown type|unplaced/i.test(text)) return 'route-corruption';
+  if (/INSTANT_LOSS_PREVENTED|ERROR place of|ERROR dynamic-map placement|recorded spot is on moving terrain/i.test(text)) return 'placement-bug';
+  if (/upgrade_unconfirmed|upgrade cash result remains ambiguous/i.test(text)) return 'upgrade-unconfirmed';
   if (/stalled|STARTMENU|GAMEMODE_SELECTION|map click|map page|map tile/i.test(reason || '')) return 'navigation-bug';
   if (/made no confirmed progress/i.test(reason || '') && lastRound == null && rawLastRound != null) return 'ocr-stall';
   if (!sameRun && lastRound == null) return 'insufficient-data';
@@ -844,7 +853,11 @@ function getMissingMedals(mapSlug, combos) {
 
 function sweepCandidates(combos, map, mode) {
   return (combos[map]?.[mode] || []).filter(entry => !MODES_REQUIRING_VERIFIED_ROUTE.has(mode)
-    || (entry.verifiedForTarget !== false && (entry.isOriginalGamemode || entry.reusedFromChimps)));
+    || (entry.verifiedForTarget !== false && (entry.isOriginalGamemode || entry.reusedFromChimps))
+    // A complete published conversion for its own mode may be attempted, but remains
+    // unverified until this engine confirms its victory. Lossy and incompatible mode
+    // copies have already been removed by getRecordedCombos().
+    || (entry.converted && entry.isOriginalGamemode));
 }
 
 function saveSweepProgress(key, update) {

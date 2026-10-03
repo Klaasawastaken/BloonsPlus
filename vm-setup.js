@@ -155,12 +155,16 @@ function runSetupScript(action, extra = []) {
   const args = ['-u', SETUP_SCRIPT, action, '--appsandbox-dir', dir, '--cache-dir', DATA_DIR, ...extra];
   return new Promise((resolve, reject) => {
     const child = spawn(pythonExe(), args, { cwd: ROOT, windowsHide: true, env: { ...process.env, PYTHONUNBUFFERED: '1', PYTHONIOENCODING: 'utf-8' } });
+    const deadline = setTimeout(() => {
+      child.kill();
+      reject(new Error(`${action} timed out. The VM was left running; retry setup to continue the missing steps.`));
+    }, action === 'provision' ? 60 * 60 * 1000 : 12 * 60 * 1000);
     let tail = '';
     const onData = chunk => { for (const line of String(chunk).split(/\r?\n/)) { if (line.trim()) { tail = line; if (!/^Warning: Permanently added/.test(line)) note(line); } } };
     child.stdout.on('data', onData);
     child.stderr.on('data', onData);
-    child.on('error', reject);
-    child.on('exit', code => (code === 0 ? resolve() : reject(new Error(tail || `setup-vm.py ${action} exited with code ${code}`))));
+    child.on('error', error => { clearTimeout(deadline); reject(error); });
+    child.on('exit', code => { clearTimeout(deadline); code === 0 ? resolve() : reject(new Error(tail || `setup-vm.py ${action} exited with code ${code}`)); });
   });
 }
 
@@ -241,6 +245,7 @@ async function installAppSandbox() {
 
 async function startDaemon() {
   const dir = sandboxDir();
+  if ((await daemonState()).running) { note('Reusing the running App Sandbox.'); return; }
   note('Starting App Sandbox (Windows asks for permission; it needs administrator rights to run the VM)…');
   // Start the visible App Sandbox shell so the VM desktop is available for
   // screen reading and simulated input. The guest itself remains usable in
@@ -250,7 +255,18 @@ async function startDaemon() {
     if ((await daemonState()).running) { note('App Sandbox is running.'); return; }
     await new Promise(resolve => setTimeout(resolve, 1000));
   }
-  throw new Error('App Sandbox did not start. Close the App Sandbox window if it is open (only one copy can run) and try again.');
+  // Gracefully close a stale shell only when Windows reports no active VM worker.
+  const repaired = await powershell("if (Get-Process vmwp,vmmem,vmmemWSL -ErrorAction SilentlyContinue) { 'busy'; exit }; $closed = $false; Get-Process AppSandbox -ErrorAction SilentlyContinue | ForEach-Object { if ($_.MainWindowHandle -ne 0) { $closed = $_.CloseMainWindow() -or $closed } }; if ($closed) { 'closed' }").catch(() => '');
+  if (repaired.trim() === 'closed') {
+    note('Closed an unresponsive App Sandbox window; retrying once…');
+    await new Promise(resolve => setTimeout(resolve, 3000));
+    await runElevated(path.join(dir, 'AppSandbox.exe'), '');
+    for (let i = 0; i < 30; i++) {
+      if ((await daemonState()).running) { note('App Sandbox connection recovered.'); return; }
+      await new Promise(resolve => setTimeout(resolve, 1000));
+    }
+  }
+  throw new Error('App Sandbox did not respond. A running VM was left untouched. Check its window and retry setup.');
 }
 
 async function obtainIso(isoPath) {
@@ -276,10 +292,14 @@ async function obtainIso(isoPath) {
 
 async function startVm(name) {
   note(`Starting the VM ${name}…`);
-  await sandboxApi('POST', `/vms/${encodeURIComponent(name)}/start`);
+  if ((await daemonState()).vm?.state !== 'online') {
+    const response = await sandboxApi('POST', `/vms/${encodeURIComponent(name)}/start`);
+    if (response.status >= 400 && response.status !== 409) throw new Error(response.body?.error || `VM start failed (${response.status})`);
+  }
   for (let i = 0; i < 180; i++) {
     const vm = (await daemonState()).vm;
     if (vm?.state === 'online') { retryTunnelSoon(); note('The VM is online.'); return; }
+    if (i % 6 === 0) note(`Waiting for VM startup · ${vm?.state || 'connecting'} · ${Math.floor(i * 5 / 60)} min elapsed`);
     await new Promise(resolve => setTimeout(resolve, 5000));
   }
   throw new Error('The VM did not come online within 15 minutes.');
@@ -412,7 +432,13 @@ async function runSetup(options) {
     else if (next.id === 'connected') {
       await runSetupScript('launch-app');
       retryTunnelSoon();
-      return; // the Bloons+ in the VM may still be installing its packages; the bar keeps polling
+      let connected = false;
+      for (let i = 0; i < 60; i++) {
+        if (await guestState()) { connected = true; note('The VM app is connected.'); break; }
+        if (i % 6 === 0) note(`Waiting for the VM app · ${i * 5}s elapsed. First launch may install Python packages.`);
+        await new Promise(resolve => setTimeout(resolve, 5000));
+      }
+      if (!connected) throw new Error('The VM is online, but Bloons+ did not connect within 5 minutes. Check the app dependency setup in the VM window, then retry.');
     } else if (next.id === 'steam') {
       if (status.vm && !status.vm.displayOpen) await openVmWindow(status.vm.name);
       await runSetupScript('steam-install');

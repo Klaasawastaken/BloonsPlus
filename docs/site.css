@@ -1,4 +1,6 @@
 @charset "UTF-8";
+/* Unobtrusive scrolling in both themes. */
+*{scrollbar-width:thin;scrollbar-color:var(--muted) transparent}::-webkit-scrollbar{width:9px;height:9px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--muted);border:2px solid var(--bg);border-radius:20px}::-webkit-scrollbar-thumb:hover{background:var(--ink)}
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
 :root{color-scheme:light;--bg:#f5f6f1;--surface:#ffffffa8;--solid:#fff;--ink:#253d36;--muted:#708177;--line:#dce3db;--accent:#ef987e;--soft:#f6e5da;--mint:#e0ece3;--blue:#e6edf0;--shadow:0 22px 70px #2946370b;--heading:'Manrope','Segoe UI',sans-serif;--body:'DM Sans','Segoe UI',sans-serif}
 :root[data-theme=dark]{color-scheme:dark;--bg:#14231f;--surface:#20332dcc;--solid:#20332d;--ink:#ecf1e9;--muted:#a2b5aa;--line:#344b40;--accent:#f5aa8b;--soft:#44362e;--mint:#2b4738;--blue:#2a3c43;--shadow:0 22px 70px #0002}

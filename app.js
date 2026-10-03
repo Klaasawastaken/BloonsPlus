@@ -1406,20 +1406,21 @@ function renderTowerRequirements() {
     const row = document.createElement('div'); row.className = 'tower-requirement-card';
     const title = document.createElement('div'); title.className = 'tower-requirement-title';
     const name = document.createElement('b'); name.textContent = display;
-    const note = document.createElement('small'); note.textContent = `${tiers.join('-')} route requirement · all paths shown through T5`;
+    const note = document.createElement('small'); note.textContent = `Required build · ${tiers.join(' / ')}`;
     title.append(towerThumb(display), name, note);
     const paths = document.createElement('div'); paths.className = 'requirement-paths';
     for (let pathIndex = 0; pathIndex < 3; pathIndex++) {
+      const requiredTier = Number(tiers[pathIndex]) || 0;
+      if (!requiredTier) continue;
       const pathRow = document.createElement('div'); pathRow.className = 'requirement-path-row';
       const pathLabel = document.createElement('b'); pathLabel.textContent = `Path ${pathIndex + 1}`; pathRow.append(pathLabel);
-      const requiredTier = Number(tiers[pathIndex]) || 0;
-      for (let tier = 1; tier <= 5; tier++) {
+      for (let tier = 1; tier <= requiredTier; tier++) {
         const upgradeName = upgradeNameFor(display, pathIndex, tier);
         const unlocked = ownsUpgrade(ownedUpgrades, display, upgradeName);
         const known = upgradeTierKnown(upgradeName, Array.isArray(detectedProgress.localProfile?.acquiredUpgrades));
         const pill = document.createElement('span');
         pill.className = `tier-pill ${unlocked ? 'valid' : known ? 'invalid' : 'unknown'} ${tier <= requiredTier ? 'route-required' : ''}`;
-        pill.textContent = `${unlocked ? '✓' : known ? '×' : '?'} T${tier}${tier <= requiredTier ? ' •' : ''}`;
+        pill.textContent = `${unlocked ? '✓' : known ? '×' : '?'} T${tier}`;
         pill.title = `${upgradeName || `Tier ${tier}`} · ${unlocked ? 'unlocked in save' : known ? 'not unlocked' : 'status unknown'}${tier <= requiredTier ? ' · required by this route' : ''}`;
         pathRow.append(pill);
       }
@@ -1479,25 +1480,7 @@ loadAutomationStatus();
 setInterval(() => { if (!document.hidden) loadAutomationStatus(); }, 750);
 document.addEventListener('visibilitychange', () => { if (!document.hidden) loadAutomationStatus(); });
 window.addEventListener('focus', loadAutomationStatus);
-setInterval(async () => {
-  const status = document.querySelector('#route-tool-status');
-  if (!status) return;
-  try {
-    const response = await fetch('/api/map-selection', { cache: 'no-store' });
-    if (!response.ok) return;
-    const page = await response.json();
-    if (page.screen && !Number.isInteger(page.page)) {
-      status.textContent = page.screen === 'STARTMENU'
-        ? 'BTD6 detected → open Play to enter map selection'
-        : `BTD6 detected → ${page.screen}`;
-    } else if (Number.isInteger(page.page)) {
-      const names = (page.candidates || []).map(candidate => candidate.name).join(', ');
-      status.textContent = `BTD6 map selection detected → ${page.category || 'unknown category'} page ${page.page}${names ? ` → ${names}` : ''}`;
-    }
-  } catch (error) {
-    if (document.visibilityState === 'visible' && /automation|route/.test(location.hash + document.body.innerText)) status.textContent = `Waiting for live BTD6 capture… ${error.message}`;
-  }
-}, 4000);
+
 
 document.querySelector('a[href="/calibrate.html"]')?.addEventListener('click', event => {
   event.preventDefault();
@@ -1512,88 +1495,7 @@ document.querySelector('a[href="/calibrate.html"]')?.addEventListener('click', e
   dialog.showModal();
 });
 
-let selectedRoute = null;
-let savedRoutes = [];
-const routeStatus = document.querySelector('#route-tool-status');
-function showRouteStatus(message) { if (routeStatus) routeStatus.textContent = message; }
-function hasRoute(map, gamemode) {
-  const key = value => String(value || '').toLowerCase().replace(/[^a-z0-9]/g, '');
-  return !!comboData[map]?.[gamemode]?.length || savedRoutes.some(route => key(route.map) === key(map) && key(route.gamemode) === key(gamemode));
-}
-async function loadSavedRoutes(selectedName = selectedRoute?.name) {
-  const response = await fetch('/api/routes', { cache: 'no-store', signal: AbortSignal.timeout(10000) });
-  if (!response.ok) return;
-  savedRoutes = await response.json();
-  const select = document.querySelector('#saved-route-select');
-  if (select) {
-    select.replaceChildren();
-    if (!savedRoutes.length) {
-      const option = document.createElement('option'); option.value = ''; option.textContent = 'No saved routes'; select.append(option);
-    }
-    savedRoutes.forEach(route => {
-      const option = document.createElement('option'); option.value = route.name; option.textContent = `${route.name} · ${route.status || 'draft'}`; select.append(option);
-    });
-    if (savedRoutes.some(route => route.name === selectedName)) select.value = selectedName;
-  }
-  selectedRoute = savedRoutes.find(route => route.name === select?.value) || selectedRoute;
-}
-document.querySelector('#saved-route-select')?.addEventListener('change', event => {
-  selectedRoute = savedRoutes.find(route => route.name === event.target.value) || null;
-  showRouteStatus(selectedRoute ? `Selected ${selectedRoute.name} · ${selectedRoute.actions.length} actions · ${selectedRoute.status || 'draft'}` : 'Choose a saved route.');
-});
-async function saveRoute(route) {
-  const response = await fetch('/api/routes', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(route) });
-  const data = await response.json(); if (!response.ok) throw new Error(data.error || 'Could not save route');
-  selectedRoute = data; await loadSavedRoutes(data.name); showRouteStatus(`Saved ${data.name} · ${data.actions.length} actions · ${data.status || 'draft'}`); return data;
-}
-document.querySelector('#route-generator')?.addEventListener('click', async () => {
-  const map = document.querySelector('#playthrough-map-select')?.value || 'new-map';
-  const difficulty = document.querySelector('#playthrough-gamemode-select')?.value || 'easy';
-  const gamemode = document.querySelector('#playthrough-variation-select')?.value || difficulty;
-  if (hasRoute(map, gamemode)) return showRouteStatus(`A route already exists for ${map} · ${gamemode}. Select or export the existing route instead.`);
-  if (!window.confirm(`Confirm route target: ${map} · ${gamemode}? Bloons+ will use the recorded map tile position.`)) return showRouteStatus('Route generation cancelled; map confirmation required.');
-  showRouteStatus(`Map selection setup: ${map} · ${difficulty}. Generating route draft…`);
-  try { await saveRoute({ name: `${map}-${gamemode}-starter`, map, gamemode, source: 'generator', actions: [], status: 'draft' }); }
-  catch (error) { showRouteStatus(error.message); }
-});
-document.querySelector('#route-recorder-start')?.addEventListener('click', () => {
-  document.querySelector('#route-recorder-start').disabled = true;
-  document.querySelector('#route-recorder-stop').disabled = false;
-  const map = document.querySelector('#playthrough-map-select')?.value || 'new-map';
-  const difficulty = document.querySelector('#playthrough-gamemode-select')?.value || 'easy';
-  const gamemode = document.querySelector('#playthrough-variation-select')?.value || difficulty;
-  if (hasRoute(map, gamemode)) {
-    document.querySelector('#route-recorder-start').disabled = false;
-    document.querySelector('#route-recorder-stop').disabled = true;
-    return showRouteStatus(`A route already exists for ${map} · ${gamemode}. Recording is disabled for this combination.`);
-  }
-  if (!window.confirm(`Confirm route target: ${map} · ${gamemode}? Bloons+ will use the recorded map tile position.`)) {
-    document.querySelector('#route-recorder-start').disabled = false;
-    document.querySelector('#route-recorder-stop').disabled = true;
-    return showRouteStatus('Recording cancelled; map confirmation required.');
-  }
-  showRouteStatus(`Map selection setup: ${map} · ${difficulty}. Recorder armed; start the round and use Stop recorder when complete.`);
-});
-document.querySelector('#route-recorder-stop')?.addEventListener('click', async () => {
-  document.querySelector('#route-recorder-start').disabled = false;
-  document.querySelector('#route-recorder-stop').disabled = true;
-  const map = document.querySelector('#playthrough-map-select')?.value || 'new-map';
-  const gamemode = document.querySelector('#playthrough-variation-select')?.value || 'easy';
-  try { await saveRoute({ name: `${map}-${gamemode}-${Date.now()}`, map, gamemode, source: 'recorder', actions: [], status: 'draft' }); }
-  catch (error) { showRouteStatus(error.message); }
-});
-document.querySelector('#route-import')?.addEventListener('change', async event => {
-  const file = event.target.files?.[0]; if (!file) return;
-  try { selectedRoute = await saveRoute(JSON.parse(await file.text())); }
-  catch (error) { showRouteStatus(`Import failed: ${error.message}`); }
-  event.target.value = '';
-});
-document.querySelector('#route-export')?.addEventListener('click', () => {
-  if (!selectedRoute) return showRouteStatus('Select or create a route first.');
-  const blob = new Blob([JSON.stringify(selectedRoute, null, 2)], { type: 'application/json' });
-  const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = `${selectedRoute.name}.json`; link.click(); URL.revokeObjectURL(link.href);
-});
-loadSavedRoutes().catch(() => showRouteStatus('Saved route library is unavailable.'));
+
 
 // Reports include only a reviewed, redacted excerpt; no private profile files.
 const reportDialog = document.querySelector('#issue-report-dialog');

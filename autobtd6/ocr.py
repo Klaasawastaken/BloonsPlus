@@ -16,13 +16,14 @@ def _get_ocr_model():
     return _ocr_model
 
 
-def custom_ocr(img, resolution=pyautogui.size()):
+def custom_ocr(img, resolution=pyautogui.size(), white_threshold=224):
     # Work on a private buffer: callers pass crops that are views into the live
     # screenshot. Keep antialiased white text without modifying that screenshot.
     img = np.ascontiguousarray(img.copy())
+    original = img.copy()
     h, w = img.shape[:2]
     white = np.array([255, 255, 255], dtype=np.uint8)
-    bright = np.all(img >= 224, axis=2)
+    bright = np.all(img >= white_threshold, axis=2)
     img[:] = 0
     img[bright] = white
 
@@ -36,9 +37,33 @@ def custom_ocr(img, resolution=pyautogui.size()):
     chrImagesMinX = {}
     chrs = {}
 
-    for c in cnts:
+    # Snow, foliage and effects show through the transparent HUD. White pixels
+    # alone turn those into phantom digits. HUD glyphs have a dark outline and
+    # share a baseline; use the clearly outlined glyphs to establish that row.
+    outlines = {}
+    anchors = []
+    dark = np.all(original < 110, axis=2)
+    for index, contour in enumerate(cnts):
+        x, y, cw, ch = cv2.boundingRect(contour)
+        if ch < 18 * resolution[0] / 2560 or cw > 48 * resolution[1] / 1440:
+            continue
+        mask = np.zeros((h, w), np.uint8)
+        cv2.drawContours(mask, [contour], -1, 1, -1)
+        ring = (cv2.dilate(mask, np.ones((5, 5), np.uint8)) > 0) & (mask == 0)
+        outline = float(dark[ring].mean()) if np.any(ring) else 0.0
+        outlines[index] = outline
+        if outline >= 0.15:
+            anchors.append((y, y + ch))
+    baseline = np.median(np.array(anchors), axis=0) if anchors else None
+
+    for index, c in enumerate(cnts):
         minX, minY, chrW, chrH = cv2.boundingRect(c)
         maxX, maxY = minX + chrW, minY + chrH
+        if baseline is not None:
+            tolerance = max(3, 5 * resolution[0] / 1920)
+            if (outlines.get(index, 0) < 0.06 or abs(minY - baseline[0]) > tolerance
+                    or abs(maxY - baseline[1]) > tolerance):
+                continue
         chrImg = img[minY:maxY, minX:maxX]
 
         if (
