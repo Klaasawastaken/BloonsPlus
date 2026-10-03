@@ -58,4 +58,68 @@
       }
     });
   }
+  const currentPage = document.body.dataset.page;
+  document.querySelector(`[data-nav="${currentPage}"]`)?.setAttribute('aria-current', 'page');
+  const menuButton = document.querySelector('.menu-toggle');
+  const mobileNav = document.getElementById('mobile-nav');
+  function closeMenu() {
+    if (!mobileNav) return;
+    mobileNav.hidden = true;
+    menuButton.setAttribute('aria-expanded', 'false');
+    menuButton.setAttribute('aria-label', 'Open navigation');
+  }
+  menuButton?.addEventListener('click', () => {
+    mobileNav.hidden = !mobileNav.hidden;
+    menuButton.setAttribute('aria-expanded', String(!mobileNav.hidden));
+    menuButton.setAttribute('aria-label', mobileNav.hidden ? 'Open navigation' : 'Close navigation');
+  });
+  document.addEventListener('keydown', event => { if (event.key === 'Escape') closeMenu(); });
+  document.addEventListener('click', event => { if (mobileNav && !event.target.closest('.topbar')) closeMenu(); });
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  if (!reducedMotion.matches && 'IntersectionObserver' in window) {
+    root.classList.add('motion-ready');
+    const observer = new IntersectionObserver(entries => {
+      for (const entry of entries) if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    }, {threshold: 0.08});
+    document.querySelectorAll('.reveal').forEach(element => observer.observe(element));
+    reducedMotion.addEventListener('change', event => {
+      if (event.matches) { root.classList.remove('motion-ready'); observer.disconnect(); }
+    });
+  }
+  const releaseStatus = document.getElementById('release-status');
+  if (releaseStatus) {
+    const download = document.getElementById('installer-download');
+    const detail = document.getElementById('download-detail');
+    const notes = document.getElementById('release-notes');
+    function displayRelease(release) {
+      const asset = release.assets?.find(item => /^BloonsPlusSetup.*\.exe$/i.test(item.name));
+      if (!asset) return false;
+      const url = new URL(asset.browser_download_url);
+      if (url.protocol !== 'https:' || url.hostname !== 'github.com' || !url.pathname.startsWith('/Klaasawastaken/BloonsPlus/releases/download/')) return false;
+      download.href = url.href;
+      download.textContent = 'Download Windows installer ↓';
+      releaseStatus.textContent = `${release.tag_name} · Windows x64 preview`;
+      detail.textContent = `${(asset.size / 1048576).toFixed(1)} MB · Dependencies download during setup`;
+      notes.href = release.html_url;
+      return true;
+    }
+    async function loadRelease() {
+      try {
+        const local = await fetch('release.json', {cache: 'no-cache'});
+        if (local.ok && displayRelease(await local.json())) return;
+      } catch {}
+      try {
+        const response = await fetch('https://api.github.com/repos/Klaasawastaken/BloonsPlus/releases/latest', {signal: AbortSignal.timeout(8000)});
+        if (!response.ok) throw new Error('No published installer');
+        if (!displayRelease(await response.json())) throw new Error('No installer asset');
+      } catch {
+        releaseStatus.textContent = 'No installer could be confirmed. Check GitHub releases.';
+        detail.textContent = 'You can download the source below and follow the guide.';
+      }
+    }
+    loadRelease();
+  }
 })();

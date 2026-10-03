@@ -1,7 +1,7 @@
 <p align="center"><img src="docs/assets/banner.svg" alt="Bloons+ — your game, your overview" width="100%"></p>
 
 <p align="center"><strong>A Windows companion for Bloons TD 6.</strong><br>Recorded strategies. Account progress. One place to control your VM.</p>
-<p align="center"><a href="https://klaasawastaken.github.io/BloonsPlus/">Illustrated guide</a> · <a href="GITHUB_SETUP.md">Source setup</a> · <a href="docs/languages.md">Language breakdown</a> · <a href="https://github.com/Klaasawastaken/BloonsPlus/issues">Report an issue</a></p>
+<p align="center"><a href="https://klaasawastaken.github.io/BloonsPlus/">Website</a> · <a href="https://klaasawastaken.github.io/BloonsPlus/download.html">Download</a> · <a href="docs/guide.html">Setup guide</a> · <a href="docs/languages.md">Language breakdown</a> · <a href="https://github.com/Klaasawastaken/BloonsPlus/issues">Report an issue</a></p>
 
 ## What is Bloons+?
 
@@ -99,7 +99,7 @@ Keep player saves, Steam credentials, SSH keys, runtime logs and VM disks out of
 
 ## Documentation site
 
-The custom guide lives in [docs/index.html](docs/index.html). It uses static HTML, CSS, JavaScript and original SVG illustrations, with no package dependencies. The GitHub Pages link above becomes available after enabling **Settings → Pages → Deploy from a branch → main → /docs**.
+The main website lives in [docs/index.html](docs/index.html), with download, setup guide, About Us and contributor pages. It uses static HTML, CSS, JavaScript and original SVG illustrations, with no package dependencies. The GitHub Pages link above becomes available after enabling **Settings → Pages → Deploy from a branch → main → /docs**.
 
 ## Credits
 

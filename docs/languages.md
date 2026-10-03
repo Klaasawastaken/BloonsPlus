@@ -39,4 +39,4 @@ This documentation does not migrate any implementation. Each migration should pr
 
 Fewer languages simplify maintenance and packaging. They do not automatically improve replay speed. Capture frequency, repeated OCR, TensorFlow initialization, process startup, network polling and bundled dependencies are more direct optimization targets.
 
-[Back to README](../README.md) · [Illustrated guide](index.html)
+[Back to README](../README.md) · [Website](index.html) · [Setup guide](guide.html)
