@@ -54,7 +54,7 @@
         const selection = window.getSelection();
         selection.removeAllRanges();
         selection.addRange(range);
-        notify('Commands selected. Press Ctrl+C or ⌘C to copy.');
+        notify('Commands selected. Press Ctrl+C or âŒ˜C to copy.');
       }
     });
   }
@@ -100,15 +100,15 @@
       const url = new URL(asset.browser_download_url);
       if (url.protocol !== 'https:' || url.hostname !== 'github.com' || !url.pathname.startsWith('/Klaasawastaken/BloonsPlus/releases/download/')) return false;
       download.href = url.href;
-      download.textContent = 'Download Windows installer ↓';
-      releaseStatus.textContent = `${release.tag_name} · Windows x64 preview`;
-      detail.textContent = `${(asset.size / 1048576).toFixed(1)} MB · Dependencies download during setup`;
+      download.textContent = 'Download Windows installer â†“';
+      releaseStatus.textContent = `${release.tag_name} Â· Windows x64 preview`;
+      detail.textContent = `${(asset.size / 1048576).toFixed(1)} MB Â· Dependencies download during setup`;
       notes.href = release.html_url;
       return true;
     }
     async function loadRelease() {
       try {
-        const local = await fetch('release.json', {cache: 'no-cache'});
+        const local = await fetch('../release.json', {cache: 'no-cache'});
         if (local.ok && displayRelease(await local.json())) return;
       } catch {}
       try {
@@ -123,3 +123,10 @@
     loadRelease();
   }
 })();
+
+const wikiSearch = document.querySelector('#wiki-search');
+wikiSearch?.addEventListener('input', () => {
+  const query = wikiSearch.value.trim().toLowerCase(); let matches = 0;
+  document.querySelectorAll('.wiki-entry').forEach(card => { const visible = (card.dataset.search || card.textContent).toLowerCase().includes(query); card.hidden = !visible; if (visible) matches++; });
+  document.querySelector('#wiki-no-results').hidden = matches > 0;
+});

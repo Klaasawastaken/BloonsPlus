@@ -1,0 +1,1 @@
+Bloons TD 6 tower and map artwork belongs to Ninja Kiwi. Used to identify the game this independent companion supports. Bloons+ is unaffiliated with Ninja Kiwi. These images are not covered by an original Bloons+ artwork license.
