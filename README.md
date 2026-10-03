@@ -1,5 +1,10 @@
 # Bloons+ — BTD6 Companion
 
+For a fresh GitHub checkout, see [GITHUB_SETUP.md](GITHUB_SETUP.md). Recent code changes and
+remaining implementation gaps are recorded in [CODE_REVIEW_2026-10-03.md](CODE_REVIEW_2026-10-03.md).
+Some scanner descriptions below reflect the earlier implementation; current account progress
+also comes from the read-only Steam Profile.Save reader.
+
 Local Bloons+ companion with a glass interface, saved map queue, read-only progress views, and a recorded-playthrough connector.
 
 ## Start
