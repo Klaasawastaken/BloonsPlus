@@ -1,55 +1,108 @@
-# Bloons+ — BTD6 Companion
+<p align="center"><img src="docs/assets/banner.svg" alt="Bloons+ — your game, your overview" width="100%"></p>
 
-For a fresh GitHub checkout, see [GITHUB_SETUP.md](GITHUB_SETUP.md). Recent code changes and
-remaining implementation gaps are recorded in [CODE_REVIEW_2026-10-03.md](CODE_REVIEW_2026-10-03.md).
-Some scanner descriptions below reflect the earlier implementation; current account progress
-also comes from the read-only Steam Profile.Save reader.
+<p align="center"><strong>A Windows companion for Bloons TD 6.</strong><br>Recorded strategies. Account progress. One place to control your VM.</p>
+<p align="center"><a href="https://klaasawastaken.github.io/BloonsPlus/">Illustrated guide</a> · <a href="GITHUB_SETUP.md">Source setup</a> · <a href="docs/languages.md">Language breakdown</a> · <a href="https://github.com/Klaasawastaken/BloonsPlus/issues">Report an issue</a></p>
 
-Local Bloons+ companion with a glass interface, saved map queue, read-only progress views, and a recorded-playthrough connector.
+## What is Bloons+?
 
-## Start
+Bloons+ combines an Electron desktop interface with a Python replay engine. You can manage map runs, inspect progress and control a game running inside a Windows VM from your main PC.
 
-Run `npm install` once, then `npm start`, then open http://127.0.0.1:4173/.
-Queue and preferences are saved in the browser on this PC. Observations are stored separately in game-observations.json. `tessdata/eng.traineddata` (OCR language data, ~5MB) is already checked in, so scanning runs fully offline; if it's ever missing, the first scan falls back to a one-time fetch from tesseract.js's default CDN and re-warns until you restore the file.
+**This project is in active development.** A route being available does not guarantee a victory on the current game version. Boss execution and the complete automatic tower-unlock loop still need work. See the [current code review](CODE_REVIEW_2026-10-03.md) for the practical limits.
 
-The scanner scales its saved screen regions to the captured game window. `calibrate.html` remains available for correcting a region if the game UI changes. Map-border recognition is still incomplete until its color palette is calibrated.
+| Area | What it does |
+| --- | --- |
+| Automation | Specific map runs and sweeps using recorded actions, with pause, stop and checkpoints. |
+| Progress | Reads supported account data from local saves and Steam achievement data. |
+| VM control | Connects the main PC interface to the guest app, status and deployment tools. |
+| Route tools | Browse, import, export and edit strategies. |
+| Diagnostics | Replay logs, failure evidence and recovery heuristics for selected problems. |
 
-## Available
+Gameplay uses simulated mouse and keyboard input. Save readers are read-only. Running the game inside a VM separates its input from your main desktop; local automation can use your actual desktop input.
 
-- Searchable map dropdown and bulk queue, excluding detected black borders. Unknown maps remain eligible.
-- Read-only progress and achievement category/status filters. Legacy manual values stay in backups but are not treated as game observations.
-- Glass navigation, modal, controls, responsive layouts, and reduced-motion support.
-- Read-only Windows process detection for BloonsTD6 every 15 seconds while the app is visible.
-- **Live screen scanner** (`scanner.js`, `capture.js`, `pixels.js`, `ocr.js`): every 5 seconds while BTD6 is detected running, captures the window (`PrintWindow`, no mods/memory access) and updates `game-observations.json` with `"source": "live-scan"`:
-  - Player level and XP, read via OCR from a calibrated box on the main menu.
-  - Per-map border color (none/bronze/silver/gold/black), read via color sampling of a calibrated box per map tile on the map-select screen, matched against a palette you build during calibration.
-  - A field is only updated while its screen is recognized; anything not currently visible keeps its last known value rather than being overwritten with a guess.
+## Get started
 
-## Map order and recordings
+### Installer
 
-- `map-catalog.js` stores the current category and tile order. `autobtd6/maps.json` is synchronized from it, including new catalog entries such as Skulltweak and Three Mines 'Round.
-- Visiting map-selection pages lets `map-order-scanner.js` learn visible labels and page/slot positions into `map-order.json`. Repeatedly recognized unknown labels are added as discovered maps. These entries survive app restarts.
-- Before a recorded replay clicks a map tile, `verify-map-page.js` checks that the visible page and target tile label match the recording's map. An uncertain read stops the replay before entering a potentially wrong map.
-- The map picker lists maps without a compatible recording as **route needed**. A map entry does not itself contain a winning strategy. New routes will only be generated after the existing replay flow is confirmed working in the live game.
-- Replay screenshots and simulated clicks now use the BTD6 client area. A windowed 1920×1080 or 2560×1440 game is normalized to the matching reference layout, with clicks translated back into window coordinates. Near 16:9 custom window sizes are scaled to the nearer layout.
-- The mode picker reads both 1080p and 1440p recordings and shows every variation. It marks modes without a compatible recording as **route needed**. The last replay log and exit code remain visible after a run stops and are saved across app restarts.
-- The vendored Python replay runtime currently requires a separate Python installation with its listed modules. Bloons+ disables replay controls while that runtime is unavailable.
-  Bloons+ looks for `BLOONS_PYTHON`, `.venv/Scripts/python.exe`, `py`, then `python` in that order.
+Check [Releases](https://github.com/Klaasawastaken/BloonsPlus/releases) for an installer. This source repository does not include the generated BloonsPlusSetup.exe; if no release asset is available, use the source instructions below.
 
-## Input (`input.js`)
+1. Run the installer and complete dependency setup.
+2. Open Bloons+ and follow the VM setup steps when using a guest.
+3. Sign in to Steam **inside the VM** and install your owned copy of BTD6.
+4. Open BTD6, reach its main menu and confirm the app shows a live connection.
+5. Try one **Specific Map** run before starting a larger sweep.
 
-Moves the real mouse and clicks/scrolls, targeting the BTD6 window specifically. This replaced an earlier attempt at an independent virtual controller (ViGEmBus + Steam Input's per-game "mouse joystick" override): that path was abandoned after proving unreliable in practice — Steam Input needed re-binding after every game relaunch, input delivery was intermittent even when configured correctly, and the cursor it drove turned out invisible to both `PrintWindow` and screen-grab capture (so it couldn't even be tracked to verify a move). Real input has none of those problems: `GetCursorPos`-equivalent tracking and capture both agree with reality.
+You need Windows, internet access for downloads, and a Steam account that owns BTD6. VM setup also needs supported virtualization and the relevant Windows features; system setup may request administrator access. Steam sign-in and Steam Guard happen through Steam.
 
-- `moveMouseTo(x, y, { durationMs })` — client-area coordinates (same space as `capture.js`/`calibration.json`). Eases from the cursor's current position over `durationMs` using ease-in-out, as a self-contained loop inside one PowerShell call (no per-step process spawn) — smooth, never a teleport.
-- `click({ button, holdMs })`, `scroll(ticks, direction)`, `moveAndClick(x, y, opts)`.
-- Every call brings the BTD6 window to the foreground first (`capture.js`'s `focusWindow`), since it's easy to lose focus (e.g. switching to another window) and input would otherwise silently go nowhere.
+### Run from source
 
-This does touch the real, shared mouse/keyboard — a deliberate, explicit tradeoff after the independent-device approach didn't pan out. Nothing in `server.js`/the web app calls this yet; it's a standalone module, exercised so far only via manual scripts.
+Install Node.js/npm, Git and Python 3.12 first. In PowerShell:
 
-## Still to build
+```powershell
+git clone https://github.com/Klaasawastaken/BloonsPlus.git
+cd BloonsPlus
+npm ci
+py -3.12 -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements-installer.txt
+Copy-Item autobtd6/userconfig.example.json autobtd6/userconfig.json
+npm run app
+```
 
-Tower upgrade unlock scanning, full map-border recognition, and a verified route planner for maps without recordings remain incomplete. Tower XP is read passively from each visible category page, but uncertain OCR reads are discarded.
+Copy the example configuration only on a fresh checkout; preserve an existing configuration. `npm run app` opens the desktop app. `npm start` runs the web server for development. See [GITHUB_SETUP.md](GITHUB_SETUP.md) for installer builds and dependencies.
 
-## Interaction requirements
+## How it fits together
 
-The Steam game must remain unmodified: no mods, game-file edits, or memory injection. Interaction is real mouse/keyboard input only, always moved smoothly (never an instant jump) and always through the actual BTD6 window.
+![Main PC, VM and game architecture](docs/assets/architecture.svg)
+
+The main PC runs the interface. The guest runs the replay engine beside BTD6. The bridge transfers commands, status and app updates. Updating GitHub alone does not update an installed VM; deploy the updated app through the VM update controls.
+
+## Languages: what each one does
+
+| Language / format | Responsibility | Recommendation |
+| --- | --- | --- |
+| **JavaScript** | Electron, UI behavior, HTTP server, route management, progress readers and VM bridge. | Keep as the main application language. |
+| **Python** | Replay engine, image/OCR processing, input integration, route utilities, VM provisioning and installer builder. | Keep as the automation language. |
+| **HTML + CSS** | Interface structure, glass styling and documentation. | Keep; these are presentation layers. |
+| **C#** | Windows installer/bootstrapper UI and dependency installation. | Optional future replacement; needs a reliable bootstrap alternative. |
+| **PowerShell** | Embedded Windows commands: features, elevation, processes and VM/SSH setup. | Consolidate into one Windows integration layer. |
+| **AutoHotkey** | Live replay keyboard sender; also imported reference scripts. | Replace the small live sender with Python input after validating timing and focus. |
+| **Batch / CMD** | Developer VM setup launcher. | Can eventually move behind app setup. |
+| **Rust** | Vendored btd6_autoplay reference engine. | Not part of the active app execution path. |
+| **JSON, YAML, TOML, .btd6** | Configuration, catalogs and recorded strategy data. | Data formats, not separate application runtimes. |
+| **Markdown + SVG** | Documentation and vector illustrations. | Documentation/assets, not runtime languages. |
+
+**Recommended target: JavaScript + Python, with a small Windows adapter.** Removing Rust reference code or imported scripts reduces repository clutter. It does not make the active replay faster. Consolidating AutoHotkey and installer code needs behavioral validation first. Read the [full breakdown and migration order](docs/languages.md).
+
+## Find your way around
+
+```text
+app.js / index.html / styles.css   Desktop interface
+server.js                         Local API
+electron-main.js                  Desktop entry point
+autobtd6/                         Replay engine and recorded routes
+vm/                               Guest setup and bridge support
+route-library/                    Imported strategies and provenance
+installer-bootstrap.cs            Windows installer source
+make-installer.py                 Build the installer
+docs/                             Illustrated guide and language report
+```
+
+## Troubleshooting
+
+| Symptom | First check |
+| --- | --- |
+| TensorFlow reports msvcp140.dll or msvcp140_1.dll missing | Install/repair the Microsoft Visual C++ x64 runtime on the PC **where the replay runs**, including the guest if applicable. |
+| VM bridge reconnects or SSH says permission denied | Check the guest is running and its SSH identity matches setup. A working game window alone does not confirm a working bridge. |
+| App shows stale status or progress | Confirm whether you are viewing the host or guest, and whether the guest has the latest deployment. |
+| Route stalls or loses | Include map, difficulty, variation, round, app version and the surrounding replay log in an issue. |
+
+Keep player saves, Steam credentials, SSH keys, runtime logs and VM disks out of Git. The repository ignore rules exclude these local files. Use the app's logs to share a specific failure, after checking for personal information.
+
+## Documentation site
+
+The custom guide lives in [docs/index.html](docs/index.html). It uses static HTML, CSS, JavaScript and original SVG illustrations, with no package dependencies. The GitHub Pages link above becomes available after enabling **Settings → Pages → Deploy from a branch → main → /docs**.
+
+## Credits
+
+Built around and informed by [AutoBTD6](https://github.com/ANRAR4/AutoBTD6), [BTD6bot](https://github.com/j-miet/BTD6bot) and [btd6_autoplay](https://github.com/Jazzmoon/btd6_autoplay). Imported material retains its existing license and attribution; consult the relevant source directories before redistributing it.
+
+Bloons TD 6 and its game assets belong to Ninja Kiwi. Bloons+ is an independent companion project. Documentation illustrations are original interface diagrams, not game screenshots.
