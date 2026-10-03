@@ -2858,66 +2858,9 @@ def main():
                         lastSurplusWaitCash = currentValues['money']
                         customPrint('SURPLUS_UPGRADE waiting for enough cash or another round; cash=' + str(currentValues['money']))
 
-                # Routes converted from CHIMPS are paced for CHIMPS income. In modes that pay more,
-                # the run sat on thousands while waiting for the next round checkpoint and leaked.
-                # Pull the route's own next upgrade forward once cash covers this round block's
-                # planned spend; that keeps the recorded crosspaths and adds no off-plan tiers.
-                # Separately, in every mode: cash beyond everything the route still plans to buy
-                # can never be needed by it, so it goes into extra upgrades (a locked tier left a
-                # CHIMPS run losing at round 89 with $72k unspent).
-                if (canBuySurplus and not surplusUpgradeStopped and lastIterationAction is None
-                        and len(mapConfig['steps']) > 1 and mapConfig['steps'][0]['action'] == 'await_round'
-                        and currentValues['money'] > 0):
-                    steps = mapConfig['steps']
-                    blockCost, index = 0, 1
-                    while index < len(steps) and steps[index]['action'] not in ('await_round', 'await_cash'):
-                        if steps[index]['action'] in ('place', 'upgrade') and steps[index].get('cost', 0) > 0:
-                            blockCost += steps[index]['cost']
-                        index += 1
-                    if emergencySpend:
-                        blockCost = 0
-                    pulled = False
-                    if emergencySpend or mapConfig.get('gamemode') not in ('chimps', 'half_cash'):
-                        pendingPlaces = {str(s.get('name')) for s in steps if s['action'] == 'place'}
-                        # Each tower's actions stay in route order: a tower with work in this block, or
-                        # whose next future action isn't affordable, can't have a later step jump ahead.
-                        seenTowers = {str(s.get('name')) for s in steps[1:index] if s.get('name') is not None}
-                        for later in range(index, len(steps)):
-                            candidate = steps[later]
-                            if candidate['action'] not in ('upgrade', 'place', 'sell', 'retarget', 'special'):
-                                continue
-                            tower = str(candidate.get('name'))
-                            if tower in seenTowers:
-                                continue
-                            seenTowers.add(tower)
-                            # A future tower's own placement can come forward too (its later
-                            # upgrades stay behind it); upgrades only for towers already placed.
-                            if candidate['action'] == 'place':
-                                pass
-                            elif candidate['action'] != 'upgrade' or tower in pendingPlaces:
-                                continue
-                            cost = candidate.get('cost', 0)
-                            if cost > 0 and currentValues['money'] - blockCost >= cost * 1.1:
-                                steps.insert(0, steps.pop(later))
-                                pulled = True
-                                customPrint('SURPLUS_PULL_FORWARD tower=' + tower + ' path=' + str(candidate.get('path'))
-                                            + ' cost=' + str(cost) + ' cash=' + str(currentValues['money'])
-                                            + ' reservedForThisBlock=' + str(blockCost))
-                                break
-                    if not pulled:
-                        plannedRemaining = sum(step.get('cost', 0) for step in steps
-                                               if step['action'] in ('place', 'upgrade') and step.get('cost', 0) > 0)
-                        spare = currentValues['money'] if emergencySpend else currentValues['money'] - plannedRemaining
-                        if spare > 0:
-                            extraUpgrade, _ = nextSurplusUpgrade(spare)
-                            if extraUpgrade:
-                                surplusUpgradeAttempts.add((str(extraUpgrade['name']), extraUpgrade['path'],
-                                                            extraUpgrade['extra']['upgrade'][1]))
-                                steps.insert(0, extraUpgrade)
-                                customPrint(('EMERGENCY_SPEND' if emergencySpend else 'SURPLUS_SPARE')
-                                            + ' extra upgrade tower=' + str(extraUpgrade['name'])
-                                            + ' path=' + str(extraUpgrade['path'] + 1) + ' cost=' + str(extraUpgrade['cost'])
-                                            + ' cash=' + str(currentValues['money']) + ' plannedRemaining=' + str(plannedRemaining))
+                # Preserve the recorded round order and upgrade paths. Extra spending is
+                # allowed above only after every planned action has been executed; buying
+                # optional crosspaths mid-route can make later recorded upgrades illegal.
 
                 if len(mapConfig['steps']):
                     customPrint('DEBUG next_action=' + str(mapConfig['steps'][0]) + ' balance=' + str(lastIterationBalance) + ' cost=' + str(lastIterationCost))

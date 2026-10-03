@@ -1,4 +1,4 @@
-# Bloons+ 0.1.0 Preview 2
+# Bloons+ 0.1.0 Preview 3
 
 A cleaner desktop app, repaired setup checks and a live VM game preview.
 
@@ -9,6 +9,7 @@ A cleaner desktop app, repaired setup checks and a live VM game preview.
 - Live VM screen under Automation, refreshed every two seconds while open; no game input is sent by the viewer.
 - Run Logs issue reporting prepares a redacted GitHub draft and downloadable log for review before submission.
 - Boss Events shows Coming Soon while automated boss navigation remains unfinished.
+- Preserve recorded round/action order: optional surplus upgrades run only after planned actions finish.
 - Held clicks and title/menu diagnostics; explicit detection of a lower-privilege app trying to control elevated BTD6.
 - Installer checks Microsoft C++ libraries, Python packages and actual native imports, repairs a broken private environment and preserves existing app data.
 - Revised mint/coral setup layout, progress information, retry controls and a persistent installer log.

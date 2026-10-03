@@ -6,11 +6,12 @@
 - Added save-backed hero and T1–T5 requirement checks using a bundled shared catalog.
 - Added an on-demand live VM viewer, bounded polling, fullscreen preview and stale/error states. Temporary game frames are excluded from publication.
 - Added redacted log previews/downloads and a GitHub issue draft, opened in the system browser.
+- Preserved recorded action order by removing mid-route optional spending and action reshuffling; surplus upgrades remain available after planned actions finish.
 - Repaired title/menu input timing and logged privilege mismatches instead of silently dropping clicks. A VM test reached actual gameplay and tower actions.
 - Refreshed the installer layout, native-runtime probes, repair/retry behavior, recovery backups, logs and unchanged-file reuse.
 - Added source and installer privacy guards; removed unused engine snapshots and moved maintenance scripts into tools with retained attribution.
 - Fixed wiki current-article highlighting and theme initialization before paint; added brief cross-document transitions.
-- Published unsigned Preview 2 with explicit verification limits and a checksum.
+- Published unsigned Preview 3 with explicit verification limits and a checksum.
 
 
 ## 2026-10-03 — Motion and community polish
