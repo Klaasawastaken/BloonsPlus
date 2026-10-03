@@ -10,6 +10,7 @@ from ctypes import wintypes
 from contextlib import contextmanager
 import os
 import time
+import inspect
 
 import pyautogui
 
@@ -23,6 +24,7 @@ _real_size = pyautogui.size
 _real_screenshot = pyautogui.screenshot
 _real_move_to = pyautogui.moveTo
 _real_click = pyautogui.click
+_click_signature = inspect.signature(_real_click)
 _real_drag_to = pyautogui.dragTo
 
 
@@ -217,6 +219,30 @@ def _absolute(x, y):
     return round(left + float(x) * width / game_width), round(top + float(y) * height / game_height)
 
 
+def _check_input_privileges():
+    """UIPI silently discards input sent from a lower-privilege app to an elevated game."""
+    if ctypes.windll.shell32.IsUserAnAdmin():
+        return
+    hwnd = _cached_hwnd
+    if not hwnd:
+        return
+    pid = wintypes.DWORD()
+    _user32.GetWindowThreadProcessId(hwnd, ctypes.byref(pid))
+    process = _kernel32.OpenProcess(0x1000, False, pid.value)
+    token = wintypes.HANDLE()
+    api = ctypes.WinDLL('advapi32', use_last_error=True)
+    api.OpenProcessToken.argtypes = [wintypes.HANDLE, wintypes.DWORD, ctypes.POINTER(wintypes.HANDLE)]
+    api.GetTokenInformation.argtypes = [wintypes.HANDLE, ctypes.c_int, ctypes.c_void_p, wintypes.DWORD, ctypes.POINTER(wintypes.DWORD)]
+    try:
+        if process and api.OpenProcessToken(process, 8, ctypes.byref(token)):
+            elevated, length = wintypes.DWORD(), wintypes.DWORD()
+            if api.GetTokenInformation(token, 20, ctypes.byref(elevated), ctypes.sizeof(elevated), ctypes.byref(length)) and elevated.value:
+                raise RuntimeError('BTD6 runs as administrator but Bloons+ does not. Restart Bloons+ as administrator in the VM so Windows permits game input.')
+    finally:
+        if token: _kernel32.CloseHandle(token)
+        if process: _kernel32.CloseHandle(process)
+
+
 @contextmanager
 def _desktop_size_for_pyautogui():
     # PyAutoGUI's internal movement code clamps coordinates using size(). Keep
@@ -249,17 +275,57 @@ def move_to(*args, **kwargs):
     if 'duration' not in kwargs and len(args) < 3:
         kwargs['duration'] = 0.10
     args, kwargs = _point_args(args, kwargs)
+    _check_input_privileges()
     with _desktop_size_for_pyautogui():
-        return _real_move_to(*args, **kwargs)
+        result = _real_move_to(*args, **kwargs)
+        _deliver_pointer_event()
+        return result
+
+
+def _deliver_pointer_event():
+    """Notify raw-input consumers after SetCursorPos-based pointer movement."""
+    point = _Point()
+    _user32.GetCursorPos(ctypes.byref(point))
+    left, top = _user32.GetSystemMetrics(76), _user32.GetSystemMetrics(77)
+    width, height = _user32.GetSystemMetrics(78), _user32.GetSystemMetrics(79)
+    if width > 1 and height > 1:
+        x = round((point.x - left) * 65535 / (width - 1))
+        y = round((point.y - top) * 65535 / (height - 1))
+        _user32.mouse_event(0x8001 | 0x4000, x, y, 0, 0)
 
 
 def click(*args, **kwargs):
     args, kwargs = _point_args(args, kwargs)
-    # Give the pointer a short human-like glide before each direct click.
-    if len(args) >= 2:
-        _real_move_to(args[0], args[1], duration=0.08)
+    _check_input_privileges()
+    values = _click_signature.bind(*args, **kwargs)
+    values.apply_defaults()
+    options = values.arguments
     with _desktop_size_for_pyautogui():
-        return _real_click(*args, **kwargs)
+        # Unity can miss a down/up pair delivered between rendered frames.
+        # Hold each edge, including menu and tower clicks, on the guest desktop.
+        if options['x'] is not None and options['y'] is not None:
+            _real_move_to(options['x'], options['y'], duration=max(0.08, options['duration']), tween=options['tween'])
+            _deliver_pointer_event()
+        for index in range(options['clicks']):
+            pyautogui.mouseDown(button=options['button'], _pause=False)
+            try:
+                time.sleep(0.12)
+            finally:
+                pyautogui.mouseUp(button=options['button'], _pause=False)
+            if index + 1 < options['clicks']:
+                time.sleep(max(0.08, options['interval']))
+        if options.get('_pause', True):
+            time.sleep(pyautogui.PAUSE)
+
+
+def held_click(x, y, hold_seconds=0.12):
+    """Hold across several game frames so Unity observes both button edges."""
+    move_to(x, y)
+    pyautogui.mouseDown(button='left')
+    try:
+        time.sleep(hold_seconds)
+    finally:
+        pyautogui.mouseUp(button='left')
 
 
 def drag_to(*args, **kwargs):

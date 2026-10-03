@@ -1,28 +1,32 @@
-# Bloons+ 0.1.0 Preview 1
+# Bloons+ 0.1.0 Preview 2
 
-First public preview of the current Windows companion.
+A cleaner desktop app, repaired setup checks and a live VM game preview.
 
-## Included
+## Changes
 
-- Electron desktop interface for recorded map runs, progress and route tools.
-- Modified AutoBTD6 replay engine, supported read-only account readers and VM bridge/setup tools.
-- Online Windows installer: Electron and trimmed base Python are included; Python packages and VM components download during setup.
-- New main website with download, setup guides, About Us and contributor pages.
-- Custom vector artwork, light/dark themes, responsive navigation and smooth animations with reduced-motion support.
+- Compact Automation page with map, difficulty, variation and route tools; removed Farm, Sweep and Tower Progress navigation clutter.
+- Required hero and tower paths show save-file unlock checks through T5 using the included upgrade catalog.
+- Live VM screen under Automation, refreshed every two seconds while open; no game input is sent by the viewer.
+- Run Logs issue reporting prepares a redacted GitHub draft and downloadable log for review before submission.
+- Boss Events shows Coming Soon while automated boss navigation remains unfinished.
+- Held clicks and title/menu diagnostics; explicit detection of a lower-privilege app trying to control elevated BTD6.
+- Installer checks Microsoft C++ libraries, Python packages and actual native imports, repairs a broken private environment and preserves existing app data.
+- Revised mint/coral setup layout, progress information, retry controls and a persistent installer log.
+- Product website, Docs, searchable wiki, legal pages, BTD6 art, Discord banner and reduced-motion-aware animations.
+- Removed unused reference-engine snapshots from the public tree while retaining needed data and license notices.
 
 ## Install
 
-Download **BloonsPlusSetup.exe** from this release. Setup requires internet access. VM setup needs compatible Windows virtualization and may require administrator access for system changes. Sign in to Steam inside the guest and install your owned copy of BTD6.
+Download **BloonsPlusSetup.exe** and run it over your existing installation to update. Internet is required for dependency and VM setup downloads. Sign in to Steam inside the guest and install your owned BTD6 copy.
 
-Start with one Specific Map run and inspect its initial actions before a larger sweep. Read the setup guide on the website for host/guest connection and runtime troubleshooting.
+**SHA256SUMS.txt** contains the installer checksum. This preview is unsigned; Windows SmartScreen may warn about an unrecognized publisher. Signing requires a trusted certificate. Bloons+ does not disable Windows security protections.
 
-**SHA256SUMS.txt** contains the installer checksum.
+## Verification and limits
 
-## Preview limits
+JavaScript and Python syntax checks passed. The local Python native-import preflight passed. The installer compiled, and source/package privacy pattern checks reported no findings. A live VM startup test reached a match and executed tower placement and upgrades; a complete clear was not certified by this test.
 
-- Route availability is not a victory guarantee. Account unlocks, game balance and map mechanics affect results.
-- Boss execution and the full automatic tower-unlock loop are unfinished.
-- Installed guests need their own app update/deployment step.
-- This release build was generated successfully; a clean-PC installation and full gameplay verification were not performed for this release.
+The live viewer was checked against the guest and in the app. Wiki active-article navigation and the compact Automation layout were browser-checked. A clean-PC installation has not been verified.
 
-Player saves, Steam credentials, SSH keys, local progress and VM disks are excluded from the release source repository. Third-party material retains its existing licenses and attribution. Bloons+ is independent of Ninja Kiwi.
+Route availability is not a victory guarantee. Boss execution and the full automatic tower-unlock loop remain unfinished. Guest updates apply to future replays; existing administrator instances may need to be closed manually before launching an updated host app.
+
+Saves, Steam credentials, SSH keys, temporary viewer frames, local progress and VM disks are excluded from publication. Pattern checks cannot identify every possible private detail, so review issue reports before submitting them. Third-party licenses and attribution are retained. Bloons+ is independent of Ninja Kiwi.

@@ -62,3 +62,15 @@ vm-resumed.png
 *.msi
 SteamSetup.exe
 VC_redist*.exe
+
+# Optional reference engines stay local; active routes and notices are retained.
+/btd6bot/
+/btd6autoplay/
+
+# Temporary local VM viewer frames
+autobtd6/live-frame.jpg*
+autobtd6/viewer-request.json
+
+# Private code-signing material
+*.pfx
+*.p12

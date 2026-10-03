@@ -1,1 +1,0 @@
-"""For handling optical character recognition tasks."""

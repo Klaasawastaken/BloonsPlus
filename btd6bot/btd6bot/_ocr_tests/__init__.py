@@ -1,1 +1,0 @@
-"""In-game ocr testing."""

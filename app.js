@@ -71,6 +71,7 @@ function notify(message) {
   clearTimeout(toastTimer); toastTimer = setTimeout(() => toast.classList.remove('show'), 2200);
 }
 function showView(view) {
+  if (view === 'specific-map' || view === 'towers') view = 'automation';
   document.body.classList.toggle('boss-view-active', view === 'bosses');
   document.querySelectorAll('.view').forEach(el => el.classList.toggle('hidden', el.id !== view));
   document.querySelectorAll('.nav-item').forEach(el => {
@@ -82,16 +83,17 @@ function showView(view) {
   window.scrollTo(0, 0);
   document.querySelector('main')?.scrollTo?.(0, 0);
   try { localStorage.setItem('bloonsplus-last-view', view); } catch { /* private/blocked storage: page just won't be remembered */ }
-  if (view === 'blackborder' || view === 'specific-map') {
+  if (view === 'blackborder' || view === 'automation') {
     loadDetectedProgress();
     refreshLocalSaveProgress();
   }
   if (view === 'towers') refreshLocalSaveProgress();
-  if (view === 'bosses') { refreshLocalSaveProgress(); refreshBossEvent(); renderBossHub(); }
+  if (view === 'bosses') renderBossHub();
   if (view === 'logs') loadRouteFailures();
 }
 initExperimentalAiSettings();
 async function refreshBossEvent() {
+  if (!document.querySelector('#boss-event-requirements')) return;
   try {
     const response = await fetch('/api/boss-event', { cache: 'no-store', signal: AbortSignal.timeout(12000) });
     const body = await response.text();
@@ -1203,14 +1205,6 @@ document.querySelector('#download-route-failures')?.addEventListener('click', ()
   link.click();
   setTimeout(() => URL.revokeObjectURL(link.href), 1000);
 });
-document.querySelector('#farm-xp').addEventListener('click', () => startFarmJob({ type: 'xp', n: Number(document.querySelector('#farm-n').value) || 5 }));
-document.querySelector('#farm-mm').addEventListener('click', () => startFarmJob({ type: 'mm', n: Number(document.querySelector('#farm-n').value) || 5 }));
-document.querySelector('#farm-max-towers').addEventListener('click', () => startFarmJob({ type: 'max-towers' }));
-document.querySelector('#farm-achievements')?.addEventListener('click', () => startFarmJob({ type: 'achievements-sweep' }));
-document.querySelector('#farm-blackborder').addEventListener('click', () => startFarmJob({ type: 'black-border-sweep' }));
-document.querySelector('#farm-verify').addEventListener('click', () => startFarmJob({ type: 'verify-routes' }));
-document.querySelector('#farm-medals').addEventListener('click', () => startFarmJob({ type: 'medal-scan' }));
-document.querySelector('#farm-resume').addEventListener('click', () => startFarmJob({ type: 'resume' }));
 document.querySelector('#farm-file').addEventListener('click', () => {
   const mapSlug = document.querySelector('#playthrough-map-select').value;
   const gamemode = document.querySelector('#playthrough-variation-select').value;
@@ -1600,3 +1594,20 @@ document.querySelector('#route-export')?.addEventListener('click', () => {
   const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = `${selectedRoute.name}.json`; link.click(); URL.revokeObjectURL(link.href);
 });
 loadSavedRoutes().catch(() => showRouteStatus('Saved route library is unavailable.'));
+
+// Reports include only a reviewed, redacted excerpt; no private profile files.
+const reportDialog = document.querySelector('#issue-report-dialog');
+function updateIssueReport() {
+  const excerpt = window.BloonsSupport.redact(latestRunLog || 'No run log available.').slice(-4500);
+  document.querySelector('#report-preview').textContent = excerpt;
+  const description = window.BloonsSupport.redact(document.querySelector('#report-description').value).slice(0,1500);
+  const body = `## What happened\n${description || 'Describe what happened here.'}\n\n## Run context\nApp: Bloons+ 0.1.0\nEngine: ${latestAutomationStatus?.vm ? 'VM' : 'Local / unknown'}\n\n## Redacted log excerpt\n\`\`\`text\n${excerpt.replace(/\`/g, "'")}\n\`\`\`\n`;
+  document.querySelector('#report-submit').href = 'https://github.com/Klaasawastaken/BloonsPlus/issues/new?title=' + encodeURIComponent('Run issue') + '&body=' + encodeURIComponent(body);
+}
+document.querySelector('#report-issue').addEventListener('click', () => { updateIssueReport(); reportDialog.showModal(); });
+document.querySelector('#report-close').addEventListener('click', () => reportDialog.close());
+document.querySelector('#report-description').addEventListener('input', updateIssueReport);
+document.querySelector('#report-download').addEventListener('click', () => {
+  const blob = new Blob([window.BloonsSupport.redact(latestRunLog || 'No run log available.')], { type: 'text/plain' });
+  const href = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = href; a.download = 'bloonsplus-redacted-log.txt'; a.click(); setTimeout(() => URL.revokeObjectURL(href), 1000);
+});

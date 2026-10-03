@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, shell } = require('electron');
 const path = require('node:path');
 const fs = require('node:fs');
 const ICON_PATH = path.join(__dirname, 'bloonsplus.ico');
@@ -42,6 +42,13 @@ function createWindow() {
     autoHideMenuBar: true,
     backgroundColor: '#eaf0f7',
     icon: ICON_PATH,
+  });
+  win.webContents.setWindowOpenHandler(({ url: target }) => {
+    try {
+      const external = new URL(target);
+      if (external.protocol === 'https:') shell.openExternal(external.href).catch(error => logCrash('external-link', error.message));
+    } catch { /* Reject malformed or non-web links. */ }
+    return { action: 'deny' };
   });
   loadWithRetry(win);
 }

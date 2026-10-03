@@ -1,0 +1,1 @@
+Tower upgrade catalog sourced from j-miet/BTD6bot (https://github.com/j-miet/BTD6bot), originally btd6bot/Files/upgrades_current.json. Retain upstream licensing and attribution; this is upgrade metadata, not player progress. Capture-specific __identifier removed.

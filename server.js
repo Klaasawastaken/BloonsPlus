@@ -3,6 +3,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { execFile } = require('node:child_process');
 const { captureWindow } = require('./capture');
+const { getLiveScreen } = require('./live-screen');
 const { runScan } = require('./scanner');
 const automation = require('./automation');
 const engineLock = require('./engine-lock');
@@ -270,7 +271,7 @@ http.createServer((req, res) => {
   }
   if (pathname === '/api/tower-upgrade-catalog') {
     if (req.method !== 'GET') { res.writeHead(405); return res.end(); }
-    const file = path.join(root, 'btd6bot', 'btd6bot', 'Files', 'upgrades_current.json');
+    const file = path.join(root, 'data', 'tower-upgrades.json');
     fs.readFile(file, 'utf8', (error, data) => {
       if (error) {
         res.writeHead(404, { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' });
@@ -314,6 +315,24 @@ http.createServer((req, res) => {
         res.writeHead(503, { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' });
         res.end(JSON.stringify({ error: 'BTD6 was not found locally or in the VM', running: false }));
       });
+    });
+    return;
+  }
+  if (pathname === '/api/live-screen') {
+    if (req.method !== 'GET') { res.writeHead(405); return res.end(); }
+    (async () => {
+      if (!vmSetup.isGuest()) {
+        const frame = await vmFetchBuffer('/api/live-screen', 12000);
+        if (!frame) throw new Error('VM screen unavailable; reconnect the guest.');
+        return frame;
+      }
+      return getLiveScreen();
+    })().then(frame => {
+      res.writeHead(200, { 'Content-Type': 'image/jpeg', 'Cache-Control': 'no-store' });
+      res.end(frame);
+    }).catch(error => {
+      res.writeHead(503, { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' });
+      res.end(JSON.stringify({ error: error.message }));
     });
     return;
   }
@@ -406,7 +425,7 @@ http.createServer((req, res) => {
         const duplicate = fs.readdirSync(routeLibrary).filter(name => name.endsWith('.json')).map(name => {
           try { return { file: name, route: JSON.parse(fs.readFileSync(path.join(routeLibrary, name), 'utf8')) }; } catch { return null; }
         }).filter(item => item?.route && routeIdentity(item.route) === routeIdentity(route) && item.file !== `${safe}.json`)[0];
-        if (duplicate) throw new Error(`A route already exists for ${route.map} · ${route.gamemode}: ${duplicate.route.name || duplicate.file}`);
+        if (duplicate) throw new Error(`A route already exists for ${route.map} Â· ${route.gamemode}: ${duplicate.route.name || duplicate.file}`);
         const saved = { ...route, format: 1, updatedAt: new Date().toISOString() };
         fs.writeFileSync(path.join(routeLibrary, `${safe}.json`), JSON.stringify(saved, null, 2));
         res.writeHead(200, { 'Content-Type': 'application/json' }); res.end(JSON.stringify(saved));
@@ -636,7 +655,7 @@ http.createServer((req, res) => {
   }, delay);
   scheduleScan(3000);
 }).on('error', error => {
-  if (error.code === 'EADDRINUSE') console.error(`Port ${port} is already in use — is Bloons+ already running?`);
+  if (error.code === 'EADDRINUSE') console.error(`Port ${port} is already in use â€” is Bloons+ already running?`);
   else console.error('Server failed to start:', error.message);
   process.exitCode = 1;
 });

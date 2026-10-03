@@ -27,6 +27,14 @@ internal sealed class InstallerForm : Form
     private string requestedIsoPath = "";
     private readonly bool silent = Environment.GetCommandLineArgs().Any(arg => String.Equals(arg, "/silent", StringComparison.OrdinalIgnoreCase));
     private readonly string installRoot = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Programs", "Bloons+");
+    private readonly object logLock = new object();
+    private readonly string logPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "BloonsPlus", "installer.log");
+    private void Log(string text)
+    {
+        lock (logLock) {
+            try { Directory.CreateDirectory(Path.GetDirectoryName(logPath)); File.AppendAllText(logPath, DateTime.UtcNow.ToString("o") + " " + text + Environment.NewLine); } catch { }
+        }
+    }
 
     public InstallerForm()
     {
@@ -41,7 +49,7 @@ internal sealed class InstallerForm : Form
 
         var brand = new Panel { Left = 0, Top = 0, Width = 650, Height = 92, BackColor = Color.FromArgb(30, 42, 82) };
         var logo = new Label { Left = 28, Top = 18, Width = 54, Height = 54, Text = "+", TextAlign = ContentAlignment.MiddleCenter,
-            BackColor = Color.FromArgb(93, 214, 184), ForeColor = Color.FromArgb(24, 48, 76), Font = new Font("Segoe UI", 25, FontStyle.Bold) };
+            BackColor = Color.FromArgb(93, 214, 184), ForeColor = Color.FromArgb(24, 48, 76), Font = new Font("Segoe UI Semibold", 23, FontStyle.Bold) };
         brand.Controls.Add(logo);
         var brandTitle = new Label { Left = 96, Top = 16, Width = 500, Height = 34, Text = "Bloons+", ForeColor = Color.White, Font = new Font("Segoe UI Semibold", 21, FontStyle.Bold) };
         brand.Controls.Add(brandTitle);
@@ -147,55 +155,57 @@ internal sealed class InstallerForm : Form
         oldHeader.Dispose();
         DoubleBuffered = true;
         AutoScaleMode = AutoScaleMode.Dpi;
-        ClientSize = new Size(860, 600);
+        ClientSize = new Size(900, 640);
         Font = new Font("Segoe UI", 10);
-        ForeColor = Color.FromArgb(34, 44, 64);
-        introduction.Text = "Make yourself at home.";
-        introduction.SetBounds(306, 49, 510, 44);
-        introduction.Font = new Font("Segoe UI", 25, FontStyle.Bold);
+        ForeColor = Color.FromArgb(37, 61, 54);
+        introduction.Text = "Your next run starts here.";
+        introduction.SetBounds(320, 52, 535, 48);
+        introduction.Font = new Font("Segoe UI Semibold", 23, FontStyle.Bold);
         introduction.BackColor = Color.Transparent;
-        AddCopy("Your Bloons+ setup, one step at a time.", 309, 102, 470, 30, 11, false);
-        AddCopy("Bloons+", 49, 59, 196, 44, 27, true);
-        AddCopy("YOUR GAME. YOUR SPACE.", 51, 110, 195, 24, 8, true);
-        AddCopy("01   Install the app", 50, 195, 215, 32, 12, true);
-        AddCopy("Files and required components", 50, 230, 207, 40, 9, false);
-        AddCopy("02   Prepare your VM", 50, 295, 215, 32, 12, true);
-        AddCopy("Continue in the guided setup", 50, 330, 207, 40, 9, false);
-        AddCopy("03   Connect Steam", 50, 395, 215, 32, 12, true);
-        AddCopy("Sign in and install your BTD6", 50, 430, 207, 40, 9, false);
+        AddCopy("Install once. Let guided setup handle the next steps.", 322, 110, 505, 34, 11, false);
+        AddCopy("Bloons+", 50, 67, 196, 44, 27, true);
+        AddCopy("LESS BUSYWORK. MORE PLAY.", 51, 110, 195, 24, 8, true);
+        AddCopy("01  App & runtime", 50, 195, 215, 32, 12, true);
+        AddCopy("Python and required components\nare checked automatically.", 50, 230, 207, 40, 9, false);
+        AddCopy("02  Your game space", 50, 295, 215, 32, 12, true);
+        AddCopy("Guided Windows VM setup\ncontinues in the app.", 50, 330, 207, 40, 9, false);
+        AddCopy("03  Connect & play", 50, 395, 215, 32, 12, true);
+        AddCopy("Sign in to Steam in the VM,\nthen install your owned game.", 50, 430, 207, 40, 9, false);
         AddCopy("MADE FOR YOUR DESKTOP", 50, 534, 218, 22, 8, true);
-        AddCopy("SETUP PREFERENCES", 329, 167, 450, 24, 9, true);
+        AddCopy("MAKE IT YOURS", 329, 167, 450, 24, 9, true);
         vmSetup.SetBounds(329, 207, 450, 31);
         vmSetup.Text = "Continue with guided VM setup";
-        vmSetup.BackColor = Color.FromArgb(245, 247, 253);
+        vmSetup.BackColor = Color.FromArgb(245, 248, 244);
         isoLabel.Text = "Windows 11 ISO · optional";
         isoLabel.SetBounds(329, 258, 440, 25);
         isoLabel.BackColor = vmSetup.BackColor;
         isoPath.SetBounds(329, 291, 328, 30);
+        isoPath.BorderStyle = BorderStyle.FixedSingle;
         browseIso.SetBounds(673, 285, 106, 40);
         StyleButton(browseIso, false);
         AddCopy("Leave empty to download Windows during guided setup.", 329, 339, 454, 27, 9, false);
         status.SetBounds(329, 409, 447, 48);
-        status.BackColor = Color.FromArgb(245, 247, 253);
+        status.BackColor = Color.FromArgb(245, 248, 244);
         status.Font = new Font("Segoe UI", 10);
         progress.SetBounds(329, 470, 447, 8);
         progress.Visible = false;
         progressCaption.SetBounds(329, 489, 447, 25);
-        progressCaption.Text = "Ready when you are";
+        progressCaption.Text = "Ready · Internet needed for dependencies";
         progressCaption.Font = new Font("Segoe UI", 9);
-        progressCaption.ForeColor = Color.FromArgb(102, 115, 138);
+        progressCaption.ForeColor = Color.FromArgb(112, 129, 119);
         progressCaption.BackColor = Color.Transparent;
         Controls.Add(progressCaption);
-        installButton.SetBounds(594, 535, 213, 43);
+        installButton.SetBounds(594, 565, 245, 47);
         StyleButton(installButton, true);
         AcceptButton = installButton;
-        AddCopy("Your existing progress stays saved.", 309, 547, 280, 25, 9, false);
+        AddCopy("Your existing progress stays saved.", 322, 576, 263, 25, 9, false);
     }
 
     private void AddCopy(string text, int x, int y, int width, int height, float size, bool bold)
     {
         Controls.Add(new Label { Text = text, Left = x, Top = y, Width = width, Height = height,
-            BackColor = Color.Transparent, ForeColor = bold ? Color.FromArgb(34, 44, 64) : Color.FromArgb(102, 115, 138),
+            UseMnemonic = false,
+            BackColor = Color.Transparent, ForeColor = bold ? Color.FromArgb(37, 61, 54) : Color.FromArgb(112, 129, 119),
             Font = new Font("Segoe UI", size, bold ? FontStyle.Bold : FontStyle.Regular) });
     }
 
@@ -210,8 +220,8 @@ internal sealed class InstallerForm : Form
     private static void StyleButton(Button button, bool primary)
     {
         button.FlatStyle = FlatStyle.Flat; button.FlatAppearance.BorderSize = 0;
-        button.BackColor = primary ? Color.FromArgb(85, 120, 218) : Color.FromArgb(229, 236, 250);
-        button.ForeColor = primary ? Color.White : Color.FromArgb(65, 86, 131);
+        button.BackColor = primary ? Color.FromArgb(37, 61, 54) : Color.FromArgb(225, 235, 226);
+        button.ForeColor = primary ? Color.White : Color.FromArgb(58, 86, 72);
         button.Font = new Font("Segoe UI", 10, FontStyle.Bold);
         button.Cursor = Cursors.Hand;
         using (var p = Rounded(new Rectangle(0, 0, button.Width, button.Height), 12)) button.Region = new Region(p);
@@ -219,10 +229,15 @@ internal sealed class InstallerForm : Form
 
     protected override void OnPaintBackground(PaintEventArgs e)
     {
-        using (var bg = new LinearGradientBrush(ClientRectangle, Color.FromArgb(226, 223, 242), Color.FromArgb(221, 238, 247), 35f))
+        using (var bg = new LinearGradientBrush(ClientRectangle, Color.FromArgb(246, 233, 224), Color.FromArgb(224, 239, 230), 35f))
             e.Graphics.FillRectangle(bg, ClientRectangle);
         e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
-        foreach (var rect in new[] { new Rectangle(24, 24, 254, 552), new Rectangle(306, 148, 501, 235), new Rectangle(306, 393, 501, 128) })
+        using (var accent = new SolidBrush(Color.FromArgb(239, 152, 126))) e.Graphics.FillEllipse(accent, 234, 62, 35, 35);
+        using (var white = new Pen(Color.White, 3)) {
+            e.Graphics.DrawLine(white, 244, 79, 258, 79);
+            e.Graphics.DrawLine(white, 251, 72, 251, 86);
+        }
+        foreach (var rect in new[] { new Rectangle(24, 24, 268, 592), new Rectangle(306, 155, 550, 230), new Rectangle(306, 402, 550, 130) })
         {
             using (var shadow = Rounded(new Rectangle(rect.X, rect.Y+5, rect.Width, rect.Height), 22))
             using (var brush = new SolidBrush(Color.FromArgb(12, 53, 76, 112))) e.Graphics.FillPath(brush, shadow);
@@ -232,14 +247,15 @@ internal sealed class InstallerForm : Form
             { e.Graphics.FillPath(fill, shape); e.Graphics.DrawPath(border, shape); }
         }
         using (var track = Rounded(new Rectangle(329, 470, 447, 8), 4))
-        using (var brush = new SolidBrush(Color.FromArgb(218, 225, 241))) e.Graphics.FillPath(brush, track);
+        using (var brush = new SolidBrush(Color.FromArgb(217, 229, 219))) e.Graphics.FillPath(brush, track);
         int width = (int)(447L * progress.Value / 1000);
         if (width >= 8) using (var fill = Rounded(new Rectangle(329, 470, width, 8), 4))
-        using (var brush = new LinearGradientBrush(new Rectangle(329, 470, 447, 8), Color.FromArgb(85,120,218), Color.FromArgb(138,156,231), 0f)) e.Graphics.FillPath(brush, fill);
+        using (var brush = new LinearGradientBrush(new Rectangle(329, 470, 447, 8), Color.FromArgb(118,170,140), Color.FromArgb(239,152,126), 0f)) e.Graphics.FillPath(brush, fill);
     }
 
     private void SetStatus(string text, int value)
     {
+        Log(text);
         if (IsDisposed) return;
         BeginInvoke((Action)delegate
         {
@@ -333,6 +349,7 @@ internal sealed class InstallerForm : Form
     {
         string tempZip = Path.Combine(Path.GetTempPath(), "BloonsPlus-" + Guid.NewGuid().ToString("N") + ".zip");
         string backupRoot = Path.Combine(Path.GetTempPath(), "BloonsPlus-data-" + Guid.NewGuid().ToString("N"));
+        bool installed = false;
         try
         {
             SetStatus("Reading embedded app package…", 0);
@@ -365,7 +382,6 @@ internal sealed class InstallerForm : Form
             Directory.CreateDirectory(installRoot);
             BackupExistingData(backupRoot);
             SetStatus("Installing Bloons+ files…", 5);
-            bool useInstalledPython = FindCompatiblePython() != null;
             using (FileStream package = new FileStream(tempZip, FileMode.Open, FileAccess.Read, FileShare.Read))
             using (ZipArchive archive = new ZipArchive(package, ZipArchiveMode.Read))
             {
@@ -375,10 +391,6 @@ internal sealed class InstallerForm : Form
                 byte[] buffer = new byte[1024 * 1024];
                 foreach (ZipArchiveEntry entry in archive.Entries)
                 {
-                    if (useInstalledPython && entry.FullName.StartsWith("resources/app/python/", StringComparison.OrdinalIgnoreCase)) {
-                        writtenBytes += entry.Length;
-                        continue;
-                    }
                     string destination = SafeDestination(installRoot, entry.FullName);
                     if (entry.FullName.EndsWith("/", StringComparison.Ordinal) || entry.FullName.EndsWith("\\", StringComparison.Ordinal))
                     {
@@ -416,23 +428,34 @@ internal sealed class InstallerForm : Form
             SaveSetupIntent();
             SetStatus("Bloons+ is installed. Launching the app…", 1000);
             Process.Start(new ProcessStartInfo(Path.Combine(installRoot, "Bloons+.exe")) { WorkingDirectory = installRoot, UseShellExecute = true });
+            installed = true;
             Task.Delay(1800).ContinueWith(delegate { if (!IsDisposed) BeginInvoke((Action)Close); });
         }
         catch (Exception error)
         {
+            Log(error.ToString());
+            try { RestoreExistingData(backupRoot); }
+            catch (Exception restoreError) { Log("Data backup retained at " + backupRoot + ": " + restoreError); }
             SetStatus("Installation failed: " + error.Message, 0);
+            if (silent) {
+                Environment.ExitCode = 1;
+                if (!IsDisposed && IsHandleCreated) BeginInvoke((Action)Close);
+                return;
+            }
             if (!IsDisposed && IsHandleCreated)
                 BeginInvoke((Action)delegate {
                     installButton.Enabled = vmSetup.Enabled = true;
                     isoPath.Enabled = browseIso.Enabled = vmSetup.Checked;
                     installButton.Text = "Retry installation";
-                    MessageBox.Show(this, "Setup paused. You can change your options and retry.\r\n\r\n" + error.Message, "Bloons+ Setup", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(this, "Setup paused. You can change your options and retry.\r\n\r\n" + error.Message + "\r\n\r\nDiagnostic log: " + logPath, "Bloons+ Setup", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 });
         }
         finally
         {
             try { if (File.Exists(tempZip)) File.Delete(tempZip); } catch { }
-            try { if (Directory.Exists(backupRoot)) Directory.Delete(backupRoot, true); } catch { }
+            if (installed) { try { if (Directory.Exists(backupRoot)) Directory.Delete(backupRoot, true); } catch { } }
+            // Keep the backup after an interrupted update; the user may need it
+            // if file locks prevented restoration. It contains only prior app data.
         }
     }
 
@@ -450,21 +473,37 @@ internal sealed class InstallerForm : Form
             throw new IOException("At least 5 GB of free disk space is needed to install the automation runtime.");
 
         string venvPython = Path.Combine(venv, "Scripts", "python.exe");
+        if (Directory.Exists(venv) && (!File.Exists(venvPython) || !ProcessSucceeds(venvPython, "-c \"import sys; assert sys.version_info[:2] == (3,12) and sys.maxsize > 2**32; import pip\""))) {
+            string preserved = venv + ".repair-" + DateTime.UtcNow.ToString("yyyyMMddHHmmss") + "-" + Guid.NewGuid().ToString("N").Substring(0, 6);
+            SetStatus("Preserving an unusable Python environment and rebuilding it…", 965);
+            Directory.Move(venv, preserved);
+            Log("Previous environment preserved at " + preserved);
+        }
         if (!File.Exists(venvPython)) {
             SetStatus("Creating Bloons+’s private Python environment…", 965);
-            RunInstallerProcess(python, "-m venv " + Quote(venv), appRoot, "Could not create the private Python environment");
+            RunInstallerProcess(python, "-m venv --copies " + Quote(venv), appRoot, "Could not create the private Python environment");
         }
         if (!File.Exists(venvPython)) throw new FileNotFoundException("The private Python environment was not created.");
         string stamp = Path.Combine(venv, "bloons-requirements.sha256");
         string requirementsHash = HashFile(pipRequirements);
         string installedCheck = "-c \"from importlib import metadata as m;import sys;lines=[x.strip().split('==',1) for x in open(sys.argv[1]) if '==' in x];assert all(m.version(n)==v for n,v in lines)\" " + Quote(pipRequirements);
+        string probe = Quote(Path.Combine(appRoot, "autobtd6", "runtime_check.py")) + " --requirements " + Quote(pipRequirements);
         if (File.Exists(stamp) && File.ReadAllText(stamp).Trim() == requirementsHash &&
-            ProcessSucceeds(venvPython, installedCheck) && ProcessSucceeds(venvPython, "-m pip check")) {
+            ProcessSucceeds(venvPython, installedCheck) && ProcessSucceeds(venvPython, "-m pip check") && ProcessSucceeds(venvPython, probe, 120000)) {
             SetStatus("Existing Python packages are ready.", 985);
             return;
         }
         SetStatus("Downloading Python dependencies (including TensorFlow); this may take a while…", 975);
-        RunInstallerProcess(venvPython, "-m pip install --disable-pip-version-check --no-input -r " + Quote(pipRequirements), appRoot, "Python dependency installation failed");
+        RunInstallerProcess(venvPython, "-m ensurepip --upgrade", appRoot, "Could not repair pip");
+        string installArgs = "-m pip install --disable-pip-version-check --no-input --prefer-binary --retries 3 --timeout 60 -r " + Quote(pipRequirements);
+        RunInstallerProcess(venvPython, installArgs, appRoot, "Python dependency installation failed");
+        SetStatus("Verifying image processing, TensorFlow and keyboard dependencies…", 985);
+        if (!ProcessSucceeds(venvPython, probe, 120000) || !ProcessSucceeds(venvPython, "-m pip check")) {
+            SetStatus("Repairing incomplete Python packages…", 985);
+            RunInstallerProcess(venvPython, installArgs + " --force-reinstall", appRoot, "Python package repair failed");
+        }
+        RunInstallerProcess(venvPython, "-m pip check", appRoot, "Python dependencies are incompatible");
+        RunInstallerProcess(venvPython, probe, appRoot, "Automation runtime verification failed");
         File.WriteAllText(stamp, requirementsHash);
     }
 
@@ -503,12 +542,15 @@ internal sealed class InstallerForm : Form
             throw new InvalidOperationException("Microsoft C++ runtime installation finished, but msvcp140.dll and msvcp140_1.dll are still missing. Restart Windows, then run setup again.");
     }
 
-    private static bool ProcessSucceeds(string file, string arguments)
+    private static bool ProcessSucceeds(string file, string arguments, int timeout = 10000)
     {
         try {
             using (Process child = Process.Start(new ProcessStartInfo(file, arguments) { UseShellExecute = false, CreateNoWindow = true, RedirectStandardOutput = true, RedirectStandardError = true })) {
-                child.StandardOutput.ReadToEnd(); child.StandardError.ReadToEnd();
-                return child.WaitForExit(10000) && child.ExitCode == 0;
+                Task<string> output = child.StandardOutput.ReadToEndAsync();
+                Task<string> error = child.StandardError.ReadToEndAsync();
+                if (!child.WaitForExit(timeout)) { try { child.Kill(); } catch { } return false; }
+                Task.WaitAll(output, error);
+                return child.ExitCode == 0;
             }
         } catch { return false; }
     }
@@ -534,9 +576,12 @@ internal sealed class InstallerForm : Form
         try {
             using (Process child = Process.Start(new ProcessStartInfo(command, prefix + "-c \"import sys; assert sys.version_info[:2] == (3,12) and sys.maxsize > 2**32; print(sys.executable)\"") {
                 UseShellExecute = false, CreateNoWindow = true, RedirectStandardOutput = true, RedirectStandardError = true })) {
-                string path = child.StandardOutput.ReadToEnd().Trim();
-                child.StandardError.ReadToEnd();
-                if (child.WaitForExit(10000) && child.ExitCode == 0 && File.Exists(path)) return path;
+                Task<string> output = child.StandardOutput.ReadToEndAsync();
+                Task<string> error = child.StandardError.ReadToEndAsync();
+                if (!child.WaitForExit(10000)) { try { child.Kill(); } catch { } return null; }
+                Task.WaitAll(output, error);
+                string path = output.Result.Trim();
+                if (child.ExitCode == 0 && File.Exists(path)) return path;
             }
         } catch { /* not installed */ }
         return null;
@@ -560,20 +605,27 @@ internal sealed class InstallerForm : Form
             if (!String.IsNullOrWhiteSpace(eventArgs.Data))
             {
                 lastOutput = eventArgs.Data;
+                Log(eventArgs.Data);
                 if (eventArgs.Data.IndexOf("Downloading", StringComparison.OrdinalIgnoreCase) >= 0 || eventArgs.Data.IndexOf("Installing", StringComparison.OrdinalIgnoreCase) >= 0 || eventArgs.Data.IndexOf("Successfully installed", StringComparison.OrdinalIgnoreCase) >= 0)
                     SetStatus(eventArgs.Data.Length > 80 ? eventArgs.Data.Substring(0, 77) + "…" : eventArgs.Data, 980);
             }
         };
         child.ErrorDataReceived += delegate(object sender, DataReceivedEventArgs eventArgs)
         {
-            if (!String.IsNullOrWhiteSpace(eventArgs.Data)) lastOutput = eventArgs.Data;
+            if (!String.IsNullOrWhiteSpace(eventArgs.Data)) { lastOutput = eventArgs.Data; Log(eventArgs.Data); }
         };
         child.Start();
         child.BeginOutputReadLine();
         child.BeginErrorReadLine();
+        if (!child.WaitForExit(45 * 60 * 1000)) {
+            try { child.Kill(); } catch { }
+            child.Dispose();
+            throw new TimeoutException(errorPrefix + ": no completion within 45 minutes. See " + logPath);
+        }
         child.WaitForExit();
-        child.WaitForExit();
-        if (child.ExitCode != 0) throw new InvalidOperationException(errorPrefix + ": " + lastOutput);
+        int exitCode = child.ExitCode;
+        child.Dispose();
+        if (exitCode != 0) throw new InvalidOperationException(errorPrefix + ": " + lastOutput);
     }
 
     // The Setup bar installs Bloons+ inside the VM from this copy (an installed PC has no dist/ folder).

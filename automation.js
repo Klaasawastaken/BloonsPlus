@@ -1,7 +1,7 @@
-// Drives AutoBTD6 (vendored at ./autobtd6 — https://github.com/ANRAR4/AutoBTD6) as the real
+// Drives AutoBTD6 (vendored at ./autobtd6 â€” https://github.com/ANRAR4/AutoBTD6) as the real
 // gameplay/map-completion engine instead of reimplementing tower-placement AI: it ships recorded
 // playthroughs (exact click/placement sequences) for 70+ maps across every difficulty, including
-// a full set at 2560x1440, plus built-in xp/mm farming modes. This module just orchestrates it —
+// a full set at 2560x1440, plus built-in xp/mm farming modes. This module just orchestrates it â€”
 // one job (a spawned `py replay.py ...`, or the achievements-sweep loop below) runs at a time,
 // mirroring the "only one thing can drive the mouse/keyboard at once" reality already implicit
 // in input.js/capture.js.
@@ -90,7 +90,7 @@ function getRuntime() {
 
 function parsePlaythroughFile(file) {
   const parts = file.replace(/\.btd6$/, '').split('#');
-  // boss-route-generator.js names its output {bossType}#{normal|elite}#{map}#event-{id} —
+  // boss-route-generator.js names its output {bossType}#{normal|elite}#{map}#event-{id} â€”
   // a different shape from every other route's {map}#{gamemode}#{resolution}#{flags}.
   // Misreading a boss file with the standard split derives a fake map slug (the boss's
   // name) and made isMapUnlocked() reject it as "map not unlocked yet" even when the
@@ -197,7 +197,7 @@ function getRecordedCombos() {
     // route already clears every restriction Impoppable adds (no Monkey Knowledge, double MOAB
     // health, etc.), so it always wins Impoppable too. Hard's own route reuses further down into
     // Easy/Medium (see HARD_REUSE_MODES) since only its economy is tighter, nothing else differs.
-    // Used only as a fallback — a map's own dedicated route for the target mode sorts first via
+    // Used only as a fallback â€” a map's own dedicated route for the target mode sorts first via
     // the trust() comparator below. Opening tower actions have no round marker, so replay.py can
     // apply them in the target mode.
     const reuseTargets = REUSE_MODES_BY_SOURCE[pt.gamemodeSlug];
@@ -233,9 +233,9 @@ function getRecordedCombos() {
 }
 
 // AutoBTD6 clicks through the map-select grid by a recorded (category, page, position) index, not
-// by recognizing the map on screen — every time Ninja Kiwi adds a new map that grid shifts, and a
+// by recognizing the map on screen â€” every time Ninja Kiwi adds a new map that grid shifts, and a
 // recording made before that lands on the wrong tile (https://github.com/ANRAR4/AutoBTD6/issues/55).
-// There's no per-map thumbnail image shipped to click by instead, so this can't be fixed blind —
+// There's no per-map thumbnail image shipped to click by instead, so this can't be fixed blind â€”
 // it needs a live recalibration against the current in-game map order.
 //
 // What we CAN check without the live game: whether the map is unlocked at all. `file` mode has no
@@ -245,7 +245,7 @@ function isMapUnlocked(mapSlug) {
   try {
     const cfg = JSON.parse(fs.readFileSync(USERCONFIG_PATH, 'utf8'));
     return cfg.unlocked_maps?.[mapSlug] === true;
-  } catch { return true; } // fail open — don't block a run over a config read hiccup
+  } catch { return true; } // fail open â€” don't block a run over a config read hiccup
 }
 
 // Same category ordering as the game's own map-select screen and the frontend's map picker
@@ -376,7 +376,7 @@ function mapCategoryRank(mapSlug) {
   const index = CATEGORY_ORDER.indexOf(categoryForMapSlug(mapSlug));
   return index === -1 ? CATEGORY_ORDER.length : index;
 }
-// Position in the game's own map-select order (Monkey Meadow first … #Ouch last); maps missing from
+// Position in the game's own map-select order (Monkey Meadow first â€¦ #Ouch last); maps missing from
 // the catalog sort after every known one.
 function mapCatalogOrder(mapSlug) {
   loadCatalogLookups();
@@ -385,7 +385,7 @@ function mapCatalogOrder(mapSlug) {
 
 // The 14 medal keys are one flat list in the game's own data (see getMissingMedals below), but for
 // ordering a sweep we still want difficulty tiers played before variations on the same map.
-// https://github.com/ANRAR4/AutoBTD6/issues/40 — tree_stump's track entrance art overlaps the
+// https://github.com/ANRAR4/AutoBTD6/issues/40 â€” tree_stump's track entrance art overlaps the
 // money-readout crop closely enough to misread cash regularly, which can stall or fail a game
 // outright. Excluded from unattended runs (sweep/xp/mm's own random pick) until recalibrated;
 // still selectable from "Run a specific map" since that's a deliberate one-off choice.
@@ -403,7 +403,7 @@ function getAvailableCombos() {
 
 // AutoBTD6's own gating: userconfig.json's "heros" map controls which recorded playthroughs it
 // will pick for xp/mm/random farming (a playthrough recorded with a hero the config marks false
-// is skipped). This is the real mechanism — far more honest than trying to swap a hero mid-replay,
+// is skipped). This is the real mechanism â€” far more honest than trying to swap a hero mid-replay,
 // which isn't possible once a playthrough's actions are already recorded.
 function getHeroes() {
   const cfg = JSON.parse(fs.readFileSync(USERCONFIG_PATH, 'utf8'));
@@ -432,7 +432,7 @@ function spawnReplay(args, job = null) {
   // map-mechanics.js's status field tags maps whose placement surfaces or tower access
   // change over time (moving covers, toggled objects, phase/round-gated states, etc).
   // replay.py already refuses a blind nearby-coordinate retry on a small hardcoded set of
-  // such maps (dynamicPlacementMaps) — this supplements that set from the fuller catalog
+  // such maps (dynamicPlacementMaps) â€” this supplements that set from the fuller catalog
   // instead of requiring every new dynamic map to be added to both places.
   const targetFile = args[0] === 'file' ? args[1] : null;
   const targetMapSlug = targetFile ? parsePlaythroughFile(targetFile).mapSlug : null;
@@ -477,7 +477,7 @@ function wireProcess(job, proc, observe = () => {}) {
 }
 
 // Runs one `file` playthrough to completion (it exits on its own after a single game, win or
-// lose, since no -r flag is passed) — used by the achievements sweep below.
+// lose, since no -r flag is passed) â€” used by the achievements sweep below.
 const NOTABLE_REPLAY_LINE = /WARNING|ERROR|Traceback|Exception|\[stderr\]|failed|not confirmed|recognition error|screen [A-Z_]+!|new state|failsafe|performing action|FAILURE_SHOT|MEDAL_ALREADY_EARNED|SURPLUS_|PLACE_SEARCH|stale match|mode intro|LIVES_LOST|EMERGENCY_SPEND|INSTANT_LOSS_PREVENTED|GAME_ERROR|could not be focused|mode badge|round \d+ reached|objective|stopping before map click|map page is not visible|map tile did not open/i;
 function runOne(job, args, limits = {}) {
   return new Promise(resolve => {
@@ -533,7 +533,7 @@ function runOne(job, args, limits = {}) {
 // drives the same outcome from outside: run every shipped map+difficulty once, then re-run our
 // own search-box achievement scanner (search-scan-achievements.js) to pick up whatever unlocked.
 // This is deliberately not achievement-name-to-map matching (BTD6 achievement names rarely match
-// map names) — beating every recorded map/difficulty is the reliable way to unlock map-completion
+// map names) â€” beating every recorded map/difficulty is the reliable way to unlock map-completion
 // achievements without needing to know which is which upfront.
 async function runAchievementsSweep(job) {
   const all = listPlaythroughs('2560x1440');
@@ -589,11 +589,11 @@ async function runAchievementsSweep(job) {
   pushLog(job, 'sweep complete');
 }
 
-// A map's full black border is 14 medals (userconfig.json's medals[map] — easy/medium/hard plus
+// A map's full black border is 14 medals (userconfig.json's medals[map] â€” easy/medium/hard plus
 // every variation: primary_only, deflation, military_only, reverse, apopalypse,
 // magic_monkeys_only, double_hp_moabs, half_cash, alternate_bloons_rounds, impoppable, chimps).
 // AutoBTD6 already records a win against this list itself (helper.py's updateMedalStatus, called
-// from replay.py on VICTORY_SUMMARY) — but it ships with every medal marked true (the
+// from replay.py on VICTORY_SUMMARY) â€” but it ships with every medal marked true (the
 // maintainer's own maxed save). That's wrong for an active player, so reconcile it once against
 // what our own achievement/map scanner already knows before trusting any of it: a map we've
 // confirmed has its black border keeps all medals true; anything else starts from "not done" so a
@@ -714,7 +714,7 @@ function recordObservedClear(map, gamemode) {
 // the game got and how many lives were left. game-state.json is the replay's own live record.
 const FAILURES_PATH = path.join(__dirname, 'route-failures.json');
 // A plain-text companion to route-failures.json: one line per failure, meant to be opened,
-// tailed, or grepped directly instead of parsed — the JSON keeps the full forensic detail.
+// tailed, or grepped directly instead of parsed â€” the JSON keeps the full forensic detail.
 const FAILURES_LOG_PATH = path.join(__dirname, 'route-failures.log');
 // Sort a recorded failure into what kind of action it actually calls for, so the list isn't a flat
 // mix of real bugs and ordinary lost games:
@@ -872,7 +872,7 @@ function rankCandidatesForProfile(entries) {
   const hasHotkey = saveName => !hotkeys || !!hotkeys.get(saveName);
   const heroes = new Set((profile.heroes?.unlocked || []).map(normal));
   let catalog = {};
-  try { catalog = JSON.parse(fs.readFileSync(path.join(__dirname, 'btd6bot', 'btd6bot', 'Files', 'upgrades_current.json'), 'utf8')); } catch {}
+  try { catalog = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'tower-upgrades.json'), 'utf8')); } catch {}
   // The upgrade catalog abbreviates some tower ids; unmatched ones counted as "unknown" upgrades
   // and blocked every buccaneer/alchemist/boomerang route from launching.
   const catalogSlug = { beasthandler: 'beast', buccaneer: 'boat', alchemist: 'alch', boomerang: 'boomer' };
@@ -1095,7 +1095,7 @@ async function runBlackBorderSweep(job, { onePerMap = false } = {}) {
   let focusFailures = 0;
   saveSweepProgressFor({ status: 'running', currentMap: null, gamemode: null, filename: null,
     mapIndex: 0, mapsTotal: maps.length, mapOrder: maps, counts, reason: null, order: 'expert-first' });
-  pushLog(job, `${passName}: ${maps.length} maps (Expert → Beginner, shuffled within category), ${totalAvailable} currently unlocked medals queued${onePerMap ? '; one attempt per map' : '; later modes wait for prerequisites'}`);
+  pushLog(job, `${passName}: ${maps.length} maps (Expert â†’ Beginner, shuffled within category), ${totalAvailable} currently unlocked medals queued${onePerMap ? '; one attempt per map' : '; later modes wait for prerequisites'}`);
 
   for (const [mapIndex, map] of maps.entries()) {
     if (job.stopRequested) break;
@@ -1103,7 +1103,7 @@ async function runBlackBorderSweep(job, { onePerMap = false } = {}) {
     pushLog(job, `[map ${mapIndex + 1}/${maps.length}] ${map} (${categoryForMapSlug(map) || 'uncategorized'})`);
     const mechanics = getMapMechanics(map);
     if (mechanics.status !== 'standard-visual-check') {
-      pushLog(job, `${map} mechanics: ${mechanics.cycle} · ${mechanics.status}`);
+      pushLog(job, `${map} mechanics: ${mechanics.cycle} Â· ${mechanics.status}`);
       for (const rule of mechanics.rules) pushLog(job, `${map} safety: ${rule}`);
       for (const advantage of mechanics.advantages || []) pushLog(job, `${map} opportunity: ${advantage}`);
     }
@@ -1148,7 +1148,7 @@ async function runBlackBorderSweep(job, { onePerMap = false } = {}) {
       pushLog(job, `running ${map} - ${gamemode} via ${entry.filename}${fallbackNote}`);
       if (entry.profileReadiness) {
         const readiness = entry.profileReadiness;
-        pushLog(job, `starter route planner: ranked from Profile.Save — ${readiness.missingHero ? 'required hero not unlocked; ' : ''}${readiness.missingTowerUnlocks ? `${readiness.missingTowerUnlocks} required tower unlock(s) missing; ` : ''}${readiness.missing - readiness.missingHero - readiness.missingTowerUnlocks} required upgrade(s) missing; ${readiness.unknown} upgrade name(s) unknown`);
+        pushLog(job, `starter route planner: ranked from Profile.Save â€” ${readiness.missingHero ? 'required hero not unlocked; ' : ''}${readiness.missingTowerUnlocks ? `${readiness.missingTowerUnlocks} required tower unlock(s) missing; ` : ''}${readiness.missing - readiness.missingHero - readiness.missingTowerUnlocks} required upgrade(s) missing; ${readiness.unknown} upgrade name(s) unknown`);
       }
       attemptedFiles.add(entry.filename);
       const hash = routeHash(entry.filename);
@@ -1298,7 +1298,7 @@ async function runBlackBorderSweep(job, { onePerMap = false } = {}) {
     saveSweepProgressFor({ counts });
   }
   saveSweepProgressFor({ status: job.stopRequested ? 'stopped' : 'complete', counts, gamemode: null, filename: null });
-  pushLog(job, `${passName} ${job.stopRequested ? 'stopped' : 'complete'} (Expert → Beginner): ${counts.confirmed} clears, ${counts.failedRoutes} failed route attempts, ${counts.incompleteMaps} maps still incomplete`);
+  pushLog(job, `${passName} ${job.stopRequested ? 'stopped' : 'complete'} (Expert â†’ Beginner): ${counts.confirmed} clears, ${counts.failedRoutes} failed route attempts, ${counts.incompleteMaps} maps still incomplete`);
 }
 
 const FARM_TYPES = ['xp', 'mm', 'max-towers', 'random', 'file', 'resume', 'achievements-sweep', 'black-border-sweep', 'verify-routes', 'medal-scan'];
@@ -1332,7 +1332,7 @@ function startFarm({ type, n, file, gamemode } = {}) {
       // on its own. Say so plainly instead of either a misleading "not unlocked" error
       // or silently attempting a run that would fail deep inside replay.py.
       const bossName = pt.bossType.charAt(0).toUpperCase() + pt.bossType.slice(1);
-      return { error: `Boss Events navigation isn't automated yet — the route for ${bossName} (${pt.bossVariant}) on ${pt.map} was generated, but running it needs the Boss Events menu recognizer built first.` };
+      return { error: `Boss Events navigation isn't automated yet â€” the route for ${bossName} (${pt.bossVariant}) on ${pt.map} was generated, but running it needs the Boss Events menu recognizer built first.` };
     }
     if (MODES_REQUIRING_VERIFIED_ROUTE.has(gamemode || pt.gamemodeSlug) && pt.generated) {
       return { error: `generated route is draft-only for ${gamemode || pt.gamemodeSlug}; use a dedicated or previously verified route` };
@@ -1350,7 +1350,7 @@ function startFarm({ type, n, file, gamemode } = {}) {
 
   const job = engineLock.beginJob('autobtd6', type);
   if (!job) return { error: 'already-running' };
-  // Runs on every way a job can end — natural exit or the shared Stop — so the last run is always
+  // Runs on every way a job can end â€” natural exit or the shared Stop â€” so the last run is always
   // saved for the status panel even across restarts.
   job.onEnd = ended => {
     const progress = loadProgress();
@@ -1380,11 +1380,11 @@ function startFarm({ type, n, file, gamemode } = {}) {
       const xp = local.available && local.towerXp && typeof local.towerXp === 'object' ? local.towerXp : {};
       const names = Object.keys(xp);
       const missing = local.available ? (local.unlockedTowers || []).filter(name => !(name in xp)) : [];
-      pushLog(job, `max towers: save scan ${local.available ? 'ok' : 'unavailable'} · ${names.length} XP records · ${missing.length} unlocked towers without a record`);
+      pushLog(job, `max towers: save scan ${local.available ? 'ok' : 'unavailable'} Â· ${names.length} XP records Â· ${missing.length} unlocked towers without a record`);
       if (local.available) {
         const ordered = names.map(name => [name, Number(xp[name]) || 0]).sort((a, b) => a[1] - b[1]);
-        ordered.slice(0, 8).forEach(([name, value]) => pushLog(job, `max towers target: ${name} · XP ${value.toLocaleString()}`));
-        pushLog(job, `max towers: ${local.acquiredUpgrades?.length || 0} upgrades recorded · ${local.paragonUpgradesPurchased?.length || 0} paragon upgrades`);
+        ordered.slice(0, 8).forEach(([name, value]) => pushLog(job, `max towers target: ${name} Â· XP ${value.toLocaleString()}`));
+        pushLog(job, `max towers: ${local.acquiredUpgrades?.length || 0} upgrades recorded Â· ${local.paragonUpgradesPurchased?.length || 0} paragon upgrades`);
       }
       pushLog(job, 'max towers: starting Monkey Meadows XP loop; progress is re-read after each run');
       wireProcess(job, spawnReplay(['xp', '1', '-mk', '-r']));
@@ -1392,7 +1392,7 @@ function startFarm({ type, n, file, gamemode } = {}) {
         const after = readLocalProgress();
         if (after.available) {
           const values = Object.values(after.towerXp || {}).map(Number).filter(Number.isFinite);
-          pushLog(job, `max towers: post-run save refresh · ${values.length} tower XP records · ${after.acquiredUpgrades?.length || 0} upgrades recorded`);
+          pushLog(job, `max towers: post-run save refresh Â· ${values.length} tower XP records Â· ${after.acquiredUpgrades?.length || 0} upgrades recorded`);
         } else pushLog(job, `max towers: post-run save refresh unavailable (${after.reason || 'unknown reason'})`);
         clearOnClose(code);
       });
@@ -1476,7 +1476,7 @@ function stopAfterReplay() {
   return { ok: true, stopAfterReplay: true };
 }
 
-// Stop is shared across every engine — only one can ever be running.
+// Stop is shared across every engine â€” only one can ever be running.
 async function stopFarm() {
   const job = engineLock.getCurrentJob();
   const result = await engineLock.stopCurrent();
@@ -1542,4 +1542,4 @@ function savePlaythroughContent(file, content) {
   return { file, bytes: Buffer.byteLength(content, 'utf8') };
 }
 
-module.exports = { listPlaythroughs, getAvailableCombos, startFarm, stopFarm, stopAfterReplay, togglePause, getStatus, resumePendingReplay, getHeroes, setHeroes, mapCategoryRank, mapCatalogOrder, categoryForMapSlug, getPlaythroughContent, savePlaythroughContent };
+module.exports = { getRuntime, listPlaythroughs, getAvailableCombos, startFarm, stopFarm, stopAfterReplay, togglePause, getStatus, resumePendingReplay, getHeroes, setHeroes, mapCategoryRank, mapCatalogOrder, categoryForMapSlug, getPlaythroughContent, savePlaythroughContent };

@@ -14,6 +14,27 @@ LAST_HERO_FILE = 'last-hero.json'
 UPGRADE_MEMORY_FILE = 'upgrade-memory.json'
 PAUSE_FILE = 'pause.flag'
 GAME_STATE_FILE = 'game-state.json'
+_viewerLastFrame = 0
+
+def publishViewerFrame(frame):
+    global _viewerLastFrame
+    if time.time() - _viewerLastFrame < 1:
+        return
+    _viewerLastFrame = time.time()
+    try:
+        with open('viewer-request.json', encoding='utf-8') as request:
+            if json.load(request).get('expiresAt', 0) < time.time() * 1000:
+                return
+        if not windowed_input.is_game_foreground():
+            return
+        preview = cv2.resize(frame, (960, 540), interpolation=cv2.INTER_AREA)
+        success, encoded = cv2.imencode('.jpg', preview, [cv2.IMWRITE_JPEG_QUALITY, 76])
+        if success:
+            with open('live-frame.jpg.tmp', 'wb') as output:
+                output.write(encoded.tobytes())
+            os.replace('live-frame.jpg.tmp', 'live-frame.jpg')
+    except (OSError, ValueError):
+        pass  # The viewer must never interrupt a replay.
 ROUTE_CHECKPOINT_FILE = 'route-checkpoint.json'
 _route_checkpoint_lock = threading.Lock()
 
@@ -168,17 +189,16 @@ _recognizeScreen = recognizeScreen
 def recognizeScreen(img, comparisonImages, ignoreFocus=False):
     if not ignoreFocus and not windowed_input.is_game_foreground():
         return Screen.BTD6_UNFOCUSED
-    recognized = _recognizeScreen(img, comparisonImages, ignoreFocus=True)
-    if recognized != Screen.UNKNOWN:
-        return recognized
-    # The old reference's bottom-right pixel drifts with menu animation. The
-    # large green Play button stays in the same center-bottom area.
+    # Check the distinctive Play button before the legacy reference classifier.
+    # A broad map-selection reference can also match the animated home screen,
+    # causing repeated Back clicks after we have already reached home.
     if img.shape[:2] in ((1080, 1920), (1440, 2560)):
         scale = img.shape[1] / 2560
         samples = [img[round(y * scale), round(1280 * scale)] for y in (1210, 1320)]
         if all(int(green) > 175 and int(green) > int(red) * 1.35 and int(green) > int(blue) * 1.35
                for blue, green, red in samples):
             return Screen.STARTMENU
+    recognized = _recognizeScreen(img, comparisonImages, ignoreFocus=True)
     return recognized
 
 smallActionDelay = 0.05
@@ -194,9 +214,13 @@ DYNAMIC_PLACEMENT_MAPS = {
     'mushroomgrotto', 'partyparade', 'trickytracks',
 }
 
+_titleStartAttempts = 0
+
+
 def clickTitleStartIfVisible(screenshot):
     """BTD6's title screen ("Welcome to ... START") after a launch/relaunch is not a known screen;
     Esc there opens Quit Game? and the run looped cancel/Esc forever. Click its START instead."""
+    global _titleStartAttempts
     h, w = screenshot.shape[:2]
     s = w / 1920
     crop = screenshot[int(925 * s):int(1015 * s), int(830 * s):int(1090 * s)].astype(np.int32)
@@ -205,10 +229,29 @@ def clickTitleStartIfVisible(screenshot):
     b, g, r = crop[..., 0], crop[..., 1], crop[..., 2]
     green = float(((g > 90) & (g > r * 1.5) & (g > b * 1.5)).mean())
     if green < 0.4:
+        _titleStartAttempts = 0
         return False
-    customPrint('TITLE_SCREEN detected (green=' + str(round(green, 2)) + '); clicking START')
-    pyautogui.click((int(960 * s), int(970 * s)))
+    if not windowed_input.focus_game():
+        customPrint('WARNING title START deferred: game focus could not be acquired')
+        time.sleep(1)
+        return True
+    _titleStartAttempts += 1
+    customPrint('TITLE_SCREEN detected (green=' + str(round(green, 2))
+                + '); held START click attempt=' + str(_titleStartAttempts))
+    windowed_input.held_click(int(960 * s), int(970 * s))
     time.sleep(menuChangeDelay * 3)
+    after = np.array(pyautogui.screenshot())[:, :, ::-1].copy()
+    afterCrop = after[int(925 * s):int(1015 * s), int(830 * s):int(1090 * s)].astype(np.int32)
+    b, g, r = afterCrop[..., 0], afterCrop[..., 1], afterCrop[..., 2]
+    remaining = float(((g > 90) & (g > r * 1.5) & (g > b * 1.5)).mean())
+    if remaining < 0.4:
+        customPrint('TITLE_SCREEN START accepted; waiting for main menu')
+        _titleStartAttempts = 0
+    elif _titleStartAttempts >= 3:
+        os.makedirs('failure-shots', exist_ok=True)
+        cv2.imwrite('failure-shots/title-start-stalled.png', after)
+        customPrint('WARNING START unchanged after held clicks; evidence=failure-shots/title-start-stalled.png; retrying after 10s')
+        time.sleep(10)
     return True
 
 KNOWN_SPOTS_DIR = 'placement-maps'
@@ -1855,6 +1898,7 @@ def main():
             continue
         screenshot = np.array(pyautogui.screenshot())[:, :, ::-1].copy()
 
+        publishViewerFrame(screenshot)
         screen = recognizeScreen(screenshot, comparisonImages)
 
         customPrint('DEBUG loop screen=' + screen.name + ' state=' + state.name +
@@ -2054,7 +2098,11 @@ def main():
             elif screen == Screen.DIFFICULTY_SELECTION:
                 sendKey('{Esc}')
             elif screen == Screen.MAP_SELECTION:
-                sendKey('{Esc}')
+                # The guest can drop synthetic Escape events. The visible Back
+                # button is a stable game-relative target and uses held input.
+                windowed_input.held_click(round(screenshot.shape[1] * 0.04),
+                                          round(screenshot.shape[0] * 0.05))
+                time.sleep(menuChangeDelay)
             elif screen == Screen.DEFEAT:
                 result = cv2.matchTemplate(screenshot, locateImages['button_home'], cv2.TM_SQDIFF_NORMED)
                 pyautogui.click(cv2.minMaxLoc(result)[2])
@@ -2115,7 +2163,9 @@ def main():
                 pyautogui.click(imageAreas["click"]["gamemode_apopalypse_message_confirmation"])
         elif state == State.GOTO_INGAME:
             if screen == Screen.STARTMENU:
-                pyautogui.click(imageAreas["click"]["screen_startmenu_button_play"])
+                playTarget = imageAreas["click"]["screen_startmenu_button_play"]
+                customPrint('DEBUG opening map selector with held Play click at ' + str(playTarget))
+                windowed_input.held_click(*playTarget, hold_seconds=0.2)
                 if not waitForMenuScreen(Screen.MAP_SELECTION, comparisonImages):
                     customPrint('map selection did not open; returning home')
                     state = State.GOTO_HOME
