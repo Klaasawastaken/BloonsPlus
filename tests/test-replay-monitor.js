@@ -1,0 +1,16 @@
+const assert = require('node:assert/strict');
+const { createReplayMonitor } = require('../lib/replay-monitor');
+let time = 0;
+const monitor = createReplayMonitor({ now: () => time });
+monitor.observe('screen INGAME!');
+monitor.observe('DEBUG OCR values money=650 round=6');
+monitor.observe('DEBUG OCR values money=650 round=6');
+time = 1000;
+monitor.setPaused(true);
+time += 20 * 60_000;
+assert.equal(monitor.stalled(), null, 'User pause must not kill the replay');
+monitor.setPaused(false);
+assert.equal(monitor.stalled(), null, 'Resume must preserve remaining active-time budget');
+time += 480_000;
+assert.match(monitor.stalled(), /no confirmed progress/);
+console.log('Replay pause timer checks passed.');
