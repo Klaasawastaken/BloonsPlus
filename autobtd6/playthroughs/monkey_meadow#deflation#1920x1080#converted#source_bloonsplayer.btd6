@@ -1,0 +1,25 @@
+# source: https://github.com/piweiblen/BloonsPlayer (license MIT (c) 2021 piweiblen) commit 17d624879c5ad777e82594da34450e66b2d60756
+# source file: tas/general/monkey meadow deflation.txt (vendored copy: route-library/public-sources/piweiblen-BloonsPlayer)
+# source mode: deflation; converted to 1920x1080 AutoBTD6 actions
+# dropped (timing only): change
+# generator: import-public-routes.py
+place bomb bomb0 at 636, 513
+upgrade bomb0 path 0
+upgrade bomb0 path 0
+upgrade bomb0 path 2
+upgrade bomb0 path 2
+upgrade bomb0 path 2
+upgrade bomb0 path 2
+place spike spike0 at 927, 523
+upgrade spike0 path 1
+upgrade spike0 path 1
+upgrade spike0 path 0
+upgrade spike0 path 0
+upgrade spike0 path 0
+upgrade spike0 path 0
+place dart dart0 at 936, 414
+upgrade dart0 path 1
+upgrade dart0 path 1
+upgrade dart0 path 2
+upgrade dart0 path 2
+upgrade dart0 path 2

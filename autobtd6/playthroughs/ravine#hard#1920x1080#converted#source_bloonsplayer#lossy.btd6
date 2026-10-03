@@ -1,0 +1,100 @@
+# source: https://github.com/piweiblen/BloonsPlayer (license MIT (c) 2021 piweiblen) commit 17d624879c5ad777e82594da34450e66b2d60756
+# source file: tas/general/ravine hard.txt (vendored copy: route-library/public-sources/piweiblen-BloonsPlayer)
+# source mode: hard; converted to 1920x1080 AutoBTD6 actions
+# dropped (timing only): delay; start
+# dropped (not expressible in AutoBTD6, route may be weaker): activated abilities
+# generator: import-public-routes.py
+place ninja ninja0 at 744, 813
+place ninja ninja1 at 296, 676
+place psi hero0 at 439, 758
+upgrade ninja0 path 0
+upgrade ninja0 path 2
+upgrade ninja0 path 0
+upgrade ninja1 path 0
+upgrade ninja1 path 2
+upgrade ninja1 path 0
+upgrade ninja0 path 0
+upgrade ninja0 path 2
+upgrade ninja1 path 0
+upgrade ninja1 path 2
+place alchemist alchemist0 at 656, 821
+retarget alchemist0
+retarget alchemist0
+retarget alchemist0
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+place alchemist alchemist1 at 341, 736
+retarget alchemist1
+retarget alchemist1
+retarget alchemist1
+upgrade ninja0 path 0
+upgrade alchemist1 path 0
+upgrade alchemist1 path 0
+upgrade alchemist1 path 0
+place wizard wizard0 at 820, 976
+upgrade wizard0 path 1
+upgrade wizard0 path 1
+upgrade wizard0 path 1
+upgrade wizard0 path 2
+upgrade wizard0 path 2
+place farm farm0 at 1287, 488
+upgrade farm0 path 1
+upgrade farm0 path 1
+upgrade farm0 path 2
+upgrade farm0 path 2
+upgrade farm0 path 2
+upgrade wizard0 path 1
+place wizard wizard1 at 192, 488
+upgrade wizard1 path 1
+upgrade wizard1 path 1
+upgrade wizard1 path 2
+upgrade wizard1 path 2
+upgrade wizard1 path 1
+upgrade wizard1 path 1
+place wizard wizard2 at 710, 117
+upgrade wizard2 path 1
+upgrade wizard2 path 1
+upgrade wizard2 path 2
+upgrade wizard2 path 2
+upgrade wizard2 path 1
+upgrade wizard2 path 1
+place farm farm1 at 770, 296
+upgrade farm1 path 1
+upgrade farm1 path 1
+upgrade farm1 path 2
+upgrade farm1 path 2
+upgrade farm1 path 2
+upgrade ninja1 path 0
+place wizard wizard3 at 1492, 109
+upgrade wizard3 path 1
+upgrade wizard3 path 1
+upgrade wizard3 path 2
+upgrade wizard3 path 2
+upgrade wizard3 path 1
+upgrade wizard3 path 1
+place farm farm2 at 1161, 345
+upgrade farm2 path 1
+upgrade farm2 path 1
+upgrade farm2 path 2
+upgrade farm2 path 2
+upgrade farm2 path 2
+place druid druid0 at 1288, 338
+upgrade druid0 path 1
+upgrade druid0 path 1
+upgrade druid0 path 1
+upgrade druid0 path 1
+place buccaneer buccaneer0 at 1067, 612
+upgrade buccaneer0 path 1
+upgrade buccaneer0 path 1
+upgrade buccaneer0 path 1
+upgrade buccaneer0 path 1
+upgrade alchemist1 path 0
+upgrade alchemist1 path 2
+place ace ace0 at 261, 815
+upgrade ace0 path 2
+upgrade ace0 path 2
+upgrade ace0 path 2
+upgrade ace0 path 0
+upgrade ace0 path 0
+upgrade ace0 path 2

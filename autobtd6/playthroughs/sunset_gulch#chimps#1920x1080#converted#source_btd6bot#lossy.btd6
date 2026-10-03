@@ -1,0 +1,200 @@
+# source: https://github.com/j-miet/BTD6bot (license MIT (c) 2025 Jani Miettinen) commit 2d6dac0957a0d55d0af201bd497afbebf7f3e5c2
+# source file: btd6bot/plans/sunset_gulchHardChimps.py (vendored copy: btd6bot/btd6bot/plans)
+# source mode: chimps; converted to 1920x1080 AutoBTD6 actions
+# dropped (timing only): change_autostart(); end_round(); forward(); wait()
+# dropped (not expressible in AutoBTD6, route may be weaker): engineer special with a target position; spike special with a target position; spike targeting 'set' (needs a special cycle or click)
+# generator: import-public-routes.py
+place desperado desperado0 at 1316, 476
+place dart dart0 at 256, 750
+round 7
+place dart dart1 at 1422, 474
+round 9
+place sniper sniper0 at 1270, 1051
+retarget sniper0
+retarget sniper0
+retarget sniper0
+round 11
+place druid druid0 at 1284, 535
+round 13
+upgrade sniper0 path 0
+round 14
+upgrade druid0 path 0
+round 18
+upgrade druid0 path 0
+round 21
+retarget sniper0
+round 22
+retarget sniper0
+retarget sniper0
+retarget sniper0
+round 23
+upgrade desperado0 path 1
+round 26
+place captain_churchill hero0 at 1310, 305
+round 29
+place spike spike0 at 1567, 307
+round 30
+upgrade spike0 path 2
+upgrade spike0 path 2
+round 33
+place village village0 at 1413, 297
+round 35
+upgrade village0 path 2
+upgrade village0 path 2
+upgrade spike0 path 0
+upgrade spike0 path 0
+round 38
+upgrade spike0 path 0
+place alchemist alchemist0 at 1543, 245
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+round 39
+upgrade alchemist0 path 2
+upgrade alchemist0 path 0
+round 40
+ability 1 after 0.5 seconds
+round 41
+place alchemist alchemist1 at 1375, 208
+upgrade alchemist1 path 0
+upgrade alchemist1 path 0
+upgrade alchemist1 path 0
+round 42
+upgrade alchemist1 path 1
+upgrade alchemist1 path 1
+round 43
+ability 1 after 2.5 seconds
+round 44
+upgrade village0 path 0
+upgrade village0 path 0
+round 45
+upgrade desperado0 path 1
+upgrade desperado0 path 1
+round 49
+upgrade spike0 path 0
+round 50
+ability 2 at 1300, 319
+ability 1
+round 55
+upgrade desperado0 path 1
+place glue glue0 at 1221, 313
+retarget glue0
+retarget glue0
+retarget glue0
+round 56
+upgrade glue0 path 2
+upgrade glue0 path 2
+round 57
+upgrade glue0 path 2
+upgrade glue0 path 1
+round 60
+ability 2 after 4 seconds at 1300, 319
+ability 1
+round 63
+ability 2 after 1 seconds at 1300, 319
+ability 1
+round 64
+ability 2 at 1300, 319
+ability 1
+round 71
+ability 2 after 1 seconds at 1300, 319
+ability 1
+round 73
+ability 2 at 1300, 319
+ability 1
+round 75
+ability 4 after 1 seconds
+ability 2 after 3 seconds at 1300, 319
+ability 1
+round 76
+ability 3
+ability 2 at 1300, 319
+ability 1
+round 78
+ability 2 after 3 seconds at 1300, 319
+ability 1
+round 79
+ability 2 after 7 seconds at 1300, 319
+ability 1
+upgrade desperado0 path 1
+upgrade desperado0 path 0
+upgrade desperado0 path 0
+retarget desperado0
+retarget desperado0
+retarget desperado0
+round 80
+upgrade village0 path 0
+upgrade glue0 path 1
+ability 3 after 9 seconds
+ability 4
+round 81
+upgrade village0 path 0
+round 82
+place ice ice0 at 1488, 474
+upgrade ice0 path 1
+upgrade ice0 path 2
+upgrade ice0 path 2
+upgrade ice0 path 2
+upgrade ice0 path 2
+upgrade dart1 path 1
+upgrade dart1 path 1
+upgrade dart1 path 2
+upgrade dart1 path 2
+upgrade dart1 path 2
+upgrade dart1 path 2
+round 87
+ability 2 after 8 seconds at 1300, 319
+ability 1
+round 89
+upgrade dart1 path 2
+round 91
+upgrade glue0 path 2
+round 92
+place engineer engineer0 at 375, 302
+ability 2 after 10 seconds at 1300, 319
+ability 1
+round 93
+upgrade engineer0 path 1
+upgrade engineer0 path 1
+upgrade engineer0 path 1
+round 94
+ability 2 after 7 seconds at 1300, 319
+ability 1
+round 95
+upgrade engineer0 path 1
+upgrade druid0 path 0
+upgrade druid0 path 2
+upgrade druid0 path 2
+round 96
+ability 2 after 1 seconds at 1300, 319
+ability 1
+upgrade druid0 path 0
+ability 5 after 12 seconds at 1300, 319
+ability 2 at 1300, 319
+ability 1
+round 97
+place spike spike1 at 1240, 249
+upgrade spike1 path 0
+upgrade spike1 path 0
+upgrade spike1 path 1
+upgrade spike1 path 1
+upgrade spike1 path 1
+round 98
+ability 5 after 3 seconds at 1300, 319
+ability 2 at 1300, 319
+ability 1
+upgrade spike1 path 1
+place alchemist alchemist2 at 1066, 177
+upgrade alchemist2 path 0
+upgrade alchemist2 path 0
+upgrade alchemist2 path 0
+upgrade alchemist2 path 1
+upgrade alchemist2 path 1
+round 99
+ability 1 after 2 seconds
+round 100
+ability 5 after 3 seconds at 1316, 476
+ability 2 after 3 seconds at 1316, 476
+ability 3 after 5 seconds
+ability 4
+ability 1
+ability 6 after 6 seconds

@@ -1,0 +1,68 @@
+# source: https://github.com/j-miet/BTD6bot (license MIT (c) 2025 Jani Miettinen) commit 2d6dac0957a0d55d0af201bd497afbebf7f3e5c2
+# source file: btd6bot/plans/tricky_tracksEasyPrimary.py (vendored copy: btd6bot/btd6bot/plans)
+# source mode: primary_only; converted to 1920x1080 AutoBTD6 actions
+# generator: import-public-routes.py
+place quincy hero0 at 795, 436
+place dart dart0 at 937, 669
+round 3
+place desperado desperado0 at 993, 621
+round 4
+place dart dart1 at 847, 388
+round 6
+place desperado desperado1 at 703, 500
+round 10
+upgrade dart1 path 2
+upgrade dart1 path 2
+upgrade dart1 path 2
+round 11
+upgrade dart1 path 1
+upgrade dart1 path 1
+round 14
+upgrade dart0 path 2
+upgrade dart0 path 2
+upgrade dart0 path 2
+round 15
+upgrade dart0 path 1
+upgrade dart0 path 1
+round 18
+place boomerang boomerang0 at 859, 641
+retarget boomerang0
+retarget boomerang0
+retarget boomerang0
+upgrade boomerang0 path 2
+upgrade boomerang0 path 2
+round 21
+place boomerang boomerang1 at 703, 420
+retarget boomerang1
+retarget boomerang1
+retarget boomerang1
+upgrade boomerang1 path 2
+upgrade boomerang1 path 2
+round 25
+upgrade boomerang0 path 0
+upgrade boomerang0 path 0
+upgrade boomerang0 path 0
+round 27
+upgrade boomerang1 path 0
+upgrade boomerang1 path 0
+upgrade boomerang1 path 0
+round 31
+upgrade dart0 path 2
+round 34
+upgrade dart1 path 2
+round 35
+place boomerang boomerang2 at 987, 547
+retarget boomerang2
+retarget boomerang2
+upgrade boomerang2 path 0
+upgrade boomerang2 path 0
+upgrade boomerang2 path 0
+round 36
+ability 1
+round 37
+upgrade boomerang0 path 0
+round 39
+upgrade boomerang1 path 0
+upgrade boomerang2 path 0
+round 40
+ability 1

@@ -1,0 +1,71 @@
+# compatibility copy of sanctuary#hard#1920x1080#converted#source_btd6bot.btd6
+# rule: AutoBTD6 helper.listBTD6InstructionsFileCompatability lists hard routes as compatible with medium; route lines are unchanged
+# generator: import-public-routes.py
+place sniper sniper1 at 1439, 900
+retarget sniper1
+retarget sniper1
+retarget sniper1
+place dart dart1 at 1241, 434
+round 4
+place sub sub at 1073, 168
+round 5
+upgrade sub path 0
+round 8
+upgrade sub path 2
+round 9
+round 10
+upgrade sub path 0
+round 11
+place dart dart2 at 277, 302
+round 14
+place psi hero at 735, 116
+retarget hero
+retarget hero
+retarget hero
+round 18
+upgrade sub path 2
+round 21
+upgrade sniper1 path 2
+upgrade sniper1 path 2
+round 22
+place sniper sniper2 at 813, 984
+round 23
+upgrade sniper2 path 0
+round 25
+upgrade sniper1 path 1
+upgrade sniper1 path 1
+round 29
+upgrade sniper1 path 2
+round 32
+upgrade sniper1 path 2
+round 33
+place village village at 1449, 988
+round 35
+upgrade village path 2
+upgrade village path 2
+upgrade village path 0
+upgrade village path 0
+round 37
+place alchemist alch at 1351, 912
+round 38
+upgrade alch path 0
+upgrade alch path 0
+upgrade alch path 0
+upgrade alch path 1
+upgrade alch path 1
+round 39
+upgrade alch path 0
+round 45
+upgrade sniper1 path 2
+round 46
+place sniper sniper3 at 1235, 933
+round 47
+upgrade sniper3 path 2
+upgrade sniper3 path 2
+upgrade sniper3 path 1
+upgrade sniper3 path 1
+upgrade sniper3 path 1
+round 50
+upgrade sniper3 path 1
+round 59
+upgrade sniper3 path 1

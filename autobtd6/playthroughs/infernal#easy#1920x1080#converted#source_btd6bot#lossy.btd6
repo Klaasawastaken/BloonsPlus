@@ -1,0 +1,40 @@
+# source: https://github.com/j-miet/BTD6bot (license MIT (c) 2025 Jani Miettinen) commit 2d6dac0957a0d55d0af201bd497afbebf7f3e5c2
+# source file: btd6bot/plans/infernalEasyStandard.py (vendored copy: btd6bot/btd6bot/plans)
+# source mode: easy; converted to 1920x1080 AutoBTD6 actions
+# dropped (not expressible in AutoBTD6, route may be weaker): heli special with a target position
+# generator: import-public-routes.py
+place sniper sniper0 at 1197, 795
+place sniper sniper1 at 1245, 845
+round 3
+retarget sniper1
+retarget sniper1
+retarget sniper1
+round 4
+place sniper sniper2 at 1167, 853
+round 10
+place heli heli0 at 1565, 553
+round 13
+upgrade heli0 path 0
+round 15
+upgrade heli0 path 0
+round 21
+upgrade heli0 path 0
+round 22
+upgrade sniper0 path 1
+round 25
+upgrade heli0 path 2
+upgrade heli0 path 2
+round 28
+upgrade sniper0 path 1
+upgrade sniper0 path 2
+upgrade sniper0 path 2
+round 33
+upgrade sniper0 path 2
+round 34
+place alchemist alchemist0 at 1597, 462
+round 36
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+round 39
+upgrade sniper0 path 2

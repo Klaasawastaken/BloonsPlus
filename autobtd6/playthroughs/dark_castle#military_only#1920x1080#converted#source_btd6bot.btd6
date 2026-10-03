@@ -1,0 +1,73 @@
+# source: https://github.com/j-miet/BTD6bot (license MIT (c) 2025 Jani Miettinen) commit 2d6dac0957a0d55d0af201bd497afbebf7f3e5c2
+# source file: btd6bot/plans/dark_castleMediumMilitary.py (vendored copy: btd6bot/btd6bot/plans)
+# source mode: military_only; converted to 1920x1080 AutoBTD6 actions
+# generator: import-public-routes.py
+place obyn_greenfoot hero0 at 859, 446
+retarget hero0
+retarget hero0
+retarget hero0
+round 4
+place buccaneer buccaneer0 at 1111, 430
+round 8
+upgrade buccaneer0 path 1
+round 9
+upgrade buccaneer0 path 0
+round 11
+upgrade buccaneer0 path 0
+round 13
+upgrade buccaneer0 path 1
+round 15
+place sub sub0 at 1203, 427
+round 18
+upgrade sub0 path 0
+upgrade sub0 path 2
+round 19
+upgrade sub0 path 0
+round 22
+upgrade sub0 path 2
+round 24
+ability 1
+round 31
+upgrade buccaneer0 path 0
+round 32
+place sniper sniper0 at 1451, 488
+round 33
+ability 1
+upgrade sniper0 path 1
+upgrade sniper0 path 1
+round 34
+upgrade sniper0 path 2
+upgrade sniper0 path 2
+round 36
+ability 1
+round 37
+upgrade sniper0 path 2
+round 39
+sell sub0
+upgrade sniper0 path 2
+ability 1
+round 40
+ability 1
+round 49
+upgrade sniper0 path 2
+round 50
+place sniper sniper1 at 1457, 570
+upgrade sniper1 path 1
+upgrade sniper1 path 1
+upgrade sniper1 path 1
+retarget sniper1
+retarget sniper1
+retarget sniper1
+round 51
+upgrade sniper1 path 0
+upgrade sniper1 path 0
+round 57
+place mortar mortar0 at 1403, 228
+retarget mortar0 to 669, 548
+upgrade mortar0 path 2
+upgrade mortar0 path 2
+upgrade mortar0 path 2
+upgrade mortar0 path 1
+upgrade mortar0 path 1
+round 59
+upgrade buccaneer0 path 0

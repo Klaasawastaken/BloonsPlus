@@ -1,0 +1,43 @@
+# source: https://github.com/piweiblen/BloonsPlayer (license MIT (c) 2021 piweiblen) commit 17d624879c5ad777e82594da34450e66b2d60756
+# source file: tas/general/quad easy.txt (vendored copy: route-library/public-sources/piweiblen-BloonsPlayer)
+# source mode: easy; converted to 1920x1080 AutoBTD6 actions
+# generator: import-public-routes.py
+place sub sub0 at 967, 560
+upgrade sub0 path 0
+place sub sub1 at 708, 564
+upgrade sub1 path 0
+upgrade sub0 path 1
+upgrade sub0 path 0
+upgrade sub1 path 1
+upgrade sub1 path 0
+place druid druid0 at 1280, 568
+upgrade druid0 path 1
+upgrade druid0 path 1
+upgrade druid0 path 1
+place buccaneer buccaneer0 at 832, 442
+place buccaneer buccaneer1 at 836, 652
+upgrade buccaneer0 path 2
+upgrade buccaneer0 path 2
+upgrade buccaneer1 path 2
+upgrade buccaneer1 path 2
+upgrade sub0 path 1
+upgrade sub1 path 1
+upgrade buccaneer0 path 1
+upgrade buccaneer0 path 1
+upgrade buccaneer1 path 1
+upgrade buccaneer1 path 1
+place druid druid1 at 408, 562
+upgrade druid1 path 1
+upgrade druid1 path 1
+upgrade druid1 path 1
+place druid druid2 at 839, 280
+upgrade druid2 path 1
+upgrade druid2 path 1
+upgrade druid2 path 1
+place druid druid3 at 839, 836
+upgrade druid3 path 1
+upgrade druid3 path 1
+upgrade druid3 path 1
+upgrade sub0 path 1
+upgrade sub1 path 1
+upgrade buccaneer0 path 1

@@ -1,0 +1,33 @@
+# source: https://github.com/piweiblen/BloonsPlayer (license MIT (c) 2021 piweiblen) commit 17d624879c5ad777e82594da34450e66b2d60756
+# source file: tas/general/ravine easy.txt (vendored copy: route-library/public-sources/piweiblen-BloonsPlayer)
+# source mode: easy; converted to 1920x1080 AutoBTD6 actions
+# generator: import-public-routes.py
+place druid druid0 at 717, 820
+place druid druid1 at 283, 684
+upgrade druid0 path 1
+upgrade druid1 path 1
+upgrade druid0 path 1
+upgrade druid0 path 1
+upgrade druid0 path 0
+upgrade druid1 path 1
+upgrade druid1 path 1
+upgrade druid1 path 0
+place village village0 at 475, 792
+upgrade village0 path 0
+upgrade village0 path 1
+upgrade village0 path 1
+upgrade village0 path 0
+place druid druid2 at 639, 831
+upgrade druid2 path 1
+upgrade druid2 path 1
+upgrade druid2 path 1
+place druid druid3 at 265, 767
+upgrade druid3 path 1
+upgrade druid3 path 1
+upgrade druid3 path 1
+place ace ace0 at 310, 869
+upgrade ace0 path 0
+upgrade ace0 path 0
+upgrade ace0 path 0
+upgrade ace0 path 2
+upgrade ace0 path 2

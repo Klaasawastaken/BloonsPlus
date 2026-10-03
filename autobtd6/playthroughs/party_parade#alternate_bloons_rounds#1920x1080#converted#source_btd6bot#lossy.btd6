@@ -1,0 +1,158 @@
+# source: https://github.com/j-miet/BTD6bot (license MIT (c) 2025 Jani Miettinen) commit 2d6dac0957a0d55d0af201bd497afbebf7f3e5c2
+# source file: btd6bot/plans/party_paradeHardAlternate.py (vendored copy: btd6bot/btd6bot/plans)
+# source mode: alternate_bloons_rounds; converted to 1920x1080 AutoBTD6 actions
+# dropped (not expressible in AutoBTD6, route may be weaker): spike targeting 'smart' (needs a special cycle or click)
+# generator: import-public-routes.py
+place sauda hero0 at 389, 431
+place dart dart0 at 1075, 651
+place sniper sniper0 at 994, 600
+retarget dart0
+retarget dart0
+retarget dart0
+retarget sniper0
+retarget sniper0
+retarget sniper0
+round 5
+upgrade dart0 path 2
+upgrade dart0 path 2
+round 7
+upgrade dart0 path 1
+upgrade dart0 path 1
+round 9
+upgrade dart0 path 1
+round 10
+ability 1
+place sniper sniper1 at 679, 531
+retarget sniper1
+retarget sniper1
+retarget sniper1
+round 14
+upgrade sniper1 path 0
+upgrade sniper0 path 0
+round 16
+upgrade sniper1 path 1
+upgrade sniper0 path 1
+round 25
+place ace ace0 at 1038, 442
+round 31
+upgrade ace0 path 2
+upgrade ace0 path 2
+upgrade ace0 path 2
+round 32
+upgrade ace0 path 0
+round 33
+upgrade sniper0 path 1
+round 37
+place spike spike0 at 490, 600
+upgrade spike0 path 2
+upgrade spike0 path 2
+round 38
+upgrade spike0 path 2
+round 39
+upgrade spike0 path 2
+upgrade spike0 path 0
+round 40
+ability 1 after 4 seconds
+upgrade ace0 path 0
+round 42
+place spike spike1 at 1183, 464
+upgrade spike1 path 2
+upgrade spike1 path 2
+upgrade spike1 path 0
+round 43
+ability 1 after 4 seconds
+round 46
+upgrade spike1 path 2
+upgrade spike1 path 2
+round 48
+place boomerang boomerang0 at 1183, 566
+upgrade boomerang0 path 0
+upgrade boomerang0 path 0
+upgrade boomerang0 path 0
+upgrade boomerang0 path 0
+upgrade boomerang0 path 2
+upgrade boomerang0 path 2
+round 49
+place boomerang boomerang1 at 471, 524
+upgrade boomerang1 path 0
+upgrade boomerang1 path 0
+upgrade boomerang1 path 0
+upgrade boomerang1 path 2
+upgrade boomerang1 path 2
+round 50
+upgrade boomerang1 path 0
+round 51
+place village village0 at 1085, 542
+upgrade village0 path 1
+upgrade village0 path 1
+round 54
+upgrade village0 path 0
+upgrade village0 path 0
+round 58
+place village village1 at 568, 521
+upgrade village1 path 1
+upgrade village1 path 1
+upgrade village1 path 0
+upgrade village1 path 0
+round 60
+place boomerang boomerang2 at 1182, 637
+upgrade boomerang2 path 2
+upgrade boomerang2 path 2
+upgrade boomerang2 path 2
+upgrade boomerang2 path 2
+upgrade boomerang2 path 1
+upgrade boomerang2 path 1
+retarget boomerang2
+retarget boomerang2
+retarget boomerang2
+round 62
+place boomerang boomerang3 at 474, 449
+upgrade boomerang3 path 2
+upgrade boomerang3 path 2
+upgrade boomerang3 path 2
+upgrade boomerang3 path 2
+upgrade boomerang3 path 1
+upgrade boomerang3 path 1
+retarget boomerang3
+retarget boomerang3
+retarget boomerang3
+round 71
+place mermonkey mermonkey0 at 1272, 575
+upgrade mermonkey0 path 0
+upgrade mermonkey0 path 0
+upgrade mermonkey0 path 0
+upgrade mermonkey0 path 0
+upgrade mermonkey0 path 2
+upgrade mermonkey0 path 2
+round 72
+place mermonkey mermonkey1 at 391, 501
+upgrade mermonkey1 path 0
+upgrade mermonkey1 path 0
+upgrade mermonkey1 path 0
+upgrade mermonkey1 path 0
+upgrade mermonkey1 path 2
+upgrade mermonkey1 path 2
+round 75
+place spike spike2 at 389, 601
+upgrade spike2 path 2
+upgrade spike2 path 2
+round 77
+upgrade spike2 path 0
+upgrade spike2 path 0
+upgrade spike2 path 0
+upgrade spike2 path 0
+round 78
+place spike spike3 at 1276, 462
+upgrade spike3 path 2
+upgrade spike3 path 2
+round 79
+upgrade spike3 path 0
+upgrade spike3 path 0
+upgrade spike3 path 0
+place alchemist alchemist0 at 1456, 374
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+round 80
+ability 2 after 4 seconds
+ability 1 after 6 seconds

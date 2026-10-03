@@ -1,0 +1,147 @@
+place dart dart0 at 1202, 276
+place dart dart1 at 1149, 560
+place dart dart2 at 1174, 781
+round 5
+place sub sub0 at 287, 311
+round 6
+place dart dart3 at 269, 787
+round 7
+place sniper sniper0 at 1013, 430
+retarget sniper0
+retarget sniper0
+retarget sniper0
+round 8
+place sniper sniper1 at 1009, 486
+retarget sniper1
+retarget sniper1
+retarget sniper1
+round 9
+place sniper sniper2 at 1003, 544
+retarget sniper2
+retarget sniper2
+retarget sniper2
+round 10
+place gwendolin hero0 at 1085, 534
+retarget hero0
+retarget hero0
+retarget hero0
+round 11
+upgrade dart2 path 0
+round 12
+upgrade dart2 path 0
+round 13
+upgrade dart2 path 0
+round 14
+upgrade dart2 path 1
+upgrade dart2 path 1
+round 15
+upgrade sniper0 path 2
+round 16
+upgrade sniper0 path 1
+round 17
+upgrade sniper0 path 2
+round 18
+upgrade sniper0 path 1
+retarget sniper0
+round 19
+upgrade sniper2 path 0
+round 20
+ability 1 after 1 seconds
+upgrade sniper0 path 2
+round 21
+ability 1 after 5 seconds
+round 22
+ability 1 after 3 seconds
+round 23
+upgrade sniper0 path 2
+upgrade sniper2 path 0
+round 24
+ability 1
+round 25
+place village village0 at 961, 358
+upgrade village0 path 2
+upgrade village0 path 2
+upgrade sniper1 path 1
+upgrade sniper1 path 1
+round 26
+upgrade sniper1 path 1
+retarget sniper1
+round 27
+upgrade sniper1 path 2
+upgrade sniper1 path 2
+round 28
+place alchemist alchemist0 at 945, 466
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+round 29
+upgrade alchemist0 path 0
+upgrade alchemist0 path 1
+upgrade alchemist0 path 1
+round 30
+ability 1
+upgrade alchemist0 path 0
+round 31
+upgrade sniper1 path 1
+round 32
+upgrade village0 path 0
+upgrade village0 path 0
+round 35
+upgrade sniper0 path 2
+round 41
+upgrade sniper1 path 1
+round 42
+upgrade sniper2 path 0
+upgrade sniper2 path 1
+upgrade sniper2 path 1
+round 44
+upgrade sniper2 path 0
+round 48
+ability 1 after 5 seconds
+round 49
+click map at 1080, 533
+click map at 228, 691
+click map at 596, 478
+ability 1 after 8 seconds
+ability 2 after 13 seconds
+round 51
+ability 1 after 7 seconds
+round 53
+ability 1 after 1 seconds
+upgrade alchemist0 path 0
+round 54
+ability 1 after 2 seconds
+ability 2
+round 55
+place sniper sniper3 at 899, 417
+upgrade sniper3 path 1
+upgrade sniper3 path 1
+upgrade sniper3 path 1
+upgrade sniper3 path 2
+upgrade sniper3 path 2
+place sniper sniper4 at 935, 531
+round 56
+upgrade sniper4 path 1
+upgrade sniper4 path 1
+upgrade sniper4 path 1
+upgrade sniper4 path 2
+upgrade sniper4 path 2
+place sniper sniper5 at 867, 529
+round 57
+upgrade sniper5 path 1
+upgrade sniper5 path 1
+upgrade sniper5 path 1
+upgrade sniper5 path 2
+upgrade sniper5 path 2
+round 58
+ability 1 after 10 seconds
+ability 2 after 12 seconds
+round 59
+ability 2 after 1 seconds
+upgrade sniper2 path 0
+place tack tack0 at 1138, 324
+round 60
+upgrade tack0 path 2
+upgrade tack0 path 2
+upgrade tack0 path 2
+upgrade tack0 path 0
+upgrade tack0 path 0

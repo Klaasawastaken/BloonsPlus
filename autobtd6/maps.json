@@ -1,0 +1,518 @@
+{
+  "monkey_meadow": {
+    "category": "beginner",
+    "name": "Monkey meadow",
+    "page": 0,
+    "pos": 0
+  },
+  "in_the_loop": {
+    "category": "beginner",
+    "name": "In the loop",
+    "page": 0,
+    "pos": 1
+  },
+  "middle_of_the_road": {
+    "category": "beginner",
+    "name": "Middle of the road",
+    "page": 1,
+    "pos": 2
+  },
+  "spa_pits": {
+    "category": "beginner",
+    "name": "Spa Pits",
+    "page": 0,
+    "pos": 4
+  },
+  "tinkerton": {
+    "category": "beginner",
+    "name": "Tinkerton",
+    "page": 0,
+    "pos": 5
+  },
+  "tree_stump": {
+    "category": "beginner",
+    "name": "Tree stump",
+    "page": 1,
+    "pos": 0
+  },
+  "town_center": {
+    "category": "beginner",
+    "name": "Town center",
+    "page": 1,
+    "pos": 1
+  },
+  "one_two_tree": {
+    "category": "beginner",
+    "name": "One two tree",
+    "page": 1,
+    "pos": 3
+  },
+  "scrapyard": {
+    "category": "beginner",
+    "name": "Scrapyard",
+    "page": 1,
+    "pos": 4
+  },
+  "the_cabin": {
+    "category": "beginner",
+    "name": "The cabin",
+    "page": 1,
+    "pos": 5
+  },
+  "resort": {
+    "category": "beginner",
+    "name": "Resort",
+    "page": 2,
+    "pos": 0
+  },
+  "skates": {
+    "category": "beginner",
+    "name": "Skates",
+    "page": 2,
+    "pos": 1
+  },
+  "lotus_island": {
+    "category": "beginner",
+    "name": "Lotus island",
+    "page": 2,
+    "pos": 2
+  },
+  "candy_falls": {
+    "category": "beginner",
+    "name": "Candy falls",
+    "page": 2,
+    "pos": 3
+  },
+  "winter_park": {
+    "category": "beginner",
+    "name": "Winter park",
+    "page": 2,
+    "pos": 4
+  },
+  "carved": {
+    "category": "beginner",
+    "name": "Carved",
+    "page": 2,
+    "pos": 5
+  },
+  "park_path": {
+    "category": "beginner",
+    "name": "Park path",
+    "page": 3,
+    "pos": 0
+  },
+  "alpine_run": {
+    "category": "beginner",
+    "name": "Alpine run",
+    "page": 3,
+    "pos": 1
+  },
+  "frozen_over": {
+    "category": "beginner",
+    "name": "Frozen over",
+    "page": 3,
+    "pos": 2
+  },
+  "cubism": {
+    "category": "beginner",
+    "name": "Cubism",
+    "page": 3,
+    "pos": 3
+  },
+  "four_circles": {
+    "category": "beginner",
+    "name": "Four circles",
+    "page": 3,
+    "pos": 4
+  },
+  "hedge": {
+    "category": "beginner",
+    "name": "Hedge",
+    "page": 3,
+    "pos": 5
+  },
+  "end_of_the_road": {
+    "category": "beginner",
+    "name": "End of the road",
+    "page": 4,
+    "pos": 0
+  },
+  "logs": {
+    "category": "beginner",
+    "name": "Logs",
+    "page": 4,
+    "pos": 1
+  },
+  "lost_crevasse": {
+    "category": "intermediate",
+    "name": "Lost crevasse",
+    "page": 0,
+    "pos": 0
+  },
+  "luminous_cove": {
+    "category": "intermediate",
+    "name": "Luminous Cove",
+    "page": 0,
+    "pos": 1
+  },
+  "sulfur_springs": {
+    "category": "intermediate",
+    "name": "Sulfur springs",
+    "page": 0,
+    "pos": 3
+  },
+  "water_park": {
+    "category": "intermediate",
+    "name": "Water park",
+    "page": 0,
+    "pos": 4
+  },
+  "polyphemus": {
+    "category": "intermediate",
+    "name": "Polyphemus",
+    "page": 0,
+    "pos": 5
+  },
+  "covered_garden": {
+    "category": "intermediate",
+    "name": "Covered garden",
+    "page": 1,
+    "pos": 0
+  },
+  "quarry": {
+    "category": "intermediate",
+    "name": "Quarry",
+    "page": 1,
+    "pos": 1
+  },
+  "quiet_street": {
+    "category": "intermediate",
+    "name": "Quiet street",
+    "page": 1,
+    "pos": 2
+  },
+  "bloonarius_prime": {
+    "category": "intermediate",
+    "name": "Bloonarius prime",
+    "page": 1,
+    "pos": 3
+  },
+  "balance": {
+    "category": "intermediate",
+    "name": "Balance",
+    "page": 1,
+    "pos": 4
+  },
+  "encrypted": {
+    "category": "intermediate",
+    "name": "Encrypted",
+    "page": 1,
+    "pos": 5
+  },
+  "bazaar": {
+    "category": "intermediate",
+    "name": "Bazaar",
+    "page": 2,
+    "pos": 0
+  },
+  "adoras_temple": {
+    "category": "intermediate",
+    "name": "Adora's temple",
+    "page": 2,
+    "pos": 1
+  },
+  "spring_spring": {
+    "category": "intermediate",
+    "name": "Spring spring",
+    "page": 2,
+    "pos": 2
+  },
+  "kartsndarts": {
+    "category": "intermediate",
+    "name": "Kartsndarts",
+    "page": 2,
+    "pos": 3
+  },
+  "moon_landing": {
+    "category": "intermediate",
+    "name": "Moon landing",
+    "page": 2,
+    "pos": 4
+  },
+  "haunted": {
+    "category": "intermediate",
+    "name": "Haunted",
+    "page": 2,
+    "pos": 5
+  },
+  "downstream": {
+    "category": "intermediate",
+    "name": "Downstream",
+    "page": 3,
+    "pos": 0
+  },
+  "firing_range": {
+    "category": "intermediate",
+    "name": "Firing range",
+    "page": 3,
+    "pos": 1
+  },
+  "cracked": {
+    "category": "intermediate",
+    "name": "Cracked",
+    "page": 3,
+    "pos": 2
+  },
+  "streambed": {
+    "category": "intermediate",
+    "name": "Streambed",
+    "page": 3,
+    "pos": 3
+  },
+  "chutes": {
+    "category": "intermediate",
+    "name": "Chutes",
+    "page": 3,
+    "pos": 4
+  },
+  "rake": {
+    "category": "intermediate",
+    "name": "Rake",
+    "page": 3,
+    "pos": 5
+  },
+  "spice_islands": {
+    "category": "intermediate",
+    "name": "Spice islands",
+    "page": 4,
+    "pos": 0
+  },
+  "sunset_gulch": {
+    "category": "advanced",
+    "name": "Sunset Gulch",
+    "page": 0,
+    "pos": 3
+  },
+  "enchanted_glade": {
+    "category": "advanced",
+    "name": "Enchanted Glade",
+    "page": 0,
+    "pos": 4
+  },
+  "last_resort": {
+    "category": "advanced",
+    "name": "Last Resort",
+    "page": 0,
+    "pos": 5
+  },
+  "ancient_portal": {
+    "category": "intermediate",
+    "name": "Ancient Portal",
+    "page": 0,
+    "pos": 2
+  },
+  "castle_revenge": {
+    "category": "advanced",
+    "name": "Castle revenge",
+    "page": 1,
+    "pos": 0
+  },
+  "dark_path": {
+    "category": "advanced",
+    "name": "Dark path",
+    "page": 1,
+    "pos": 1
+  },
+  "erosion": {
+    "category": "advanced",
+    "name": "Erosion",
+    "page": 1,
+    "pos": 2
+  },
+  "midnight_mansion": {
+    "category": "advanced",
+    "name": "Midnight mansion",
+    "page": 1,
+    "pos": 3
+  },
+  "sunken_columns": {
+    "category": "advanced",
+    "name": "Sunken columns",
+    "page": 1,
+    "pos": 4
+  },
+  "x_factor": {
+    "category": "advanced",
+    "name": "X factor",
+    "page": 1,
+    "pos": 5
+  },
+  "mesa": {
+    "category": "advanced",
+    "name": "Mesa",
+    "page": 2,
+    "pos": 0
+  },
+  "geared": {
+    "category": "advanced",
+    "name": "Geared",
+    "page": 2,
+    "pos": 1
+  },
+  "spillway": {
+    "category": "advanced",
+    "name": "Spillway",
+    "page": 2,
+    "pos": 2
+  },
+  "cargo": {
+    "category": "advanced",
+    "name": "Cargo",
+    "page": 2,
+    "pos": 3
+  },
+  "pats_pond": {
+    "category": "advanced",
+    "name": "Pat's pond",
+    "page": 2,
+    "pos": 4
+  },
+  "peninsula": {
+    "category": "advanced",
+    "name": "Peninsula",
+    "page": 2,
+    "pos": 5
+  },
+  "high_finance": {
+    "category": "advanced",
+    "name": "High finance",
+    "page": 2,
+    "pos": 0
+  },
+  "another_brick": {
+    "category": "advanced",
+    "name": "Another brick",
+    "page": 2,
+    "pos": 1
+  },
+  "off_the_coast": {
+    "category": "advanced",
+    "name": "Off the coast",
+    "page": 2,
+    "pos": 2
+  },
+  "cornfield": {
+    "category": "advanced",
+    "name": "Cornfield",
+    "page": 2,
+    "pos": 3
+  },
+  "underground": {
+    "category": "advanced",
+    "name": "Underground",
+    "page": 2,
+    "pos": 4
+  },
+  "glacial_trail": {
+    "category": "expert",
+    "name": "Glacial trail",
+    "page": 0,
+    "pos": 1
+  },
+  "dark_dungeons": {
+    "category": "expert",
+    "name": "Dark dungeons",
+    "page": 0,
+    "pos": 2
+  },
+  "sanctuary": {
+    "category": "expert",
+    "name": "Sanctuary",
+    "page": 0,
+    "pos": 3
+  },
+  "ravine": {
+    "category": "expert",
+    "name": "Ravine",
+    "page": 0,
+    "pos": 4
+  },
+  "flooded_valley": {
+    "category": "expert",
+    "name": "Flooded valley",
+    "page": 0,
+    "pos": 5
+  },
+  "infernal": {
+    "category": "expert",
+    "name": "Infernal",
+    "page": 1,
+    "pos": 0
+  },
+  "bloody_puddles": {
+    "category": "expert",
+    "name": "Bloody puddles",
+    "page": 1,
+    "pos": 1
+  },
+  "workshop": {
+    "category": "expert",
+    "name": "Workshop",
+    "page": 1,
+    "pos": 2
+  },
+  "quad": {
+    "category": "expert",
+    "name": "Quad",
+    "page": 1,
+    "pos": 3
+  },
+  "dark_castle": {
+    "category": "expert",
+    "name": "Dark castle",
+    "page": 1,
+    "pos": 4
+  },
+  "muddy_puddles": {
+    "category": "expert",
+    "name": "Muddy puddles",
+    "page": 1,
+    "pos": 5
+  },
+  "ouch": {
+    "category": "expert",
+    "name": "#Ouch",
+    "page": 2,
+    "pos": 0
+  },
+  "skulltweak": {
+    "category": "beginner",
+    "name": "Skulltweak",
+    "page": 0,
+    "pos": 2
+  },
+  "three_mines_round": {
+    "category": "beginner",
+    "name": "Three Mines 'Round",
+    "page": 0,
+    "pos": 3
+  },
+  "mushroom_grotto": {
+    "category": "advanced",
+    "name": "Mushroom Grotto",
+    "page": 0,
+    "pos": 1
+  },
+  "party_parade": {
+    "category": "advanced",
+    "name": "Party Parade",
+    "page": 0,
+    "pos": 1
+  },
+  "tricky_tracks": {
+    "category": "expert",
+    "name": "Tricky Tracks",
+    "page": 0,
+    "pos": 0
+  }
+}

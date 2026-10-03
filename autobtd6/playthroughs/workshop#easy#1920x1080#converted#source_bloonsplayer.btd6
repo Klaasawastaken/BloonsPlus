@@ -1,0 +1,36 @@
+# source: https://github.com/piweiblen/BloonsPlayer (license MIT (c) 2021 piweiblen) commit 17d624879c5ad777e82594da34450e66b2d60756
+# source file: tas/general/workshop easy.txt (vendored copy: route-library/public-sources/piweiblen-BloonsPlayer)
+# source mode: easy; converted to 1920x1080 AutoBTD6 actions
+# generator: import-public-routes.py
+place boomerang boomerang0 at 944, 628
+upgrade boomerang0 path 1
+upgrade boomerang0 path 1
+upgrade boomerang0 path 2
+upgrade boomerang0 path 2
+place wizard wizard0 at 1014, 491
+upgrade wizard0 path 1
+upgrade wizard0 path 1
+place druid druid0 at 932, 495
+upgrade druid0 path 1
+upgrade druid0 path 1
+upgrade druid0 path 1
+place spike spike0 at 1545, 658
+upgrade spike0 path 1
+upgrade spike0 path 1
+place druid druid1 at 1009, 422
+upgrade druid1 path 1
+upgrade druid1 path 1
+upgrade druid1 path 1
+place druid druid2 at 934, 425
+upgrade druid2 path 1
+upgrade druid2 path 1
+upgrade druid2 path 1
+place druid druid3 at 1191, 409
+upgrade druid3 path 1
+upgrade druid3 path 1
+upgrade druid3 path 1
+upgrade spike0 path 2
+upgrade spike0 path 2
+upgrade spike0 path 2
+upgrade boomerang0 path 2
+upgrade boomerang0 path 2

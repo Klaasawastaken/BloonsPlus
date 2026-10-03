@@ -1,0 +1,3 @@
+pause = f8
+start-stop = f9
+exit = f11

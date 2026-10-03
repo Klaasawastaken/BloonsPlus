@@ -1,0 +1,68 @@
+# source: https://github.com/piweiblen/BloonsPlayer (license MIT (c) 2021 piweiblen) commit 17d624879c5ad777e82594da34450e66b2d60756
+# source file: tas/general/infernal hard.txt (vendored copy: route-library/public-sources/piweiblen-BloonsPlayer)
+# source mode: hard; converted to 1920x1080 AutoBTD6 actions
+# dropped (timing only): wait
+# dropped (not expressible in AutoBTD6, route may be weaker): activated abilities; mouse sweeps (banana/cash collection)
+# generator: import-public-routes.py
+place quincy hero0 at 820, 704
+place dart dart0 at 879, 741
+round 6
+sell dart0
+place ninja ninja0 at 805, 373
+upgrade ninja0 path 0
+upgrade ninja0 path 2
+upgrade ninja0 path 0
+upgrade ninja0 path 0
+upgrade ninja0 path 2
+place buccaneer buccaneer0 at 518, 816
+upgrade buccaneer0 path 1
+upgrade buccaneer0 path 1
+upgrade buccaneer0 path 1
+upgrade buccaneer0 path 0
+place alchemist alchemist0 at 877, 349
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+upgrade buccaneer0 path 1
+upgrade alchemist0 path 2
+round 40
+sell buccaneer0
+upgrade ninja0 path 0
+place alchemist alchemist1 at 515, 211
+upgrade alchemist1 path 2
+upgrade alchemist1 path 0
+upgrade alchemist1 path 0
+upgrade alchemist1 path 0
+upgrade alchemist1 path 0
+place sniper sniper0 at 471, 278
+upgrade sniper0 path 1
+upgrade sniper0 path 1
+upgrade sniper0 path 1
+upgrade sniper0 path 1
+upgrade sniper0 path 0
+upgrade sniper0 path 0
+place alchemist alchemist2 at 879, 744
+upgrade alchemist2 path 2
+upgrade alchemist2 path 0
+upgrade alchemist2 path 0
+upgrade alchemist2 path 0
+upgrade alchemist2 path 0
+upgrade sniper0 path 1
+retarget sniper0
+upgrade alchemist0 path 0
+place sniper sniper1 at 1208, 796
+retarget sniper1
+retarget sniper1
+retarget sniper1
+upgrade sniper1 path 1
+upgrade sniper1 path 1
+upgrade sniper1 path 0
+upgrade sniper1 path 0
+upgrade sniper1 path 0
+upgrade sniper1 path 0
+place alchemist alchemist3 at 1243, 850
+upgrade alchemist3 path 2
+upgrade alchemist3 path 0
+upgrade alchemist3 path 0
+upgrade alchemist3 path 0
+upgrade alchemist3 path 0

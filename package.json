@@ -1,0 +1,21 @@
+{
+  "name": "bloons-plus",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Local BTD6 automation and progression companion",
+  "main": "electron-main.js",
+  "scripts": {
+    "start": "node server.js",
+    "app": "electron ."
+  },
+  "dependencies": {
+    "pngjs": "^7.0.0",
+    "tesseract.js": "^5.1.0"
+  },
+  "devDependencies": {
+    "electron": "^33.4.11"
+  },
+  "allowScripts": {
+    "electron@33.4.11": true
+  }
+}

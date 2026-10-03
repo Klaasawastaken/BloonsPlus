@@ -1,0 +1,25 @@
+place gwendolin hero0 at 571, 479
+place village village at 697, 390
+upgrade village path 0
+upgrade village path 0
+upgrade village path 1
+upgrade village path 1
+place ace ace1 at 735, 213
+upgrade ace1 path 0
+upgrade ace1 path 0
+upgrade ace1 path 2
+upgrade ace1 path 2
+upgrade ace1 path 2
+place ninja ninja at 761, 448
+upgrade ninja path 0
+upgrade ninja path 0
+upgrade ninja path 0
+upgrade ninja path 0
+upgrade ninja path 2
+upgrade ninja path 2
+place alchemist alch at 817, 293
+upgrade alch path 0
+upgrade alch path 0
+upgrade alch path 0
+upgrade alch path 0
+upgrade alch path 2

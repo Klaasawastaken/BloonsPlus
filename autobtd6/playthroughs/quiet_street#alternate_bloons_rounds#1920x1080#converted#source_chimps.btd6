@@ -1,0 +1,50 @@
+place sauda hero0 at 594, 386
+round 6
+place wizard wizard0 at 594, 718
+round 7
+upgrade wizard0 path 0
+round 9
+place druid druid0 at 624, 324
+round 10
+upgrade wizard0 path 0
+round 12
+upgrade wizard0 path 2
+upgrade druid0 path 1
+round 15
+upgrade druid0 path 1
+round 17
+upgrade druid0 path 1
+round 18
+upgrade druid0 path 0
+round 22
+upgrade wizard0 path 0
+round 23
+upgrade wizard0 path 2
+round 27
+place spike spike0 at 843, 566
+round 28
+upgrade spike0 path 1
+upgrade spike0 path 1
+round 29
+upgrade spike0 path 0
+round 31
+upgrade spike0 path 1
+upgrade spike0 path 0
+round 37
+upgrade wizard0 path 0
+round 40
+upgrade druid0 path 1
+round 51
+ability 1 after 7 seconds
+ability 3 after 13 seconds
+round 52
+ability 3 after 28 seconds
+round 53
+upgrade wizard0 path 0
+round 66
+upgrade druid0 path 1
+round 77
+upgrade spike0 path 1
+upgrade spike0 path 1
+round 79
+ability 3 after 12 seconds

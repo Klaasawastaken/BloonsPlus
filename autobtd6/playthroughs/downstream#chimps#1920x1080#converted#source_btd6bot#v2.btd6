@@ -1,0 +1,64 @@
+# source: https://github.com/j-miet/BTD6bot (license MIT (c) 2025 Jani Miettinen) commit 2d6dac0957a0d55d0af201bd497afbebf7f3e5c2
+# source file: btd6bot/plans/downstreamHardChimps.py (vendored copy: btd6bot/btd6bot/plans)
+# source mode: chimps; converted to 1920x1080 AutoBTD6 actions
+# generator: import-public-routes.py
+place sauda hero0 at 467, 584
+round 8
+place sniper sniper0 at 373, 494
+retarget sniper0
+retarget sniper0
+retarget sniper0
+round 15
+place heli heli0 at 141, 524
+round 19
+upgrade heli0 path 0
+round 21
+upgrade heli0 path 0
+round 27
+upgrade heli0 path 0
+round 31
+place village village0 at 299, 588
+upgrade village0 path 1
+round 35
+upgrade village0 path 1
+round 36
+place heli heli1 at 147, 676
+round 37
+upgrade heli1 path 0
+upgrade heli1 path 0
+round 38
+upgrade heli1 path 2
+upgrade heli1 path 2
+round 41
+upgrade heli1 path 2
+upgrade heli0 path 2
+upgrade heli0 path 2
+round 48
+upgrade heli1 path 2
+round 57
+upgrade heli0 path 0
+round 59
+upgrade village0 path 0
+upgrade village0 path 0
+round 81
+upgrade heli0 path 0
+round 89
+upgrade village0 path 1
+round 94
+upgrade heli1 path 2
+round 95
+place glue glue0 at 455, 478
+upgrade glue0 path 1
+upgrade glue0 path 1
+upgrade glue0 path 2
+upgrade glue0 path 2
+upgrade glue0 path 2
+round 96
+upgrade glue0 path 2
+upgrade sniper0 path 0
+upgrade sniper0 path 0
+upgrade sniper0 path 0
+round 98
+upgrade sniper0 path 0
+upgrade sniper0 path 1
+upgrade sniper0 path 1

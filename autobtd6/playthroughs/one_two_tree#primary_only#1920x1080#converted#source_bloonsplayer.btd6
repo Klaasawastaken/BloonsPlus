@@ -1,0 +1,13 @@
+# source: https://github.com/piweiblen/BloonsPlayer (license MIT (c) 2021 piweiblen) commit 17d624879c5ad777e82594da34450e66b2d60756
+# source file: tas/sauda only/one two tree primary only sauda and bomb.txt (vendored copy: route-library/public-sources/piweiblen-BloonsPlayer)
+# source mode: primary_only; converted to 1920x1080 AutoBTD6 actions
+# generator: import-public-routes.py
+place sauda hero0 at 246, 821
+round 3
+place bomb bomb0 at 455, 430
+upgrade bomb0 path 0
+upgrade bomb0 path 0
+upgrade bomb0 path 2
+upgrade bomb0 path 2
+upgrade bomb0 path 2
+upgrade bomb0 path 2

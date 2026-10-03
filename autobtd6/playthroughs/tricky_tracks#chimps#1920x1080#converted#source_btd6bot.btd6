@@ -1,0 +1,246 @@
+# source: https://github.com/j-miet/BTD6bot (license MIT (c) 2025 Jani Miettinen) commit 2d6dac0957a0d55d0af201bd497afbebf7f3e5c2
+# source file: btd6bot/plans/tricky_tracksHardChimps.py (vendored copy: btd6bot/btd6bot/plans)
+# source mode: chimps; converted to 1920x1080 AutoBTD6 actions
+# dropped (timing only): forward(); source variable tack reused for a later tack
+# generator: import-public-routes.py
+place dart dart0 at 752, 365
+place dart dart1 at 800, 441
+place dart dart2 at 1003, 625
+round 7
+upgrade dart2 path 1
+round 9
+place mermonkey mermonkey0 at 945, 565
+round 10
+place mermonkey mermonkey1 at 583, 263
+round 13
+place etienne hero0 at 877, 603
+round 14
+place wizard wizard0 at 742, 475
+retarget wizard0
+retarget wizard0
+round 15
+upgrade wizard0 path 0
+round 17
+upgrade wizard0 path 0
+round 18
+ability 1 after 3.5 seconds
+round 19
+place sniper sniper0 at 585, 793
+retarget sniper0
+retarget sniper0
+retarget sniper0
+round 20
+place sniper sniper1 at 1317, 765
+round 21
+place mermonkey mermonkey2 at 1077, 789
+round 22
+upgrade sniper0 path 0
+round 23
+ability 1
+round 24
+upgrade sniper0 path 2
+round 26
+upgrade sniper0 path 2
+round 27
+ability 1 after 5.5 seconds
+round 30
+upgrade wizard0 path 0
+round 31
+place mermonkey mermonkey3 at 672, 515
+upgrade mermonkey3 path 2
+round 32
+upgrade mermonkey3 path 0
+upgrade mermonkey3 path 0
+upgrade sniper1 path 1
+round 34
+upgrade mermonkey2 path 2
+upgrade mermonkey2 path 1
+upgrade mermonkey2 path 1
+round 35
+upgrade mermonkey3 path 0
+round 36
+ability 1
+upgrade wizard0 path 1
+upgrade wizard0 path 1
+retarget wizard0
+retarget wizard0
+round 38
+upgrade sniper0 path 0
+round 39
+upgrade sniper0 path 0
+round 40
+ability 1
+round 41
+place village village0 at 808, 667
+upgrade village0 path 0
+round 42
+upgrade village0 path 0
+round 49
+upgrade wizard0 path 0
+round 51
+upgrade village0 path 0
+upgrade village0 path 0
+upgrade village0 path 2
+upgrade village0 path 2
+upgrade mermonkey3 path 2
+upgrade mermonkey2 path 1
+upgrade mermonkey2 path 2
+place mermonkey mermonkey4 at 603, 561
+round 52
+ability 2 after 2 seconds
+round 53
+upgrade mermonkey4 path 1
+upgrade mermonkey4 path 1
+upgrade mermonkey4 path 1
+upgrade mermonkey4 path 2
+upgrade mermonkey4 path 2
+upgrade mermonkey0 path 1
+upgrade mermonkey0 path 1
+upgrade mermonkey0 path 2
+upgrade mermonkey0 path 2
+round 54
+ability 1
+place mermonkey mermonkey5 at 1012, 839
+upgrade mermonkey5 path 1
+upgrade mermonkey5 path 1
+upgrade mermonkey5 path 1
+upgrade mermonkey5 path 2
+upgrade mermonkey5 path 2
+round 55
+place mermonkey mermonkey6 at 934, 661
+upgrade mermonkey6 path 1
+upgrade mermonkey6 path 1
+round 56
+ability 2
+upgrade mermonkey6 path 1
+upgrade mermonkey6 path 2
+upgrade mermonkey6 path 2
+round 60
+ability 2
+ability 1
+upgrade mermonkey3 path 0
+round 61
+place ice ice0 at 818, 747
+upgrade ice0 path 0
+upgrade ice0 path 0
+upgrade ice0 path 0
+round 62
+upgrade ice0 path 0
+upgrade ice0 path 1
+upgrade ice0 path 1
+round 63
+ability 1
+place ice ice1 at 684, 437
+upgrade ice1 path 0
+upgrade ice1 path 0
+ability 2 after 6.5 seconds
+upgrade ice1 path 0
+upgrade ice1 path 1
+round 65
+upgrade ice1 path 0
+upgrade ice1 path 1
+ability 2 after 16.5 seconds
+round 68
+ability 1 after 2 seconds
+ability 2 after 4 seconds
+round 75
+ability 1
+ability 2 after 6 seconds
+round 77
+ability 1 after 6 seconds
+round 78
+ability 2
+ability 1 after 12 seconds
+ability 2 after 27 seconds
+round 79
+upgrade wizard0 path 0
+round 80
+ability 1
+round 81
+place glue glue0 at 999, 519
+retarget glue0
+retarget glue0
+retarget glue0
+upgrade glue0 path 2
+upgrade glue0 path 2
+upgrade glue0 path 2
+upgrade glue0 path 1
+round 87
+ability 1
+round 88
+ability 2
+round 89
+upgrade ice0 path 0
+upgrade glue0 path 1
+round 91
+upgrade glue0 path 2
+round 93
+place ice ice2 at 857, 403
+upgrade ice2 path 1
+upgrade ice2 path 1
+upgrade ice2 path 1
+round 94
+ability 2
+ability 1
+upgrade ice2 path 1
+upgrade ice2 path 0
+upgrade ice2 path 0
+place tack tack0 at 723, 701
+upgrade tack0 path 2
+upgrade tack0 path 2
+upgrade tack0 path 2
+upgrade tack0 path 2
+upgrade tack0 path 0
+upgrade tack0 path 0
+round 95
+place boomerang boomerang0 at 661, 747
+retarget boomerang0
+retarget boomerang0
+retarget boomerang0
+upgrade boomerang0 path 2
+upgrade boomerang0 path 2
+upgrade boomerang0 path 2
+ability 3 after 11 seconds
+ability 2 after 14 seconds
+round 96
+upgrade boomerang0 path 2
+upgrade boomerang0 path 1
+upgrade boomerang0 path 1
+place alchemist alchemist0 at 756, 763
+ability 3 after 12 seconds
+round 97
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+upgrade alchemist0 path 1
+upgrade alchemist0 path 1
+round 98
+ability 1
+ability 2
+ability 3 after 2.5 seconds
+upgrade sniper0 path 0
+place tack tack1 at 1030, 568
+upgrade tack1 path 2
+upgrade tack1 path 2
+upgrade tack1 path 2
+upgrade tack1 path 2
+upgrade tack1 path 0
+upgrade tack1 path 0
+place tack tack2 at 548, 609
+upgrade tack2 path 2
+upgrade tack2 path 2
+upgrade tack2 path 2
+upgrade tack2 path 2
+upgrade tack2 path 0
+upgrade tack2 path 0
+round 99
+ability 3 after 2.25 seconds
+place tack tack3 at 602, 491
+upgrade tack3 path 2
+upgrade tack3 path 2
+upgrade tack3 path 2
+upgrade tack3 path 0
+upgrade tack3 path 0
+round 100
+ability 1 after 1 seconds

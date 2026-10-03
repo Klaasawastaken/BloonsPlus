@@ -1,0 +1,52 @@
+# source: https://github.com/j-miet/BTD6bot (license MIT (c) 2025 Jani Miettinen) commit 2d6dac0957a0d55d0af201bd497afbebf7f3e5c2
+# source file: btd6bot/plans/tricky_tracksEasyStandard.py (vendored copy: btd6bot/btd6bot/plans)
+# source mode: easy; converted to 1920x1080 AutoBTD6 actions
+# generator: import-public-routes.py
+place desperado desperado0 at 643, 522
+place desperado desperado1 at 979, 606
+retarget desperado1
+retarget desperado1
+retarget desperado1
+round 2
+place desperado desperado2 at 761, 438
+retarget desperado2
+retarget desperado2
+retarget desperado2
+round 4
+place wizard wizard0 at 841, 634
+retarget wizard0
+retarget wizard0
+retarget wizard0
+round 6
+place sniper sniper0 at 459, 927
+retarget sniper0
+retarget sniper0
+retarget sniper0
+round 8
+place sniper sniper1 at 541, 881
+upgrade sniper1 path 1
+round 10
+upgrade sniper1 path 2
+round 14
+upgrade sniper1 path 2
+upgrade sniper1 path 1
+round 16
+upgrade sniper0 path 2
+upgrade sniper0 path 2
+round 18
+upgrade sniper0 path 0
+round 21
+upgrade wizard0 path 0
+upgrade wizard0 path 2
+upgrade wizard0 path 0
+retarget wizard0
+round 27
+upgrade wizard0 path 0
+upgrade wizard0 path 2
+round 32
+upgrade sniper1 path 2
+round 36
+upgrade sniper1 path 2
+round 39
+upgrade sniper0 path 2
+upgrade sniper0 path 0

@@ -1,0 +1,57 @@
+# source: https://github.com/j-miet/BTD6bot (license MIT (c) 2025 Jani Miettinen) commit 2d6dac0957a0d55d0af201bd497afbebf7f3e5c2
+# source file: btd6bot/plans/ravineEasyStandard.py (vendored copy: btd6bot/btd6bot/plans)
+# source mode: easy; converted to 1920x1080 AutoBTD6 actions
+# dropped (not expressible in AutoBTD6, route may be weaker): spike targeting 'close' (needs a special cycle or click); spike targeting 'smart' (needs a special cycle or click)
+# generator: import-public-routes.py
+place dart dart0 at 283, 668
+place dart dart1 at 847, 972
+place dart dart2 at 675, 816
+round 3
+place dart dart3 at 225, 486
+upgrade dart3 path 1
+upgrade dart1 path 0
+upgrade dart1 path 1
+round 4
+upgrade dart2 path 2
+round 7
+place sauda hero0 at 745, 816
+round 10
+upgrade dart0 path 1
+upgrade dart0 path 1
+upgrade dart0 path 1
+round 13
+place druid druid0 at 775, 156
+upgrade druid0 path 1
+round 15
+upgrade dart2 path 1
+upgrade dart2 path 1
+upgrade dart2 path 1
+round 19
+upgrade druid0 path 1
+upgrade druid0 path 1
+round 21
+upgrade druid0 path 0
+round 27
+retarget druid0
+retarget druid0
+retarget druid0
+place spike spike0 at 185, 858
+round 28
+upgrade spike0 path 2
+upgrade spike0 path 2
+round 30
+place spike spike1 at 591, 820
+upgrade spike1 path 2
+upgrade spike1 path 2
+round 31
+place sniper sniper0 at 967, 114
+round 33
+upgrade sniper0 path 1
+upgrade sniper0 path 1
+round 35
+upgrade sniper0 path 2
+upgrade sniper0 path 2
+round 36
+upgrade sniper0 path 2
+round 38
+upgrade sniper0 path 2

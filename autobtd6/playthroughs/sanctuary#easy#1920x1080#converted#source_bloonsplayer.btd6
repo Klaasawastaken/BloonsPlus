@@ -1,0 +1,20 @@
+# source: https://github.com/piweiblen/BloonsPlayer (license MIT (c) 2021 piweiblen) commit 17d624879c5ad777e82594da34450e66b2d60756
+# source file: tas/general/sanctuary easy.txt (vendored copy: route-library/public-sources/piweiblen-BloonsPlayer)
+# source mode: easy; converted to 1920x1080 AutoBTD6 actions
+# dropped (timing only): delay
+# generator: import-public-routes.py
+place buccaneer buccaneer0 at 736, 183
+round 2
+upgrade buccaneer0 path 2
+upgrade buccaneer0 path 1
+upgrade buccaneer0 path 1
+upgrade buccaneer0 path 1
+upgrade buccaneer0 path 2
+round 14
+place buccaneer buccaneer1 at 934, 183
+upgrade buccaneer1 path 0
+upgrade buccaneer1 path 1
+upgrade buccaneer1 path 0
+upgrade buccaneer1 path 0
+upgrade buccaneer1 path 1
+upgrade buccaneer1 path 0

@@ -1,0 +1,10 @@
+{
+  "map": "monkey_meadow",
+  "mode": "easy",
+  "resolution": "1920x1080",
+  "source": "fixture",
+  "actions": [
+    {"kind":"place","type":"dart","name":"Dart Monkey","pos":[0.42,0.54],"round":6},
+    {"kind":"place","type":"hero","name":"Sauda","pos":[0.56,0.48],"round":10}
+  ]
+}

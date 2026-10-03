@@ -1,0 +1,78 @@
+# source: https://github.com/j-miet/BTD6bot (license MIT (c) 2025 Jani Miettinen) commit 2d6dac0957a0d55d0af201bd497afbebf7f3e5c2
+# source file: btd6bot/plans/bloonarius_primeHardChimps.py (vendored copy: btd6bot/btd6bot/plans)
+# source mode: chimps; converted to 1920x1080 AutoBTD6 actions
+# dropped (timing only): forward()
+# dropped (not expressible in AutoBTD6, route may be weaker): center(); second special ability
+# generator: import-public-routes.py
+place dart dart0 at 501, 420
+retarget dart0
+retarget dart0
+retarget dart0
+place dart dart1 at 925, 830
+round 7
+place sub sub0 at 1283, 476
+round 8
+place dart dart2 at 711, 878
+round 10
+place sniper sniper0 at 1119, 1045
+retarget sniper0
+retarget sniper0
+retarget sniper0
+round 14
+place rosalia hero0 at 609, 230
+round 16
+place druid druid0 at 1195, 836
+upgrade druid0 path 1
+round 19
+round 20
+round 21
+ability 1
+special hero0
+retarget hero0
+retarget hero0
+retarget hero0
+round 22
+upgrade druid0 path 1
+upgrade druid0 path 1
+round 23
+upgrade sniper0 path 1
+round 25
+upgrade druid0 path 0
+round 28
+upgrade sniper0 path 2
+upgrade sniper0 path 2
+upgrade sniper0 path 1
+round 29
+retarget sniper0
+round 34
+place village village0 at 609, 115
+round 38
+place ace ace0 at 443, 227
+upgrade ace0 path 2
+upgrade ace0 path 2
+upgrade ace0 path 2
+upgrade ace0 path 0
+upgrade ace0 path 0
+round 39
+special hero0
+round 40
+ability 2
+ability 1
+round 41
+place alchemist alchemist0 at 456, 156
+place village village1 at 494, 72
+upgrade village1 path 1
+upgrade village1 path 1
+round 42
+upgrade village1 path 0
+upgrade village1 path 0
+round 45
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+upgrade alchemist0 path 1
+upgrade alchemist0 path 1
+round 55
+upgrade ace0 path 2
+round 88
+upgrade ace0 path 2

@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Bloons+ — Scanner calibration</title>
+<style>
+  :root { color-scheme: light dark; }
+  body { margin: 0; font-family: system-ui, sans-serif; background: #14161c; color: #e7ebf3; display: grid; grid-template-columns: 1fr 320px; height: 100vh; }
+  header { grid-column: 1 / -1; padding: 10px 16px; background: #1c1f28; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid #2a2e3a; }
+  header b { font-size: 15px; }
+  header span { font-size: 13px; opacity: .7; }
+  button { font: inherit; cursor: pointer; border-radius: 8px; border: 1px solid #3a3f4d; background: #262b38; color: inherit; padding: 6px 12px; }
+  button:hover { background: #2f3646; }
+  button.primary { background: #4d66c9; border-color: #4d66c9; }
+  button.primary:hover { background: #5c74d4; }
+  main { overflow: auto; padding: 16px; display: flex; align-items: flex-start; justify-content: center; }
+  #stage { position: relative; }
+  canvas { max-width: none; border: 1px solid #2a2e3a; cursor: crosshair; }
+  aside { padding: 16px; border-left: 1px solid #2a2e3a; overflow: auto; display: flex; flex-direction: column; gap: 16px; }
+  fieldset { border: 1px solid #2a2e3a; border-radius: 10px; padding: 10px; }
+  legend { padding: 0 6px; font-size: 12px; text-transform: uppercase; opacity: .7; }
+  label { display: block; font-size: 12px; margin: 8px 0 4px; opacity: .85; }
+  input, select { width: 100%; box-sizing: border-box; padding: 6px 8px; border-radius: 6px; border: 1px solid #3a3f4d; background: #10131a; color: inherit; }
+  .row { display: flex; gap: 8px; }
+  .list { display: flex; flex-direction: column; gap: 4px; font-size: 12px; max-height: 160px; overflow: auto; }
+  .list div { display: flex; justify-content: space-between; align-items: center; background: #1c1f28; padding: 4px 8px; border-radius: 6px; }
+  .list button { padding: 2px 8px; }
+  .swatch { display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; }
+  #status { font-size: 12px; opacity: .8; }
+</style>
+</head>
+<body>
+<header>
+  <b>Bloons+ scanner calibration</b>
+  <span id="status">Loading capture…</span>
+  <button id="recapture">Recapture</button>
+  <span style="flex:1"></span>
+  <button class="primary" id="save-all">Save calibration</button>
+</header>
+<main>
+  <div id="stage"><canvas id="canvas"></canvas></div>
+</main>
+<aside>
+  <fieldset>
+    <legend>1. Draw a box</legend>
+    <p style="font-size:12px;opacity:.75;margin:0">Click-drag on the capture to select the region for whatever you're calibrating below.</p>
+  </fieldset>
+
+  <fieldset>
+    <legend>Screen anchor</legend>
+    <label>Screen name</label>
+    <select id="anchor-name"><option value="mainMenu">mainMenu</option><option value="mapSelect">mapSelect</option></select>
+    <label>Tolerance</label>
+    <input id="anchor-tolerance" type="number" value="30" min="1" max="200">
+    <button id="save-anchor" style="margin-top:10px;width:100%">Save box as anchor</button>
+    <div class="list" id="anchor-list"></div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Profile field</legend>
+    <select id="field-name"><option value="profileLevel">profileLevel</option><option value="profileXp">profileXp</option></select>
+    <button id="save-field" style="margin-top:10px;width:100%">Save box as field</button>
+    <div class="list" id="field-list"></div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Map tile border box</legend>
+    <label>Map name (exact, e.g. "Monkey Meadow")</label>
+    <input id="map-name" placeholder="Monkey Meadow">
+    <button id="save-tile" style="margin-top:10px;width:100%">Save box as map tile</button>
+    <div class="list" id="tile-list"></div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Border color sample</legend>
+    <p style="font-size:11px;opacity:.7;margin:4px 0">Draw a box on a tile whose border you already know, then label it. Builds the palette the scanner matches against.</p>
+    <select id="border-label"><option>none</option><option>bronze</option><option>silver</option><option>gold</option><option>black</option></select>
+    <button id="save-border" style="margin-top:10px;width:100%">Save box as sample</button>
+    <div class="list" id="border-list"></div>
+  </fieldset>
+</aside>
+<script src="calibrate.js"></script>
+</body>
+</html>

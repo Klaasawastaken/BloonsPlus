@@ -1,0 +1,36 @@
+place sniper sniper1 at 1183, 826
+place sniper sniper2 at 1249, 856
+retarget sniper2
+retarget sniper2
+retarget sniper2
+round 3
+place sniper sniper3 at 1453, 1007
+round 6
+place druid druid at 447, 477
+round 10
+upgrade druid path 1
+round 12
+upgrade druid path 1
+upgrade druid path 1
+round 13
+upgrade druid path 0
+retarget druid
+retarget druid
+retarget druid
+round 16
+upgrade sniper1 path 1
+upgrade sniper1 path 1
+round 19
+upgrade sniper1 path 2
+upgrade sniper1 path 2
+round 27
+upgrade sniper1 path 2
+round 34
+upgrade sniper1 path 2
+round 38
+upgrade sniper2 path 0
+upgrade sniper2 path 2
+upgrade sniper2 path 2
+upgrade sniper2 path 2
+round 39
+upgrade sniper2 path 0

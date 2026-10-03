@@ -1,0 +1,48 @@
+round 1
+place desperado desp1 at 643, 522
+place desperado desp2 at 979, 606
+retarget desp2
+retarget desp2
+retarget desp2
+round 2
+place desperado desp3 at 761, 438
+retarget desp3
+retarget desp3
+retarget desp3
+round 4
+place wizard wizard at 841, 634
+retarget wizard
+retarget wizard
+retarget wizard
+round 6
+place sniper sniper1 at 459, 927
+retarget sniper1
+retarget sniper1
+retarget sniper1
+round 8
+place sniper sniper2 at 541, 881
+upgrade sniper2 path 1
+round 10
+upgrade sniper2 path 2
+round 14
+upgrade sniper2 path 2
+upgrade sniper2 path 1
+round 16
+upgrade sniper1 path 2
+upgrade sniper1 path 2
+round 18
+upgrade sniper1 path 0
+round 21
+upgrade wizard path 0
+upgrade wizard path 2
+upgrade wizard path 0
+round 27
+upgrade wizard path 0
+upgrade wizard path 2
+round 32
+upgrade sniper2 path 2
+round 36
+upgrade sniper2 path 2
+round 39
+upgrade sniper1 path 2
+upgrade sniper1 path 0

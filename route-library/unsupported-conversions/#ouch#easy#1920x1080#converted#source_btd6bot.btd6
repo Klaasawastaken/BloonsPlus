@@ -1,0 +1,37 @@
+round 1
+place dart dart at 544, 320
+place sniper sniper at 1398, 836
+round 2
+place sniper sniper2 at 1496, 840
+retarget sniper2
+retarget sniper2
+retarget sniper2
+round 4
+place dart dart2 at 542, 670
+round 7
+place sauda hero0 at 547, 432
+round 9
+place buccaneer boat at 813, 544
+round 11
+upgrade boat path 0
+upgrade boat path 0
+round 14
+upgrade sniper path 2
+upgrade sniper path 2
+round 17
+upgrade sniper path 1
+upgrade sniper path 1
+round 20
+upgrade sniper2 path 0
+round 21
+upgrade boat path 1
+round 27
+upgrade sniper path 2
+round 29
+upgrade sniper2 path 2
+upgrade sniper2 path 2
+round 35
+upgrade boat path 0
+upgrade boat path 1
+round 38
+upgrade sniper path 2

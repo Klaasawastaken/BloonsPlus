@@ -1,0 +1,41 @@
+# source: https://github.com/j-miet/BTD6bot (license MIT (c) 2025 Jani Miettinen) commit 2d6dac0957a0d55d0af201bd497afbebf7f3e5c2
+# source file: btd6bot/plans/monkey_meadowEasyStandard.py (vendored copy: btd6bot/btd6bot/plans)
+# source mode: easy; converted to 1920x1080 AutoBTD6 actions
+# generator: import-public-routes.py
+place quincy hero0 at 269, 378
+retarget hero0
+retarget hero0
+retarget hero0
+round 2
+place ninja ninja0 at 375, 522
+round 4
+upgrade ninja0 path 0
+round 8
+upgrade ninja0 path 0
+place alchemist alchemist0 at 466, 522
+round 10
+upgrade ninja0 path 2
+round 15
+upgrade ninja0 path 0
+round 17
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+round 25
+upgrade alchemist0 path 0
+round 30
+upgrade ninja0 path 0
+round 35
+upgrade alchemist0 path 1
+upgrade alchemist0 path 1
+round 38
+place sniper sniper0 at 1461, 329
+retarget sniper0
+retarget sniper0
+retarget sniper0
+upgrade sniper0 path 0
+upgrade sniper0 path 0
+upgrade sniper0 path 2
+upgrade sniper0 path 2
+upgrade sniper0 path 2
+round 40
+upgrade sniper0 path 2

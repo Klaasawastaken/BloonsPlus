@@ -1,0 +1,152 @@
+# source: https://github.com/j-miet/BTD6bot (license MIT (c) 2025 Jani Miettinen) commit 2d6dac0957a0d55d0af201bd497afbebf7f3e5c2
+# source file: btd6bot/plans/castle_revengeHardChimps.py (vendored copy: btd6bot/btd6bot/plans)
+# source mode: chimps; converted to 1920x1080 AutoBTD6 actions
+# dropped (timing only): bare name reference (no-op in source); wait()
+# generator: import-public-routes.py
+place dart dart0 at 1202, 276
+place dart dart1 at 1149, 560
+place dart dart2 at 1174, 781
+round 8
+place sub sub0 at 287, 311
+round 9
+place dart dart3 at 269, 787
+round 11
+place sniper sniper0 at 1013, 430
+retarget sniper0
+retarget sniper0
+retarget sniper0
+round 13
+place sniper sniper1 at 1009, 486
+retarget sniper1
+retarget sniper1
+retarget sniper1
+round 14
+place sniper sniper2 at 1003, 544
+retarget sniper2
+retarget sniper2
+retarget sniper2
+round 17
+place gwendolin hero0 at 1085, 534
+retarget hero0
+retarget hero0
+retarget hero0
+round 18
+upgrade dart2 path 0
+round 19
+upgrade dart2 path 0
+round 20
+upgrade dart2 path 0
+round 21
+upgrade dart2 path 1
+upgrade dart2 path 1
+round 23
+upgrade sniper0 path 2
+round 24
+upgrade sniper0 path 1
+round 26
+upgrade sniper0 path 2
+round 27
+upgrade sniper0 path 1
+retarget sniper0
+round 28
+upgrade sniper2 path 0
+round 34
+ability 1 after 1 seconds
+upgrade sniper0 path 2
+round 36
+ability 1 after 5 seconds
+round 38
+ability 1 after 3 seconds
+round 39
+upgrade sniper0 path 2
+upgrade sniper2 path 0
+round 40
+ability 1
+round 41
+place village village0 at 961, 358
+upgrade village0 path 2
+upgrade village0 path 2
+upgrade sniper1 path 1
+upgrade sniper1 path 1
+round 42
+upgrade sniper1 path 1
+retarget sniper1
+round 43
+upgrade sniper1 path 2
+upgrade sniper1 path 2
+round 44
+place alchemist alchemist0 at 945, 466
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+round 45
+upgrade alchemist0 path 0
+upgrade alchemist0 path 1
+upgrade alchemist0 path 1
+round 47
+ability 1
+upgrade alchemist0 path 0
+round 50
+upgrade sniper1 path 1
+round 51
+upgrade village0 path 0
+upgrade village0 path 0
+round 59
+upgrade sniper0 path 2
+round 69
+upgrade sniper1 path 1
+round 71
+upgrade sniper2 path 0
+upgrade sniper2 path 1
+upgrade sniper2 path 1
+round 75
+upgrade sniper2 path 0
+round 82
+ability 1 after 5 seconds
+round 83
+click map at 1080, 533
+click map at 228, 691
+click map at 596, 478
+ability 1 after 8 seconds
+ability 2 after 13 seconds
+round 87
+ability 1 after 7 seconds
+round 89
+ability 1 after 1 seconds
+upgrade alchemist0 path 0
+round 90
+ability 1 after 2 seconds
+ability 2
+round 91
+place sniper sniper3 at 899, 417
+upgrade sniper3 path 1
+upgrade sniper3 path 1
+upgrade sniper3 path 1
+upgrade sniper3 path 2
+upgrade sniper3 path 2
+place sniper sniper4 at 935, 531
+round 92
+upgrade sniper4 path 1
+upgrade sniper4 path 1
+upgrade sniper4 path 1
+upgrade sniper4 path 2
+upgrade sniper4 path 2
+place sniper sniper5 at 867, 529
+round 93
+upgrade sniper5 path 1
+upgrade sniper5 path 1
+upgrade sniper5 path 1
+upgrade sniper5 path 2
+upgrade sniper5 path 2
+round 95
+ability 1 after 10 seconds
+ability 2 after 12 seconds
+round 99
+ability 2 after 1 seconds
+upgrade sniper2 path 0
+place tack tack0 at 1138, 324
+round 100
+upgrade tack0 path 2
+upgrade tack0 path 2
+upgrade tack0 path 2
+upgrade tack0 path 0
+upgrade tack0 path 0

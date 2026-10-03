@@ -1,0 +1,49 @@
+# source: https://github.com/Randy-Hodges/BTD6-Autoplay (license MIT (c) 2021 Randy-Hodges) commit 7c36862ffec1d64bb95ddabecf20c73cb54046fd
+# source file: collection_scripts/flooded_valley_script.py (vendored copy: route-library/public-sources/Randy-Hodges-BTD6-Autoplay)
+# source mode: hard; converted to 1920x1080 AutoBTD6 actions
+# dropped (timing only): finish; start
+# generator: import-public-routes.py
+place sub sub0 at 939, 167
+place sub sub1 at 1035, 920
+place psi hero0 at 216, 744
+retarget hero0
+retarget hero0
+retarget hero0
+place sub sub2 at 1116, 533
+upgrade sub0 path 2
+upgrade sub1 path 2
+upgrade sub0 path 0
+upgrade sub1 path 0
+upgrade sub0 path 0
+upgrade sub1 path 0
+place sniper sniper0 at 458, 136
+upgrade sniper0 path 0
+retarget sniper0
+retarget sniper0
+retarget sniper0
+upgrade sub0 path 2
+upgrade sub1 path 2
+upgrade sub1 path 2
+place ace ace0 at 452, 426
+upgrade ace0 path 2
+upgrade ace0 path 2
+upgrade ace0 path 2
+place alchemist alchemist0 at 580, 285
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+upgrade ace0 path 0
+upgrade ace0 path 0
+place village village0 at 448, 293
+upgrade village0 path 1
+upgrade village0 path 1
+upgrade sub0 path 2
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+upgrade alchemist0 path 1
+upgrade alchemist0 path 1
+upgrade ace0 path 2
+upgrade sniper0 path 0
+upgrade sniper0 path 0
+upgrade sniper0 path 0
+upgrade sniper0 path 2
+upgrade sniper0 path 2

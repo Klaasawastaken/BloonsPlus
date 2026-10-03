@@ -1,0 +1,221 @@
+# source: https://github.com/ThuyTran735/BTD6-Everything-Macro (license MIT (c) 2026 ThuyTran735) commit afd8a30917bcab798a9ed8bf15f83897f6fb0a60
+# source file: Maps/Expert/Tricky Tracks/Hard/TrickyTracksImpoppable.ahk (vendored copy: route-library/public-sources/ThuyTran735-BTD6-Everything-Macro)
+# source mode: impoppable; converted to 1920x1080 AutoBTD6 actions
+# dropped (timing only): mid-round delays
+# generator: import-public-routes.py
+place dart dart0 at 634, 237
+place dart dart1 at 817, 428
+place dart dart2 at 1036, 603
+place mermonkey mermonkey0 at 985, 553
+round 8
+place mermonkey mermonkey1 at 567, 274
+round 10
+place mermonkey mermonkey2 at 751, 461
+round 11
+place mermonkey mermonkey3 at 1167, 731
+round 17
+place benjamin hero0 at 1321, 756
+round 18
+place mermonkey mermonkey4 at 969, 638
+round 19
+place mermonkey mermonkey5 at 498, 319
+round 20
+place mermonkey mermonkey6 at 1097, 776
+round 21
+place boomerang boomerang0 at 871, 389
+upgrade boomerang0 path 2
+upgrade boomerang0 path 2
+round 22
+upgrade mermonkey2 path 2
+round 23
+upgrade boomerang0 path 0
+upgrade boomerang0 path 0
+upgrade boomerang0 path 0
+round 26
+place sniper sniper0 at 1603, 579
+round 27
+upgrade sniper0 path 0
+retarget sniper0
+retarget sniper0
+retarget sniper0
+round 28
+upgrade mermonkey1 path 2
+upgrade mermonkey4 path 2
+upgrade mermonkey6 path 2
+round 31
+upgrade boomerang0 path 0
+round 32
+upgrade mermonkey5 path 2
+upgrade mermonkey0 path 2
+upgrade mermonkey3 path 2
+round 33
+upgrade mermonkey6 path 2
+round 34
+upgrade sniper0 path 1
+round 35
+place bomb bomb0 at 1036, 497
+upgrade bomb0 path 1
+upgrade bomb0 path 1
+upgrade bomb0 path 1
+upgrade bomb0 path 1
+round 40
+ability 2 after 0.1 seconds
+round 41
+sell bomb0
+sell mermonkey4
+place village village0 at 901, 604
+upgrade village0 path 0
+upgrade village0 path 0
+upgrade village0 path 1
+upgrade village0 path 1
+upgrade village0 path 0
+upgrade village0 path 0
+round 44
+place bomb bomb1 at 816, 645
+upgrade bomb1 path 1
+upgrade bomb1 path 1
+upgrade bomb1 path 2
+upgrade bomb1 path 2
+upgrade bomb1 path 2
+round 45
+upgrade bomb1 path 2
+round 46
+place alchemist alchemist0 at 757, 678
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+upgrade alchemist0 path 1
+upgrade alchemist0 path 1
+round 48
+place ice ice0 at 808, 362
+upgrade ice0 path 0
+upgrade ice0 path 0
+upgrade ice0 path 0
+upgrade ice0 path 0
+upgrade ice0 path 1
+round 50
+place tack tack0 at 749, 388
+upgrade tack0 path 0
+upgrade tack0 path 0
+upgrade tack0 path 2
+upgrade tack0 path 2
+upgrade tack0 path 2
+upgrade tack0 path 2
+round 51
+sell dart2
+place tack tack1 at 993, 620
+upgrade tack1 path 0
+upgrade tack1 path 0
+upgrade tack1 path 2
+upgrade tack1 path 2
+upgrade tack1 path 2
+upgrade tack1 path 2
+round 55
+upgrade mermonkey2 path 0
+upgrade mermonkey2 path 0
+upgrade mermonkey2 path 0
+upgrade mermonkey2 path 0
+upgrade mermonkey2 path 2
+round 58
+upgrade mermonkey0 path 0
+upgrade mermonkey0 path 0
+upgrade mermonkey0 path 0
+upgrade mermonkey0 path 0
+upgrade mermonkey0 path 2
+round 62
+sell sniper0
+round 63
+upgrade mermonkey1 path 2
+upgrade mermonkey3 path 2
+upgrade mermonkey5 path 2
+round 64
+place ice ice1 at 1053, 586
+upgrade ice1 path 0
+upgrade ice1 path 0
+upgrade ice1 path 0
+upgrade ice1 path 0
+upgrade ice1 path 1
+round 66
+place alchemist alchemist1 at 684, 431
+upgrade alchemist1 path 0
+upgrade alchemist1 path 0
+upgrade alchemist1 path 0
+upgrade alchemist1 path 1
+upgrade alchemist1 path 1
+round 67
+place alchemist alchemist2 at 911, 685
+upgrade alchemist2 path 0
+upgrade alchemist2 path 0
+upgrade alchemist2 path 0
+upgrade alchemist2 path 1
+upgrade alchemist2 path 1
+round 78
+upgrade bomb1 path 2
+round 83
+upgrade ice0 path 0
+round 84
+place village village1 at 689, 745
+upgrade village1 path 1
+upgrade village1 path 1
+upgrade village1 path 1
+round 86
+place glue glue0 at 783, 772
+upgrade glue0 path 1
+upgrade glue0 path 1
+upgrade glue0 path 2
+upgrade glue0 path 2
+upgrade glue0 path 2
+upgrade glue0 path 2
+round 88
+place glue glue1 at 693, 505
+upgrade glue1 path 1
+upgrade glue1 path 1
+upgrade glue1 path 2
+upgrade glue1 path 2
+upgrade glue1 path 2
+upgrade glue1 path 2
+round 90
+place tack tack2 at 1031, 811
+upgrade tack2 path 0
+upgrade tack2 path 0
+upgrade tack2 path 2
+upgrade tack2 path 2
+upgrade tack2 path 2
+upgrade tack2 path 2
+place alchemist alchemist3 at 979, 846
+upgrade alchemist3 path 0
+upgrade alchemist3 path 0
+upgrade alchemist3 path 0
+upgrade alchemist3 path 1
+upgrade alchemist3 path 1
+round 94
+upgrade boomerang0 path 0
+round 96
+upgrade tack0 path 2
+round 97
+place sniper sniper1 at 699, 824
+upgrade sniper1 path 0
+upgrade sniper1 path 0
+upgrade sniper1 path 0
+upgrade sniper1 path 0
+upgrade sniper1 path 1
+upgrade sniper1 path 1
+retarget sniper1
+retarget sniper1
+retarget sniper1
+round 98
+place alchemist alchemist4 at 609, 802
+upgrade alchemist4 path 0
+upgrade alchemist4 path 0
+upgrade alchemist4 path 0
+upgrade alchemist4 path 1
+upgrade alchemist4 path 1
+round 99
+place alchemist alchemist5 at 991, 285
+upgrade alchemist5 path 0
+upgrade alchemist5 path 0
+upgrade alchemist5 path 0
+upgrade alchemist5 path 0
+upgrade alchemist5 path 1
+upgrade alchemist5 path 1
+upgrade alchemist4 path 0

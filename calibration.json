@@ -1,0 +1,10 @@
+{
+  "referenceSize": { "width": 2560, "height": 1440 },
+  "screenAnchors": {},
+  "fields": {
+    "profileLevel": { "x": 210, "y": 38, "w": 86, "h": 74 },
+    "profileXp": { "x": 358, "y": 53, "w": 304, "h": 64 },
+    "mapTiles": {}
+  },
+  "borderPalette": {}
+}

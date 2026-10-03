@@ -1,0 +1,43 @@
+# source: https://github.com/piweiblen/BloonsPlayer (license MIT (c) 2021 piweiblen) commit 17d624879c5ad777e82594da34450e66b2d60756
+# source file: tas/general/bloody puddles easy.txt (vendored copy: route-library/public-sources/piweiblen-BloonsPlayer)
+# source mode: easy; converted to 1920x1080 AutoBTD6 actions
+# generator: import-public-routes.py
+place sub sub0 at 496, 671
+place sub sub1 at 1186, 196
+upgrade sub0 path 0
+upgrade sub0 path 1
+upgrade sub1 path 1
+upgrade sub0 path 0
+upgrade sub1 path 0
+upgrade sub1 path 0
+place druid druid0 at 1051, 430
+upgrade druid0 path 1
+upgrade druid0 path 1
+upgrade druid0 path 1
+place buccaneer buccaneer0 at 211, 465
+place buccaneer buccaneer1 at 1011, 947
+upgrade buccaneer0 path 2
+upgrade buccaneer0 path 2
+upgrade buccaneer1 path 2
+upgrade buccaneer1 path 2
+upgrade sub0 path 1
+upgrade sub1 path 1
+upgrade buccaneer0 path 1
+upgrade buccaneer0 path 1
+upgrade buccaneer1 path 1
+upgrade buccaneer1 path 1
+place druid druid1 at 1336, 434
+upgrade druid1 path 1
+upgrade druid1 path 1
+upgrade druid1 path 1
+place druid druid2 at 707, 340
+upgrade druid2 path 1
+upgrade druid2 path 1
+upgrade druid2 path 1
+place druid druid3 at 329, 136
+upgrade druid3 path 1
+upgrade druid3 path 1
+upgrade druid3 path 1
+upgrade sub0 path 1
+upgrade sub1 path 1
+upgrade buccaneer0 path 1

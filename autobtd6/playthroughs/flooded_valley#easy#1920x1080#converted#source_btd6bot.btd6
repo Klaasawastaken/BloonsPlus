@@ -1,0 +1,24 @@
+place sub sub1 at 1067, 886
+place sub sub2 at 925, 152
+round 3
+place buccaneer boat at 1013, 833
+round 6
+upgrade sub1 path 2
+round 8
+upgrade sub1 path 1
+round 10
+upgrade boat path 2
+upgrade boat path 2
+round 13
+upgrade boat path 0
+upgrade boat path 0
+round 16
+upgrade sub1 path 1
+round 18
+upgrade sub2 path 1
+upgrade sub2 path 1
+upgrade sub2 path 2
+round 27
+upgrade boat path 0
+round 37
+upgrade boat path 0

@@ -1,0 +1,702 @@
+{
+  "maps": {
+    "monkeymeadow": {
+      "name": "Monkey Meadow",
+      "category": "Beginner",
+      "globalPage": 0,
+      "page": 0,
+      "pos": 0,
+      "confidence": 1,
+      "seenAt": "2026-09-27T06:18:11.887Z"
+    },
+    "intheloop": {
+      "name": "In the Loop",
+      "category": "Beginner",
+      "globalPage": 0,
+      "page": 0,
+      "pos": 1,
+      "confidence": 1,
+      "seenAt": "2026-09-27T06:18:11.887Z"
+    },
+    "skulltweak": {
+      "name": "Skulltweak",
+      "category": "Beginner",
+      "globalPage": 0,
+      "page": 0,
+      "pos": 2,
+      "confidence": 1,
+      "seenAt": "2026-09-27T06:18:11.887Z"
+    },
+    "threeminesround": {
+      "name": "Three Mines 'Round",
+      "category": "Beginner",
+      "globalPage": 0,
+      "page": 0,
+      "pos": 3,
+      "confidence": 0.9375,
+      "seenAt": "2026-09-27T06:18:11.887Z"
+    },
+    "spapits": {
+      "name": "Spa Pits",
+      "category": "Beginner",
+      "globalPage": 0,
+      "page": 0,
+      "pos": 4,
+      "confidence": 1,
+      "seenAt": "2026-09-27T06:18:11.887Z"
+    },
+    "tinkerton": {
+      "name": "Tinkerton",
+      "category": "Beginner",
+      "globalPage": 0,
+      "page": 0,
+      "pos": 5,
+      "confidence": 0.9,
+      "seenAt": "2026-09-27T06:18:11.887Z"
+    },
+    "treestump": {
+      "name": "Tree Stump",
+      "category": "Beginner",
+      "globalPage": 1,
+      "page": 1,
+      "pos": 0,
+      "confidence": 1,
+      "seenAt": "2026-09-27T06:18:20.021Z"
+    },
+    "towncenter": {
+      "name": "Town Center",
+      "category": "Beginner",
+      "globalPage": 1,
+      "page": 1,
+      "pos": 1,
+      "confidence": 1,
+      "seenAt": "2026-09-27T06:18:20.021Z"
+    },
+    "middleoftheroad": {
+      "name": "Middle of the Road",
+      "category": "Beginner",
+      "globalPage": 1,
+      "page": 1,
+      "pos": 2,
+      "confidence": 0.9375,
+      "seenAt": "2026-09-27T06:18:20.021Z"
+    },
+    "onetwotree": {
+      "name": "One Two Tree",
+      "category": "Beginner",
+      "page": 1,
+      "pos": 3,
+      "confidence": "live-observed",
+      "seenAt": "2026-09-26T12:18:17.060Z"
+    },
+    "scrapyard": {
+      "name": "Scrapyard",
+      "category": "Beginner",
+      "globalPage": 1,
+      "page": 1,
+      "pos": 4,
+      "confidence": 0.9,
+      "seenAt": "2026-09-26T15:36:15.162Z"
+    },
+    "thecabin": {
+      "name": "The Cabin",
+      "category": "Beginner",
+      "globalPage": 1,
+      "page": 1,
+      "pos": 5,
+      "confidence": 1,
+      "seenAt": "2026-09-27T06:18:20.021Z"
+    },
+    "resort": {
+      "name": "Resort",
+      "category": "Beginner",
+      "globalPage": 2,
+      "page": 2,
+      "pos": 0,
+      "confidence": 1,
+      "seenAt": "2026-09-27T06:18:24.615Z"
+    },
+    "skates": {
+      "name": "Skates",
+      "category": "Beginner",
+      "globalPage": 2,
+      "page": 2,
+      "pos": 1,
+      "confidence": 1,
+      "seenAt": "2026-09-27T06:18:24.615Z"
+    },
+    "lotusisland": {
+      "name": "Lotus Island",
+      "category": "Beginner",
+      "globalPage": 2,
+      "page": 2,
+      "pos": 2,
+      "confidence": 1,
+      "seenAt": "2026-09-27T06:18:24.615Z"
+    },
+    "candyfalls": {
+      "name": "Candy Falls",
+      "category": "Beginner",
+      "globalPage": 2,
+      "page": 2,
+      "pos": 3,
+      "confidence": 0.9,
+      "seenAt": "2026-09-27T06:18:24.615Z"
+    },
+    "winterpark": {
+      "name": "Winter Park",
+      "category": "Beginner",
+      "globalPage": 2,
+      "page": 2,
+      "pos": 4,
+      "confidence": 1,
+      "seenAt": "2026-09-27T06:18:24.615Z"
+    },
+    "carved": {
+      "name": "Carved",
+      "category": "Beginner",
+      "globalPage": 2,
+      "page": 2,
+      "pos": 5,
+      "confidence": 0.8571428571428572,
+      "seenAt": "2026-09-27T06:18:24.615Z"
+    },
+    "bloodypuddles": {
+      "name": "Bloody Puddles",
+      "category": "Expert",
+      "globalPage": 15,
+      "page": 1,
+      "pos": 1,
+      "confidence": 1,
+      "seenAt": "2026-09-27T06:20:54.724Z"
+    },
+    "workshop": {
+      "name": "Workshop",
+      "category": "Expert",
+      "globalPage": 15,
+      "page": 1,
+      "pos": 2,
+      "confidence": 1,
+      "seenAt": "2026-09-27T06:20:54.724Z"
+    },
+    "muddypuddles": {
+      "name": "Muddy Puddles",
+      "category": "Expert",
+      "globalPage": 15,
+      "page": 1,
+      "pos": 5,
+      "confidence": 1,
+      "seenAt": "2026-09-27T06:20:54.724Z"
+    },
+    "darkcastle": {
+      "name": "Dark Castle",
+      "category": "Expert",
+      "globalPage": 15,
+      "page": 1,
+      "pos": 4,
+      "confidence": 1,
+      "seenAt": "2026-09-27T06:20:54.724Z"
+    },
+    "darkdungeons": {
+      "name": "Dark Dungeons",
+      "category": "Expert",
+      "globalPage": 14,
+      "page": 0,
+      "pos": 2,
+      "confidence": 1,
+      "seenAt": "2026-09-27T06:19:39.573Z"
+    },
+    "ravine": {
+      "name": "Ravine",
+      "category": "Expert",
+      "globalPage": 14,
+      "page": 0,
+      "pos": 4,
+      "confidence": 1,
+      "seenAt": "2026-09-27T06:19:39.573Z"
+    },
+    "floodedvalley": {
+      "name": "Flooded Valley",
+      "category": "Expert",
+      "globalPage": 14,
+      "page": 0,
+      "pos": 5,
+      "confidence": 0.8666666666666667,
+      "seenAt": "2026-09-27T06:19:39.573Z"
+    },
+    "infernal": {
+      "name": "Infernal",
+      "category": "Expert",
+      "globalPage": 15,
+      "page": 1,
+      "pos": 0,
+      "confidence": 1,
+      "seenAt": "2026-09-27T06:20:54.724Z"
+    },
+    "enchantedglade": {
+      "name": "Enchanted Glade",
+      "category": "Advanced",
+      "globalPage": 10,
+      "page": 0,
+      "pos": 4,
+      "confidence": 1,
+      "seenAt": "2026-09-27T06:19:16.022Z"
+    },
+    "lastresort": {
+      "name": "Last Resort",
+      "category": "Advanced",
+      "globalPage": 10,
+      "page": 0,
+      "pos": 5,
+      "confidence": 0.9090909090909091,
+      "seenAt": "2026-09-26T19:38:29.525Z"
+    },
+    "sanctuary": {
+      "name": "Sanctuary",
+      "category": "Expert",
+      "globalPage": 14,
+      "page": 0,
+      "pos": 3,
+      "confidence": 1,
+      "seenAt": "2026-09-27T06:19:39.573Z"
+    },
+    "parkpath": {
+      "name": "Park Path",
+      "category": "Beginner",
+      "globalPage": 3,
+      "page": 3,
+      "pos": 0,
+      "confidence": 1,
+      "seenAt": "2026-09-27T06:18:32.518Z"
+    },
+    "frozenover": {
+      "name": "Frozen Over",
+      "category": "Beginner",
+      "globalPage": 3,
+      "page": 3,
+      "pos": 2,
+      "confidence": 1,
+      "seenAt": "2026-09-27T06:18:32.518Z"
+    },
+    "highfinance": {
+      "name": "High Finance",
+      "category": "Advanced",
+      "globalPage": 13,
+      "page": 2,
+      "pos": 0,
+      "confidence": 0.9166666666666666,
+      "seenAt": "2026-09-27T06:19:31.937Z"
+    },
+    "anotherbrick": {
+      "name": "Another Brick",
+      "category": "Advanced",
+      "globalPage": 13,
+      "page": 2,
+      "pos": 1,
+      "confidence": 0.9230769230769231,
+      "seenAt": "2026-09-27T06:19:31.937Z"
+    },
+    "underground": {
+      "name": "Underground",
+      "category": "Advanced",
+      "globalPage": 13,
+      "page": 2,
+      "pos": 4,
+      "confidence": 1,
+      "seenAt": "2026-09-27T06:19:31.937Z"
+    },
+    "patspond": {
+      "name": "Pat's Pond",
+      "category": "Advanced",
+      "globalPage": 12,
+      "page": 2,
+      "pos": 4,
+      "confidence": 1,
+      "seenAt": "2026-09-27T06:19:27.734Z"
+    },
+    "peninsula": {
+      "name": "Peninsula",
+      "category": "Advanced",
+      "globalPage": 12,
+      "page": 2,
+      "pos": 5,
+      "confidence": 0.9,
+      "seenAt": "2026-09-26T20:04:18.078Z"
+    },
+    "alpinerun": {
+      "name": "Alpine Run",
+      "category": "Beginner",
+      "globalPage": 3,
+      "page": 3,
+      "pos": 1,
+      "confidence": 0.8888888888888888,
+      "seenAt": "2026-09-27T06:18:32.518Z"
+    },
+    "fourcircles": {
+      "name": "Four Circles",
+      "category": "Beginner",
+      "globalPage": 3,
+      "page": 3,
+      "pos": 4,
+      "confidence": 1,
+      "seenAt": "2026-09-27T06:18:32.518Z"
+    },
+    "hedge": {
+      "name": "Hedge",
+      "category": "Beginner",
+      "globalPage": 3,
+      "page": 3,
+      "pos": 5,
+      "confidence": 1,
+      "seenAt": "2026-09-27T06:18:32.518Z"
+    },
+    "lostcrevasse": {
+      "name": "Lost Crevasse",
+      "category": "Intermediate",
+      "globalPage": 5,
+      "page": 0,
+      "pos": 0,
+      "confidence": 1,
+      "seenAt": "2026-09-27T06:18:44.223Z"
+    },
+    "luminouscove": {
+      "name": "Luminous Cove",
+      "category": "Intermediate",
+      "globalPage": 5,
+      "page": 0,
+      "pos": 1,
+      "confidence": 0.8461538461538461,
+      "seenAt": "2026-09-27T06:18:44.223Z"
+    },
+    "sulfursprings": {
+      "name": "Sulfur Springs",
+      "category": "Intermediate",
+      "globalPage": 5,
+      "page": 0,
+      "pos": 3,
+      "confidence": 0.9285714285714286,
+      "seenAt": "2026-09-27T06:18:44.223Z"
+    },
+    "waterpark": {
+      "name": "Water Park",
+      "category": "Intermediate",
+      "globalPage": 5,
+      "page": 0,
+      "pos": 4,
+      "confidence": 1,
+      "seenAt": "2026-09-27T06:18:44.223Z"
+    },
+    "polyphemus": {
+      "name": "Polyphemus",
+      "category": "Intermediate",
+      "globalPage": 5,
+      "page": 0,
+      "pos": 5,
+      "confidence": 0.9090909090909091,
+      "seenAt": "2026-09-27T06:18:44.223Z"
+    },
+    "coveredgarden": {
+      "name": "Covered Garden",
+      "category": "Intermediate",
+      "globalPage": 6,
+      "page": 1,
+      "pos": 0,
+      "confidence": 1,
+      "seenAt": "2026-09-27T06:18:51.458Z"
+    },
+    "quarry": {
+      "name": "Quarry",
+      "category": "Intermediate",
+      "globalPage": 6,
+      "page": 1,
+      "pos": 1,
+      "confidence": 0.8571428571428572,
+      "seenAt": "2026-09-27T06:18:51.458Z"
+    },
+    "quietstreet": {
+      "name": "Quiet Street",
+      "category": "Intermediate",
+      "globalPage": 6,
+      "page": 1,
+      "pos": 2,
+      "confidence": 0.9090909090909091,
+      "seenAt": "2026-09-27T06:18:51.458Z"
+    },
+    "bloonariusprime": {
+      "name": "Bloonarius Prime",
+      "category": "Intermediate",
+      "globalPage": 6,
+      "page": 1,
+      "pos": 3,
+      "confidence": 1,
+      "seenAt": "2026-09-27T06:18:51.458Z"
+    },
+    "balance": {
+      "name": "Balance",
+      "category": "Intermediate",
+      "globalPage": 6,
+      "page": 1,
+      "pos": 4,
+      "confidence": 1,
+      "seenAt": "2026-09-27T06:18:51.458Z"
+    },
+    "encrypted": {
+      "name": "Encrypted",
+      "category": "Intermediate",
+      "globalPage": 6,
+      "page": 1,
+      "pos": 5,
+      "confidence": 1,
+      "seenAt": "2026-09-27T06:18:51.458Z"
+    },
+    "bazaar": {
+      "name": "Bazaar",
+      "category": "Intermediate",
+      "globalPage": 7,
+      "page": 2,
+      "pos": 0,
+      "confidence": 0.8571428571428572,
+      "seenAt": "2026-09-27T06:18:55.559Z"
+    },
+    "adorastemple": {
+      "name": "Adora's Temple",
+      "category": "Intermediate",
+      "globalPage": 7,
+      "page": 2,
+      "pos": 1,
+      "confidence": 0.9230769230769231,
+      "seenAt": "2026-09-27T06:18:55.559Z"
+    },
+    "springspring": {
+      "name": "Spring Spring",
+      "category": "Intermediate",
+      "globalPage": 7,
+      "page": 2,
+      "pos": 2,
+      "confidence": 1,
+      "seenAt": "2026-09-27T06:18:55.559Z"
+    },
+    "kartsndarts": {
+      "name": "KartsNDarts",
+      "category": "Intermediate",
+      "globalPage": 7,
+      "page": 2,
+      "pos": 3,
+      "confidence": 1,
+      "seenAt": "2026-09-27T06:18:55.559Z"
+    },
+    "haunted": {
+      "name": "Haunted",
+      "category": "Intermediate",
+      "globalPage": 7,
+      "page": 2,
+      "pos": 5,
+      "confidence": 1,
+      "seenAt": "2026-09-27T06:18:55.559Z"
+    },
+    "downstream": {
+      "name": "Downstream",
+      "category": "Intermediate",
+      "globalPage": 8,
+      "page": 3,
+      "pos": 0,
+      "confidence": 1,
+      "seenAt": "2026-09-27T06:52:49.684Z"
+    },
+    "firingrange": {
+      "name": "Firing Range",
+      "category": "Intermediate",
+      "globalPage": 8,
+      "page": 3,
+      "pos": 1,
+      "confidence": 1,
+      "seenAt": "2026-09-27T06:52:49.685Z"
+    },
+    "cracked": {
+      "name": "Cracked",
+      "category": "Intermediate",
+      "globalPage": 8,
+      "page": 3,
+      "pos": 2,
+      "confidence": 1,
+      "seenAt": "2026-09-27T06:19:03.741Z"
+    },
+    "streambed": {
+      "name": "Streambed",
+      "category": "Intermediate",
+      "globalPage": 8,
+      "page": 3,
+      "pos": 3,
+      "confidence": 0.8888888888888888,
+      "seenAt": "2026-09-27T06:52:49.685Z"
+    },
+    "chutes": {
+      "name": "Chutes",
+      "category": "Intermediate",
+      "globalPage": 8,
+      "page": 3,
+      "pos": 4,
+      "confidence": 1,
+      "seenAt": "2026-09-27T06:52:49.685Z"
+    },
+    "rake": {
+      "name": "Rake",
+      "category": "Intermediate",
+      "globalPage": 8,
+      "page": 3,
+      "pos": 5,
+      "confidence": 1,
+      "seenAt": "2026-09-27T06:52:49.685Z"
+    },
+    "sunsetgulch": {
+      "name": "Sunset Gulch",
+      "category": "Advanced",
+      "globalPage": 10,
+      "page": 0,
+      "pos": 3,
+      "confidence": 1,
+      "seenAt": "2026-09-27T06:19:16.022Z"
+    },
+    "castlerevenge": {
+      "name": "Castle Revenge",
+      "category": "Advanced",
+      "globalPage": 11,
+      "page": 1,
+      "pos": 0,
+      "confidence": 1,
+      "seenAt": "2026-09-27T06:19:20.444Z"
+    },
+    "darkpath": {
+      "name": "Dark Path",
+      "category": "Advanced",
+      "globalPage": 11,
+      "page": 1,
+      "pos": 1,
+      "confidence": 1,
+      "seenAt": "2026-09-27T06:19:20.444Z"
+    },
+    "erosion": {
+      "name": "Erosion",
+      "category": "Advanced",
+      "globalPage": 11,
+      "page": 1,
+      "pos": 2,
+      "confidence": 1,
+      "seenAt": "2026-09-27T06:19:20.444Z"
+    },
+    "midnightmansion": {
+      "name": "Midnight Mansion",
+      "category": "Advanced",
+      "globalPage": 11,
+      "page": 1,
+      "pos": 3,
+      "confidence": 1,
+      "seenAt": "2026-09-27T06:19:20.444Z"
+    },
+    "sunkencolumns": {
+      "name": "Sunken Columns",
+      "category": "Advanced",
+      "globalPage": 11,
+      "page": 1,
+      "pos": 4,
+      "confidence": 1,
+      "seenAt": "2026-09-27T06:19:20.444Z"
+    },
+    "xfactor": {
+      "name": "X Factor",
+      "category": "Advanced",
+      "globalPage": 11,
+      "page": 1,
+      "pos": 5,
+      "confidence": 0.8571428571428572,
+      "seenAt": "2026-09-27T06:19:20.444Z"
+    },
+    "mesa": {
+      "name": "Mesa",
+      "category": "Advanced",
+      "globalPage": 12,
+      "page": 2,
+      "pos": 0,
+      "confidence": 1,
+      "seenAt": "2026-09-27T06:19:27.734Z"
+    },
+    "geared": {
+      "name": "Geared",
+      "category": "Advanced",
+      "globalPage": 12,
+      "page": 2,
+      "pos": 1,
+      "confidence": 1,
+      "seenAt": "2026-09-27T06:19:27.734Z"
+    },
+    "spillway": {
+      "name": "Spillway",
+      "category": "Advanced",
+      "globalPage": 12,
+      "page": 2,
+      "pos": 2,
+      "confidence": 1,
+      "seenAt": "2026-09-27T06:19:27.734Z"
+    },
+    "cargo": {
+      "name": "Cargo",
+      "category": "Advanced",
+      "globalPage": 12,
+      "page": 2,
+      "pos": 3,
+      "confidence": 1,
+      "seenAt": "2026-09-27T06:19:27.734Z"
+    },
+    "offthecoast": {
+      "name": "Off the Coast",
+      "category": "Advanced",
+      "globalPage": 13,
+      "page": 2,
+      "pos": 2,
+      "confidence": 0.9166666666666666,
+      "seenAt": "2026-09-27T06:19:31.937Z"
+    },
+    "cornfield": {
+      "name": "Cornfield",
+      "category": "Advanced",
+      "globalPage": 13,
+      "page": 2,
+      "pos": 3,
+      "confidence": 0.9,
+      "seenAt": "2026-09-27T06:19:31.937Z"
+    },
+    "glacialtrail": {
+      "name": "Glacial Trail",
+      "category": "Expert",
+      "globalPage": 14,
+      "page": 0,
+      "pos": 1,
+      "confidence": 1,
+      "seenAt": "2026-09-27T06:19:39.573Z"
+    },
+    "mushroomgrotto": {
+      "name": "Mushroom Grotto",
+      "category": "Advanced",
+      "globalPage": 10,
+      "page": 0,
+      "pos": 1,
+      "confidence": "repeated-ocr",
+      "discovered": true,
+      "seenAt": "2026-09-27T06:19:16.022Z",
+      "correctedFrom": "MUSHROOM GROTTON"
+    }
+  },
+  "updatedAt": "2026-09-27T06:52:49.685Z",
+  "pending": {
+    "Advanced:10:1": {
+      "name": "MUSHROOM GROTTON",
+      "seenCount": 4
+    }
+  },
+  "categoryStarts": {
+    "Beginner": 0,
+    "Expert": 14,
+    "Advanced": 11,
+    "Intermediate": 5
+  }
+}

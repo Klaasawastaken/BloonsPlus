@@ -1,0 +1,46 @@
+place sniper sniper at 835, 218
+place sniper sniper2 at 859, 292
+retarget sniper2
+retarget sniper2
+retarget sniper2
+round 3
+place sub sub at 1257, 528
+round 4
+upgrade sub path 0
+round 6
+place dart dart at 443, 600
+round 8
+upgrade sub path 0
+round 9
+upgrade sub path 2
+round 13
+upgrade sub path 2
+round 14
+upgrade dart path 2
+round 18
+place ace ace at 867, 854
+upgrade ace path 2
+round 23
+upgrade sniper path 1
+upgrade ace path 2
+round 27
+upgrade sniper2 path 0
+round 28
+upgrade ace path 2
+round 31
+upgrade ace path 0
+upgrade ace path 0
+round 34
+upgrade sniper path 1
+upgrade sniper path 2
+upgrade sniper path 2
+round 36
+upgrade sniper path 2
+round 37
+place alchemist alch at 891, 952
+upgrade alch path 0
+upgrade alch path 0
+round 38
+upgrade alch path 0
+round 39
+upgrade sub path 2

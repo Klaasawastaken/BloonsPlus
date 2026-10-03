@@ -1,0 +1,58 @@
+# source: https://github.com/ThuyTran735/BTD6-Everything-Macro (license MIT (c) 2026 ThuyTran735) commit afd8a30917bcab798a9ed8bf15f83897f6fb0a60
+# source file: Maps/Beginner/Spa Pits/Medium/SpaPitsReverse.ahk (vendored copy: route-library/public-sources/ThuyTran735-BTD6-Everything-Macro)
+# source mode: reverse; converted to 1920x1080 AutoBTD6 actions
+# generator: import-public-routes.py
+place quincy hero0 at 564, 662
+round 3
+place sniper sniper0 at 1480, 507
+retarget sniper0
+retarget sniper0
+retarget sniper0
+round 6
+place sniper sniper1 at 1482, 596
+round 7
+upgrade sniper0 path 0
+upgrade sniper0 path 1
+round 10
+upgrade sniper1 path 1
+upgrade sniper1 path 1
+upgrade sniper1 path 2
+upgrade sniper1 path 2
+round 17
+upgrade sniper0 path 0
+upgrade sniper0 path 1
+round 24
+place sniper sniper2 at 1488, 692
+upgrade sniper2 path 1
+upgrade sniper2 path 1
+upgrade sniper2 path 2
+upgrade sniper2 path 2
+round 34
+upgrade sniper1 path 2
+upgrade sniper1 path 2
+round 39
+upgrade sniper0 path 0
+round 41
+upgrade sniper2 path 2
+upgrade sniper2 path 2
+round 48
+upgrade sniper0 path 0
+round 49
+place sniper sniper3 at 1397, 670
+upgrade sniper3 path 0
+upgrade sniper3 path 0
+upgrade sniper3 path 2
+upgrade sniper3 path 2
+upgrade sniper3 path 2
+upgrade sniper3 path 2
+round 52
+place sniper sniper4 at 1402, 761
+retarget sniper4
+retarget sniper4
+retarget sniper4
+upgrade sniper4 path 0
+upgrade sniper4 path 0
+upgrade sniper4 path 0
+upgrade sniper4 path 0
+upgrade sniper4 path 1
+upgrade sniper4 path 1

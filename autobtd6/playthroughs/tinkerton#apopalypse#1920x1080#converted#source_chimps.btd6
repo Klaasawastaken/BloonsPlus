@@ -1,0 +1,60 @@
+place sauda hero0 at 269, 569
+round 5
+place sniper sniper0 at 66, 581
+retarget sniper0
+retarget sniper0
+retarget sniper0
+round 9
+place heli heli0 at 360, 474
+round 11
+upgrade heli0 path 0
+round 13
+upgrade heli0 path 0
+round 16
+upgrade heli0 path 0
+round 19
+place village village0 at 173, 587
+upgrade village0 path 0
+round 21
+upgrade village0 path 1
+upgrade village0 path 1
+round 22
+place heli heli1 at 119, 709
+round 23
+upgrade heli1 path 0
+upgrade heli1 path 0
+round 24
+upgrade heli1 path 2
+upgrade heli1 path 2
+round 25
+upgrade heli1 path 2
+upgrade heli0 path 2
+upgrade heli0 path 2
+round 29
+upgrade heli1 path 2
+round 34
+upgrade heli0 path 0
+round 36
+upgrade village0 path 0
+round 49
+upgrade heli0 path 0
+round 54
+upgrade village0 path 1
+round 57
+upgrade heli1 path 2
+round 58
+place glue glue0 at 369, 688
+upgrade glue0 path 1
+upgrade glue0 path 1
+upgrade glue0 path 2
+upgrade glue0 path 2
+upgrade glue0 path 2
+round 59
+upgrade glue0 path 2
+upgrade sniper0 path 0
+upgrade sniper0 path 0
+upgrade sniper0 path 0
+round 60
+upgrade sniper0 path 0
+upgrade sniper0 path 1
+upgrade sniper0 path 1

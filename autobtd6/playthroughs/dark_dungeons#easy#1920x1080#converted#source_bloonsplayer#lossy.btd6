@@ -1,0 +1,40 @@
+# source: https://github.com/piweiblen/BloonsPlayer (license MIT (c) 2021 piweiblen) commit 17d624879c5ad777e82594da34450e66b2d60756
+# source file: tas/general/dark dungeons easy.txt (vendored copy: route-library/public-sources/piweiblen-BloonsPlayer)
+# source mode: easy; converted to 1920x1080 AutoBTD6 actions
+# dropped (not expressible in AutoBTD6, route may be weaker): activated abilities
+# generator: import-public-routes.py
+place dart dart0 at 1424, 331
+place dart dart1 at 650, 514
+place dart dart2 at 238, 801
+place etienne hero0 at 401, 495
+upgrade dart0 path 1
+upgrade dart0 path 1
+upgrade dart0 path 2
+upgrade dart0 path 2
+upgrade dart0 path 2
+place ace ace0 at 859, 638
+upgrade ace0 path 0
+upgrade ace0 path 0
+place druid druid0 at 926, 992
+upgrade druid0 path 1
+upgrade druid0 path 1
+upgrade druid0 path 1
+upgrade druid0 path 0
+place druid druid1 at 250, 935
+upgrade druid1 path 1
+upgrade druid1 path 1
+upgrade druid1 path 1
+upgrade druid1 path 0
+place druid druid2 at 1423, 448
+upgrade druid2 path 1
+upgrade druid2 path 1
+upgrade druid2 path 1
+upgrade druid2 path 0
+place druid druid3 at 324, 273
+upgrade druid3 path 1
+upgrade druid3 path 1
+upgrade druid3 path 1
+upgrade druid3 path 0
+upgrade ace0 path 0
+upgrade ace0 path 2
+upgrade ace0 path 2

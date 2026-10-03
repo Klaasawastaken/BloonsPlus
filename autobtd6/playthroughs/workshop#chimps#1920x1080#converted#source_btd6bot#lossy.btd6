@@ -1,0 +1,168 @@
+# source: https://github.com/j-miet/BTD6bot (license MIT (c) 2025 Jani Miettinen) commit 2d6dac0957a0d55d0af201bd497afbebf7f3e5c2
+# source file: btd6bot/plans/workshopHardChimps.py (vendored copy: btd6bot/btd6bot/plans)
+# source mode: chimps; converted to 1920x1080 AutoBTD6 actions
+# dropped (not expressible in AutoBTD6, route may be weaker): gwendolin special with a target position; spike targeting 'close' (needs a special cycle or click)
+# generator: import-public-routes.py
+place dart dart0 at 223, 622
+retarget dart0
+place dart dart1 at 603, 502
+retarget dart1
+retarget dart1
+retarget dart1
+place dart dart2 at 669, 502
+round 7
+place dart dart3 at 157, 622
+retarget dart3
+retarget dart3
+retarget dart3
+round 10
+place druid druid0 at 943, 626
+retarget dart1
+retarget dart3
+round 14
+place spike spike0 at 1596, 714
+round 17
+place gwendolin hero0 at 1019, 498
+round 19
+upgrade spike0 path 2
+upgrade spike0 path 2
+round 20
+upgrade druid0 path 0
+retarget druid0
+retarget druid0
+retarget druid0
+round 22
+upgrade druid0 path 1
+round 25
+upgrade spike0 path 0
+round 27
+upgrade druid0 path 0
+round 31
+upgrade druid0 path 1
+upgrade druid0 path 1
+round 34
+upgrade spike0 path 2
+round 37
+upgrade spike0 path 2
+round 39
+place village village0 at 1405, 688
+upgrade village0 path 2
+upgrade village0 path 2
+round 40
+place alchemist alchemist0 at 1463, 626
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+round 41
+upgrade alchemist0 path 0
+upgrade alchemist0 path 2
+round 43
+upgrade village0 path 0
+upgrade village0 path 0
+round 45
+upgrade alchemist0 path 0
+round 46
+place spike spike1 at 1597, 634
+round 47
+upgrade spike1 path 0
+upgrade spike1 path 0
+round 48
+upgrade spike1 path 0
+upgrade spike1 path 1
+upgrade spike1 path 1
+round 52
+upgrade spike1 path 0
+round 54
+place village village1 at 1205, 420
+upgrade village1 path 2
+upgrade village1 path 2
+round 56
+place tack tack0 at 1021, 436
+round 57
+upgrade tack0 path 0
+upgrade tack0 path 0
+upgrade tack0 path 2
+upgrade tack0 path 2
+upgrade tack0 path 2
+upgrade tack0 path 2
+round 58
+place alchemist alchemist1 at 1021, 380
+upgrade alchemist1 path 0
+upgrade alchemist1 path 0
+upgrade alchemist1 path 0
+upgrade alchemist1 path 1
+upgrade alchemist1 path 1
+round 59
+upgrade village1 path 0
+upgrade village1 path 0
+round 60
+place ice ice0 at 1185, 336
+round 61
+upgrade ice0 path 0
+upgrade ice0 path 0
+upgrade ice0 path 0
+round 62
+upgrade ice0 path 0
+upgrade ice0 path 1
+round 71
+ability 1 after 2 seconds
+round 75
+upgrade tack0 path 2
+upgrade village1 path 0
+round 76
+ability 2 after 0.5 seconds
+round 78
+ability 2 after 3.5 seconds
+upgrade alchemist1 path 0
+place glue glue0 at 1185, 280
+upgrade glue0 path 1
+upgrade glue0 path 2
+upgrade glue0 path 2
+upgrade glue0 path 2
+retarget glue0
+retarget glue0
+retarget glue0
+round 85
+upgrade spike0 path 2
+upgrade spike0 path 0
+round 88
+upgrade glue0 path 2
+upgrade glue0 path 1
+round 92
+place mortar mortar0 at 1381, 901
+retarget mortar0 to 1101, 205
+round 93
+upgrade mortar0 path 0
+upgrade mortar0 path 2
+upgrade mortar0 path 2
+upgrade mortar0 path 2
+upgrade mortar0 path 2
+round 97
+upgrade glue0 path 2
+round 98
+place boomerang boomerang0 at 1395, 345
+retarget boomerang0
+retarget boomerang0
+retarget boomerang0
+upgrade boomerang0 path 0
+upgrade boomerang0 path 0
+upgrade boomerang0 path 2
+upgrade boomerang0 path 2
+upgrade boomerang0 path 2
+upgrade boomerang0 path 2
+place boomerang boomerang1 at 1275, 348
+retarget boomerang1
+retarget boomerang1
+retarget boomerang1
+upgrade boomerang1 path 0
+upgrade boomerang1 path 0
+upgrade boomerang1 path 2
+upgrade boomerang1 path 2
+upgrade boomerang1 path 2
+upgrade boomerang1 path 2
+round 99
+place alchemist alchemist2 at 1217, 228
+round 100
+upgrade alchemist2 path 0
+upgrade alchemist2 path 0
+upgrade alchemist2 path 0
+upgrade alchemist2 path 2

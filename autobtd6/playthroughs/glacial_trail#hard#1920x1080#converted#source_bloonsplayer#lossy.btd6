@@ -1,0 +1,127 @@
+# source: https://github.com/piweiblen/BloonsPlayer (license MIT (c) 2021 piweiblen) commit 17d624879c5ad777e82594da34450e66b2d60756
+# source file: tas/general/glacial hard.txt (vendored copy: route-library/public-sources/piweiblen-BloonsPlayer)
+# source mode: hard; converted to 1920x1080 AutoBTD6 actions
+# dropped (timing only): wait
+# dropped (not expressible in AutoBTD6, route may be weaker): activated abilities; mouse sweeps (banana/cash collection)
+# generator: import-public-routes.py
+place obyn_greenfoot hero0 at 194, 397
+round 5
+place dart dart0 at 311, 540
+round 8
+place spike spike0 at 1156, 575
+place ice ice0 at 235, 558
+upgrade spike0 path 2
+upgrade spike0 path 2
+upgrade ice0 path 2
+upgrade ice0 path 2
+round 20
+upgrade spike0 path 1
+upgrade spike0 path 1
+upgrade ice0 path 2
+upgrade ice0 path 0
+upgrade ice0 path 0
+round 29
+upgrade spike0 path 2
+round 34
+place ace ace0 at 314, 124
+retarget ace0
+retarget ace0
+retarget ace0
+upgrade ace0 path 1
+upgrade ace0 path 0
+upgrade ace0 path 0
+upgrade ace0 path 1
+round 37
+place mortar mortar0 at 1556, 262
+upgrade mortar0 path 1
+upgrade mortar0 path 1
+upgrade mortar0 path 0
+upgrade mortar0 path 0
+upgrade mortar0 path 1
+upgrade ace0 path 0
+round 39
+sell dart0
+place ice ice1 at 315, 545
+upgrade ice1 path 2
+upgrade ice1 path 2
+upgrade ice1 path 0
+upgrade ice1 path 0
+upgrade ice1 path 2
+round 44
+place farm farm0 at 208, 942
+upgrade farm0 path 1
+upgrade farm0 path 1
+upgrade farm0 path 2
+upgrade farm0 path 2
+round 46
+click map at 194, 397
+click map at 1598, 304
+click map at 336, 443
+ability 2
+upgrade farm0 path 2
+upgrade ice0 path 2
+round 49
+place heli heli0 at 1565, 80
+upgrade heli0 path 0
+upgrade heli0 path 0
+upgrade heli0 path 2
+upgrade heli0 path 2
+upgrade heli0 path 2
+upgrade ice1 path 2
+round 51
+upgrade mortar0 path 1
+retarget mortar0 to 95, 408
+round 55
+upgrade ace0 path 0
+round 56
+place heli heli1 at 1337, 66
+upgrade heli1 path 0
+upgrade heli1 path 0
+upgrade heli1 path 2
+upgrade heli1 path 2
+upgrade heli1 path 2
+round 58
+place mortar mortar1 at 1460, 195
+retarget mortar1 to 95, 408
+upgrade mortar1 path 1
+upgrade mortar1 path 1
+upgrade mortar1 path 1
+upgrade mortar1 path 0
+upgrade mortar1 path 0
+upgrade mortar1 path 1
+round 63
+place mortar mortar2 at 1414, 294
+retarget mortar2 to 95, 408
+upgrade mortar2 path 1
+upgrade mortar2 path 1
+upgrade mortar2 path 1
+upgrade mortar2 path 0
+upgrade mortar2 path 0
+upgrade mortar2 path 1
+round 67
+place mortar mortar3 at 1288, 284
+retarget mortar3 to 95, 408
+upgrade mortar3 path 1
+upgrade mortar3 path 1
+upgrade mortar3 path 1
+upgrade mortar3 path 0
+upgrade mortar3 path 0
+upgrade mortar3 path 1
+round 72
+place mortar mortar4 at 1337, 187
+retarget mortar4 to 95, 408
+upgrade mortar4 path 1
+upgrade mortar4 path 1
+upgrade mortar4 path 1
+upgrade mortar4 path 0
+upgrade mortar4 path 0
+upgrade mortar4 path 1
+round 76
+place mortar mortar5 at 1402, 716
+retarget mortar5 to 95, 408
+upgrade mortar5 path 1
+upgrade mortar5 path 1
+upgrade mortar5 path 1
+upgrade mortar5 path 0
+upgrade mortar5 path 0
+upgrade mortar5 path 1

@@ -1,0 +1,34 @@
+round 3
+place dart dart0 at 523, 842
+round 6
+place sauda hero0 at 543, 482
+round 10
+place wizard wizard0 at 412, 921
+upgrade wizard0 path 2
+upgrade wizard0 path 2
+round 24
+upgrade wizard0 path 2
+upgrade wizard0 path 1
+upgrade wizard0 path 1
+upgrade wizard0 path 2
+round 30
+place sniper sniper0 at 355, 525
+upgrade sniper0 path 2
+upgrade sniper0 path 2
+upgrade sniper0 path 2
+upgrade sniper0 path 2
+round 45
+upgrade dart0 path 1
+upgrade dart0 path 1
+upgrade dart0 path 2
+upgrade dart0 path 2
+upgrade dart0 path 2
+upgrade dart0 path 2
+round 55
+place druid druid0 at 561, 313
+upgrade druid0 path 0
+upgrade druid0 path 0
+upgrade druid0 path 1
+upgrade druid0 path 1
+upgrade druid0 path 1
+upgrade druid0 path 1

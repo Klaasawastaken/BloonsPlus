@@ -1,0 +1,147 @@
+place mermonkey mermonkey0 at 765, 344
+place mermonkey mermonkey1 at 953, 773
+round 6
+place dart dart0 at 760, 653
+round 7
+place dart dart1 at 958, 463
+round 10
+place obyn_greenfoot hero0 at 888, 471
+round 11
+place druid druid0 at 957, 647
+round 12
+place druid druid1 at 765, 591
+round 15
+upgrade dart0 path 2
+upgrade dart0 path 2
+round 16
+upgrade dart0 path 2
+round 17
+upgrade dart0 path 1
+upgrade dart0 path 1
+round 18
+place druid druid2 at 767, 525
+round 19
+upgrade druid1 path 0
+round 23
+click map at 355, 823
+click map at 943, 653
+click map at 355, 271
+click map at 943, 655
+click map at 1355, 301
+click map at 937, 639
+click map at 1395, 861
+click map at 941, 653
+click map at 873, 557
+click map at 987, 581
+round 26
+upgrade dart0 path 2
+round 28
+place village village0 at 851, 635
+round 29
+upgrade village0 path 2
+upgrade village0 path 2
+upgrade druid1 path 0
+upgrade druid1 path 2
+round 31
+place druid druid3 at 953, 581
+upgrade druid1 path 0
+upgrade druid1 path 2
+round 33
+upgrade druid1 path 0
+round 36
+upgrade druid0 path 2
+upgrade druid0 path 2
+upgrade druid0 path 2
+upgrade druid0 path 2
+upgrade druid0 path 1
+round 39
+upgrade druid2 path 2
+upgrade druid2 path 2
+upgrade druid2 path 2
+upgrade druid2 path 2
+upgrade druid2 path 1
+round 40
+upgrade village0 path 0
+upgrade village0 path 0
+upgrade druid3 path 2
+upgrade druid3 path 2
+upgrade druid3 path 2
+upgrade druid3 path 2
+upgrade druid3 path 1
+round 41
+place alchemist alchemist0 at 636, 535
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+round 42
+upgrade alchemist0 path 0
+upgrade alchemist0 path 1
+upgrade alchemist0 path 1
+round 43
+place alchemist alchemist1 at 1084, 585
+upgrade alchemist1 path 0
+upgrade alchemist1 path 0
+upgrade alchemist1 path 0
+round 44
+upgrade alchemist1 path 0
+upgrade alchemist1 path 1
+upgrade alchemist1 path 1
+round 68
+upgrade druid1 path 0
+round 71
+place sniper sniper0 at 859, 797
+retarget sniper0
+retarget sniper0
+retarget sniper0
+upgrade sniper0 path 2
+upgrade sniper0 path 2
+upgrade sniper0 path 2
+upgrade sniper0 path 2
+upgrade sniper0 path 0
+upgrade sniper0 path 0
+round 74
+upgrade sniper0 path 2
+round 77
+place sniper sniper1 at 757, 792
+retarget sniper1
+retarget sniper1
+retarget sniper1
+upgrade sniper1 path 2
+upgrade sniper1 path 2
+upgrade sniper1 path 2
+upgrade sniper1 path 2
+upgrade sniper1 path 0
+upgrade sniper1 path 0
+round 78
+place sniper sniper2 at 847, 857
+retarget sniper2
+retarget sniper2
+retarget sniper2
+upgrade sniper2 path 2
+upgrade sniper2 path 2
+upgrade sniper2 path 2
+upgrade sniper2 path 2
+upgrade sniper2 path 0
+upgrade sniper2 path 0
+round 79
+place sniper sniper3 at 937, 844
+retarget sniper3
+retarget sniper3
+retarget sniper3
+upgrade sniper3 path 2
+upgrade sniper3 path 2
+upgrade sniper3 path 2
+upgrade sniper3 path 2
+upgrade sniper3 path 0
+upgrade sniper3 path 0
+round 80
+place sniper sniper4 at 687, 782
+retarget sniper4
+retarget sniper4
+retarget sniper4
+upgrade sniper4 path 2
+upgrade sniper4 path 2
+upgrade sniper4 path 2
+upgrade sniper4 path 2
+upgrade sniper4 path 0
+upgrade sniper4 path 0

@@ -1,0 +1,35 @@
+# source: https://github.com/j-miet/BTD6bot (license MIT (c) 2025 Jani Miettinen) commit 2d6dac0957a0d55d0af201bd497afbebf7f3e5c2
+# source file: btd6bot/plans/quadEasyStandard.py (vendored copy: btd6bot/btd6bot/plans)
+# source mode: easy; converted to 1920x1080 AutoBTD6 actions
+# generator: import-public-routes.py
+place dart dart0 at 401, 560
+place dart dart1 at 1282, 568
+place dart dart2 at 782, 256
+round 4
+place sniper sniper0 at 546, 293
+retarget sniper0
+retarget sniper0
+retarget sniper0
+round 6
+place sauda hero0 at 886, 254
+round 9
+place sniper sniper1 at 457, 342
+round 11
+upgrade sniper1 path 2
+upgrade sniper1 path 2
+round 14
+upgrade sniper1 path 1
+upgrade sniper1 path 1
+round 21
+upgrade sniper0 path 2
+upgrade sniper0 path 2
+round 25
+upgrade sniper1 path 2
+round 27
+upgrade sniper0 path 0
+round 34
+upgrade sniper1 path 2
+round 36
+upgrade sniper0 path 2
+round 39
+upgrade sniper0 path 0

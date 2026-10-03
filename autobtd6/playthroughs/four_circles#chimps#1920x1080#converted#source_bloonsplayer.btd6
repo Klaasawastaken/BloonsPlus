@@ -1,0 +1,36 @@
+# source: https://github.com/piweiblen/BloonsPlayer (license MIT (c) 2021 piweiblen) commit 17d624879c5ad777e82594da34450e66b2d60756
+# source file: tas/CHIMPS/four circles CHIMPS (sauda).txt (vendored copy: route-library/public-sources/piweiblen-BloonsPlayer)
+# source mode: chimps; converted to 1920x1080 AutoBTD6 actions
+# dropped (timing only): hero level purchases (AutoBTD6 levels heroes by XP only)
+# generator: import-public-routes.py
+place sauda hero0 at 821, 540
+place sub sub0 at 597, 265
+upgrade sub0 path 0
+upgrade sub0 path 1
+upgrade sub0 path 1
+upgrade sub0 path 0
+place village village0 at 737, 389
+upgrade village0 path 0
+upgrade village0 path 0
+place ace ace0 at 915, 378
+upgrade ace0 path 0
+upgrade ace0 path 0
+upgrade ace0 path 0
+upgrade ace0 path 0
+upgrade ace0 path 2
+upgrade ace0 path 2
+cash 3300
+upgrade sub0 path 0
+upgrade sub0 path 0
+upgrade sub0 path 0
+upgrade ace0 path 0
+place alchemist alchemist0 at 821, 194
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+upgrade alchemist0 path 1
+upgrade alchemist0 path 1
+upgrade village0 path 1
+upgrade village0 path 1
+upgrade village0 path 1

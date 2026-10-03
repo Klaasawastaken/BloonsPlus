@@ -1,0 +1,2397 @@
+{
+  "generatedAt": "2026-09-29T13:50:51.778582+00:00",
+  "written": [
+    {
+      "file": "ouch#easy#1920x1080#converted#source_btd6bot#v2.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/#ouchEasyStandard.py",
+      "map": "ouch",
+      "mode": "easy",
+      "lossy": []
+    },
+    {
+      "file": "ouch#alternate_bloons_rounds#1920x1080#converted#source_btd6bot.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/#ouchHardAlternate.py",
+      "map": "ouch",
+      "mode": "alternate_bloons_rounds",
+      "lossy": []
+    },
+    {
+      "file": "adoras_temple#chimps#1920x1080#converted#source_btd6bot.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/adora's_templeHardChimps.py",
+      "map": "adoras_temple",
+      "mode": "chimps",
+      "lossy": []
+    },
+    {
+      "file": "alpine_run#chimps#1920x1080#converted#source_btd6bot#v2.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/alpine_runHardChimps.py",
+      "map": "alpine_run",
+      "mode": "chimps",
+      "lossy": []
+    },
+    {
+      "file": "balance#chimps#1920x1080#converted#source_btd6bot.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/balanceHardChimps.py",
+      "map": "balance",
+      "mode": "chimps",
+      "lossy": []
+    },
+    {
+      "file": "bloody_puddles#easy#1920x1080#converted#source_btd6bot#v2.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/bloody_puddlesEasyStandard.py",
+      "map": "bloody_puddles",
+      "mode": "easy",
+      "lossy": []
+    },
+    {
+      "file": "candy_falls#chimps#1920x1080#converted#source_btd6bot.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/candy_fallsHardChimps.py",
+      "map": "candy_falls",
+      "mode": "chimps",
+      "lossy": []
+    },
+    {
+      "file": "carved#chimps#1920x1080#converted#source_btd6bot#v2.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/carvedHardChimps.py",
+      "map": "carved",
+      "mode": "chimps",
+      "lossy": []
+    },
+    {
+      "file": "castle_revenge#chimps#1920x1080#converted#source_btd6bot.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/castle_revengeHardChimps.py",
+      "map": "castle_revenge",
+      "mode": "chimps",
+      "lossy": []
+    },
+    {
+      "file": "cracked#chimps#1920x1080#converted#source_btd6bot#v2.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/crackedHardChimps.py",
+      "map": "cracked",
+      "mode": "chimps",
+      "lossy": []
+    },
+    {
+      "file": "cubism#chimps#1920x1080#converted#source_btd6bot#v2.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/cubismHardChimps.py",
+      "map": "cubism",
+      "mode": "chimps",
+      "lossy": []
+    },
+    {
+      "file": "dark_castle#deflation#1920x1080#converted#source_btd6bot#v2.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/dark_castleEasyDeflation.py",
+      "map": "dark_castle",
+      "mode": "deflation",
+      "lossy": []
+    },
+    {
+      "file": "dark_castle#primary_only#1920x1080#converted#source_btd6bot.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/dark_castleEasyPrimary.py",
+      "map": "dark_castle",
+      "mode": "primary_only",
+      "lossy": []
+    },
+    {
+      "file": "dark_castle#easy#1920x1080#converted#source_btd6bot#v2.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/dark_castleEasyStandard.py",
+      "map": "dark_castle",
+      "mode": "easy",
+      "lossy": []
+    },
+    {
+      "file": "dark_castle#military_only#1920x1080#converted#source_btd6bot.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/dark_castleMediumMilitary.py",
+      "map": "dark_castle",
+      "mode": "military_only",
+      "lossy": []
+    },
+    {
+      "file": "dark_dungeons#easy#1920x1080#converted#source_btd6bot#lossy.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/dark_dungeonsEasyStandard.py",
+      "map": "dark_dungeons",
+      "mode": "easy",
+      "lossy": [
+        "spike targeting 'close' (needs a special cycle or click)"
+      ]
+    },
+    {
+      "file": "dark_path#chimps#1920x1080#converted#source_btd6bot.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/dark_pathHardChimps.py",
+      "map": "dark_path",
+      "mode": "chimps",
+      "lossy": []
+    },
+    {
+      "file": "downstream#chimps#1920x1080#converted#source_btd6bot#v2.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/downstreamHardChimps.py",
+      "map": "downstream",
+      "mode": "chimps",
+      "lossy": []
+    },
+    {
+      "file": "enchanted_glade#chimps#1920x1080#converted#source_btd6bot.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/enchanted_gladeHardChimps.py",
+      "map": "enchanted_glade",
+      "mode": "chimps",
+      "lossy": []
+    },
+    {
+      "file": "encrypted#chimps#1920x1080#converted#source_btd6bot.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/encryptedHardChimps.py",
+      "map": "encrypted",
+      "mode": "chimps",
+      "lossy": []
+    },
+    {
+      "file": "end_of_the_road#chimps#1920x1080#converted#source_btd6bot#v2.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/end_of_the_roadHardChimps.py",
+      "map": "end_of_the_road",
+      "mode": "chimps",
+      "lossy": []
+    },
+    {
+      "file": "flooded_valley#easy#1920x1080#converted#source_btd6bot#v2.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/flooded_valleyEasyStandard.py",
+      "map": "flooded_valley",
+      "mode": "easy",
+      "lossy": []
+    },
+    {
+      "file": "four_circles#chimps#1920x1080#converted#source_btd6bot#v2.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/four_circlesHardChimps.py",
+      "map": "four_circles",
+      "mode": "chimps",
+      "lossy": []
+    },
+    {
+      "file": "frozen_over#chimps#1920x1080#converted#source_btd6bot#v2.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/frozen_overHardChimps.py",
+      "map": "frozen_over",
+      "mode": "chimps",
+      "lossy": []
+    },
+    {
+      "file": "glacial_trail#primary_only#1920x1080#converted#source_btd6bot.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/glacial_trailEasyPrimary.py",
+      "map": "glacial_trail",
+      "mode": "primary_only",
+      "lossy": []
+    },
+    {
+      "file": "glacial_trail#easy#1920x1080#converted#source_btd6bot#lossy.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/glacial_trailEasyStandard.py",
+      "map": "glacial_trail",
+      "mode": "easy",
+      "lossy": [
+        "spike targeting 'smart' (needs a special cycle or click)"
+      ]
+    },
+    {
+      "file": "glacial_trail#hard#1920x1080#converted#source_btd6bot#lossy.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/glacial_trailHardStandard.py",
+      "map": "glacial_trail",
+      "mode": "hard",
+      "lossy": [
+        "spike targeting 'smart' (needs a special cycle or click)"
+      ]
+    },
+    {
+      "file": "glacial_trail#medium#1920x1080#converted#source_btd6bot#lossy.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/glacial_trailMediumStandard.py",
+      "map": "glacial_trail",
+      "mode": "medium",
+      "lossy": [
+        "spike targeting 'smart' (needs a special cycle or click)"
+      ]
+    },
+    {
+      "file": "haunted#chimps#1920x1080#converted#source_btd6bot.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/hauntedHardChimps.py",
+      "map": "haunted",
+      "mode": "chimps",
+      "lossy": []
+    },
+    {
+      "file": "hedge#chimps#1920x1080#converted#source_btd6bot#v2.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/hedgeHardChimps.py",
+      "map": "hedge",
+      "mode": "chimps",
+      "lossy": []
+    },
+    {
+      "file": "in_the_loop#chimps#1920x1080#converted#source_btd6bot#v2.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/in_the_loopHardChimps.py",
+      "map": "in_the_loop",
+      "mode": "chimps",
+      "lossy": []
+    },
+    {
+      "file": "infernal#easy#1920x1080#converted#source_btd6bot#lossy.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/infernalEasyStandard.py",
+      "map": "infernal",
+      "mode": "easy",
+      "lossy": [
+        "heli special with a target position"
+      ]
+    },
+    {
+      "file": "infernal#apopalypse#1920x1080#converted#source_btd6bot.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/infernalMediumApopalypse.py",
+      "map": "infernal",
+      "mode": "apopalypse",
+      "lossy": []
+    },
+    {
+      "file": "kartsndarts#chimps#1920x1080#converted#source_btd6bot.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/kartsndartsHardChimps.py",
+      "map": "kartsndarts",
+      "mode": "chimps",
+      "lossy": []
+    },
+    {
+      "file": "logs#chimps#1920x1080#converted#source_btd6bot#v2.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/logsHardChimps.py",
+      "map": "logs",
+      "mode": "chimps",
+      "lossy": []
+    },
+    {
+      "file": "lost_crevasse#chimps#1920x1080#converted#source_btd6bot.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/lost_crevasseHardChimps.py",
+      "map": "lost_crevasse",
+      "mode": "chimps",
+      "lossy": []
+    },
+    {
+      "file": "lotus_island#chimps#1920x1080#converted#source_btd6bot#v2.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/lotus_islandHardChimps.py",
+      "map": "lotus_island",
+      "mode": "chimps",
+      "lossy": []
+    },
+    {
+      "file": "luminous_cove#chimps#1920x1080#converted#source_btd6bot#v2.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/luminous_coveHardChimps.py",
+      "map": "luminous_cove",
+      "mode": "chimps",
+      "lossy": []
+    },
+    {
+      "file": "middle_of_the_road#chimps#1920x1080#converted#source_btd6bot#v2.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/middle_of_the_roadHardChimps.py",
+      "map": "middle_of_the_road",
+      "mode": "chimps",
+      "lossy": []
+    },
+    {
+      "file": "midnight_mansion#chimps#1920x1080#converted#source_btd6bot.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/midnight_mansionHardChimps.py",
+      "map": "midnight_mansion",
+      "mode": "chimps",
+      "lossy": []
+    },
+    {
+      "file": "monkey_meadow#easy#1920x1080#converted#source_btd6bot#v2.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/monkey_meadowEasyStandard.py",
+      "map": "monkey_meadow",
+      "mode": "easy",
+      "lossy": []
+    },
+    {
+      "file": "monkey_meadow#chimps#1920x1080#converted#source_btd6bot#v2.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/monkey_meadowHardChimps.py",
+      "map": "monkey_meadow",
+      "mode": "chimps",
+      "lossy": []
+    },
+    {
+      "file": "muddy_puddles#easy#1920x1080#converted#source_btd6bot#v2.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/muddy_puddlesEasyStandard.py",
+      "map": "muddy_puddles",
+      "mode": "easy",
+      "lossy": []
+    },
+    {
+      "file": "mushroom_grotto#chimps#1920x1080#converted#source_btd6bot.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/mushroom_grottoHardChimps.py",
+      "map": "mushroom_grotto",
+      "mode": "chimps",
+      "lossy": []
+    },
+    {
+      "file": "off_the_coast#chimps#1920x1080#converted#source_btd6bot.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/off_the_coastHardChimps.py",
+      "map": "off_the_coast",
+      "mode": "chimps",
+      "lossy": []
+    },
+    {
+      "file": "one_two_tree#chimps#1920x1080#converted#source_btd6bot#v2.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/one_two_treeHardChimps.py",
+      "map": "one_two_tree",
+      "mode": "chimps",
+      "lossy": []
+    },
+    {
+      "file": "park_path#chimps#1920x1080#converted#source_btd6bot#v2.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/park_pathHardChimps.py",
+      "map": "park_path",
+      "mode": "chimps",
+      "lossy": []
+    },
+    {
+      "file": "party_parade#hard#1920x1080#converted#source_btd6bot#lossy.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/party_paradeHardStandard.py",
+      "map": "party_parade",
+      "mode": "hard",
+      "lossy": [
+        "spike targeting 'smart' (needs a special cycle or click)"
+      ]
+    },
+    {
+      "file": "pats_pond#chimps#1920x1080#converted#source_btd6bot.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/pat's_pondHardChimps.py",
+      "map": "pats_pond",
+      "mode": "chimps",
+      "lossy": []
+    },
+    {
+      "file": "quad#easy#1920x1080#converted#source_btd6bot#v2.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/quadEasyStandard.py",
+      "map": "quad",
+      "mode": "easy",
+      "lossy": []
+    },
+    {
+      "file": "quiet_street#chimps#1920x1080#converted#source_btd6bot.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/quiet_streetHardChimps.py",
+      "map": "quiet_street",
+      "mode": "chimps",
+      "lossy": []
+    },
+    {
+      "file": "ravine#easy#1920x1080#converted#source_btd6bot#lossy.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/ravineEasyStandard.py",
+      "map": "ravine",
+      "mode": "easy",
+      "lossy": [
+        "spike targeting 'close' (needs a special cycle or click)",
+        "spike targeting 'smart' (needs a special cycle or click)"
+      ]
+    },
+    {
+      "file": "resort#chimps#1920x1080#converted#source_btd6bot#v2.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/resortHardChimps.py",
+      "map": "resort",
+      "mode": "chimps",
+      "lossy": []
+    },
+    {
+      "file": "scrapyard#chimps#1920x1080#converted#source_btd6bot#v2.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/scrapyardHardChimps.py",
+      "map": "scrapyard",
+      "mode": "chimps",
+      "lossy": []
+    },
+    {
+      "file": "skates#chimps#1920x1080#converted#source_btd6bot#v2.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/skatesHardChimps.py",
+      "map": "skates",
+      "mode": "chimps",
+      "lossy": []
+    },
+    {
+      "file": "skulltweak#chimps#1920x1080#converted#source_btd6bot#v2.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/skull_tweakHardChimps.py",
+      "map": "skulltweak",
+      "mode": "chimps",
+      "lossy": []
+    },
+    {
+      "file": "spa_pits#chimps#1920x1080#converted#source_btd6bot#v2.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/spa_pitsHardChimps.py",
+      "map": "spa_pits",
+      "mode": "chimps",
+      "lossy": []
+    },
+    {
+      "file": "spring_spring#chimps#1920x1080#converted#source_btd6bot.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/spring_springHardChimps.py",
+      "map": "spring_spring",
+      "mode": "chimps",
+      "lossy": []
+    },
+    {
+      "file": "streambed#chimps#1920x1080#converted#source_btd6bot#v2.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/streambedHardChimps.py",
+      "map": "streambed",
+      "mode": "chimps",
+      "lossy": []
+    },
+    {
+      "file": "sulfur_springs#chimps#1920x1080#converted#source_btd6bot#v2.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/sulfur_springsHardChimps.py",
+      "map": "sulfur_springs",
+      "mode": "chimps",
+      "lossy": []
+    },
+    {
+      "file": "the_cabin#chimps#1920x1080#converted#source_btd6bot#v2.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/the_cabinHardChimps.py",
+      "map": "the_cabin",
+      "mode": "chimps",
+      "lossy": []
+    },
+    {
+      "file": "three_mines_round#chimps#1920x1080#converted#source_btd6bot#v2.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/three_mines_'roundHardChimps.py",
+      "map": "three_mines_round",
+      "mode": "chimps",
+      "lossy": []
+    },
+    {
+      "file": "tinkerton#chimps#1920x1080#converted#source_btd6bot.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/tinkertonHardChimps.py",
+      "map": "tinkerton",
+      "mode": "chimps",
+      "lossy": []
+    },
+    {
+      "file": "town_center#chimps#1920x1080#converted#source_btd6bot#v2.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/town_centerHardChimps.py",
+      "map": "town_center",
+      "mode": "chimps",
+      "lossy": []
+    },
+    {
+      "file": "tree_stump#chimps#1920x1080#converted#source_btd6bot#v2.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/tree_stumpHardChimps.py",
+      "map": "tree_stump",
+      "mode": "chimps",
+      "lossy": []
+    },
+    {
+      "file": "tricky_tracks#primary_only#1920x1080#converted#source_btd6bot.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/tricky_tracksEasyPrimary.py",
+      "map": "tricky_tracks",
+      "mode": "primary_only",
+      "lossy": []
+    },
+    {
+      "file": "tricky_tracks#easy#1920x1080#converted#source_btd6bot.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/tricky_tracksEasyStandard.py",
+      "map": "tricky_tracks",
+      "mode": "easy",
+      "lossy": []
+    },
+    {
+      "file": "tricky_tracks#chimps#1920x1080#converted#source_btd6bot.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/tricky_tracksHardChimps.py",
+      "map": "tricky_tracks",
+      "mode": "chimps",
+      "lossy": []
+    },
+    {
+      "file": "underground#chimps#1920x1080#converted#source_btd6bot.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/undergroundHardChimps.py",
+      "map": "underground",
+      "mode": "chimps",
+      "lossy": []
+    },
+    {
+      "file": "winter_park#chimps#1920x1080#converted#source_btd6bot#v2.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/winter_parkHardChimps.py",
+      "map": "winter_park",
+      "mode": "chimps",
+      "lossy": []
+    },
+    {
+      "file": "workshop#easy#1920x1080#converted#source_btd6bot#lossy.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/workshopEasyStandard.py",
+      "map": "workshop",
+      "mode": "easy",
+      "lossy": [
+        "spike targeting 'close' (needs a special cycle or click)"
+      ]
+    },
+    {
+      "file": "x_factor#chimps#1920x1080#converted#source_btd6bot.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/x_factorHardChimps.py",
+      "map": "x_factor",
+      "mode": "chimps",
+      "lossy": []
+    },
+    {
+      "file": "balance#chimps#1920x1080#converted#source_bloonsplayer.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/CHIMPS/balance CHIMPS (sauda).txt",
+      "map": "balance",
+      "mode": "chimps",
+      "lossy": []
+    },
+    {
+      "file": "cornfield#chimps#1920x1080#converted#source_bloonsplayer.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/CHIMPS/cornfield CHIMPS no harvest (sauda).txt",
+      "map": "cornfield",
+      "mode": "chimps",
+      "lossy": []
+    },
+    {
+      "file": "four_circles#chimps#1920x1080#converted#source_bloonsplayer.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/CHIMPS/four circles CHIMPS (sauda).txt",
+      "map": "four_circles",
+      "mode": "chimps",
+      "lossy": []
+    },
+    {
+      "file": "logs#chimps#1920x1080#converted#source_bloonsplayer.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/CHIMPS/logs 2TC.txt",
+      "map": "logs",
+      "mode": "chimps",
+      "lossy": []
+    },
+    {
+      "file": "quarry#chimps#1920x1080#converted#source_bloonsplayer.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/CHIMPS/quarry CHIMPS.txt",
+      "map": "quarry",
+      "mode": "chimps",
+      "lossy": []
+    },
+    {
+      "file": "resort#chimps#1920x1080#converted#source_bloonsplayer.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/CHIMPS/resort CHIMPS 2MPC.txt",
+      "map": "resort",
+      "mode": "chimps",
+      "lossy": []
+    },
+    {
+      "file": "the_cabin#chimps#1920x1080#converted#source_bloonsplayer.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/CHIMPS/the cabin CHIMPS.txt",
+      "map": "the_cabin",
+      "mode": "chimps",
+      "lossy": []
+    },
+    {
+      "file": "town_center#chimps#1920x1080#converted#source_bloonsplayer.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/CHIMPS/town center CHIMPS.txt",
+      "map": "town_center",
+      "mode": "chimps",
+      "lossy": []
+    },
+    {
+      "file": "bloody_puddles#easy#1920x1080#converted#source_bloonsplayer.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/general/bloody puddles easy.txt",
+      "map": "bloody_puddles",
+      "mode": "easy",
+      "lossy": []
+    },
+    {
+      "file": "bloody_puddles#hard#1920x1080#converted#source_bloonsplayer#lossy.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/general/bloody puddles hard.txt",
+      "map": "bloody_puddles",
+      "mode": "hard",
+      "lossy": [
+        "activated abilities",
+        "mouse sweeps (banana/cash collection)"
+      ]
+    },
+    {
+      "file": "dark_castle#deflation#1920x1080#converted#source_bloonsplayer.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/general/dark castle deflation.txt",
+      "map": "dark_castle",
+      "mode": "deflation",
+      "lossy": []
+    },
+    {
+      "file": "dark_castle#easy#1920x1080#converted#source_bloonsplayer.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/general/dark castle easy.txt",
+      "map": "dark_castle",
+      "mode": "easy",
+      "lossy": []
+    },
+    {
+      "file": "dark_dungeons#easy#1920x1080#converted#source_bloonsplayer#lossy.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/general/dark dungeons easy.txt",
+      "map": "dark_dungeons",
+      "mode": "easy",
+      "lossy": [
+        "activated abilities"
+      ]
+    },
+    {
+      "file": "flooded_valley#easy#1920x1080#converted#source_bloonsplayer.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/general/flooded valley easy.txt",
+      "map": "flooded_valley",
+      "mode": "easy",
+      "lossy": []
+    },
+    {
+      "file": "flooded_valley#hard#1920x1080#converted#source_bloonsplayer#lossy.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/general/flooded valley hard.txt",
+      "map": "flooded_valley",
+      "mode": "hard",
+      "lossy": [
+        "activated abilities",
+        "mouse sweeps (banana/cash collection)"
+      ]
+    },
+    {
+      "file": "glacial_trail#easy#1920x1080#converted#source_bloonsplayer#lossy.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/general/glacial easy.txt",
+      "map": "glacial_trail",
+      "mode": "easy",
+      "lossy": [
+        "activated abilities"
+      ]
+    },
+    {
+      "file": "glacial_trail#hard#1920x1080#converted#source_bloonsplayer#lossy.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/general/glacial hard.txt",
+      "map": "glacial_trail",
+      "mode": "hard",
+      "lossy": [
+        "activated abilities",
+        "mouse sweeps (banana/cash collection)"
+      ]
+    },
+    {
+      "file": "infernal#easy#1920x1080#converted#source_bloonsplayer.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/general/infernal easy.txt",
+      "map": "infernal",
+      "mode": "easy",
+      "lossy": []
+    },
+    {
+      "file": "infernal#hard#1920x1080#converted#source_bloonsplayer#lossy.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/general/infernal hard.txt",
+      "map": "infernal",
+      "mode": "hard",
+      "lossy": [
+        "activated abilities",
+        "mouse sweeps (banana/cash collection)"
+      ]
+    },
+    {
+      "file": "monkey_meadow#deflation#1920x1080#converted#source_bloonsplayer.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/general/monkey meadow deflation.txt",
+      "map": "monkey_meadow",
+      "mode": "deflation",
+      "lossy": []
+    },
+    {
+      "file": "monkey_meadow#easy#1920x1080#converted#source_bloonsplayer.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/general/monkey meadow easy (quincy).txt",
+      "map": "monkey_meadow",
+      "mode": "easy",
+      "lossy": []
+    },
+    {
+      "file": "muddy_puddles#easy#1920x1080#converted#source_bloonsplayer.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/general/muddy puddles easy.txt",
+      "map": "muddy_puddles",
+      "mode": "easy",
+      "lossy": []
+    },
+    {
+      "file": "muddy_puddles#hard#1920x1080#converted#source_bloonsplayer#lossy.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/general/muddy puddles hard.txt",
+      "map": "muddy_puddles",
+      "mode": "hard",
+      "lossy": [
+        "activated abilities"
+      ]
+    },
+    {
+      "file": "ouch#easy#1920x1080#converted#source_bloonsplayer.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/general/ouch easy.txt",
+      "map": "ouch",
+      "mode": "easy",
+      "lossy": []
+    },
+    {
+      "file": "ouch#hard#1920x1080#converted#source_bloonsplayer#lossy.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/general/ouch hard.txt",
+      "map": "ouch",
+      "mode": "hard",
+      "lossy": [
+        "activated abilities"
+      ]
+    },
+    {
+      "file": "quad#easy#1920x1080#converted#source_bloonsplayer.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/general/quad easy.txt",
+      "map": "quad",
+      "mode": "easy",
+      "lossy": []
+    },
+    {
+      "file": "quad#hard#1920x1080#converted#source_bloonsplayer#lossy.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/general/quad hard.txt",
+      "map": "quad",
+      "mode": "hard",
+      "lossy": [
+        "activated abilities"
+      ]
+    },
+    {
+      "file": "ravine#easy#1920x1080#converted#source_bloonsplayer.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/general/ravine easy.txt",
+      "map": "ravine",
+      "mode": "easy",
+      "lossy": []
+    },
+    {
+      "file": "ravine#hard#1920x1080#converted#source_bloonsplayer#lossy.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/general/ravine hard.txt",
+      "map": "ravine",
+      "mode": "hard",
+      "lossy": [
+        "activated abilities"
+      ]
+    },
+    {
+      "file": "resort#easy#1920x1080#converted#source_bloonsplayer.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/general/resort easy.txt",
+      "map": "resort",
+      "mode": "easy",
+      "lossy": []
+    },
+    {
+      "file": "sanctuary#easy#1920x1080#converted#source_bloonsplayer.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/general/sanctuary easy.txt",
+      "map": "sanctuary",
+      "mode": "easy",
+      "lossy": []
+    },
+    {
+      "file": "scrapyard#easy#1920x1080#converted#source_bloonsplayer.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/general/scrapyard easy.txt",
+      "map": "scrapyard",
+      "mode": "easy",
+      "lossy": []
+    },
+    {
+      "file": "the_cabin#easy#1920x1080#converted#source_bloonsplayer.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/general/the cabin easy.txt",
+      "map": "the_cabin",
+      "mode": "easy",
+      "lossy": []
+    },
+    {
+      "file": "town_center#easy#1920x1080#converted#source_bloonsplayer.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/general/town center easy.txt",
+      "map": "town_center",
+      "mode": "easy",
+      "lossy": []
+    },
+    {
+      "file": "tree_stump#easy#1920x1080#converted#source_bloonsplayer.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/general/tree stump easy.txt",
+      "map": "tree_stump",
+      "mode": "easy",
+      "lossy": []
+    },
+    {
+      "file": "workshop#easy#1920x1080#converted#source_bloonsplayer.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/general/workshop easy.txt",
+      "map": "workshop",
+      "mode": "easy",
+      "lossy": []
+    },
+    {
+      "file": "workshop#hard#1920x1080#converted#source_bloonsplayer.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/general/workshop hard.txt",
+      "map": "workshop",
+      "mode": "hard",
+      "lossy": []
+    },
+    {
+      "file": "alpine_run#medium#1920x1080#converted#source_bloonsplayer.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/golden/alpine run medium.txt",
+      "map": "alpine_run",
+      "mode": "medium",
+      "lossy": []
+    },
+    {
+      "file": "candy_falls#medium#1920x1080#converted#source_bloonsplayer.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/golden/candy falls medium.txt",
+      "map": "candy_falls",
+      "mode": "medium",
+      "lossy": []
+    },
+    {
+      "file": "carved#medium#1920x1080#converted#source_bloonsplayer.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/golden/carved medium.txt",
+      "map": "carved",
+      "mode": "medium",
+      "lossy": []
+    },
+    {
+      "file": "cubism#medium#1920x1080#converted#source_bloonsplayer.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/golden/cubism medium.txt",
+      "map": "cubism",
+      "mode": "medium",
+      "lossy": []
+    },
+    {
+      "file": "end_of_the_road#medium#1920x1080#converted#source_bloonsplayer.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/golden/end of the road medium.txt",
+      "map": "end_of_the_road",
+      "mode": "medium",
+      "lossy": []
+    },
+    {
+      "file": "four_circles#medium#1920x1080#converted#source_bloonsplayer.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/golden/four circles medium.txt",
+      "map": "four_circles",
+      "mode": "medium",
+      "lossy": []
+    },
+    {
+      "file": "frozen_over#medium#1920x1080#converted#source_bloonsplayer.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/golden/frozen over medium.txt",
+      "map": "frozen_over",
+      "mode": "medium",
+      "lossy": []
+    },
+    {
+      "file": "hedge#medium#1920x1080#converted#source_bloonsplayer.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/golden/hedge medium.txt",
+      "map": "hedge",
+      "mode": "medium",
+      "lossy": []
+    },
+    {
+      "file": "in_the_loop#medium#1920x1080#converted#source_bloonsplayer.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/golden/in the loop medium.txt",
+      "map": "in_the_loop",
+      "mode": "medium",
+      "lossy": []
+    },
+    {
+      "file": "logs#medium#1920x1080#converted#source_bloonsplayer.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/golden/logs medium.txt",
+      "map": "logs",
+      "mode": "medium",
+      "lossy": []
+    },
+    {
+      "file": "lotus_island#medium#1920x1080#converted#source_bloonsplayer.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/golden/lotus island medium.txt",
+      "map": "lotus_island",
+      "mode": "medium",
+      "lossy": []
+    },
+    {
+      "file": "monkey_meadow#medium#1920x1080#converted#source_bloonsplayer.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/golden/monkey meadow medium.txt",
+      "map": "monkey_meadow",
+      "mode": "medium",
+      "lossy": []
+    },
+    {
+      "file": "one_two_tree#medium#1920x1080#converted#source_bloonsplayer.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/golden/one two tree medium.txt",
+      "map": "one_two_tree",
+      "mode": "medium",
+      "lossy": []
+    },
+    {
+      "file": "park_path#medium#1920x1080#converted#source_bloonsplayer.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/golden/park path medium.txt",
+      "map": "park_path",
+      "mode": "medium",
+      "lossy": []
+    },
+    {
+      "file": "resort#medium#1920x1080#converted#source_bloonsplayer.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/golden/resort medium.txt",
+      "map": "resort",
+      "mode": "medium",
+      "lossy": []
+    },
+    {
+      "file": "scrapyard#medium#1920x1080#converted#source_bloonsplayer.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/golden/scrapyard medium.txt",
+      "map": "scrapyard",
+      "mode": "medium",
+      "lossy": []
+    },
+    {
+      "file": "skates#medium#1920x1080#converted#source_bloonsplayer.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/golden/skates medium.txt",
+      "map": "skates",
+      "mode": "medium",
+      "lossy": []
+    },
+    {
+      "file": "the_cabin#medium#1920x1080#converted#source_bloonsplayer.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/golden/the cabin medium.txt",
+      "map": "the_cabin",
+      "mode": "medium",
+      "lossy": []
+    },
+    {
+      "file": "town_center#medium#1920x1080#converted#source_bloonsplayer.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/golden/town center medium.txt",
+      "map": "town_center",
+      "mode": "medium",
+      "lossy": []
+    },
+    {
+      "file": "tree_stump#medium#1920x1080#converted#source_bloonsplayer.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/golden/tree stump medium.txt",
+      "map": "tree_stump",
+      "mode": "medium",
+      "lossy": []
+    },
+    {
+      "file": "winter_park#medium#1920x1080#converted#source_bloonsplayer.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/golden/winter park medium.txt",
+      "map": "winter_park",
+      "mode": "medium",
+      "lossy": []
+    },
+    {
+      "file": "alpine_run#primary_only#1920x1080#converted#source_bloonsplayer.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/sauda only/alpine run primary only sauda and bomb.txt",
+      "map": "alpine_run",
+      "mode": "primary_only",
+      "lossy": []
+    },
+    {
+      "file": "candy_falls#primary_only#1920x1080#converted#source_bloonsplayer.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/sauda only/candy falls primary only sauda and bomb.txt",
+      "map": "candy_falls",
+      "mode": "primary_only",
+      "lossy": []
+    },
+    {
+      "file": "carved#primary_only#1920x1080#converted#source_bloonsplayer.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/sauda only/carved primary only sauda and bomb.txt",
+      "map": "carved",
+      "mode": "primary_only",
+      "lossy": []
+    },
+    {
+      "file": "cubism#primary_only#1920x1080#converted#source_bloonsplayer.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/sauda only/cubism primary only sauda and bomb.txt",
+      "map": "cubism",
+      "mode": "primary_only",
+      "lossy": []
+    },
+    {
+      "file": "end_of_the_road#primary_only#1920x1080#converted#source_bloonsplayer.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/sauda only/end of the road primary only sauda and bomb.txt",
+      "map": "end_of_the_road",
+      "mode": "primary_only",
+      "lossy": []
+    },
+    {
+      "file": "four_circles#primary_only#1920x1080#converted#source_bloonsplayer.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/sauda only/four circles primary only sauda and bomb.txt",
+      "map": "four_circles",
+      "mode": "primary_only",
+      "lossy": []
+    },
+    {
+      "file": "in_the_loop#primary_only#1920x1080#converted#source_bloonsplayer.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/sauda only/in the loop primary only sauda and bomb.txt",
+      "map": "in_the_loop",
+      "mode": "primary_only",
+      "lossy": []
+    },
+    {
+      "file": "lotus_island#primary_only#1920x1080#converted#source_bloonsplayer.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/sauda only/lotus island primary only sauda and bomb.txt",
+      "map": "lotus_island",
+      "mode": "primary_only",
+      "lossy": []
+    },
+    {
+      "file": "one_two_tree#primary_only#1920x1080#converted#source_bloonsplayer.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/sauda only/one two tree primary only sauda and bomb.txt",
+      "map": "one_two_tree",
+      "mode": "primary_only",
+      "lossy": []
+    },
+    {
+      "file": "park_path#primary_only#1920x1080#converted#source_bloonsplayer.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/sauda only/park path primary only sauda and bomb.txt",
+      "map": "park_path",
+      "mode": "primary_only",
+      "lossy": []
+    },
+    {
+      "file": "the_cabin#primary_only#1920x1080#converted#source_bloonsplayer.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/sauda only/the cabin primary only sauda and bomb.txt",
+      "map": "the_cabin",
+      "mode": "primary_only",
+      "lossy": []
+    },
+    {
+      "file": "town_center#primary_only#1920x1080#converted#source_bloonsplayer.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/sauda only/town center primary only sauda and bomb.txt",
+      "map": "town_center",
+      "mode": "primary_only",
+      "lossy": []
+    },
+    {
+      "file": "tree_stump#primary_only#1920x1080#converted#source_bloonsplayer.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/sauda only/tree stump primary only sauda and bomb.txt",
+      "map": "tree_stump",
+      "mode": "primary_only",
+      "lossy": []
+    },
+    {
+      "file": "winter_park#primary_only#1920x1080#converted#source_bloonsplayer.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/sauda only/winter park primary only sauda and bomb.txt",
+      "map": "winter_park",
+      "mode": "primary_only",
+      "lossy": []
+    },
+    {
+      "file": "in_the_loop#deflation#1920x1080#converted#source_everythingmacro.btd6",
+      "source": "everythingmacro",
+      "sourceFile": "Maps/Beginner/In The Loop/Easy/InTheLoopDeflation.ahk",
+      "map": "in_the_loop",
+      "mode": "deflation",
+      "lossy": []
+    },
+    {
+      "file": "in_the_loop#easy#1920x1080#converted#source_everythingmacro.btd6",
+      "source": "everythingmacro",
+      "sourceFile": "Maps/Beginner/In The Loop/Easy/InTheLoopEasy.ahk",
+      "map": "in_the_loop",
+      "mode": "easy",
+      "lossy": []
+    },
+    {
+      "file": "in_the_loop#primary_only#1920x1080#converted#source_everythingmacro.btd6",
+      "source": "everythingmacro",
+      "sourceFile": "Maps/Beginner/In The Loop/Easy/InTheLoopPrimaryOnly.ahk",
+      "map": "in_the_loop",
+      "mode": "primary_only",
+      "lossy": []
+    },
+    {
+      "file": "in_the_loop#medium#1920x1080#converted#source_everythingmacro.btd6",
+      "source": "everythingmacro",
+      "sourceFile": "Maps/Beginner/In The Loop/Medium/InTheLoopMedium.ahk",
+      "map": "in_the_loop",
+      "mode": "medium",
+      "lossy": []
+    },
+    {
+      "file": "in_the_loop#military_only#1920x1080#converted#source_everythingmacro.btd6",
+      "source": "everythingmacro",
+      "sourceFile": "Maps/Beginner/In The Loop/Medium/InTheLoopMilitaryOnly.ahk",
+      "map": "in_the_loop",
+      "mode": "military_only",
+      "lossy": []
+    },
+    {
+      "file": "in_the_loop#reverse#1920x1080#converted#source_everythingmacro.btd6",
+      "source": "everythingmacro",
+      "sourceFile": "Maps/Beginner/In The Loop/Medium/InTheLoopReverse.ahk",
+      "map": "in_the_loop",
+      "mode": "reverse",
+      "lossy": []
+    },
+    {
+      "file": "monkey_meadow#deflation#1920x1080#converted#source_everythingmacro.btd6",
+      "source": "everythingmacro",
+      "sourceFile": "Maps/Beginner/Monkey Meadow/Easy/MonkeyMeadowDeflation.ahk",
+      "map": "monkey_meadow",
+      "mode": "deflation",
+      "lossy": []
+    },
+    {
+      "file": "monkey_meadow#easy#1920x1080#converted#source_everythingmacro.btd6",
+      "source": "everythingmacro",
+      "sourceFile": "Maps/Beginner/Monkey Meadow/Easy/MonkeyMeadowEasy.ahk",
+      "map": "monkey_meadow",
+      "mode": "easy",
+      "lossy": []
+    },
+    {
+      "file": "monkey_meadow#primary_only#1920x1080#converted#source_everythingmacro.btd6",
+      "source": "everythingmacro",
+      "sourceFile": "Maps/Beginner/Monkey Meadow/Easy/MonkeyMeadowPrimaryOnly.ahk",
+      "map": "monkey_meadow",
+      "mode": "primary_only",
+      "lossy": []
+    },
+    {
+      "file": "monkey_meadow#medium#1920x1080#converted#source_everythingmacro.btd6",
+      "source": "everythingmacro",
+      "sourceFile": "Maps/Beginner/Monkey Meadow/Medium/MonkeyMeadowMedium.ahk",
+      "map": "monkey_meadow",
+      "mode": "medium",
+      "lossy": []
+    },
+    {
+      "file": "monkey_meadow#military_only#1920x1080#converted#source_everythingmacro.btd6",
+      "source": "everythingmacro",
+      "sourceFile": "Maps/Beginner/Monkey Meadow/Medium/MonkeyMeadowMilitaryOnly.ahk",
+      "map": "monkey_meadow",
+      "mode": "military_only",
+      "lossy": []
+    },
+    {
+      "file": "monkey_meadow#reverse#1920x1080#converted#source_everythingmacro.btd6",
+      "source": "everythingmacro",
+      "sourceFile": "Maps/Beginner/Monkey Meadow/Medium/MonkeyMeadowReverse.ahk",
+      "map": "monkey_meadow",
+      "mode": "reverse",
+      "lossy": []
+    },
+    {
+      "file": "skulltweak#deflation#1920x1080#converted#source_everythingmacro.btd6",
+      "source": "everythingmacro",
+      "sourceFile": "Maps/Beginner/Skull Tweak/Easy/SkullTweakDeflation.ahk",
+      "map": "skulltweak",
+      "mode": "deflation",
+      "lossy": []
+    },
+    {
+      "file": "skulltweak#easy#1920x1080#converted#source_everythingmacro.btd6",
+      "source": "everythingmacro",
+      "sourceFile": "Maps/Beginner/Skull Tweak/Easy/SkullTweakEasy.ahk",
+      "map": "skulltweak",
+      "mode": "easy",
+      "lossy": []
+    },
+    {
+      "file": "skulltweak#primary_only#1920x1080#converted#source_everythingmacro.btd6",
+      "source": "everythingmacro",
+      "sourceFile": "Maps/Beginner/Skull Tweak/Easy/SkullTweakPrimaryOnly.ahk",
+      "map": "skulltweak",
+      "mode": "primary_only",
+      "lossy": []
+    },
+    {
+      "file": "skulltweak#medium#1920x1080#converted#source_everythingmacro.btd6",
+      "source": "everythingmacro",
+      "sourceFile": "Maps/Beginner/Skull Tweak/Medium/SkullTweakMedium.ahk",
+      "map": "skulltweak",
+      "mode": "medium",
+      "lossy": []
+    },
+    {
+      "file": "skulltweak#military_only#1920x1080#converted#source_everythingmacro.btd6",
+      "source": "everythingmacro",
+      "sourceFile": "Maps/Beginner/Skull Tweak/Medium/SkullTweakMilitaryOnly.ahk",
+      "map": "skulltweak",
+      "mode": "military_only",
+      "lossy": []
+    },
+    {
+      "file": "skulltweak#reverse#1920x1080#converted#source_everythingmacro.btd6",
+      "source": "everythingmacro",
+      "sourceFile": "Maps/Beginner/Skull Tweak/Medium/SkullTweakReverse.ahk",
+      "map": "skulltweak",
+      "mode": "reverse",
+      "lossy": []
+    },
+    {
+      "file": "spa_pits#deflation#1920x1080#converted#source_everythingmacro.btd6",
+      "source": "everythingmacro",
+      "sourceFile": "Maps/Beginner/Spa Pits/Easy/SpaPitsDeflation.ahk",
+      "map": "spa_pits",
+      "mode": "deflation",
+      "lossy": []
+    },
+    {
+      "file": "spa_pits#easy#1920x1080#converted#source_everythingmacro.btd6",
+      "source": "everythingmacro",
+      "sourceFile": "Maps/Beginner/Spa Pits/Easy/SpaPitsEasy.ahk",
+      "map": "spa_pits",
+      "mode": "easy",
+      "lossy": []
+    },
+    {
+      "file": "spa_pits#primary_only#1920x1080#converted#source_everythingmacro.btd6",
+      "source": "everythingmacro",
+      "sourceFile": "Maps/Beginner/Spa Pits/Easy/SpaPitsPrimaryOnly.ahk",
+      "map": "spa_pits",
+      "mode": "primary_only",
+      "lossy": []
+    },
+    {
+      "file": "spa_pits#medium#1920x1080#converted#source_everythingmacro.btd6",
+      "source": "everythingmacro",
+      "sourceFile": "Maps/Beginner/Spa Pits/Medium/SpaPitsMedium.ahk",
+      "map": "spa_pits",
+      "mode": "medium",
+      "lossy": []
+    },
+    {
+      "file": "spa_pits#military_only#1920x1080#converted#source_everythingmacro.btd6",
+      "source": "everythingmacro",
+      "sourceFile": "Maps/Beginner/Spa Pits/Medium/SpaPitsMilitaryOnly.ahk",
+      "map": "spa_pits",
+      "mode": "military_only",
+      "lossy": []
+    },
+    {
+      "file": "spa_pits#reverse#1920x1080#converted#source_everythingmacro.btd6",
+      "source": "everythingmacro",
+      "sourceFile": "Maps/Beginner/Spa Pits/Medium/SpaPitsReverse.ahk",
+      "map": "spa_pits",
+      "mode": "reverse",
+      "lossy": []
+    },
+    {
+      "file": "three_mines_round#deflation#1920x1080#converted#source_everythingmacro.btd6",
+      "source": "everythingmacro",
+      "sourceFile": "Maps/Beginner/Three Mines 'Round/Easy/ThreeMinesRoundDeflation.ahk",
+      "map": "three_mines_round",
+      "mode": "deflation",
+      "lossy": []
+    },
+    {
+      "file": "three_mines_round#easy#1920x1080#converted#source_everythingmacro.btd6",
+      "source": "everythingmacro",
+      "sourceFile": "Maps/Beginner/Three Mines 'Round/Easy/ThreeMinesRoundEasy.ahk",
+      "map": "three_mines_round",
+      "mode": "easy",
+      "lossy": []
+    },
+    {
+      "file": "three_mines_round#primary_only#1920x1080#converted#source_everythingmacro.btd6",
+      "source": "everythingmacro",
+      "sourceFile": "Maps/Beginner/Three Mines 'Round/Easy/ThreeMinesRoundPrimaryOnly.ahk",
+      "map": "three_mines_round",
+      "mode": "primary_only",
+      "lossy": []
+    },
+    {
+      "file": "three_mines_round#medium#1920x1080#converted#source_everythingmacro.btd6",
+      "source": "everythingmacro",
+      "sourceFile": "Maps/Beginner/Three Mines 'Round/Medium/ThreeMinesRoundMedium.ahk",
+      "map": "three_mines_round",
+      "mode": "medium",
+      "lossy": []
+    },
+    {
+      "file": "three_mines_round#military_only#1920x1080#converted#source_everythingmacro.btd6",
+      "source": "everythingmacro",
+      "sourceFile": "Maps/Beginner/Three Mines 'Round/Medium/ThreeMinesRoundMilitaryOnly.ahk",
+      "map": "three_mines_round",
+      "mode": "military_only",
+      "lossy": []
+    },
+    {
+      "file": "three_mines_round#reverse#1920x1080#converted#source_everythingmacro.btd6",
+      "source": "everythingmacro",
+      "sourceFile": "Maps/Beginner/Three Mines 'Round/Medium/ThreeMinesRoundReverse.ahk",
+      "map": "three_mines_round",
+      "mode": "reverse",
+      "lossy": []
+    },
+    {
+      "file": "tinkerton#deflation#1920x1080#converted#source_everythingmacro.btd6",
+      "source": "everythingmacro",
+      "sourceFile": "Maps/Beginner/Tinkerton/Easy/TinkertonDeflation.ahk",
+      "map": "tinkerton",
+      "mode": "deflation",
+      "lossy": []
+    },
+    {
+      "file": "tinkerton#easy#1920x1080#converted#source_everythingmacro.btd6",
+      "source": "everythingmacro",
+      "sourceFile": "Maps/Beginner/Tinkerton/Easy/TinkertonEasy.ahk",
+      "map": "tinkerton",
+      "mode": "easy",
+      "lossy": []
+    },
+    {
+      "file": "tinkerton#primary_only#1920x1080#converted#source_everythingmacro.btd6",
+      "source": "everythingmacro",
+      "sourceFile": "Maps/Beginner/Tinkerton/Easy/TinkertonPrimaryOnly.ahk",
+      "map": "tinkerton",
+      "mode": "primary_only",
+      "lossy": []
+    },
+    {
+      "file": "tinkerton#medium#1920x1080#converted#source_everythingmacro.btd6",
+      "source": "everythingmacro",
+      "sourceFile": "Maps/Beginner/Tinkerton/Medium/TinkertonMedium.ahk",
+      "map": "tinkerton",
+      "mode": "medium",
+      "lossy": []
+    },
+    {
+      "file": "tinkerton#military_only#1920x1080#converted#source_everythingmacro.btd6",
+      "source": "everythingmacro",
+      "sourceFile": "Maps/Beginner/Tinkerton/Medium/TinkertonMilitaryOnly.ahk",
+      "map": "tinkerton",
+      "mode": "military_only",
+      "lossy": []
+    },
+    {
+      "file": "tinkerton#reverse#1920x1080#converted#source_everythingmacro.btd6",
+      "source": "everythingmacro",
+      "sourceFile": "Maps/Beginner/Tinkerton/Medium/TinkertonReverse.ahk",
+      "map": "tinkerton",
+      "mode": "reverse",
+      "lossy": []
+    },
+    {
+      "file": "dark_castle#deflation#1920x1080#converted#source_everythingmacro.btd6",
+      "source": "everythingmacro",
+      "sourceFile": "Maps/Expert/Dark Castle/Easy/DarkCastleDeflation.ahk",
+      "map": "dark_castle",
+      "mode": "deflation",
+      "lossy": []
+    },
+    {
+      "file": "tricky_tracks#impoppable#1920x1080#converted#source_everythingmacro.btd6",
+      "source": "everythingmacro",
+      "sourceFile": "Maps/Expert/Tricky Tracks/Hard/TrickyTracksImpoppable.ahk",
+      "map": "tricky_tracks",
+      "mode": "impoppable",
+      "lossy": []
+    },
+    {
+      "file": "bloody_puddles#hard#1920x1080#converted#source_randyhodges.btd6",
+      "source": "randyhodges",
+      "sourceFile": "collection_scripts/bloody_puddles_script.py",
+      "map": "bloody_puddles",
+      "mode": "hard",
+      "lossy": []
+    },
+    {
+      "file": "dark_castle#hard#1920x1080#converted#source_randyhodges.btd6",
+      "source": "randyhodges",
+      "sourceFile": "collection_scripts/dark_castle_script.py",
+      "map": "dark_castle",
+      "mode": "hard",
+      "lossy": []
+    },
+    {
+      "file": "flooded_valley#hard#1920x1080#converted#source_randyhodges.btd6",
+      "source": "randyhodges",
+      "sourceFile": "collection_scripts/flooded_valley_script.py",
+      "map": "flooded_valley",
+      "mode": "hard",
+      "lossy": []
+    },
+    {
+      "file": "infernal#hard#1920x1080#converted#source_randyhodges.btd6",
+      "source": "randyhodges",
+      "sourceFile": "collection_scripts/infernal_script.py",
+      "map": "infernal",
+      "mode": "hard",
+      "lossy": []
+    },
+    {
+      "file": "muddy_puddles#hard#1920x1080#converted#source_randyhodges.btd6",
+      "source": "randyhodges",
+      "sourceFile": "collection_scripts/muddy_puddles_script.py",
+      "map": "muddy_puddles",
+      "mode": "hard",
+      "lossy": []
+    },
+    {
+      "file": "ouch#hard#1920x1080#converted#source_randyhodges.btd6",
+      "source": "randyhodges",
+      "sourceFile": "collection_scripts/ouch_script.py",
+      "map": "ouch",
+      "mode": "hard",
+      "lossy": []
+    },
+    {
+      "file": "quad#hard#1920x1080#converted#source_randyhodges.btd6",
+      "source": "randyhodges",
+      "sourceFile": "collection_scripts/quad_script.py",
+      "map": "quad",
+      "mode": "hard",
+      "lossy": []
+    },
+    {
+      "file": "ravine#hard#1920x1080#converted#source_randyhodges.btd6",
+      "source": "randyhodges",
+      "sourceFile": "collection_scripts/ravine_script.py",
+      "map": "ravine",
+      "mode": "hard",
+      "lossy": []
+    },
+    {
+      "file": "workshop#hard#1920x1080#converted#source_randyhodges#lossy.btd6",
+      "source": "randyhodges",
+      "sourceFile": "collection_scripts/workshop_script.py",
+      "map": "workshop",
+      "mode": "hard",
+      "lossy": [
+        "spike targeting 'Strong' (needs a special cycle or click)"
+      ]
+    },
+    {
+      "file": "ouch#chimps#1920x1080#converted#source_btd6bot#lossy.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/#ouchHardChimps.py",
+      "map": "ouch",
+      "mode": "chimps",
+      "lossy": [
+        "mermonkey special with a target position",
+        "obyn_greenfoot special with a target position"
+      ]
+    },
+    {
+      "file": "ancient_portal#chimps#1920x1080#converted#source_btd6bot#lossy.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/ancient_portalHardChimps.py",
+      "map": "ancient_portal",
+      "mode": "chimps",
+      "lossy": [
+        "dartling targeting 'independent' (needs a special cycle or click)",
+        "positional targeting 'locked'"
+      ]
+    },
+    {
+      "file": "another_brick#chimps#1920x1080#converted#source_btd6bot#lossy.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/another_brickHardChimps.py",
+      "map": "another_brick",
+      "mode": "chimps",
+      "lossy": [
+        "heli special with a target position"
+      ]
+    },
+    {
+      "file": "bazaar#chimps#1920x1080#converted#source_btd6bot#lossy.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/bazaarHardChimps.py",
+      "map": "bazaar",
+      "mode": "chimps",
+      "lossy": [
+        "second special ability"
+      ]
+    },
+    {
+      "file": "bloonarius_prime#chimps#1920x1080#converted#source_btd6bot#lossy.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/bloonarius_primeHardChimps.py",
+      "map": "bloonarius_prime",
+      "mode": "chimps",
+      "lossy": [
+        "center()",
+        "second special ability"
+      ]
+    },
+    {
+      "file": "cargo#chimps#1920x1080#converted#source_btd6bot#lossy.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/cargoHardChimps.py",
+      "map": "cargo",
+      "mode": "chimps",
+      "lossy": [
+        "obyn_greenfoot special with a target position"
+      ]
+    },
+    {
+      "file": "chutes#chimps#1920x1080#converted#source_btd6bot#lossy.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/chutesHardChimps.py",
+      "map": "chutes",
+      "mode": "chimps",
+      "lossy": [
+        "heli special with a target position"
+      ]
+    },
+    {
+      "file": "cornfield#chimps#1920x1080#converted#source_btd6bot#lossy.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/cornfieldHardChimps.py",
+      "map": "cornfield",
+      "mode": "chimps",
+      "lossy": [
+        "spike targeting 'smart' (needs a special cycle or click)",
+        "wizard special with a target position"
+      ]
+    },
+    {
+      "file": "covered_garden#chimps#1920x1080#converted#source_btd6bot#lossy.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/covered_gardenHardChimps.py",
+      "map": "covered_garden",
+      "mode": "chimps",
+      "lossy": [
+        "heli special with a target position"
+      ]
+    },
+    {
+      "file": "dark_castle#chimps#1920x1080#converted#source_btd6bot#lossy.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/dark_castleHardChimps.py",
+      "map": "dark_castle",
+      "mode": "chimps",
+      "lossy": [
+        "spike targeting 'close' (needs a special cycle or click)"
+      ]
+    },
+    {
+      "file": "erosion#chimps#1920x1080#converted#source_btd6bot#lossy.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/erosionHardChimps.py",
+      "map": "erosion",
+      "mode": "chimps",
+      "lossy": [
+        "positional targeting 'set'",
+        "spike special with a target position"
+      ]
+    },
+    {
+      "file": "firing_range#chimps#1920x1080#converted#source_btd6bot#lossy.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/firing_rangeHardChimps.py",
+      "map": "firing_range",
+      "mode": "chimps",
+      "lossy": [
+        "second special ability"
+      ]
+    },
+    {
+      "file": "flooded_valley#chimps#1920x1080#converted#source_btd6bot#lossy.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/flooded_valleyHardChimps.py",
+      "map": "flooded_valley",
+      "mode": "chimps",
+      "lossy": [
+        "engineer special with a target position",
+        "mermonkey special with a target position"
+      ]
+    },
+    {
+      "file": "glacial_trail#chimps#1920x1080#converted#source_btd6bot#lossy.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/glacial_trailHardChimps.py",
+      "map": "glacial_trail",
+      "mode": "chimps",
+      "lossy": [
+        "spike targeting 'smart' (needs a special cycle or click)"
+      ]
+    },
+    {
+      "file": "high_finance#chimps#1920x1080#converted#source_btd6bot#lossy.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/high_financeHardChimps.py",
+      "map": "high_finance",
+      "mode": "chimps",
+      "lossy": [
+        "gwendolin special with a target position"
+      ]
+    },
+    {
+      "file": "infernal#chimps#1920x1080#converted#source_btd6bot#lossy.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/infernalHardChimps.py",
+      "map": "infernal",
+      "mode": "chimps",
+      "lossy": [
+        "heli special with a target position",
+        "mermonkey special with a target position"
+      ]
+    },
+    {
+      "file": "muddy_puddles#chimps#1920x1080#converted#source_btd6bot#lossy.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/muddy_puddlesHardChimps.py",
+      "map": "muddy_puddles",
+      "mode": "chimps",
+      "lossy": [
+        "center()",
+        "engineer targeting 'strong' (needs a special cycle or click)",
+        "second special ability"
+      ]
+    },
+    {
+      "file": "party_parade#alternate_bloons_rounds#1920x1080#converted#source_btd6bot#lossy.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/party_paradeHardAlternate.py",
+      "map": "party_parade",
+      "mode": "alternate_bloons_rounds",
+      "lossy": [
+        "spike targeting 'smart' (needs a special cycle or click)"
+      ]
+    },
+    {
+      "file": "peninsula#chimps#1920x1080#converted#source_btd6bot#lossy.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/peninsulaHardChimps.py",
+      "map": "peninsula",
+      "mode": "chimps",
+      "lossy": [
+        "center()",
+        "engineer special with a target position",
+        "engineer targeting 'last' (needs a special cycle or click)"
+      ]
+    },
+    {
+      "file": "polyphemus#chimps#1920x1080#converted#source_btd6bot#lossy.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/polyphemusHardChimps.py",
+      "map": "polyphemus",
+      "mode": "chimps",
+      "lossy": [
+        "engineer special with a target position"
+      ]
+    },
+    {
+      "file": "quarry#chimps#1920x1080#converted#source_btd6bot#lossy.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/quarryHardChimps.py",
+      "map": "quarry",
+      "mode": "chimps",
+      "lossy": [
+        "heli special with a target position"
+      ]
+    },
+    {
+      "file": "rake#chimps#1920x1080#converted#source_btd6bot#lossy.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/rakeHardChimps.py",
+      "map": "rake",
+      "mode": "chimps",
+      "lossy": [
+        "center()",
+        "second special ability"
+      ]
+    },
+    {
+      "file": "ravine#chimps#1920x1080#converted#source_btd6bot#lossy.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/ravineHardChimps.py",
+      "map": "ravine",
+      "mode": "chimps",
+      "lossy": [
+        "engineer special with a target position",
+        "spike targeting 'close' (needs a special cycle or click)",
+        "spike targeting 'smart' (needs a special cycle or click)",
+        "wizard special with a target position"
+      ]
+    },
+    {
+      "file": "spice_islands#chimps#1920x1080#converted#source_btd6bot#lossy.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/spice_islandHardChimps.py",
+      "map": "spice_islands",
+      "mode": "chimps",
+      "lossy": [
+        "center()",
+        "second special ability"
+      ]
+    },
+    {
+      "file": "spillway#chimps#1920x1080#converted#source_btd6bot#lossy.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/spillwayHardChimps.py",
+      "map": "spillway",
+      "mode": "chimps",
+      "lossy": [
+        "engineer special with a target position",
+        "wizard special with a target position"
+      ]
+    },
+    {
+      "file": "sunken_columns#chimps#1920x1080#converted#source_btd6bot#lossy.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/sunken_columnsHardChimps.py",
+      "map": "sunken_columns",
+      "mode": "chimps",
+      "lossy": [
+        "engineer special with a target position"
+      ]
+    },
+    {
+      "file": "sunset_gulch#chimps#1920x1080#converted#source_btd6bot#lossy.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/sunset_gulchHardChimps.py",
+      "map": "sunset_gulch",
+      "mode": "chimps",
+      "lossy": [
+        "engineer special with a target position",
+        "spike special with a target position",
+        "spike targeting 'set' (needs a special cycle or click)"
+      ]
+    },
+    {
+      "file": "water_park#chimps#1920x1080#converted#source_btd6bot#lossy.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/water_parkHardChimps.py",
+      "map": "water_park",
+      "mode": "chimps",
+      "lossy": [
+        "heli special with a target position"
+      ]
+    },
+    {
+      "file": "workshop#chimps#1920x1080#converted#source_btd6bot#lossy.btd6",
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/workshopHardChimps.py",
+      "map": "workshop",
+      "mode": "chimps",
+      "lossy": [
+        "gwendolin special with a target position",
+        "spike targeting 'close' (needs a special cycle or click)"
+      ]
+    },
+    {
+      "file": "adoras_temple#chimps#1920x1080#converted#source_bloonsplayer#lossy.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/CHIMPS/adoras temple CHIMPS sauda.txt",
+      "map": "adoras_temple",
+      "mode": "chimps",
+      "lossy": [
+        "activated abilities"
+      ]
+    },
+    {
+      "file": "dark_castle#chimps#1920x1080#converted#source_bloonsplayer#lossy.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/CHIMPS/dark castle CHIMPS (obyn).txt",
+      "map": "dark_castle",
+      "mode": "chimps",
+      "lossy": [
+        "activated abilities",
+        "mouse sweeps (banana/cash collection)"
+      ]
+    },
+    {
+      "file": "workshop#chimps#1920x1080#converted#source_bloonsplayer#lossy.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/CHIMPS/workshop CHIMPS (sauda).txt",
+      "map": "workshop",
+      "mode": "chimps",
+      "lossy": [
+        "activated abilities",
+        "obstacle removal without a known price"
+      ]
+    },
+    {
+      "file": "frozen_over#primary_only#1920x1080#converted#source_bloonsplayer#lossy.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/sauda only/frozen over primary only sauda.txt",
+      "map": "frozen_over",
+      "mode": "primary_only",
+      "lossy": [
+        "activated abilities"
+      ]
+    },
+    {
+      "file": "hedge#primary_only#1920x1080#converted#source_bloonsplayer#lossy.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/sauda only/hedge primary only sauda.txt",
+      "map": "hedge",
+      "mode": "primary_only",
+      "lossy": [
+        "activated abilities"
+      ]
+    },
+    {
+      "file": "logs#primary_only#1920x1080#converted#source_bloonsplayer#lossy.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/sauda only/logs primary only sauda.txt",
+      "map": "logs",
+      "mode": "primary_only",
+      "lossy": [
+        "activated abilities"
+      ]
+    },
+    {
+      "file": "monkey_meadow#primary_only#1920x1080#converted#source_bloonsplayer#lossy.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/sauda only/monkey meadow primary only sauda.txt",
+      "map": "monkey_meadow",
+      "mode": "primary_only",
+      "lossy": [
+        "activated abilities"
+      ]
+    },
+    {
+      "file": "resort#primary_only#1920x1080#converted#source_bloonsplayer#lossy.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/sauda only/resort primary only sauda.txt",
+      "map": "resort",
+      "mode": "primary_only",
+      "lossy": [
+        "activated abilities"
+      ]
+    },
+    {
+      "file": "scrapyard#primary_only#1920x1080#converted#source_bloonsplayer#lossy.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/sauda only/scrapyard primary only sauda.txt",
+      "map": "scrapyard",
+      "mode": "primary_only",
+      "lossy": [
+        "activated abilities"
+      ]
+    },
+    {
+      "file": "skates#primary_only#1920x1080#converted#source_bloonsplayer#lossy.btd6",
+      "source": "bloonsplayer",
+      "sourceFile": "tas/sauda only/skates primary only sauda.txt",
+      "map": "skates",
+      "mode": "primary_only",
+      "lossy": [
+        "activated abilities"
+      ]
+    }
+  ],
+  "compatCopies": [
+    {
+      "file": "ancient_portal#primary_only#2560x1440#noLLwMK#compat#from_hard.btd6",
+      "source": "compat",
+      "sourceFile": "ancient_portal#hard#2560x1440#noLLwMK.btd6",
+      "map": "ancient_portal",
+      "mode": "primary_only"
+    },
+    {
+      "file": "bloody_puddles#medium#2560x1440#noMK#RNG#compat#from_hard.btd6",
+      "source": "compat",
+      "sourceFile": "bloody_puddles#hard#2560x1440#noMK#RNG.btd6",
+      "map": "bloody_puddles",
+      "mode": "medium"
+    },
+    {
+      "file": "mesa#easy#2560x1440#noLL#compat#from_hard.btd6",
+      "source": "compat",
+      "sourceFile": "mesa#hard#2560x1440#noLL.btd6",
+      "map": "mesa",
+      "mode": "easy"
+    },
+    {
+      "file": "mesa#medium#2560x1440#noLL#compat#from_hard.btd6",
+      "source": "compat",
+      "sourceFile": "mesa#hard#2560x1440#noLL.btd6",
+      "map": "mesa",
+      "mode": "medium"
+    },
+    {
+      "file": "off_the_coast#military_only#2560x1440#noLL#compat#from_hard.btd6",
+      "source": "compat",
+      "sourceFile": "off_the_coast#hard#2560x1440#noLL.btd6",
+      "map": "off_the_coast",
+      "mode": "military_only"
+    },
+    {
+      "file": "sanctuary#medium#1920x1080#source_btd6bot#compat#from_hard.btd6",
+      "source": "compat",
+      "sourceFile": "sanctuary#hard#1920x1080#converted#source_btd6bot.btd6",
+      "map": "sanctuary",
+      "mode": "medium"
+    }
+  ],
+  "rejected": [
+    {
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/btd6bot/plans/bloody_puddlesHardChimps.py",
+      "reason": "unsupported: tower moved after placement (cpos): AutoBTD6 clicks fixed positions"
+    },
+    {
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/btd6bot/plans/dark_dungeonsHardChimps.py",
+      "reason": "unsupported: upgrade target [4, 2, 0] below current [3, 0, 2] on spike2 (spike1); likely a typo in the source plan (a path cannot be un-upgraded)"
+    },
+    {
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/btd6bot/plans/gearedHardChimps.py",
+      "reason": "unsupported: tower moved after placement (cpos): AutoBTD6 clicks fixed positions"
+    },
+    {
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/btd6bot/plans/last_resortHardChimps.py",
+      "reason": "unsupported: tower moved after placement (cpos): AutoBTD6 clicks fixed positions"
+    },
+    {
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/btd6bot/plans/mesaHardChimps.py",
+      "reason": "unsupported: upgrade target [1, 0, 0] below current [0, 0, 2] on village (village0); likely a typo in the source plan (a path cannot be un-upgraded)"
+    },
+    {
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/btd6bot/plans/moon_landingHardChimps.py",
+      "reason": "unsupported: upgrade target [1, 0, 0] below current [0, 1, 0] on druid (druid0); likely a typo in the source plan (a path cannot be un-upgraded)"
+    },
+    {
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/btd6bot/plans/party_paradeHardChimps.py",
+      "reason": "unsupported: upgrade target [0, 2, 3] below current [0, 1, 4] on boomer1 (boomerang0); likely a typo in the source plan (a path cannot be un-upgraded)"
+    },
+    {
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/btd6bot/plans/quadHardChimps.py",
+      "reason": "unsupported: upgrade target [1, 0, 0] below current [0, 0, 2] on village_bl (village1); likely a typo in the source plan (a path cannot be un-upgraded)"
+    },
+    {
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/btd6bot/plans/sanctuaryEasyStandard.py",
+      "reason": "unsupported: tower moved after placement (cpos): AutoBTD6 clicks fixed positions"
+    },
+    {
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/btd6bot/plans/sanctuaryHardChimps.py",
+      "reason": "unsupported: tower moved after placement (cpos): AutoBTD6 clicks fixed positions"
+    },
+    {
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/btd6bot/plans/sanctuaryHardStandard.py",
+      "reason": "unsupported: tower moved after placement (cpos): AutoBTD6 clicks fixed positions"
+    },
+    {
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/btd6bot/plans/sanctuaryMediumStandard.py",
+      "reason": "unsupported: tower moved after placement (cpos): AutoBTD6 clicks fixed positions"
+    },
+    {
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/btd6bot/plans/tricky_tracksHardAlternate.py",
+      "reason": "unsupported: upgrade target [2, 2, 0] below current [1, 0, 2] on sniper2 (sniper1); likely a typo in the source plan (a path cannot be un-upgraded)"
+    },
+    {
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/btd6bot/plans/tricky_tracksHardStandard.py",
+      "reason": "unsupported: tower moved after placement (cpos): AutoBTD6 clicks fixed positions"
+    },
+    {
+      "source": "everythingmacro",
+      "sourceFile": "route-library/public-sources/ThuyTran735-BTD6-Everything-Macro/Maps/Beginner/Monkey Meadow/Hard/MonkeyMeadowAlternateBloonsRounds.ahk",
+      "reason": "unsupported: unknown tower Skywarden"
+    },
+    {
+      "source": "everythingmacro",
+      "sourceFile": "route-library/public-sources/ThuyTran735-BTD6-Everything-Macro/Maps/Beginner/Monkey Meadow/Hard/MonkeyMeadowHard.ahk",
+      "reason": "unsupported: unknown tower Skywarden"
+    },
+    {
+      "source": "everythingmacro",
+      "sourceFile": "route-library/public-sources/ThuyTran735-BTD6-Everything-Macro/Maps/Beginner/Monkey Meadow/Hard/MonkeyMeadowMagicMonkeysOnly.ahk",
+      "reason": "unsupported: unknown tower Skywarden"
+    },
+    {
+      "source": "randyhodges",
+      "sourceFile": "route-library/public-sources/Randy-Hodges-BTD6-Autoplay/collection_scripts/sanctuary_script.py",
+      "reason": "unsupported: rotating map: the source uses a special moving-position handler"
+    },
+    {
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/#ouchHardChimps.py",
+      "map": "ouch",
+      "mode": "chimps",
+      "reason": "written as an unverified #lossy draft for its own mode (drops mermonkey special with a target position; obyn_greenfoot special with a target position), easy/medium/hard already covered"
+    },
+    {
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/ancient_portalHardChimps.py",
+      "map": "ancient_portal",
+      "mode": "chimps",
+      "reason": "written as an unverified #lossy draft for its own mode (drops dartling targeting 'independent' (needs a special cycle or click); positional targeting 'locked'), easy/medium/hard already covered"
+    },
+    {
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/another_brickHardChimps.py",
+      "map": "another_brick",
+      "mode": "chimps",
+      "reason": "written as an unverified #lossy draft for its own mode (drops heli special with a target position), easy/medium/hard already covered"
+    },
+    {
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/bazaarHardChimps.py",
+      "map": "bazaar",
+      "mode": "chimps",
+      "reason": "written as an unverified #lossy draft for its own mode (drops second special ability), easy/medium/hard already covered"
+    },
+    {
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/bloonarius_primeHardChimps.py",
+      "map": "bloonarius_prime",
+      "mode": "chimps",
+      "reason": "written as an unverified #lossy draft for its own mode (drops center(); second special ability), easy/medium/hard already covered"
+    },
+    {
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/cargoHardChimps.py",
+      "map": "cargo",
+      "mode": "chimps",
+      "reason": "written as an unverified #lossy draft for its own mode (drops obyn_greenfoot special with a target position), easy/medium/hard already covered"
+    },
+    {
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/chutesHardChimps.py",
+      "map": "chutes",
+      "mode": "chimps",
+      "reason": "written as an unverified #lossy draft for its own mode (drops heli special with a target position), easy/medium/hard already covered"
+    },
+    {
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/cornfieldHardChimps.py",
+      "map": "cornfield",
+      "mode": "chimps",
+      "reason": "written as an unverified #lossy draft for its own mode (drops spike targeting 'smart' (needs a special cycle or click); wizard special with a target position), easy/medium/hard already covered"
+    },
+    {
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/covered_gardenHardChimps.py",
+      "map": "covered_garden",
+      "mode": "chimps",
+      "reason": "written as an unverified #lossy draft for its own mode (drops heli special with a target position), easy/medium/hard already covered"
+    },
+    {
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/dark_castleHardChimps.py",
+      "map": "dark_castle",
+      "mode": "chimps",
+      "reason": "written as an unverified #lossy draft for its own mode (drops spike targeting 'close' (needs a special cycle or click)), easy/medium/hard already covered"
+    },
+    {
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/erosionHardChimps.py",
+      "map": "erosion",
+      "mode": "chimps",
+      "reason": "written as an unverified #lossy draft for its own mode (drops positional targeting 'set'; spike special with a target position), easy/medium/hard already covered"
+    },
+    {
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/firing_rangeHardChimps.py",
+      "map": "firing_range",
+      "mode": "chimps",
+      "reason": "written as an unverified #lossy draft for its own mode (drops second special ability), easy/medium/hard already covered"
+    },
+    {
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/flooded_valleyHardChimps.py",
+      "map": "flooded_valley",
+      "mode": "chimps",
+      "reason": "written as an unverified #lossy draft for its own mode (drops engineer special with a target position; mermonkey special with a target position), easy/medium/hard already covered"
+    },
+    {
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/glacial_trailHardChimps.py",
+      "map": "glacial_trail",
+      "mode": "chimps",
+      "reason": "written as an unverified #lossy draft for its own mode (drops spike targeting 'smart' (needs a special cycle or click)), easy/medium/hard already covered"
+    },
+    {
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/high_financeHardChimps.py",
+      "map": "high_finance",
+      "mode": "chimps",
+      "reason": "written as an unverified #lossy draft for its own mode (drops gwendolin special with a target position), easy/medium/hard already covered"
+    },
+    {
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/infernalHardChimps.py",
+      "map": "infernal",
+      "mode": "chimps",
+      "reason": "written as an unverified #lossy draft for its own mode (drops heli special with a target position; mermonkey special with a target position), easy/medium/hard already covered"
+    },
+    {
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/muddy_puddlesHardChimps.py",
+      "map": "muddy_puddles",
+      "mode": "chimps",
+      "reason": "written as an unverified #lossy draft for its own mode (drops center(); engineer targeting 'strong' (needs a special cycle or click); second special ability), easy/medium/hard already covered"
+    },
+    {
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/party_paradeHardAlternate.py",
+      "map": "party_parade",
+      "mode": "alternate_bloons_rounds",
+      "reason": "written as an unverified #lossy draft for its own mode (drops spike targeting 'smart' (needs a special cycle or click)), not chimps/impoppable, so no easy/medium/hard cascade"
+    },
+    {
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/peninsulaHardChimps.py",
+      "map": "peninsula",
+      "mode": "chimps",
+      "reason": "written as an unverified #lossy draft for its own mode (drops center(); engineer special with a target position; engineer targeting 'last' (needs a special cycle or click)), easy/medium/hard already covered"
+    },
+    {
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/polyphemusHardChimps.py",
+      "map": "polyphemus",
+      "mode": "chimps",
+      "reason": "written as an unverified #lossy draft for its own mode (drops engineer special with a target position), easy/medium/hard already covered"
+    },
+    {
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/quarryHardChimps.py",
+      "map": "quarry",
+      "mode": "chimps",
+      "reason": "written as an unverified #lossy draft for its own mode (drops heli special with a target position), easy/medium/hard already covered"
+    },
+    {
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/rakeHardChimps.py",
+      "map": "rake",
+      "mode": "chimps",
+      "reason": "written as an unverified #lossy draft for its own mode (drops center(); second special ability), easy/medium/hard already covered"
+    },
+    {
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/ravineHardChimps.py",
+      "map": "ravine",
+      "mode": "chimps",
+      "reason": "written as an unverified #lossy draft for its own mode (drops engineer special with a target position; spike targeting 'close' (needs a special cycle or click); spike targeting 'smart' (needs a special cycle or click); wizard special with a target position), easy/medium/hard already covered"
+    },
+    {
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/spice_islandHardChimps.py",
+      "map": "spice_islands",
+      "mode": "chimps",
+      "reason": "written as an unverified #lossy draft for its own mode (drops center(); second special ability), easy/medium/hard already covered"
+    },
+    {
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/spillwayHardChimps.py",
+      "map": "spillway",
+      "mode": "chimps",
+      "reason": "written as an unverified #lossy draft for its own mode (drops engineer special with a target position; wizard special with a target position), easy/medium/hard already covered"
+    },
+    {
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/sunken_columnsHardChimps.py",
+      "map": "sunken_columns",
+      "mode": "chimps",
+      "reason": "written as an unverified #lossy draft for its own mode (drops engineer special with a target position), easy/medium/hard already covered"
+    },
+    {
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/sunset_gulchHardChimps.py",
+      "map": "sunset_gulch",
+      "mode": "chimps",
+      "reason": "written as an unverified #lossy draft for its own mode (drops engineer special with a target position; spike special with a target position; spike targeting 'set' (needs a special cycle or click)), easy/medium/hard already covered"
+    },
+    {
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/water_parkHardChimps.py",
+      "map": "water_park",
+      "mode": "chimps",
+      "reason": "written as an unverified #lossy draft for its own mode (drops heli special with a target position), easy/medium/hard already covered"
+    },
+    {
+      "source": "btd6bot",
+      "sourceFile": "btd6bot/plans/workshopHardChimps.py",
+      "map": "workshop",
+      "mode": "chimps",
+      "reason": "written as an unverified #lossy draft for its own mode (drops gwendolin special with a target position; spike targeting 'close' (needs a special cycle or click)), easy/medium/hard already covered"
+    },
+    {
+      "source": "bloonsplayer",
+      "sourceFile": "tas/CHIMPS/adoras temple CHIMPS sauda.txt",
+      "map": "adoras_temple",
+      "mode": "chimps",
+      "reason": "written as an unverified #lossy draft for its own mode (drops activated abilities), easy/medium/hard already covered"
+    },
+    {
+      "source": "bloonsplayer",
+      "sourceFile": "tas/CHIMPS/dark castle CHIMPS (obyn).txt",
+      "map": "dark_castle",
+      "mode": "chimps",
+      "reason": "written as an unverified #lossy draft for its own mode (drops activated abilities; mouse sweeps (banana/cash collection)), easy/medium/hard already covered"
+    },
+    {
+      "source": "bloonsplayer",
+      "sourceFile": "tas/CHIMPS/workshop CHIMPS (sauda).txt",
+      "map": "workshop",
+      "mode": "chimps",
+      "reason": "written as an unverified #lossy draft for its own mode (drops activated abilities; obstacle removal without a known price), easy/medium/hard already covered"
+    },
+    {
+      "source": "bloonsplayer",
+      "sourceFile": "tas/sauda only/frozen over primary only sauda.txt",
+      "map": "frozen_over",
+      "mode": "primary_only",
+      "reason": "written as an unverified #lossy draft for its own mode (drops activated abilities), not chimps/impoppable, so no easy/medium/hard cascade"
+    },
+    {
+      "source": "bloonsplayer",
+      "sourceFile": "tas/sauda only/hedge primary only sauda.txt",
+      "map": "hedge",
+      "mode": "primary_only",
+      "reason": "written as an unverified #lossy draft for its own mode (drops activated abilities), not chimps/impoppable, so no easy/medium/hard cascade"
+    },
+    {
+      "source": "bloonsplayer",
+      "sourceFile": "tas/sauda only/logs primary only sauda.txt",
+      "map": "logs",
+      "mode": "primary_only",
+      "reason": "written as an unverified #lossy draft for its own mode (drops activated abilities), not chimps/impoppable, so no easy/medium/hard cascade"
+    },
+    {
+      "source": "bloonsplayer",
+      "sourceFile": "tas/sauda only/monkey meadow primary only sauda.txt",
+      "map": "monkey_meadow",
+      "mode": "primary_only",
+      "reason": "written as an unverified #lossy draft for its own mode (drops activated abilities), not chimps/impoppable, so no easy/medium/hard cascade"
+    },
+    {
+      "source": "bloonsplayer",
+      "sourceFile": "tas/sauda only/resort primary only sauda.txt",
+      "map": "resort",
+      "mode": "primary_only",
+      "reason": "written as an unverified #lossy draft for its own mode (drops activated abilities), not chimps/impoppable, so no easy/medium/hard cascade"
+    },
+    {
+      "source": "bloonsplayer",
+      "sourceFile": "tas/sauda only/scrapyard primary only sauda.txt",
+      "map": "scrapyard",
+      "mode": "primary_only",
+      "reason": "written as an unverified #lossy draft for its own mode (drops activated abilities), not chimps/impoppable, so no easy/medium/hard cascade"
+    },
+    {
+      "source": "bloonsplayer",
+      "sourceFile": "tas/sauda only/skates primary only sauda.txt",
+      "map": "skates",
+      "mode": "primary_only",
+      "reason": "written as an unverified #lossy draft for its own mode (drops activated abilities), not chimps/impoppable, so no easy/medium/hard cascade"
+    }
+  ]
+}

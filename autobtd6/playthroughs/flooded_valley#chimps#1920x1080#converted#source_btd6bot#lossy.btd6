@@ -1,0 +1,132 @@
+# source: https://github.com/j-miet/BTD6bot (license MIT (c) 2025 Jani Miettinen) commit 2d6dac0957a0d55d0af201bd497afbebf7f3e5c2
+# source file: btd6bot/plans/flooded_valleyHardChimps.py (vendored copy: btd6bot/btd6bot/plans)
+# source mode: chimps; converted to 1920x1080 AutoBTD6 actions
+# dropped (timing only): forward(); wait()
+# dropped (not expressible in AutoBTD6, route may be weaker): engineer special with a target position; mermonkey special with a target position
+# generator: import-public-routes.py
+place sub sub0 at 1067, 886
+place sub sub1 at 925, 152
+round 10
+place pat_fusty hero0 at 1039, 698
+round 13
+place buccaneer buccaneer0 at 1013, 833
+round 15
+upgrade sub0 path 2
+round 16
+upgrade sub0 path 1
+round 19
+upgrade buccaneer0 path 2
+upgrade buccaneer0 path 2
+round 20
+upgrade buccaneer0 path 0
+round 21
+upgrade buccaneer0 path 0
+round 23
+ability 1 after 2 seconds
+round 27
+upgrade sub0 path 1
+round 31
+ability 1 after 0.5 seconds
+round 32
+upgrade buccaneer0 path 0
+round 36
+place mermonkey mermonkey0 at 1065, 773
+upgrade mermonkey0 path 0
+upgrade mermonkey0 path 0
+upgrade mermonkey0 path 0
+round 37
+upgrade mermonkey0 path 2
+upgrade mermonkey0 path 2
+round 39
+upgrade mermonkey0 path 0
+round 40
+ability 1 after 1.25 seconds
+round 46
+upgrade buccaneer0 path 0
+round 47
+place sniper sniper0 at 593, 771
+upgrade sniper0 path 0
+upgrade sniper0 path 1
+upgrade sniper0 path 1
+retarget sniper0
+retarget sniper0
+retarget sniper0
+round 48
+place engineer engineer0 at 758, 615
+upgrade engineer0 path 1
+upgrade engineer0 path 1
+upgrade engineer0 path 1
+upgrade engineer0 path 2
+upgrade engineer0 path 2
+round 54
+ability 1 after 2.5 seconds
+round 59
+special sniper0
+round 61
+ability 1 after 1 seconds
+retarget sub0
+retarget sub0
+retarget sub0
+round 63
+upgrade buccaneer0 path 0
+ability 1 after 11 seconds
+round 75
+upgrade mermonkey0 path 0
+round 78
+place ice ice0 at 1031, 681
+upgrade ice0 path 1
+upgrade ice0 path 1
+upgrade ice0 path 1
+upgrade ice0 path 2
+place village village0 at 1169, 769
+upgrade village0 path 0
+upgrade village0 path 0
+upgrade village0 path 1
+round 79
+upgrade village0 path 1
+round 81
+upgrade village0 path 1
+round 82
+place mermonkey mermonkey1 at 1157, 679
+upgrade mermonkey1 path 2
+upgrade mermonkey1 path 2
+upgrade mermonkey1 path 2
+round 83
+upgrade mermonkey1 path 2
+upgrade mermonkey1 path 0
+upgrade mermonkey1 path 0
+round 84
+place alchemist alchemist0 at 1173, 611
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+upgrade alchemist0 path 1
+upgrade alchemist0 path 1
+round 91
+upgrade sub0 path 1
+upgrade sub0 path 1
+round 94
+ability 1 after 5 seconds
+round 96
+ability 1 after 15 seconds
+round 97
+ability 2 after 5 seconds
+round 98
+upgrade sub0 path 1
+upgrade sub0 path 2
+place glue glue0 at 939, 746
+ability 3 after 3 seconds
+ability 1 after 4 seconds
+upgrade glue0 path 2
+upgrade glue0 path 2
+upgrade glue0 path 2
+upgrade glue0 path 2
+retarget glue0
+retarget glue0
+retarget glue0
+round 99
+upgrade glue0 path 1
+round 100
+ability 3 after 6 seconds
+ability 1 after 7 seconds

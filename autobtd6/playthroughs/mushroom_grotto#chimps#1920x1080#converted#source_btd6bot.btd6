@@ -1,0 +1,152 @@
+# source: https://github.com/j-miet/BTD6bot (license MIT (c) 2025 Jani Miettinen) commit 2d6dac0957a0d55d0af201bd497afbebf7f3e5c2
+# source file: btd6bot/plans/mushroom_grottoHardChimps.py (vendored copy: btd6bot/btd6bot/plans)
+# source mode: chimps; converted to 1920x1080 AutoBTD6 actions
+# dropped (timing only): forward(); wait()
+# generator: import-public-routes.py
+place mermonkey mermonkey0 at 765, 344
+place mermonkey mermonkey1 at 953, 773
+round 8
+place dart dart0 at 760, 653
+round 9
+place dart dart1 at 958, 463
+round 12
+place obyn_greenfoot hero0 at 888, 471
+round 13
+place druid druid0 at 957, 647
+round 15
+place druid druid1 at 765, 591
+round 18
+upgrade dart0 path 2
+upgrade dart0 path 2
+round 19
+upgrade dart0 path 2
+round 20
+upgrade dart0 path 1
+upgrade dart0 path 1
+round 21
+place druid druid2 at 767, 525
+round 23
+upgrade druid1 path 0
+round 28
+click map at 355, 823
+click map at 943, 653
+click map at 355, 271
+click map at 943, 655
+click map at 1355, 301
+click map at 937, 639
+click map at 1395, 861
+click map at 941, 653
+click map at 873, 557
+click map at 987, 581
+round 32
+upgrade dart0 path 2
+round 35
+place village village0 at 851, 635
+round 36
+upgrade village0 path 2
+upgrade village0 path 2
+upgrade druid1 path 0
+upgrade druid1 path 2
+round 39
+place druid druid3 at 953, 581
+upgrade druid1 path 0
+upgrade druid1 path 2
+round 41
+upgrade druid1 path 0
+round 45
+upgrade druid0 path 2
+upgrade druid0 path 2
+upgrade druid0 path 2
+upgrade druid0 path 2
+upgrade druid0 path 1
+round 48
+upgrade druid2 path 2
+upgrade druid2 path 2
+upgrade druid2 path 2
+upgrade druid2 path 2
+upgrade druid2 path 1
+round 49
+upgrade village0 path 0
+upgrade village0 path 0
+upgrade druid3 path 2
+upgrade druid3 path 2
+upgrade druid3 path 2
+upgrade druid3 path 2
+upgrade druid3 path 1
+round 50
+place alchemist alchemist0 at 636, 535
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+round 51
+upgrade alchemist0 path 0
+upgrade alchemist0 path 1
+upgrade alchemist0 path 1
+round 53
+place alchemist alchemist1 at 1084, 585
+upgrade alchemist1 path 0
+upgrade alchemist1 path 0
+upgrade alchemist1 path 0
+round 55
+upgrade alchemist1 path 0
+upgrade alchemist1 path 1
+upgrade alchemist1 path 1
+round 84
+upgrade druid1 path 0
+round 88
+place sniper sniper0 at 859, 797
+retarget sniper0
+retarget sniper0
+retarget sniper0
+upgrade sniper0 path 2
+upgrade sniper0 path 2
+upgrade sniper0 path 2
+upgrade sniper0 path 2
+upgrade sniper0 path 0
+upgrade sniper0 path 0
+round 92
+upgrade sniper0 path 2
+round 95
+place sniper sniper1 at 757, 792
+retarget sniper1
+retarget sniper1
+retarget sniper1
+upgrade sniper1 path 2
+upgrade sniper1 path 2
+upgrade sniper1 path 2
+upgrade sniper1 path 2
+upgrade sniper1 path 0
+upgrade sniper1 path 0
+round 96
+place sniper sniper2 at 847, 857
+retarget sniper2
+retarget sniper2
+retarget sniper2
+upgrade sniper2 path 2
+upgrade sniper2 path 2
+upgrade sniper2 path 2
+upgrade sniper2 path 2
+upgrade sniper2 path 0
+upgrade sniper2 path 0
+round 97
+place sniper sniper3 at 937, 844
+retarget sniper3
+retarget sniper3
+retarget sniper3
+upgrade sniper3 path 2
+upgrade sniper3 path 2
+upgrade sniper3 path 2
+upgrade sniper3 path 2
+upgrade sniper3 path 0
+upgrade sniper3 path 0
+round 98
+place sniper sniper4 at 687, 782
+retarget sniper4
+retarget sniper4
+retarget sniper4
+upgrade sniper4 path 2
+upgrade sniper4 path 2
+upgrade sniper4 path 2
+upgrade sniper4 path 2
+upgrade sniper4 path 0
+upgrade sniper4 path 0

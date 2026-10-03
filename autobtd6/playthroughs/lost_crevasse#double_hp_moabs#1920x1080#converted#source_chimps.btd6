@@ -1,0 +1,91 @@
+place desperado desperado0 at 425, 663
+place desperado desperado1 at 1049, 661
+round 6
+place tack tack0 at 846, 141
+round 10
+place silas hero0 at 845, 201
+round 11
+place druid druid0 at 919, 150
+round 12
+upgrade druid0 path 0
+round 13
+upgrade druid0 path 1
+round 15
+upgrade druid0 path 1
+round 17
+ability 1
+round 18
+upgrade druid0 path 1
+ability 1 after 3 seconds
+round 19
+place ice ice0 at 776, 152
+upgrade ice0 path 0
+round 21
+upgrade ice0 path 0
+upgrade ice0 path 1
+round 24
+upgrade ice0 path 0
+round 27
+ability 1
+round 28
+upgrade ice0 path 0
+upgrade tack0 path 0
+upgrade tack0 path 2
+upgrade tack0 path 2
+upgrade tack0 path 0
+round 29
+upgrade tack0 path 2
+round 30
+place sniper sniper0 at 640, 316
+upgrade sniper0 path 1
+round 31
+upgrade tack0 path 2
+round 32
+place village village0 at 813, 280
+round 33
+upgrade village0 path 2
+upgrade village0 path 2
+upgrade village0 path 1
+round 34
+ability 2
+round 35
+upgrade village0 path 1
+round 36
+place village village1 at 927, 308
+upgrade village1 path 2
+upgrade village1 path 2
+upgrade village1 path 0
+upgrade village1 path 0
+round 37
+upgrade village1 path 0
+round 38
+upgrade village1 path 0
+round 40
+place ice ice1 at 989, 160
+upgrade ice1 path 1
+upgrade ice1 path 2
+upgrade ice1 path 1
+upgrade ice1 path 2
+upgrade ice1 path 2
+upgrade ice1 path 2
+round 49
+upgrade tack0 path 2
+round 52
+upgrade village0 path 1
+place alchemist alchemist0 at 763, 208
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+round 54
+upgrade alchemist0 path 0
+round 55
+upgrade alchemist0 path 0
+round 68
+upgrade alchemist0 path 0
+round 76
+upgrade ice0 path 0
+round 79
+upgrade ice1 path 2
+place mermonkey mermonkey0 at 965, 224
+upgrade mermonkey0 path 0
+upgrade mermonkey0 path 0
+upgrade mermonkey0 path 0

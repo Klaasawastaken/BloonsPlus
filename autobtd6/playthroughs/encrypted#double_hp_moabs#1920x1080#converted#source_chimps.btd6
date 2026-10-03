@@ -1,0 +1,46 @@
+place sauda hero0 at 835, 388
+round 7
+click map at 737, 322
+click map at 853, 406
+round 8
+place wizard wizard0 at 773, 350
+round 9
+place druid druid0 at 719, 300
+round 10
+upgrade wizard0 path 0
+round 11
+upgrade druid0 path 1
+round 12
+upgrade wizard0 path 0
+round 17
+upgrade druid0 path 1
+upgrade druid0 path 1
+round 19
+upgrade druid0 path 0
+round 22
+upgrade wizard0 path 0
+round 24
+upgrade wizard0 path 2
+upgrade wizard0 path 2
+round 27
+click map at 931, 320
+click map at 1031, 418
+round 30
+place spike spike0 at 915, 330
+round 31
+upgrade spike0 path 0
+upgrade spike0 path 0
+upgrade spike0 path 1
+upgrade spike0 path 1
+upgrade spike0 path 1
+round 38
+upgrade wizard0 path 0
+round 45
+upgrade druid0 path 1
+round 58
+upgrade druid0 path 1
+round 67
+upgrade wizard0 path 0
+round 79
+upgrade spike0 path 1
+upgrade spike0 path 1

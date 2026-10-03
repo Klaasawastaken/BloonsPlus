@@ -1,0 +1,32 @@
+# source: https://github.com/j-miet/BTD6bot (license MIT (c) 2025 Jani Miettinen) commit 2d6dac0957a0d55d0af201bd497afbebf7f3e5c2
+# source file: btd6bot/plans/glacial_trailEasyPrimary.py (vendored copy: btd6bot/btd6bot/plans)
+# source mode: primary_only; converted to 1920x1080 AutoBTD6 actions
+# generator: import-public-routes.py
+place ice ice0 at 253, 550
+upgrade ice0 path 1
+upgrade ice0 path 2
+round 4
+place bomb bomb0 at 1385, 678
+round 8
+place silas hero0 at 319, 540
+round 10
+place ice ice1 at 207, 406
+round 11
+upgrade ice0 path 2
+round 17
+upgrade ice0 path 2
+round 18
+upgrade ice0 path 1
+round 21
+upgrade ice1 path 0
+upgrade ice1 path 0
+upgrade ice1 path 1
+round 27
+upgrade ice1 path 0
+round 31
+upgrade ice0 path 2
+round 35
+upgrade ice1 path 0
+round 40
+ability 1
+ability 2

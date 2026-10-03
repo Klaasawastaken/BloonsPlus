@@ -1,0 +1,49 @@
+place sauda hero0 at 832, 558
+round 12
+place druid druid0 at 983, 550
+round 14
+upgrade druid0 path 1
+upgrade druid0 path 1
+upgrade druid0 path 1
+round 15
+upgrade druid0 path 0
+round 25
+place village village0 at 1567, 734
+upgrade village0 path 2
+upgrade village0 path 2
+round 30
+place ace ace0 at 1457, 822
+upgrade ace0 path 2
+upgrade ace0 path 2
+upgrade ace0 path 2
+round 31
+upgrade ace0 path 0
+upgrade ace0 path 0
+round 32
+place alchemist alchemist0 at 1589, 826
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+upgrade alchemist0 path 1
+upgrade alchemist0 path 1
+round 35
+place village village1 at 1551, 914
+upgrade village1 path 1
+upgrade village1 path 1
+round 37
+upgrade village1 path 0
+upgrade village1 path 0
+round 47
+upgrade ace0 path 2
+round 54
+place ice ice0 at 706, 544
+upgrade ice0 path 0
+upgrade ice0 path 0
+upgrade ice0 path 0
+upgrade ice0 path 0
+upgrade ice0 path 1
+round 76
+ability 2 after 4 seconds
+round 79
+ability 2 after 4.5 seconds
+upgrade ace0 path 2

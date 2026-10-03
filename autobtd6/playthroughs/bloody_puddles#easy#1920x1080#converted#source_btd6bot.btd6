@@ -1,0 +1,37 @@
+place sniper sniper1 at 689, 94
+place sniper sniper2 at 691, 156
+round 3
+place sniper sniper3 at 283, 166
+retarget sniper3
+retarget sniper3
+retarget sniper3
+round 4
+place dart dart1 at 367, 756
+round 6
+place sub sub at 1183, 198
+round 9
+upgrade sub path 0
+upgrade sub path 0
+round 10
+upgrade sub path 2
+round 14
+upgrade sub path 2
+round 15
+place dart dart2 at 1261, 792
+place dart dart3 at 463, 344
+round 19
+upgrade sniper2 path 1
+upgrade sniper2 path 1
+round 21
+upgrade sniper2 path 2
+upgrade sniper2 path 2
+round 25
+upgrade sniper3 path 0
+upgrade sniper3 path 2
+upgrade sniper3 path 2
+round 31
+upgrade sniper2 path 2
+round 35
+upgrade sniper3 path 2
+round 38
+upgrade sniper2 path 2

@@ -1,0 +1,20 @@
+# compatibility copy of ancient_portal#hard#2560x1440#noLLwMK.btd6
+# rule: AutoBTD6 helper.listBTD6InstructionsFileCompatability lists hard routes as compatible with primary_only; route lines are unchanged
+# generator: import-public-routes.py
+place sauda hero0 at 1530, 368
+place tack tack0 at 1639, 437
+upgrade tack0 path 0
+upgrade tack0 path 0
+upgrade tack0 path 2
+upgrade tack0 path 2
+upgrade tack0 path 0
+upgrade tack0 path 0
+place dart dart0 at 1802, 757
+upgrade dart0 path 0
+upgrade dart0 path 0
+upgrade dart0 path 2
+upgrade dart0 path 2
+upgrade dart0 path 2
+upgrade dart0 path 2
+upgrade dart0 path 2
+upgrade tack0 path 0

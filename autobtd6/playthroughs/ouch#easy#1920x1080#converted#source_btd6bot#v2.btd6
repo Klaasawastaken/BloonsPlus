@@ -1,0 +1,40 @@
+# source: https://github.com/j-miet/BTD6bot (license MIT (c) 2025 Jani Miettinen) commit 2d6dac0957a0d55d0af201bd497afbebf7f3e5c2
+# source file: btd6bot/plans/#ouchEasyStandard.py (vendored copy: btd6bot/btd6bot/plans)
+# source mode: easy; converted to 1920x1080 AutoBTD6 actions
+# generator: import-public-routes.py
+place dart dart0 at 544, 320
+place sniper sniper0 at 1398, 836
+round 2
+place sniper sniper1 at 1496, 840
+retarget sniper1
+retarget sniper1
+retarget sniper1
+round 4
+place dart dart1 at 542, 670
+round 7
+place sauda hero0 at 547, 432
+round 9
+place buccaneer buccaneer0 at 813, 544
+round 11
+upgrade buccaneer0 path 0
+upgrade buccaneer0 path 0
+round 14
+upgrade sniper0 path 2
+upgrade sniper0 path 2
+round 17
+upgrade sniper0 path 1
+upgrade sniper0 path 1
+round 20
+upgrade sniper1 path 0
+round 21
+upgrade buccaneer0 path 1
+round 27
+upgrade sniper0 path 2
+round 29
+upgrade sniper1 path 2
+upgrade sniper1 path 2
+round 35
+upgrade buccaneer0 path 0
+upgrade buccaneer0 path 1
+round 38
+upgrade sniper0 path 2

@@ -1,0 +1,8 @@
+# source: https://github.com/piweiblen/BloonsPlayer (license MIT (c) 2021 piweiblen) commit 17d624879c5ad777e82594da34450e66b2d60756
+# source file: tas/sauda only/logs primary only sauda.txt (vendored copy: route-library/public-sources/piweiblen-BloonsPlayer)
+# source mode: primary_only; converted to 1920x1080 AutoBTD6 actions
+# dropped (timing only): hero level purchases (AutoBTD6 levels heroes by XP only)
+# dropped (not expressible in AutoBTD6, route may be weaker): activated abilities
+# generator: import-public-routes.py
+place sauda hero0 at 630, 706
+round 28

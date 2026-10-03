@@ -1,0 +1,58 @@
+# source: https://github.com/ThuyTran735/BTD6-Everything-Macro (license MIT (c) 2026 ThuyTran735) commit afd8a30917bcab798a9ed8bf15f83897f6fb0a60
+# source file: Maps/Beginner/Tinkerton/Medium/TinkertonMilitaryOnly.ahk (vendored copy: route-library/public-sources/ThuyTran735-BTD6-Everything-Macro)
+# source mode: military_only; converted to 1920x1080 AutoBTD6 actions
+# generator: import-public-routes.py
+place quincy hero0 at 371, 517
+round 3
+place sniper sniper0 at 715, 467
+retarget sniper0
+retarget sniper0
+retarget sniper0
+round 6
+place sniper sniper1 at 711, 553
+round 7
+upgrade sniper0 path 0
+upgrade sniper0 path 1
+round 10
+upgrade sniper1 path 1
+upgrade sniper1 path 1
+upgrade sniper1 path 2
+upgrade sniper1 path 2
+round 17
+upgrade sniper0 path 0
+upgrade sniper0 path 1
+round 24
+place sniper sniper2 at 712, 643
+upgrade sniper2 path 1
+upgrade sniper2 path 1
+upgrade sniper2 path 2
+upgrade sniper2 path 2
+round 34
+upgrade sniper1 path 2
+upgrade sniper1 path 2
+round 39
+upgrade sniper0 path 0
+round 41
+upgrade sniper2 path 2
+upgrade sniper2 path 2
+round 48
+upgrade sniper0 path 0
+round 49
+place sniper sniper3 at 711, 733
+upgrade sniper3 path 0
+upgrade sniper3 path 0
+upgrade sniper3 path 2
+upgrade sniper3 path 2
+upgrade sniper3 path 2
+upgrade sniper3 path 2
+round 52
+place sniper sniper4 at 712, 829
+retarget sniper4
+retarget sniper4
+retarget sniper4
+upgrade sniper4 path 0
+upgrade sniper4 path 0
+upgrade sniper4 path 0
+upgrade sniper4 path 0
+upgrade sniper4 path 1
+upgrade sniper4 path 1

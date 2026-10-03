@@ -1,0 +1,59 @@
+# source: https://github.com/j-miet/BTD6bot (license MIT (c) 2025 Jani Miettinen) commit 2d6dac0957a0d55d0af201bd497afbebf7f3e5c2
+# source file: btd6bot/plans/firing_rangeHardChimps.py (vendored copy: btd6bot/btd6bot/plans)
+# source mode: chimps; converted to 1920x1080 AutoBTD6 actions
+# dropped (timing only): wait()
+# dropped (not expressible in AutoBTD6, route may be weaker): second special ability
+# generator: import-public-routes.py
+place dart dart0 at 1510, 254
+place dart dart1 at 182, 266
+round 7
+place sniper sniper0 at 1511, 332
+round 11
+place rosalia hero0 at 989, 598
+round 15
+ability 1 after 6 seconds
+round 16
+click map at 821, 520
+click map at 925, 632
+round 19
+upgrade sniper0 path 2
+upgrade sniper0 path 2
+round 21
+ability 1 after 1 seconds
+round 22
+upgrade sniper0 path 1
+upgrade sniper0 path 1
+round 27
+special hero0
+round 33
+place village village0 at 945, 744
+upgrade village0 path 2
+upgrade village0 path 2
+round 34
+place ace ace0 at 827, 640
+upgrade ace0 path 2
+upgrade ace0 path 2
+round 35
+upgrade ace0 path 2
+round 36
+upgrade ace0 path 0
+upgrade ace0 path 0
+round 39
+place alchemist alchemist0 at 831, 830
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+round 41
+upgrade alchemist0 path 0
+upgrade alchemist0 path 1
+upgrade alchemist0 path 1
+place village village1 at 735, 772
+round 42
+upgrade village1 path 1
+upgrade village1 path 1
+round 43
+upgrade village1 path 0
+upgrade village1 path 0
+round 54
+upgrade ace0 path 2
+round 87
+upgrade ace0 path 2

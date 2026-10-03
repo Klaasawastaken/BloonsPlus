@@ -1,0 +1,52 @@
+round 3
+place quincy hero0 at 639, 531
+round 8
+place ninja ninja0 at 480, 537
+upgrade ninja0 path 2
+round 11
+upgrade ninja0 path 0
+upgrade ninja0 path 0
+round 15
+upgrade ninja0 path 0
+round 21
+place alchemist alchemist0 at 480, 405
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+retarget alchemist0
+retarget alchemist0
+retarget alchemist0
+round 28
+upgrade alchemist0 path 0
+upgrade alchemist0 path 1
+upgrade alchemist0 path 1
+round 36
+upgrade ninja0 path 0
+upgrade ninja0 path 2
+round 40
+upgrade alchemist0 path 0
+place wizard wizard0 at 744, 538
+upgrade wizard0 path 1
+upgrade wizard0 path 2
+upgrade wizard0 path 2
+upgrade wizard0 path 2
+round 44
+upgrade wizard0 path 1
+upgrade wizard0 path 2
+round 50
+place wizard wizard1 at 555, 676
+upgrade wizard1 path 0
+upgrade wizard1 path 0
+upgrade wizard1 path 0
+upgrade wizard1 path 0
+upgrade wizard1 path 1
+upgrade wizard1 path 1
+round 63
+place druid druid0 at 395, 676
+upgrade druid0 path 0
+upgrade druid0 path 0
+upgrade druid0 path 1
+upgrade druid0 path 1
+upgrade druid0 path 1
+upgrade druid0 path 1
+round 75
+upgrade wizard1 path 0

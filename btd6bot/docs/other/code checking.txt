@@ -1,0 +1,45 @@
+# Outdated, but can be used as reference
+
+//type hinting, docstrings and linting//
+
+#type hints (with mypy)
+-Decided to add type hinting for this project, but only after writing pretty much all of the important code.
+-Returning to work with a larger project becomes much easier when you don't need to spend extra time on figuring out 
+ types
+ --together with docstrings, makes navigating, rewriting and adding code so much easier.
+
+**Important things regarding type hints**
+1. some rows have 'type: ignore' command to stop mypy or ruff (see #linting below) errors 
+
+
+ 2. some files have imports needed for type hints to work properly
+    from __future__ import annotations --> to prevent type errors during function evaluation time; allows the program 
+    to run without throwing NameErrors on undefined names
+    from typing import TYPE_CHECKING --> for adding class imports for types and types only; these are only imported 
+    during testing, not when actually running the program
+
+==>To run, just type:
+	 mypy 'your_file_path' --strict
+   Here the --strict ensures stricter type enforcement which might at times be annoyingly meticulous.
+
+
+#docstrings
+-Had some poor documentating before, mostly using just comments. But as some modules/functions have much more 
+ complexity, decided that it would be a good thing to add better documentations for future reference.
+-Current docstrings follow mostly Google style guide -> https://google.github.io/styleguide/pyguide.html#38-comments-and-docstrings
+
+
+#linting
+-installed 'ruff' extension which is very good at detecting poor coding practises with indentation, naming and 
+ duplicate lines.
+
+==>You can run ruff in VS Code terminal, or just use cmd/powershell. You need to type:
+	ruff check 'your_file_path'
+
+----Other----
+#doctests
+-These were added to have better documentations with examples included under bot/api.
+-The idea with these is to check whether all basic commands work
+-You can run doctests on command line, but the easier way is to just run commands_doctests.py script, found in _ocr_tests
+**doctests might be a bit dated at this point, because README.md serves as main documentation**
+ 

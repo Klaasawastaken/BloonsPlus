@@ -1,0 +1,29 @@
+open glacial trail, easy, standard, obyn
+place hero, (0.10303, 0.36736), obyn
+repeat ability 1
+round 5
+place dart, (0.17601, 0.50000), temp
+round 8
+place spikes, (0.699305, 0.531985), s1
+place ice, (0.12875, 0.51667), i1
+upgrade s1, 3, 3
+upgrade i1, 3, 3
+wait 40
+round 20
+upgrade s1, 2, 2
+upgrade i1, 3, 1, 1
+wait 5
+round 29
+upgrade s1, 3
+round 34
+place plane, (0.17787, 0.11458), p1
+target p1, 3
+upgrade p1, 2, 1, 1, 2
+round 37
+place mortar, (0.94718, 0.24236), m1
+upgrade m1, 2, 2, 1, 1, 2
+upgrade p1, 1
+round 39
+sell temp
+place ice, (0.17833, 0.50463), i2
+upgrade i2, 3, 3, 1, 1, 3

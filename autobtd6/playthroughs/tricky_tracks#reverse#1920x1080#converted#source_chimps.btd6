@@ -1,0 +1,241 @@
+place dart dart0 at 752, 365
+place dart dart1 at 800, 441
+place dart dart2 at 1003, 625
+round 4
+upgrade dart2 path 1
+round 5
+place mermonkey mermonkey0 at 945, 565
+round 6
+place mermonkey mermonkey1 at 583, 263
+round 8
+place etienne hero0 at 877, 603
+round 9
+place wizard wizard0 at 742, 475
+retarget wizard0
+retarget wizard0
+round 10
+upgrade wizard0 path 0
+round 11
+upgrade wizard0 path 0
+round 12
+ability 1 after 3.5 seconds
+round 13
+place sniper sniper0 at 585, 793
+retarget sniper0
+retarget sniper0
+retarget sniper0
+round 14
+place sniper sniper1 at 1317, 765
+round 15
+place mermonkey mermonkey2 at 1077, 789
+round 16
+upgrade sniper0 path 0
+round 17
+ability 1
+round 18
+upgrade sniper0 path 2
+round 19
+upgrade sniper0 path 2
+round 20
+ability 1 after 5.5 seconds
+round 21
+upgrade wizard0 path 0
+round 22
+place mermonkey mermonkey3 at 672, 515
+upgrade mermonkey3 path 2
+round 23
+upgrade mermonkey3 path 0
+upgrade mermonkey3 path 0
+upgrade sniper1 path 1
+round 24
+upgrade mermonkey2 path 2
+upgrade mermonkey2 path 1
+upgrade mermonkey2 path 1
+round 25
+upgrade mermonkey3 path 0
+round 26
+ability 1
+upgrade wizard0 path 1
+upgrade wizard0 path 1
+retarget wizard0
+retarget wizard0
+round 27
+upgrade sniper0 path 0
+round 28
+upgrade sniper0 path 0
+round 29
+ability 1
+round 30
+place village village0 at 808, 667
+upgrade village0 path 0
+round 31
+upgrade village0 path 0
+round 32
+upgrade wizard0 path 0
+round 33
+upgrade village0 path 0
+upgrade village0 path 0
+upgrade village0 path 2
+upgrade village0 path 2
+upgrade mermonkey3 path 2
+upgrade mermonkey2 path 1
+upgrade mermonkey2 path 2
+place mermonkey mermonkey4 at 603, 561
+round 34
+ability 2 after 2 seconds
+round 35
+upgrade mermonkey4 path 1
+upgrade mermonkey4 path 1
+upgrade mermonkey4 path 1
+upgrade mermonkey4 path 2
+upgrade mermonkey4 path 2
+upgrade mermonkey0 path 1
+upgrade mermonkey0 path 1
+upgrade mermonkey0 path 2
+upgrade mermonkey0 path 2
+round 36
+ability 1
+place mermonkey mermonkey5 at 1012, 839
+upgrade mermonkey5 path 1
+upgrade mermonkey5 path 1
+upgrade mermonkey5 path 1
+upgrade mermonkey5 path 2
+upgrade mermonkey5 path 2
+round 37
+place mermonkey mermonkey6 at 934, 661
+upgrade mermonkey6 path 1
+upgrade mermonkey6 path 1
+round 38
+ability 2
+upgrade mermonkey6 path 1
+upgrade mermonkey6 path 2
+upgrade mermonkey6 path 2
+round 39
+ability 2
+ability 1
+upgrade mermonkey3 path 0
+round 40
+place ice ice0 at 818, 747
+upgrade ice0 path 0
+upgrade ice0 path 0
+upgrade ice0 path 0
+round 41
+upgrade ice0 path 0
+upgrade ice0 path 1
+upgrade ice0 path 1
+round 42
+ability 1
+place ice ice1 at 684, 437
+upgrade ice1 path 0
+upgrade ice1 path 0
+ability 2 after 6.5 seconds
+upgrade ice1 path 0
+upgrade ice1 path 1
+round 43
+upgrade ice1 path 0
+upgrade ice1 path 1
+ability 2 after 16.5 seconds
+round 44
+ability 1 after 2 seconds
+ability 2 after 4 seconds
+round 45
+ability 1
+ability 2 after 6 seconds
+round 46
+ability 1 after 6 seconds
+round 47
+ability 2
+ability 1 after 12 seconds
+ability 2 after 27 seconds
+round 48
+upgrade wizard0 path 0
+round 49
+ability 1
+round 50
+place glue glue0 at 999, 519
+retarget glue0
+retarget glue0
+retarget glue0
+upgrade glue0 path 2
+upgrade glue0 path 2
+upgrade glue0 path 2
+upgrade glue0 path 1
+round 51
+ability 1
+round 52
+ability 2
+round 53
+upgrade ice0 path 0
+upgrade glue0 path 1
+round 54
+upgrade glue0 path 2
+round 55
+place ice ice2 at 857, 403
+upgrade ice2 path 1
+upgrade ice2 path 1
+upgrade ice2 path 1
+round 56
+ability 2
+ability 1
+upgrade ice2 path 1
+upgrade ice2 path 0
+upgrade ice2 path 0
+place tack tack0 at 723, 701
+upgrade tack0 path 2
+upgrade tack0 path 2
+upgrade tack0 path 2
+upgrade tack0 path 2
+upgrade tack0 path 0
+upgrade tack0 path 0
+round 57
+place boomerang boomerang0 at 661, 747
+retarget boomerang0
+retarget boomerang0
+retarget boomerang0
+upgrade boomerang0 path 2
+upgrade boomerang0 path 2
+upgrade boomerang0 path 2
+ability 3 after 11 seconds
+ability 2 after 14 seconds
+round 58
+upgrade boomerang0 path 2
+upgrade boomerang0 path 1
+upgrade boomerang0 path 1
+place alchemist alchemist0 at 756, 763
+ability 3 after 12 seconds
+round 59
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+upgrade alchemist0 path 1
+upgrade alchemist0 path 1
+round 60
+ability 1
+ability 2
+ability 3 after 2.5 seconds
+upgrade sniper0 path 0
+place tack tack1 at 1030, 568
+upgrade tack1 path 2
+upgrade tack1 path 2
+upgrade tack1 path 2
+upgrade tack1 path 2
+upgrade tack1 path 0
+upgrade tack1 path 0
+place tack tack2 at 548, 609
+upgrade tack2 path 2
+upgrade tack2 path 2
+upgrade tack2 path 2
+upgrade tack2 path 2
+upgrade tack2 path 0
+upgrade tack2 path 0
+round 61
+ability 3 after 2.25 seconds
+place tack tack3 at 602, 491
+upgrade tack3 path 2
+upgrade tack3 path 2
+upgrade tack3 path 2
+upgrade tack3 path 0
+upgrade tack3 path 0
+round 62
+ability 1 after 1 seconds

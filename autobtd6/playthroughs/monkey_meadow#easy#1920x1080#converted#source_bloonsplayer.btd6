@@ -1,0 +1,12 @@
+# source: https://github.com/piweiblen/BloonsPlayer (license MIT (c) 2021 piweiblen) commit 17d624879c5ad777e82594da34450e66b2d60756
+# source file: tas/general/monkey meadow easy (quincy).txt (vendored copy: route-library/public-sources/piweiblen-BloonsPlayer)
+# source mode: easy; converted to 1920x1080 AutoBTD6 actions
+# dropped (timing only): hero level purchases (AutoBTD6 levels heroes by XP only)
+# generator: import-public-routes.py
+place quincy hero0 at 223, 540
+place sniper sniper0 at 1531, 464
+upgrade sniper0 path 1
+upgrade sniper0 path 1
+upgrade sniper0 path 0
+upgrade sniper0 path 1
+upgrade sniper0 path 0

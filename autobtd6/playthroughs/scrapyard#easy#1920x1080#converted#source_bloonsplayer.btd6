@@ -1,0 +1,15 @@
+# source: https://github.com/piweiblen/BloonsPlayer (license MIT (c) 2021 piweiblen) commit 17d624879c5ad777e82594da34450e66b2d60756
+# source file: tas/general/scrapyard easy.txt (vendored copy: route-library/public-sources/piweiblen-BloonsPlayer)
+# source mode: easy; converted to 1920x1080 AutoBTD6 actions
+# generator: import-public-routes.py
+place engineer engineer0 at 297, 289
+upgrade engineer0 path 0
+upgrade engineer0 path 0
+upgrade engineer0 path 0
+upgrade engineer0 path 0
+place engineer engineer1 at 300, 88
+upgrade engineer1 path 1
+upgrade engineer1 path 1
+upgrade engineer1 path 1
+upgrade engineer1 path 2
+upgrade engineer1 path 2

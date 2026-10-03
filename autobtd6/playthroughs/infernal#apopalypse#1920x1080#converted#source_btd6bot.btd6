@@ -1,0 +1,75 @@
+# source: https://github.com/j-miet/BTD6bot (license MIT (c) 2025 Jani Miettinen) commit 2d6dac0957a0d55d0af201bd497afbebf7f3e5c2
+# source file: btd6bot/plans/infernalMediumApopalypse.py (vendored copy: btd6bot/btd6bot/plans)
+# source mode: apopalypse; converted to 1920x1080 AutoBTD6 actions
+# dropped (timing only): round loop-control reassignment (ends the branch chain early)
+# generator: import-public-routes.py
+place sub sub0 at 523, 809
+place sub sub1 at 1190, 271
+upgrade sub1 path 2
+upgrade sub0 path 2
+place druid druid0 at 1600, 689
+upgrade druid0 path 1
+upgrade druid0 path 1
+sell sub0
+sell sub1
+upgrade druid0 path 1
+place psi hero0 at 490, 191
+retarget hero0
+retarget hero0
+retarget hero0
+upgrade druid0 path 0
+place sniper sniper0 at 1224, 851
+upgrade sniper0 path 1
+upgrade sniper0 path 1
+upgrade sniper0 path 2
+upgrade sniper0 path 2
+place village village0 at 1537, 571
+upgrade village0 path 1
+upgrade village0 path 1
+place druid druid1 at 1600, 469
+upgrade druid1 path 1
+upgrade druid1 path 1
+upgrade druid1 path 1
+upgrade druid1 path 0
+place sub sub2 at 523, 809
+upgrade sub2 path 2
+upgrade sub2 path 2
+upgrade sub2 path 0
+upgrade sub2 path 0
+place dart dart0 at 474, 279
+upgrade dart0 path 2
+upgrade dart0 path 2
+place dart dart1 at 832, 697
+upgrade dart1 path 2
+upgrade dart1 path 2
+upgrade sub2 path 2
+place bomb bomb0 at 825, 383
+upgrade bomb0 path 2
+upgrade bomb0 path 2
+upgrade bomb0 path 2
+upgrade bomb0 path 0
+upgrade bomb0 path 0
+place alchemist alchemist0 at 865, 324
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+upgrade bomb0 path 2
+place bomb bomb1 at 804, 755
+upgrade bomb1 path 2
+upgrade bomb1 path 2
+upgrade bomb1 path 2
+upgrade bomb1 path 0
+upgrade bomb1 path 0
+place alchemist alchemist1 at 874, 757
+upgrade alchemist1 path 0
+upgrade alchemist1 path 0
+upgrade alchemist1 path 0
+upgrade bomb1 path 2
+place sub sub3 at 1190, 271
+upgrade sub3 path 2
+upgrade sub3 path 2
+upgrade sub3 path 0
+upgrade sub3 path 0
+upgrade sub3 path 2
+upgrade sub3 path 2
+upgrade sub2 path 2

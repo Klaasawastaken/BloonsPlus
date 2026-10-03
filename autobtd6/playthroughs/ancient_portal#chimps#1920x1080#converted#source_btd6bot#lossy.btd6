@@ -1,0 +1,88 @@
+# source: https://github.com/j-miet/BTD6bot (license MIT (c) 2025 Jani Miettinen) commit 2d6dac0957a0d55d0af201bd497afbebf7f3e5c2
+# source file: btd6bot/plans/ancient_portalHardChimps.py (vendored copy: btd6bot/btd6bot/plans)
+# source mode: chimps; converted to 1920x1080 AutoBTD6 actions
+# dropped (not expressible in AutoBTD6, route may be weaker): dartling targeting 'independent' (needs a special cycle or click); positional targeting 'locked'
+# generator: import-public-routes.py
+place quincy hero0 at 1207, 429
+round 10
+place dartling dartling0 at 1275, 467
+round 12
+upgrade dartling0 path 0
+round 18
+upgrade dartling0 path 2
+upgrade dartling0 path 2
+round 22
+place village village0 at 1109, 427
+place wizard wizard0 at 1173, 265
+round 27
+upgrade wizard0 path 1
+upgrade wizard0 path 1
+retarget wizard0
+retarget wizard0
+retarget wizard0
+round 35
+upgrade wizard0 path 1
+upgrade wizard0 path 2
+round 37
+upgrade village0 path 1
+upgrade village0 path 1
+round 40
+ability 1
+round 41
+upgrade dartling0 path 2
+round 48
+upgrade dartling0 path 2
+round 49
+upgrade dartling0 path 0
+upgrade village0 path 0
+upgrade village0 path 0
+round 50
+place alchemist alchemist0 at 1115, 509
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+round 55
+place ice ice0 at 1228, 332
+upgrade ice0 path 2
+upgrade ice0 path 2
+upgrade ice0 path 2
+upgrade ice0 path 1
+round 59
+upgrade ice0 path 2
+round 75
+ability 1 after 7 seconds
+round 76
+ability 2 after 1 seconds
+round 80
+ability 1 after 2 seconds
+round 81
+ability 2 after 12 seconds
+round 82
+upgrade dartling0 path 2
+round 84
+upgrade village0 path 1
+round 96
+place sub sub0 at 1205, 652
+upgrade sub0 path 1
+upgrade sub0 path 1
+upgrade sub0 path 1
+upgrade sub0 path 1
+upgrade sub0 path 1
+round 97
+upgrade sub0 path 2
+upgrade sub0 path 2
+place glue glue0 at 1099, 256
+retarget glue0
+retarget glue0
+retarget glue0
+upgrade glue0 path 2
+upgrade glue0 path 2
+round 98
+upgrade glue0 path 2
+upgrade glue0 path 1
+ability 1 after 4 seconds
+ability 2 after 5 seconds
+upgrade glue0 path 1
+round 100
+ability 3 after 3 seconds
+ability 1

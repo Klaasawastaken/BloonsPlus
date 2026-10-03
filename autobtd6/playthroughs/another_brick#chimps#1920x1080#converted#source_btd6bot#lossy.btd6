@@ -1,0 +1,86 @@
+# source: https://github.com/j-miet/BTD6bot (license MIT (c) 2025 Jani Miettinen) commit 2d6dac0957a0d55d0af201bd497afbebf7f3e5c2
+# source file: btd6bot/plans/another_brickHardChimps.py (vendored copy: btd6bot/btd6bot/plans)
+# source mode: chimps; converted to 1920x1080 AutoBTD6 actions
+# dropped (not expressible in AutoBTD6, route may be weaker): heli special with a target position
+# generator: import-public-routes.py
+place dart dart0 at 581, 349
+place dart dart1 at 1051, 345
+place dart dart2 at 1573, 447
+round 8
+upgrade dart1 path 1
+upgrade dart1 path 1
+round 10
+upgrade dart1 path 1
+round 15
+place psi hero0 at 1391, 343
+retarget hero0
+retarget hero0
+retarget hero0
+round 21
+retarget hero0
+place heli heli0 at 1387, 85
+round 23
+retarget hero0
+retarget hero0
+retarget hero0
+round 25
+upgrade heli0 path 0
+round 26
+place sub sub0 at 1309, 299
+round 27
+upgrade sub0 path 1
+upgrade sub0 path 1
+round 28
+upgrade heli0 path 0
+round 31
+upgrade dart1 path 2
+upgrade dart1 path 2
+round 34
+upgrade heli0 path 0
+round 35
+upgrade heli0 path 2
+upgrade heli0 path 2
+round 37
+place alchemist alchemist0 at 1515, 79
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+round 41
+place village village0 at 1469, 233
+upgrade village0 path 1
+upgrade village0 path 1
+round 43
+upgrade village0 path 0
+upgrade village0 path 0
+round 52
+upgrade heli0 path 0
+round 53
+upgrade alchemist0 path 1
+upgrade alchemist0 path 1
+round 79
+upgrade heli0 path 0
+round 81
+upgrade village0 path 1
+upgrade alchemist0 path 0
+round 94
+upgrade sub0 path 1
+upgrade sub0 path 1
+round 95
+upgrade sub0 path 1
+upgrade sub0 path 0
+upgrade sub0 path 0
+round 96
+place glue glue0 at 1483, 342
+upgrade glue0 path 1
+upgrade glue0 path 1
+upgrade glue0 path 1
+upgrade glue0 path 1
+round 98
+ability 2 after 10 seconds
+upgrade glue0 path 1
+upgrade glue0 path 2
+upgrade glue0 path 2
+round 99
+ability 4 after 2 seconds
+round 100
+ability 3 after 2 seconds

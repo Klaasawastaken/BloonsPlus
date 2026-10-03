@@ -1,0 +1,37 @@
+place quincy hero at 269, 378
+retarget hero
+retarget hero
+retarget hero
+round 2
+place ninja ninja1 at 375, 522
+round 4
+upgrade ninja1 path 0
+round 8
+upgrade ninja1 path 0
+place alchemist alch1 at 466, 522
+round 10
+upgrade ninja1 path 2
+round 15
+upgrade ninja1 path 0
+round 17
+upgrade alch1 path 0
+upgrade alch1 path 0
+round 25
+upgrade alch1 path 0
+round 30
+upgrade ninja1 path 0
+round 35
+upgrade alch1 path 1
+upgrade alch1 path 1
+round 38
+place sniper sniper1 at 1461, 329
+retarget sniper1
+retarget sniper1
+retarget sniper1
+upgrade sniper1 path 0
+upgrade sniper1 path 0
+upgrade sniper1 path 2
+upgrade sniper1 path 2
+upgrade sniper1 path 2
+round 40
+upgrade sniper1 path 2

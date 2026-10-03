@@ -1,0 +1,113 @@
+place dart dart0 at 653, 544
+place desperado desperado0 at 829, 728
+retarget desperado0
+retarget desperado0
+retarget desperado0
+round 8
+place sniper sniper0 at 937, 476
+retarget sniper0
+retarget sniper0
+retarget sniper0
+round 9
+retarget desperado0
+round 10
+place sniper sniper1 at 907, 340
+retarget sniper1
+retarget sniper1
+retarget sniper1
+round 13
+place obyn_greenfoot hero0 at 989, 522
+round 14
+place druid druid0 at 1031, 388
+round 15
+upgrade druid0 path 1
+round 16
+upgrade druid0 path 1
+round 19
+retarget sniper1
+ability 1 after 2.25 seconds
+round 20
+retarget sniper1
+retarget sniper1
+retarget sniper1
+round 21
+upgrade druid0 path 1
+round 23
+upgrade sniper0 path 2
+round 24
+upgrade sniper0 path 1
+round 25
+upgrade sniper0 path 2
+round 27
+upgrade sniper0 path 1
+retarget sniper0
+upgrade druid0 path 0
+round 30
+upgrade druid0 path 0
+round 35
+upgrade sniper0 path 2
+round 39
+upgrade sniper0 path 2
+round 47
+place village village0 at 845, 458
+upgrade village0 path 2
+upgrade village0 path 2
+upgrade village0 path 0
+upgrade village0 path 0
+round 48
+place alchemist alchemist0 at 899, 524
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+upgrade alchemist0 path 1
+upgrade alchemist0 path 1
+round 54
+upgrade sniper0 path 2
+round 55
+place super super0 at 849, 596
+round 57
+upgrade super0 path 0
+upgrade super0 path 0
+round 68
+upgrade super0 path 0
+round 71
+upgrade super0 path 2
+upgrade super0 path 2
+round 86
+upgrade alchemist0 path 0
+place ninja ninja0 at 941, 588
+round 87
+upgrade ninja0 path 1
+upgrade ninja0 path 1
+upgrade ninja0 path 0
+upgrade ninja0 path 0
+special ninja0
+retarget ninja0
+retarget ninja0
+retarget ninja0
+round 88
+place super super1 at 751, 534
+round 89
+upgrade super1 path 0
+upgrade super1 path 0
+round 94
+upgrade super1 path 0
+round 95
+upgrade super1 path 1
+upgrade super1 path 1
+round 97
+upgrade sniper1 path 2
+upgrade sniper1 path 2
+upgrade sniper1 path 2
+upgrade sniper1 path 2
+upgrade sniper1 path 0
+upgrade sniper1 path 0
+round 98
+place sniper sniper2 at 743, 454
+upgrade sniper2 path 2
+upgrade sniper2 path 2
+upgrade sniper2 path 2
+upgrade sniper2 path 2
+upgrade sniper2 path 0
+upgrade sniper2 path 0

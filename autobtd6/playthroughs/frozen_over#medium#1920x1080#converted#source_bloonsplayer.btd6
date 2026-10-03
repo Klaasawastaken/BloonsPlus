@@ -1,0 +1,47 @@
+# source: https://github.com/piweiblen/BloonsPlayer (license MIT (c) 2021 piweiblen) commit 17d624879c5ad777e82594da34450e66b2d60756
+# source file: tas/golden/frozen over medium.txt (vendored copy: route-library/public-sources/piweiblen-BloonsPlayer)
+# source mode: medium; converted to 1920x1080 AutoBTD6 actions
+# generator: import-public-routes.py
+place ninja ninja0 at 496, 599
+upgrade ninja0 path 0
+upgrade ninja0 path 0
+upgrade ninja0 path 2
+upgrade ninja0 path 2
+place ninja ninja1 at 312, 872
+upgrade ninja1 path 0
+upgrade ninja1 path 0
+upgrade ninja1 path 2
+upgrade ninja1 path 2
+upgrade ninja0 path 2
+place ninja ninja2 at 387, 725
+upgrade ninja2 path 1
+upgrade ninja2 path 2
+upgrade ninja2 path 2
+upgrade ninja2 path 2
+upgrade ninja0 path 2
+place ninja ninja3 at 515, 869
+upgrade ninja3 path 1
+upgrade ninja3 path 2
+upgrade ninja3 path 2
+upgrade ninja3 path 2
+place ninja ninja4 at 545, 681
+upgrade ninja4 path 1
+upgrade ninja4 path 2
+upgrade ninja4 path 2
+upgrade ninja4 path 2
+place ninja ninja5 at 597, 640
+upgrade ninja5 path 1
+upgrade ninja5 path 2
+upgrade ninja5 path 2
+upgrade ninja5 path 2
+place ninja ninja6 at 337, 785
+upgrade ninja6 path 1
+upgrade ninja6 path 2
+upgrade ninja6 path 2
+upgrade ninja6 path 2
+upgrade ninja1 path 0
+upgrade ninja1 path 0
+upgrade ninja2 path 2
+upgrade ninja4 path 2
+upgrade ninja5 path 2
+upgrade ninja3 path 2

@@ -1,0 +1,134 @@
+place dart dart0 at 1373, 269
+place dart dart1 at 291, 275
+place dart dart2 at 295, 331
+round 8
+place dart dart3 at 1371, 325
+round 10
+place ezili hero0 at 1225, 191
+retarget hero0
+retarget hero0
+retarget hero0
+round 13
+click map at 375, 143
+click map at 462, 261
+place sniper sniper0 at 375, 143
+round 15
+place sniper sniper1 at 307, 143
+retarget sniper1
+retarget sniper1
+retarget sniper1
+round 16
+place sniper sniper2 at 343, 93
+retarget sniper2
+retarget sniper2
+retarget sniper2
+round 18
+upgrade sniper1 path 0
+round 21
+place wizard wizard0 at 1293, 273
+upgrade wizard0 path 1
+round 23
+upgrade wizard0 path 1
+round 25
+ability 1 after 6 seconds
+round 27
+upgrade sniper0 path 1
+upgrade sniper0 path 1
+upgrade sniper0 path 2
+round 28
+upgrade sniper0 path 2
+round 34
+upgrade sniper0 path 1
+round 37
+upgrade wizard0 path 1
+upgrade wizard0 path 2
+upgrade wizard0 path 2
+round 39
+place alchemist alchemist0 at 573, 199
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+round 41
+click map at 1317, 125
+click map at 1433, 261
+round 42
+place village village0 at 1317, 125
+upgrade village0 path 2
+upgrade village0 path 2
+round 43
+place wizard wizard1 at 1217, 269
+upgrade wizard1 path 1
+upgrade wizard1 path 1
+round 44
+upgrade wizard1 path 2
+upgrade wizard1 path 2
+round 45
+upgrade wizard1 path 2
+round 46
+upgrade wizard1 path 2
+round 60
+upgrade wizard1 path 2
+ability 3 after 3 seconds
+round 61
+upgrade village0 path 0
+upgrade village0 path 0
+round 63
+place druid druid0 at 1143, 281
+upgrade druid0 path 0
+upgrade druid0 path 1
+upgrade druid0 path 1
+upgrade druid0 path 1
+round 65
+upgrade druid0 path 1
+round 80
+ability 3 after 2 seconds
+round 81
+upgrade druid0 path 1
+place glue glue0 at 1155, 199
+retarget glue0
+retarget glue0
+retarget glue0
+upgrade glue0 path 1
+upgrade glue0 path 1
+round 83
+upgrade glue0 path 2
+upgrade glue0 path 2
+upgrade glue0 path 2
+upgrade glue0 path 2
+round 84
+place ninja ninja0 at 1081, 195
+upgrade ninja0 path 0
+upgrade ninja0 path 2
+upgrade ninja0 path 2
+upgrade ninja0 path 2
+round 85
+ability 3 after 5.5 seconds
+round 87
+upgrade ninja0 path 2
+ability 3 after 3.5 seconds
+round 92
+ability 3 after 6.5 seconds
+round 94
+ability 3 after 3 seconds
+round 96
+ability 3 after 11 seconds
+round 97
+upgrade ninja0 path 2
+place ninja ninja1 at 1113, 142
+upgrade ninja1 path 1
+upgrade ninja1 path 1
+upgrade ninja1 path 1
+round 98
+ability 3 after 6 seconds
+upgrade ninja1 path 1
+place ice ice0 at 1179, 143
+upgrade ice0 path 1
+upgrade ice0 path 0
+upgrade ice0 path 0
+upgrade ice0 path 0
+round 99
+upgrade ice0 path 0
+ability 4 after 2 seconds
+upgrade village0 path 0
+round 100
+ability 3 after 8 seconds

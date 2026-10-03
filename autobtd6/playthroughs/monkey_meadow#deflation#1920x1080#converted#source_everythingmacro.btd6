@@ -1,0 +1,29 @@
+# source: https://github.com/ThuyTran735/BTD6-Everything-Macro (license MIT (c) 2026 ThuyTran735) commit afd8a30917bcab798a9ed8bf15f83897f6fb0a60
+# source file: Maps/Beginner/Monkey Meadow/Easy/MonkeyMeadowDeflation.ahk (vendored copy: route-library/public-sources/ThuyTran735-BTD6-Everything-Macro)
+# source mode: deflation; converted to 1920x1080 AutoBTD6 actions
+# generator: import-public-routes.py
+place psi hero0 at 1031, 1023
+place ace ace0 at 872, 1020
+place ace ace1 at 872, 926
+place village village0 at 1016, 892
+place alchemist alchemist0 at 882, 852
+upgrade ace0 path 0
+upgrade ace0 path 0
+upgrade ace0 path 2
+upgrade ace0 path 2
+upgrade ace0 path 2
+upgrade ace1 path 0
+upgrade ace1 path 0
+upgrade ace1 path 2
+upgrade ace1 path 2
+upgrade ace1 path 2
+upgrade village0 path 0
+upgrade village0 path 0
+upgrade village0 path 1
+upgrade village0 path 1
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+upgrade alchemist0 path 1
+upgrade alchemist0 path 1

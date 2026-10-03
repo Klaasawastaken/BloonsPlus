@@ -1,0 +1,54 @@
+# source: https://github.com/Randy-Hodges/BTD6-Autoplay (license MIT (c) 2021 Randy-Hodges) commit 7c36862ffec1d64bb95ddabecf20c73cb54046fd
+# source file: collection_scripts/bloody_puddles_script.py (vendored copy: route-library/public-sources/Randy-Hodges-BTD6-Autoplay)
+# source mode: hard; converted to 1920x1080 AutoBTD6 actions
+# dropped (timing only): finish; start
+# generator: import-public-routes.py
+place sub sub0 at 988, 936
+place dart dart0 at 400, 304
+place dart dart1 at 405, 505
+place sub sub1 at 1214, 176
+place psi hero0 at 1395, 946
+retarget hero0
+retarget hero0
+retarget hero0
+place sub sub2 at 606, 694
+place dart dart2 at 957, 560
+upgrade sub1 path 0
+upgrade sub1 path 0
+upgrade sub1 path 2
+upgrade sub1 path 2
+place alchemist alchemist0 at 1177, 252
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+upgrade sub1 path 2
+upgrade sub1 path 2
+place sniper sniper0 at 839, 214
+upgrade sniper0 path 0
+retarget sniper0
+retarget sniper0
+retarget sniper0
+upgrade dart1 path 2
+upgrade dart1 path 2
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+upgrade alchemist0 path 2
+place dart dart3 at 1302, 909
+upgrade dart3 path 2
+upgrade dart3 path 2
+place ace ace0 at 976, 286
+upgrade ace0 path 2
+upgrade ace0 path 2
+upgrade ace0 path 2
+upgrade ace0 path 0
+upgrade ace0 path 0
+place village village0 at 990, 189
+upgrade village0 path 1
+upgrade village0 path 1
+upgrade village0 path 0
+upgrade village0 path 0
+upgrade ace0 path 2
+upgrade sniper0 path 0
+upgrade sniper0 path 0
+upgrade sniper0 path 0
+upgrade sniper0 path 2
+upgrade sniper0 path 2

@@ -1,0 +1,96 @@
+# source: https://github.com/piweiblen/BloonsPlayer (license MIT (c) 2021 piweiblen) commit 17d624879c5ad777e82594da34450e66b2d60756
+# source file: tas/general/bloody puddles hard.txt (vendored copy: route-library/public-sources/piweiblen-BloonsPlayer)
+# source mode: hard; converted to 1920x1080 AutoBTD6 actions
+# dropped (not expressible in AutoBTD6, route may be weaker): activated abilities; mouse sweeps (banana/cash collection)
+# generator: import-public-routes.py
+place sub sub0 at 667, 672
+place sub sub1 at 1191, 196
+place dart dart0 at 368, 269
+upgrade sub0 path 0
+upgrade sub0 path 0
+upgrade sub0 path 2
+round 15
+sell dart0
+upgrade sub0 path 2
+place dart dart1 at 368, 269
+place quincy hero0 at 1288, 882
+place sniper sniper0 at 852, 230
+retarget sniper0
+retarget sniper0
+retarget sniper0
+upgrade sniper0 path 2
+round 22
+upgrade sniper0 path 0
+upgrade dart1 path 2
+upgrade dart1 path 2
+place alchemist alchemist0 at 690, 763
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+upgrade alchemist0 path 2
+upgrade sub1 path 0
+upgrade sub1 path 0
+upgrade sub1 path 2
+upgrade sniper0 path 2
+upgrade sub0 path 2
+upgrade sub0 path 2
+cash 1000
+remove obstacle at 919, 693 for 1000
+cash 500
+remove obstacle at 919, 693 for 500
+upgrade alchemist0 path 0
+place dart dart2 at 998, 542
+upgrade dart2 path 2
+upgrade dart2 path 2
+place sniper sniper1 at 803, 690
+upgrade sniper1 path 0
+upgrade sniper1 path 1
+upgrade sniper1 path 1
+upgrade sniper1 path 1
+upgrade sniper1 path 0
+place farm farm0 at 1561, 751
+upgrade farm0 path 1
+upgrade farm0 path 1
+upgrade farm0 path 2
+upgrade farm0 path 2
+upgrade farm0 path 2
+upgrade sniper1 path 1
+upgrade sniper0 path 0
+upgrade sniper0 path 0
+upgrade sub1 path 2
+upgrade sub1 path 2
+place village village0 at 700, 574
+upgrade village0 path 0
+upgrade village0 path 0
+upgrade sniper0 path 0
+round 62
+sell farm0
+upgrade sniper1 path 1
+retarget sniper1
+retarget sniper1
+place dart dart3 at 1254, 265
+upgrade dart3 path 2
+upgrade dart3 path 2
+place sub sub2 at 608, 602
+upgrade sub2 path 0
+upgrade sub2 path 0
+upgrade sub2 path 2
+upgrade sub2 path 2
+upgrade sub2 path 2
+upgrade sub2 path 2
+upgrade sub2 path 2
+place alchemist alchemist1 at 644, 508
+upgrade alchemist1 path 2
+upgrade alchemist1 path 2
+upgrade alchemist1 path 0
+upgrade alchemist1 path 0
+upgrade alchemist1 path 0
+upgrade alchemist1 path 0
+place sub sub3 at 604, 746
+upgrade sub3 path 0
+upgrade sub3 path 0
+upgrade sub3 path 2
+upgrade sub3 path 2
+upgrade sub3 path 2
+upgrade sub3 path 2
+place dart dart4 at 535, 88

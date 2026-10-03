@@ -1,0 +1,144 @@
+# source: https://github.com/j-miet/BTD6bot (license MIT (c) 2025 Jani Miettinen) commit 2d6dac0957a0d55d0af201bd497afbebf7f3e5c2
+# source file: btd6bot/plans/covered_gardenHardChimps.py (vendored copy: btd6bot/btd6bot/plans)
+# source mode: chimps; converted to 1920x1080 AutoBTD6 actions
+# dropped (timing only): change_autostart(); end_round(); forward()
+# dropped (not expressible in AutoBTD6, route may be weaker): heli special with a target position
+# generator: import-public-routes.py
+place engineer engineer0 at 667, 332
+place dart dart0 at 593, 446
+round 7
+round 8
+round 9
+round 10
+upgrade engineer0 path 0
+round 11
+round 12
+round 13
+place psi hero0 at 133, 662
+retarget hero0
+retarget hero0
+retarget hero0
+round 14
+round 15
+round 16
+round 17
+round 18
+round 19
+place heli heli0 at 107, 566
+round 20
+round 21
+round 22
+round 23
+upgrade heli0 path 0
+round 24
+round 25
+upgrade heli0 path 0
+round 26
+round 27
+place sniper sniper0 at 119, 812
+upgrade sniper0 path 0
+retarget sniper0
+retarget sniper0
+retarget sniper0
+round 28
+round 29
+round 30
+round 31
+round 32
+upgrade heli0 path 0
+round 33
+round 34
+round 35
+place village village0 at 113, 450
+upgrade village0 path 1
+round 36
+upgrade village0 path 1
+round 37
+round 38
+place heli heli1 at 117, 318
+round 39
+upgrade heli1 path 0
+upgrade heli1 path 0
+upgrade heli1 path 2
+upgrade heli1 path 2
+round 40
+round 41
+round 42
+round 43
+upgrade heli1 path 2
+upgrade heli0 path 2
+upgrade heli0 path 2
+round 44
+round 45
+round 46
+round 47
+round 48
+upgrade heli1 path 2
+round 49
+round 50
+round 51
+round 52
+round 53
+round 54
+round 55
+round 56
+round 57
+round 58
+upgrade heli0 path 0
+round 59
+upgrade village0 path 0
+upgrade village0 path 0
+round 60
+round 61
+round 62
+round 63
+round 64
+round 65
+round 66
+round 67
+round 68
+round 69
+round 70
+round 71
+round 72
+round 73
+round 74
+round 75
+round 76
+round 77
+round 78
+round 79
+round 80
+round 81
+upgrade heli0 path 0
+round 82
+round 83
+upgrade village0 path 1
+round 84
+round 85
+round 86
+round 87
+round 88
+round 89
+round 90
+round 91
+round 92
+round 93
+round 94
+upgrade heli1 path 2
+round 95
+round 96
+upgrade sniper0 path 0
+upgrade sniper0 path 0
+upgrade sniper0 path 0
+upgrade sniper0 path 1
+upgrade sniper0 path 1
+round 97
+round 98
+place ninja ninja0 at 437, 442
+upgrade ninja0 path 2
+upgrade ninja0 path 2
+upgrade ninja0 path 2
+upgrade ninja0 path 2
+round 99
+round 100

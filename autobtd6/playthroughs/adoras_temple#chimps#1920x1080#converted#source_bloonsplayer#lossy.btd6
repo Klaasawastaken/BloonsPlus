@@ -1,0 +1,51 @@
+# source: https://github.com/piweiblen/BloonsPlayer (license MIT (c) 2021 piweiblen) commit 17d624879c5ad777e82594da34450e66b2d60756
+# source file: tas/CHIMPS/adoras temple CHIMPS sauda.txt (vendored copy: route-library/public-sources/piweiblen-BloonsPlayer)
+# source mode: chimps; converted to 1920x1080 AutoBTD6 actions
+# dropped (timing only): start; toggle
+# dropped (not expressible in AutoBTD6, route may be weaker): activated abilities
+# generator: import-public-routes.py
+place sauda hero0 at 874, 133
+place ninja ninja0 at 898, 339
+upgrade ninja0 path 0
+upgrade ninja0 path 2
+upgrade ninja0 path 0
+upgrade ninja0 path 0
+upgrade ninja0 path 2
+place alchemist alchemist0 at 892, 259
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+upgrade ninja0 path 0
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+upgrade alchemist0 path 2
+place wizard wizard0 at 767, 456
+upgrade wizard0 path 2
+upgrade wizard0 path 2
+upgrade wizard0 path 2
+upgrade wizard0 path 1
+upgrade wizard0 path 1
+upgrade wizard0 path 2
+upgrade ninja0 path 0
+place wizard wizard1 at 906, 452
+upgrade wizard1 path 0
+upgrade wizard1 path 0
+upgrade wizard1 path 0
+upgrade wizard1 path 2
+upgrade wizard1 path 2
+upgrade wizard1 path 0
+upgrade wizard0 path 2
+upgrade wizard1 path 0
+place bomb bomb0 at 238, 612
+upgrade bomb0 path 1
+upgrade bomb0 path 1
+upgrade bomb0 path 1
+upgrade bomb0 path 0
+upgrade bomb0 path 0
+upgrade bomb0 path 1
+upgrade bomb0 path 1
+place village village0 at 163, 745
+upgrade village0 path 0
+upgrade village0 path 0
+upgrade village0 path 0
+upgrade village0 path 0
+round 100

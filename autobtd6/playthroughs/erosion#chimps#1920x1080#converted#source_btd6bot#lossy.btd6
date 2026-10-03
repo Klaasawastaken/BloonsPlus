@@ -1,0 +1,134 @@
+# source: https://github.com/j-miet/BTD6bot (license MIT (c) 2025 Jani Miettinen) commit 2d6dac0957a0d55d0af201bd497afbebf7f3e5c2
+# source file: btd6bot/plans/erosionHardChimps.py (vendored copy: btd6bot/btd6bot/plans)
+# source mode: chimps; converted to 1920x1080 AutoBTD6 actions
+# dropped (timing only): change_autostart(); end_round(); forward()
+# dropped (not expressible in AutoBTD6, route may be weaker): positional targeting 'set'; spike special with a target position
+# generator: import-public-routes.py
+place sub sub0 at 418, 881
+place dart dart0 at 367, 600
+upgrade dart0 path 2
+round 8
+upgrade sub0 path 2
+round 13
+upgrade sub0 path 2
+round 18
+place psi hero0 at 1247, 58
+upgrade sub0 path 0
+round 21
+upgrade sub0 path 0
+round 25
+place sniper sniper0 at 1469, 108
+round 26
+place sniper sniper1 at 1357, 52
+round 27
+place sniper sniper2 at 1585, 188
+upgrade sniper2 path 0
+retarget sniper2
+retarget sniper2
+retarget sniper2
+round 28
+upgrade sniper1 path 1
+upgrade sniper1 path 1
+round 30
+upgrade sniper1 path 2
+round 31
+upgrade sniper1 path 2
+round 35
+upgrade sniper1 path 2
+retarget hero0
+retarget hero0
+retarget hero0
+round 36
+place ninja ninja0 at 331, 277
+round 39
+upgrade sniper1 path 2
+round 41
+place alchemist alchemist0 at 1419, 70
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+round 43
+upgrade alchemist0 path 1
+upgrade alchemist0 path 1
+round 45
+upgrade sniper0 path 1
+upgrade sniper0 path 1
+upgrade sniper0 path 1
+upgrade sniper0 path 2
+upgrade sniper0 path 2
+round 47
+place village village0 at 1563, 110
+upgrade village0 path 0
+upgrade village0 path 0
+round 49
+upgrade sniper0 path 1
+round 57
+upgrade sniper0 path 1
+round 59
+upgrade alchemist0 path 0
+round 62
+upgrade sniper2 path 0
+upgrade sniper2 path 0
+upgrade sniper2 path 1
+upgrade sniper2 path 1
+round 65
+place spike spike0 at 1591, 312
+upgrade spike0 path 0
+upgrade spike0 path 0
+upgrade spike0 path 2
+upgrade spike0 path 2
+upgrade spike0 path 2
+round 66
+upgrade spike0 path 2
+round 79
+upgrade spike0 path 2
+round 80
+round 81
+round 82
+place alchemist alchemist1 at 1607, 244
+upgrade alchemist1 path 0
+upgrade alchemist1 path 0
+upgrade alchemist1 path 0
+upgrade alchemist1 path 0
+upgrade alchemist1 path 1
+upgrade alchemist1 path 1
+round 83
+upgrade sniper2 path 0
+round 84
+round 85
+round 86
+round 87
+round 88
+round 89
+round 90
+round 91
+round 92
+round 93
+round 94
+ability 1 after 4 seconds
+ability 2 after 7 seconds
+upgrade sniper2 path 0
+place glue glue0 at 1365, 122
+upgrade glue0 path 2
+upgrade glue0 path 2
+upgrade glue0 path 2
+upgrade glue0 path 1
+retarget glue0
+retarget glue0
+retarget glue0
+round 95
+round 96
+ability 1 after 4 seconds
+ability 2 after 7 seconds
+round 97
+round 98
+upgrade sniper1 path 2
+ability 1 after 8 seconds
+ability 2 after 11 seconds
+upgrade glue0 path 2
+upgrade glue0 path 1
+upgrade village0 path 1
+upgrade village0 path 1
+round 99
+ability 1 after 3 seconds
+round 100

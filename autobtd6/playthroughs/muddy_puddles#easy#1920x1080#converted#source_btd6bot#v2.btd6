@@ -1,0 +1,50 @@
+# source: https://github.com/j-miet/BTD6bot (license MIT (c) 2025 Jani Miettinen) commit 2d6dac0957a0d55d0af201bd497afbebf7f3e5c2
+# source file: btd6bot/plans/muddy_puddlesEasyStandard.py (vendored copy: btd6bot/btd6bot/plans)
+# source mode: easy; converted to 1920x1080 AutoBTD6 actions
+# generator: import-public-routes.py
+place sniper sniper0 at 835, 218
+place sniper sniper1 at 859, 292
+retarget sniper1
+retarget sniper1
+retarget sniper1
+round 3
+place sub sub0 at 1257, 528
+round 4
+upgrade sub0 path 0
+round 6
+place dart dart0 at 443, 600
+round 8
+upgrade sub0 path 0
+round 9
+upgrade sub0 path 2
+round 13
+upgrade sub0 path 2
+round 14
+upgrade dart0 path 2
+round 18
+place ace ace0 at 867, 854
+upgrade ace0 path 2
+round 23
+upgrade sniper0 path 1
+upgrade ace0 path 2
+round 27
+upgrade sniper1 path 0
+round 28
+upgrade ace0 path 2
+round 31
+upgrade ace0 path 0
+upgrade ace0 path 0
+round 34
+upgrade sniper0 path 1
+upgrade sniper0 path 2
+upgrade sniper0 path 2
+round 36
+upgrade sniper0 path 2
+round 37
+place alchemist alchemist0 at 891, 952
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+round 38
+upgrade alchemist0 path 0
+round 39
+upgrade sub0 path 2

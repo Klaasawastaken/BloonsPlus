@@ -1,0 +1,132 @@
+# source: https://github.com/j-miet/BTD6bot (license MIT (c) 2025 Jani Miettinen) commit 2d6dac0957a0d55d0af201bd497afbebf7f3e5c2
+# source file: btd6bot/plans/cargoHardChimps.py (vendored copy: btd6bot/btd6bot/plans)
+# source mode: chimps; converted to 1920x1080 AutoBTD6 actions
+# dropped (timing only): wait()
+# dropped (not expressible in AutoBTD6, route may be weaker): obyn_greenfoot special with a target position
+# generator: import-public-routes.py
+place dart dart0 at 436, 246
+place dart dart1 at 772, 250
+place dart dart2 at 1120, 248
+round 7
+retarget dart0
+retarget dart0
+retarget dart0
+upgrade dart2 path 1
+round 9
+place sniper sniper0 at 1373, 342
+round 10
+upgrade dart2 path 1
+retarget sniper0
+retarget sniper0
+retarget sniper0
+round 11
+retarget sniper0
+round 13
+place obyn_greenfoot hero0 at 1201, 362
+round 15
+upgrade dart2 path 1
+round 20
+place village village0 at 1236, 441
+round 21
+ability 1
+round 24
+ability 1
+round 25
+upgrade village0 path 2
+upgrade village0 path 2
+round 27
+upgrade sniper0 path 2
+upgrade sniper0 path 2
+round 28
+upgrade sniper0 path 1
+upgrade sniper0 path 1
+ability 1
+round 34
+upgrade sniper0 path 2
+round 37
+ability 1 after 10 seconds
+round 38
+upgrade sniper0 path 2
+round 39
+click map at 1189, 860
+click map at 1297, 930
+place alchemist alchemist0 at 1379, 466
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+round 40
+upgrade alchemist0 path 0
+ability 1
+round 41
+upgrade alchemist0 path 1
+upgrade alchemist0 path 1
+round 42
+upgrade village0 path 0
+upgrade village0 path 0
+round 50
+upgrade sniper0 path 2
+round 51
+place super super0 at 1183, 536
+round 54
+upgrade super0 path 0
+upgrade super0 path 0
+round 55
+upgrade alchemist0 path 0
+round 62
+upgrade super0 path 2
+round 63
+ability 1 after 12 seconds
+round 65
+ability 1 after 22 seconds
+round 68
+upgrade super0 path 0
+round 70
+upgrade super0 path 2
+round 80
+ability 1
+round 82
+ability 1
+round 83
+ability 1
+round 84
+ability 1 after 8 seconds
+upgrade alchemist0 path 0
+round 88
+place super super1 at 1211, 638
+upgrade super1 path 0
+upgrade super1 path 0
+round 94
+upgrade super1 path 0
+upgrade super1 path 2
+upgrade super1 path 2
+round 95
+place sniper sniper1 at 1381, 286
+retarget sniper1
+retarget sniper1
+retarget sniper1
+upgrade sniper1 path 0
+upgrade sniper1 path 0
+upgrade sniper1 path 2
+upgrade sniper1 path 2
+upgrade sniper1 path 2
+round 96
+upgrade sniper1 path 2
+round 97
+place sniper sniper2 at 1328, 245
+upgrade sniper2 path 2
+upgrade sniper2 path 2
+upgrade sniper2 path 2
+upgrade sniper2 path 0
+round 98
+upgrade sniper2 path 0
+upgrade sniper2 path 2
+place sniper sniper3 at 1378, 567
+upgrade sniper3 path 2
+upgrade sniper3 path 2
+upgrade sniper3 path 2
+upgrade sniper3 path 0
+upgrade sniper3 path 0
+round 99
+upgrade sniper3 path 2
+round 100
+ability 2
+ability 1

@@ -1,0 +1,97 @@
+place dart dart0 at 719, 883
+place sub sub0 at 1123, 827
+round 8
+place engineer engineer0 at 775, 841
+round 11
+place etienne hero0 at 958, 897
+round 14
+place druid druid0 at 851, 835
+retarget druid0
+retarget druid0
+retarget druid0
+round 15
+upgrade druid0 path 0
+round 16
+upgrade druid0 path 1
+round 18
+upgrade druid0 path 1
+round 21
+upgrade druid0 path 1
+round 31
+place village village0 at 1303, 923
+upgrade village0 path 2
+upgrade village0 path 2
+round 32
+place ace ace0 at 1455, 1019
+upgrade ace0 path 2
+upgrade ace0 path 2
+round 35
+upgrade ace0 path 2
+round 37
+ability 1 after 13 seconds
+round 38
+upgrade ace0 path 0
+upgrade ace0 path 0
+round 39
+place alchemist alchemist0 at 1395, 949
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+round 40
+upgrade alchemist0 path 0
+ability 1
+round 41
+upgrade village0 path 0
+upgrade village0 path 0
+round 43
+upgrade alchemist0 path 0
+round 55
+upgrade ace0 path 2
+round 80
+ability 2 after 2 seconds
+round 81
+upgrade alchemist0 path 0
+round 82
+place ace ace1 at 1293, 1019
+upgrade ace1 path 0
+upgrade ace1 path 0
+upgrade ace1 path 2
+upgrade ace1 path 2
+upgrade ace1 path 2
+round 88
+upgrade ace1 path 2
+round 89
+place ace ace2 at 1417, 837
+upgrade ace2 path 0
+upgrade ace2 path 0
+round 91
+upgrade ace2 path 2
+upgrade ace2 path 2
+upgrade ace2 path 2
+round 93
+ability 2 after 3 seconds
+round 94
+round 95
+ability 2 after 10 seconds
+round 96
+upgrade ace2 path 2
+round 97
+place ninja ninja0 at 1461, 935
+upgrade ninja0 path 1
+upgrade ninja0 path 1
+upgrade ninja0 path 1
+place spike spike0 at 1261, 793
+round 98
+upgrade ninja0 path 1
+upgrade spike0 path 0
+upgrade spike0 path 1
+upgrade spike0 path 1
+upgrade spike0 path 1
+place spike spike1 at 1195, 861
+upgrade spike1 path 0
+upgrade spike1 path 1
+round 99
+ability 3 after 2.5 seconds
+ability 2
+round 100
+upgrade spike1 path 1
+upgrade spike1 path 1

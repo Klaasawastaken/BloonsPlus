@@ -1,0 +1,53 @@
+# source: https://github.com/ThuyTran735/BTD6-Everything-Macro (license MIT (c) 2026 ThuyTran735) commit afd8a30917bcab798a9ed8bf15f83897f6fb0a60
+# source file: Maps/Beginner/Three Mines 'Round/Easy/ThreeMinesRoundPrimaryOnly.ahk (vendored copy: route-library/public-sources/ThuyTran735-BTD6-Everything-Macro)
+# source mode: primary_only; converted to 1920x1080 AutoBTD6 actions
+# generator: import-public-routes.py
+place quincy hero0 at 767, 207
+place dart dart0 at 585, 185
+round 3
+place boomerang boomerang0 at 594, 311
+round 5
+upgrade boomerang0 path 2
+upgrade boomerang0 path 2
+round 7
+upgrade boomerang0 path 0
+upgrade boomerang0 path 0
+round 8
+upgrade dart0 path 2
+upgrade dart0 path 2
+round 10
+upgrade dart0 path 1
+upgrade dart0 path 1
+round 12
+upgrade dart0 path 2
+round 17
+upgrade boomerang0 path 2
+retarget boomerang0
+round 25
+upgrade boomerang0 path 2
+round 28
+upgrade dart0 path 2
+round 30
+place dart dart1 at 749, 105
+upgrade dart1 path 1
+upgrade dart1 path 1
+upgrade dart1 path 2
+upgrade dart1 path 2
+upgrade dart1 path 2
+upgrade dart1 path 2
+round 36
+place dart dart2 at 543, 435
+upgrade dart2 path 1
+upgrade dart2 path 1
+upgrade dart2 path 2
+upgrade dart2 path 2
+upgrade dart2 path 2
+upgrade dart2 path 2
+round 38
+place dart dart3 at 530, 596
+upgrade dart3 path 1
+upgrade dart3 path 1
+upgrade dart3 path 2
+upgrade dart3 path 2
+upgrade dart3 path 2
+upgrade dart3 path 2

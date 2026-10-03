@@ -1,0 +1,31 @@
+place dart dart1 at 401, 560
+place dart dart2 at 1282, 568
+place dart dart3 at 782, 256
+round 4
+place sniper sniper at 546, 293
+retarget sniper
+retarget sniper
+retarget sniper
+round 6
+place sauda hero0 at 886, 254
+round 9
+place sniper sniper2 at 457, 342
+round 11
+upgrade sniper2 path 2
+upgrade sniper2 path 2
+round 14
+upgrade sniper2 path 1
+upgrade sniper2 path 1
+round 21
+upgrade sniper path 2
+upgrade sniper path 2
+round 25
+upgrade sniper2 path 2
+round 27
+upgrade sniper path 0
+round 34
+upgrade sniper2 path 2
+round 36
+upgrade sniper path 2
+round 39
+upgrade sniper path 0

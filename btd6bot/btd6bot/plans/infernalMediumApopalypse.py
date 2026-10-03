@@ -1,0 +1,74 @@
+"""
+[Hero] Psi
+[Monkey Knowledge] -
+-------------------------------------------------------------
+===Monkeys & upgrades required===
+dart 0-0-2
+bomb 2-0-4
+
+sniper 0-2-2
+sub 2-0-4
+
+alch 3-0-0
+druid 1-3-0
+
+village 0-2-0
+_______________________________________
+Apopalypse round rng might fail you, should work after a few tries, though. This happens on zero monkey knowledge, but
+if you have some of the more important ones, this should work 100% of the time.
+"""
+
+from ._plan_imports import *
+
+
+def play(data):
+    BEGIN, END = menu_start.load(*data)
+    round = BEGIN - 1
+    map_start = time()
+    while round < END + 1:
+        round = Rounds.round_check(round, map_start, data[2])
+        if round == BEGIN:
+            sub1 = Monkey("sub", 0.2723958333333, 0.7490740740741)
+            sub2 = Monkey("sub", 0.6197916666667, 0.2509259259259)
+            sub2.upgrade(["0-0-1"])
+            sub1.upgrade(["0-0-1"])
+            druid1 = Monkey("druid", 0.8333333333333, 0.637962962963)
+            druid1.upgrade(["0-1-0", "0-2-0"])
+            sub1.sell()
+            sub2.sell()
+            druid1.upgrade(["0-3-0"])
+            hero = Hero(0.2552083333333, 0.1768518518519)
+            hero.target("strong")
+            druid1.upgrade(["1-3-0"])
+            sniper = Monkey("sniper", 0.6375, 0.787962962963)
+            sniper.upgrade(["0-1-0", "0-2-0", "0-2-1", "0-2-2"])
+            village = Monkey("village", 0.8005208333333, 0.5287037037037)
+            village.upgrade(["0-1-0", "0-2-0"])
+            druid2 = Monkey("druid", 0.8333333333333, 0.4342592592593)
+            druid2.upgrade(["0-1-0", "0-2-0", "0-3-0", "1-3-0"])
+            sub1 = Monkey("sub", 0.2723958333333, 0.7490740740741)
+            sub1.upgrade(["0-0-1", "0-0-2", "1-0-2", "2-0-2"])
+            dart_top = Monkey("dart", 0.246875, 0.2583333333333)
+            dart_top.upgrade(["0-0-1", "0-0-2"])
+            dart_bot = Monkey("dart", 0.4333333333333, 0.6453703703704)
+            dart_bot.upgrade(["0-0-1", "0-0-2"])
+            sub1.upgrade(["2-0-3"])
+            bomb_top = Monkey("bomb", 0.4296875, 0.3546296296296)
+            bomb_top.upgrade(["0-0-1", "0-0-2", "0-0-3", "1-0-3", "2-0-3"])
+            alch_top = Monkey("alch", 0.4505208333333, 0.3)
+            alch_top.upgrade(["1-0-0", "2-0-0", "3-0-0"])
+            bomb_top.upgrade(["2-0-4"])
+            bomb_bot = Monkey("bomb", 0.41875, 0.6990740740741)
+            bomb_bot.upgrade(["0-0-1", "0-0-2", "0-0-3", "1-0-3", "2-0-3"])
+            alch_bot = Monkey("alch", 0.4552083333333, 0.7009259259259)
+            alch_bot.upgrade(["1-0-0", "2-0-0", "3-0-0"])
+            bomb_bot.upgrade(["2-0-4"])
+            sub2 = Monkey("sub", 0.6197916666667, 0.2509259259259)
+            sub2.upgrade(["0-0-1", "0-0-2", "1-0-2", "2-0-2", "2-0-3", "2-0-4"])
+            sub1.upgrade(["2-0-4"])
+            # because this plan uses the old BEGIN round only logic, it's necessary to force final round here
+            # otherwise bot needs to catch up each, skipping each round with 0:00 time. 
+            # The actual issue is that bot fails go from 1 to 60 before bot finishes. When the victory screen appears, 
+            # bot is unable to read the rounds because text becomes much darker. It hangs on somewhere between 30-50, 
+            # not being able to progress
+            round = END
