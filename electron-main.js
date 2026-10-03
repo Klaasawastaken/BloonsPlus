@@ -12,7 +12,11 @@ const url = `http://127.0.0.1:${port}`;
 // main process stays alive and "Responding" with no window and no error. Running without GPU
 // acceleration avoids that negotiation entirely; this app is a plain settings/status UI with no
 // need for it.
-app.disableHardwareAcceleration();
+// The guest needs software rendering for GPU passthrough stability. The host
+// should retain Chromium's compositor for smooth scrolling and video previews.
+if (fs.existsSync('C:\\Windows\\AppSandbox\\appsandbox-agent.exe') || process.env.BLOONS_SOFTWARE_RENDERING === '1') {
+  app.disableHardwareAcceleration();
+}
 app.commandLine.appendSwitch('no-sandbox');
 
 const CRASH_LOG = path.join(__dirname, 'electron-crash.log');
@@ -40,7 +44,7 @@ function createWindow() {
     minHeight: 680,
     title: 'Bloons+',
     autoHideMenuBar: true,
-    backgroundColor: '#eaf0f7',
+    backgroundColor: '#f5f6f1',
     icon: ICON_PATH,
   });
   win.webContents.setWindowOpenHandler(({ url: target }) => {
@@ -49,6 +53,11 @@ function createWindow() {
       if (external.protocol === 'https:') shell.openExternal(external.href).catch(error => logCrash('external-link', error.message));
     } catch { /* Reject malformed or non-web links. */ }
     return { action: 'deny' };
+  });
+  if (process.platform === 'win32') win.setAppDetails({
+    appId: 'com.bloonsplus.app',
+    relaunchIcon: `${ICON_PATH},0`,
+    relaunchDisplayName: 'Bloons+',
   });
   loadWithRetry(win);
 }

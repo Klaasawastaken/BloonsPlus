@@ -31,7 +31,7 @@ PYTHON_HOME = Path(next((line.split("=", 1)[1].strip() for line in PYVENV_CONFIG
 # The bundled app currently uses AutoBTD6. These two vendored engines are retained in
 # the workspace for later work, but their source and documentation do not belong in the
 # current installer payload (the V2/V3 tabs were removed from the product UI).
-SKIP_DIRS = {".git", "__pycache__", ".cache", ".pytest_cache", ".mypy_cache", ".claude", ".codex", ".agents", "btd6autoplay", "btd6bot", "failure-shots", "public-sources", "obsolete-conversions", "unsupported-conversions", "copied-drafts", "copied-btd6bot-aliases", "broken-guide-routes", "tools"}
+SKIP_DIRS = {".git", "__pycache__", ".cache", ".pytest_cache", ".mypy_cache", ".claude", ".codex", ".agents", "btd6autoplay", "btd6bot", "failure-shots", "public-sources", "obsolete-conversions", "unsupported-conversions", "copied-drafts", "copied-btd6bot-aliases", "broken-guide-routes", "tools", "private", "tests"}
 PERSONAL_FILES = {"game-observations.json", "automation-progress.json", "game-state.json", "last-hero.json", "upgrade-memory.json", "route-checkpoint.json", "Profile.Save", "playthrough_stats.json", "experimental-ai-data.json", "route-failures.json", "route-verification.json", "route-strengthen-queue.json", "pending-automation.json", "live-frame.jpg", "live-frame.jpg.tmp", "viewer-request.json", "host.json", "pause.flag", "exit_after_game.flag"}
 SKIP_SUFFIXES = {".pyc", ".pyo", ".log"}
 # Base-Python parts never used at runtime: Tk GUI, IDLE, turtle demos, C headers/import libraries (every
@@ -163,6 +163,8 @@ def stage_app() -> None:
             copy_tree(item, app / item.name)
 
     # Ship neutral account defaults; existing installations restore their own config.
+    subprocess.run([sys.executable, str(ROOT / 'tools' / 'embed-exe-icon.py'),
+                    str(STAGE / 'Bloons+.exe'), str(ROOT / 'bloonsplus.ico')], check=True)
     config_path = app / 'autobtd6' / 'userconfig.json'
     if not config_path.exists():
         shutil.copy2(app / 'autobtd6' / 'userconfig.example.json', config_path)
@@ -176,7 +178,7 @@ def stage_app() -> None:
     copy_node_modules(app / "node_modules")
     # The base Python only bootstraps the private venv (setup downloads the pinned pip packages).
     copy_tree(PYTHON_HOME, app / "python", exclude_relative_paths=PYTHON_EXCLUDES)
-    for required in ("vm-setup.js", "setup-bar.js", "vm/setup-vm.py", "vm/iso-patch.exe", "autobtd6/runtime_check.py", "data/tower-upgrades.json", "support-report.js", "live-screen.js", "vm-viewer.js", "autobtd6/live_capture.py", "python/Lib/ensurepip/__init__.py", "python/Lib/venv/__init__.py"):
+    for required in ("lib/vm-setup.js", "lib/automation.js", "lib/route-validation.js", "setup-bar.js", "vm/setup-vm.py", "vm/iso-patch.exe", "autobtd6/runtime_check.py", "data/tower-upgrades.json", "lib/support-report.js", "lib/live-screen.js", "vm-viewer.js", "autobtd6/live_capture.py", "python/Lib/ensurepip/__init__.py", "python/Lib/venv/__init__.py"):
         if not (app / required).is_file():
             raise SystemExit(f"Staged app is missing {required}")
 

@@ -1,51 +1,39 @@
 <p align="center">
-  <a href="https://bloonsplus.com/"><img src="docs/assets/banner.svg" alt="Bloons+ â€” More play. Less busywork. Visit the website." width="100%"></a>
+  <a href="https://bloonsplus.com/"><img src="docs/assets/banner.svg" alt="Bloons+ — More play. Less busywork." width="100%"></a>
 </p>
 
-<p align="center"><strong>Your game. A clearer overview.</strong><br>A Windows companion for Bloons TD 6. Routes, progress and VM control in one place.</p>
+<p align="center"><strong>More Bloons. Less busywork.</strong><br>Choose your next run. Follow the game. Keep progressing.</p>
 
 <p align="center">
-  <a href="https://bloonsplus.com/">Website</a> Â·
-  <a href="https://github.com/Klaasawastaken/BloonsPlus/releases">Download</a> Â·
-  <a href="https://bloonsplus.com/docs/">Docs</a> Â·
-  <a href="https://bloonsplus.com/wiki/">Wiki</a> ·
-  <a href="https://discord.gg/qxUGXqrXsY">Discord</a> Â·
-  <a href="https://github.com/Klaasawastaken/BloonsPlus/issues">Report an issue</a>
+<a href="https://bloonsplus.com/">Website</a> · <a href="https://bloonsplus.com/features/">Features</a> · <a href="https://bloonsplus.com/download/">Download</a> · <a href="https://bloonsplus.com/wiki/">Wiki</a> · <a href="https://discord.gg/qxUGXqrXsY">Discord</a>
 </p>
 
-## More play. Less busywork.
+## Your next run, together
 
-Bloons+ brings recorded strategies, tower progress and map runs into a desktop control centre. Run BTD6 inside a Windows VM and manage it from your main PC.
+Bloons+ is a Windows companion for Bloons TD 6. Select a map and variation, launch a recorded strategy, and follow your game from a desktop app. A VM can keep gameplay on the guest while your main desktop stays free.
 
-| Your next step | What Bloons+ brings together |
-| --- | --- |
-| **Pick a map** | Map, difficulty, variation and route requirements. |
-| **Follow a run** | Replay actions, checkpoints, pause and stop controls. |
-| **See your progress** | Supported local save reads and Steam achievement data. |
-| **Manage your guest** | VM setup, connection status and app deployment. |
-| **Improve a strategy** | Route tools, logs and failure evidence. |
+| Feature | What you can do |
+| :--- | :--- |
+| **Map automation** | Choose a map, difficulty and variation; review the hero and tower paths needed. |
+| **Live game view** | Watch the VM game inline while the app is visible. |
+| **Run controls** | Pause, stop now, or stop after the current replay. |
+| **Progress overview** | Browse supported map medals, achievements and account statistics. |
+| **Diagnostics** | Follow actions, inspect failures and download redacted logs. |
+| **Guest setup** | Check required components, connect a VM and deploy app updates. |
 
-**Active development:** available routes are not guaranteed victories on every game version. Boss execution and the complete tower auto-unlock loop remain unfinished. Read the [implementation status](CODE_REVIEW_2026-10-03.md) before planning an unattended session.
+**Preview:** recordings can lose, particularly after game updates or on maps with changing mechanics. Boss events are coming soon. Experimental recovery is not a guarantee of victory.
 
 ## Three steps to your next run
 
-1. **Get the companion.** Download `BloonsPlusSetup.exe` from [Releases](https://github.com/Klaasawastaken/BloonsPlus/releases) and complete dependency setup.
-2. **Connect your game.** Follow the appâ€™s VM setup, sign in through Steam inside the guest and install your owned copy of BTD6.
-3. **Start with one map.** Open BTD6, check the connection and try a Specific Map run. Watch placement, upgrades and the result before starting a larger sweep.
+1. **Install.** Download the Windows installer from [Releases](https://github.com/Klaasawastaken/BloonsPlus/releases). Dependencies download during setup.
+2. **Connect.** Complete the VM setup and install your owned copy of BTD6 through Steam in the guest. Steam handles sign-in and Steam Guard.
+3. **Play.** Open Automation, choose a map and mode, check requirements and start a replay. Verify placements and the saved result on your first run.
 
-You need Windows, an internet connection and a Steam account that owns BTD6. VM setup requires supported virtualization and Windows features; system setup may request administrator access. Steam handles sign-in and Steam Guard.
+You need Windows, internet access and a Steam account that owns BTD6. VM setup requires supported virtualization and Windows features; some setup steps need administrator access or a restart.
 
-### Your desktop, your space
+[Installation methods →](https://bloonsplus.com/download/#installation-methods) · [Troubleshooting →](https://bloonsplus.com/wiki/diagnostics/)
 
-![Main PC, guest and BTD6 architecture](docs/assets/architecture.svg)
-
-The main PC runs the interface; the guest runs the game and replay engine. Gameplay uses simulated mouse and keyboard input. Save readers only read game files. Local automation can use your desktop input; VM automation uses the guestâ€™s input.
-
-GitHub changes do not automatically update an installed copy. Use the appâ€™s VM update controls to deploy a new build.
-
-## Build from source
-
-Install Git, Node.js/npm and Python 3.12. In PowerShell:
+## Build and contribute
 
 ```powershell
 git clone https://github.com/Klaasawastaken/BloonsPlus.git
@@ -57,44 +45,26 @@ Copy-Item autobtd6/userconfig.example.json autobtd6/userconfig.json
 npm run app
 ```
 
-Copy the example configuration only on a fresh checkout; preserve existing settings. `npm run app` opens the desktop app. `npm start` starts the development web server. Installer build instructions are in [GITHUB_SETUP.md](GITHUB_SETUP.md).
-
-<details>
-<summary><strong>Project layout & languages</strong></summary>
+Copy the example configuration only on a fresh checkout. Preserve existing settings. `npm start` runs the local development server.
 
 | Location | Purpose |
-| --- | --- |
-| `app.js`, `index.html`, `styles.css` | Desktop interface |
-| `server.js`, `electron-main.js` | Local API and desktop entry point |
-| `autobtd6/` | Python replay engine and recorded routes |
+| :--- | :--- |
+| Root entry points | Desktop window, local API and interface |
+| `lib/` | Backend modules: automation, progress, capture, setup and VM bridge |
+| `autobtd6/` | Replay engine and recorded strategies |
+| `docs/` | Website, wiki and developer reference |
+| `tools/` | Build, import and maintenance scripts |
 | `vm/` | Guest provisioning |
-| `route-library/` | Imported strategies and provenance |
-| `installer-bootstrap.cs`, `make-installer.py` | Windows installer and builder |
-| `docs/` | Product website, tutorials and illustrations |
+| `data/`, `assets/` | Shared catalogs and application artwork |
+| `route-library/`, `licenses/` | Strategy provenance and third-party notices |
+| `tests/` | Focused offline regression checks |
 
-JavaScript runs the app; Python handles replay and image processing. HTML/CSS present the interface. C# builds the installer, while Windows integration uses PowerShell and an AutoHotkey input helper. [Full language breakdown](docs/languages.md).
+[Developer guide →](https://bloonsplus.com/wiki/development/) · [Route format →](https://bloonsplus.com/wiki/route-format/) · [Build reference →](docs/developer/README.md)
 
-</details>
+## Community and privacy
 
-## When something needs attention
+Built by **klaasa**. Join [Discord](https://discord.gg/qxUGXqrXsY) to share strategies and get help, or [open an issue](https://github.com/Klaasawastaken/BloonsPlus/issues) with your app version, map, variation and redacted logs.
 
-| Symptom | First check |
-| --- | --- |
-| Missing `msvcp140.dll` or `msvcp140_1.dll` | Repair the Microsoft Visual C++ x64 runtime **where replay runs**, including the guest. |
-| VM bridge reconnecting or SSH permission denied | Check guest availability and the setupâ€™s SSH identity. |
-| Stale activity or progress | Confirm the host is connected to the correct guest and both have the latest app version. |
-| A stalled or lost route | Share map, mode, variation, round, version and surrounding logs in an issue. |
+Gameplay uses simulated mouse and keyboard. Game save readers do not modify saves. Never publish credentials, VM keys, player profiles or personal screenshots. Installed copies require an app update; a GitHub push alone does not update them.
 
-Keep player saves, Steam credentials, SSH keys and VM disks private. Review logs for personal information before sharing them.
-
-## Join the community
-
-<a href="https://discord.gg/qxUGXqrXsY"><img src="docs/assets/discord-banner.svg" alt="Join the Bloons+ Discord â€” share routes, get help and follow development" width="100%"></a>
-
-Created by **klaasa**. Contributions are welcome; no contributors are listed yet. Visit [GitHub](https://github.com/Klaasawastaken/BloonsPlus) or [Discord](https://discord.gg/qxUGXqrXsY) to follow development.
-
-## Credits
-
-Built around and informed by [AutoBTD6](https://github.com/ANRAR4/AutoBTD6), [BTD6bot](https://github.com/j-miet/BTD6bot) and [btd6_autoplay](https://github.com/Jazzmoon/btd6_autoplay). Imported material retains its licenses and attribution.
-
-Bloons TD 6 and its game assets belong to Ninja Kiwi. Bloons+ is an independent project, unaffiliated with Ninja Kiwi.
+Bloons TD 6 belongs to Ninja Kiwi. Bloons+ is independent and is not affiliated with Ninja Kiwi. Imported software, routes and artwork retain their notices in `licenses/` and source metadata.

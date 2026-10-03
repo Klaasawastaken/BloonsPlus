@@ -74,3 +74,6 @@ autobtd6/viewer-request.json
 # Private code-signing material
 *.pfx
 *.p12
+
+# Private community bot: never publish or package.
+/private/

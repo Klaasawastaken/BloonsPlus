@@ -2,11 +2,11 @@ const http = require('node:http');
 const fs = require('node:fs');
 const path = require('node:path');
 const { execFile } = require('node:child_process');
-const { captureWindow } = require('./capture');
-const { getLiveScreen } = require('./live-screen');
-const { runScan } = require('./scanner');
-const automation = require('./automation');
-const engineLock = require('./engine-lock');
+const { captureWindow } = require('./lib/capture');
+const { getLiveScreen } = require('./lib/live-screen');
+const { runScan } = require('./lib/scanner');
+const automation = require('./lib/automation');
+const engineLock = require('./lib/engine-lock');
 const root = __dirname;
 const port = Number(process.env.PORT || 4173);
 const calibrationFile = path.join(root, 'calibration.json');
@@ -20,13 +20,13 @@ let gameRunning = false;
 // sweep was still running in the guest.
 let lastVmFarmStatus = null;
 let lastVmFarmStatusAt = 0;
-const { vmFetch, vmPost, vmFetchBuffer } = require('./vm-bridge');
-const vmSetup = require('./vm-setup');
-const { readSteamAchievements } = require('./steam-progress');
-const { readLocalProgress } = require('./btd6-save-progress');
-const { readActiveBossEvent } = require('./boss-events');
-const bossRoutes = require('./boss-route-generator');
-const experimentalAi = require('./experimental-ai');
+const { vmFetch, vmPost, vmFetchBuffer } = require('./lib/vm-bridge');
+const vmSetup = require('./lib/vm-setup');
+const { readSteamAchievements } = require('./lib/steam-progress');
+const { readLocalProgress } = require('./lib/btd6-save-progress');
+const { readActiveBossEvent } = require('./lib/boss-events');
+const bossRoutes = require('./lib/boss-route-generator');
+const experimentalAi = require('./lib/experimental-ai');
 let aiCollectionPending = false;
 async function collectAiObservation() {
   if (aiCollectionPending || (!gameRunning && !engineLock.getCurrentJob())) return;
@@ -465,8 +465,8 @@ http.createServer((req, res) => {
   if (pathname === '/api/map-selection') {
     if (req.method !== 'GET') { res.writeHead(405); return res.end(); }
     captureWindow().then(async result => {
-      const { scanMapPage, currentPage } = require('./map-order-scanner');
-      const { readPng } = require('./pixels');
+      const { scanMapPage, currentPage } = require('./lib/map-order-scanner');
+      const { readPng } = require('./lib/pixels');
       const scanBuffer = result.png;
       const indicator = currentPage(readPng(scanBuffer));
       const page = indicator ? await scanMapPage(scanBuffer) : null;

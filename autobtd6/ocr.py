@@ -8,6 +8,15 @@ os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 # navigation) never needs it, so defer the load to first real use instead of
 # paying the cost on every process spawn.
 _ocr_model = None
+
+def round_recovery_candidate(raw, anchor, elapsed):
+    """Allow delayed counter recovery only with a complete, bounded round HUD."""
+    parts = raw.split('/')
+    if len(parts) != 2 or not all(part.isdigit() for part in parts):
+        return False
+    reading, limit = map(int, parts)
+    return (limit in (40, 60, 80, 100) and anchor < reading <= limit
+            and elapsed >= max(5, reading - anchor))
 def _get_ocr_model():
     global _ocr_model
     if _ocr_model is None:
@@ -88,11 +97,15 @@ def custom_ocr(img, resolution=pyautogui.size(), white_threshold=224):
     chrImages.sort(key=lambda item: item[0])
     # ignore entries after gap(e. g. explosion particles)
     filteredChrImages = []
-    currentX = 0
+    currentX = None
     for entry in chrImages:
-        if currentX + 50 >= entry[0]:
+        # The HUD shifts when a panel or badge is shown. The first glyph is
+        # allowed anywhere in the crop; a left-padding offset is not a gap.
+        if currentX is None or currentX + 50 * resolution[0] / 1920 >= entry[0]:
             currentX = entry[0]
             filteredChrImages.append(entry)
+        else:
+            break
     # minXs = list(map(lambda item: item[0], chrImages))
     if len(filteredChrImages) == 0:
         return "-1"

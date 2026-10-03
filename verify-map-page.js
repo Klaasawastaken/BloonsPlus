@@ -1,8 +1,8 @@
 // Replay sends one screenshot on stdin. Confirm the visible page and target tile before clicking.
 // Exit 2 when OCR is uncertain so a stale map index cannot start the wrong recording.
-const { scanMapPage } = require('./map-order-scanner');
-const { loadMapOrder } = require('./map-order-scanner');
-const { shutdown } = require('./ocr');
+const { scanMapPage } = require('./lib/map-order-scanner');
+const { loadMapOrder } = require('./lib/map-order-scanner');
+const { shutdown } = require('./lib/ocr');
 
 const [expectedName, expectedCategory, expectedPage, expectedSlot] = process.argv.slice(2);
 const normalize = value => String(value).toLowerCase().replace(/[^a-z0-9]/g, '');

@@ -231,6 +231,8 @@ body{background:radial-gradient(ellipse at 90% 0,#efd6c940,transparent 44%),radi
 .compact-map-workspace .tower-requirement-card{background:var(--surface);border-color:var(--line);padding:18px;box-shadow:none;gap:12px}
 .tower-requirement-title{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:6px 12px}.tower-requirement-title b{font-size:14px}.tower-requirement-title small{grid-column:1/-1;font-size:11px;line-height:1.5}
 .tower-requirement-card{align-content:start}.tower-requirement-card .tier-pills{margin:0;align-items:start}.tower-requirement-card .tier-pills .tier-pill{padding:7px 10px;line-height:1.4}
+/* Scrolling should not repaint a blurred backdrop for every row and card. */
+.panel,.stat-card,.map-row,.achievement-card,.goal-card,.run-console{backdrop-filter:none;-webkit-backdrop-filter:none}.rail,.setup-bar{backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
 .requirement-paths{margin:0;gap:10px}.requirement-path-row{display:flex;flex-wrap:nowrap;gap:7px}.requirement-path-row>b{flex:0 0 48px;font-size:10px}.requirement-path-row .tier-pill{flex:0 1 44px;font-size:10px;padding:7px 5px;border-radius:8px}.tier-pill.route-required{outline:none}
 .tier-pill.valid{background:#e0ece3;color:#2b7048}.tier-pill.invalid{background:#f9e4dc;color:#a94f36}.tier-pill.unknown{background:#e6edf0;color:#596f79}
 [data-theme="dark"] .tier-pill.valid{background:#2b4738;color:#b4ddc4}[data-theme="dark"] .tier-pill.invalid{background:#44362e;color:#f5aa8b}[data-theme="dark"] .tier-pill.unknown{background:#2a3c43;color:#c2d5de}

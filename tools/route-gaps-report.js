@@ -5,7 +5,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 
-const ROOT = __dirname;
+const ROOT = path.resolve(__dirname, '..');
 const coverage = JSON.parse(fs.readFileSync(path.join(ROOT, 'route-coverage.json'), 'utf8'));
 let importReport = { rejected: [] };
 try { importReport = JSON.parse(fs.readFileSync(path.join(ROOT, 'route-library', 'metadata', 'public-route-import.json'), 'utf8')); } catch { /* not run yet */ }

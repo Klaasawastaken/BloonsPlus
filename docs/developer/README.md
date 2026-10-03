@@ -1,8 +1,8 @@
 # Developer reference
 
 - [Language map](../languages.md)
-- [Build and GitHub setup](../../GITHUB_SETUP.md)
-- [Implementation review](../../CODE_REVIEW_2026-10-03.md)
+- [Build and GitHub setup](GITHUB_SETUP.md)
+- [Implementation review](CODE_REVIEW_2026-10-03.md)
 - Maintenance/import helpers are in `tools/`; run them from the repository root.
 - The active engine and routes remain in `autobtd6/`.
 - `data/tower-upgrades.json` is the attributed tower catalog used by the app and installer.

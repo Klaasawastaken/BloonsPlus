@@ -1,5 +1,5 @@
 // Read the displayed hero and Select/Selected button from a game-relative PNG on stdin.
-const { readTitle, readNaturalText, shutdown } = require('./ocr');
+const { readTitle, readNaturalText, shutdown } = require('./lib/ocr');
 
 const normalize = value => String(value).toLowerCase().replace(/[^a-z]/g, '');
 (async () => {

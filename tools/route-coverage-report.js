@@ -8,8 +8,8 @@ const path = require('node:path');
 const vm = require('node:vm');
 const { createHash } = require('node:crypto');
 
-const ROOT = __dirname;
-const source = fs.readFileSync(path.join(ROOT, 'automation.js'), 'utf8');
+const ROOT = path.resolve(__dirname, '..');
+const source = fs.readFileSync(path.join(ROOT, 'lib', 'automation.js'), 'utf8');
 
 // Extracts one top-level declaration by counting braces/brackets/parens from its first opener,
 // skipping over string/template/regex literals and comments so characters inside them (e.g. a
@@ -58,7 +58,7 @@ const functions = [
   /^function loadVerifiedRoutes\(/m, /^function routeRequirements\(/m, /^function getRecordedCombos\(/m,
   /^const MODES_REQUIRING_VERIFIED_ROUTE = /m, /^function sweepCandidates\(/m,
 ].map(cut);
-const sandbox = { require, __dirname: ROOT, fs, path, createHash, result: null };
+const sandbox = { require: require('node:module').createRequire(path.join(ROOT, 'lib', 'automation.js')), __dirname: ROOT, PROJECT_ROOT: ROOT, fs, path, createHash, result: null };
 vm.createContext(sandbox);
 vm.runInContext(`${pieces.join('\n')}\n${functions.join('\n')}\n
 result = { getRecordedCombos, sweepCandidates, MODES_REQUIRING_VERIFIED_ROUTE: [...MODES_REQUIRING_VERIFIED_ROUTE], listPlaythroughs };`, sandbox);

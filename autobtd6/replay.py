@@ -1,6 +1,6 @@
 import windowed_input  # patch game-relative screenshot/input before helper binds resolutions
 from helper import *
-from ocr import custom_ocr
+from ocr import custom_ocr, round_recovery_candidate
 import subprocess
 import os
 import hashlib
@@ -647,9 +647,9 @@ def confirmButtonVisible(frame):
     global _confirmButton1080
     h, w = frame.shape[:2]
     s = w / 1920
-    # Current BTD6 shows placement-confirm controls at the bottom of the tower
-    # sidebar. Require BOTH red cancel and green confirm, so the ordinary green
-    # play button and map-mechanic buttons cannot be mistaken for a purchase.
+    # Bottom-right green Play + red nudge controls are NOT purchase confirmation.
+    # A false match there starts rounds with an unplaced ghost. Only recognize
+    # the outlined check button beside the playfield, with its white check mark.
     def colorFraction(rect, green):
         x1, y1, x2, y2 = rect
         crop = frame[int(y1 * s):int(y2 * s), int(x1 * s):int(x2 * s)].astype(np.int32)
@@ -658,15 +658,22 @@ def confirmButtonVisible(frame):
         b, g, r = crop[..., 0], crop[..., 1], crop[..., 2]
         pixels = ((g > 120) & (g > r * 1.35) & (g > b * 1.3)) if green else ((r > 140) & (r > g * 1.4) & (r > b * 1.4))
         return float(pixels.mean())
-    if (colorFraction((1770, 990, 1860, 1080), True) > 0.12
-            and colorFraction((1645, 990, 1745, 1080), False) > 0.12):
-        _confirmButton1080 = (1808, 1030)
+    def hasCheck(rect):
+        x1, y1, x2, y2 = rect
+        crop = frame[int(y1 * s):int(y2 * s), int(x1 * s):int(x2 * s)].astype(np.int32)
+        if not crop.size:
+            return False
+        white = np.all(crop > 220, axis=2)
+        return colorFraction(rect, True) > 0.25 and float(white.mean()) > 0.10
+    if (hasCheck((1570, 12, 1630, 76))
+            and colorFraction((1567, 85, 1632, 153), False) > 0.15):
+        _confirmButton1080 = (1600, 44)
         return True
     crop = frame[int(183 * s):int(228 * s), int(1578 * s):int(1623 * s)].astype(np.int32)
     if crop.size == 0:
         return False
     b, g, r = crop[..., 0], crop[..., 1], crop[..., 2]
-    visible = float(((g > 150) & (g > r * 1.4) & (g > b * 1.4)).mean()) > 0.25
+    visible = hasCheck((1578, 183, 1623, 228))
     if visible:
         _confirmButton1080 = CONFIRM_BUTTON_1080
     return visible
@@ -1631,6 +1638,8 @@ def main():
     lastCashErrorLoggedAt = 0
     observedRound = None
     observedRoundStartedAt = None
+    pendingRoundRecovery = None
+    pendingRoundRecoveryCount = 0
     # Nearby spots (2560-wide pixels) tried when a placement spent nothing; the first retry is the same spot.
     PLACE_RETRY_OFFSETS = [(0, 0), (40, 0), (-40, 0), (0, 40), (0, -40), (60, 60), (-60, -60)]
     OFF_GAME_FRAMES_REQUIRED = 4
@@ -2562,9 +2571,11 @@ def main():
                 except (TypeError, ValueError):
                     currentValues['money'] = -1
                 try:
-                    currentValues['round'] = int(custom_ocr(images[3]).split('/')[0])
+                    rawRound = custom_ocr(images[3])
+                    currentValues['round'] = int(rawRound.split('/')[0])
                 except (AttributeError, TypeError, ValueError):
                     currentValues['round'] = -1
+                    rawRound = ''
 
                 # OCR can concatenate the round label/slash into the numerator (6 -> 46
                 # or 76). A replay cannot jump dozens of rounds between captures. Reject
@@ -2573,9 +2584,22 @@ def main():
                 startRound = 31 if mapConfig.get('gamemode') == 'deflation' else (6 if mapConfig.get('gamemode') in ('chimps', 'impoppable') else (3 if mapConfig.get('difficulty') == 'hard' else 1))
                 anchorRound = observedRound if observedRound is not None else startRound
                 if readingRound >= 0 and not anchorRound <= readingRound <= anchorRound + 3:
+                    # A long occlusion can span several real rounds. Recover only
+                    # from repeated full counter reads, never a bare phantom digit.
+                    elapsed = time.time() - observedRoundStartedAt if observedRoundStartedAt else 0
+                    eligible = round_recovery_candidate(rawRound, anchorRound, elapsed)
+                    pendingRoundRecoveryCount = pendingRoundRecoveryCount + 1 if eligible and pendingRoundRecovery == rawRound else (1 if eligible else 0)
+                    pendingRoundRecovery = rawRound if eligible else None
                     customPrint('WARNING rejecting implausible round OCR ' + str(readingRound)
                                 + ' after ' + str(anchorRound))
-                    currentValues['round'] = -1
+                    if pendingRoundRecoveryCount >= 3:
+                        customPrint('WARNING round counter resynchronized after HUD occlusion: ' + rawRound)
+                        pendingRoundRecoveryCount = 0
+                    else:
+                        currentValues['round'] = -1
+                else:
+                    pendingRoundRecovery = None
+                    pendingRoundRecoveryCount = 0
                 if currentValues['round'] == -1:
                     # A slightly stricter white threshold recovers glyph edges on snowy
                     # maps. Accept it only if it also follows the known round sequence.
@@ -2698,7 +2722,7 @@ def main():
                                 time.sleep(max(actionDelay, 0.35))
                                 sendKey(lastIterationAction['key'])
                                 time.sleep(0.2)
-                                sendKey('{Esc}')
+                                pyautogui.click(button='right')
                                 lastIterationAction['upgradeRetried'] = True
                                 lastIterationBalance = currentValues['money']
                                 lastIterationRound = currentValues['round']
@@ -3010,7 +3034,7 @@ def main():
                     # cv2.imwrite('tmp_images/' + time.strftime("%Y-%m-%d_%H-%M-%S") + '_' + str(lastIterationBalance) + '.png', lastIterationScreenshotAreas[2])
                     # cv2.imwrite('tmp_images/' + time.strftime("%Y-%m-%d_%H-%M-%S") + '_' + str(currentValues['money']) + '.png', images[2])
                     skippingIteration = True
-                elif mode != Mode.VALIDATE_COSTS and (currentValues['round'] - lastIterationRound > 1 or lastIterationRound > currentValues['round']) and len(mapConfig['steps']) and mapConfig['steps'][0]['action'] == 'await_round':
+                elif mode != Mode.VALIDATE_COSTS and lastIterationRound >= 0 and currentValues['round'] >= 0 and lastIterationRound > currentValues['round'] and len(mapConfig['steps']) and mapConfig['steps'][0]['action'] == 'await_round':
                     roundErrorSignature = (lastIterationRound, currentValues['round'])
                     if roundErrorSignature != lastCashErrorLogged or time.time() - lastCashErrorLoggedAt > 1:
                         customPrint('potential round recognition error: ' + str(lastIterationRound) + ' -> ' + str(currentValues['round']))
@@ -3102,7 +3126,7 @@ def main():
                         # The range tint is only a hint (line-of-sight shading and map colours read as
                         # red), and acting on it skipped spots the game then accepted. The recorded spot
                         # is always tried first; only a real refusal (cash unchanged) marks it illegal.
-                        if not confirmPlacementMode and not action.get('placeAttempts', 0):
+                        if not action.get('placeAttempts', 0):
                             originVerdict = None if originVerdict is True else originVerdict
                         rangePx = towerRangePx(action, frameWidth)
                         supportPx = supportRangePx(action.get('type'), frameWidth)
@@ -3242,7 +3266,9 @@ def main():
                             else:
                                 action = None
                         action = actionTmp
-                        sendKey('{Esc}')
+                        # A missed selection leaves no panel: Esc would pause the
+                        # game. Right-click closes the panel without toggling pause.
+                        pyautogui.click(button='right')
                     elif action['action'] == 'sell':
                         customPrint('DEBUG sell pos=' + str(action['pos']) + ' key=' + str(action['key']))
                         pyautogui.moveTo(action['pos'])
@@ -3320,9 +3346,10 @@ def main():
                 placementRetryPending = ((len(mapConfig['steps']) > 0 and mapConfig['steps'][0].get('action') == 'place'
                                           and mapConfig['steps'][0].get('placeAttempts', 0) > 0)
                                          or (thisIterationAction is not None and thisIterationAction.get('action') == 'place'))
-                if (not doAllStepsBeforeStart and mapConfig['gamemode'] != 'deflation' and not skippingIteration
-                    and not placementRetryPending
-                    and (waitingForLaterRound or getNextCostingAction(mapConfig['steps'])['cost'] > min(currentValues['money'], lastIterationBalance - lastIterationCost))) or len(mapConfig['steps']) == 0:
+                if (not skippingIteration and not placementRetryPending
+                    and ((not doAllStepsBeforeStart and mapConfig['gamemode'] != 'deflation'
+                          and (waitingForLaterRound or getNextCostingAction(mapConfig['steps'])['cost'] > min(currentValues['money'], lastIterationBalance - lastIterationCost)))
+                         or len(mapConfig['steps']) == 0)):
                     bestMatchDiff = None
                     gameState = None
                     for screenCfg in [
@@ -3352,7 +3379,8 @@ def main():
                 lastIterationCost = thisIterationCost
                 lastIterationAction = thisIterationAction
 
-                lastIterationRound = currentValues['round']
+                if currentValues['round'] >= 0:
+                    lastIterationRound = currentValues['round']
 
                 iterationBalances.append((currentValues['money'], thisIterationCost))
             else:

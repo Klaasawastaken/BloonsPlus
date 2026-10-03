@@ -39,6 +39,7 @@ internal sealed class InstallerForm : Form
     public InstallerForm()
     {
         Text = "Bloons+ Setup";
+        try { Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath); } catch { }
         Width = 650;
         Height = 420;
         FormBorderStyle = FormBorderStyle.FixedDialog;
@@ -48,8 +49,9 @@ internal sealed class InstallerForm : Form
         BackColor = Color.FromArgb(237, 242, 251);
 
         var brand = new Panel { Left = 0, Top = 0, Width = 650, Height = 92, BackColor = Color.FromArgb(30, 42, 82) };
-        var logo = new Label { Left = 28, Top = 18, Width = 54, Height = 54, Text = "+", TextAlign = ContentAlignment.MiddleCenter,
-            BackColor = Color.FromArgb(93, 214, 184), ForeColor = Color.FromArgb(24, 48, 76), Font = new Font("Segoe UI Semibold", 23, FontStyle.Bold) };
+        var logo = new PictureBox { Left = 28, Top = 18, Width = 54, Height = 54,
+            SizeMode = PictureBoxSizeMode.Zoom, BackColor = Color.Transparent };
+        if (Icon != null) logo.Image = Icon.ToBitmap();
         brand.Controls.Add(logo);
         var brandTitle = new Label { Left = 96, Top = 16, Width = 500, Height = 34, Text = "Bloons+", ForeColor = Color.White, Font = new Font("Segoe UI Semibold", 21, FontStyle.Bold) };
         brand.Controls.Add(brandTitle);

@@ -16,6 +16,8 @@ PRIVATE_NAMES = {'live-frame.jpg', 'live-frame.jpg.tmp', 'viewer-request.json', 
 TEXT_SUFFIXES = {'.js','.py','.cs','.md','.json','.txt','.html','.yml','.yaml','.ps1','.cmd','.toml'}
 def inspect(name, data):
     findings=[]; path=Path(name)
+    if 'private' in path.parts:
+        findings.append((name, 'private project'))
     if path.name.lower() in PRIVATE_NAMES or path.suffix.lower() in {'.key','.pem','.pfx','.p12'} or path.name.startswith(('.env','id_appsandbox')):
         findings.append((name,'private runtime file'))
     if path.suffix.lower() in TEXT_SUFFIXES:

@@ -24,7 +24,7 @@ flagged #compat and names its source file in the header.
 
 All written files are validated with AutoBTD6's own parser (helper.parseBTD6InstructionsFile,
 run in a subprocess with cwd=autobtd6). Run: .venv/Scripts/python.exe import-public-routes.py
-Then: node route-coverage-report.js
+Then: node tools/route-coverage-report.js
 """
 import ast
 import json

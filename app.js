@@ -1100,8 +1100,12 @@ function renderAutomationStatus(status) {
   }
   const logLines = keepRunLog(status);
   latestRunLog = logLines.join('\n');
-  document.querySelector('#automation-log').textContent = latestRunLog || 'No run output yet.';
-  document.querySelector('#full-log').textContent = latestRunLog || 'No run output yet.';
+  const compactLog = logLines.slice(-120).join('\n') || 'No run output yet.';
+  const visibleLog = logLines.slice(-2000).join('\n') || 'No run output yet.';
+  const compactNode = document.querySelector('#automation-log');
+  const fullNode = document.querySelector('#full-log');
+  if (compactNode.textContent !== compactLog) compactNode.textContent = compactLog;
+  if (fullNode.textContent !== visibleLog) fullNode.textContent = visibleLog;
   document.querySelector('#full-log-title').textContent = status.running ? 'Live run' : 'Latest run';
   document.querySelector('#full-log-detail').textContent = `${logLines.length} lines · ${status.type || 'No run'}${status.vm ? ' · VM' : ''}`;
   if (!status.running && status.checkpoint?.status === 'ready') {
@@ -1123,7 +1127,10 @@ function renderAutomationStatus(status) {
     sweepDetail.textContent = `${verifying ? 'Route check · ' : ''}${state} · Expert → Beginner · map ${sweep.mapIndex || 0}/${sweep.mapsTotal || 0}${location ? ` · ${location}` : ''} · ${sweep.counts?.confirmed || 0} clears this pass · ${sweep.counts?.incompleteMaps || 0} maps left incomplete${sweep.reason ? ` · ${sweep.reason.replace(/-/g, ' ')}` : ''}`;
   }
 }
+let automationStatusLoading = false;
 async function loadAutomationStatus() {
+  if (automationStatusLoading) return;
+  automationStatusLoading = true;
   try {
     const response = await fetch('/api/farm/status', { cache: 'no-store', signal: AbortSignal.timeout(8000) });
     if (response.ok) {
@@ -1142,6 +1149,7 @@ async function loadAutomationStatus() {
       }
     }
   } catch { /* connector offline */ }
+  finally { automationStatusLoading = false; }
 }
 async function startFarmJob(body) {
   try {
