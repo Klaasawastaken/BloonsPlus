@@ -2,6 +2,9 @@
 
 ## 2026-10-04 — Replay reliability and product cleanup
 
+- Corrected strategy deduplication when a tower's identifier equals its type: Dart and Ninja placements now remain distinct. Added collision regression tests.
+- Blocked static access to private community-bot source, backend/build folders and credential-like files; public UI and thumbnail assets remain available. Added focused path-access tests.
+
 - Prevented the normal Play/nudge controls from being mistaken for a placement-confirm button, and blocked round starts while a placement is still pending. Original CHIMPS recordings remain unchanged.
 - Fixed padded cash glyph detection. Round reading now preserves its last valid value and can recover after a long HUD obstruction using three repeated complete counter readings and elapsed-time checks.
 - Replaced pause-producing Escape cleanup after upgrade retries with a right-click, and kept failed-placement screenshots for diagnosis.

@@ -28,5 +28,7 @@ const root = path.resolve(__dirname, '..');
   const { strategySignature: signature } = require('../lib/route-validation');
   assert.equal(signature('place dart a at 1, 2\nupgrade a path 0'), signature('# alias\nplace dart z at 1,2\nupgrade z path 0'));
   assert.notEqual(signature('place dart a at 1,2'), signature('place dart a at 2,2'));
+  assert.notEqual(signature('place dart dart at 1,2'), signature('place ninja ninja at 1,2'));
+  assert.equal(signature('place dart dart at 1,2\nupgrade dart path 0'), signature('place dart d0 at 1,2\nupgrade d0 path 0'));
   console.log(`Backend layout and strategy identity passed; ${Object.keys(actual).length} maps preserved.`);
 })().catch(error => { console.error(error.stack); process.exitCode = 1; });

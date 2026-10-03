@@ -605,6 +605,9 @@ http.createServer((req, res) => {
     res.writeHead(405); return res.end();
   }
   const requested = pathname === '/' ? 'index.html' : pathname.replace(/^\/+/, '');
+  if (require('./lib/static-access').privateStaticPath(requested)) {
+    res.writeHead(404); return res.end('Not found');
+  }
   const file = path.resolve(root, requested);
   if (!file.startsWith(root + path.sep) && file !== path.join(root, 'index.html')) {
     res.writeHead(403); return res.end('Forbidden');
