@@ -30,6 +30,7 @@ USER, PASSWORD = 'user', 'test123'   # App Sandbox defaults; the VM is NAT-only 
 STEAM_SETUP_URL = 'https://cdn.cloudflare.steamstatic.com/client/installer/SteamSetup.exe'
 STEAM_EXE = r'C:\Program Files (x86)\Steam\steam.exe'
 GUEST_APP = r'C:\Users\%s\AppData\Local\Programs\Bloons+\Bloons+.exe' % USER
+GUEST_INSTALL_RESULT = r'C:\Users\%s\AppData\Local\BloonsPlus\installer-result.txt' % USER
 BTD6_APP_ID = 960090
 
 
@@ -119,6 +120,26 @@ def run_on_vm_desktop(info, task, program, arguments=''):
     subprocess.run(ssh_command(info) + ['schtasks /create /f /tn %s /sc once /st 00:00 /it /rl highest /tr "%s"' % (task, action)],
                    check=True, capture_output=True)
     subprocess.run(ssh_command(info) + ['schtasks /run /tn %s' % task], check=True, capture_output=True)
+
+
+def wait_for_guest_install(info, timeout=2700):
+    """Do not report success just because Task Scheduler accepted the launch request."""
+    deadline = time.time() + timeout
+    next_report = time.time() + 30
+    while time.time() < deadline:
+        result = ssh(info, "if (Test-Path '%s') { Get-Content -Raw '%s' } else { 'PENDING' }"
+                     % (GUEST_INSTALL_RESULT, GUEST_INSTALL_RESULT)).strip()
+        if result == 'OK':
+            log('Bloons+ installer confirmed completion in the VM')
+            return
+        if result.startswith('ERROR:'):
+            raise RuntimeError('Bloons+ installer failed in the VM: %s' % result)
+        if time.time() >= next_report:
+            log('waiting for Bloons+ installer in the VM (%s)' % result[:80])
+            next_report = time.time() + 30
+        time.sleep(5)
+    raise TimeoutError('Bloons+ installer did not confirm completion within 45 minutes. '
+                       'Check the VM installer log in AppData\\Local\\BloonsPlus\\installer.log.')
 
 
 def create_logon_task(info):
@@ -221,9 +242,16 @@ def provision(client, args):
 
     run_on_vm_desktop(info, 'BloonsPlusSteam', STEAM_EXE)
     if args.reinstall or not installed:
+        # The old Electron process keeps its executable locked during updates. No replay is
+        # active when the host requests a reinstall, so stop only Bloons+ before replacing it.
+        if args.reinstall and installed:
+            log('closing the previous Bloons+ app in the VM before updating its files')
+            ssh(info, "Get-Process -Name 'Bloons+' -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue; 'OK'")
+        ssh(info, "Remove-Item -LiteralPath '%s' -Force -ErrorAction SilentlyContinue; 'OK'" % GUEST_INSTALL_RESULT)
         # The installer downloads Bloons+'s Python packages in the VM and then starts Bloons+.
         log('running the Bloons+ installer in the VM (it downloads its Python packages; this takes a while)')
         run_on_vm_desktop(info, 'BloonsPlusSetup', desktop + r'\BloonsPlusSetup.exe', '/silent')
+        wait_for_guest_install(info)
     else:
         subprocess.run(ssh_command(info) + ['schtasks /run /tn BloonsPlusApp'], capture_output=True)
     log('opening the official Steam install prompt for Bloons TD 6 (AppID %d)' % BTD6_APP_ID)
@@ -255,19 +283,21 @@ def main(argv=None):
         # it as a wildcard pattern in some guest builds and the SSH wrapper then
         # returns a non-zero command error. Enumerate processes and compare exact
         # names instead; an absent process is a normal state, not a setup failure.
-        busy = ssh(info, "Get-Process -ErrorAction SilentlyContinue | Where-Object { $_.Name -eq 'Bloons+' -or $_.Name -eq 'BloonsPlusSetup' } | Select-Object -First 1 -ExpandProperty Name")
-        if busy == 'BloonsPlusSetup':
-            deadline = time.time() + 300
-            while busy == 'BloonsPlusSetup' and time.time() < deadline:
-                log('Guest installer is finishing; waiting before starting Bloons+…')
-                time.sleep(10)
-                busy = ssh(info, "Get-Process -ErrorAction SilentlyContinue | Where-Object { $_.Name -eq 'Bloons+' -or $_.Name -eq 'BloonsPlusSetup' } | Select-Object -First 1 -ExpandProperty Name")
-            if busy == 'BloonsPlusSetup':
-                raise RuntimeError('Guest installer is still running after 5 minutes. Check its setup window; retry once installation finishes.')
-        if busy:
-            log('%s is already running in the VM; waiting for it' % busy)
-            return
-        subprocess.run(ssh_command(info) + ['schtasks /run /tn BloonsPlusApp'], check=True, capture_output=True)
+        # The scheduled task is idempotent. Avoid a guest PowerShell process probe here: some
+        # Windows guest shells reject even a harmless Get-Process pipeline over SSH, while the
+        # task runner itself remains available and reports a useful status.
+        launch_command = ssh_command(info) + ['schtasks /run /tn BloonsPlusApp']
+        launch = subprocess.run(launch_command, capture_output=True, text=True)
+        if launch.returncode:
+            detail = (launch.stderr or launch.stdout or '').strip()
+            # The scheduled task can be unavailable for a few seconds while the guest shell
+            # finishes loading. Retry once, but preserve the real SSH/task error if it persists.
+            time.sleep(3)
+            launch = subprocess.run(launch_command, capture_output=True, text=True)
+            if launch.returncode:
+                detail = (launch.stderr or launch.stdout or detail).strip()
+                raise RuntimeError('Could not start Bloons+ scheduled task in the VM (ssh exit %s): %s'
+                                   % (launch.returncode, detail or 'no diagnostic returned'))
         log('started Bloons+ in the VM')
 
 

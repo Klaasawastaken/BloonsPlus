@@ -747,8 +747,34 @@ def heroAlreadySelected(hero, state):
     from difflib import SequenceMatcher
     expected = ''.join(character for character in hero.lower() if character.isalpha())
     shown = state.get('title', '')
-    titleMatches = expected in shown or SequenceMatcher(None, expected, shown).ratio() >= 0.72
+    firstName = hero.lower().split('_')[0]
+    titleMatches = (expected in shown or (len(firstName) >= 5 and firstName in shown)
+                    or SequenceMatcher(None, expected, shown).ratio() >= 0.72)
     return titleMatches and 'selected' in state.get('button', '')
+
+
+def findHeroCard(hero):
+    """Find a hero by its displayed title when a game update shifts portrait order."""
+    height = pyautogui.size()[1]
+    slots = sorted({tuple(pos) for pos in imageAreas['click']['hero_positions'].values()
+                    if 70 < pos[1] < height - 55}, key=lambda pos: (pos[1], pos[0]))
+    if not slots:
+        return {}
+    pyautogui.moveTo(slots[0][0], height // 2)
+    pyautogui.scroll(20)
+    time.sleep(menuChangeDelay)
+    for page in range(5):
+        for slot in slots:
+            pyautogui.click(slot)
+            time.sleep(0.18)
+            candidate = heroSelectionState()
+            if heroAlreadySelected(hero, {**candidate, 'button': 'selected'}):
+                customPrint('DEBUG hero ' + hero + ' found visually on page ' + str(page) + ' at ' + str(slot))
+                return candidate
+        pyautogui.moveTo(slots[0][0], height // 2)
+        pyautogui.scroll(-4)
+        time.sleep(menuChangeDelay)
+    return {}
 
 
 def resolveRouteHero(mapConfig):
@@ -1612,6 +1638,8 @@ def main():
     towerTracker = TowerTracker()
     pathHeat = None
     lastGoodMoney = 0
+    lastHudPanelOpen = None
+    lastHudRightPanelOpen = None
     pendingMoneySpike = None
     lowLivesFrames = 0
     emergencySpend = False
@@ -2430,9 +2458,12 @@ def main():
                         heroState = heroSelectionState()
                     titleMatches = heroAlreadySelected(mapConfig['hero'], {**heroState, 'button': 'selected'})
                     if not titleMatches:
-                        customPrint('ERROR hero picker shows ' + str(heroState.get('title')) +
-                                    ' instead of ' + mapConfig['hero'] + '; refusing to enter a run with the wrong hero')
-                        sys.exit(2)
+                        customPrint('WARNING hero portrait index is stale (' + str(heroState.get('title')) +
+                                    '); searching the hero cards for ' + mapConfig['hero'])
+                        heroState = findHeroCard(mapConfig['hero'])
+                        if not heroAlreadySelected(mapConfig['hero'], {**heroState, 'button': 'selected'}):
+                            customPrint('ERROR hero ' + mapConfig['hero'] + ' was not found in the picker')
+                            sys.exit(2)
                     if heroState.get('button') == 'selected':
                         customPrint("hero " + mapConfig['hero'] + " already selected; skipping select click")
                     elif heroState.get('button') == 'select':
@@ -2594,6 +2625,69 @@ def main():
                 if lastScreen != screen and logStats:
                     lastPlaythroughStats['time'].append(('start', time.time()))
 
+                # BTD6 shifts lives and cash about half a screen right while a
+                # tower detail panel is open. The old single crop read scenery
+                # or partial numbers, so choose the HUD position from the panel.
+                scale = screenshot.shape[1] / 960
+                def brownFraction(x1, y1, x2, y2):
+                    crop = screenshot[int(y1 * scale):int(y2 * scale),
+                                      int(x1 * scale):int(x2 * scale)]
+                    if not crop.size:
+                        return 0.0
+                    blue, green, red = crop[..., 0], crop[..., 1], crop[..., 2]
+                    return float(((red.astype(np.float32) > green.astype(np.float32) * 1.2)
+                                  & (green.astype(np.float32) > blue.astype(np.float32) * 1.2)
+                                  & (blue < 120)).mean())
+                # The map itself can be brown (Tricky Tracks is the clearest
+                # example), so comparing two narrow brown strips misclassifies
+                # an open tower panel. Every tower detail panel has the large
+                # cyan portrait card in this fixed region; use that stable UI
+                # surface instead of colours from the playfield.
+                portrait = screenshot[int(70 * scale):int(200 * scale),
+                                      int(20 * scale):int(200 * scale)]
+                if portrait.size:
+                    blue, green, red = portrait[..., 0], portrait[..., 1], portrait[..., 2]
+                    panelCyan = float(((blue.astype(np.float32) > red.astype(np.float32) * 1.1)
+                                       & (green.astype(np.float32) > red.astype(np.float32) * 1.1)
+                                       & (blue > 130)).mean())
+                    portraitMax = portrait.max(axis=2).astype(np.float32)
+                    portraitMin = portrait.min(axis=2).astype(np.float32)
+                    panelBrightColor = float(((portraitMax - portraitMin > 30)
+                                              & (portraitMax > 150)
+                                              & (portrait.mean(axis=2) > 135)).mean())
+                else:
+                    panelCyan = 0.0
+                    panelBrightColor = 0.0
+                panelBrown = brownFraction(190, 50, 210, 440)
+                mapBrown = brownFraction(235, 50, 255, 440)
+                panelHeaderBrown = brownFraction(0, 25, 210, 60)
+                hudPanelOpen = panelHeaderBrown > 0.45 and (panelCyan > 0.25 or panelBrightColor > 0.45)
+                rightPanelBrown = brownFraction(625, 50, 645, 440)
+                rightMapBrown = brownFraction(585, 50, 605, 440)
+                hudRightPanelOpen = rightPanelBrown > 0.40 and rightPanelBrown > rightMapBrown + 0.22
+                if hudPanelOpen != lastHudPanelOpen or hudRightPanelOpen != lastHudRightPanelOpen:
+                    customPrint('DEBUG HUD layout leftPanel=' + str(hudPanelOpen) +
+                                ' rightPanel=' + str(hudRightPanelOpen) +
+                                ' portraitCyan=' + str(round(panelCyan, 2)) +
+                                ' portraitColor=' + str(round(panelBrightColor, 2)) +
+                                ' headerBrown=' + str(round(panelHeaderBrown, 2)) +
+                                ' edgeBrown=' + str(round(panelBrown, 2)) +
+                                ' mapBrown=' + str(round(mapBrown, 2)) +
+                                ' rightEdgeBrown=' + str(round(rightPanelBrown, 2)))
+                    lastHudPanelOpen = hudPanelOpen
+                    lastHudRightPanelOpen = hudRightPanelOpen
+                def gameBox(box):
+                    return [int(value * scale) for value in box]
+                if hudPanelOpen:
+                    segmentCoordinates['lives'] = gameBox((226, 4, 312, 36))
+                    segmentCoordinates['money'] = gameBox((360, 4, 442, 36))
+                else:
+                    segmentCoordinates = getIngameOcrSegments(mapConfig)
+                if hudRightPanelOpen:
+                    # The right upgrade panel pushes the round counter from the
+                    # far-right HUD into this central slot. Keep the small
+                    # ROUND caption above the digits out of the OCR crop.
+                    segmentCoordinates['round'] = gameBox((505, 17, 612, 39))
                 images = [
                     screenshot[segmentCoordinates[segment][1]:segmentCoordinates[segment][3], segmentCoordinates[segment][0]:segmentCoordinates[segment][2]] for segment in segmentCoordinates
                 ]
@@ -2660,7 +2754,19 @@ def main():
                             customPrint('DEBUG round OCR recovered at threshold 230: ' + str(alternateRound))
                     except (AttributeError, TypeError, ValueError):
                         pass
-                if observedRound is None and lastGoodMoney == 0 and currentValues['money'] > (25000 if mapConfig.get('gamemode') == 'deflation' else 5000):
+                # The stylized dollar sign is occasionally classified as a
+                # leading 5 (`$1,300` -> `51300`). This is only unambiguous
+                # before the first accepted balance and within that narrow
+                # 50,000 prefix range; remove the glyph artifact there.
+                if lastGoodMoney < 10000 and 50000 <= currentValues['money'] < 55000 and mapConfig.get('gamemode') != 'deflation':
+                    correctedOpeningMoney = currentValues['money'] - 50000
+                    customPrint('DEBUG corrected opening cash OCR ' + str(currentValues['money']) + ' -> ' + str(correctedOpeningMoney))
+                    currentValues['money'] = correctedOpeningMoney
+                # Do not let a repeated opening OCR artifact become the cash
+                # baseline merely because the round reader initialized first.
+                # A normal mode cannot legitimately open above this bound;
+                # Deflation has its own higher starting-cash allowance.
+                if lastGoodMoney == 0 and currentValues['money'] > (25000 if mapConfig.get('gamemode') == 'deflation' else 5000):
                     customPrint('WARNING rejecting implausible opening cash OCR ' + str(currentValues['money']))
                     currentValues['money'] = -1
 
@@ -2996,7 +3102,8 @@ def main():
                 # route placed its next defense behind an await_round step, release that wait when
                 # the action is affordable instead of knowingly letting bloons leak until the
                 # recorded round. No new tower or upgrade is invented here.
-                if emergencySpend and mapConfig.get('gamemode') != 'chimps':
+                # Preserve Glacial Trail's recorded thaw timing; early action release during a storm can target frozen towers.
+                if emergencySpend and mapConfig.get('gamemode') != 'chimps' and mapConfig.get('map') != 'glacial_trail':
                     while len(mapConfig['steps']) and mapConfig['steps'][0].get('action') == 'await_round':
                         upcoming = next((step for step in mapConfig['steps'][1:]
                                          if step.get('action') not in ('await_round', 'await_cash', 'speed')), None)

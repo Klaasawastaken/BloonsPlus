@@ -29,6 +29,12 @@ internal sealed class InstallerForm : Form
     private readonly string installRoot = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Programs", "Bloons+");
     private readonly object logLock = new object();
     private readonly string logPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "BloonsPlus", "installer.log");
+    private readonly string resultPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "BloonsPlus", "installer-result.txt");
+    private void WriteResult(string result)
+    {
+        try { Directory.CreateDirectory(Path.GetDirectoryName(resultPath)); File.WriteAllText(resultPath, result); }
+        catch (Exception error) { Log("Could not write installer result: " + error.Message); }
+    }
     private void Log(string text)
     {
         lock (logLock) {
@@ -354,6 +360,7 @@ internal sealed class InstallerForm : Form
         bool installed = false;
         try
         {
+            WriteResult("RUNNING");
             SetStatus("Reading embedded app package…", 0);
             using (FileStream installer = new FileStream(Application.ExecutablePath, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
@@ -431,11 +438,13 @@ internal sealed class InstallerForm : Form
             SetStatus("Bloons+ is installed. Launching the app…", 1000);
             Process.Start(new ProcessStartInfo(Path.Combine(installRoot, "Bloons+.exe")) { WorkingDirectory = installRoot, UseShellExecute = true });
             installed = true;
+            WriteResult("OK");
             Task.Delay(1800).ContinueWith(delegate { if (!IsDisposed) BeginInvoke((Action)Close); });
         }
         catch (Exception error)
         {
             Log(error.ToString());
+            WriteResult("ERROR: " + error.Message);
             try { RestoreExistingData(backupRoot); }
             catch (Exception restoreError) { Log("Data backup retained at " + backupRoot + ": " + restoreError); }
             SetStatus("Installation failed: " + error.Message, 0);

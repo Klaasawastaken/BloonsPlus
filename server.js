@@ -524,8 +524,11 @@ http.createServer((req, res) => {
           }
         }
       }
-      const vmUp = !automation.getStatus().running && (await vmFetch('/api/game-status', 3000)) !== null;
-      if (vmUp) {
+      // Control requests should be relayed directly. Requiring a separate
+      // game-status probe first made pause/stop-after fail during a brief SSH
+      // bridge reconnect even though the guest API accepted the next request.
+      const shouldRelay = !vmSetup.isGuest() && !automation.getStatus().running;
+      if (shouldRelay) {
         const relayed = await vmPost(pathname, body || '{}');
         if (relayed) { res.writeHead(relayed.status, { 'Content-Type': 'application/json' }); return res.end(relayed.text); }
       }

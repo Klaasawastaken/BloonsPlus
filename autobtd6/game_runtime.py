@@ -11,7 +11,7 @@ import time
 
 SUPPORTED_ACTIONS = {
     'place', 'upgrade', 'sell', 'retarget', 'special', 'remove',
-    'click', 'press', 'speed', 'await_round', 'await_cash',
+    'click', 'press', 'ability', 'speed', 'await_round', 'await_cash',
 }
 POSITION_ACTIONS = {'place', 'upgrade', 'sell', 'retarget', 'special', 'remove', 'click'}
 TOWER_ACTIONS = {'place', 'upgrade', 'sell', 'retarget', 'special'}
@@ -46,8 +46,20 @@ def normalize_action(step):
     )
     if action_type in {'place', 'upgrade', 'sell', 'retarget', 'special'} and not valid_key:
         raise ValueError(action_type + ' action needs a game key')
-    if action_type == 'press' and not valid_key:
-        raise ValueError('press action needs a game key')
+    if action_type in {'press', 'ability'} and not valid_key:
+        raise ValueError(action_type + ' action needs a game key')
+    if action_type == 'ability':
+        point = action.get('pos')
+        if point is not None:
+            if not isinstance(point, (tuple, list)) or len(point) != 2:
+                raise ValueError('ability target needs a two-coordinate position')
+            if not all(isinstance(value, (int, float)) and math.isfinite(value) for value in point):
+                raise ValueError('ability target must contain finite coordinates')
+            action['pos'] = tuple(point)
+        for field in ('timer', 'cursor_delay'):
+            value = action.get(field, 0)
+            if not isinstance(value, (int, float)) or not math.isfinite(value) or value < 0:
+                raise ValueError('ability ' + field + ' must be a non-negative number')
     if action_type == 'upgrade':
         path = action.get('path')
         if not isinstance(path, int) or path < 0 or path > 2:

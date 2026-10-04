@@ -89,6 +89,16 @@
       if (event.matches) { root.classList.remove('motion-ready'); observer.disconnect(); }
     });
   }
+  const billingButtons = document.querySelectorAll('[data-billing]');
+  if (billingButtons.length) {
+    const price = document.getElementById('pro-price'), period = document.getElementById('pro-period'), note = document.getElementById('pro-billing-note');
+    billingButtons.forEach(button => button.addEventListener('click', () => {
+      const annual = button.dataset.billing === 'annual';
+      billingButtons.forEach(item => { const active = item === button; item.classList.toggle('active', active); item.setAttribute('aria-pressed', String(active)); });
+      price.textContent = annual ? '$49.99' : '$5.99'; period.textContent = annual ? 'per year' : 'per month';
+      note.textContent = annual ? 'Billed annually · save 30% · planned launch 31 October 2026' : 'Billed monthly · planned launch 31 October 2026';
+    }));
+  }
   const releaseStatus = document.getElementById('release-status');
   if (releaseStatus) {
     const download = document.getElementById('installer-download');
@@ -108,13 +118,15 @@
     }
     async function loadRelease() {
       try {
-        const local = await fetch('../release.json', {cache: 'no-cache'});
-        if (local.ok && displayRelease(await local.json())) return;
-      } catch {}
-      try {
         const response = await fetch('https://api.github.com/repos/Klaasawastaken/BloonsPlus/releases/latest', {signal: AbortSignal.timeout(8000)});
         if (!response.ok) throw new Error('No published installer');
         if (!displayRelease(await response.json())) throw new Error('No installer asset');
+        return;
+      } catch {}
+      try {
+        const local = await fetch('../release.json', {cache: 'no-cache'});
+        if (local.ok && displayRelease(await local.json())) return;
+        throw new Error('No local installer metadata');
       } catch {
         releaseStatus.textContent = 'No installer could be confirmed. Check GitHub releases.';
         detail.textContent = 'You can download the source below and follow the guide.';

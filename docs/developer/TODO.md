@@ -56,6 +56,21 @@ Updated 4 October 2026. Checkboxes require evidence, not merely code. Preserve o
 ## Completed in this pass
 
 - [x] Refuse to start a route when the hero picker cannot confirm the required hero.
+- [x] Verify live hero Select/Selected state at 1920×1080 and recover stale portrait indices by scanning displayed hero names.
+- [x] Detect left tower panels across cyan and purple portrait cards without treating Glacial Trail's ice as a panel.
+- [x] Read shifted cash with a left tower panel and Double Cash active; reject the repeated `$1,300` → `51,300` glyph artifact.
+- [x] Keep a replay alive after its planned actions end; Tricky Tracks Hard reached round 80, showed victory, saved the medal, and was skipped afterward.
+- [x] Execute canonical route ability actions instead of dropping them as unsupported.
+- [x] Relay pause, stop, and stop-after controls directly to the guest across transient status-probe disconnects.
 - [x] Recover round OCR from bounded monotonic full-HUD readings; observed `27/80` resynchronization in a live replay.
 - [x] Classify new hero-picker failures as navigation bugs instead of gameplay defeats.
 - [x] Add failure-category counts to the app diagnostics summary.
+
+## Release and site refresh (2026-10-04)
+
+- [x] Replace the README banner with a richer Bloons+ map and balloon composition.
+- [x] Replace lifetime pricing with a monthly/annual subscription switch.
+- [x] Make the download page resolve the newest published GitHub installer automatically, with a local metadata fallback.
+- [x] Add more map environments and expand the public feature list.
+- [x] Stop Glacial Trail emergency spending from pulling recorded actions into freeze windows.
+- [ ] Validate frozen-tower upgrade deferral against a live Glacial Trail run before marking the route confirmed.
