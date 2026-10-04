@@ -2628,8 +2628,18 @@ def main():
                     # from repeated full counter reads, never a bare phantom digit.
                     elapsed = time.time() - observedRoundStartedAt if observedRoundStartedAt else 0
                     eligible = round_recovery_candidate(rawRound, anchorRound, elapsed)
-                    pendingRoundRecoveryCount = pendingRoundRecoveryCount + 1 if eligible and pendingRoundRecovery == rawRound else (1 if eligible else 0)
-                    pendingRoundRecovery = rawRound if eligible else None
+                    # Live rounds keep advancing while OCR is occluded. Requiring
+                    # three *identical* frames can never recover on a fast run;
+                    # accept a short monotonic sequence of complete HUD reads.
+                    priorRound = pendingRoundRecovery[0] if pendingRoundRecovery else None
+                    priorLimit = pendingRoundRecovery[1] if pendingRoundRecovery else None
+                    parts = rawRound.split('/') if eligible else []
+                    newLimit = int(parts[1]) if len(parts) == 2 else None
+                    followsPrior = (priorRound is not None and priorLimit == newLimit
+                                    and priorRound <= readingRound <= priorRound + 2)
+                    pendingRoundRecoveryCount = (pendingRoundRecoveryCount + 1 if eligible and followsPrior
+                                                 else (1 if eligible else 0))
+                    pendingRoundRecovery = (readingRound, newLimit) if eligible else None
                     customPrint('WARNING rejecting implausible round OCR ' + str(readingRound)
                                 + ' after ' + str(anchorRound))
                     if pendingRoundRecoveryCount >= 3:
