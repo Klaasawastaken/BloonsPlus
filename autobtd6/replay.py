@@ -186,6 +186,31 @@ def saveLastHero(hero):
 _recognizeScreen = recognizeScreen
 
 
+def mapSelectionChromeVisible(img):
+    """Recognize the three fixed menu controls across changing map pages.
+
+    The old reference classifier can report UNKNOWN on a newly added map page.
+    The blue Back button, yellow page arrow and orange Expert tab remain fixed.
+    """
+    h, w = img.shape[:2]
+    if h < 700 or w < 1200 or abs(w / h - 16 / 9) > 0.06:
+        return False
+    def share(box, color):
+        x1, y1, x2, y2 = (round(value * w / 1920) if index % 2 == 0
+                          else round(value * h / 1080)
+                          for index, value in enumerate(box))
+        crop = img[y1:y2, x1:x2]
+        if crop.size == 0:
+            return 0.0
+        b, g, r = crop[..., 0], crop[..., 1], crop[..., 2]
+        if color == 'cyan':
+            return float(((b > 130) & (g > 100) & (r < 110)).mean())
+        return float(((r > 160) & (g > 90) & (b < 100)).mean())
+    return (share((25, 20, 125, 115), 'cyan') > 0.25
+            and share((1600, 385, 1720, 490), 'warm') > 0.09
+            and share((1260, 885, 1420, 1050), 'warm') > 0.18)
+
+
 def recognizeScreen(img, comparisonImages, ignoreFocus=False):
     if not ignoreFocus and not windowed_input.is_game_foreground():
         return Screen.BTD6_UNFOCUSED
@@ -198,6 +223,8 @@ def recognizeScreen(img, comparisonImages, ignoreFocus=False):
         if all(int(green) > 175 and int(green) > int(red) * 1.35 and int(green) > int(blue) * 1.35
                for blue, green, red in samples):
             return Screen.STARTMENU
+    if mapSelectionChromeVisible(img):
+        return Screen.MAP_SELECTION
     recognized = _recognizeScreen(img, comparisonImages, ignoreFocus=True)
     return recognized
 
@@ -221,6 +248,9 @@ def clickTitleStartIfVisible(screenshot):
     """BTD6's title screen ("Welcome to ... START") after a launch/relaunch is not a known screen;
     Esc there opens Quit Game? and the run looped cancel/Esc forever. Click its START instead."""
     global _titleStartAttempts
+    if mapSelectionChromeVisible(screenshot):
+        _titleStartAttempts = 0
+        return False
     h, w = screenshot.shape[:2]
     s = w / 1920
     crop = screenshot[int(925 * s):int(1015 * s), int(830 * s):int(1090 * s)].astype(np.int32)
