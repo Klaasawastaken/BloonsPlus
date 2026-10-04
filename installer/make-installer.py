@@ -176,9 +176,16 @@ def stage_app() -> None:
     config_path.write_text(json.dumps(config, indent=2), encoding='utf-8')
     optimize_pngs(app / "autobtd6" / "images")
     copy_node_modules(app / "node_modules")
+    # Replay launches these helpers through Node at runtime. Keep the build and
+    # migration utilities out of the payload, but always ship the two visual
+    # readers even though the repository-level tools directory is excluded.
+    runtime_tools = app / "tools"
+    runtime_tools.mkdir(parents=True, exist_ok=True)
+    for name in ("read-hero-selection.js", "verify-map-page.js"):
+        shutil.copy2(ROOT / "tools" / name, runtime_tools / name)
     # The base Python only bootstraps the private venv (setup downloads the pinned pip packages).
     copy_tree(PYTHON_HOME, app / "python", exclude_relative_paths=PYTHON_EXCLUDES)
-    for required in ("lib/vm-setup.js", "lib/automation.js", "lib/route-validation.js", "assets/app/setup-bar.js", "vm/setup-vm.py", "vm/iso-patch.exe", "autobtd6/runtime_check.py", "data/tower-upgrades.json", "lib/support-report.js", "lib/live-screen.js", "assets/app/vm-viewer.js", "autobtd6/live_capture.py", "python/Lib/ensurepip/__init__.py", "python/Lib/venv/__init__.py"):
+    for required in ("lib/vm-setup.js", "lib/automation.js", "lib/route-validation.js", "assets/app/setup-bar.js", "vm/setup-vm.py", "vm/iso-patch.exe", "autobtd6/runtime_check.py", "data/tower-upgrades.json", "lib/support-report.js", "lib/live-screen.js", "assets/app/vm-viewer.js", "autobtd6/live_capture.py", "tools/read-hero-selection.js", "tools/verify-map-page.js", "python/Lib/ensurepip/__init__.py", "python/Lib/venv/__init__.py"):
         if not (app / required).is_file():
             raise SystemExit(f"Staged app is missing {required}")
 

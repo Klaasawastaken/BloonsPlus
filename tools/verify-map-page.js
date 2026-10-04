@@ -1,8 +1,7 @@
 // Replay sends one screenshot on stdin. Confirm the visible page and target tile before clicking.
 // Exit 2 when OCR is uncertain so a stale map index cannot start the wrong recording.
-const { scanMapPage } = require('./lib/map-order-scanner');
-const { loadMapOrder } = require('./lib/map-order-scanner');
-const { shutdown } = require('./lib/ocr');
+const { scanMapPage, loadMapOrder } = require('../lib/map-order-scanner');
+const { shutdown } = require('../lib/ocr');
 
 const [expectedName, expectedCategory, expectedPage, expectedSlot] = process.argv.slice(2);
 const normalize = value => String(value).toLowerCase().replace(/[^a-z0-9]/g, '');
@@ -13,7 +12,7 @@ const normalize = value => String(value).toLowerCase().replace(/[^a-z0-9]/g, '')
   const result = await scanMapPage(Buffer.concat(chunks));
   const order = loadMapOrder();
   const liveTarget = order.maps?.[normalize(expectedName)];
-  const catalogMaps = JSON.parse(require('node:fs').readFileSync(require('node:path').join(__dirname, 'autobtd6', 'maps.json'), 'utf8'));
+  const catalogMaps = JSON.parse(require('node:fs').readFileSync(require('node:path').join(__dirname, '..', 'autobtd6', 'maps.json'), 'utf8'));
   const catalogKnown = Object.values(catalogMaps).find(item => normalize(item.name) === normalize(expectedName));
   const known = order.maps?.[normalize(expectedName)] || catalogKnown;
   const catalogSource = require('node:fs').readFileSync(require('node:path').join(__dirname, '..', 'data', 'catalogs', 'map-catalog.js'), 'utf8');

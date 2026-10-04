@@ -747,8 +747,24 @@ def heroAlreadySelected(hero, state):
     from difflib import SequenceMatcher
     expected = ''.join(character for character in hero.lower() if character.isalpha())
     shown = state.get('title', '')
+    # The hero title artwork is stylized enough that the bundled OCR model
+    # produces stable, but imperfect, readings. Keep narrow readings observed
+    # from the live picker rather than accepting arbitrary short text. This is
+    # also independent of portrait order, which BTD6 changes as heroes arrive.
+    shortAliases = {
+        'quincy': {'quincy', 'uingy'},
+        'gwendolin': {'gwendolin', 'swendbool'},
+        'strikerjones': {'strikerjones', 'trikern'},
+        'silas': {'silas', 'ias'},
+        'ezili': {'ezili', 'zil'},
+        'rosalia': {'rosalia', 'osasa'},
+        'etienne': {'etienne', 'tienne'},
+        'sauda': {'sauda', 'auda'},
+        'psi': {'psi', 'psl'},
+    }
     firstName = hero.lower().split('_')[0]
-    titleMatches = (expected in shown or (len(firstName) >= 5 and firstName in shown)
+    titleMatches = (shown in shortAliases.get(expected, set())
+                    or expected in shown or (len(firstName) >= 5 and firstName in shown)
                     or SequenceMatcher(None, expected, shown).ratio() >= 0.72)
     return titleMatches and 'selected' in state.get('button', '')
 
@@ -762,6 +778,7 @@ def findHeroCard(hero):
         return {}
     pyautogui.moveTo(slots[0][0], height // 2)
     pyautogui.scroll(20)
+    sendKey('{WheelUp 20}')
     time.sleep(menuChangeDelay)
     for page in range(5):
         for slot in slots:
@@ -772,7 +789,10 @@ def findHeroCard(hero):
                 customPrint('DEBUG hero ' + hero + ' found visually on page ' + str(page) + ' at ' + str(slot))
                 return candidate
         pyautogui.moveTo(slots[0][0], height // 2)
+        # PyAutoGUI's wheel event is not consistently delivered through the VM
+        # input bridge. Send the same wheel movement through AutoHotkey too.
         pyautogui.scroll(-4)
+        sendKey('{WheelDown 6}')
         time.sleep(menuChangeDelay)
     return {}
 
@@ -1701,7 +1721,9 @@ def main():
     pendingRoundRecovery = None
     pendingRoundRecoveryCount = 0
     # Nearby spots (2560-wide pixels) tried when a placement spent nothing; the first retry is the same spot.
-    PLACE_RETRY_OFFSETS = [(0, 0), (40, 0), (-40, 0), (0, 40), (0, -40), (60, 60), (-60, -60)]
+    PLACE_RETRY_OFFSETS = [(0, 0), (40, 0), (-40, 0), (0, 40), (0, -40),
+                           (80, 0), (-80, 0), (0, 80), (0, -80),
+                           (120, 0), (-120, 0), (0, 120), (0, -120)]
     OFF_GAME_FRAMES_REQUIRED = 4
 
     def placementVisualCheck(probe, frame):
@@ -2471,11 +2493,18 @@ def main():
                     if heroState.get('button') == 'selected':
                         customPrint("hero " + mapConfig['hero'] + " already selected; skipping select click")
                     elif heroState.get('button') == 'select':
-                        pyautogui.click(imageAreas["click"]["screen_hero_selection_select_hero"])
-                        time.sleep(menuChangeDelay)
-                        confirmedHero = heroSelectionState()
+                        confirmedHero = heroState
+                        selectPos = imageAreas["click"]["screen_hero_selection_select_hero"]
+                        for selectAttempt in range(3):
+                            customPrint('DEBUG clicking hero Select attempt ' + str(selectAttempt + 1) + '/3 at ' + str(selectPos))
+                            pyautogui.moveTo(selectPos[0], selectPos[1], duration=0.18)
+                            pyautogui.click()
+                            time.sleep(menuChangeDelay)
+                            confirmedHero = heroSelectionState()
+                            if heroAlreadySelected(mapConfig['hero'], confirmedHero):
+                                break
                         if not heroAlreadySelected(mapConfig['hero'], confirmedHero):
-                            customPrint('ERROR hero selection was not confirmed after clicking Select: ' + str(confirmedHero))
+                            customPrint('ERROR hero selection was not confirmed after 3 Select attempts: ' + str(confirmedHero))
                             sys.exit(2)
                     else:
                         customPrint('ERROR hero Select button is unconfirmed; refusing to enter a run with an unverified hero')
@@ -3008,7 +3037,7 @@ def main():
                     if attempts < len(PLACE_RETRY_OFFSETS):
                         origin = lastIterationAction.get('originPos', lastIterationAction['pos'])
                         scale = screenshot.shape[1] / 2560
-                        offset = (0, 0)
+                        offset = (0, 0) if dynamicMap else PLACE_RETRY_OFFSETS[attempts]
                         newPos = (int(origin[0] + offset[0] * scale),
                                   int(origin[1] + offset[1] * scale))
                         oldPos = tuple(lastIterationAction['pos'])
