@@ -16,7 +16,7 @@ const normalize = value => String(value).toLowerCase().replace(/[^a-z0-9]/g, '')
   const catalogMaps = JSON.parse(require('node:fs').readFileSync(require('node:path').join(__dirname, 'autobtd6', 'maps.json'), 'utf8'));
   const catalogKnown = Object.values(catalogMaps).find(item => normalize(item.name) === normalize(expectedName));
   const known = order.maps?.[normalize(expectedName)] || catalogKnown;
-  const catalogSource = require('node:fs').readFileSync(require('node:path').join(__dirname, 'map-catalog.js'), 'utf8');
+  const catalogSource = require('node:fs').readFileSync(require('node:path').join(__dirname, '..', 'data', 'catalogs', 'map-catalog.js'), 'utf8');
   const catalogMatch = catalogSource.match(/\{([\s\S]*)\}/);
   const catalog = catalogMatch ? JSON.parse(`{${catalogMatch[1]}}`) : {};
   const catalogEntry = Object.values(catalog).flat().find(name => normalize(name) === normalize(expectedName));

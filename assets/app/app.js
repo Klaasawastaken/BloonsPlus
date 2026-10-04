@@ -839,7 +839,7 @@ async function loadDetectedProgress() {
     else {
       const fallback = await fetch('/btd6bot/btd6bot/Files/upgrades_current.json', { cache: 'no-store', signal: AbortSignal.timeout(10000) }).catch(() => null);
       if (fallback?.ok) towerUpgradeCatalog = await fallback.json();
-      const overrides = await fetch('/tower-upgrade-overrides.json', { cache: 'no-store', signal: AbortSignal.timeout(10000) }).catch(() => null);
+      const overrides = await fetch('/data/config/tower-upgrade-overrides.json', { cache: 'no-store', signal: AbortSignal.timeout(10000) }).catch(() => null);
       if (overrides?.ok) Object.assign(towerUpgradeCatalog, await overrides.json());
     }
     if (upgradeResponse.ok) {

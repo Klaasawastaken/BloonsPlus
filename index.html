@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#e9eef7">
   <title>Bloons+ — BTD6 Companion</title>
   <link rel="icon" href="assets/logo.svg">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="assets/app/styles.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap">
 </head>
 <body>
@@ -132,15 +132,15 @@
   <dialog id="issue-report-dialog" aria-labelledby="issue-report-title"><div class="report-heading"><div><span class="eyebrow">HELP US FIX IT</span><h2 id="issue-report-title">Report an issue</h2></div><button class="quiet-button" id="report-close" aria-label="Close issue report">×</button></div><label class="field"><span>WHAT HAPPENED?</span><textarea id="report-description" rows="3" placeholder="What did you expect, and what happened instead?"></textarea></label><p class="field-hint">Common private details are redacted. Review before posting: GitHub issues are public. No saves, keys or screenshots are attached.</p><details><summary>Review included log excerpt</summary><pre id="report-preview"></pre></details><div class="form-row"><button class="quiet-button" id="report-download">Download redacted log</button><a class="primary-button" id="report-submit" target="_blank" rel="noopener noreferrer">Continue to GitHub ↗</a></div></dialog>
   <div id="toast" class="toast" role="status"></div>
   <dialog id="confirm-dialog" aria-labelledby="confirm-title" aria-describedby="confirm-description"><form method="dialog"><span class="modal-symbol"><svg><use href="#icon-settings"/></svg></span><h2 id="confirm-title">Reset this workspace?</h2><p id="confirm-description">This clears the queue, checklists, and preferences saved in this browser. Export a backup first if you want to keep them.</p><div class="modal-actions"><button class="quiet-button" value="cancel" autofocus>Keep my data</button><button class="danger-button" value="reset">Reset all data</button></div></form></dialog>
-  <script src="achievements.js"></script>
-  <script src="towers-catalog.js"></script>
-  <script src="map-catalog.js"></script>
-  <script src="map-mechanics.js"></script>
-  <script src="boss-catalog.js"></script>
-  <script src="boss-plans.js"></script>
-  <script src="support-report.js"></script>
-  <script src="app.js"></script>
-  <script src="vm-viewer.js"></script>
-  <script src="setup-bar.js"></script>
+  <script src="data/catalogs/achievements.js"></script>
+  <script src="data/catalogs/towers-catalog.js"></script>
+  <script src="data/catalogs/map-catalog.js"></script>
+  <script src="lib/map-mechanics.js"></script>
+  <script src="data/catalogs/boss-catalog.js"></script>
+  <script src="data/catalogs/boss-plans.js"></script>
+  <script src="lib/support-report.js"></script>
+  <script src="assets/app/app.js"></script>
+  <script src="assets/app/vm-viewer.js"></script>
+  <script src="assets/app/setup-bar.js"></script>
 </body>
 </html>

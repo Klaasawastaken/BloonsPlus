@@ -9,7 +9,7 @@ const automation = require('./lib/automation');
 const engineLock = require('./lib/engine-lock');
 const root = __dirname;
 const port = Number(process.env.PORT || 4173);
-const calibrationFile = path.join(root, 'calibration.json');
+const calibrationFile = path.join(root, 'data', 'config', 'calibration.json');
 const routeLibrary = path.join(root, 'route-library');
 fs.mkdirSync(routeLibrary, { recursive: true });
 const routeIdentity = route => `${String(route.map || '').toLowerCase().replace(/[^a-z0-9]/g, '')}|${String(route.gamemode || '').toLowerCase().replace(/[^a-z0-9]/g, '')}`;
@@ -281,7 +281,7 @@ http.createServer((req, res) => {
         const catalog = JSON.parse(data);
         // Supplement the bundled older tower catalog with newer public upgrade names.
         // Kept in a separate file so upstream catalog updates remain easy to merge.
-        const overrides = JSON.parse(fs.readFileSync(path.join(root, 'tower-upgrade-overrides.json'), 'utf8'));
+        const overrides = JSON.parse(fs.readFileSync(path.join(root, 'data', 'config', 'tower-upgrade-overrides.json'), 'utf8'));
         Object.assign(catalog, overrides);
         res.writeHead(200, { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' });
         res.end(JSON.stringify(catalog));
@@ -456,7 +456,7 @@ http.createServer((req, res) => {
   }
   if (pathname === '/api/map-order') {
     if (req.method !== 'GET') { res.writeHead(405); return res.end(); }
-    fs.readFile(path.join(root, 'map-order.json'), 'utf8', (error, data) => {
+    fs.readFile(path.join(root, 'data', 'config', 'map-order.json'), 'utf8', (error, data) => {
       res.writeHead(200, { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' });
       res.end(error ? JSON.stringify({ maps: {}, updatedAt: null }) : data);
     });

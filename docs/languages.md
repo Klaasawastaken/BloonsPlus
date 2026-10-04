@@ -6,7 +6,7 @@ Bloons+ has two core application languages: **JavaScript and Python**. Windows i
 
 | Language | Concrete responsibility | Can it go? |
 | --- | --- | --- |
-| JavaScript | Electron entry point, app.js, server.js, account readers, route management and VM/status bridge. | Keep. It already owns most product behavior. |
+| JavaScript | Electron entry point, assets/app/app.js, server.js, account readers, route management and VM/status bridge. | Keep. It already owns most product behavior. |
 | Python | autobtd6/replay.py, image processing, OCR, replay decisions, input adapter, route utilities, vm/setup-vm.py and installer/make-installer.py. | Keep. Rewriting the replay into JS would be a large migration. |
 | HTML and CSS | App markup, styling, calibration UI and this documentation site. | Keep. They do not add an independently installed runtime. |
 | C# | installer/installer-bootstrap.cs: native bootstrapper, installer interface, dependency setup and shortcuts. | Replace only when another bootstrap can reliably start on a clean Windows machine. |

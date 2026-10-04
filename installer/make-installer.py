@@ -178,7 +178,7 @@ def stage_app() -> None:
     copy_node_modules(app / "node_modules")
     # The base Python only bootstraps the private venv (setup downloads the pinned pip packages).
     copy_tree(PYTHON_HOME, app / "python", exclude_relative_paths=PYTHON_EXCLUDES)
-    for required in ("lib/vm-setup.js", "lib/automation.js", "lib/route-validation.js", "setup-bar.js", "vm/setup-vm.py", "vm/iso-patch.exe", "autobtd6/runtime_check.py", "data/tower-upgrades.json", "lib/support-report.js", "lib/live-screen.js", "vm-viewer.js", "autobtd6/live_capture.py", "python/Lib/ensurepip/__init__.py", "python/Lib/venv/__init__.py"):
+    for required in ("lib/vm-setup.js", "lib/automation.js", "lib/route-validation.js", "assets/app/setup-bar.js", "vm/setup-vm.py", "vm/iso-patch.exe", "autobtd6/runtime_check.py", "data/tower-upgrades.json", "lib/support-report.js", "lib/live-screen.js", "assets/app/vm-viewer.js", "autobtd6/live_capture.py", "python/Lib/ensurepip/__init__.py", "python/Lib/venv/__init__.py"):
         if not (app / required).is_file():
             raise SystemExit(f"Staged app is missing {required}")
 

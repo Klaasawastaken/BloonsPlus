@@ -304,8 +304,8 @@ internal sealed class InstallerForm : Form
         string[] preserve = {
             "resources/app/automation-progress.json",
             "resources/app/game-observations.json",
-            "resources/app/calibration.json",
-            "resources/app/map-order.json",
+            "resources/app/data/config/calibration.json",
+            "resources/app/data/config/map-order.json",
             "resources/app/route-verification.json",
             "resources/app/autobtd6/userconfig.json",
             "resources/app/autobtd6/playthrough_stats.json"

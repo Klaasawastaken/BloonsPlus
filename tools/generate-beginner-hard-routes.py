@@ -14,7 +14,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 PLAYTHROUGHS = ROOT / "autobtd6" / "playthroughs"
 MAPS = json.loads((ROOT / "autobtd6" / "maps.json").read_text(encoding="utf-8"))
-CATALOG = (ROOT / "map-catalog.js").read_text(encoding="utf-8")
+CATALOG = (ROOT / "data" / "catalogs" / "map-catalog.js").read_text(encoding="utf-8")
 SOURCE_URL = "https://www.reddit.com/r/btd6/comments/1j9511e/almost_foolproof_strategy_for_beginner_maps/"
 METADATA_PATH = ROOT / "route-library" / "metadata" / "online-guide-sources.json"
 BUILD = ("dart", "wizard", "sniper", "druid")

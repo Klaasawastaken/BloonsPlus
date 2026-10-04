@@ -725,7 +725,7 @@ def heroSelectionState():
     if not encoded:
         return {}
     try:
-        result = subprocess.run([os.environ.get('BLOONS_NODE', 'node'), '../read-hero-selection.js'], input=png.tobytes(),
+        result = subprocess.run([os.environ.get('BLOONS_NODE', 'node'), '../tools/read-hero-selection.js'], input=png.tobytes(),
                                 capture_output=True, timeout=30)
     except FileNotFoundError:
         # Optional OCR helper is not bundled in VM runtime. Empty state keeps
@@ -815,7 +815,7 @@ def verifyVisibleMapTile(mapConfig):
     expectedName = maps[mapConfig['map']]['name']
     targetPage = None
     try:
-        with open('../map-order.json', encoding='utf-8') as fp:
+        with open('../data/config/map-order.json', encoding='utf-8') as fp:
             order = json.load(fp)
         normalized = ''.join(ch for ch in expectedName.lower() if ch.isalnum())
         targetPage = order.get('maps', {}).get(normalized, {}).get('globalPage')
@@ -830,7 +830,7 @@ def verifyVisibleMapTile(mapConfig):
             return False
         try:
             result = subprocess.run(
-                [os.environ.get('BLOONS_NODE', 'node'), '../verify-map-page.js', expectedName, mapConfig['category'],
+                [os.environ.get('BLOONS_NODE', 'node'), '../tools/verify-map-page.js', expectedName, mapConfig['category'],
                  str(mapConfig['page']), str(mapConfig['pos'])],
                 input=png.tobytes(), capture_output=True, timeout=30,
             )
@@ -1631,6 +1631,8 @@ def main():
     surplusBlockedPaths = set()
     startLives = None
     lastLives = None
+    pendingLives = None
+    pendingLivesFrames = 0
     terrainMotion = None
     lastMotionSampleAt = 0
     # Remembered across runs: BTD6's placement-confirmation setting rarely changes.
@@ -2353,6 +2355,8 @@ def main():
                 surplusBlockedPaths.clear()
                 startLives = None
                 lastLives = None
+                pendingLives = None
+                pendingLivesFrames = 0
                 terrainMotion = TerrainMotion(mapConfig['map']) if isDynamicPlacementMap(mapConfig['map']) else None
                 towerTracker = TowerTracker()
                 pathHeat = PathHeat(mapConfig['map'])
@@ -2799,25 +2803,45 @@ def main():
                 if livesReading > 0:
                     if startLives is None:
                         startLives = livesReading
-                    elif livesReading <= startLives:
-                        if lastLives is not None and livesReading < lastLives:
-                            customPrint('LIVES_LOST ' + str(lastLives) + ' -> ' + str(livesReading)
-                                        + ' round=' + str(currentValues['round']))
                         lastLives = livesReading
-                        if currentGameState is not None:
-                            currentGameState.lives = livesReading
-                        # Trigger recovery before a route is one leak away from defeat. This is
-                        # especially important on Alternate Bloons rounds, where a single missed
-                        # defense can drain lives for several rounds before the route notices.
-                        if startLives > 1 and livesReading < startLives * 0.85:
-                            lowLivesFrames += 1
+                    elif livesReading <= startLives:
+                        # A cropped particle or a missed leading digit regularly turns
+                        # 156 into 6/5/2. Lives cannot fall by most of their total in a
+                        # single capture and then rise again. Require two nearby readings
+                        # and bound each accepted drop before emergency logic sees it.
+                        maxPlausibleDrop = max(10, int(startLives * 0.15))
+                        plausible = lastLives is None or lastLives - maxPlausibleDrop <= livesReading <= lastLives
+                        nearbyPending = pendingLives is not None and abs(livesReading - pendingLives) <= 2
+                        if not plausible:
+                            pendingLives = None
+                            pendingLivesFrames = 0
+                            customPrint('DEBUG rejecting implausible lives OCR ' + str(livesReading) +
+                                        ' after ' + str(lastLives))
                         else:
-                            lowLivesFrames = 0
-                        if lowLivesFrames >= 2 and not emergencySpend:
-                            emergencySpend = True
-                            customPrint('EMERGENCY_SPEND lives ' + str(livesReading) + '/' + str(startLives)
-                                        + ' round=' + str(currentValues['round'])
-                                        + '; spending planned and extra upgrades without reserve')
+                            pendingLivesFrames = pendingLivesFrames + 1 if nearbyPending else 1
+                            pendingLives = livesReading
+                            if pendingLivesFrames >= 2:
+                                confirmedLives = livesReading
+                                if lastLives is not None and confirmedLives < lastLives:
+                                    customPrint('LIVES_LOST ' + str(lastLives) + ' -> ' + str(confirmedLives)
+                                                + ' round=' + str(currentValues['round']))
+                                lastLives = confirmedLives
+                                pendingLives = None
+                                pendingLivesFrames = 0
+                                if currentGameState is not None:
+                                    currentGameState.lives = confirmedLives
+                                # Trigger recovery before a route is one leak away from defeat. This is
+                                # especially important on Alternate Bloons rounds, where a single missed
+                                # defense can drain lives for several rounds before the route notices.
+                                if startLives > 1 and confirmedLives < startLives * 0.85:
+                                    lowLivesFrames += 1
+                                else:
+                                    lowLivesFrames = 0
+                                if lowLivesFrames >= 2 and not emergencySpend:
+                                    emergencySpend = True
+                                    customPrint('EMERGENCY_SPEND lives ' + str(confirmedLives) + '/' + str(startLives)
+                                                + ' round=' + str(currentValues['round'])
+                                                + '; spending planned and extra upgrades without reserve')
 
                 if currentValues['round'] >= 0 and currentValues['round'] != observedRound:
                     observedRound = currentValues['round']

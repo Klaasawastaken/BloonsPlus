@@ -67,7 +67,7 @@ const { getRecordedCombos, sweepCandidates, MODES_REQUIRING_VERIFIED_ROUTE, list
 const MODES = ['easy', 'primary_only', 'deflation', 'medium', 'military_only', 'reverse', 'apopalypse',
   'hard', 'magic_monkeys_only', 'double_hp_moabs', 'half_cash', 'alternate_bloons_rounds', 'impoppable', 'chimps'];
 const normalize = s => s.toLowerCase().replace(/[^a-z0-9]/g, '');
-const catalogSource = fs.readFileSync(path.join(ROOT, 'map-catalog.js'), 'utf8');
+const catalogSource = fs.readFileSync(path.join(ROOT, 'data', 'catalogs', 'map-catalog.js'), 'utf8');
 const catalog = JSON.parse(`{${catalogSource.match(/\{([\s\S]*)\}/)[1]}}`);
 const maps = JSON.parse(fs.readFileSync(path.join(ROOT, 'autobtd6', 'maps.json'), 'utf8'));
 const slugByName = new Map(Object.entries(maps).map(([slug, entry]) => [normalize(entry.name || slug), slug]));
