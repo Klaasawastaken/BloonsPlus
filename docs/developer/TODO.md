@@ -1,30 +1,61 @@
-# Bloons+ development roadmap
+# Bloons+ roadmap and repair list
 
-## Phase 1: reliable deterministic automation
+Updated 4 October 2026. Checkboxes require evidence, not merely code. Preserve original CHIMPS recordings and BTD6 saves. Gameplay stays behind simulated input.
 
-Keep the current AutoBTD6 strategy runner usable while improving it in this order:
+## P0 — replay reliability
 
-1. Stabilize AutoBTD6 interaction, screen recognition, map/mode navigation, and recovery.
-2. Finish and validate the BTD6bot integration behind the same gameplay controls.
-3. Define a shared strategy format and standardized action interface for placement, upgrades,
-   selling, targeting, abilities, round control, and waits.
-4. Expand deterministic coverage across every map and the installed game's standard difficulties
-   and modes, including Easy Standard, Primary Only, Deflation, Medium Standard, Military Only,
-   Reverse, Apopalypse, Hard Standard, Magic Monkeys Only, Double HP MOABs, Half Cash, Alternate
-   Bloons Rounds, Impoppable, CHIMPS, and any other current modes found in-game.
-5. Record reliable map, mode, round, cash, tower, upgrade, targeting, ability, and result data from
-   runs; use it to validate and recover deterministic strategies.
-6. Keep map order and route coverage broad, and make testing/recovery and logs reliable.
+- [ ] Calibrate the hero picker at 1080p and 1440p. Verify displayed hero name and Select/Selected state. Current button OCR can return `unknown`; the runner now skips safely, but that still leaves modes unfinished.
+- [ ] Confirm free and paid placements visually when cash is unchanged; handle free Dart Monkey knowledge and Deflation starting cash without endless retries.
+- [ ] Confirm tower upgrades from the panel and tier state before advancing. Cash alone is ambiguous while bloons generate income. Retry only the same tier safely.
+- [ ] Keep round OCR synchronized through tower panels, fast forward, effects and UI scaling. Check the new monotonic recovery against live 1080p/1440p runs and bound `await_round` stalls.
+- [ ] Verify cash OCR with tower panels on either side and Double Cash active; reject sell-price and implausible-HUD reads.
+- [ ] Never exit a viable game only because planned actions ended. Continue to actual victory or defeat, and claim a clear only after the medal is saved.
+- [ ] Include game frame, action, target position, selected tower/hero, cash and round in failure evidence. Redact private profile data from shared logs.
+- [ ] Add bounded recovery for placement, upgrade, navigation and stalled rounds. After a real defeat, try a different route candidate without replaying earned medals.
+- [ ] Investigate known failures: Hedge CHIMPS round 6; Scrapyard CHIMPS round 42; Spa Pits ABR round 24; Spa Pits Deflation hero mismatch; Cubism upgrade and round ambiguity. Keep original CHIMPS routes intact.
 
-## Phase 2: future autonomous AI
+## P1 — routes and sweep
 
-Do not start AI until deterministic automation has broad, tested coverage. Then add a rule-based
-agent that observes the shared GameState and emits the same standardized actions as deterministic
-strategies. It must not issue raw coordinates or bypass AutoBTD6's interaction layer. Keep the
-deterministic strategy mode fully usable alongside AI mode.
+- [ ] Check every route against mode restrictions, required paths, available hero, game version and map layout. Catalog presence alone does not prove victory.
+- [ ] Build evidence-backed routes for missing maps/modes. Mark a converted route verified only after victory and saved medal are observed.
+- [ ] Detect map mechanics including moving terrain, freezing, layout changes, obstacles and sightlines before placements or upgrades.
+- [ ] Reconcile newly earned medals from the read-only profile after each run, skip saved medals, and resume partial sweeps after restarts.
+- [ ] Record per-route success/failure history and exact skip reasons: locked upgrade, hero, map, restriction, or known failure.
+- [ ] Confirm Expert-to-Beginner sweep and randomized order within categories without repeating excluded candidates.
 
-## Engine tabs
+## P1 — progress and diagnostics
 
-Automation V2 (btd6_autoplay) and Automation V3 (BTD6bot) were removed from the app navigation and
-server API. Their vendored source trees remain in the workspace for reference; AutoBTD6 remains the
-only exposed gameplay automation engine until the shared strategy/action architecture is ready.
+- [ ] Check MM/hour and XP/hour against several live VM save updates, rank changes and spending; display no rate until enough samples exist.
+- [ ] Confirm level, veteran rank, Monkey Money, hero ownership, Monkey Knowledge, tower XP and T1–T5 unlocks from the VM save with source and freshness.
+- [ ] Reconcile achievement progress with Steam unlock state and clearly label unsupported progress.
+- [ ] Fix activity ages and victory/defeat counters; require victory plus saved medal before adding a clear.
+- [ ] Keep redacted full logs and group route failures by actionable cause, even if an old game-state file survives.
+- [ ] Keep host UI and guest controller connected after VM updates/restarts; expose the specific failing step.
+
+## P2 — installer and distribution
+
+- [ ] Validate a clean Windows install without Python, Visual C++ runtime, App Sandbox or VM; show progress and repair action per prerequisite.
+- [ ] Verify Steam sign-in, BTD6 install/launch, SSH provisioning, port bridge and guest app update without storing Steam credentials.
+- [ ] Test partial-install repair and reuse healthy components without changing existing Steam or game data.
+- [ ] Publish the next installer with checksum, release notes, verification limits and a working site download.
+- [ ] Add trusted code signing when available; unsigned installers may show SmartScreen warnings.
+
+## P2 — product and site
+
+- [ ] Check Subscriptions in light/dark, desktop/mobile, keyboard and reduced-motion modes. Pro is planned at $5.99/month or $40 lifetime for 31 October 2026; checkout and entitlements do not exist yet.
+- [ ] Keep Features, About, Wiki, Contributors and Subscriptions visually tied to BTD6 with independent-project attribution.
+- [ ] Make app category switching, scrolling and the VM viewer responsive without polling viewer frames when its tab is closed.
+- [ ] Tidy repo folders without blindly moving runtime data. Exclude personal saves, logs, keys, VM images and private Discord bot source.
+
+## Later — experimental systems
+
+- [ ] Test autonomous strategy/placement assistance behind experimental settings, with redacted gameplay observations and route-level evidence before live decisions.
+- [ ] Add boss events only after modifiers, restrictions, version compatibility and executable routes have victory checks.
+- [ ] Finalize Pro features and entitlements before launch. The current examples are ideas, not shipped features.
+
+## Completed in this pass
+
+- [x] Refuse to start a route when the hero picker cannot confirm the required hero.
+- [x] Recover round OCR from bounded monotonic full-HUD readings; observed `27/80` resynchronization in a live replay.
+- [x] Classify new hero-picker failures as navigation bugs instead of gameplay defeats.
+- [x] Add failure-category counts to the app diagnostics summary.

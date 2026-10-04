@@ -14,6 +14,27 @@ let towerUpgradeCatalog = {};
 let latestGameState = null;
 let latestRunLog = '';
 let latestAutomationStatus = null;
+let profileRateSamples = [];
+let profileRates = { monkeyMoneyPerHour: null, xpPerHour: null };
+function observeProfileRates(profile) {
+  const at = Date.parse(profile?.readAt || '');
+  if (!Number.isFinite(at) || profileRateSamples.at(-1)?.at >= at) return;
+  const current = { at, monkeyMoney: profile.monkeyMoney, xp: profile.xp,
+    rank: profile.rank, veteranXp: profile.veteranXp, veteranRank: profile.veteranRank };
+  profileRateSamples.push(current);
+  profileRateSamples = profileRateSamples.filter(sample => at - sample.at <= 15 * 60_000).slice(-100);
+  const oldest = profileRateSamples.find(sample => at - sample.at >= 30_000);
+  if (!oldest) return;
+  const hours = (at - oldest.at) / 3_600_000;
+  if (Number.isFinite(current.monkeyMoney) && Number.isFinite(oldest.monkeyMoney))
+    profileRates.monkeyMoneyPerHour = Math.max(0, (current.monkeyMoney - oldest.monkeyMoney) / hours);
+  const sameRank = profileRateSamples.find(sample => at - sample.at >= 30_000 && sample.rank === current.rank);
+  const xpField = Number.isFinite(current.veteranXp) && Number.isFinite(current.veteranRank) && current.veteranRank > 0
+    ? 'veteranXp' : 'xp';
+  if (sameRank && Number.isFinite(current[xpField]) && Number.isFinite(sameRank[xpField]))
+    profileRates.xpPerHour = Math.max(0, (current[xpField] - sameRank[xpField]) / ((at - sameRank.at) / 3_600_000));
+  else profileRates.xpPerHour = null;
+}
 let activeBossEvent = null;
 let lastRunRefreshAt = 0;
 let accumulatedRunLog = { startedAt: null, lines: [] };
@@ -757,21 +778,21 @@ function render() {
   const validXp = (saveRank == null || player?.level === saveRank) && Number.isFinite(player?.xp) && Number.isFinite(player?.nextLevelXp) && player.nextLevelXp > 0 && player.xp >= 0 && player.xp <= player.nextLevelXp;
   const xpBar = document.querySelector('#player-xp-bar'); if (xpBar) xpBar.style.width = validXp ? `${Math.min(100, player.xp / player.nextLevelXp * 100)}%` : '0%';
   setText('#player-xp', validXp ? `${(player.nextLevelXp - player.xp).toLocaleString()} XP to next level` : 'XP not verified');
-  const formatRate = value => Number.isFinite(value) && value > 0 ? `${Math.round(value).toLocaleString()}` : '—';
+  const formatRate = value => Number.isFinite(value) && value >= 0 ? `${Math.round(value).toLocaleString()}` : '—';
   const formatTime = hours => {
     if (!Number.isFinite(hours) || hours <= 0) return '—';
     if (hours < 1) return `${Math.max(1, Math.round(hours * 60))}m`;
     if (hours < 48) return `${hours.toFixed(1)}h`;
     return `${(hours / 24).toFixed(1)}d`;
   };
-  const xpRate = Number(player?.xpPerHour);
-  const moneyRate = Number(player?.monkeyMoneyPerHour);
+  const xpRate = localAvailable ? profileRates.xpPerHour : player?.xpPerHour;
+  const moneyRate = localAvailable ? profileRates.monkeyMoneyPerHour : player?.monkeyMoneyPerHour;
   const xpRemaining = validXp ? player.nextLevelXp - player.xp : NaN;
   const monkeyMoney = Number.isFinite(localRaw.monkeyMoney) ? localRaw.monkeyMoney : player?.monkeyMoney;
   setText('#player-monkey-money', Number.isFinite(monkeyMoney) ? monkeyMoney.toLocaleString() : '—');
-  setText('#player-monkey-money-rate', Number.isFinite(moneyRate) ? `${formatRate(moneyRate)}/h` : '—');
+  setText('#player-monkey-money-rate', Number.isFinite(moneyRate) ? formatRate(moneyRate) : '—');
+  setText('#player-xp-rate', Number.isFinite(xpRate) ? formatRate(xpRate) : '—');
   setText('#player-level-time', Number.isFinite(xpRate) && xpRate > 0 ? formatTime(xpRemaining / xpRate) : '—');
-  setText('#player-prestige-time', Number.isFinite(player?.prestigeHoursRemaining) ? formatTime(player.prestigeHoursRemaining) : '—');
   const syncLabel = liveSyncLabel();
   setText('#player-sync', syncLabel.title);
   const mapTitle = document.querySelector('#map-sync-title'), mapDetail = document.querySelector('#map-sync-detail');
@@ -839,6 +860,7 @@ async function loadDetectedProgress() {
     if (localSaveResponse.ok) {
       const localSave = await localSaveResponse.json();
       if (localSave.available) {
+        observeProfileRates(localSave);
         detectedProgress.localSave = { source: localSave.source, readAt: localSave.readAt };
         detectedProgress.localProfile = localSave;
         if (Number.isFinite(localSave.monkeyMoney)) detectedProgress.player = { ...(detectedProgress.player || {}), monkeyMoney: localSave.monkeyMoney };
@@ -884,6 +906,7 @@ async function refreshLocalSaveProgress() {
     }
     const localSave = await response.json();
     if (!localSave.available) { markVmSaveUnavailable(localSave); return; }
+    observeProfileRates(localSave);
     detectedProgress.localSave = { source: localSave.source, readAt: localSave.readAt };
     detectedProgress.localProfile = localSave;
     if (Number.isFinite(localSave.monkeyMoney)) detectedProgress.player = { ...(detectedProgress.player || {}), monkeyMoney: localSave.monkeyMoney };
@@ -1200,9 +1223,15 @@ async function loadRouteFailures() {
       return summary + full;
     }).join('\n');
     pre.textContent = latestRouteFailuresLog || 'No route failures recorded yet.';
+    const categoryCounts = failures.reduce((counts, failure) => {
+      const category = failure.category || 'uncategorized';
+      counts[category] = (counts[category] || 0) + 1;
+      return counts;
+    }, {});
+    const breakdown = Object.entries(categoryCounts).sort((a, b) => b[1] - a[1])
+      .map(([category, count]) => `${count} ${category}`).join(' · ');
     detail.textContent = `${failures.length} recorded failure${failures.length === 1 ? '' : 's'} `
-      + `(${actionableCount} actionable — route-corruption/navigation-bug/insufficient-data — shown first, `
-      + `${failures.length - actionableCount} plain gameplay-defeat)`;
+      + `(${actionableCount} actionable). ${breakdown || 'No categories yet.'}`;
   } catch { pre.textContent = 'Could not reach the automation connector.'; detail.textContent = ''; }
 }
 document.querySelector('#download-route-failures')?.addEventListener('click', () => {

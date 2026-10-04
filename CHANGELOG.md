@@ -1,5 +1,14 @@
 # Changelog
 
+## 2026-10-04 — Preview 4 site and diagnostics
+
+- Added a Subscriptions comparison with Bloons+ Free forever and planned Bloons+ Pro pricing of $5.99/month or $40 lifetime. The target date is 31 October 2026; purchase and entitlement flows are not yet available.
+- Added clearly labeled examples of possible Pro additions, game artwork to inner site pages, and reduced-motion-aware transitions between same-site pages.
+- Replaced the sidebar Prestige estimate with XP/hour. MM/hour and XP/hour now use changing values from the read-only VM profile save over a rolling observation window instead of stale menu scans.
+- Corrected new hero-picker failures to appear as navigation bugs in diagnostics and added a failure-category breakdown.
+- Improved round-counter recovery when complete, valid HUD readings advance between captures. A live replay resynchronized to round 27/80; route victories remain individually unverified.
+- Published a prioritized repair list in docs/developer/TODO.md. Original CHIMPS route recordings and BTD6 save files were not modified.
+
 ## 2026-10-04 — Replay reliability and product cleanup
 
 - Restored strict Expert-to-Beginner sweep ordering: route confidence now only prioritizes maps inside their own category. Older saved queues are repaired without changing their within-category order; duplicate saved entries and unknown-category ordering are covered by regression checks.

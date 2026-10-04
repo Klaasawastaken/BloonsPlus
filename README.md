@@ -59,7 +59,7 @@ Copy the example configuration only on a fresh checkout. Preserve existing setti
 | `route-library/`, `licenses/` | Strategy provenance and third-party notices |
 | `tests/` | Focused offline regression checks |
 
-[Developer guide →](https://bloonsplus.com/wiki/development/) · [Route format →](https://bloonsplus.com/wiki/route-format/) · [Build reference →](docs/developer/README.md)
+[Developer guide →](https://bloonsplus.com/wiki/development/) · [Route format →](https://bloonsplus.com/wiki/route-format/) · [Build reference →](docs/developer/README.md) · [Repair roadmap →](docs/developer/TODO.md)
 
 ## Community and privacy
 
