@@ -14,7 +14,15 @@ while ((Get-Date) -lt $deadline) {
 }
 if ((Get-Date) -ge $deadline) { Note 'Timed out; active replay was not interrupted.'; exit 1 }
 try {
-    # Close only the Bloons+ UI/server process. BTD6 stays open on its current screen.
+    # Older VM installs can leave a standalone Node server running on port 4173.
+    # Restarting Electron alone then reconnects to that stale server, so repaired
+    # route-selection code never loads. Stop only this install's server process.
+    $appRoot = Join-Path $env:LOCALAPPDATA 'Programs\Bloons+\resources\app'
+    $nodeExe = Join-Path $appRoot 'node.exe'
+    Get-CimInstance Win32_Process -Filter "Name='node.exe'" -ErrorAction SilentlyContinue |
+        Where-Object { $_.ExecutablePath -ieq $nodeExe -and $_.CommandLine -match 'server[.]js' } |
+        ForEach-Object { Stop-Process -Id $_.ProcessId -ErrorAction Stop; Note ('Stopped stale Bloons+ server PID ' + $_.ProcessId) }
+    # Close only the Bloons+ UI. BTD6 stays open on its current screen.
     Get-Process -Name 'Bloons+' -ErrorAction SilentlyContinue | Stop-Process
     Start-Sleep -Seconds 2
     & schtasks /run /tn BloonsPlusApp | Out-Null

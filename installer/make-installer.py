@@ -19,7 +19,7 @@ import zipfile
 from pathlib import Path
 
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parent.parent
 DIST = ROOT / "dist"
 STAGE = DIST / "installer-stage"
 PACKAGE = DIST / "BloonsPlusPayload.zip"
@@ -153,7 +153,7 @@ def stage_app() -> None:
     for item in ROOT.iterdir():
         if item.name in PERSONAL_FILES:
             continue
-        if item.name in {".venv", "node_modules", ".git", "dist", "__pycache__", "make-installer.py", "make-installer.ps1", "install-bloons-plus.ps1", "install-bloons-plus.cmd", "installer-bootstrap.cs", "TODO.md"}:
+        if item.name in {".venv", "node_modules", ".git", "dist", "__pycache__", "installer", "make-installer.ps1", "install-bloons-plus.ps1", "install-bloons-plus.cmd", "TODO.md"}:
             continue
         if item.is_file() and item.suffix.lower() in {".js", ".html", ".css", ".json", ".md", ".txt", ".ico"}:
             if item.name.lower().startswith("debug-"):
@@ -206,7 +206,7 @@ def build_installer() -> None:
         compiler = Path(os.environ.get("WINDIR", r"C:\Windows")) / "Microsoft.NET" / "Framework" / "v4.0.30319" / "csc.exe"
     if not compiler.is_file():
         raise SystemExit("The Windows .NET Framework C# compiler (csc.exe) is required to build the installer")
-    source = ROOT / "installer-bootstrap.cs"
+    source = Path(__file__).resolve().parent / "installer-bootstrap.cs"
     bootstrap = DIST / "BloonsPlusSetup.bootstrap.exe"
     subprocess.run([
         str(compiler), "/nologo", "/target:winexe", "/platform:x64", "/optimize+",

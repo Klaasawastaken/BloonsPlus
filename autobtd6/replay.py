@@ -2428,13 +2428,23 @@ def main():
                             break
                         time.sleep(0.6)
                         heroState = heroSelectionState()
+                    titleMatches = heroAlreadySelected(mapConfig['hero'], {**heroState, 'button': 'selected'})
+                    if not titleMatches:
+                        customPrint('ERROR hero picker shows ' + str(heroState.get('title')) +
+                                    ' instead of ' + mapConfig['hero'] + '; refusing to enter a run with the wrong hero')
+                        sys.exit(2)
                     if heroState.get('button') == 'selected':
                         customPrint("hero " + mapConfig['hero'] + " already selected; skipping select click")
                     elif heroState.get('button') == 'select':
                         pyautogui.click(imageAreas["click"]["screen_hero_selection_select_hero"])
+                        time.sleep(menuChangeDelay)
+                        confirmedHero = heroSelectionState()
+                        if not heroAlreadySelected(mapConfig['hero'], confirmedHero):
+                            customPrint('ERROR hero selection was not confirmed after clicking Select: ' + str(confirmedHero))
+                            sys.exit(2)
                     else:
-                        customPrint('DEBUG hero OCR unknown; clicking Select at ' + str(imageAreas['click']['screen_hero_selection_select_hero']))
-                        pyautogui.click(imageAreas["click"]["screen_hero_selection_select_hero"])
+                        customPrint('ERROR hero Select button is unconfirmed; refusing to enter a run with an unverified hero')
+                        sys.exit(2)
                 customPrint("goal SELECT_HERO " + mapConfig['hero'] + " fullfilled!")
                 lastHeroSelected = mapConfig['hero']
                 saveLastHero(mapConfig['hero'])

@@ -7,9 +7,9 @@ Bloons+ has two core application languages: **JavaScript and Python**. Windows i
 | Language | Concrete responsibility | Can it go? |
 | --- | --- | --- |
 | JavaScript | Electron entry point, app.js, server.js, account readers, route management and VM/status bridge. | Keep. It already owns most product behavior. |
-| Python | autobtd6/replay.py, image processing, OCR, replay decisions, input adapter, route utilities, vm/setup-vm.py and make-installer.py. | Keep. Rewriting the replay into JS would be a large migration. |
+| Python | autobtd6/replay.py, image processing, OCR, replay decisions, input adapter, route utilities, vm/setup-vm.py and installer/make-installer.py. | Keep. Rewriting the replay into JS would be a large migration. |
 | HTML and CSS | App markup, styling, calibration UI and this documentation site. | Keep. They do not add an independently installed runtime. |
-| C# | installer-bootstrap.cs: native bootstrapper, installer interface, dependency setup and shortcuts. | Replace only when another bootstrap can reliably start on a clean Windows machine. |
+| C# | installer/installer-bootstrap.cs: native bootstrapper, installer interface, dependency setup and shortcuts. | Replace only when another bootstrap can reliably start on a clean Windows machine. |
 | PowerShell | Commands embedded in JS, Python, installer code and the VM launcher for Windows feature checks, elevation, process operations and guest setup. | Consolidate first. Removing scripts without replacements would break provisioning. |
 | AutoHotkey | helper.py creates an AHK client and sendKey uses ahk.send with explicit key delay and press duration. | A small Python keyboard adapter can eventually replace this live dependency. Verify key codes, modifiers, focus and timing. |
 | Batch/CMD | vm/setup-vm.cmd is a developer VM setup entry point. | Can move behind app setup once parity exists. |

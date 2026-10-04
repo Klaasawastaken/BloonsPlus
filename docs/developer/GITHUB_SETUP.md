@@ -33,7 +33,7 @@ The repository does not automatically publish installers or update installed app
 To build the current Windows installer after setting up dependencies:
 
 ```powershell
-.\.venv\Scripts\python.exe make-installer.py
+.\.venv\Scripts\python.exe installer/make-installer.py
 ```
 
 The output is `dist/BloonsPlusSetup.exe`. Publish installers as GitHub Release assets rather
