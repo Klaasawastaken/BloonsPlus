@@ -30,9 +30,14 @@ console.log('Authoritative sweep medal checks passed.');
 const ui = fs.readFileSync('assets/app/app.js', 'utf8').replace(/\r\n/g, '\n');
 const uiStart = ui.indexOf('function medalsFromLocalRecord(');
 const uiFn = ui.slice(uiStart, ui.indexOf('\nfunction renderMaps()', uiStart));
+for (const modes of [{Clicks:2,SuperChimps:1050185}, {SuperChimps:1050185,Clicks:2}]) {
+  const record = {difficult:{Hard:{modes}}};
+  assert.equal(medalsFromMapRecord(record).chimps, false, 'SuperChimps cannot grant the ordinary CHIMPS medal');
+  assert.equal(vm.runInNewContext(uiFn + '\nmedalsFromLocalRecord(record).chimps', {record}), false);
+}
 for (const difficult of [
-  {Hard:{modes:{SuperChimps:1049864}}, Medium:{modes:{SuperChimps:2}}},
-  {Medium:{modes:{SuperChimps:2}}, Hard:{modes:{SuperChimps:1049864}}},
+  {Hard:{modes:{Clicks:1050185,SuperChimps:2}}, Medium:{modes:{Clicks:2}}},
+  {Medium:{modes:{Clicks:2}}, Hard:{modes:{Clicks:1050185,SuperChimps:2}}},
 ]) {
   const record = {difficult};
   assert.equal(medalsFromMapRecord(record).chimps, true, 'Only Hard supplies the CHIMPS medal');

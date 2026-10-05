@@ -1,5 +1,9 @@
 # Changelog
 
+- Close stale installed Bloons+ Node controllers during installation only after an explicit idle response; preserve unrelated Node processes, Python replays and BTD6.
+- Read ordinary CHIMPS medals from Hard/Clicks in the app and backend, based on observed victory/save evidence. SuperChimps no longer supplies that medal.
+- Label known startup/window failures as technical failures and explicit focus/map-navigation errors as navigation failures instead of insufficient data.
+
 - Classify defeat timing from the mode's opening round instead of a truncated observation tail, preventing late losses from receiving extra instant-failure retries.
 
 - Keep persistent evidence for pre-game window, focus, startup and navigation failures, including recoverable relaunches. Their route attempt allowance remains unchanged.

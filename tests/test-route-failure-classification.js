@@ -24,4 +24,12 @@ assert.equal(classifyRouteFailure({ ...base, sameRun: false, lastRound: null }),
 assert.equal(classifyRouteFailure({ ...base, log: ['ERROR hero selection was not confirmed'] }), 'navigation-bug');
 assert.equal(classifyRouteFailure({ ...base, log: ['RECOVERY upgrade_unconfirmed tower=heli1'] }), 'upgrade-unconfirmed');
 assert.equal(classifyRouteFailure({ ...base, log: ['ERROR place of hero failed'] }), 'placement-bug');
+for (const reason of ['game-unavailable', 'invalid-window', 'spawn-error', 'stop-failed']) {
+  assert.equal(classifyRouteFailure({ ...base, reason, sameRun:false, lastRound:null }), 'technical-failure');
+}
+for (const line of ['BTD6 could not be focused', 'stopping before map click', 'map page is not visible', 'map tile did not open']) {
+  assert.equal(classifyRouteFailure({ ...base, reason:'exit', sameRun:false, lastRound:null, log:[line] }), 'navigation-bug');
+}
+assert.equal(classifyRouteFailure({ ...base, log:['Traceback (most recent call last)'], sameRun:false, lastRound:null }), 'technical-failure');
+assert.equal(classifyRouteFailure({ ...base, defeatObserved:true, log:['screen INGAME!', 'screen STARTMENU!'] }), 'gameplay-defeat', 'Ordinary screen transitions are not navigation failures');
 console.log('Route failure classification checks passed.');

@@ -219,6 +219,7 @@ def build_installer() -> None:
         str(compiler), "/nologo", "/target:winexe", "/platform:x64", "/optimize+",
         "/reference:System.Windows.Forms.dll", "/reference:System.Drawing.dll",
         "/reference:System.IO.Compression.dll", "/reference:Microsoft.CSharp.dll",
+        "/reference:System.Web.Extensions.dll",
         "/win32icon:" + str(ROOT / "bloonsplus.ico"),
         "/out:" + str(bootstrap), str(source),
     ], check=True)

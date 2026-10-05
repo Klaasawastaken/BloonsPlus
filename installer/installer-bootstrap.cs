@@ -11,6 +11,8 @@ using System.Net;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Drawing.Drawing2D;
+using System.Collections.Generic;
+using System.Web.Script.Serialization;
 
 internal sealed class InstallerForm : Form
 {
@@ -353,6 +355,57 @@ internal sealed class InstallerForm : Form
         }
     }
 
+    internal static bool IsIdleResponse(string json)
+    {
+        try {
+            var data = new JavaScriptSerializer().Deserialize<Dictionary<string, object>>(json);
+            object running;
+            return data != null && data.TryGetValue("running", out running) && running is bool && !(bool)running;
+        } catch { return false; }
+    }
+
+    internal static bool IsOwnedAppProcess(string name, string executable, string root)
+    {
+        if (String.IsNullOrEmpty(executable)) return false;
+        string expected = name == "node" ? Path.Combine(root, "resources", "app", "node.exe")
+            : name == "Bloons+" ? Path.Combine(root, "Bloons+.exe") : null;
+        return expected != null && String.Equals(Path.GetFullPath(executable), Path.GetFullPath(expected), StringComparison.OrdinalIgnoreCase);
+    }
+
+    private void CloseInstalledControllers()
+    {
+        var owned = new List<Process>();
+        try {
+            foreach (string name in new[] { "node", "Bloons+" }) {
+                foreach (Process process in Process.GetProcessesByName(name)) {
+                    bool retain = false;
+                    try {
+                        if (IsOwnedAppProcess(name, process.MainModule.FileName, installRoot)) {
+                            owned.Add(process); retain = true;
+                        }
+                    } catch (InvalidOperationException) { /* Process already exited. */ }
+                    finally { if (!retain) process.Dispose(); }
+                }
+            }
+            if (owned.Count == 0) return;
+            SetStatus("Checking that the current replay has finished…", 0);
+            var request = (HttpWebRequest)WebRequest.Create("http://127.0.0.1:4173/api/farm/status");
+            request.Timeout = request.ReadWriteTimeout = 5000;
+            request.Proxy = null;
+            using (var response = request.GetResponse())
+            using (var reader = new StreamReader(response.GetResponseStream())) {
+                if (!IsIdleResponse(reader.ReadToEnd()))
+                    throw new InvalidOperationException("Finish the current replay before updating Bloons+. No controller was closed.");
+            }
+            foreach (Process process in owned) {
+                if (process.HasExited) continue;
+                Log("Closing installed controller " + process.ProcessName + " PID " + process.Id);
+                process.Kill();
+                if (!process.WaitForExit(10000)) throw new InvalidOperationException("The old Bloons+ controller did not close; update cancelled.");
+            }
+        } finally { foreach (Process process in owned) process.Dispose(); }
+    }
+
     private void Install()
     {
         string tempZip = Path.Combine(Path.GetTempPath(), "BloonsPlus-" + Guid.NewGuid().ToString("N") + ".zip");
@@ -361,6 +414,7 @@ internal sealed class InstallerForm : Form
         try
         {
             WriteResult("RUNNING");
+            CloseInstalledControllers();
             SetStatus("Reading embedded app package…", 0);
             using (FileStream installer = new FileStream(Application.ExecutablePath, FileMode.Open, FileAccess.Read, FileShare.Read))
             {

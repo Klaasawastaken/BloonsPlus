@@ -311,14 +311,13 @@ function medalsFromLocalRecord(record) {
   const medals = Object.fromEntries(['easy', 'primary_only', 'deflation', 'medium', 'military_only', 'reverse',
     'apopalypse', 'hard', 'magic_monkeys_only', 'double_hp_moabs', 'half_cash',
     'alternate_bloons_rounds', 'impoppable', 'chimps'].map(key => [key, false]));
-  // 'Clicks' is an unrelated per-map counter, not a mode — it was wrongly aliased to
-  // 'chimps' before, which showed a fake CHIMPS medal on any map with enough clicks
-  // logged (confirmed live on Tutorial and Candy Falls). CHIMPS itself is stored
-  // under 'SuperChimps'. Mirrored in btd6-save-progress.js's medalsFromMapRecord()
+  // CHIMPS is stored under the internal mode ID 'Clicks', confirmed from the
+  // Moon Landing victory/save and the generated BTD-Mod-Helper GameModeType enum.
+  // 'SuperChimps' must not override it. Mirrored in medalsFromMapRecord()
   // (Node side, used by the automation sweep) — fix both if either needs to change again.
   const modeNames = { PrimaryOnly: 'primary_only', Deflation: 'deflation', MilitaryOnly: 'military_only',
     Apopalypse: 'apopalypse', Reverse: 'reverse', MagicOnly: 'magic_monkeys_only', DoubleMoabHealth: 'double_hp_moabs',
-    HalfCash: 'half_cash', AlternateBloonsRounds: 'alternate_bloons_rounds', Impoppable: 'impoppable', SuperChimps: 'chimps' };
+    HalfCash: 'half_cash', AlternateBloonsRounds: 'alternate_bloons_rounds', Impoppable: 'impoppable', Clicks: 'chimps' };
   // Profile.Save packs each mode's value as either a small counter (an in-progress or
   // failed attempt: elapsed time, round reached, etc. — 1/2 are explicit non-medal
   // placeholders) or, once the medal is actually earned, a much larger number with the
