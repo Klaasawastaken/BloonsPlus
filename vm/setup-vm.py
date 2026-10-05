@@ -17,9 +17,12 @@ This script never asks for, stores or types Steam credentials.
 """
 import argparse
 import base64
+import hashlib
+import json
 import os
 import subprocess
 import sys
+import tempfile
 import time
 import urllib.request
 from pathlib import Path
@@ -62,6 +65,48 @@ def parse_args(argv=None):
 
 def log(message):
     print(time.strftime('[%H:%M:%S] ') + message, flush=True)
+
+
+def cached_steam_installer(target):
+    """Reuse only a completed, unchanged download; never execute a partial cache."""
+    target = Path(target)
+    receipt = target.with_suffix('.download.json')
+    try:
+        metadata = json.loads(receipt.read_text(encoding='utf-8'))
+        cached = target.read_bytes()
+        if (metadata.get('url') == STEAM_SETUP_URL and cached.startswith(b'MZ')
+                and metadata.get('size') == len(cached)
+                and metadata.get('sha256') == hashlib.sha256(cached).hexdigest()):
+            return target
+    except (OSError, ValueError, AttributeError):
+        pass
+    target.parent.mkdir(parents=True, exist_ok=True)
+    log('downloading Steam installer from the official Steam CDN')
+    # Private temporary directory on the same volume makes replacement atomic.
+    # The digest is a local cache-integrity receipt, not a publisher signature.
+    with tempfile.TemporaryDirectory(prefix='steam-download-', dir=target.parent) as folder:
+        partial = Path(folder) / 'SteamSetup.exe'
+        with urllib.request.urlopen(STEAM_SETUP_URL, timeout=60) as response, partial.open('wb') as output:
+            length = response.headers.get('Content-Length')
+            expected = int(length) if length is not None else None
+            written = 0
+            while True:
+                chunk = response.read(512 * 1024)
+                if not chunk:
+                    break
+                output.write(chunk)
+                written += len(chunk)
+        if expected is not None and written != expected:
+            raise RuntimeError('Steam installer download incomplete; retry setup to download it again')
+        payload = partial.read_bytes()
+        if not payload.startswith(b'MZ') or len(payload) <= 2:
+            raise RuntimeError('Steam download was not a Windows executable; retry setup')
+        metadata = {'url': STEAM_SETUP_URL, 'size': written, 'sha256': hashlib.sha256(payload).hexdigest()}
+        pending_receipt = Path(folder) / 'receipt.json'
+        pending_receipt.write_text(json.dumps(metadata), encoding='utf-8')
+        partial.replace(target)
+        pending_receipt.replace(receipt)
+    return target
 
 
 def ssh_command(info):
@@ -237,9 +282,7 @@ def provision(client, args):
     if ssh(info, "Test-Path '%s'" % STEAM_EXE) != 'True':
         log('installing Steam in the VM')
         args.cache_dir.mkdir(parents=True, exist_ok=True)
-        steam_setup = args.cache_dir / 'SteamSetup.exe'
-        if not steam_setup.is_file():
-            urllib.request.urlretrieve(STEAM_SETUP_URL, steam_setup)
+        steam_setup = cached_steam_installer(args.cache_dir / 'SteamSetup.exe')
         scp(info, steam_setup, desktop.replace('\\', '/') + '/SteamSetup.exe')
         ssh(info, 'Start-Process -Wait \'%s\\SteamSetup.exe\' -ArgumentList \'/S\'' % desktop, timeout=600)
 
