@@ -30,6 +30,14 @@ console.log('Authoritative sweep medal checks passed.');
 const ui = fs.readFileSync('assets/app/app.js', 'utf8').replace(/\r\n/g, '\n');
 const uiStart = ui.indexOf('function medalsFromLocalRecord(');
 const uiFn = ui.slice(uiStart, ui.indexOf('\nfunction renderMaps()', uiStart));
+for (const difficult of [
+  {Hard:{modes:{SuperChimps:1049864}}, Medium:{modes:{SuperChimps:2}}},
+  {Medium:{modes:{SuperChimps:2}}, Hard:{modes:{SuperChimps:1049864}}},
+]) {
+  const record = {difficult};
+  assert.equal(medalsFromMapRecord(record).chimps, true, 'Only Hard supplies the CHIMPS medal');
+  assert.equal(vm.runInNewContext(uiFn + '\nmedalsFromLocalRecord(record).chimps', {record}), true);
+}
 for (const value of [0, 784, 1049864, true, false, null, '1049864', -1, 0.5, {}]) {
   const record = {difficult:{Hard:{modes:{Standard:value}}}};
   const actual = vm.runInNewContext(uiFn + '\nmedalsFromLocalRecord(record).hard', {record});

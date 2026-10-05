@@ -4,6 +4,8 @@ Updated 5 October 2026. Checkboxes require evidence, not merely code. Preserve o
 
 ## Current repair pass
 
+- [x] Scope saved medal modes to their actual difficulty in backend and app. A Moon Landing save exposed SuperChimps placeholders in Medium and Hard; a regression confirmed wrong-difficulty entries could overwrite earned state depending on object order. Both parsers now ignore those unrelated entries. Deployment queued.
+
 - [x] Treat malformed explicit saved medal values as unknown, not unearned, consistently in UI and sweep. Skip unreadable modes within the current pass so other readable missing medals continue; unavailable profiles still wait without gameplay. Offline gate/parity checks pass. Pending deployment.
 
 - [x] Use the existing read-only ownership probe before the cash gate on uncertain upgrade retries during an active run. Exact-intent mismatches now receive the same bounded queue recovery; missing intent still blocks retries. Thirty-six upgrade and ten resume checks pass, including a zero-cash already-owned target. Guest deployment queued; no live route launched for validation.

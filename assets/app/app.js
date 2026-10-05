@@ -332,7 +332,10 @@ function medalsFromLocalRecord(record) {
   for (const [difficulty, data] of Object.entries(record?.difficult || {})) {
     for (const [mode, value] of Object.entries(data?.modes || {})) {
       const key = mode === 'Standard' ? difficulty.toLowerCase() : modeNames[mode];
-      if (!key) continue;
+      if (!key || !(key in medals)) continue;
+      const expectedDifficulty = ['easy', 'primary_only', 'deflation'].includes(key) ? 'easy'
+        : ['medium', 'military_only', 'reverse', 'apopalypse'].includes(key) ? 'medium' : 'hard';
+      if (difficulty.toLowerCase() !== expectedDifficulty) continue;
       medals[key] = typeof value === 'boolean' ? value
         : Number.isSafeInteger(value) && value >= 0 ? value >= MEDAL_VALUE_THRESHOLD
           : value && typeof value === 'object' && typeof value.completed === 'boolean' ? value.completed
