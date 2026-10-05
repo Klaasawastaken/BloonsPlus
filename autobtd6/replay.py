@@ -1157,10 +1157,18 @@ def saveFailureShots(mapConfig, ingame, defeat):
         # "badge_"/"gamemode_stuck_" ones and deleted every new defeat screenshot instantly.
         # Rotate image payloads only. Structured failure sidecars are permanent
         # history and must survive subsequent defeats and screenshot rotation.
+        rotationTime = time.time()
+        justSaved = {os.path.basename(path) for path in saved}
+        def retentionOrder(name):
+            modified = os.path.getmtime(os.path.join(FAILURE_SHOT_DIR, name))
+            # VM clock rollback must not instantly discard the current failure.
+            # Future-dated older payloads have no trustworthy ordering; expire
+            # them before ordinary timestamps without changing any file times.
+            return (name in justSaved, modified if modified <= rotationTime else 0)
         shots = sorted((name for name in os.listdir(FAILURE_SHOT_DIR)
                         if os.path.splitext(name)[1].lower() in ('.png', '.jpg', '.jpeg')
                         and os.path.isfile(os.path.join(FAILURE_SHOT_DIR, name))),
-                       key=lambda name: os.path.getmtime(os.path.join(FAILURE_SHOT_DIR, name)))
+                       key=retentionOrder)
         for old in shots[:max(0, len(shots) - FAILURE_SHOTS_KEPT)]:
             os.remove(os.path.join(FAILURE_SHOT_DIR, old))
     except Exception as error:

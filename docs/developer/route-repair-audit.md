@@ -206,3 +206,14 @@ glitches and disagreeing masks do not confirm a loss. Five regressions exercise
 the actual replay branch, including emergency activation after sustained loss.
 All 48 Python tests pass. This repairs life tracking, not proof that the ABR
 strategy can win; guest deployment and live validation remain pending.
+
+## Missing failure screenshots: clock rollback
+
+The new X Factor ABR failure image could not be retrieved despite a successful
+write. Inspection found older retained images dated several hours ahead of the
+active guest clock. Rotation by modification time therefore deleted the new
+capture immediately. The regression reproduces this with future-dated files.
+Rotation now protects images written by the current call and expires older
+future-dated payloads before normally dated images. It does not alter timestamps
+or structured failure records. All 48 Python regressions pass; deployment is
+queued behind the active Mesa Hard run.

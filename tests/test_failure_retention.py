@@ -31,7 +31,10 @@ class FailureRetention(unittest.TestCase):
             self.assertEqual(Path(directory).resolve().parent, workspace)
             for i in range(65):
                 Path(directory, f'upgrade-{i}.json').write_text('{"status":"unselected"}')
-                Path(directory, f'upgrade-{i}.png').write_bytes(b'old-frame')
+                old = Path(directory, f'upgrade-{i}.png')
+                old.write_bytes(b'old-frame')
+                # VM clocks can move backward after restore/time synchronization.
+                os.utime(old, (time.time() + 36000, time.time() + 36000))
             def write_image(name, frame):
                 Path(name).write_bytes(b'new-frame')
                 return True
@@ -41,6 +44,8 @@ class FailureRetention(unittest.TestCase):
             env['saveFailureShots']({'map': 'test', 'gamemode': 'hard'}, object(), object())
             self.assertEqual(len(list(Path(directory).glob('*.json'))), 65)
             self.assertEqual(len(list(Path(directory).glob('*.png'))), 60)
+            self.assertEqual(len(list(Path(directory).glob('*_ingame.png'))), 1)
+            self.assertEqual(len(list(Path(directory).glob('*_defeat.png'))), 1)
 
 
 if __name__ == '__main__':
