@@ -1,3 +1,9 @@
+## Preview 32 — Check required ability bindings
+
+- Extract one-shot and repeating ability slots from recorded routes.
+- Check saved bindings against replay-supported keys before starting a strategy.
+- Explain unavailable slots in sweep and direct-run diagnostics; continue with compatible alternatives.
+
 ## Preview 31 — Select towers behind covering panels
 
 - Close detected covering hero/tower panels with two centre clicks before selection.

@@ -380,3 +380,11 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [x] Preview 31 installed after Dark Dungeons Easy finished and running=false was confirmed; update completed without error and authoritative guest status confirms the missing-medal sweep resumed. Live recovery by the new selection helper remains to be observed naturally.
 
 - Dark Dungeons Easy clear recorded by the controller at 01:50; authoritative VM save independently reports DarkDungeons.difficult.Easy.modes.Standard=1049224. The controller requires observed victory plus saved medal before reporting a clear. This owned medal must never be replayed. Added a developer reference for timing, repeating abilities, checkpoints and panel selection.
+
+## Ability binding prerequisites (2026-10-06)
+
+- [x] Trace the gap: route ranking checked tower keys but ignored ability slots; helper.py replaces ability defaults whenever saved gameplay controls exist, so a missing key can remove a strategy's intended input.
+- [x] Extract only issued one-shot/repeating slots, check saved bindings against the replay's supported key names, and count unavailable slots in candidate readiness. Cancellation and unused slots do not block. Empty/absent gameplay sections preserve replay defaults.
+- [x] Identify required slots in sweep skip and direct-run diagnostics; subtract binding failures from the missing-upgrade count.
+- [x] Focused command, slot 10, binding, defaults and alternative checks pass, as does the adjacent knowledge gate. No game or save file changed, no original recording modified.
+- [ ] Publish Preview 32 and deploy the batch after the current healthy replay finishes. No validation-only replay.
