@@ -3,6 +3,10 @@ import ast
 from pathlib import Path
 import unittest
 from types import SimpleNamespace
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'autobtd6'))
+from route_timing import upgrade_ready
+from map_availability import predicted_thaw_round
 
 
 class UpgradeQueue(unittest.TestCase):
@@ -13,7 +17,7 @@ class UpgradeQueue(unittest.TestCase):
         action = dict(action='upgrade', name='heli0', path=0, pos=(10, 20), cost=20000,
                       expectedUpgradeTiers=[4, 0, 2], resumeUpgradeProbe=True)
         clicks, reached = [], []
-        env = dict(nextStep=action, mapConfig=dict(steps=[action, dict(action='next')]),
+        env = dict(upgrade_ready=upgrade_ready, nextStep=action, mapConfig=dict(steps=[action, dict(action='next')]),
                    pyautogui=SimpleNamespace(click=lambda *a, **kw: clicks.append(kw)),
                    time=SimpleNamespace(sleep=lambda _: None), currentGameState=None,
                    routeCheckpoint=None, currentValues={'money': 0}, customPrint=lambda _: None,
@@ -39,7 +43,7 @@ class UpgradeQueue(unittest.TestCase):
         if target is not None:
             action['expectedUpgradeTiers'] = target
         self.confirmations = []
-        env = dict(lastIterationAction=action, lastIterationBalance=22000,
+        env = dict(predicted_thaw_round=predicted_thaw_round, lastIterationAction=action, lastIterationBalance=22000,
                    currentValues=dict(money=money, round=52), lastIterationCost=21170,
                    currentGameState=None, mapConfig=dict(steps=[dict(action='next')]),
                    routeCheckpoint=None, customPrint=lambda *_: None,

@@ -298,3 +298,7 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [x] Reconcile same-run ambiguous upgrade events against later panel-tier-confirmed purchases on the same tower/path and target tier. Preserve unknown targets, later failures, cross-tower/path isolation and sold/replaced instances. Keep the legacy log fallback when evidence is absent.
 - [x] Save exact planned upgrade targets in new action events and expose unresolved count in failure reports. Existing persistent history is not rewritten.
 - [x] Focused failure-classification checks pass; Python action-ledger file compiles. Deployment is queued after the current replay.
+
+- Closest upgrade gates: updated the offline branch fixture with the new scheduling dependencies; all eight upgrade-queue and 19 upgrade-observation checks pass. The initial fixture failure was missing injected helpers, not a live replay exception.
+
+- Skulltweak CHIMPS earned: replay observed VICTORY_SUMMARY at 00:46:50 with VICTORY_CONFIRMED, and authoritative Hard.Clicks is 1050185. Never replay this medal. Waiting for the confirmed stop-after boundary before deploying Preview 23.
