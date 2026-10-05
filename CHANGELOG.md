@@ -1,3 +1,9 @@
+## Preview 28 — Keep live save refreshes in order
+
+- Share concurrent save reads between progress pollers.
+- Prevent delayed consumers from reapplying older profiles or hiding newer VM-unavailable state.
+- Preserve real clock corrections and retry after failed reads.
+
 ## Preview 27 — Compact Settings and themed controls
 
 - Compact Appearance and keep automatic game-profile diagnostics separate from preferences.

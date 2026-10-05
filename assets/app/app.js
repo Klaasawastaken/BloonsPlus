@@ -865,13 +865,33 @@ function markVmSaveUnavailable(payload = {}) {
   render();
 }
 
+// Both progress pollers share a save read. Reapply the newest completed read
+// after slower scanner/catalog requests, never an earlier response's profile.
+let pendingLocalSaveRead = null;
+let latestLocalSaveRead = null;
+let localSaveReadSequence = 0;
+function currentLocalSaveRead(read) {
+  return latestLocalSaveRead && latestLocalSaveRead.sequence > read.sequence ? latestLocalSaveRead : read;
+}
+function readLocalSaveProgress() {
+  if (pendingLocalSaveRead) return pendingLocalSaveRead;
+  const sequence = ++localSaveReadSequence;
+  pendingLocalSaveRead = (async () => {
+    const response = await fetch('/api/progress/local-save', { cache: 'no-store', signal: AbortSignal.timeout(10000) });
+    const profile = response.ok || response.status === 503 ? await response.json() : null;
+    const read = { sequence, ok: response.ok, status: response.status, profile };
+    latestLocalSaveRead = read;
+    return read;
+  })().finally(() => { pendingLocalSaveRead = null; });
+  return pendingLocalSaveRead;
+}
 async function loadDetectedProgress() {
   try {
     const [response, upgradeResponse, gameStateResponse, localSaveResponse, towerCatalogResponse] = await Promise.all([
       fetch('/api/progress', { cache: 'no-store', signal: AbortSignal.timeout(10000) }),
       fetch('/api/upgrade-memory', { cache: 'no-store', signal: AbortSignal.timeout(10000) }),
       fetch('/api/game-state', { cache: 'no-store', signal: AbortSignal.timeout(10000) }),
-      fetch('/api/progress/local-save', { cache: 'no-store', signal: AbortSignal.timeout(10000) }),
+      readLocalSaveProgress(),
       fetch('/api/tower-upgrade-catalog', { cache: 'no-store', signal: AbortSignal.timeout(10000) }).catch(() => null),
     ]);
     if (towerCatalogResponse?.ok) towerUpgradeCatalog = await towerCatalogResponse.json();
@@ -896,8 +916,9 @@ async function loadDetectedProgress() {
     const snapshot = await response.json();
     if (!['calibration-snapshot', 'live-scan'].includes(snapshot.source) || !snapshot.maps || !snapshot.towers || !snapshot.achievements) return;
     detectedProgress = snapshot;
-    if (localSaveResponse.ok) {
-      const localSave = await localSaveResponse.json();
+    const saveRead = currentLocalSaveRead(localSaveResponse);
+    if (saveRead.ok) {
+      const localSave = saveRead.profile;
       if (localSave.available) {
         observeProfileRates(localSave);
         detectedProgress.localSave = { source: localSave.source, readAt: localSave.readAt };
@@ -926,8 +947,8 @@ async function loadDetectedProgress() {
             localSaveSource: 'btd6-profile-save', localSaveReadAt: localSave.readAt };
         }
       } else markVmSaveUnavailable(localSave);
-    } else if (localSaveResponse.status === 503) {
-      markVmSaveUnavailable(await localSaveResponse.json().catch(() => ({})));
+    } else if (saveRead.status === 503) {
+      markVmSaveUnavailable(saveRead.profile || {});
     }
     applySteamAchievements();
     render();
@@ -938,12 +959,12 @@ async function loadDetectedProgress() {
 // and map progress update shortly after Steam writes a new save, without waiting for a menu scan.
 async function refreshLocalSaveProgress() {
   try {
-    const response = await fetch('/api/progress/local-save', { cache: 'no-store', signal: AbortSignal.timeout(8000) });
+    const response = currentLocalSaveRead(await readLocalSaveProgress());
     if (!response.ok) {
-      if (response.status === 503) markVmSaveUnavailable(await response.json().catch(() => ({})));
+      if (response.status === 503) markVmSaveUnavailable(response.profile || {});
       return;
     }
-    const localSave = await response.json();
+    const localSave = response.profile;
     if (!localSave.available) { markVmSaveUnavailable(localSave); return; }
     observeProfileRates(localSave);
     detectedProgress.localSave = { source: localSave.source, readAt: localSave.readAt };

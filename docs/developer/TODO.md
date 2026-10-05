@@ -340,3 +340,9 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [x] Correct label focus for enhanced selects, empty/disabled options feedback, small viewport menu height and removed-control cleanup.
 - [x] Syntax/whitespace checks and host dark Settings/Boss visual review; End focuses Hard and Escape closes without selecting or launching gameplay.
 - [ ] Deploy this UI batch to the VM after the active healthy replay ends; do not interrupt it.
+
+## Save refresh ordering (2026-10-06)
+
+- [x] Coalesce concurrent save reads from the five-second progress poll and ten-second save poll. Resolve the latest completed request after slow catalog/scanner requests so old profiles cannot roll back unlocks or reset hourly-rate samples.
+- [x] Offline deferred-response checks prove request sharing, stale-consumer replacement, genuine backward-clock preservation, newer VM-unavailable precedence, and recovery after malformed JSON. Existing profile-rate regressions pass.
+- [ ] Deploy with the pending Settings batch after the active healthy replay; check rates over a live sampling window. No new clear claimed; active run observed at round 45.
