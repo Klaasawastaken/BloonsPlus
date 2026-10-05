@@ -2,6 +2,7 @@
 
 ## Unreleased — replay diagnostics and cash reading
 
+- Fixed unreachable upgrade recovery: the retry queue was incorrectly inside the successful-purchase branch. Unselected and unchanged panel observations now retry before dependent actions, with bounded attempts and an exact target for unchanged tiers. Regression tests execute the replay branch itself.
 - Extended key presses from 30 ms to 120 ms for VM input. Added ordinary-tower tier-pip observation on both panel sides, a one-second wait, and at most one button retry when the same tiers remain visible and the upgrade button is available. Confirmed visual tiers reconcile the run ledger even when income hides spending.
 - Removed the blind retry on unchanged cash. Unknown or occluded panels do not authorize a second purchase.
 - Verify selection before sending an upgrade key; reselect unreadable panels and keep confirmed missed actions ahead of their dependent upgrades. Bound retries and remember the intended tier to avoid purchasing an extra tier after a delayed response. Refresh the sweep engine revision so prior failures remain retryable after these engine fixes.

@@ -2945,6 +2945,18 @@ def main():
                             currentGameState.confirm_purchase(lastIterationAction, mapConfig, lastIterationBalance, currentValues['money'])
                             saveGameState(currentGameState)
                         if lastIterationAction.get('action') == 'upgrade':
+                            updateUpgradeMemory(lastIterationAction, mapConfig, upgradeRunId,
+                                                lastIterationBalance, currentValues['money'], currentValues['round'])
+                        else:
+                            recordSpot(mapConfig.get('map'), placementClassFor(lastIterationAction, mapConfig), lastIterationAction['pos'], True, screenshot.shape[1])
+                            learnPlacementSample(mapConfig.get('map'), placementClassFor(lastIterationAction, mapConfig), patchFeature(pendingPlacementProbe.get('before')) if pendingPlacementProbe and pendingPlacementProbe.get('name') == lastIterationAction.get('name') else None, True)
+                            towerTracker.remember(lastIterationAction.get('name'), screenshot, lastIterationAction['pos'])
+                        confidence = ('panel-tier-confirmed' if upgradeStatus == 'confirmed' else
+                                      'cash-confirmed' if observedSpend == lastIterationCost else 'cash-drop-confirmed (income/price delta differed)')
+                        customPrint('DEBUG ' + lastIterationAction['action'] + ' ' + confidence + ' tower=' + str(lastIterationAction.get('name')) +
+                                    ' path=' + str(lastIterationAction.get('path')) + ' expected=' + str(lastIterationCost) + ' observed=' + str(observedSpend))
+                    else:
+                        if lastIterationAction.get('action') == 'upgrade':
                             if upgradeStatus in ('unselected', 'unchanged') and lastIterationAction.get('selectionAttempts', 0) < 2:
                                 # Preserve this exact planned tier ahead of its dependents.
                                 # Only unselected/unchanged pips make replaying it safe.
@@ -2958,18 +2970,6 @@ def main():
                                 mapConfig['steps'].insert(0, retry)
                                 customPrint('RECOVERY upgrade retry queued before dependent steps tower=' + str(retry.get('name'))
                                             + ' reason=' + str(upgradeStatus) + ' attempt=' + str(retry['selectionAttempts']))
-                            updateUpgradeMemory(lastIterationAction, mapConfig, upgradeRunId,
-                                                lastIterationBalance, currentValues['money'], currentValues['round'])
-                        else:
-                            recordSpot(mapConfig.get('map'), placementClassFor(lastIterationAction, mapConfig), lastIterationAction['pos'], True, screenshot.shape[1])
-                            learnPlacementSample(mapConfig.get('map'), placementClassFor(lastIterationAction, mapConfig), patchFeature(pendingPlacementProbe.get('before')) if pendingPlacementProbe and pendingPlacementProbe.get('name') == lastIterationAction.get('name') else None, True)
-                            towerTracker.remember(lastIterationAction.get('name'), screenshot, lastIterationAction['pos'])
-                        confidence = ('panel-tier-confirmed' if upgradeStatus == 'confirmed' else
-                                      'cash-confirmed' if observedSpend == lastIterationCost else 'cash-drop-confirmed (income/price delta differed)')
-                        customPrint('DEBUG ' + lastIterationAction['action'] + ' ' + confidence + ' tower=' + str(lastIterationAction.get('name')) +
-                                    ' path=' + str(lastIterationAction.get('path')) + ' expected=' + str(lastIterationCost) + ' observed=' + str(observedSpend))
-                    else:
-                        if lastIterationAction.get('action') == 'upgrade':
                             # Retrying on cash alone can buy a higher tier when income
                             # masks a successful purchase. The input branch already performs
                             # one button retry only after observing unchanged tier pips.
