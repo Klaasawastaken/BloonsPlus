@@ -104,6 +104,7 @@ const mapsNone = Object.values(report.maps).filter(m => Object.values(m.modes).e
 report.summary = { maps: Object.keys(report.maps).length, mapModePairs: total, covered, missing: total - covered,
   mapsFullyCovered: mapsFull, mapsWithNoRoute: mapsNone, coveredPerMode: perMode };
 const outIndex = process.argv.indexOf('--out');
-const out = outIndex > 0 ? process.argv[outIndex + 1] : path.join(ROOT, 'route-coverage.json');
+const out = outIndex > 0 ? process.argv[outIndex + 1] : path.join(ROOT, 'data', 'reports', 'route-coverage.json');
+fs.mkdirSync(path.dirname(out), { recursive: true });
 fs.writeFileSync(out, JSON.stringify(report, null, 2));
 if (!process.argv.includes('--quiet')) console.log(JSON.stringify(report.summary, null, 2));

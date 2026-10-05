@@ -6,7 +6,8 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const ROOT = path.resolve(__dirname, '..');
-const coverage = JSON.parse(fs.readFileSync(path.join(ROOT, 'route-coverage.json'), 'utf8'));
+const REPORTS = path.join(ROOT, 'data', 'reports');
+const coverage = JSON.parse(fs.readFileSync(path.join(REPORTS, 'route-coverage.json'), 'utf8'));
 let importReport = { rejected: [] };
 try { importReport = JSON.parse(fs.readFileSync(path.join(ROOT, 'route-library', 'metadata', 'public-route-import.json'), 'utf8')); } catch { /* not run yet */ }
 
@@ -59,5 +60,6 @@ const summary = {
   note: 'route-failures.json (runtime attempt failures) is written by the app itself and is not touched here.',
 };
 
-fs.writeFileSync(path.join(ROOT, 'route-gaps.json'), JSON.stringify({ summary, sourcesSearched: SOURCES_SEARCHED, gaps }, null, 2));
+fs.mkdirSync(REPORTS, { recursive: true });
+fs.writeFileSync(path.join(REPORTS, 'route-gaps.json'), JSON.stringify({ summary, sourcesSearched: SOURCES_SEARCHED, gaps }, null, 2));
 console.log(JSON.stringify(summary, null, 2));
