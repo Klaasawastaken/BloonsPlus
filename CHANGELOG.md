@@ -1,3 +1,9 @@
+## Preview 31 — Select towers behind covering panels
+
+- Close detected covering hero/tower panels with two centre clicks before selection.
+- Apply the same selection behavior to upgrade retries, targeting and selling.
+- Reproduce the live covering-panel failure offline and retain existing upgrade gates.
+
 ## Preview 30 — Preserve repeating ability controls
 
 - Add main-loop repeat/stop commands and current-hotkey checkpoint restoration.

@@ -103,6 +103,30 @@ def resolve_hud_panels(frame, left_guess, right_guess):
     return left_guess, right_guess  # Heroes use a different panel without path pips.
 
 
+def select_tower(position, capture, click, wait, report=lambda message: None):
+    """Clear a covering panel before selecting a world position.
+
+    Hero panels have no tower tier pips, so use the same independent HUD
+    anchors as the cash/round reader. Two centre clicks follow the requested
+    panel-close behavior and never open the pause menu.
+    """
+    frame = capture()
+    if frame is not None and frame.ndim == 3:
+        left, right = resolve_hud_panels(frame, False, False)
+        scale = frame.shape[1] / 960
+        x, y = position
+        covered = (25 * scale <= y <= 480 * scale and
+                   (left and 0 <= x <= 210 * scale or right and 620 * scale <= x <= 825 * scale))
+        if covered:
+            centre = (frame.shape[1] // 2, frame.shape[0] // 2)
+            report('SELECTION_RECOVERY closing covering panel before tower click at ' + str(position))
+            click(centre)
+            wait(0.15)
+            click(centre)
+            wait(0.35)
+    click(position)
+
+
 def observe_upgrade(path, capture, press, click, wait, reselect=None, expected_tiers=None):
     """Prefer a visible available button; allow one retry supported by unchanged pips.
 

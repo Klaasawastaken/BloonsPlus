@@ -370,3 +370,11 @@ Start only after the current repair work is complete, as requested on 5 October.
 
 - Pinned upstream revision 17d624879c5ad777e82594da34450e66b2d60756 confirms duplicate-entry repeat lists, per-slot cancellation and the one-second cycle. Six existing JS route-validation/failure gates also pass.
 - New sweep naturally selected Dark Dungeons Easy for a missing medal using its ability-preserved source candidate; hero-picker logs show Etienne correctly read as Select. No validation-only run launched. Live repeating-input behavior and outcome remain to be observed.
+
+## Covering hero/tower panel selection (2026-10-06)
+
+- [x] Live Dark Dungeons Easy frame shows Etienne's right panel covering dart0 at native (1424,331). Repeated unchanged selections produced unselected upgrade observations.
+- [x] Shared selection closes a detected covering panel with two centre clicks before the tower click, including retries and selling. Independent HUD anchors detect hero panels without tier pips. Preserve ordinary uncovered selection.
+- [x] Captured-frame offline probe records two centre clicks followed by the intended tower; uncovered target records only the tower click. Three scale/ownership checks, 19 upgrade-observation and eight upgrade-queue checks pass. No test input sent to the game.
+- [x] Live repeat scheduler observed naturally during Dark Dungeons missing-medal run at rounds 3,4,5; no exception observed in those logs. No victory claimed for that candidate yet.
+- [ ] Stop-after requested for current replay; deploy covering-panel fix only at its terminal boundary, then resume missing medals.

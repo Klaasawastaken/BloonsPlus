@@ -11,7 +11,7 @@ import time
 from copy import deepcopy
 from game_runtime import GameState, normalize_action
 from upgrade_rules import can_upgrade_path
-from upgrade_observation import observe_upgrade, resolve_hud_panels
+from upgrade_observation import observe_upgrade, resolve_hud_panels, select_tower
 from placement_observation import held_placement_visible
 from route_timing import delay_ready, round_offset_ready, ability_ready, issue_ability, upgrade_ready, RepeatedAbilities
 from map_availability import predicted_thaw_round
@@ -3662,8 +3662,8 @@ def main():
                                     customPrint('TOWER_TRACK ' + towerName + ' moved with its platform ' + str(oldPos)
                                                 + ' -> ' + str(newPos) + ' (' + str(inliers) + ' matched features)')
                         customPrint('DEBUG select tower at ' + str(action['pos']))
-                        pyautogui.moveTo(action['pos'], duration=0.12)
-                        pyautogui.click()
+                        select_tower(action['pos'], lambda: np.array(pyautogui.screenshot())[:, :, ::-1].copy(),
+                                     lambda point: pyautogui.click(point), time.sleep, customPrint)
                         time.sleep(max(actionDelay, 0.35))
                         actionTmp = None
                         while action:
@@ -3685,7 +3685,9 @@ def main():
                                         lambda: np.array(pyautogui.screenshot())[:, :, ::-1].copy(),
                                         lambda: sendKey(action['key']),
                                         lambda pos: pyautogui.click(pos), time.sleep,
-                                        reselect=lambda: pyautogui.click(action['pos']),
+                                        reselect=lambda: select_tower(action['pos'],
+                                            lambda: np.array(pyautogui.screenshot())[:, :, ::-1].copy(),
+                                            lambda point: pyautogui.click(point), time.sleep, customPrint),
                                         expected_tiers=action.get('expectedUpgradeTiers'))
                                     customPrint('DEBUG upgrade panel observation tower=' + str(action.get('name'))
                                                 + ' path=' + str(action['path']) + ' ' + str(action['upgradeObservation']))
@@ -3734,8 +3736,8 @@ def main():
                         pyautogui.click(button='right')
                     elif action['action'] == 'sell':
                         customPrint('DEBUG sell pos=' + str(action['pos']) + ' key=' + str(action['key']))
-                        pyautogui.moveTo(action['pos'])
-                        pyautogui.click()
+                        select_tower(action['pos'], lambda: np.array(pyautogui.screenshot())[:, :, ::-1].copy(),
+                                     lambda point: pyautogui.click(point), time.sleep, customPrint)
                         time.sleep(actionDelay)
                         sendKey(action['key'])
                     elif action['action'] == 'remove':
