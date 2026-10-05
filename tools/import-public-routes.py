@@ -266,7 +266,7 @@ BTD6BOT_MODES = {"EasyStandard": ("easy", 1, 40), "EasyPrimary": ("primary_only"
                  "HardMagic": ("magic_monkeys_only", 3, 80), "HardDouble_hp": ("double_hp_moabs", 3, 80),
                  "HardHalf_cash": ("half_cash", 3, 80), "HardAlternate": ("alternate_bloons_rounds", 3, 80),
                  "HardImpoppable": ("impoppable", 6, 100), "HardChimps": ("chimps", 6, 100)}
-BTD6BOT_HARMLESS = {"forward", "wait", "change_autostart", "end_round", "move_cursor"}
+BTD6BOT_FLOW_CONTROLS = {"forward", "change_autostart", "end_round", "move_cursor"}
 
 
 def literal(node):
@@ -362,8 +362,16 @@ def btd6bot_statement(route, stmt):
     if "cpos" in kwargs:
         raise Unsupported("tower moved after placement (cpos): AutoBTD6 clicks fixed positions")
     if owner is None:
-        if action in BTD6BOT_HARMLESS:
-            route.harmless.add(f"{action}()")
+        if action == "wait":
+            timer = literal(args[0]) if args else literal(kwargs['timer']) if 'timer' in kwargs else 0
+            if timer == 0:
+                route.harmless.add('wait(0)')
+            else:
+                route.lossy.add(f'wait({timer}) timing omitted')
+        elif action in BTD6BOT_FLOW_CONTROLS:
+            # Manual round control can wait for end-of-round cash or alter
+            # ability timing. Cursor movement can aim a tower. Neither is a no-op.
+            route.lossy.add(f'{action}() control omitted')
         elif action == "Hero" and len(args) >= 2:
             route.place("hero", "hero", literal(args[0]) * W, literal(args[1]) * H)
         elif action == "ability":

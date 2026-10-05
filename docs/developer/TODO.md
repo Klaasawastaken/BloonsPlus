@@ -105,6 +105,9 @@ Start only after the current repair work is complete, as requested on 5 October.
 
 ## P1 — routes and sweep
 
+- [x] Stop new BTD6bot conversions from labeling waits, manual round control and cursor movement as harmless omissions. Upstream `bot/commands/flow.py` explicitly uses waits to buffer commands and manual starts to spend round-end cash; cursor movement can aim towers. Offline regression reproduced six dropped-control cases. Zero-second waits remain no-ops. Existing recordings were not rewritten or newly verified.
+- [ ] Add faithful timed-wait, manual-round and cursor-target support before restoring conversions that depend on them. Audit older `dropped (timing only)` headers against their source; they do not establish timing equivalence. Repeat-ability schedules and moved-tower coordinates also remain unsupported conversion cases.
+
 - [ ] Check every route against mode restrictions, required paths, available hero, game version and map layout. Catalog presence alone does not prove victory.
 - [ ] Build evidence-backed routes for missing maps/modes. Mark a converted route verified only after victory and saved medal are observed.
 - [ ] Detect map mechanics including moving terrain, freezing, layout changes, obstacles and sightlines before placements or upgrades.
