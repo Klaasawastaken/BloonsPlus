@@ -1,5 +1,7 @@
 # Changelog
 
+- Replace generated promotional art with official BTD6 tower/map compositions and preserve character proportions. Rebuild Subscriptions and Contributors, change Wiki artwork, and contain the mobile comparison table without page overflow. Keep planned billing and Pro status explicit.
+
 ## Website and README refresh — 5 October 2026
 
 - Replace the README banner with BTD6-inspired jungle artwork and a linked website destination; add actual tower art and clearer preview/setup information.

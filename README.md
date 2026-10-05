@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://bloonsplus.com/"><img src="docs/assets/banner.png" alt="Bloons+ — More Bloons. Less busywork. A BTD6-inspired track, monkey, tack shooter and blue blimp." width="100%"></a>
+  <a href="https://bloonsplus.com/"><img src="docs/assets/banner.svg" alt="Bloons+ — More Bloons. Less busywork. Official BTD6 towers and map artwork." width="100%"></a>
 </p>
 
 <p align="center"><strong>More Bloons. Less busywork.</strong><br>Choose your next run. Follow the game. Keep progressing.</p>
