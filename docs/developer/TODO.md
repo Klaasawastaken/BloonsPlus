@@ -17,7 +17,8 @@ Updated 5 October 2026. Checkboxes require evidence, not merely code. Preserve o
 Start only after the current repair work is complete, as requested on 5 October.
 
 - Phase 1: authoritative save medals determine every gameplay target. Never run an owned medal for testing, benchmarking, changed routes or coverage. Recheck before navigation/start and reconcile after victory and restart.
-- Phase 2: unrelated route testing becomes eligible only when no supported obtainable medal remains missing; return to Phase 1 immediately if one appears.
+- Stop the sweep when all supported obtainable medals are owned. No separate live route-testing phase. Generate and validate candidates offline; gameplay is exclusively for missing medals.
+- Keep development moving while the medal sweep runs. Batch deployments between completed replays; never interrupt a healthy game for an update. Persist failures across sweeps and continue with other candidates or missing medals.
 - Audit the existing architecture, regenerate coverage and retain structured historical failure evidence before extending it.
 - Complete the map mechanics registry and have generation consume it; validate candidates offline before attempting their missing medals.
 - Finish reliability, installer repair/resume, website and release gates from the supplied production specification. Publish v1.0.0 only when its acceptance conditions are actually met.

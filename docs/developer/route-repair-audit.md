@@ -299,3 +299,17 @@ saved queue. This prevents old checkpoints from retaining obsolete input setting
 or sending malformed coordinates. Ten focused resume recovery tests pass,
 including current-price/key restoration and rejection of non-finite coordinates.
 Live interrupted-game validation and deployment remain pending.
+
+The recovery patch was packaged and installed successfully in the idle guest on
+5 October. The authoritative guest save remained readable (90 map records).
+A missing-medal sweep was then requested; no owned-medal test was launched.
+
+## Candidate fallback repair
+
+The sweep previously discarded candidates with unknown (but not known locked)
+requirements whenever any fully checked candidate existed, even after every
+fully checked candidate exhausted its attempts. A regression reproduced this
+premature skip. Selection now prioritizes fully checked candidates and then
+considers the remaining eligible candidates. Known missing prerequisites remain
+excluded. Focused fallback and Expert-first order tests pass. This engine change
+is queued for a later between-run deployment, not a mid-game restart.
