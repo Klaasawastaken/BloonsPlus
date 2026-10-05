@@ -33,6 +33,10 @@ const normalize = value => String(value).toLowerCase().replace(/[^a-z]/g, '');
   const button = buttons.some(value => value.includes('selected')) ? 'selected'
     : buttons.some(value => value.includes('select')) ? 'select' : 'unknown';
   const visualButton = greenFraction > 0.42 ? 'select' : greenFraction > 0.05 ? 'selected' : 'unknown';
-  process.stdout.write(JSON.stringify({ title: normalize(title), button: button === 'unknown' ? visualButton : button, greenFraction: Number(greenFraction.toFixed(3)) }));
+  // OCR can truncate SELECTED to SELECT. Require the measured label-sized green
+  // region before resolving that specific ambiguity; retain unknown for other cases.
+  const resolvedButton = button === 'select' && greenFraction >= 0.08 && greenFraction <= 0.20
+    ? 'selected' : button === 'unknown' ? visualButton : button;
+  process.stdout.write(JSON.stringify({ title: normalize(title), button: resolvedButton, greenFraction: Number(greenFraction.toFixed(3)) }));
 })().catch(error => { process.stderr.write(error.message); process.exitCode = 2; })
   .finally(() => shutdown());

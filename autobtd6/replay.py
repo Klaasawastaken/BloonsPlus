@@ -755,6 +755,7 @@ def heroAlreadySelected(hero, state):
         'quincy': {'quincy', 'uingy'},
         'gwendolin': {'gwendolin', 'swendbool'},
         'strikerjones': {'strikerjones', 'trikern'},
+        'benjamin': {'benjamin', 'enyaii'},
         'silas': {'silas', 'ias'},
         'ezili': {'ezili', 'zil'},
         'rosalia': {'rosalia', 'osasa'},
@@ -3178,6 +3179,12 @@ def main():
                     else:
                         customPrint('detected money: ' + str(currentValues['money']) + ', required: ' + str(mapConfig['steps'][0]['cost']) + '          ', end = '', rewriteLine=True)
 
+                nextStep = mapConfig['steps'][0] if len(mapConfig['steps']) else None
+                nextStepAction = nextStep.get('action') if nextStep else None
+                nextStepCost = int(nextStep.get('cost', 0) or 0) if nextStep else 0
+                cashRequiredForNext = bool(nextStep and (nextStepCost > 0 or nextStepAction in ('await_cash', 'sell')))
+                roundRequiredForNext = bool(nextStep and nextStepAction == 'await_round')
+
                 if mode == Mode.VALIDATE_PLAYTHROUGHS:
                     if lastIterationBalance != -1 and currentValues['money'] != lastIterationBalance - lastIterationCost:
                         if currentValues['money'] == lastIterationBalance:
@@ -3195,7 +3202,8 @@ def main():
 
                 if mode == Mode.VALIDATE_PLAYTHROUGHS and len(mapConfig['steps']) and (mapConfig['steps'][0]['action'] == 'await_round' or  mapConfig['steps'][0]['action'] == 'speed'):
                     mapConfig['steps'].pop(0)
-                elif currentValues['money'] == -1 or currentValues['round'] == -1 and len(mapConfig['steps']) and mapConfig['steps'][0]['action'] == 'await_round':
+                elif ((currentValues['money'] == -1 and cashRequiredForNext)
+                      or (currentValues['round'] == -1 and roundRequiredForNext)):
                     recognitionErrorSignature = (currentValues['money'], currentValues['round'])
                     if recognitionErrorSignature != lastCashErrorLogged or time.time() - lastCashErrorLoggedAt > 1:
                         customPrint('recognition error. money: ' + str(currentValues['money']) + ', round: ' + str(currentValues['round']))
@@ -3235,7 +3243,8 @@ def main():
                             pyautogui.click(centre)
                             time.sleep(0.2)
                         lastPanelCloseAt = time.time()
-                elif mode != Mode.VALIDATE_COSTS and lastIterationBalance - lastIterationCost > currentValues['money']:
+                elif (mode != Mode.VALIDATE_COSTS and currentValues['money'] >= 0
+                      and lastIterationBalance - lastIterationCost > currentValues['money']):
                     cashErrorSignature = (lastIterationBalance, lastIterationCost, currentValues['money'])
                     if cashErrorSignature != lastCashErrorLogged or time.time() - lastCashErrorLoggedAt > 1:
                         customPrint('potential cash recognition error: ' + str(lastIterationBalance) + ' - ' + str(lastIterationCost) + ' -> ' + str(currentValues['money']))
@@ -3251,7 +3260,7 @@ def main():
                         lastCashErrorLogged = roundErrorSignature
                         lastCashErrorLoggedAt = time.time()
                     skippingIteration = True
-                elif len(mapConfig['steps']) and ((mapConfig['steps'][0]['action'] != 'sell' and mapConfig['steps'][0]['action'] != 'await_round' and mapConfig['steps'][0]['action'] != 'await_cash' and min(currentValues['money'], lastIterationBalance - lastIterationCost) >= mapConfig['steps'][0]['cost']) 
+                elif len(mapConfig['steps']) and ((mapConfig['steps'][0]['action'] != 'sell' and mapConfig['steps'][0]['action'] != 'await_round' and mapConfig['steps'][0]['action'] != 'await_cash' and (nextStepCost <= 0 or min(currentValues['money'], lastIterationBalance - lastIterationCost) >= nextStepCost))
                 or mapConfig['gamemode'] == 'deflation' and mapConfig['steps'][0]['action'] != 'await_cash'
                 or mapConfig['steps'][0]['action'] == 'await_round' and currentValues['round'] >= mapConfig['steps'][0]['round']
                 or mapConfig['steps'][0]['action'] == 'await_cash' and currentValues['money'] >= mapConfig['steps'][0]['cash']
