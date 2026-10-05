@@ -4,6 +4,8 @@ Updated 5 October 2026. Checkboxes require evidence, not merely code. Preserve o
 
 ## Current repair pass
 
+- [x] Add shared offline legality checks for multiple active heroes and duplicate active tier-five upgrades on the same tower/path. Selling releases the slot; different T5 paths remain legal. Preserve the knowledge-dependent Dart bottom-path exception outside CHIMPS. Focused tests pass; regenerated coverage remains 508 supported map/mode pairs and 696 gaps. No recordings were changed or games launched for validation.
+
 - [x] Diagnose the stale guest controller: after the 21:46 update, Electron had restarted but the installed Node server PID 6916 still dated from 19:55. Installer now checks explicit idle state, stops only exact installed Node/Electron executable paths, and waits for exit before replacing files. Compiled pure guard checks pass; guest deployment and fresh-process verification remain pending.
 - [x] Correct ordinary CHIMPS save mapping to Hard/Clicks in both app and backend. Moon Landing's CHIMPS victory at 21:45 saved Clicks=1050185 while SuperChimps remained 2. The generated BTD-Mod-Helper GameModeType enum lists Clicks as a real mode: https://raw.githubusercontent.com/gurrenm3/BTD-Mod-Helper/master/BloonsTD6%20Mod%20Helper/Api/Enums/GameModeType.cs . Paired tests cover unrelated difficulty placeholders and prevent SuperChimps overriding Clicks. Moon Landing CHIMPS is earned; never replay it.
 - [x] Classify explicit startup/window and navigation failure signals before falling back to missing state evidence; offline tests preserve normal menu transitions as non-navigation events.

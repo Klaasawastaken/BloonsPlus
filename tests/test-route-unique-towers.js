@@ -1,0 +1,15 @@
+const assert = require('node:assert/strict');
+const {validateRoute} = require('../lib/route-validation');
+const catalog = {monkeys:{dart:{type:'primary'},sniper:{type:'military'}},heros:{sauda:{},quincy:{}}};
+const place = (type,name)=>`place ${type} ${name} at 100, 100`;
+const tier5 = (name,path)=>Array(5).fill(`upgrade ${name} path ${path}`).join('\n');
+const check = (lines,mode='hard')=>validateRoute(lines.join('\n'),mode,catalog);
+assert.ok(check([place('sauda','hero0'),place('quincy','hero1')]).some(e=>/one active hero/i.test(e.message)));
+assert.deepEqual(check([place('sauda','hero0'),'sell hero0',place('sauda','hero1')]),[]);
+assert.ok(check([place('sniper','s0'),tier5('s0',0),place('sniper','s1'),tier5('s1',0)]).some(e=>/tier-five/i.test(e.message)));
+assert.deepEqual(check([place('sniper','s0'),tier5('s0',0),place('sniper','s1'),tier5('s1',1)]),[]);
+assert.deepEqual(check([place('sniper','s0'),tier5('s0',0),'sell s0',place('sniper','s1'),tier5('s1',0)]),[]);
+const crossbows=[place('dart','d0'),tier5('d0',2),place('dart','d1'),tier5('d1',2)];
+assert.deepEqual(check(crossbows),[], 'Knowledge-dependent second Crossbow Master requires account checks, not blanket rejection');
+assert.ok(check(crossbows,'chimps').some(e=>/tier-five/i.test(e.message)), 'CHIMPS disables the Knowledge exception');
+console.log('Active hero and tier-five uniqueness checks passed.');

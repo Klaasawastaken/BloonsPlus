@@ -1,5 +1,7 @@
 # Changelog
 
+- Reject solo routes with multiple active heroes or duplicate active tier-five upgrades on one tower path. Preserve selling/rebuying, different T5 paths and the non-CHIMPS Crossbow Master knowledge exception.
+
 - Close stale installed Bloons+ Node controllers during installation only after an explicit idle response; preserve unrelated Node processes, Python replays and BTD6.
 - Read ordinary CHIMPS medals from Hard/Clicks in the app and backend, based on observed victory/save evidence. SuperChimps no longer supplies that medal.
 - Label known startup/window failures as technical failures and explicit focus/map-navigation errors as navigation failures instead of insufficient data.
