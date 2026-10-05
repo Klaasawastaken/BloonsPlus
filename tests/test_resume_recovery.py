@@ -73,3 +73,20 @@ class ResumeRecovery(unittest.TestCase):
         with patch('resume_recovery.read_upgrade_panel', return_value={'tiers': [0, 0, 1]}):
             result = probe_owned_upgrade([1, 0, 1], lambda: object(), lambda: None, lambda _: None)
         self.assertEqual(result['status'], 'needed')
+
+    def test_saved_queue_uses_current_keybinds_and_prices(self):
+        original = [dict(action='upgrade', name='dart0', path=0, key='current', cost=100,
+                         pos=(10, 20), expectedUpgradeTiers=[1, 0, 0], routeStepIndex=0)]
+        saved = dict(original[0], key='obsolete', cost=999, pos=[30, 40], selectionAttempts=1)
+        result = restore_upgrade_steps(original, dict(nextStep=0, remainingSteps=[saved]))[0]
+        self.assertEqual(result['key'], 'current')
+        self.assertEqual(result['cost'], 100)
+        self.assertEqual(result['pos'], [30, 40])
+        self.assertEqual(result['selectionAttempts'], 1)
+
+    def test_invalid_saved_position_is_rejected_before_input(self):
+        original = [dict(action='upgrade', name='dart0', path=0, key='x', cost=100,
+                         pos=(10, 20), expectedUpgradeTiers=[1, 0, 0], routeStepIndex=0)]
+        for position in ([float('nan'), 20], ['10', 20], [10], [True, 20]):
+            with self.assertRaises(ValueError):
+                restore_upgrade_steps(original, dict(nextStep=0, remainingSteps=[dict(original[0], pos=position)]))

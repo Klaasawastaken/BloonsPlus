@@ -4,6 +4,10 @@ Updated 5 October 2026. Checkboxes require evidence, not merely code. Preserve o
 
 ## Current repair pass
 
+- [x] Refresh restored replay inputs from the current route; validate saved coordinates and retry counts. Ten focused recovery regressions pass; guest deployment and live resume validation remain open.
+- [x] Keep mobile website navigation synchronized with desktop links, including Wiki and current-page highlighting.
+- [ ] Restore host/guest connectivity before further live validation: host 4173, guest tunnel 14173 and the App Sandbox API were unreachable during the latest check.
+
 - [x] Fix unreachable upgrade retry branch: unselected/unchanged observations now queue the same intended upgrade before dependent steps. Regression executes the actual replay reconciliation branch.
 - [x] Validate this retry correction in the guest: Workshop Hard reached victory at round 80 and saved medal value 1049864. Its Heli retry confirmed 3-0-2 → 4-0-2 at round 55. This proves that recovery case, not every route.
 

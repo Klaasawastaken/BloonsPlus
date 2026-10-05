@@ -1,6 +1,27 @@
 """Reconcile saved upgrade intent without repeating tower placements."""
 from copy import deepcopy
+from math import isfinite
 from upgrade_observation import read_upgrade_panel
+
+
+def restore_action(source, saved):
+    """Keep current parsed inputs/economy, retaining only recovery state."""
+    step = deepcopy(source)
+    for key in ('pos', 'originPos'):
+        position = saved.get(key)
+        if position is not None:
+            if (not isinstance(position, (list, tuple)) or len(position) != 2
+                    or any(type(v) not in (int, float) or not isfinite(v) for v in position)):
+                raise ValueError('invalid checkpoint action position')
+            step[key] = list(position)
+    for key in ('selectionAttempts', 'placeAttempts'):
+        if key in saved:
+            if type(saved[key]) is not int or saved[key] < 0:
+                raise ValueError('invalid checkpoint retry count')
+            step[key] = saved[key]
+    if saved.get('resumeUpgradeProbe') is True:
+        step['resumeUpgradeProbe'] = True
+    return step
 
 
 def restore_upgrade_steps(original, checkpoint):
@@ -17,10 +38,7 @@ def restore_upgrade_steps(original, checkpoint):
                       and step.get('expectedUpgradeTiers') == entry.get('expectedUpgradeTiers')), None)
         if match is None:
             raise ValueError('unresolved upgrade does not match the recorded route')
-        step = deepcopy(match)  # Reuse current parsed keybinds, prices and route metadata.
-        position = entry.get('pos')
-        if isinstance(position, (list, tuple)) and len(position) == 2:
-            step['pos'] = list(position)
+        step = restore_action(match, entry)
         step['resumeUpgradeProbe'] = True
         pending[step['routeStepIndex']] = step
     restored = [pending[index] for index in sorted(pending)]
@@ -41,7 +59,7 @@ def restore_upgrade_steps(original, checkpoint):
         if step.get('action') != source.get('action') or step.get('name') != source.get('name'):
             raise ValueError('checkpoint action differs from recorded route')
         if index not in pending:
-            restored.append(deepcopy(step))
+            restored.append(restore_action(source, step))
     return restored
 
 

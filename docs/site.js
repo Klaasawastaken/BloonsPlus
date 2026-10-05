@@ -59,9 +59,19 @@
     });
   }
   const currentPage = document.body.dataset.page;
-  document.querySelector(`[data-nav="${currentPage}"]`)?.setAttribute('aria-current', 'page');
   const menuButton = document.querySelector('.menu-toggle');
   const mobileNav = document.getElementById('mobile-nav');
+  const desktopLinks = document.querySelectorAll('.topbar nav[aria-label="Main navigation"] a');
+  if (mobileNav && desktopLinks.length) {
+    const links = [...desktopLinks].map(link => link.cloneNode(true));
+    const downloadLink = document.querySelector('.nav-download');
+    if (downloadLink) links.push(downloadLink.cloneNode(true));
+    mobileNav.replaceChildren(...links);
+  }
+  document.querySelectorAll('[data-nav]').forEach(link => {
+    if (link.dataset.nav === currentPage) link.setAttribute('aria-current', 'page');
+    else link.removeAttribute('aria-current');
+  });
   function closeMenu() {
     if (!mobileNav) return;
     mobileNav.hidden = true;
@@ -74,6 +84,7 @@
     menuButton.setAttribute('aria-label', mobileNav.hidden ? 'Open navigation' : 'Close navigation');
   });
   document.addEventListener('keydown', event => { if (event.key === 'Escape') closeMenu(); });
+  mobileNav?.addEventListener('click', event => { if (event.target.closest('a')) closeMenu(); });
   document.addEventListener('click', event => { if (mobileNav && !event.target.closest('.topbar')) closeMenu(); });
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   if (!reducedMotion.matches && 'IntersectionObserver' in window) {

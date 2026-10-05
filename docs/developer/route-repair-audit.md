@@ -290,3 +290,12 @@ Sniper coverage and later Shrapnel using its existing map position. Both revised
 candidates pass syntax and crosspath validation; both still need live attempts.
 The updated life filter recorded 53 to 10 at round 27, instead of permanently
 rejecting that sustained large loss. Round 27 in the log matches the frame.
+
+## Checkpoint input refresh — 5 October 2026
+
+Restored actions now use the current parsed recording for keys, prices and tier
+intent. Only validated recovery coordinates and retry counts survive from the
+saved queue. This prevents old checkpoints from retaining obsolete input settings
+or sending malformed coordinates. Ten focused resume recovery tests pass,
+including current-price/key restoration and rejection of non-finite coordinates.
+Live interrupted-game validation and deployment remain pending.
