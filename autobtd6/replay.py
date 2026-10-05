@@ -2827,11 +2827,28 @@ def main():
                 # Deflation routes do not wait forever with a perfectly visible cash counter.
                 openingCashLimit = 100000 if mapConfig.get('gamemode') == 'deflation' else 10000
                 if lastGoodMoney == 0 and currentValues['money'] > openingCashLimit:
+                    malformedOpeningCash = str(currentValues['money'])
+                    # Full-resolution Deflation evidence: `$40,000` produced `540006`.
+                    # The leading 5 is the dollar glyph and the trailing 6 is the final
+                    # outlined zero. Keep this correction deliberately narrow and still
+                    # pass it through the Deflation opening bound below.
+                    patternedCash = -1
+                    if (mapConfig.get('gamemode') == 'deflation'
+                            and len(malformedOpeningCash) == 6
+                            and malformedOpeningCash.startswith('5')):
+                        try:
+                            patternedCash = int(malformedOpeningCash[1:-1] + '0')
+                        except ValueError:
+                            patternedCash = -1
                     try:
                         stricterCash = int(custom_ocr(images[2], white_threshold=242))
                     except (TypeError, ValueError):
                         stricterCash = -1
-                    if 0 <= stricterCash <= openingCashLimit:
+                    if 0 <= patternedCash <= openingCashLimit:
+                        customPrint('DEBUG corrected patterned Deflation cash OCR ' + malformedOpeningCash
+                                    + ' -> ' + str(patternedCash))
+                        currentValues['money'] = patternedCash
+                    elif 0 <= stricterCash <= openingCashLimit:
                         customPrint('DEBUG corrected opening cash OCR ' + str(currentValues['money'])
                                     + ' -> ' + str(stricterCash) + ' at threshold 242')
                         currentValues['money'] = stricterCash
