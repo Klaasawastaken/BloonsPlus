@@ -669,6 +669,17 @@ function renderAchievements() {
   });
   document.querySelector('#achievement-empty').classList.toggle('hidden', visible.length > 0);
 }
+function activityTimestamp(at, key, now = Date.now()) {
+  // Once anchored for VM clock skew, keep that anchor as the host clock advances.
+  if (activitySeenAt.has(key)) return activitySeenAt.get(key);
+  const numeric = typeof at === 'number' || (typeof at === 'string' && /^\d+(?:\.\d+)?$/.test(at));
+  const value = numeric ? Number(at) : null;
+  const parsed = numeric ? (value < 1e12 ? value * 1000 : value) : Date.parse(at);
+  if (!Number.isFinite(parsed)) return null;
+  if (parsed > now) { activitySeenAt.set(key, now); return now; }
+  return parsed;
+}
+
 function renderRecentActivity() {
   const recent = document.querySelector('#recent-maps');
   if (!recent) return;
@@ -701,13 +712,10 @@ function renderRecentActivity() {
       const detail = document.createElement('small');
       // Automation stores ISO strings, while older progress files stored Unix
       // seconds or milliseconds. Normalize all forms before calculating age.
-      const parsedTime = typeof at === 'number' ? (at < 1e12 ? at * 1000 : at) : Date.parse(at);
       const activityKey = `${map}|${mode}|${at}`;
       // VM and host clocks can differ by hours. Anchor future-dated events when
       // first observed so the UI still reports elapsed time accurately.
-      const rawTime = Number.isFinite(parsedTime) && parsedTime <= Date.now() + 60000
-        ? parsedTime
-        : (activitySeenAt.get(activityKey) || (activitySeenAt.set(activityKey, Date.now()), Date.now()));
+      const rawTime = activityTimestamp(at, activityKey);
       const ageSeconds = Number.isFinite(rawTime) ? Math.max(0, Math.floor((Date.now() - rawTime) / 1000)) : null;
       if (ageSeconds == null) { detail.textContent = `${MEDAL_BY_MODE[mode]?.[3] || mode} medal · time unknown`; }
       const age = ageSeconds < 60 ? `${ageSeconds}s`

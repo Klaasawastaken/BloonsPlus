@@ -71,6 +71,7 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [ ] Confirm level, veteran rank, Monkey Money, hero ownership, Monkey Knowledge, tower XP and T1–T5 unlocks from the VM save with source and freshness.
 - [ ] Reconcile achievement progress with Steam unlock state and clearly label unsupported progress.
 - [ ] Fix activity ages and victory/defeat counters; require victory plus saved medal before adding a clear.
+  - Fixed future-clock activity anchors resetting as host time caught up; added numeric-string timestamp normalization and unknown-date handling. Offline tests cover ISO, Unix seconds/milliseconds, numeric strings and short/long clock skew. Counter/end-to-end host refresh checks remain outstanding.
 - [ ] Keep redacted full logs and group route failures by actionable cause, even if an old game-state file survives.
 - [ ] Keep host UI and guest controller connected after VM updates/restarts; expose the specific failing step.
 
