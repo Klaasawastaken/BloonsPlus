@@ -35,6 +35,31 @@ async function main() {
     assert.equal(fs.existsSync(target + '.part'), false);
     await run('', 'fresh-file', 10, 200);
     assert.equal(fs.readFileSync(target, 'utf8'), 'fresh-file', 'A server ignoring Range replaces the stale partial');
+    async function rangeRejected(freshStatus) {
+      const oldSize = 10 * 1024 * 1024 + 1;
+      fs.writeFileSync(target + '.part', Buffer.alloc(oldSize, 7));
+      fs.unlinkSync(target);
+      const requests = [];
+      const responses = [new Response('', {status:416, headers:{'content-range':`bytes */${oldSize}`}}),
+        new Response('new-content', {status:freshStatus, headers:{'content-length':'11'}})];
+      const context = {fs, path, AbortSignal, Readable, Transform, pipeline, Date, Number, String,
+        fileExists:fs.existsSync, fetch:async (url, options) => {requests.push(options); return responses.shift();},
+        job:{}, note:()=>{}, gb:String, target};
+      const promise = vm.runInNewContext(fn + '\ndownload("https://example.invalid/file", target, "Test")', context);
+      if (freshStatus === 200) {
+        await promise;
+        assert.equal(fs.statSync(target).size, 11, 'Stale bytes must not be promoted');
+        assert.equal(fs.readFileSync(target, 'utf8'), 'new-content');
+      } else {
+        await assert.rejects(promise, /HTTP 503/);
+        assert.equal(fs.existsSync(target), false);
+        assert.equal(fs.statSync(target + '.part').size, oldSize);
+      }
+      assert.equal(requests.length, 2, '416 size equality cannot certify cached bytes');
+      assert.equal(requests[1].headers, undefined, 'Retry must request the entire file');
+    }
+    await rangeRejected(200);
+    await rangeRejected(503);
     console.log('Setup resumed-download checks passed without network requests.');
   } finally {
     assert.equal(path.dirname(folder), os.tmpdir());
