@@ -72,6 +72,7 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [ ] Reconcile achievement progress with Steam unlock state and clearly label unsupported progress.
 - [ ] Fix activity ages and victory/defeat counters; require victory plus saved medal before adding a clear.
   - Fixed future-clock activity anchors resetting as host time caught up; added numeric-string timestamp normalization and unknown-date handling. Offline tests cover ISO, Unix seconds/milliseconds, numeric strings and short/long clock skew. Counter/end-to-end host refresh checks remain outstanding.
+  - Fixed the sweep counter counting raw victory screens before save confirmation. Regression covers stale screens, repeated result lines, consecutive confirmed wins and immediate defeats without double counting. Guest deployment and UI refresh verification remain queued.
 - [ ] Keep redacted full logs and group route failures by actionable cause, even if an old game-state file survives.
 - [ ] Keep host UI and guest controller connected after VM updates/restarts; expose the specific failing step.
 
