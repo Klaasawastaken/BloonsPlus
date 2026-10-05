@@ -5,7 +5,8 @@ Updated 5 October 2026. Checkboxes require evidence, not merely code. Preserve o
 ## Current repair pass
 
 - [x] Reject new route conversions that silently omit paid hero levels; four offline regressions pass. Original recordings remain unchanged.
-- [ ] Review existing converted recordings whose headers report dropped hero purchases; restore the required purchase semantics or exclude the incomplete candidate. Do not replay owned medals to validate them.
+- [x] Exclude nine existing converted recordings whose headers report dropped hero purchases using shared route validation. Offline coverage remains 508 map/mode pairs because alternatives exist. No recordings changed and no owned medals replayed. Deployment is queued for a later batch.
+- [ ] Add faithful paid-hero-level support before restoring those incomplete converted candidates.
 - [x] Refresh restored replay inputs from the current route; validate saved coordinates and retry counts. Ten focused recovery regressions pass; guest deployment and live resume validation remain open.
 - [x] Keep mobile website navigation synchronized with desktop links, including Wiki and current-page highlighting.
 - [x] Restore host/guest connectivity: reopening the desktop app started the existing VM, connected its app and completed setup without errors on 5 October. The sweep was idle afterward.
@@ -77,7 +78,7 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [ ] Validate a clean Windows install without Python, Visual C++ runtime, App Sandbox or VM; show progress and repair action per prerequisite.
 - [ ] Verify Steam sign-in, BTD6 install/launch, SSH provisioning, port bridge and guest app update without storing Steam credentials.
 - [ ] Test partial-install repair and reuse healthy components without changing existing Steam or game data.
-- [ ] Publish the next installer with checksum, release notes, verification limits and a working site download.
+- [ ] Publish the next installer with release notes, verification limits and a working site download. Do not add a separate SHA256SUMS.txt asset (user removed that requirement).
 - [ ] Add trusted code signing when available; unsigned installers may show SmartScreen warnings.
 
 ## P2 — product and site

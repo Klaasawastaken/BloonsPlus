@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-05T18:13:25.540Z",
+  "generatedAt": "2026-10-05T18:21:45.255Z",
   "modes": [
     "easy",
     "primary_only",
@@ -54,7 +54,6 @@
           "monkey_meadow#chimps#1920x1080#converted#source_btd6bot.btd6 (CHIMPS reuse)",
           "monkey_meadow#hard#2560x1440#noMK#noLL.btd6",
           "monkey_meadow#hard#1920x1080#guide#beginner-hard.btd6",
-          "monkey_meadow#easy#1920x1080#converted#source_bloonsplayer.btd6",
           "monkey_meadow#easy#1920x1080#converted#source_btd6bot.btd6",
           "monkey_meadow#easy#1920x1080#converted#source_everythingmacro.btd6"
         ],
@@ -1093,7 +1092,6 @@
       "modes": {
         "easy": [
           "four_circles#chimps#1920x1080.btd6 (CHIMPS reuse)",
-          "four_circles#chimps#1920x1080#converted#source_bloonsplayer.btd6 (CHIMPS reuse)",
           "four_circles#chimps#1920x1080#converted#source_btd6bot.btd6 (CHIMPS reuse)",
           "four_circles#hard#1920x1080#guide#beginner-hard.btd6"
         ],
@@ -1103,7 +1101,6 @@
         "deflation": "missing",
         "medium": [
           "four_circles#chimps#1920x1080.btd6 (CHIMPS reuse)",
-          "four_circles#chimps#1920x1080#converted#source_bloonsplayer.btd6 (CHIMPS reuse)",
           "four_circles#chimps#1920x1080#converted#source_btd6bot.btd6 (CHIMPS reuse)",
           "four_circles#hard#1920x1080#guide#beginner-hard.btd6",
           "four_circles#medium#1920x1080#converted#source_bloonsplayer.btd6"
@@ -1113,7 +1110,6 @@
         "apopalypse": "missing",
         "hard": [
           "four_circles#chimps#1920x1080.btd6 (CHIMPS reuse)",
-          "four_circles#chimps#1920x1080#converted#source_bloonsplayer.btd6 (CHIMPS reuse)",
           "four_circles#chimps#1920x1080#converted#source_btd6bot.btd6 (CHIMPS reuse)",
           "four_circles#hard#1920x1080#guide#beginner-hard.btd6"
         ],
@@ -1123,12 +1119,10 @@
         "alternate_bloons_rounds": "missing",
         "impoppable": [
           "four_circles#chimps#1920x1080.btd6 (CHIMPS reuse)",
-          "four_circles#chimps#1920x1080#converted#source_bloonsplayer.btd6 (CHIMPS reuse)",
           "four_circles#chimps#1920x1080#converted#source_btd6bot.btd6 (CHIMPS reuse)"
         ],
         "chimps": [
           "four_circles#chimps#1920x1080.btd6",
-          "four_circles#chimps#1920x1080#converted#source_bloonsplayer.btd6",
           "four_circles#chimps#1920x1080#converted#source_btd6bot.btd6"
         ]
       }
