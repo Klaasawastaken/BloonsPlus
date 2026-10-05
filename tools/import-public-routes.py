@@ -8,7 +8,7 @@ btd6bot/, with their LICENSE files, so a rerun needs no network):
   * Randy-Hodges/BTD6-Autoplay         public-sources/Randy-Hodges-... absolute 1920x1080 pixels
 
 Routes retain source placement and upgrade order where supported. A conversion is not
-proof of victory or timing equivalence. Original AutoBTD6 CHIMPS recordings are not edited.
+proof of victory or timing equivalence. Existing recordings, including repaired imports and original CHIMPS, are never regenerated in place.
   * supported BTD6bot waits: emitted as non-blocking seconds-based wait commands;
   * annotated omissions: no-ops and legacy timing/flow omissions are recorded in headers.
     Older "dropped (timing only)" wording does not prove those omissions harmless;
@@ -694,10 +694,9 @@ def placed_groups(lines):
 
 def main():
     log_rejects, written = [], []
-    # Files this script wrote before are regenerated from scratch.
-    for p in PT.glob("*.btd6"):
-        if own_file(p):
-            p.unlink()
+    # Imported recordings may have acquired repairs or live evidence. Preserve
+    # every existing file; body deduplication below avoids re-emitting an
+    # unchanged strategy, while changed conversions receive a separate name.
     routes = []
     jobs = [("btd6bot", convert_btd6bot, sorted(p for p in BTD6BOT_PLANS.glob("*.py") if not p.name.startswith("_"))),
             ("bloonsplayer", convert_bloonsplayer,
@@ -793,6 +792,9 @@ def main():
 
     compat_written = compat_copies(covered, bodies, written, log_rejects)
     validation = validate([w["file"] for w in written + compat_written])
+    created = {w['file'] for w in written + compat_written}
+    if any(f not in created for f in validation):
+        raise ValueError('validator returned a recording outside this import batch')
     bad = {f: e for f, e in validation.items() if e}
     for f, e in bad.items():
         (PT / f).unlink()

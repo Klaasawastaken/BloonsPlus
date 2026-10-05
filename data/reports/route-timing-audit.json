@@ -1,5 +1,5 @@
 {
-  "scanned": 891,
+  "scanned": 893,
   "affected": 48,
   "findings": [
     {
@@ -102,7 +102,7 @@
         "start"
       ],
       "lossyFlag": false,
-      "timingAlternativePresent": false,
+      "timingAlternativePresent": true,
       "status": "source-semantics-review-required"
     },
     {
@@ -113,7 +113,7 @@
         "forward()"
       ],
       "lossyFlag": false,
-      "timingAlternativePresent": false,
+      "timingAlternativePresent": true,
       "status": "source-semantics-review-required"
     },
     {
@@ -124,7 +124,7 @@
         "mid-round delays"
       ],
       "lossyFlag": false,
-      "timingAlternativePresent": false,
+      "timingAlternativePresent": true,
       "status": "source-semantics-review-required"
     },
     {
@@ -527,7 +527,7 @@
         "mid-round delays"
       ],
       "lossyFlag": false,
-      "timingAlternativePresent": false,
+      "timingAlternativePresent": true,
       "status": "source-semantics-review-required"
     },
     {

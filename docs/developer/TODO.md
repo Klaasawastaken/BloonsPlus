@@ -238,3 +238,10 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [ ] Observe timed abilities only during gameplay for a missing medal; offline checks do not establish victory.
 
 - Preview 16: 18 timing and 10 resume checks pass. Matching delayed cursor intent survives resume; actual gameplay verification awaits a missing-medal recording that uses cursor targeting.
+
+## Import preservation (2026-10-06)
+
+- [x] Reproduce full-import deletion of a repaired generator-tagged recording in a temporary fixture, then remove blanket regeneration/deletion. Existing bodies are deduplicated and changed candidates use separate names.
+- [x] Reject validation output outside the newly created batch before cleanup. Nine importer checks pass; the full importer was not run on the real route library.
+
+- Refreshed offline reports on 6 October: 893 recordings, 48 legacy timing review candidates; 508 of 1,204 map/mode pairs have eligible candidates across 86 maps, with 696 gaps and six maps lacking eligible routes. Coverage is not victory evidence.

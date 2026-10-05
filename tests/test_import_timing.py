@@ -4,7 +4,7 @@ from pathlib import Path
 import unittest
 import tempfile
 import io
-from contextlib import redirect_stdout
+from contextlib import redirect_stdout, ExitStack
 from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -14,6 +14,33 @@ spec.loader.exec_module(module)
 
 
 class TimingConversionTests(unittest.TestCase):
+    def test_full_import_preserves_repaired_generator_recording(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            output = root / 'playthroughs'
+            output.mkdir()
+            library = root / 'library'
+            (library / 'metadata').mkdir(parents=True)
+            original = output / 'logs#chimps#1920x1080#converted.btd6'
+            content = b'# generator: import-public-routes.py\n# repaired after import\nround 6\n'
+            original.write_bytes(content)
+            def unsupported(path):
+                raise module.Unsupported('offline fixture: no conversion')
+            with ExitStack() as stack, redirect_stdout(io.StringIO()):
+                stack.enter_context(patch.object(module, 'PT', output))
+                stack.enter_context(patch.object(module, 'LIB', library))
+                stack.enter_context(patch.object(module, 'compat_copies', return_value=[]))
+                stack.enter_context(patch.object(module, 'validate', return_value={}))
+                for name in ('convert_btd6bot', 'convert_bloonsplayer', 'convert_everythingmacro', 'convert_randyhodges'):
+                    stack.enter_context(patch.object(module, name, unsupported))
+                module.main()
+                module.main()  # Repeating a batch must also preserve the same bytes.
+                with patch.object(module, 'validate', return_value={original.name: 'invalid'}):
+                    with self.assertRaisesRegex(ValueError, 'outside this import batch'):
+                        module.main()
+            self.assertTrue(original.exists())
+            self.assertEqual(original.read_bytes(), content)
+
     def test_timing_candidates_preserve_existing_files_and_are_idempotent(self):
         with tempfile.TemporaryDirectory() as folder:
             output = Path(folder)

@@ -1,5 +1,11 @@
 ## Preview 13 — Round-relative strategy timing
 
+## Preview 17 — Preserve repaired imports
+
+- Remove blanket deletion of existing imported recordings; retain repairs and original bytes.
+- Restrict validation cleanup to the new import batch. Nine offline checks pass.
+- Refresh reports: 893 recordings, 508/1,204 eligible map/mode pairs and 48 legacy timing review candidates. No new victory claim.
+
 ## Preview 16 — Non-blocking cursor targeting
 
 - Schedule delayed ability cursor movement without blocking screen reads or repeating the ability key.
