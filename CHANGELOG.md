@@ -1,3 +1,10 @@
+## Preview 11 — Runtime setup recovery
+
+- Bound the Microsoft C++ runtime request/read/download waits and show download progress.
+- Reject oversized, truncated and non-executable runtime responses before launch.
+- Stop waiting after 15 minutes for runtime installation and report the still-running process without terminating Windows installation.
+- Compiled offline payload and ownership checks and installer atomic-output checks pass. Clean-machine installation remains a separate verification requirement.
+
 ## Preview 9 — App interface polish
 
 - Reorganize Settings into appearance, VM setup and backups; expand profile and passive-learning diagnostics only when needed.

@@ -4,6 +4,10 @@ Updated 5 October 2026. Checkboxes require evidence, not merely code. Preserve o
 
 ## Current repair pass
 
+- [ ] Audit non-BTD6bot import timing: BloonsPlayer delay/wait/lives, speed/autostart and start-round commands are currently called harmless at tools/import-public-routes.py:526; Everything Macro nonzero mid-round delays are omitted at :580; Randy start/finish commands are omitted at :635. Determine source units and execution semantics before preserving them or flagging an incomplete conversion. Do not rewrite original CHIMPS routes.
+
+- [x] Bound Microsoft C++ runtime download and installation waits. Show byte progress; reject oversized, truncated and non-executable responses before launch. Keep a timed-out Windows runtime installer running and report its process rather than terminating system installation. Compiled offline payload/ownership guards and atomic-output regressions pass. A clean Windows install remains unverified.
+
 - [x] Simplify Settings into appearance, VM setup, backups, and expandable profile/learning diagnostics; remove unused XP target and redundant status rows. Add shared searchable dropdowns, preserve live selected values without replacing focused menu rows, repair dark surfaces, and rebuild Boss Events as a clearly labelled preview. Browser checks confirmed theme changes, searchable map selection and keyboard selection without starting an owned medal. Installer/release preparation follows.
 
 - [x] Gate support-tower coverage optimization behind experimental placement, excluding CHIMPS and changing-terrain maps. The offline regression reproduced repositioning with the experiment disabled; disabled/CHIMPS/dynamic cases now retain recorded positions. Failed-placement recovery remains available. Guest deployment pending.

@@ -15,6 +15,7 @@ class InstallerControllerGuard(unittest.TestCase):
             test = Path(folder) / 'GuardTests.cs'
             test.write_text(r'''
 using System;
+using System.IO;
 internal static class GuardTests {
     static void Check(bool value) { if (!value) throw new Exception("Guard assertion failed"); }
     static void Main() {
@@ -28,7 +29,27 @@ internal static class GuardTests {
         Check(!InstallerForm.IsOwnedAppProcess("node", root + @"-other\resources\app\node.exe", root));
         Check(!InstallerForm.IsOwnedAppProcess("BloonsTD6", root + @"\BloonsTD6.exe", root));
         Check(!InstallerForm.IsOwnedAppProcess("python", root + @"\resources\app\.venv\Scripts\python.exe", root));
-        Console.WriteLine("Installer idle/ownership guards passed; no processes controlled.");
+        using (var output = new MemoryStream()) {
+            InstallerForm.CopyRuntimeDownload(new MemoryStream(new byte[] {77, 90, 1, 2}), output, 4, null);
+            Check(output.Length == 4);
+        }
+        foreach (var bytes in new[] {new byte[0], new byte[] {77}, new byte[] {60, 104, 116, 109, 108}}) {
+            bool rejected = false;
+            try { InstallerForm.CopyRuntimeDownload(new MemoryStream(bytes), new MemoryStream(), bytes.Length, null); }
+            catch (InvalidDataException) { rejected = true; }
+            Check(rejected);
+        }
+        foreach (long length in new long[] {8, 128L * 1024 * 1024 + 1}) {
+            bool rejected = false;
+            try { InstallerForm.CopyRuntimeDownload(new MemoryStream(new byte[] {77, 90, 1, 2}), new MemoryStream(), length, null); }
+            catch (InvalidDataException) { rejected = true; }
+            Check(rejected);
+        }
+        using (var output = new MemoryStream()) {
+            InstallerForm.CopyRuntimeDownload(new MemoryStream(new byte[] {77, 90, 1, 2}), output, -1, null);
+            Check(output.Length == 4);
+        }
+        Console.WriteLine("Installer guards and runtime payload checks passed; no installer launched.");
     }
 }
 ''', encoding='utf-8')

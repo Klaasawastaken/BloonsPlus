@@ -587,14 +587,25 @@ internal sealed class InstallerForm : Form
             // .NET Framework can otherwise negotiate legacy TLS on older Windows installs,
             // which makes Microsoft's current aka.ms endpoint fail before setup begins.
             ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072; // TLS 1.2
-            using (WebClient client = new WebClient())
-                client.DownloadFile("https://aka.ms/vs/17/release/vc_redist.x64.exe", installer);
+            var request = (HttpWebRequest)WebRequest.Create("https://aka.ms/vs/17/release/vc_redist.x64.exe");
+            request.Timeout = 60000;
+            request.ReadWriteTimeout = 15000;
+            using (var response = (HttpWebResponse)request.GetResponse())
+            using (var source = response.GetResponseStream())
+            using (var target = new FileStream(installer, FileMode.Create, FileAccess.Write, FileShare.None)) {
+                CopyRuntimeDownload(source, target, response.ContentLength, (received, total) => {
+                    string amount = (received / 1048576.0).ToString("0.0") + " MB";
+                    if (total > 0) amount += " of " + (total / 1048576.0).ToString("0.0") + " MB";
+                    SetStatus("Downloading Microsoft C++ runtime: " + amount, 930 + (total > 0 ? (int)(9 * received / total) : 0));
+                });
+            }
             SetStatus("Installing the Microsoft C++ runtime (Windows may ask for permission)…", 940);
             ProcessStartInfo start = new ProcessStartInfo(installer, "/install /quiet /norestart") {
                 UseShellExecute = true, Verb = "runas", WindowStyle = ProcessWindowStyle.Hidden
             };
             using (Process child = Process.Start(start)) {
-                child.WaitForExit();
+                if (!child.WaitForExit(15 * 60 * 1000))
+                    throw new TimeoutException("Microsoft C++ runtime setup has not finished after 15 minutes. It may still be running (process " + child.Id + "). Check Windows installation or permission dialogs before retrying; Bloons+ did not terminate it.");
                 if (child.ExitCode != 0 && child.ExitCode != 1638 && child.ExitCode != 3010)
                     throw new InvalidOperationException("Microsoft C++ runtime setup exited with code " + child.ExitCode + ".");
             }
@@ -605,6 +616,38 @@ internal sealed class InstallerForm : Form
         finally { try { if (File.Exists(installer)) File.Delete(installer); } catch { } }
         if (!File.Exists(runtime) || !File.Exists(runtime1))
             throw new InvalidOperationException("Microsoft C++ runtime installation finished, but msvcp140.dll and msvcp140_1.dll are still missing. Restart Windows, then run setup again.");
+    }
+
+    // Bounded copy also rejects an HTML error page or a truncated download before launch.
+    internal static void CopyRuntimeDownload(Stream source, Stream target, long expectedLength, Action<long, long> report)
+    {
+        const long maximumBytes = 128L * 1024 * 1024;
+        if (expectedLength > maximumBytes || expectedLength < -1)
+            throw new InvalidDataException("Microsoft runtime download reported an invalid size. Retry setup.");
+        var deadline = DateTime.UtcNow.AddMinutes(5);
+        var buffer = new byte[64 * 1024];
+        long received = 0;
+        int first = -1, second = -1;
+        var lastReport = DateTime.MinValue;
+        while (true) {
+            if (DateTime.UtcNow >= deadline)
+                throw new TimeoutException("Microsoft runtime download exceeded five minutes. Check your connection and retry setup.");
+            int count = source.Read(buffer, 0, buffer.Length);
+            if (count == 0) break;
+            if (received == 0) first = buffer[0];
+            if (received < 2 && received + count >= 2) second = buffer[(int)(1 - received)];
+            received += count;
+            if (received > maximumBytes || (expectedLength >= 0 && received > expectedLength))
+                throw new InvalidDataException("Microsoft runtime download exceeded its expected size. Retry setup.");
+            target.Write(buffer, 0, count);
+            if (report != null && DateTime.UtcNow - lastReport >= TimeSpan.FromMilliseconds(250)) {
+                report(received, expectedLength);
+                lastReport = DateTime.UtcNow;
+            }
+        }
+        if (first != 77 || second != 90 || (expectedLength >= 0 && received != expectedLength))
+            throw new InvalidDataException("Microsoft runtime download is incomplete or is not an executable. Check your connection and retry setup.");
+        if (report != null) report(received, expectedLength);
     }
 
     private static bool ProcessSucceeds(string file, string arguments, int timeout = 10000)
