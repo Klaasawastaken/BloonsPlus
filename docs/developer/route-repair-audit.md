@@ -50,7 +50,7 @@ An offline fix is not a verified route win. Historical attempts require a privat
 attempt-by-attempt ledger linking each cause to a fix and subsequent validation;
 aggregate counts alone do not satisfy that requirement.
 
-## Current local patch
+## Initial patch evidence
 
 - Surplus crosspath legality: five offline tests pass, including all main/secondary
   path permutations and rejection of invalid or third-path upgrades.
@@ -66,12 +66,12 @@ aggregate counts alone do not satisfy that requirement.
 - A private, ignored repair backlog groups all 584 archived attempts into 204
   map/mode/route combinations. Only the latest 150 attempts have detailed evidence
   in this snapshot. Remaining combinations are explicitly awaiting evidence review.
-- VM deployment is pending. No route is declared repaired or victorious solely
+- These patches were subsequently deployed. No route is declared repaired or victorious solely
   because these offline regressions pass.
 
 ## Native-frame follow-up
 
-The latest Tinkerton CHIMPS attempt ended at round 28. Its native failure frame
+The initial Tinkerton CHIMPS attempt ended at round 28. Its native failure frame
 shows the Village at 0-1-0, while the log issued its top-path upgrade before the
 middle-path purchase. This confirms a missed upgrade, not merely ambiguous cash.
 
@@ -83,6 +83,32 @@ button retry, unavailable/unknown panels, and tier-ledger reconciliation with in
 The native Village frame reads 0-1-0; a left Dart panel reads 0-0-0; three screenshots
 without ordinary tower panels return unknown. Input duration increased from 30 to
 120 ms. Live verification is still required, especially on moving or obscured towers.
+
+## Follow-up: selection retries and capped crosspaths
+
+Two further faults were isolated from live attempts and the replay control flow:
+
+- The missed-upgrade retry queue was placed inside the confirmed-purchase branch,
+  making it unreachable. Commit `be72474` moves it to failed confirmation. Tests
+  execute that actual branch and cover bounded retries and exact intended tiers.
+- Native Heli 2-0-3 panels dim unused capped-crosspath pips to BGR 59,110,151.
+  The reader rejected those selected panels as unreadable. Commit `8855121`
+  recognizes the observed empty-pip state, retaining contiguous-tier and legal-path
+  checks. Two native captures now return 2-0-3, and a no-panel control stays unknown.
+
+The attempt with the retry-queue fix progressed past round 60 but ended in defeat
+before receiving the capped-crosspath fix. This is not a confirmed route success.
+The capped-crosspath patch still requires a subsequent live outcome.
+
+Unconfirmed upgrades now capture a native frame before the panel closes and retain
+the observation in the run ledger. JSON sidecars survive subsequent failures;
+image rotation keeps the newest 60 image files. A retained record's screenshot may
+therefore be unavailable after rotation. These are private runtime artifacts.
+
+Current offline verification: 23 Python tests pass, including actual reconciliation
+control flow, metadata retention, and panel fixtures at 1080p and 1440p. The five
+JavaScript regression scripts also passed during this repair pass. These checks
+do not establish all-route reliability, full live resolution support, or production readiness.
 
 The observer does not identify a tower by name. Correct selection still depends on
 the recorded/tracked position; checkpoint recovery remains a separate open issue.
