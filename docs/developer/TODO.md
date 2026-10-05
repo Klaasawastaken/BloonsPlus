@@ -4,6 +4,8 @@ Updated 5 October 2026. Checkboxes require evidence, not merely code. Preserve o
 
 ## Current repair pass
 
+- Confirmed Alpine Run CHIMPS at 23:33 on 5 October: live victory observed, Hard/Clicks=1050185 in the authoritative VM save, and controller logged `alpine_run - chimps clear confirmed`. Missing medal complete; never replay it. Stop-after-replay completed before the Preview 11 update began. Update finished at 23:34:37 without error; guest Settings and dropdown assets were checked. Missing-medal sweep resumed on One Two Tree Impoppable using its CHIMPS recording.
+
 - [ ] Audit non-BTD6bot import timing: BloonsPlayer delay/wait/lives, speed/autostart and start-round commands are currently called harmless at tools/import-public-routes.py:526; Everything Macro nonzero mid-round delays are omitted at :580; Randy start/finish commands are omitted at :635. Determine source units and execution semantics before preserving them or flagging an incomplete conversion. Do not rewrite original CHIMPS routes.
 
 - [x] Bound Microsoft C++ runtime download and installation waits. Show byte progress; reject oversized, truncated and non-executable responses before launch. Keep a timed-out Windows runtime installer running and report its process rather than terminating system installation. Compiled offline payload/ownership guards and atomic-output regressions pass. A clean Windows install remains unverified.
