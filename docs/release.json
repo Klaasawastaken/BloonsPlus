@@ -1,5 +1,11 @@
 {
-  "tag_name": "v0.1.0-preview.6",
-  "html_url": "https://github.com/Klaasawastaken/BloonsPlus/releases/tag/v0.1.0-preview.6",
-  "assets": [{"name":"BloonsPlusSetup.exe","size":244270277,"browser_download_url":"https://github.com/Klaasawastaken/BloonsPlus/releases/download/v0.1.0-preview.6/BloonsPlusSetup.exe"}]
+  "tag_name": "v0.1.0-preview.7",
+  "html_url": "https://github.com/Klaasawastaken/BloonsPlus/releases/tag/v0.1.0-preview.7",
+  "assets": [
+    {
+      "name": "BloonsPlusSetup.exe",
+      "size": 245105318,
+      "browser_download_url": "https://github.com/Klaasawastaken/BloonsPlus/releases/download/untagged-bd4af4aa9d5714143f80/BloonsPlusSetup.exe"
+    }
+  ]
 }
