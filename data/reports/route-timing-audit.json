@@ -1,0 +1,571 @@
+{
+  "scanned": 891,
+  "affected": 48,
+  "findings": [
+    {
+      "file": "adoras_temple#chimps#1920x1080#converted#source_bloonsplayer#lossy.btd6",
+      "map": "adoras_temple",
+      "mode": "chimps",
+      "omitted": [
+        "start",
+        "toggle"
+      ],
+      "lossyFlag": true,
+      "timingAlternativePresent": false,
+      "status": "source-semantics-review-required"
+    },
+    {
+      "file": "balance#chimps#1920x1080#converted#source_bloonsplayer.btd6",
+      "map": "balance",
+      "mode": "chimps",
+      "omitted": [
+        "start"
+      ],
+      "lossyFlag": false,
+      "timingAlternativePresent": false,
+      "status": "source-semantics-review-required"
+    },
+    {
+      "file": "bloody_puddles#hard#1920x1080#converted#source_randyhodges.btd6",
+      "map": "bloody_puddles",
+      "mode": "hard",
+      "omitted": [
+        "finish",
+        "start"
+      ],
+      "lossyFlag": false,
+      "timingAlternativePresent": false,
+      "status": "source-semantics-review-required"
+    },
+    {
+      "file": "bloonarius_prime#chimps#1920x1080#converted#source_btd6bot#lossy.btd6",
+      "map": "bloonarius_prime",
+      "mode": "chimps",
+      "omitted": [
+        "forward()"
+      ],
+      "lossyFlag": true,
+      "timingAlternativePresent": false,
+      "status": "source-semantics-review-required"
+    },
+    {
+      "file": "cargo#chimps#1920x1080#converted#source_btd6bot#lossy.btd6",
+      "map": "cargo",
+      "mode": "chimps",
+      "omitted": [
+        "wait()"
+      ],
+      "lossyFlag": true,
+      "timingAlternativePresent": false,
+      "status": "source-semantics-review-required"
+    },
+    {
+      "file": "castle_revenge#chimps#1920x1080#converted#source_btd6bot.btd6",
+      "map": "castle_revenge",
+      "mode": "chimps",
+      "omitted": [
+        "wait()"
+      ],
+      "lossyFlag": false,
+      "timingAlternativePresent": true,
+      "status": "source-semantics-review-required"
+    },
+    {
+      "file": "covered_garden#chimps#1920x1080#converted#source_btd6bot#lossy.btd6",
+      "map": "covered_garden",
+      "mode": "chimps",
+      "omitted": [
+        "change_autostart()",
+        "end_round()",
+        "forward()"
+      ],
+      "lossyFlag": true,
+      "timingAlternativePresent": false,
+      "status": "source-semantics-review-required"
+    },
+    {
+      "file": "dark_castle#chimps#1920x1080#converted#source_bloonsplayer#lossy.btd6",
+      "map": "dark_castle",
+      "mode": "chimps",
+      "omitted": [
+        "start"
+      ],
+      "lossyFlag": true,
+      "timingAlternativePresent": false,
+      "status": "source-semantics-review-required"
+    },
+    {
+      "file": "dark_castle#deflation#1920x1080#converted#source_bloonsplayer.btd6",
+      "map": "dark_castle",
+      "mode": "deflation",
+      "omitted": [
+        "start"
+      ],
+      "lossyFlag": false,
+      "timingAlternativePresent": false,
+      "status": "source-semantics-review-required"
+    },
+    {
+      "file": "dark_castle#deflation#1920x1080#converted#source_btd6bot#v2.btd6",
+      "map": "dark_castle",
+      "mode": "deflation",
+      "omitted": [
+        "forward()"
+      ],
+      "lossyFlag": false,
+      "timingAlternativePresent": false,
+      "status": "source-semantics-review-required"
+    },
+    {
+      "file": "dark_castle#deflation#1920x1080#converted#source_everythingmacro.btd6",
+      "map": "dark_castle",
+      "mode": "deflation",
+      "omitted": [
+        "mid-round delays"
+      ],
+      "lossyFlag": false,
+      "timingAlternativePresent": false,
+      "status": "source-semantics-review-required"
+    },
+    {
+      "file": "dark_castle#hard#1920x1080#converted#source_randyhodges.btd6",
+      "map": "dark_castle",
+      "mode": "hard",
+      "omitted": [
+        "finish",
+        "start"
+      ],
+      "lossyFlag": false,
+      "timingAlternativePresent": false,
+      "status": "source-semantics-review-required"
+    },
+    {
+      "file": "enchanted_glade#chimps#1920x1080#converted#source_btd6bot.btd6",
+      "map": "enchanted_glade",
+      "mode": "chimps",
+      "omitted": [
+        "wait()"
+      ],
+      "lossyFlag": false,
+      "timingAlternativePresent": true,
+      "status": "source-semantics-review-required"
+    },
+    {
+      "file": "encrypted#chimps#1920x1080#converted#source_btd6bot.btd6",
+      "map": "encrypted",
+      "mode": "chimps",
+      "omitted": [
+        "wait()"
+      ],
+      "lossyFlag": false,
+      "timingAlternativePresent": true,
+      "status": "source-semantics-review-required"
+    },
+    {
+      "file": "erosion#chimps#1920x1080#converted#source_btd6bot#lossy.btd6",
+      "map": "erosion",
+      "mode": "chimps",
+      "omitted": [
+        "change_autostart()",
+        "end_round()",
+        "forward()"
+      ],
+      "lossyFlag": true,
+      "timingAlternativePresent": false,
+      "status": "source-semantics-review-required"
+    },
+    {
+      "file": "firing_range#chimps#1920x1080#converted#source_btd6bot#lossy.btd6",
+      "map": "firing_range",
+      "mode": "chimps",
+      "omitted": [
+        "wait()"
+      ],
+      "lossyFlag": true,
+      "timingAlternativePresent": false,
+      "status": "source-semantics-review-required"
+    },
+    {
+      "file": "flooded_valley#chimps#1920x1080#converted#source_btd6bot#lossy.btd6",
+      "map": "flooded_valley",
+      "mode": "chimps",
+      "omitted": [
+        "forward()",
+        "wait()"
+      ],
+      "lossyFlag": true,
+      "timingAlternativePresent": false,
+      "status": "source-semantics-review-required"
+    },
+    {
+      "file": "flooded_valley#hard#1920x1080#converted#source_randyhodges.btd6",
+      "map": "flooded_valley",
+      "mode": "hard",
+      "omitted": [
+        "finish",
+        "start"
+      ],
+      "lossyFlag": false,
+      "timingAlternativePresent": false,
+      "status": "source-semantics-review-required"
+    },
+    {
+      "file": "glacial_trail#easy#1920x1080#converted#source_bloonsplayer#lossy.btd6",
+      "map": "glacial_trail",
+      "mode": "easy",
+      "omitted": [
+        "wait"
+      ],
+      "lossyFlag": true,
+      "timingAlternativePresent": false,
+      "status": "source-semantics-review-required"
+    },
+    {
+      "file": "glacial_trail#hard#1920x1080#converted#source_bloonsplayer#lossy.btd6",
+      "map": "glacial_trail",
+      "mode": "hard",
+      "omitted": [
+        "wait"
+      ],
+      "lossyFlag": true,
+      "timingAlternativePresent": false,
+      "status": "source-semantics-review-required"
+    },
+    {
+      "file": "infernal#hard#1920x1080#converted#source_bloonsplayer#lossy.btd6",
+      "map": "infernal",
+      "mode": "hard",
+      "omitted": [
+        "wait"
+      ],
+      "lossyFlag": true,
+      "timingAlternativePresent": false,
+      "status": "source-semantics-review-required"
+    },
+    {
+      "file": "infernal#hard#1920x1080#converted#source_randyhodges.btd6",
+      "map": "infernal",
+      "mode": "hard",
+      "omitted": [
+        "finish",
+        "start"
+      ],
+      "lossyFlag": false,
+      "timingAlternativePresent": false,
+      "status": "source-semantics-review-required"
+    },
+    {
+      "file": "midnight_mansion#chimps#1920x1080#converted#source_btd6bot.btd6",
+      "map": "midnight_mansion",
+      "mode": "chimps",
+      "omitted": [
+        "change_autostart()",
+        "end_round()",
+        "wait()"
+      ],
+      "lossyFlag": false,
+      "timingAlternativePresent": false,
+      "status": "source-semantics-review-required"
+    },
+    {
+      "file": "monkey_meadow#deflation#1920x1080#converted#source_bloonsplayer.btd6",
+      "map": "monkey_meadow",
+      "mode": "deflation",
+      "omitted": [
+        "change"
+      ],
+      "lossyFlag": false,
+      "timingAlternativePresent": false,
+      "status": "source-semantics-review-required"
+    },
+    {
+      "file": "muddy_puddles#chimps#1920x1080#converted#source_btd6bot#lossy.btd6",
+      "map": "muddy_puddles",
+      "mode": "chimps",
+      "omitted": [
+        "change_autostart()",
+        "end_round()",
+        "forward()",
+        "wait()"
+      ],
+      "lossyFlag": true,
+      "timingAlternativePresent": false,
+      "status": "source-semantics-review-required"
+    },
+    {
+      "file": "muddy_puddles#hard#1920x1080#converted#source_randyhodges.btd6",
+      "map": "muddy_puddles",
+      "mode": "hard",
+      "omitted": [
+        "finish",
+        "start"
+      ],
+      "lossyFlag": false,
+      "timingAlternativePresent": false,
+      "status": "source-semantics-review-required"
+    },
+    {
+      "file": "mushroom_grotto#chimps#1920x1080#converted#source_btd6bot.btd6",
+      "map": "mushroom_grotto",
+      "mode": "chimps",
+      "omitted": [
+        "forward()",
+        "wait()"
+      ],
+      "lossyFlag": false,
+      "timingAlternativePresent": false,
+      "status": "source-semantics-review-required"
+    },
+    {
+      "file": "ouch#alternate_bloons_rounds#1920x1080#converted#source_btd6bot.btd6",
+      "map": "ouch",
+      "mode": "alternate_bloons_rounds",
+      "omitted": [
+        "move_cursor()"
+      ],
+      "lossyFlag": false,
+      "timingAlternativePresent": false,
+      "status": "source-semantics-review-required"
+    },
+    {
+      "file": "ouch#chimps#1920x1080#converted#source_btd6bot#lossy.btd6",
+      "map": "ouch",
+      "mode": "chimps",
+      "omitted": [
+        "change_autostart()",
+        "end_round()",
+        "forward()",
+        "move_cursor()",
+        "wait()"
+      ],
+      "lossyFlag": true,
+      "timingAlternativePresent": false,
+      "status": "source-semantics-review-required"
+    },
+    {
+      "file": "ouch#hard#1920x1080#converted#source_bloonsplayer#lossy.btd6",
+      "map": "ouch",
+      "mode": "hard",
+      "omitted": [
+        "delay",
+        "start"
+      ],
+      "lossyFlag": true,
+      "timingAlternativePresent": false,
+      "status": "source-semantics-review-required"
+    },
+    {
+      "file": "ouch#hard#1920x1080#converted#source_randyhodges.btd6",
+      "map": "ouch",
+      "mode": "hard",
+      "omitted": [
+        "finish",
+        "start"
+      ],
+      "lossyFlag": false,
+      "timingAlternativePresent": false,
+      "status": "source-semantics-review-required"
+    },
+    {
+      "file": "party_parade#hard#1920x1080#converted#source_btd6bot#lossy.btd6",
+      "map": "party_parade",
+      "mode": "hard",
+      "omitted": [
+        "move_cursor()"
+      ],
+      "lossyFlag": true,
+      "timingAlternativePresent": false,
+      "status": "source-semantics-review-required"
+    },
+    {
+      "file": "pats_pond#chimps#1920x1080#converted#source_btd6bot.btd6",
+      "map": "pats_pond",
+      "mode": "chimps",
+      "omitted": [
+        "wait()"
+      ],
+      "lossyFlag": false,
+      "timingAlternativePresent": true,
+      "status": "source-semantics-review-required"
+    },
+    {
+      "file": "peninsula#chimps#1920x1080#converted#source_btd6bot#lossy.btd6",
+      "map": "peninsula",
+      "mode": "chimps",
+      "omitted": [
+        "wait()"
+      ],
+      "lossyFlag": true,
+      "timingAlternativePresent": false,
+      "status": "source-semantics-review-required"
+    },
+    {
+      "file": "quad#hard#1920x1080#converted#source_bloonsplayer#lossy.btd6",
+      "map": "quad",
+      "mode": "hard",
+      "omitted": [
+        "change",
+        "start"
+      ],
+      "lossyFlag": true,
+      "timingAlternativePresent": false,
+      "status": "source-semantics-review-required"
+    },
+    {
+      "file": "quad#hard#1920x1080#converted#source_randyhodges.btd6",
+      "map": "quad",
+      "mode": "hard",
+      "omitted": [
+        "finish",
+        "start"
+      ],
+      "lossyFlag": false,
+      "timingAlternativePresent": false,
+      "status": "source-semantics-review-required"
+    },
+    {
+      "file": "quarry#chimps#1920x1080#converted#source_bloonsplayer.btd6",
+      "map": "quarry",
+      "mode": "chimps",
+      "omitted": [
+        "start"
+      ],
+      "lossyFlag": false,
+      "timingAlternativePresent": false,
+      "status": "source-semantics-review-required"
+    },
+    {
+      "file": "ravine#chimps#1920x1080#converted#source_btd6bot#lossy.btd6",
+      "map": "ravine",
+      "mode": "chimps",
+      "omitted": [
+        "change_autostart()",
+        "end_round()",
+        "forward()",
+        "wait()"
+      ],
+      "lossyFlag": true,
+      "timingAlternativePresent": false,
+      "status": "source-semantics-review-required"
+    },
+    {
+      "file": "ravine#hard#1920x1080#converted#source_bloonsplayer#lossy.btd6",
+      "map": "ravine",
+      "mode": "hard",
+      "omitted": [
+        "delay",
+        "start"
+      ],
+      "lossyFlag": true,
+      "timingAlternativePresent": false,
+      "status": "source-semantics-review-required"
+    },
+    {
+      "file": "ravine#hard#1920x1080#converted#source_randyhodges.btd6",
+      "map": "ravine",
+      "mode": "hard",
+      "omitted": [
+        "finish",
+        "start"
+      ],
+      "lossyFlag": false,
+      "timingAlternativePresent": false,
+      "status": "source-semantics-review-required"
+    },
+    {
+      "file": "sanctuary#easy#1920x1080#converted#source_bloonsplayer.btd6",
+      "map": "sanctuary",
+      "mode": "easy",
+      "omitted": [
+        "delay"
+      ],
+      "lossyFlag": false,
+      "timingAlternativePresent": false,
+      "status": "source-semantics-review-required"
+    },
+    {
+      "file": "spice_islands#chimps#1920x1080#converted#source_btd6bot#lossy.btd6",
+      "map": "spice_islands",
+      "mode": "chimps",
+      "omitted": [
+        "wait()"
+      ],
+      "lossyFlag": true,
+      "timingAlternativePresent": false,
+      "status": "source-semantics-review-required"
+    },
+    {
+      "file": "sunset_gulch#chimps#1920x1080#converted#source_btd6bot#lossy.btd6",
+      "map": "sunset_gulch",
+      "mode": "chimps",
+      "omitted": [
+        "change_autostart()",
+        "end_round()",
+        "forward()",
+        "wait()"
+      ],
+      "lossyFlag": true,
+      "timingAlternativePresent": false,
+      "status": "source-semantics-review-required"
+    },
+    {
+      "file": "tricky_tracks#chimps#1920x1080#converted#source_btd6bot.btd6",
+      "map": "tricky_tracks",
+      "mode": "chimps",
+      "omitted": [
+        "forward()"
+      ],
+      "lossyFlag": false,
+      "timingAlternativePresent": false,
+      "status": "source-semantics-review-required"
+    },
+    {
+      "file": "tricky_tracks#impoppable#1920x1080#converted#source_everythingmacro.btd6",
+      "map": "tricky_tracks",
+      "mode": "impoppable",
+      "omitted": [
+        "mid-round delays"
+      ],
+      "lossyFlag": false,
+      "timingAlternativePresent": false,
+      "status": "source-semantics-review-required"
+    },
+    {
+      "file": "workshop#chimps#1920x1080#converted#source_bloonsplayer#lossy.btd6",
+      "map": "workshop",
+      "mode": "chimps",
+      "omitted": [
+        "change",
+        "delay",
+        "start"
+      ],
+      "lossyFlag": true,
+      "timingAlternativePresent": false,
+      "status": "source-semantics-review-required"
+    },
+    {
+      "file": "workshop#hard#1920x1080#converted#source_bloonsplayer.btd6",
+      "map": "workshop",
+      "mode": "hard",
+      "omitted": [
+        "start"
+      ],
+      "lossyFlag": false,
+      "timingAlternativePresent": false,
+      "status": "source-semantics-review-required"
+    },
+    {
+      "file": "workshop#hard#1920x1080#converted#source_randyhodges#lossy.btd6",
+      "map": "workshop",
+      "mode": "hard",
+      "omitted": [
+        "finish",
+        "start"
+      ],
+      "lossyFlag": true,
+      "timingAlternativePresent": false,
+      "status": "source-semantics-review-required"
+    }
+  ],
+  "note": "Headers identify review candidates, not proof of a defect or victory. Original recordings unchanged."
+}

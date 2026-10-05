@@ -1,3 +1,10 @@
+## Preview 12 — Route timing audit
+
+- Stop calling omitted BloonsPlayer timing, life, speed and manual-round controls harmless. Mark incomplete conversions explicitly.
+- Flag Everything Macro round-relative delay loss; do not confuse a relative ability wait with an absolute round schedule.
+- Add a read-only legacy timing audit: 891 recordings scanned; 48 source review candidates and four existing timing-preserved alternatives.
+- Eight offline converter regressions pass. Original recordings remain untouched; no validation-only games launched.
+
 ## Preview 11 — Runtime setup recovery
 
 - Bound the Microsoft C++ runtime request/read/download waits and show download progress.

@@ -523,9 +523,14 @@ def convert_bloonsplayer(path):
             route.cash(last_money)
         elif m := re.match(r"round\s+(\d+)$", low):
             route.round(int(m.group(1)))
-        elif re.match(r"(delay|wait|lives)\s+[\d.]+$", low) or low in ("change speed", "toggle autostart") \
-                or low.startswith("start round"):
-            route.harmless.add(low.split()[0])
+        elif m := re.fullmatch(r"(delay|wait|lives)\s+(\d+(?:\.\d+)?)", low):
+            command, amount = m.groups()
+            if command in ("delay", "wait") and float(amount) == 0:
+                route.harmless.add(command + "(0)")
+            else:
+                route.lossy.add("BloonsPlayer " + command + " " + amount + " control omitted")
+        elif low in ("change speed", "toggle autostart") or low.startswith("start round"):
+            route.lossy.add("BloonsPlayer " + low + " control omitted")
         elif m := re.match(r"use ability\s+(10|[1-9])$", low):
             route.ability(int(m.group(1)))
         elif re.match(r"(repeat ability|stop ability|stop all abilities)", low):
@@ -578,7 +583,7 @@ def convert_everythingmacro(path):
         if int(rnd) > 0:
             route.round(int(rnd))
         if int(delay):
-            route.harmless.add("mid-round delays")
+            route.lossy.add("round-relative delay of " + delay + " milliseconds omitted")
         if action == "PlaceTower":
             kind, x, y = setup[names[0]]
             route.place(names[0], "hero" if kind.lower() == "hero" else kind, x, y)
@@ -721,7 +726,7 @@ def main():
                 f"source file: {route.source_file} (vendored copy: {src['local']})",
                 f"source mode: {route.mode}; converted to {W}x{H} AutoBTD6 actions"]
         if route.harmless:
-            meta.append("dropped (timing only): " + "; ".join(sorted(route.harmless)))
+            meta.append("conversion notes (source no-ops): " + "; ".join(sorted(route.harmless)))
         if route.lossy:
             meta.append("dropped (not expressible in AutoBTD6, route may be weaker): " + "; ".join(sorted(route.lossy)))
         meta += extra_meta
@@ -931,8 +936,33 @@ def emit_timing_candidates():
     print(json.dumps({'timingCandidates': written}, indent=2))
 
 
+def audit_legacy_timing():
+    """Read-only inventory of legacy timing omissions; never launch or rewrite routes."""
+    files = sorted(PT.glob('*.btd6'))
+    alternatives = {tuple(path.stem.split('#')[:2]) for path in files if '#timing-preserved' in path.name}
+    findings = []
+    for path in files:
+        fields = path.stem.split('#')
+        for raw in path.read_text(encoding='utf-8-sig').splitlines():
+            match = re.match(r'^#\s*dropped \(timing only\):\s*(.*)$', raw, re.I)
+            if not match:
+                continue
+            omitted = [item.strip() for item in match.group(1).split(';') if item.strip()]
+            relevant = [item for item in omitted if re.search(
+                r'\b(wait|delay|delays|forward|end_round|change_autostart|move_cursor|start|finish|toggle|change|lives)\b', item, re.I)]
+            if relevant:
+                findings.append({'file': path.name, 'map': fields[0], 'mode': fields[1] if len(fields) > 1 else None,
+                                 'omitted': relevant, 'lossyFlag': 'lossy' in fields,
+                                 'timingAlternativePresent': tuple(fields[:2]) in alternatives,
+                                 'status': 'source-semantics-review-required'})
+    return {'scanned': len(files), 'affected': len(findings), 'findings': findings,
+            'note': 'Headers identify review candidates, not proof of a defect or victory. Original recordings unchanged.'}
+
+
 if __name__ == "__main__":
-    if '--timing-candidates' in sys.argv:
+    if '--audit-timing' in sys.argv:
+        print(json.dumps(audit_legacy_timing(), indent=2))
+    elif '--timing-candidates' in sys.argv:
         emit_timing_candidates()
     else:
         main()
