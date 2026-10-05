@@ -103,6 +103,9 @@
   const billingButtons = document.querySelectorAll('[data-billing]');
   if (billingButtons.length) {
     const price = document.getElementById('pro-price'), period = document.getElementById('pro-period'), note = document.getElementById('pro-billing-note');
+    // Announce the complete price and period together after keyboard or pointer selection.
+    price.parentElement.setAttribute('aria-live', 'polite');
+    price.parentElement.setAttribute('aria-atomic', 'true');
     billingButtons.forEach(button => button.addEventListener('click', () => {
       const annual = button.dataset.billing === 'annual';
       billingButtons.forEach(item => { const active = item === button; item.classList.toggle('active', active); item.setAttribute('aria-pressed', String(active)); });
