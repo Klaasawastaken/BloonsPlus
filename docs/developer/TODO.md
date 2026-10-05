@@ -302,3 +302,10 @@ Start only after the current repair work is complete, as requested on 5 October.
 - Closest upgrade gates: updated the offline branch fixture with the new scheduling dependencies; all eight upgrade-queue and 19 upgrade-observation checks pass. The initial fixture failure was missing injected helpers, not a live replay exception.
 
 - Skulltweak CHIMPS earned: replay observed VICTORY_SUMMARY at 00:46:50 with VICTORY_CONFIRMED, and authoritative Hard.Clicks is 1050185. Never replay this medal. Waiting for the confirmed stop-after boundary before deploying Preview 23.
+
+## Preview 23 deployment boundary (2026-10-06)
+
+- [x] Skulltweak CHIMPS exit=0, controller clear confirmed, saved Hard.Clicks=1050185. Stop-after ended before another replay.
+- [x] Guest Preview 23 update completed without error. Guest status now includes sourceNow; clock-aware app code is served. Host Electron reloaded only after the setup job finished.
+- [x] Host UI visibly shows historical ages (Skulltweak 1–2 minutes, One Two Tree CHIMPS 27–28 minutes), a sane new run duration, and the correct new map. Missing-medal sweep resumed on Winter Park Hard; Skulltweak CHIMPS remains earned.
+- [x] Follow-up UI evidence found Winter Park navigation displaying the previous Skulltweak checkpoint's 61/61 steps. Scope checkpoint progress and result badges to the current map/mode; syntax check passes. This small follow-up is pending the next healthy deployment boundary.

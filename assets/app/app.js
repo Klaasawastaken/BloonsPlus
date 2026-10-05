@@ -710,8 +710,10 @@ function renderRecentActivity() {
     const mapName = mapEntry?.name || String(currentMap || 'Current route').replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
     const mode = activeSweep?.gamemode || activeStatus.checkpoint?.gamemode;
     const round = activeStatus.replay?.round;
-    const step = activeStatus.checkpoint?.nextStep;
-    const total = activeStatus.checkpoint?.totalSteps;
+    const checkpointMatches = activeStatus.checkpoint?.map === currentMap
+      && (!mode || activeStatus.checkpoint?.gamemode === mode);
+    const step = checkpointMatches ? activeStatus.checkpoint?.nextStep : null;
+    const total = checkpointMatches ? activeStatus.checkpoint?.totalSteps : null;
     const live = document.createElement('div'); live.className = 'activity-live';
     const title = document.createElement('b'); title.textContent = `In progress · ${mapName}`;
     const detail = document.createElement('small');
@@ -1109,7 +1111,9 @@ function renderRunConsole(status) {
     const result = latestGameState?.result;
     const ageMs = sourceAgeMs(latestGameState?.updatedAt);
     // Only worth showing while it's the outcome of the run that just ended, not an old snapshot.
-    const fresh = ageMs != null && ageMs < 3 * 60000 && !inRound;
+    const resultMatchesRun = !status.running || (latestGameState?.map === sweep?.currentMap
+      && latestGameState?.mode === mode);
+    const fresh = ageMs != null && ageMs < 3 * 60000 && !inRound && resultMatchesRun;
     if (fresh && (result === 'victory' || result === 'defeat')) {
       resultChip.classList.remove('hidden', 'result-victory', 'result-defeat');
       resultChip.classList.add(result === 'victory' ? 'result-victory' : 'result-defeat');

@@ -1,3 +1,10 @@
+## Preview 24 — Scope live progress to the current run
+
+- Show checkpoint steps only when its map and mode match the current replay.
+- Keep a fresh previous victory from appearing as the result of a different active map/mode.
+- Fix observed Winter Park navigation showing the completed Skulltweak checkpoint's 61/61 steps.
+- JavaScript syntax and whitespace checks pass; guest deployment will be batched after a healthy replay.
+
 ## Preview 23 — Distinguish recovered upgrade retries
 
 - Do not classify a later defeat as an unresolved upgrade failure when same-run panel-tier evidence proves recovery.
