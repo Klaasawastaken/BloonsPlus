@@ -194,3 +194,15 @@ retain the existing uncertainty/checkpoint handling without a blind purchase
 retry. All 43 Python tests pass, including the reproduced case and confirmation
 despite rising cash when panel tiers are known. Guest deployment remains pending
 until the active missing-medal replay ends.
+
+## Large life-loss recovery
+
+X Factor ABR logs showed readings 41, 15 and 9 repeatedly rejected against a
+stale accepted value of 82 before the actual defeat screen. The old filter reset
+its pending evidence on every large drop, making recovery impossible. It now
+requires two additional OCR masks to agree and three nonincreasing readings for
+large drops; normal small drops retain their two-reading confirmation. Single
+glitches and disagreeing masks do not confirm a loss. Five regressions exercise
+the actual replay branch, including emergency activation after sustained loss.
+All 48 Python tests pass. This repairs life tracking, not proof that the ABR
+strategy can win; guest deployment and live validation remain pending.

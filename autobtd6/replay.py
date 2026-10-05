@@ -2927,21 +2927,30 @@ def main():
                         lastLives = livesReading
                     elif livesReading <= startLives:
                         # A cropped particle or a missed leading digit regularly turns
-                        # 156 into 6/5/2. Lives cannot fall by most of their total in a
-                        # single capture and then rise again. Require two nearby readings
-                        # and bound each accepted drop before emergency logic sees it.
+                        # 156 into 6/5/2. Large real leaks are possible too: require
+                        # corroborating masks and a sustained decreasing sequence
+                        # instead of permanently rejecting everything below a stale value.
                         maxPlausibleDrop = max(10, int(startLives * 0.15))
                         plausible = lastLives is None or lastLives - maxPlausibleDrop <= livesReading <= lastLives
                         nearbyPending = pendingLives is not None and abs(livesReading - pendingLives) <= 2
-                        if not plausible:
+                        corroboratedDrop = False
+                        if not plausible and lastLives is not None and livesReading < lastLives:
+                            try:
+                                corroboratedDrop = all(int(custom_ocr(images[0], white_threshold=t).split('/')[0]) == livesReading
+                                                       for t in (230, 242))
+                            except (AttributeError, TypeError, ValueError):
+                                pass
+                        if not plausible and not corroboratedDrop:
                             pendingLives = None
                             pendingLivesFrames = 0
                             customPrint('DEBUG rejecting implausible lives OCR ' + str(livesReading) +
                                         ' after ' + str(lastLives))
                         else:
+                            if corroboratedDrop:
+                                nearbyPending = pendingLives is not None and livesReading <= pendingLives
                             pendingLivesFrames = pendingLivesFrames + 1 if nearbyPending else 1
                             pendingLives = livesReading
-                            if pendingLivesFrames >= 2:
+                            if pendingLivesFrames >= (3 if corroboratedDrop else 2):
                                 confirmedLives = livesReading
                                 if lastLives is not None and confirmedLives < lastLives:
                                     customPrint('LIVES_LOST ' + str(lastLives) + ' -> ' + str(confirmedLives)
