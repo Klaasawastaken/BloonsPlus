@@ -6,6 +6,7 @@ const { captureWindow } = require('./lib/capture');
 const { getLiveScreen } = require('./lib/live-screen');
 const { runScan } = require('./lib/scanner');
 const automation = require('./lib/automation');
+const { uiFarmStatus } = require('./lib/status-view');
 const engineLock = require('./lib/engine-lock');
 const root = __dirname;
 const port = Number(process.env.PORT || 4173);
@@ -116,7 +117,8 @@ function readBody(req) {
 }
 
 http.createServer((req, res) => {
-  const pathname = decodeURIComponent(new URL(req.url, `http://${req.headers.host}`).pathname);
+  const requestUrl = new URL(req.url, `http://${req.headers.host}`);
+  const pathname = decodeURIComponent(requestUrl.pathname);
   if (pathname === '/api/boss-event') {
     if (req.method !== 'GET') { res.writeHead(405); return res.end(); }
     readActiveBossEvent().then(result => {
@@ -576,6 +578,7 @@ http.createServer((req, res) => {
   if (pathname === '/api/farm/status') {
     if (req.method !== 'GET') { res.writeHead(405); return res.end(); }
     const local = automation.getStatus();
+    const uiView = requestUrl.searchParams.get('view') === 'ui';
     vmFetch('/api/farm/status').then(text => {
       let remote = null;
       if (text) { try { remote = JSON.parse(text); } catch {} }
@@ -604,7 +607,7 @@ http.createServer((req, res) => {
         result.log = [...(result.log || []), 'Waiting for the VM and BTD6 to become ready; setup starts automatically.'];
       }
       res.writeHead(200, { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' });
-      res.end(JSON.stringify(result));
+      res.end(JSON.stringify(uiView ? uiFarmStatus(result) : result));
     });
     return;
   }

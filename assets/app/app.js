@@ -1177,7 +1177,7 @@ async function loadAutomationStatus() {
   if (automationStatusLoading) return;
   automationStatusLoading = true;
   try {
-    const response = await fetch('/api/farm/status', { cache: 'no-store', signal: AbortSignal.timeout(8000) });
+    const response = await fetch('/api/farm/status?view=ui', { cache: 'no-store', signal: AbortSignal.timeout(8000) });
     if (response.ok) {
       const status = await response.json();
       renderAutomationStatus(status);

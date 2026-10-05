@@ -1,5 +1,11 @@
 ## Preview 13 — Round-relative strategy timing
 
+## Preview 19 — Lighter status polling
+
+- Add an opt-in UI status response without unused historical progress payloads; retain full logs and active state.
+- Keep the full API and history unchanged; app polling uses the smaller view.
+- Offline projection/handler checks pass; live sample measures 59% fewer response bytes. Visual performance verification remains pending.
+
 ## Preview 18 — Source flow audit
 
 - Classify Randy explicit start/speed as omitted flow control rather than a source no-op.

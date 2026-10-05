@@ -250,3 +250,9 @@ Start only after the current repair work is complete, as requested on 5 October.
 
 - [x] Inspect Randy autoplayV2.py and play_collection_event.py at pinned commit 7c36862ffec1d64bb95ddabecf20c73cb54046fd without executing source. Start sends Space twice, automatic finish returns without input, Sanctuary uses manual controls and remains excluded.
 - [x] Classify omitted explicit start/speed as lossy rather than a no-op; ten converter regressions pass. Existing legacy recordings still require review; classification is not faithful conversion or a route win.
+
+## Status polling payload (2026-10-06)
+
+- [x] Trace host UI polling payload: historical lastRun and route attempts account for roughly 330 KB per response. Add opt-in UI projection; preserve full API/history and all 2,000 log lines.
+- [x] Verify pure projection and actual server handler offline. Current sample: 562,687 → 231,888 bytes (59% reduction); no claim of measured scroll latency or timeout recovery.
+- [ ] Verify UI projection on reloaded host and guest after the current replay finishes.
