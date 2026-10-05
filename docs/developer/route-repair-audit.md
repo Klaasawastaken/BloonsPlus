@@ -9,6 +9,15 @@ All 931 active recording files pass the complete-command grammar check. The
 validator now rejects unknown commands and trailing garbage rather than letting
 the Python reader silently skip them. Existing route availability is preserved.
 
+The semantic audit additionally identified 44 converted aliases containing towers
+forbidden by their restricted mode (362 invalid placements across Primary Only,
+Military Only and Magic Monkeys Only). Their exact contents were moved to
+`route-library/unsupported-conversions/restricted-class-aliases/`, with per-line
+reasons. File hashes were checked before and after moving. No CHIMPS recordings
+were moved. The active folder now has 887 recordings; selectable coverage remains
+508 pairs because these aliases were already rejected. These gaps still require
+valid strategies; quarantining an invalid recording does not repair that mode.
+
 This audit covers an archive of 584 failure records and a recent diagnostic
 window of 150 records. A failure record is an attempt, not necessarily a distinct
 route or a confirmed engine defect. The recent window contains:

@@ -1,0 +1,1670 @@
+[
+  {
+    "file": "bazaar#military_only#2560x1440#converted#source_medium.btd6",
+    "errors": [
+      {
+        "line": 2,
+        "message": "wizard is forbidden in military_only"
+      },
+      {
+        "line": 5,
+        "message": "wizard is forbidden in military_only"
+      },
+      {
+        "line": 8,
+        "message": "ninja is forbidden in military_only"
+      },
+      {
+        "line": 22,
+        "message": "ninja is forbidden in military_only"
+      },
+      {
+        "line": 34,
+        "message": "wizard is forbidden in military_only"
+      },
+      {
+        "line": 41,
+        "message": "wizard is forbidden in military_only"
+      },
+      {
+        "line": 48,
+        "message": "druid is forbidden in military_only"
+      },
+      {
+        "line": 55,
+        "message": "wizard is forbidden in military_only"
+      },
+      {
+        "line": 61,
+        "message": "wizard is forbidden in military_only"
+      }
+    ]
+  },
+  {
+    "file": "bazaar#primary_only#2560x1440#converted#source_medium.btd6",
+    "errors": [
+      {
+        "line": 2,
+        "message": "wizard is forbidden in primary_only"
+      },
+      {
+        "line": 5,
+        "message": "wizard is forbidden in primary_only"
+      },
+      {
+        "line": 8,
+        "message": "ninja is forbidden in primary_only"
+      },
+      {
+        "line": 22,
+        "message": "ninja is forbidden in primary_only"
+      },
+      {
+        "line": 34,
+        "message": "wizard is forbidden in primary_only"
+      },
+      {
+        "line": 41,
+        "message": "wizard is forbidden in primary_only"
+      },
+      {
+        "line": 48,
+        "message": "druid is forbidden in primary_only"
+      },
+      {
+        "line": 55,
+        "message": "wizard is forbidden in primary_only"
+      },
+      {
+        "line": 61,
+        "message": "wizard is forbidden in primary_only"
+      }
+    ]
+  },
+  {
+    "file": "bloody_puddles#magic_monkeys_only#2560x1440#converted#source_hard.btd6",
+    "errors": [
+      {
+        "line": 1,
+        "message": "sub is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 2,
+        "message": "dart is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 4,
+        "message": "dart is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 5,
+        "message": "sub is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 6,
+        "message": "sniper is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 11,
+        "message": "sniper is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 15,
+        "message": "dart is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 19,
+        "message": "dart is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 30,
+        "message": "village is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 37,
+        "message": "glue is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 41,
+        "message": "glue is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 47,
+        "message": "village is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 54,
+        "message": "sniper is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 85,
+        "message": "sniper is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 91,
+        "message": "sniper is forbidden in magic_monkeys_only"
+      }
+    ]
+  },
+  {
+    "file": "bloody_puddles#military_only#2560x1440#converted#source_hard.btd6",
+    "errors": [
+      {
+        "line": 2,
+        "message": "dart is forbidden in military_only"
+      },
+      {
+        "line": 4,
+        "message": "dart is forbidden in military_only"
+      },
+      {
+        "line": 15,
+        "message": "dart is forbidden in military_only"
+      },
+      {
+        "line": 19,
+        "message": "dart is forbidden in military_only"
+      },
+      {
+        "line": 26,
+        "message": "druid is forbidden in military_only"
+      },
+      {
+        "line": 30,
+        "message": "village is forbidden in military_only"
+      },
+      {
+        "line": 33,
+        "message": "alchemist is forbidden in military_only"
+      },
+      {
+        "line": 37,
+        "message": "glue is forbidden in military_only"
+      },
+      {
+        "line": 41,
+        "message": "glue is forbidden in military_only"
+      },
+      {
+        "line": 47,
+        "message": "village is forbidden in military_only"
+      },
+      {
+        "line": 60,
+        "message": "alchemist is forbidden in military_only"
+      }
+    ]
+  },
+  {
+    "file": "bloody_puddles#primary_only#2560x1440#converted#source_hard.btd6",
+    "errors": [
+      {
+        "line": 1,
+        "message": "sub is forbidden in primary_only"
+      },
+      {
+        "line": 5,
+        "message": "sub is forbidden in primary_only"
+      },
+      {
+        "line": 6,
+        "message": "sniper is forbidden in primary_only"
+      },
+      {
+        "line": 11,
+        "message": "sniper is forbidden in primary_only"
+      },
+      {
+        "line": 26,
+        "message": "druid is forbidden in primary_only"
+      },
+      {
+        "line": 30,
+        "message": "village is forbidden in primary_only"
+      },
+      {
+        "line": 33,
+        "message": "alchemist is forbidden in primary_only"
+      },
+      {
+        "line": 47,
+        "message": "village is forbidden in primary_only"
+      },
+      {
+        "line": 54,
+        "message": "sniper is forbidden in primary_only"
+      },
+      {
+        "line": 60,
+        "message": "alchemist is forbidden in primary_only"
+      },
+      {
+        "line": 85,
+        "message": "sniper is forbidden in primary_only"
+      },
+      {
+        "line": 91,
+        "message": "sniper is forbidden in primary_only"
+      }
+    ]
+  },
+  {
+    "file": "flooded_valley#magic_monkeys_only#2560x1440#converted#source_hard.btd6",
+    "errors": [
+      {
+        "line": 1,
+        "message": "sub is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 8,
+        "message": "buccaneer is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 13,
+        "message": "spike is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 18,
+        "message": "sub is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 27,
+        "message": "spike is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 34,
+        "message": "village is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 49,
+        "message": "sniper is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 60,
+        "message": "sniper is forbidden in magic_monkeys_only"
+      }
+    ]
+  },
+  {
+    "file": "flooded_valley#military_only#2560x1440#converted#source_hard.btd6",
+    "errors": [
+      {
+        "line": 13,
+        "message": "spike is forbidden in military_only"
+      },
+      {
+        "line": 27,
+        "message": "spike is forbidden in military_only"
+      },
+      {
+        "line": 34,
+        "message": "village is forbidden in military_only"
+      },
+      {
+        "line": 38,
+        "message": "alchemist is forbidden in military_only"
+      },
+      {
+        "line": 43,
+        "message": "alchemist is forbidden in military_only"
+      },
+      {
+        "line": 65,
+        "message": "wizard is forbidden in military_only"
+      }
+    ]
+  },
+  {
+    "file": "flooded_valley#primary_only#2560x1440#converted#source_hard.btd6",
+    "errors": [
+      {
+        "line": 1,
+        "message": "sub is forbidden in primary_only"
+      },
+      {
+        "line": 8,
+        "message": "buccaneer is forbidden in primary_only"
+      },
+      {
+        "line": 13,
+        "message": "spike is forbidden in primary_only"
+      },
+      {
+        "line": 18,
+        "message": "sub is forbidden in primary_only"
+      },
+      {
+        "line": 27,
+        "message": "spike is forbidden in primary_only"
+      },
+      {
+        "line": 34,
+        "message": "village is forbidden in primary_only"
+      },
+      {
+        "line": 38,
+        "message": "alchemist is forbidden in primary_only"
+      },
+      {
+        "line": 43,
+        "message": "alchemist is forbidden in primary_only"
+      },
+      {
+        "line": 49,
+        "message": "sniper is forbidden in primary_only"
+      },
+      {
+        "line": 60,
+        "message": "sniper is forbidden in primary_only"
+      },
+      {
+        "line": 65,
+        "message": "wizard is forbidden in primary_only"
+      }
+    ]
+  },
+  {
+    "file": "high_finance#magic_monkeys_only#2560x1440#converted#source_hard.btd6",
+    "errors": [
+      {
+        "line": 2,
+        "message": "buccaneer is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 8,
+        "message": "village is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 12,
+        "message": "sniper is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 22,
+        "message": "heli is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 29,
+        "message": "village is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 32,
+        "message": "buccaneer is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 39,
+        "message": "tack is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 46,
+        "message": "tack is forbidden in magic_monkeys_only"
+      }
+    ]
+  },
+  {
+    "file": "high_finance#military_only#2560x1440#converted#source_hard.btd6",
+    "errors": [
+      {
+        "line": 8,
+        "message": "village is forbidden in military_only"
+      },
+      {
+        "line": 29,
+        "message": "village is forbidden in military_only"
+      },
+      {
+        "line": 39,
+        "message": "tack is forbidden in military_only"
+      },
+      {
+        "line": 46,
+        "message": "tack is forbidden in military_only"
+      }
+    ]
+  },
+  {
+    "file": "high_finance#primary_only#2560x1440#converted#source_hard.btd6",
+    "errors": [
+      {
+        "line": 2,
+        "message": "buccaneer is forbidden in primary_only"
+      },
+      {
+        "line": 8,
+        "message": "village is forbidden in primary_only"
+      },
+      {
+        "line": 12,
+        "message": "sniper is forbidden in primary_only"
+      },
+      {
+        "line": 22,
+        "message": "heli is forbidden in primary_only"
+      },
+      {
+        "line": 29,
+        "message": "village is forbidden in primary_only"
+      },
+      {
+        "line": 32,
+        "message": "buccaneer is forbidden in primary_only"
+      }
+    ]
+  },
+  {
+    "file": "infernal#magic_monkeys_only#2560x1440#converted#source_hard.btd6",
+    "errors": [
+      {
+        "line": 2,
+        "message": "dart is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 3,
+        "message": "sub is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 9,
+        "message": "sniper is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 15,
+        "message": "village is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 16,
+        "message": "heli is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 48,
+        "message": "dart is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 62,
+        "message": "spike is forbidden in magic_monkeys_only"
+      }
+    ]
+  },
+  {
+    "file": "infernal#military_only#2560x1440#converted#source_hard.btd6",
+    "errors": [
+      {
+        "line": 2,
+        "message": "dart is forbidden in military_only"
+      },
+      {
+        "line": 15,
+        "message": "village is forbidden in military_only"
+      },
+      {
+        "line": 22,
+        "message": "alchemist is forbidden in military_only"
+      },
+      {
+        "line": 32,
+        "message": "wizard is forbidden in military_only"
+      },
+      {
+        "line": 42,
+        "message": "alchemist is forbidden in military_only"
+      },
+      {
+        "line": 48,
+        "message": "dart is forbidden in military_only"
+      },
+      {
+        "line": 56,
+        "message": "alchemist is forbidden in military_only"
+      },
+      {
+        "line": 62,
+        "message": "spike is forbidden in military_only"
+      }
+    ]
+  },
+  {
+    "file": "infernal#primary_only#2560x1440#converted#source_hard.btd6",
+    "errors": [
+      {
+        "line": 3,
+        "message": "sub is forbidden in primary_only"
+      },
+      {
+        "line": 9,
+        "message": "sniper is forbidden in primary_only"
+      },
+      {
+        "line": 15,
+        "message": "village is forbidden in primary_only"
+      },
+      {
+        "line": 16,
+        "message": "heli is forbidden in primary_only"
+      },
+      {
+        "line": 22,
+        "message": "alchemist is forbidden in primary_only"
+      },
+      {
+        "line": 32,
+        "message": "wizard is forbidden in primary_only"
+      },
+      {
+        "line": 42,
+        "message": "alchemist is forbidden in primary_only"
+      },
+      {
+        "line": 56,
+        "message": "alchemist is forbidden in primary_only"
+      },
+      {
+        "line": 62,
+        "message": "spike is forbidden in primary_only"
+      }
+    ]
+  },
+  {
+    "file": "mesa#magic_monkeys_only#2560x1440#converted#source_hard.btd6",
+    "errors": [
+      {
+        "line": 2,
+        "message": "engineer is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 9,
+        "message": "sniper is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 18,
+        "message": "heli is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 24,
+        "message": "engineer is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 31,
+        "message": "engineer is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 39,
+        "message": "heli is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 45,
+        "message": "tack is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 52,
+        "message": "tack is forbidden in magic_monkeys_only"
+      }
+    ]
+  },
+  {
+    "file": "mesa#military_only#2560x1440#converted#source_hard.btd6",
+    "errors": [
+      {
+        "line": 2,
+        "message": "engineer is forbidden in military_only"
+      },
+      {
+        "line": 24,
+        "message": "engineer is forbidden in military_only"
+      },
+      {
+        "line": 31,
+        "message": "engineer is forbidden in military_only"
+      },
+      {
+        "line": 45,
+        "message": "tack is forbidden in military_only"
+      },
+      {
+        "line": 52,
+        "message": "tack is forbidden in military_only"
+      }
+    ]
+  },
+  {
+    "file": "mesa#primary_only#2560x1440#converted#source_hard.btd6",
+    "errors": [
+      {
+        "line": 2,
+        "message": "engineer is forbidden in primary_only"
+      },
+      {
+        "line": 9,
+        "message": "sniper is forbidden in primary_only"
+      },
+      {
+        "line": 18,
+        "message": "heli is forbidden in primary_only"
+      },
+      {
+        "line": 24,
+        "message": "engineer is forbidden in primary_only"
+      },
+      {
+        "line": 31,
+        "message": "engineer is forbidden in primary_only"
+      },
+      {
+        "line": 39,
+        "message": "heli is forbidden in primary_only"
+      }
+    ]
+  },
+  {
+    "file": "muddy_puddles#magic_monkeys_only#2560x1440#converted#source_hard.btd6",
+    "errors": [
+      {
+        "line": 5,
+        "message": "buccaneer is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 6,
+        "message": "sub is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 10,
+        "message": "village is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 22,
+        "message": "heli is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 29,
+        "message": "tack is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 36,
+        "message": "tack is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 43,
+        "message": "tack is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 57,
+        "message": "village is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 60,
+        "message": "spike is forbidden in magic_monkeys_only"
+      }
+    ]
+  },
+  {
+    "file": "muddy_puddles#military_only#2560x1440#converted#source_hard.btd6",
+    "errors": [
+      {
+        "line": 10,
+        "message": "village is forbidden in military_only"
+      },
+      {
+        "line": 29,
+        "message": "tack is forbidden in military_only"
+      },
+      {
+        "line": 36,
+        "message": "tack is forbidden in military_only"
+      },
+      {
+        "line": 43,
+        "message": "tack is forbidden in military_only"
+      },
+      {
+        "line": 50,
+        "message": "wizard is forbidden in military_only"
+      },
+      {
+        "line": 57,
+        "message": "village is forbidden in military_only"
+      },
+      {
+        "line": 60,
+        "message": "spike is forbidden in military_only"
+      }
+    ]
+  },
+  {
+    "file": "muddy_puddles#primary_only#2560x1440#converted#source_hard.btd6",
+    "errors": [
+      {
+        "line": 5,
+        "message": "buccaneer is forbidden in primary_only"
+      },
+      {
+        "line": 6,
+        "message": "sub is forbidden in primary_only"
+      },
+      {
+        "line": 10,
+        "message": "village is forbidden in primary_only"
+      },
+      {
+        "line": 22,
+        "message": "heli is forbidden in primary_only"
+      },
+      {
+        "line": 50,
+        "message": "wizard is forbidden in primary_only"
+      },
+      {
+        "line": 57,
+        "message": "village is forbidden in primary_only"
+      },
+      {
+        "line": 60,
+        "message": "spike is forbidden in primary_only"
+      }
+    ]
+  },
+  {
+    "file": "ouch#magic_monkeys_only#2560x1440#converted#source_hard.btd6",
+    "errors": [
+      {
+        "line": 1,
+        "message": "engineer is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 2,
+        "message": "engineer is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 17,
+        "message": "engineer is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 21,
+        "message": "engineer is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 29,
+        "message": "village is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 38,
+        "message": "heli is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 67,
+        "message": "heli is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 73,
+        "message": "sniper is forbidden in magic_monkeys_only"
+      }
+    ]
+  },
+  {
+    "file": "ouch#military_only#2560x1440#converted#source_hard.btd6",
+    "errors": [
+      {
+        "line": 1,
+        "message": "engineer is forbidden in military_only"
+      },
+      {
+        "line": 2,
+        "message": "engineer is forbidden in military_only"
+      },
+      {
+        "line": 17,
+        "message": "engineer is forbidden in military_only"
+      },
+      {
+        "line": 21,
+        "message": "engineer is forbidden in military_only"
+      },
+      {
+        "line": 29,
+        "message": "village is forbidden in military_only"
+      },
+      {
+        "line": 44,
+        "message": "wizard is forbidden in military_only"
+      },
+      {
+        "line": 51,
+        "message": "wizard is forbidden in military_only"
+      },
+      {
+        "line": 58,
+        "message": "wizard is forbidden in military_only"
+      }
+    ]
+  },
+  {
+    "file": "ouch#primary_only#2560x1440#converted#source_hard.btd6",
+    "errors": [
+      {
+        "line": 1,
+        "message": "engineer is forbidden in primary_only"
+      },
+      {
+        "line": 2,
+        "message": "engineer is forbidden in primary_only"
+      },
+      {
+        "line": 17,
+        "message": "engineer is forbidden in primary_only"
+      },
+      {
+        "line": 21,
+        "message": "engineer is forbidden in primary_only"
+      },
+      {
+        "line": 29,
+        "message": "village is forbidden in primary_only"
+      },
+      {
+        "line": 38,
+        "message": "heli is forbidden in primary_only"
+      },
+      {
+        "line": 44,
+        "message": "wizard is forbidden in primary_only"
+      },
+      {
+        "line": 51,
+        "message": "wizard is forbidden in primary_only"
+      },
+      {
+        "line": 58,
+        "message": "wizard is forbidden in primary_only"
+      },
+      {
+        "line": 67,
+        "message": "heli is forbidden in primary_only"
+      },
+      {
+        "line": 73,
+        "message": "sniper is forbidden in primary_only"
+      }
+    ]
+  },
+  {
+    "file": "peninsula#magic_monkeys_only#2560x1440#converted#source_hard.btd6",
+    "errors": [
+      {
+        "line": 2,
+        "message": "buccaneer is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 8,
+        "message": "buccaneer is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 14,
+        "message": "sniper is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 24,
+        "message": "heli is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 30,
+        "message": "heli is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 37,
+        "message": "tack is forbidden in magic_monkeys_only"
+      }
+    ]
+  },
+  {
+    "file": "peninsula#military_only#2560x1440#converted#source_hard.btd6",
+    "errors": [
+      {
+        "line": 37,
+        "message": "tack is forbidden in military_only"
+      }
+    ]
+  },
+  {
+    "file": "peninsula#primary_only#2560x1440#converted#source_hard.btd6",
+    "errors": [
+      {
+        "line": 2,
+        "message": "buccaneer is forbidden in primary_only"
+      },
+      {
+        "line": 8,
+        "message": "buccaneer is forbidden in primary_only"
+      },
+      {
+        "line": 14,
+        "message": "sniper is forbidden in primary_only"
+      },
+      {
+        "line": 24,
+        "message": "heli is forbidden in primary_only"
+      },
+      {
+        "line": 30,
+        "message": "heli is forbidden in primary_only"
+      }
+    ]
+  },
+  {
+    "file": "quad#magic_monkeys_only#2560x1440#converted#source_hard.btd6",
+    "errors": [
+      {
+        "line": 1,
+        "message": "dart is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 2,
+        "message": "dart is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 3,
+        "message": "dart is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 4,
+        "message": "sub is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 11,
+        "message": "sniper is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 17,
+        "message": "sniper is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 25,
+        "message": "spike is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 26,
+        "message": "spike is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 38,
+        "message": "ice is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 41,
+        "message": "village is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 47,
+        "message": "village is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 64,
+        "message": "ice is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 67,
+        "message": "spike is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 76,
+        "message": "spike is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 98,
+        "message": "ice is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 105,
+        "message": "ice is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 110,
+        "message": "bomb is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 118,
+        "message": "bomb is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 127,
+        "message": "tack is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 135,
+        "message": "glue is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 136,
+        "message": "tack is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 143,
+        "message": "glue is forbidden in magic_monkeys_only"
+      }
+    ]
+  },
+  {
+    "file": "quad#military_only#2560x1440#converted#source_hard.btd6",
+    "errors": [
+      {
+        "line": 1,
+        "message": "dart is forbidden in military_only"
+      },
+      {
+        "line": 2,
+        "message": "dart is forbidden in military_only"
+      },
+      {
+        "line": 3,
+        "message": "dart is forbidden in military_only"
+      },
+      {
+        "line": 10,
+        "message": "wizard is forbidden in military_only"
+      },
+      {
+        "line": 25,
+        "message": "spike is forbidden in military_only"
+      },
+      {
+        "line": 26,
+        "message": "spike is forbidden in military_only"
+      },
+      {
+        "line": 38,
+        "message": "ice is forbidden in military_only"
+      },
+      {
+        "line": 41,
+        "message": "village is forbidden in military_only"
+      },
+      {
+        "line": 47,
+        "message": "village is forbidden in military_only"
+      },
+      {
+        "line": 52,
+        "message": "alchemist is forbidden in military_only"
+      },
+      {
+        "line": 60,
+        "message": "alchemist is forbidden in military_only"
+      },
+      {
+        "line": 64,
+        "message": "ice is forbidden in military_only"
+      },
+      {
+        "line": 66,
+        "message": "alchemist is forbidden in military_only"
+      },
+      {
+        "line": 67,
+        "message": "spike is forbidden in military_only"
+      },
+      {
+        "line": 76,
+        "message": "spike is forbidden in military_only"
+      },
+      {
+        "line": 82,
+        "message": "alchemist is forbidden in military_only"
+      },
+      {
+        "line": 98,
+        "message": "ice is forbidden in military_only"
+      },
+      {
+        "line": 105,
+        "message": "ice is forbidden in military_only"
+      },
+      {
+        "line": 110,
+        "message": "bomb is forbidden in military_only"
+      },
+      {
+        "line": 118,
+        "message": "bomb is forbidden in military_only"
+      },
+      {
+        "line": 127,
+        "message": "tack is forbidden in military_only"
+      },
+      {
+        "line": 135,
+        "message": "glue is forbidden in military_only"
+      },
+      {
+        "line": 136,
+        "message": "tack is forbidden in military_only"
+      },
+      {
+        "line": 143,
+        "message": "glue is forbidden in military_only"
+      }
+    ]
+  },
+  {
+    "file": "quad#primary_only#2560x1440#converted#source_hard.btd6",
+    "errors": [
+      {
+        "line": 4,
+        "message": "sub is forbidden in primary_only"
+      },
+      {
+        "line": 10,
+        "message": "wizard is forbidden in primary_only"
+      },
+      {
+        "line": 11,
+        "message": "sniper is forbidden in primary_only"
+      },
+      {
+        "line": 17,
+        "message": "sniper is forbidden in primary_only"
+      },
+      {
+        "line": 25,
+        "message": "spike is forbidden in primary_only"
+      },
+      {
+        "line": 26,
+        "message": "spike is forbidden in primary_only"
+      },
+      {
+        "line": 41,
+        "message": "village is forbidden in primary_only"
+      },
+      {
+        "line": 47,
+        "message": "village is forbidden in primary_only"
+      },
+      {
+        "line": 52,
+        "message": "alchemist is forbidden in primary_only"
+      },
+      {
+        "line": 60,
+        "message": "alchemist is forbidden in primary_only"
+      },
+      {
+        "line": 66,
+        "message": "alchemist is forbidden in primary_only"
+      },
+      {
+        "line": 67,
+        "message": "spike is forbidden in primary_only"
+      },
+      {
+        "line": 76,
+        "message": "spike is forbidden in primary_only"
+      },
+      {
+        "line": 82,
+        "message": "alchemist is forbidden in primary_only"
+      }
+    ]
+  },
+  {
+    "file": "rake#magic_monkeys_only#2560x1440#converted#source_hard.btd6",
+    "errors": [
+      {
+        "line": 2,
+        "message": "tack is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 8,
+        "message": "heli is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 15,
+        "message": "village is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 18,
+        "message": "heli is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 24,
+        "message": "buccaneer is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 31,
+        "message": "tack is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 39,
+        "message": "sniper is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 49,
+        "message": "village is forbidden in magic_monkeys_only"
+      }
+    ]
+  },
+  {
+    "file": "rake#military_only#2560x1440#converted#source_hard.btd6",
+    "errors": [
+      {
+        "line": 2,
+        "message": "tack is forbidden in military_only"
+      },
+      {
+        "line": 15,
+        "message": "village is forbidden in military_only"
+      },
+      {
+        "line": 31,
+        "message": "tack is forbidden in military_only"
+      },
+      {
+        "line": 49,
+        "message": "village is forbidden in military_only"
+      }
+    ]
+  },
+  {
+    "file": "rake#primary_only#2560x1440#converted#source_hard.btd6",
+    "errors": [
+      {
+        "line": 8,
+        "message": "heli is forbidden in primary_only"
+      },
+      {
+        "line": 15,
+        "message": "village is forbidden in primary_only"
+      },
+      {
+        "line": 18,
+        "message": "heli is forbidden in primary_only"
+      },
+      {
+        "line": 24,
+        "message": "buccaneer is forbidden in primary_only"
+      },
+      {
+        "line": 39,
+        "message": "sniper is forbidden in primary_only"
+      },
+      {
+        "line": 49,
+        "message": "village is forbidden in primary_only"
+      }
+    ]
+  },
+  {
+    "file": "ravine#magic_monkeys_only#2560x1440#converted#source_hard.btd6",
+    "errors": [
+      {
+        "line": 1,
+        "message": "dart is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 2,
+        "message": "dart is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 16,
+        "message": "sniper is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 39,
+        "message": "spike is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 46,
+        "message": "spike is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 67,
+        "message": "spike is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 74,
+        "message": "ice is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 80,
+        "message": "heli is forbidden in magic_monkeys_only"
+      }
+    ]
+  },
+  {
+    "file": "ravine#military_only#2560x1440#converted#source_hard.btd6",
+    "errors": [
+      {
+        "line": 1,
+        "message": "dart is forbidden in military_only"
+      },
+      {
+        "line": 2,
+        "message": "dart is forbidden in military_only"
+      },
+      {
+        "line": 21,
+        "message": "wizard is forbidden in military_only"
+      },
+      {
+        "line": 32,
+        "message": "wizard is forbidden in military_only"
+      },
+      {
+        "line": 39,
+        "message": "spike is forbidden in military_only"
+      },
+      {
+        "line": 46,
+        "message": "spike is forbidden in military_only"
+      },
+      {
+        "line": 53,
+        "message": "alchemist is forbidden in military_only"
+      },
+      {
+        "line": 57,
+        "message": "alchemist is forbidden in military_only"
+      },
+      {
+        "line": 67,
+        "message": "spike is forbidden in military_only"
+      },
+      {
+        "line": 74,
+        "message": "ice is forbidden in military_only"
+      }
+    ]
+  },
+  {
+    "file": "ravine#primary_only#2560x1440#converted#source_hard.btd6",
+    "errors": [
+      {
+        "line": 16,
+        "message": "sniper is forbidden in primary_only"
+      },
+      {
+        "line": 21,
+        "message": "wizard is forbidden in primary_only"
+      },
+      {
+        "line": 32,
+        "message": "wizard is forbidden in primary_only"
+      },
+      {
+        "line": 39,
+        "message": "spike is forbidden in primary_only"
+      },
+      {
+        "line": 46,
+        "message": "spike is forbidden in primary_only"
+      },
+      {
+        "line": 53,
+        "message": "alchemist is forbidden in primary_only"
+      },
+      {
+        "line": 57,
+        "message": "alchemist is forbidden in primary_only"
+      },
+      {
+        "line": 67,
+        "message": "spike is forbidden in primary_only"
+      },
+      {
+        "line": 80,
+        "message": "heli is forbidden in primary_only"
+      }
+    ]
+  },
+  {
+    "file": "sunken_columns#magic_monkeys_only#2560x1440#converted#source_hard.btd6",
+    "errors": [
+      {
+        "line": 2,
+        "message": "engineer is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 9,
+        "message": "heli is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 14,
+        "message": "sniper is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 25,
+        "message": "engineer is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 32,
+        "message": "heli is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 38,
+        "message": "tack is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 46,
+        "message": "buccaneer is forbidden in magic_monkeys_only"
+      }
+    ]
+  },
+  {
+    "file": "sunken_columns#military_only#2560x1440#converted#source_hard.btd6",
+    "errors": [
+      {
+        "line": 2,
+        "message": "engineer is forbidden in military_only"
+      },
+      {
+        "line": 25,
+        "message": "engineer is forbidden in military_only"
+      },
+      {
+        "line": 38,
+        "message": "tack is forbidden in military_only"
+      }
+    ]
+  },
+  {
+    "file": "sunken_columns#primary_only#2560x1440#converted#source_hard.btd6",
+    "errors": [
+      {
+        "line": 2,
+        "message": "engineer is forbidden in primary_only"
+      },
+      {
+        "line": 9,
+        "message": "heli is forbidden in primary_only"
+      },
+      {
+        "line": 14,
+        "message": "sniper is forbidden in primary_only"
+      },
+      {
+        "line": 25,
+        "message": "engineer is forbidden in primary_only"
+      },
+      {
+        "line": 32,
+        "message": "heli is forbidden in primary_only"
+      },
+      {
+        "line": 46,
+        "message": "buccaneer is forbidden in primary_only"
+      }
+    ]
+  },
+  {
+    "file": "workshop#magic_monkeys_only#2560x1440#converted#source_hard.btd6",
+    "errors": [
+      {
+        "line": 1,
+        "message": "spike is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 18,
+        "message": "spike is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 26,
+        "message": "heli is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 32,
+        "message": "spike is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 39,
+        "message": "heli is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 45,
+        "message": "tack is forbidden in magic_monkeys_only"
+      }
+    ]
+  },
+  {
+    "file": "workshop#military_only#2560x1440#converted#source_hard.btd6",
+    "errors": [
+      {
+        "line": 1,
+        "message": "spike is forbidden in military_only"
+      },
+      {
+        "line": 11,
+        "message": "alchemist is forbidden in military_only"
+      },
+      {
+        "line": 18,
+        "message": "spike is forbidden in military_only"
+      },
+      {
+        "line": 32,
+        "message": "spike is forbidden in military_only"
+      },
+      {
+        "line": 45,
+        "message": "tack is forbidden in military_only"
+      }
+    ]
+  },
+  {
+    "file": "workshop#primary_only#2560x1440#converted#source_hard.btd6",
+    "errors": [
+      {
+        "line": 1,
+        "message": "spike is forbidden in primary_only"
+      },
+      {
+        "line": 11,
+        "message": "alchemist is forbidden in primary_only"
+      },
+      {
+        "line": 18,
+        "message": "spike is forbidden in primary_only"
+      },
+      {
+        "line": 26,
+        "message": "heli is forbidden in primary_only"
+      },
+      {
+        "line": 32,
+        "message": "spike is forbidden in primary_only"
+      },
+      {
+        "line": 39,
+        "message": "heli is forbidden in primary_only"
+      }
+    ]
+  },
+  {
+    "file": "x_factor#magic_monkeys_only#2560x1440#converted#source_hard.btd6",
+    "errors": [
+      {
+        "line": 2,
+        "message": "engineer is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 7,
+        "message": "engineer is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 12,
+        "message": "sniper is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 25,
+        "message": "tack is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 26,
+        "message": "tack is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 39,
+        "message": "heli is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 46,
+        "message": "heli is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 52,
+        "message": "tack is forbidden in magic_monkeys_only"
+      },
+      {
+        "line": 59,
+        "message": "tack is forbidden in magic_monkeys_only"
+      }
+    ]
+  },
+  {
+    "file": "x_factor#military_only#2560x1440#converted#source_hard.btd6",
+    "errors": [
+      {
+        "line": 2,
+        "message": "engineer is forbidden in military_only"
+      },
+      {
+        "line": 7,
+        "message": "engineer is forbidden in military_only"
+      },
+      {
+        "line": 25,
+        "message": "tack is forbidden in military_only"
+      },
+      {
+        "line": 26,
+        "message": "tack is forbidden in military_only"
+      },
+      {
+        "line": 52,
+        "message": "tack is forbidden in military_only"
+      },
+      {
+        "line": 59,
+        "message": "tack is forbidden in military_only"
+      }
+    ]
+  },
+  {
+    "file": "x_factor#primary_only#2560x1440#converted#source_hard.btd6",
+    "errors": [
+      {
+        "line": 2,
+        "message": "engineer is forbidden in primary_only"
+      },
+      {
+        "line": 7,
+        "message": "engineer is forbidden in primary_only"
+      },
+      {
+        "line": 12,
+        "message": "sniper is forbidden in primary_only"
+      },
+      {
+        "line": 39,
+        "message": "heli is forbidden in primary_only"
+      },
+      {
+        "line": 46,
+        "message": "heli is forbidden in primary_only"
+      }
+    ]
+  }
+]
