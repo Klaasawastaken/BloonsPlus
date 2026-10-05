@@ -23,6 +23,11 @@ const root = path.resolve(__dirname, '..');
   // This exact unsupported reuse lost at round 24 in the old guest controller.
   // Keep it out of unattended ABR selection unless this target actually wins.
   const spaAbr = actual.spa_pits?.alternate_bloons_rounds || [];
+  const ouchAbr = actual.ouch?.alternate_bloons_rounds || [];
+  assert.ok(!ouchAbr.some(entry => entry.filename === 'ouch#alternate_bloons_rounds#2560x1440#converted#source_hard.btd6'
+    && !entry.localWinVerified), 'Unchanged Hard alias was treated as a dedicated ABR route');
+  assert.ok(ouchAbr.some(entry => entry.filename.includes('source_btd6bot')),
+    'Dedicated ABR strategy must remain available');
   assert.ok(!spaAbr.some(entry => entry.filename === 'spa_pits#alternate_bloons_rounds#1920x1080#converted#source_chimps.btd6'
     && !entry.localWinVerified), 'Unverified CHIMPS-derived Spa Pits ABR route was selected');
   const { strategySignature: signature } = require('../lib/route-validation');
