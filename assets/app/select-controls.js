@@ -19,7 +19,7 @@
     const below = innerHeight - rect.bottom - 16;
     const above = rect.top - 16;
     const up = below < 180 && above > below;
-    const height = Math.max(100, Math.min(340, up ? above : below));
+    const height = Math.max(48, Math.min(340, innerHeight - 24, up ? above : below));
     Object.assign(control.menu.style, {
       width: `${width}px`, left: `${Math.max(12, Math.min(rect.left, innerWidth - width - 12))}px`,
       maxHeight: `${height}px`, top: up ? 'auto' : `${rect.bottom + 8}px`,
@@ -79,10 +79,10 @@
       const matching = Array.from(control.list.querySelectorAll('[role="option"]:not(:disabled)')).find(row => row.dataset.optionIndex === focusedIndex);
       (matching || control.menu.querySelector('input') || control.list.querySelector('[role="option"]:not(:disabled)') || control.button).focus();
     }
-    if (!control.list.querySelector('[role="option"]')) {
+    if (!control.list.querySelector('[role="option"]:not(:disabled)')) {
       const empty = document.createElement('p');
       empty.className = 'app-select-empty';
-      empty.textContent = 'No matching options';
+      empty.textContent = control.list.querySelector('[role="option"]') ? 'No available options' : 'No matching options';
       control.list.append(empty);
     }
   }
@@ -127,7 +127,8 @@
 
   function enhance(select) {
     if (controls.has(select) || select.multiple || select.size > 1) return;
-    const label = select.getAttribute('aria-label') || select.labels?.[0]?.querySelector('span')?.textContent || 'Selection';
+    const labelElement = select.labels?.[0];
+    const label = select.getAttribute('aria-label') || labelElement?.querySelector('span')?.textContent || labelElement?.textContent.trim() || 'Selection';
     const button = document.createElement('button');
     button.type = 'button';
     button.className = 'app-select';
@@ -150,6 +151,12 @@
     controls.set(select, control);
     select.hidden = true;
     select.after(button);
+    // A native label cannot focus a hidden select; route its caption to the visible control.
+    labelElement?.addEventListener('click', event => {
+      if (event.target === labelElement || event.target.closest('span')?.parentElement === labelElement) {
+        event.preventDefault(); button.focus();
+      }
+    });
     button.addEventListener('click', () => opened === control ? close(true) : open(control));
     button.addEventListener('keydown', event => {
       if (['ArrowDown', 'ArrowUp', 'Home', 'End'].includes(event.key)) {
@@ -193,6 +200,7 @@
     for (const [select, control] of controls) if (!select.isConnected) {
       if (opened === control) close();
       control.observer.disconnect();
+      control.button.remove();
       controls.delete(select);
     }
   }).observe(document.body, { childList: true, subtree: true });

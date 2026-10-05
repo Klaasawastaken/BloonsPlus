@@ -37,6 +37,8 @@
       settingsStatus.classList.toggle('error', !!setupJob.error);
       settingsChip.textContent = !status.applicable ? 'LOCAL' : status.allDone ? 'READY' : setupJob.running ? 'WORKING' : 'ACTION NEEDED';
       settingsStart.hidden = !status.applicable || status.allDone;
+      const advanced = $('vm-settings-advanced');
+      if (advanced) advanced.hidden = !status.applicable;
       if (settingsUpdate) settingsUpdate.hidden = !status.applicable;
       if (settingsProgress && settingsProgressLabel) {
         const checks = status.steps || [];

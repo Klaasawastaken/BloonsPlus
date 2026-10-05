@@ -322,3 +322,28 @@ body.boss-view-active{background:radial-gradient(ellipse at 95% 0,color-mix(in s
 
 /* Settings: clear sections and setup progress from the shared setup state. */
 #settings .panel-title{gap:16px}#settings .settings-details{margin-bottom:20px}#settings .setting-row>div{min-width:0;flex:1}#settings .setting-row{gap:18px}#settings .profile-mk-readout summary{color:var(--muted)}#settings .profile-mk-readout ul{background:var(--control-bg);color:var(--ink);border:1px solid var(--line)}.settings-progress{height:6px;overflow:hidden;border-radius:999px;background:var(--control-hover);margin-top:18px}.settings-progress>span{display:block;height:100%;background:var(--accent);border-radius:inherit;transition:width .2s ease}.settings-progress-label{margin-top:8px;color:var(--muted);font-size:11px}#settings .vm-settings-status{background:var(--control-bg);border-color:var(--line)}@media(prefers-reduced-motion:reduce){.settings-progress>span{transition:none}}
+
+/* Compact preferences; technical information stays behind disclosure controls. */
+#settings .settings-appearance .panel-title{margin-bottom:18px}
+#settings .theme-choices{gap:12px}
+#settings .theme-choice{flex-direction:row;align-items:center;padding:12px;gap:12px}
+#settings .theme-preview{width:82px;height:56px;flex:none;padding:7px;gap:4px}
+#settings .theme-choice-label{padding:0 24px 0 0}
+#settings .theme-choice input{right:14px;bottom:auto;top:calc(50% - 9px)}
+#settings .vm-settings-status{margin-top:18px}
+#settings .settings-subdetails>summary{padding:8px 0}
+#settings .setup-bar-steps{margin-top:14px}
+#settings .settings-details>summary{padding:18px 24px}
+#settings .settings-details summary small{max-width:620px;margin-top:4px}
+[data-theme="dark"] .goal-art,[data-theme="dark"] .player-avatar,[data-theme="dark"] .avatar{background:var(--control-hover);border-color:var(--line);color:var(--ink)}
+[data-theme="dark"] .welcome p,[data-theme="dark"] .notice b,[data-theme="dark"] .notice p,[data-theme="dark"] .text-button{color:var(--muted)}
+[data-theme="dark"] .activity-live,[data-theme="dark"] .recent-map{background:var(--control-bg);border-color:var(--line);color:var(--ink)}
+[data-theme="dark"] .panel,[data-theme="dark"] .stat-card{box-shadow:var(--shadow)}
+.boss-preview-hero{border-color:var(--control-border);background:linear-gradient(130deg,var(--control-bg) 45%,color-mix(in srgb,var(--accent) 14%,var(--control-bg)))}
+.boss-preview-tag{padding:7px 10px;border:1px solid var(--control-border);border-radius:999px;letter-spacing:1px;margin-bottom:18px}
+.boss-preview-grid .panel{margin:0;border-color:var(--control-border);background:var(--control-bg)}
+.boss-preview-number{width:32px;height:32px;display:grid;place-items:center;border-radius:10px;background:var(--control-selected);margin-bottom:16px}
+.boss-preview-note{padding:14px 18px;border-left:3px solid var(--accent);background:var(--control-bg);border-radius:0 12px 12px 0}
+.app-select-option:disabled{opacity:1;color:var(--muted);background:transparent}
+.app-select-option:disabled>span:first-child{opacity:.65}
+@media(max-width:550px){#settings .theme-choices{grid-template-columns:1fr}#settings .theme-preview{width:70px;height:48px}#settings .settings-details>summary{padding:18px}}

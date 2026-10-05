@@ -326,3 +326,17 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [x] Repair public loading of map guidance and issue-report redaction by moving browser-safe implementations into assets and retaining server require wrappers. Keep lib blocked by the static privacy guard.
 - [x] Check all normal rank boundaries, cap threshold 180M, malformed save fields, rank-up rate and profile switch. Host visibly shows 493,535 XP remaining and issue-report dialog opens without publishing data.
 - [ ] Confirm veteran XP remainder/rollover semantics against authoritative live data before displaying veteran ETA.
+
+## Preview 26 healthy update boundary
+
+- Winter Park Hard earned: replay observed VICTORY_SUMMARY; controller logged clear confirmed; authoritative WinterPark.difficult.Hard.modes.Standard=1049864. Never replay this medal. Stop-after ended before the next replay; guest update started only after running=false.
+
+- [x] Preview 26 guest update completed; host reloaded after the update job ended. Guest served the new player XP module; authoritative guest status confirms the missing-medal sweep running again.
+
+## Settings polish follow-up (2026-10-06)
+
+- [x] Compact theme previews, consolidate advanced VM setup, hide VM-only advanced options in local mode, and clearly separate automatic profile diagnostics from preferences.
+- [x] Improve dark surface/text contrast, align Boss preview cards, and retain explicit Coming soon status.
+- [x] Correct label focus for enhanced selects, empty/disabled options feedback, small viewport menu height and removed-control cleanup.
+- [x] Syntax/whitespace checks and host dark Settings/Boss visual review; End focuses Hard and Escape closes without selecting or launching gameplay.
+- [ ] Deploy this UI batch to the VM after the active healthy replay ends; do not interrupt it.

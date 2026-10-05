@@ -1,3 +1,10 @@
+## Preview 27 — Compact Settings and themed controls
+
+- Compact Appearance and keep automatic game-profile diagnostics separate from preferences.
+- Consolidate advanced VM setup and hide irrelevant controls in local mode.
+- Improve dark surfaces and Boss Events preview cards.
+- Repair dropdown label focus, disabled-choice feedback and small-window sizing.
+
 ## Preview 26 — Save XP and shared browser scripts
 
 - Read ordinary level progress from cumulative save XP and retain XP-rate samples through rank-up.
