@@ -15,7 +15,7 @@ npm run app</code></pre>
 <tr><td><code>POST /api/setup/update</code></td><td>Install the prepared host installer in the guest. An active replay blocks the update. Follow <code>GET /api/setup/status</code> until the job finishes.</td></tr>
 </tbody></table></div>
 <p>Responses can contain private account and diagnostic information. Redact them before sharing. Treat the installed guest and host source as separate versions: editing the host does not replace guest files.</p>
-</section><section id="topic-3"><h2>Verification workflow</h2><p>Run syntax checks on changed JavaScript and Python files. Focused HUD and placement regressions live in <code>tests/test_hud_and_placement.py</code>. Check <code>git diff --check</code> and <code>tools/check-publication.py</code> before publishing. Live replay validation must check placements, upgrades, a real victory and the saved medal. Passing a syntax check does not establish a working strategy.</p>
+</section><section id="topic-3"><h2>Verification workflow</h2><p>Run syntax checks on changed JavaScript and Python files. Focused HUD and placement regressions live in <code>tests/test_hud_and_placement.py</code>. Check <code>git diff --check</code> and <code>tools/check-publication.py</code> before publishing. When a missing-medal replay runs, inspect placements and upgrades, then require a real victory and the saved medal before claiming a clear. Do not launch games solely for validation. Passing a syntax check does not establish a working strategy.</p>
 <pre><code>.\.venv\Scripts\python.exe -m unittest discover -s tests -p "test*.py"
 if ($LASTEXITCODE -ne 0) { throw "Python regressions failed" }
 foreach ($test in Get-ChildItem tests -Filter "test-*.js") {
