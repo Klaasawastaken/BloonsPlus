@@ -160,6 +160,21 @@ wikiSearch?.addEventListener('input', () => {
 // A slim progress indicator follows document scrolling without polling.
 const readingProgress = document.createElement('div'); readingProgress.className = 'reading-progress'; readingProgress.setAttribute('aria-hidden', 'true'); document.body.append(readingProgress);
 let progressFrame = 0;
-function updateReadingProgress() { progressFrame = 0; const height = document.documentElement.scrollHeight - innerHeight; readingProgress.style.transform = `scaleX(${height > 0 ? Math.min(1, scrollY / height) : 0})`; }
-addEventListener('scroll', () => { if (!progressFrame) progressFrame = requestAnimationFrame(updateReadingProgress); }, { passive: true });
-addEventListener('resize', updateReadingProgress); updateReadingProgress();
+const progressMotion = matchMedia('(prefers-reduced-motion: reduce)');
+function updateReadingProgress() {
+  progressFrame = 0;
+  if (progressMotion.matches || document.hidden) return;
+  const height = document.documentElement.scrollHeight - innerHeight;
+  readingProgress.style.transform = `scaleX(${height > 0 ? Math.max(0, Math.min(1, scrollY / height)) : 0})`;
+}
+function scheduleReadingProgress() {
+  if (progressMotion.matches || document.hidden) {
+    if (progressFrame) cancelAnimationFrame(progressFrame);
+    progressFrame = 0;
+  } else if (!progressFrame) progressFrame = requestAnimationFrame(updateReadingProgress);
+}
+addEventListener('scroll', scheduleReadingProgress, { passive: true });
+addEventListener('resize', scheduleReadingProgress);
+document.addEventListener('visibilitychange', scheduleReadingProgress);
+progressMotion.addEventListener('change', scheduleReadingProgress);
+scheduleReadingProgress();

@@ -96,6 +96,8 @@ Start only after the current repair work is complete, as requested on 5 October.
 
 ## P2 — product and site
 
+- [x] Stop hidden reading-progress work for reduced-motion and background pages; coalesce scroll/resize frames and cancel pending work on preference changes. Offline lifecycle regression passes; local subscriptions page loads with the progress marker and no console errors. Actual screen-reader speech and browser reduced-motion emulation remain unverified.
+
 - [ ] Finish Subscriptions accessibility checks in reduced-motion mode and with a screen reader. Verified monthly/annual switching by pointer and keyboard at desktop and 390px mobile widths, light/dark theme switching and no mobile horizontal overflow on 5 October. Prices on the site are planned at $5.99/month or $49.99/year for 31 October 2026; checkout and entitlements do not exist yet. Added a polite, atomic price announcement; actual screen-reader speech still needs verification.
 - [ ] Keep Features, About, Wiki, Contributors and Subscriptions visually tied to BTD6 with independent-project attribution.
 - [ ] Make app category switching, scrolling and the VM viewer responsive without polling viewer frames when its tab is closed.

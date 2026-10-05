@@ -2,6 +2,8 @@
 
 ## Unreleased — replay diagnostics and cash reading
 
+- Avoid scheduling website reading-progress animation frames while reduced motion is requested or the page is hidden. Coalesce scroll and resize updates into one pending frame, cancel it on preference/visibility changes and refresh when visible again. Public pages use a refreshed script cache version.
+
 - Reconcile uncertain upgrade retries against visible tiers before waiting for their purchase cost again. Exact-intent panel mismatches can rejoin the bounded retry queue ahead of dependent actions; missing intent does not authorize retries. Offline checks execute the replay branch with zero cash and an already-owned target.
 
 - Reselect the intended tower up to twice when a readable panel contradicts its planned upgrade tiers. A persistent mismatch never authorizes purchase input. Offline regressions reproduce the Polyphemus Heli mismatch; this is not a claim that the route now wins.
