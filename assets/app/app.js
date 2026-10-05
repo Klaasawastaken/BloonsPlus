@@ -1073,15 +1073,6 @@ async function refreshConnection(manual = false) {
 document.querySelector('#refresh-connection').addEventListener('click', () => refreshConnection(true));
 refreshConnection();
 setInterval(() => { if (!document.hidden) refreshConnection(); }, 15000);
-document.querySelector('#export-save').addEventListener('click', () => {
-  const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' }); const link = document.createElement('a');
-  link.href = URL.createObjectURL(blob); link.download = 'bloons-plus-save.json'; link.click(); URL.revokeObjectURL(link.href); notify('App backup exported.');
-});
-document.querySelector('#import-save').addEventListener('change', async event => {
-  try { const imported = JSON.parse(await event.target.files[0].text()); if (!Array.isArray(imported.queue) || !imported.towerChecks) throw new Error(); state = { ...defaults, ...imported }; saveState(); notify('App backup restored.'); }
-  catch { notify('That save file could not be read.'); }
-  event.target.value = '';
-});
 document.querySelector('#delete-save').addEventListener('click', () => {
   document.querySelector('#confirm-dialog').showModal();
 });

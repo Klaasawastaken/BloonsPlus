@@ -35,9 +35,12 @@
         : status.allDone ? 'Ready: VM connected, Steam signed in, and BTD6 installed.'
         : next.message || status.reason || 'Checking setup…';
       settingsStatus.classList.toggle('error', !!setupJob.error);
-      settingsChip.textContent = !status.applicable ? 'LOCAL' : status.allDone ? 'READY' : setupJob.running ? 'WORKING' : 'ACTION NEEDED';
+      settingsChip.textContent = !status.applicable ? 'LOCAL' : setupJob.running ? 'WORKING' : setupJob.error ? 'NEEDS ATTENTION' : status.allDone ? 'READY' : 'ACTION NEEDED';
       settingsStart.hidden = !status.applicable || status.allDone;
       const advanced = $('vm-settings-advanced');
+      const needsIso = status.applicable && !(status.steps || []).some(step => step.id === 'vm' && step.done) && !(status.steps || []).some(step => step.id === 'iso' && step.done);
+      if ($('vm-settings-iso-field')) $('vm-settings-iso-field').hidden = !needsIso;
+      if ($('vm-settings-iso-hint')) $('vm-settings-iso-hint').hidden = !needsIso;
       if (advanced) advanced.hidden = !status.applicable;
       if (settingsUpdate) settingsUpdate.hidden = !status.applicable;
       if (settingsProgress && settingsProgressLabel) {
@@ -143,7 +146,7 @@
     settingsStart.disabled = true;
     try {
       const response = await fetch('/api/setup/start', { method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(settingsIso.value.trim() ? { isoPath: settingsIso.value.trim() } : {}) });
+        body: JSON.stringify(!$('vm-settings-iso-field')?.hidden && settingsIso.value.trim() ? { isoPath: settingsIso.value.trim() } : {}) });
       if (!response.ok) throw new Error((await response.json().catch(() => ({}))).error || `HTTP ${response.status}`);
     } catch (error) {
       settingsStatus.textContent = `Could not start setup: ${error.message}`;

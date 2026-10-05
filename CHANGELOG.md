@@ -1,3 +1,9 @@
+## Preview 29 — Simpler Settings
+
+- Focus preferences on appearance and game connection; remove legacy backup controls.
+- Keep detected profile diagnostics under Run Logs.
+- Hide unnecessary ISO overrides and correct setup/update status badges.
+
 ## Preview 28 — Keep live save refreshes in order
 
 - Share concurrent save reads between progress pollers.

@@ -348,3 +348,11 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [ ] Deploy with the pending Settings batch after the active healthy replay; check rates over a live sampling window. No new clear claimed; active run observed at round 45.
 
 - Host browser follow-up: live save reads updated XP remaining to 385,105; after the minimum sampling window, XP/hr and MM/hr showed 0 for an unchanged save balance instead of remaining unknown. Positive multi-run rates and spending semantics are still unverified.
+
+## Settings cleanup (2026-10-06)
+
+- [x] Keep appearance and game connection as the primary settings. Remove legacy preference backup import/export controls and their handlers; keep reset behind a disclosure and confirmation.
+- [x] Move automatically detected profile details to Run Logs; keep heroes, hotkeys and Monkey Knowledge live and read-only.
+- [x] Hide the ISO override once setup has an ISO or an existing VM, and do not submit hidden stale paths. Show a working/error badge before a previously ready setup status.
+- [x] Review dark Settings and installed-VM diagnostics in the host preview; the existing VM shows its checks without an ISO input. Active replay left untouched.
+- [ ] Apply this batch to the guest at the next healthy replay boundary.
