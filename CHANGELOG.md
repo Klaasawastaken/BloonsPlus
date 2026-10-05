@@ -2,6 +2,7 @@
 
 ## Unreleased — replay diagnostics and cash reading
 
+- Preserve the intended three-path tier vector on every parsed recorded upgrade. Already-owned target tiers (or higher) are recognized without another purchase; a missing prerequisite is no longer mistaken for the planned higher-tier upgrade. Resumable unresolved-action recovery remains unfinished.
 - Exclude unverified, unchanged Hard-route aliases from unsupported variation reuse. Compare executable strategy content, so genuinely adapted candidates remain eligible. Dedicated #Ouch ABR candidates remain available; a renamed Hard recording no longer masquerades as one.
 - Keep structured failure sidecars when rotating screenshots. Image retention remains capped at 60 files; JSON diagnostic records are no longer accidentally deleted by that cleanup.
 - Recognize dimmed unused tier markers on capped crosspaths. Native Heli 2-0-3 frames were previously rejected as an unselected tower; they now decode correctly. Added left/right 1080p and 1440p regression coverage without changing original routes.

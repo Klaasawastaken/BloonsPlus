@@ -65,7 +65,8 @@ def observe_upgrade(path, capture, press, click, wait, reselect=None, expected_t
     expected = list(before['tiers'])
     expected[path] += 1
     if expected_tiers is not None:
-        if before['tiers'] == expected_tiers:
+        if (len(expected_tiers) == 3
+                and all(actual >= target for actual, target in zip(before['tiers'], expected_tiers))):
             return {'status': 'confirmed', 'before': before['tiers'], 'after': before['tiers'], 'buttonRetry': False}
         if expected != expected_tiers:
             return {'status': 'unexpected', 'before': before['tiers'], 'after': before['tiers'], 'buttonRetry': False}

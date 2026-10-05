@@ -560,6 +560,7 @@ def parseBTD6InstructionsFile(
                 "key": keybinds["path"][str(matches.group("path"))],
                 "pos": monkeys[matches.group("name")]["pos"],
                 "path": int(matches.group("path")),
+                "expectedUpgradeTiers": list(monkeyUpgrades),
                 "cost": adjustPrice(
                     towers["monkeys"][monkeys[matches.group("name")]["type"]][
                         "upgrades"

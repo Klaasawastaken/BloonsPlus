@@ -112,6 +112,23 @@ class UpgradeObservation(unittest.TestCase):
         self.assertEqual(calls, [])
         self.assertEqual(result['status'], 'confirmed')
 
+    def test_higher_owned_tier_does_not_trigger_another_purchase(self):
+        calls = []
+        result = observe_upgrade(0, lambda: panel([4, 0, 2]), lambda: calls.append('key'),
+                                 lambda pos: calls.append('click'), lambda s: None,
+                                 expected_tiers=[3, 0, 2])
+        self.assertEqual(calls, [])
+        self.assertEqual(result['status'], 'confirmed')
+        self.assertEqual(result['after'], [4, 0, 2])
+
+    def test_missing_prerequisite_does_not_mislabel_a_lower_tier(self):
+        calls = []
+        result = observe_upgrade(0, lambda: panel([1, 0, 0]), lambda: calls.append('key'),
+                                 lambda pos: calls.append('click'), lambda s: None,
+                                 expected_tiers=[3, 0, 0])
+        self.assertEqual(calls, [])
+        self.assertEqual(result['status'], 'unexpected')
+
 
 if __name__ == '__main__':
     unittest.main()
