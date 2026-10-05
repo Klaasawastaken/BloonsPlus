@@ -241,3 +241,17 @@ Unknown results without an exact target still do not authorize a blind retry.
 The actual reconciliation-branch regression passes; the suite now has 50 tests.
 Guest validation remains pending. A later native Mesa frame showed round 69/80
 and 100 lives despite the old round tracker remaining at 44.
+
+## Mesa Hard result and watchdog recovery
+
+The old round-only watchdog killed the controller while Mesa was still playing
+successfully. The game itself continued from round 78 to a visible victory at
+80; the authoritative Standard medal changed from 768 to 1049864. This is a
+confirmed clear despite the controller's earlier interrupted result.
+
+The watchdog now treats three bounded consecutive cash increases as activity,
+without changing its reported round or claiming victory. Flat or oscillating
+readings still time out and the overall duration limit still applies. Regressions
+cover these cases and paused-time accounting. The stale HUD crop fix remains the
+primary round repair; activity tracking avoids abandoning viable games when OCR
+is temporarily unavailable.
