@@ -1137,10 +1137,17 @@ def saveFailureShots(mapConfig, ingame, defeat):
     try:
         os.makedirs(FAILURE_SHOT_DIR, exist_ok=True)
         stem = os.path.join(FAILURE_SHOT_DIR, time.strftime('%Y%m%d-%H%M%S') + '_' + str(mapConfig.get('map')) + '_' + str(mapConfig.get('gamemode')))
-        if ingame is not None:
-            cv2.imwrite(stem + '_ingame.png', ingame)
-        cv2.imwrite(stem + '_defeat.png', defeat)
-        customPrint('FAILURE_SHOT ' + os.path.abspath(stem + ('_ingame.png' if ingame is not None else '_defeat.png')))
+        saved = []
+        for suffix, frame in (('_ingame.png', ingame), ('_defeat.png', defeat)):
+            if frame is None:
+                continue
+            path = stem + suffix
+            if cv2.imwrite(path, frame) and os.path.isfile(path) and os.path.getsize(path) > 0:
+                saved.append(path)
+            else:
+                customPrint('WARNING could not save failure screenshot: image write failed at ' + os.path.abspath(path))
+        if saved:
+            customPrint('FAILURE_SHOT ' + os.path.abspath(saved[0]))
         # Oldest first by file time: a name sort put dated shots ("2026...") ahead of the
         # "badge_"/"gamemode_stuck_" ones and deleted every new defeat screenshot instantly.
         # Rotate image payloads only. Structured failure sidecars are permanent
