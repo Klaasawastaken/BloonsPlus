@@ -12,4 +12,8 @@ assert.deepEqual(check([place('sniper','s0'),tier5('s0',0),'sell s0',place('snip
 const crossbows=[place('dart','d0'),tier5('d0',2),place('dart','d1'),tier5('d1',2)];
 assert.deepEqual(check(crossbows),[], 'Knowledge-dependent second Crossbow Master requires account checks, not blanket rejection');
 assert.ok(check(crossbows,'chimps').some(e=>/tier-five/i.test(e.message)), 'CHIMPS disables the Knowledge exception');
+assert.ok(check([...crossbows,place('dart','d2'),tier5('d2',2)]).some(e=>/tier-five/i.test(e.message)),
+  'Knowledge does not allow an unlimited number of Crossbow Masters');
+assert.ok(check([place('sauda','hero0'),'upgrade hero0 path 0']).some(e=>/hero/i.test(e.message)),
+  'Ordinary path upgrades cannot represent paid hero levels');
 console.log('Active hero and tier-five uniqueness checks passed.');
