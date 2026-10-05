@@ -4,8 +4,8 @@
   const image = document.getElementById('vm-viewer-image');
   const status = document.getElementById('vm-viewer-status');
   const empty = document.getElementById('vm-viewer-empty');
-  let controller = null, timer = null, frameUrl = null;
-  const visible = () => !document.hidden && document.hasFocus() && panel.getClientRects().length > 0;
+  let controller = null, timer = null, frameUrl = null, suspended = false;
+  const visible = () => !suspended && !document.hidden && document.hasFocus() && panel.getClientRects().length > 0;
   async function refresh() {
     clearTimeout(timer);
     if (!visible() || controller) return;
@@ -38,6 +38,13 @@
   addEventListener('blur', sync);
   document.addEventListener('visibilitychange', sync);
   new MutationObserver(sync).observe(panel.closest('section'), { attributes: true, attributeFilter: ['class', 'hidden', 'style'] });
-  addEventListener('pagehide', () => { clearTimeout(timer); controller?.abort(); if (frameUrl) URL.revokeObjectURL(frameUrl); });
+  addEventListener('pagehide', () => {
+    suspended = true;
+    clearTimeout(timer); controller?.abort();
+    if (frameUrl) URL.revokeObjectURL(frameUrl);
+    frameUrl = null;
+    image.removeAttribute('src'); image.hidden = true;
+  });
+  addEventListener('pageshow', () => { suspended = false; sync(); });
   sync();
 })();

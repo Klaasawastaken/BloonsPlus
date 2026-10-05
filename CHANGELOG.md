@@ -2,6 +2,7 @@
 
 ## Unreleased — replay diagnostics and cash reading
 
+- Resume the live viewer when a browser restores the app from its Back/Forward cache. Suspend capture scheduling during page departure and clear revoked frame references. Offline lifecycle regressions cover focus, hidden categories/tabs, one in-flight request, abort and restoration; no gameplay input used. Deployment queued with the next runtime batch.
 - Flag nine legacy conversions with omitted paid hero purchases in shared validation, excluding them from future sweep selection without modifying recordings. Coverage remains 508 map/mode pairs through alternative candidates; availability is not a claim that every route wins. Guest deployment is pending a later between-replay batch.
 - Reject imported strategies that require paid hero levels instead of silently dropping those purchases as harmless. Four offline regressions cover both upgrade APIs, BloonsPlayer text conversion and ordinary tower upgrades. Existing recordings are unchanged; previously converted routes with dropped hero purchases still need individual review.
 - Retain unresolved planned upgrades in checkpoint metadata until observed tiers prove those targets owned. Deduplicate repeated attempts without erasing other towers or higher pending tiers. Automatic resume reconciliation is still outstanding.
