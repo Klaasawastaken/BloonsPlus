@@ -228,7 +228,7 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [x] Reproduce unavailable-button hotkey fallback offline and prevent purchase input when the button is unavailable.
 - [x] Retain exact-tier recovery, already-owned reconciliation and one visually justified button retry; log the unavailable reason.
 - [x] Confirm One Two Tree Impoppable: victory summary and authoritative Hard.Impoppable medal value 1050191. Never replay this earned medal.
-- [ ] Deploy Preview 14 at the queued replay boundary and verify the controller reload before resuming.
+- [x] Deploy accumulated patches through Preview 19 at the replay boundary; guest controller reload verified and missing-medal sweep resumed.
 
 ## Ability timing (2026-10-06)
 
@@ -255,4 +255,12 @@ Start only after the current repair work is complete, as requested on 5 October.
 
 - [x] Trace host UI polling payload: historical lastRun and route attempts account for roughly 330 KB per response. Add opt-in UI projection; preserve full API/history and all 2,000 log lines.
 - [x] Verify pure projection and actual server handler offline. Current sample: 562,687 → 231,888 bytes (59% reduction); no claim of measured scroll latency or timeout recovery.
-- [ ] Verify UI projection on reloaded host and guest after the current replay finishes.
+- [x] Verify UI projection on reloaded host and guest after One Two Tree CHIMPS finished. Both omit unused history and retain logs; host reports fresh VM status for the new replay.
+
+## Confirmed replay boundary (2026-10-06)
+
+- [x] One Two Tree CHIMPS: victory summary observed, authoritative Hard.Clicks value 1050185, controller logged clear confirmed. Never replay this earned medal.
+- [x] Stop-after ended the sweep before another replay. Guest update through Preview 19 started only after running=false was confirmed.
+- [x] Update completed without error; guest serves new app code and UI status view. Resume selected missing Skulltweak CHIMPS (save Clicks=1233), while earned One Two Tree CHIMPS remains Clicks=1050185.
+
+- Host app reloaded only after setup job completion. Fresh host status: running=true, vm=true, statusStale=false, compact payload 135,519 bytes with 1,277 current log lines; independent guest replay continued at round 10 without fatal error. This proves status synchronization/API deployment, not visual layout or a Skulltweak victory.
