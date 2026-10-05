@@ -33,6 +33,19 @@ class UpgradeCheckpoint(unittest.TestCase):
         self.assertEqual(len(checkpoint['unresolvedUpgrades']), 2)
         self.assertEqual(checkpoint['unresolvedUpgrades'][0]['expectedUpgradeTiers'], [5, 0, 2])
 
+    def test_retry_refreshes_position_and_observation_without_duplicate(self):
+        checkpoint = {}
+        action = dict(action='upgrade', name='heli0', path=0, cost=21000, key='u',
+                      pos=(100, 200), expectedUpgradeTiers=[4, 0, 2],
+                      upgradeObservation=dict(status='unselected'))
+        self.record(checkpoint, action)
+        action['pos'] = (130, 240)
+        action['upgradeObservation'] = dict(status='unchanged')
+        self.record(checkpoint, action)
+        self.assertEqual(len(checkpoint['unresolvedUpgrades']), 1)
+        self.assertEqual(checkpoint['unresolvedUpgrades'][0]['pos'], [130, 240])
+        self.assertEqual(checkpoint['unresolvedUpgrades'][0]['observationStatus'], 'unchanged')
+
 
 if __name__ == '__main__':
     unittest.main()

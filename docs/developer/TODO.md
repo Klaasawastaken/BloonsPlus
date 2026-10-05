@@ -5,7 +5,7 @@ Updated 5 October 2026. Checkboxes require evidence, not merely code. Preserve o
 ## Current repair pass
 
 - [x] Fix unreachable upgrade retry branch: unselected/unchanged observations now queue the same intended upgrade before dependent steps. Regression executes the actual replay reconciliation branch.
-- [ ] Validate this retry correction in the guest; the preceding Tinkerton CHIMPS run lost after unselected upgrades at rounds 51–52. No clear claimed.
+- [x] Validate this retry correction in the guest: Workshop Hard reached victory at round 80 and saved medal value 1049864. Its Heli retry confirmed 3-0-2 → 4-0-2 at round 55. This proves that recovery case, not every route.
 
 ## Queued production overhaul
 
@@ -27,7 +27,7 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [ ] Deploy the local patches and validate cash at native 1080p and 1440p in the guest.
 - [ ] Resolve ambiguous upgrades using observed panel tiers; do not claim the cash reader alone fixes missed purchases.
 - [x] Implement ordinary-panel tier observation and bounded button retry with native-frame and offline regression evidence.
-- [ ] Verify the observer and 120 ms keyboard hold in a fresh VM replay; reconcile a confirmed win with its saved medal.
+- [x] Verify the observer and 120 ms keyboard hold in a fresh VM replay; Workshop Hard victory and authoritative saved medal confirmed on 5 October.
 - [ ] Keep unresolved upgrades explicit in resumable checkpoints, then validate recovery without buying a wrong tier.
 - [ ] Review each backlog entry against its own evidence and confirm a subsequent victory plus saved medal.
 

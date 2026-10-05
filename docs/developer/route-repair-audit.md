@@ -98,20 +98,27 @@ Two further faults were isolated from live attempts and the replay control flow:
 
 The attempt with the retry-queue fix progressed past round 60 but ended in defeat
 before receiving the capped-crosspath fix. This is not a confirmed route success.
-The capped-crosspath patch still requires a subsequent live outcome.
+The subsequent Workshop Hard run reached victory at round 80; the authoritative VM
+save then reported Standard medal value 1049864. Its Heli upgrade initially stayed
+at 3-0-2 at round 55, then the queued retry confirmed 4-0-2. A later 2-0-4 → 2-0-5
+purchase also confirmed through the panel reader. This validates those observed
+cases, not all routes or moving-map selection.
 
 Unconfirmed upgrades now capture a native frame before the panel closes and retain
 the observation in the run ledger. JSON sidecars survive subsequent failures;
 image rotation keeps the newest 60 image files. A retained record's screenshot may
 therefore be unavailable after rotation. These are private runtime artifacts.
 
-Current offline verification: 23 Python tests pass, including actual reconciliation
+Current offline verification: 29 Python tests pass, including actual reconciliation
 control flow, metadata retention, and panel fixtures at 1080p and 1440p. The five
 JavaScript regression scripts also passed during this repair pass. These checks
 do not establish all-route reliability, full live resolution support, or production readiness.
 
 The observer does not identify a tower by name. Correct selection still depends on
 the recorded/tracked position; checkpoint recovery remains a separate open issue.
+Unresolved checkpoint entries now refresh their tracked position and observation
+on retries, rather than retaining the first failed attempt's coordinates. Resume
+still needs to consume and reconcile those entries before this work is complete.
 
 The first updated live run reproduced an unreadable panel on the first Heli input;
 the next action visibly bought tier 1 instead of tier 2. The follow-up patch now

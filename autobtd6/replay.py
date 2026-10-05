@@ -54,13 +54,14 @@ def recordUpgradeCheckpoint(checkpoint, action):
     target = action.get('expectedUpgradeTiers')
     if not isinstance(target, list) or len(target) != 3:
         return  # No trustworthy target; never invent tiers from an unreadable panel.
-    if any(entry.get('name') == action.get('name') and entry.get('expectedUpgradeTiers') == target
-           for entry in pending):
-        return
     entry = {key: action[key] for key in ('action', 'name', 'path', 'key', 'cost') if key in action}
     entry['pos'] = list(action['pos']) if action.get('pos') is not None else None
     entry['expectedUpgradeTiers'] = list(target)
     entry['observationStatus'] = observation.get('status', 'unknown')
+    for index, previous in enumerate(pending):
+        if previous.get('name') == action.get('name') and previous.get('expectedUpgradeTiers') == target:
+            pending[index] = entry  # Keep the latest tracked position and observation from retries.
+            return
     pending.append(entry)
 
 def writeRouteCheckpoint(checkpoint):
