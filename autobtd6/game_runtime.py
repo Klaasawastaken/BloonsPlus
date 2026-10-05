@@ -164,6 +164,8 @@ class GameState:
                 event.update({'status': 'cash-ambiguous', 'cashBefore': cash_before,
                               'cashAfter': cash_after, 'round': self.round,
                               'checkedAt': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())})
+                if isinstance(action.get('upgradeObservation'), dict):
+                    event['upgradeObservation'] = dict(action['upgradeObservation'])
                 self.updated_at = event['checkedAt']
                 return
 

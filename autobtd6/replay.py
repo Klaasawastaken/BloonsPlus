@@ -3517,6 +3517,31 @@ def main():
                                         expected_tiers=action.get('expectedUpgradeTiers'))
                                     customPrint('DEBUG upgrade panel observation tower=' + str(action.get('name'))
                                                 + ' path=' + str(action['path']) + ' ' + str(action['upgradeObservation']))
+                                    if action['upgradeObservation']['status'] != 'confirmed':
+                                        # Capture while the selected panel is still visible, before
+                                        # right-click closes it. End-of-run images lose this evidence.
+                                        try:
+                                            os.makedirs(FAILURE_SHOT_DIR, exist_ok=True)
+                                            stem = os.path.join(FAILURE_SHOT_DIR, 'upgrade_' + str(time.time_ns()))
+                                            frame = np.array(pyautogui.screenshot())[:, :, ::-1].copy()
+                                            if not cv2.imwrite(stem + '.png', frame):
+                                                raise OSError('could not encode upgrade evidence')
+                                            evidence = {
+                                                'map': mapConfig.get('map'), 'mode': mapConfig.get('gamemode'),
+                                                'round': currentValues.get('round'), 'cash': currentValues.get('money'),
+                                                'tower': action.get('name'), 'position': action.get('pos'),
+                                                'path': action.get('path'), 'cost': action.get('cost'),
+                                                'expectedTiers': action.get('expectedUpgradeTiers'),
+                                                'observation': action['upgradeObservation'],
+                                                'selectionAttempts': action.get('selectionAttempts', 0),
+                                            }
+                                            with open(stem + '.json', 'w', encoding='utf-8') as output:
+                                                json.dump(evidence, output, indent=2)
+                                            action['upgradeObservation']['screenshot'] = os.path.abspath(stem + '.png')
+                                            customPrint('FAILURE_SHOT ' + os.path.abspath(stem + '.png')
+                                                        + ' reason=upgrade-' + action['upgradeObservation']['status'])
+                                        except Exception as error:
+                                            customPrint('WARNING could not save upgrade evidence: ' + str(error))
                                 else:
                                     sendKey(action['key'])
                                 # BTD6 applies path upgrades on the next frame;

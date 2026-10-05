@@ -22,6 +22,15 @@ def panel(tiers, side='right', available=True):
 
 
 class UpgradeObservation(unittest.TestCase):
+    def test_uncertain_purchase_retains_panel_evidence(self):
+        state = GameState({'map': 'test', 'gamemode': 'hard'}, 'test')
+        state.events.append(dict(status='issued-unverified', type='upgrade', tower='heli0', path=0))
+        observation = dict(status='unselected', screenshot='private-local-shot.png', before=None, after=None)
+        state.mark_action_uncertain(dict(action='upgrade', name='heli0', path=0,
+                                         upgradeObservation=observation), 22000, 22100)
+        self.assertEqual(state.events[-1]['upgradeObservation'], observation)
+        self.assertEqual(state.events[-1]['status'], 'cash-ambiguous')
+
     def test_panels_and_five_tiers(self):
         for side in ('left', 'right'):
             for levels in ([0, 0, 0], [5, 2, 0], [0, 1, 0]):
