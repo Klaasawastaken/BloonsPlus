@@ -27,6 +27,10 @@ def restore_upgrade_steps(original, checkpoint):
         if not isinstance(step, dict):
             raise ValueError('invalid checkpoint action')
         index = step.get('routeStepIndex')
+        if index is None and step.get('action') == 'upgrade' and step.get('extra', {}).get('opportunistic'):
+            # The surplus planner re-evaluates current cash and the restored
+            # tower ledger. Its temporary plans are not recorded route steps.
+            continue
         if type(index) is not int or not 0 <= index < len(original):
             raise ValueError('checkpoint action lacks a valid route position')
         source = original[index]

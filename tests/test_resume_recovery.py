@@ -47,6 +47,14 @@ class ResumeRecovery(unittest.TestCase):
         self.assertEqual(result['status'], 'confirmed')
         self.assertEqual(calls, ['select'])
 
+    def test_surplus_plan_is_recomputed_instead_of_replayed_on_resume(self):
+        checkpoint = dict(nextStep=0, remainingSteps=[
+            dict(action='upgrade', name='dart0', extra={'opportunistic': True})])
+        self.assertEqual(restore_upgrade_steps([], checkpoint), [])
+        checkpoint['remainingSteps'][0]['action'] = 'place'
+        with self.assertRaises(ValueError):
+            restore_upgrade_steps([], checkpoint)
+
     def test_unknown_panel_is_bounded_and_never_confirms(self):
         calls = []
         with patch('resume_recovery.read_upgrade_panel', return_value=None):
