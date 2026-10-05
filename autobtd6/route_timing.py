@@ -45,6 +45,11 @@ def ability_ready(step, now, round_started_at):
     """
     if not step or step.get('action') != 'ability':
         return True
+    if step.get('abilityInputSent') is True:
+        deadline = step.get('cursorDeadline')
+        if type(deadline) not in (int, float) or not math.isfinite(deadline):
+            raise ValueError('invalid ability cursor deadline')
+        return now >= deadline
     seconds = step.get('timer', 0)
     if type(seconds) not in (int, float) or not math.isfinite(seconds) or seconds < 0:
         raise ValueError('ability timer must be finite and non-negative')
@@ -57,3 +62,30 @@ def ability_ready(step, now, round_started_at):
     if type(deadline) not in (int, float) or not math.isfinite(deadline):
         raise ValueError('invalid ability deadline')
     return now >= deadline
+
+
+def issue_ability(step, now, press, move, click):
+    """Send once, then optionally defer cursor movement without sleeping.
+
+    Delayed targeting preserves the recorded move-only behavior. Immediate
+    targeting preserves move-and-click behavior.
+    """
+    delay = step.get('cursor_delay', 0)
+    if type(delay) not in (int, float) or not math.isfinite(delay) or delay < 0:
+        raise ValueError('ability cursor delay must be finite and non-negative')
+    target = step.get('pos')
+    if step.get('abilityInputSent') is True:
+        if not ability_ready(step, now, None):
+            return False
+        if target is not None:
+            move(target)
+        return True
+    press(step['key'])
+    if target is not None:
+        if delay:
+            step['abilityInputSent'] = True
+            step['cursorDeadline'] = now + delay
+            return False
+        move(target)
+        click()
+    return True

@@ -6,7 +6,7 @@ import io
 import textwrap
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'autobtd6'))
-from route_timing import delay_ready, round_offset_ready, ability_ready
+from route_timing import delay_ready, round_offset_ready, ability_ready, issue_ability
 from resume_recovery import restore_action
 from game_runtime import normalize_action
 
@@ -42,7 +42,8 @@ class RouteTimingTests(unittest.TestCase):
         source = (Path(__file__).resolve().parents[1] / 'autobtd6/replay.py').read_text(encoding='utf-8')
         start = source.index("                    elif action['action'] == 'ability':")
         branch = source[start:source.index("                    elif action['action'] == 'speed':", start)]
-        self.assertNotIn('time.sleep(wait)', branch)
+        self.assertNotIn('time.sleep(', branch)
+        self.assertIn('issue_ability(', branch)
         gate = source[source.index('                nextStepDelayReady = '):source.index('                nextStepCost = ', source.index('                nextStepDelayReady = '))]
         self.assertIn('ability_ready(nextStep', gate)
 
@@ -55,6 +56,58 @@ class RouteTimingTests(unittest.TestCase):
         self.assertNotIn('abilityDeadline', restore_action(dict(source, timer=9), saved))
         with self.assertRaises(ValueError):
             restore_action(source, dict(saved, abilityDeadline=float('nan')))
+
+    def test_delayed_cursor_keeps_observation_alive_and_sends_key_once(self):
+        calls = []
+        step = dict(action='ability', key='1', pos=(100, 200), cursor_delay=2)
+        press = lambda key: calls.append(('key', key))
+        move = lambda pos: calls.append(('move', pos))
+        click = lambda: calls.append(('click',))
+        self.assertFalse(issue_ability(step, 100, press, move, click))
+        self.assertFalse(ability_ready(step, 101, 100))
+        self.assertFalse(issue_ability(step, 101, press, move, click))
+        self.assertTrue(ability_ready(step, 102, 101))
+        self.assertTrue(issue_ability(step, 102, press, move, click))
+        self.assertEqual(calls, [('key', '1'), ('move', (100, 200))])
+
+    def test_immediate_cursor_preserves_move_and_click(self):
+        calls = []
+        step = dict(action='ability', key='1', pos=(100, 200))
+        self.assertTrue(issue_ability(step, 100, lambda key: calls.append('key'),
+                                     lambda pos: calls.append('move'), lambda: calls.append('click')))
+        self.assertEqual(calls, ['key', 'move', 'click'])
+
+    def test_resume_delayed_cursor_does_not_repeat_ability(self):
+        source = dict(action='ability', key='1', timer=0, cursor_delay=2, pos=(100, 200))
+        saved = dict(source, abilityInputSent=True, cursorDeadline=102)
+        restored = restore_action(source, saved)
+        calls = []
+        self.assertTrue(issue_ability(restored, 103, lambda key: calls.append('key'),
+                                      lambda pos: calls.append('move'), lambda: calls.append('click')))
+        self.assertEqual(calls, ['move'])
+        self.assertNotIn('abilityInputSent', restore_action(dict(source, key='2'), saved))
+        with self.assertRaises(ValueError):
+            restore_action(source, dict(saved, cursorDeadline=float('nan')))
+
+    def test_actual_replay_cursor_branch_keeps_action_queued(self):
+        from types import SimpleNamespace
+        source = (Path(__file__).resolve().parents[1] / 'autobtd6/replay.py').read_text(encoding='utf-8')
+        start = source.index("                    elif action['action'] == 'ability':")
+        branch = textwrap.dedent(source[start:source.index("                    elif action['action'] == 'speed':", start)]).replace('elif ', 'if ', 1)
+        calls = []
+        action = dict(action='ability', slot=1, key='1', pos=(100, 200), cursor_delay=2)
+        context = dict(action=action, thisIterationAction=action, mapConfig={'steps': []},
+                       issue_ability=issue_ability, time=SimpleNamespace(time=lambda: 100),
+                       sendKey=lambda key: calls.append('key'), customPrint=lambda message: None,
+                       pyautogui=SimpleNamespace(moveTo=lambda pos: calls.append('move'), click=lambda: calls.append('click')))
+        exec(branch, context)
+        self.assertEqual(context['mapConfig']['steps'], [action])
+        context['mapConfig']['steps'].pop(0)
+        context['time'] = SimpleNamespace(time=lambda: 102)
+        exec(branch, context)
+        self.assertEqual(context['mapConfig']['steps'], [])
+        self.assertIsNone(context['thisIterationAction'])
+        self.assertEqual(calls, ['key', 'move'])
 
     def test_round_offsets_share_one_round_start(self):
         first = dict(action='await_round', round=20, secondsAfterRound=5)

@@ -234,5 +234,7 @@ Start only after the current repair work is complete, as requested on 5 October.
 
 - [x] Move ability timer waits into the non-blocking execution gate and preserve deadlines across round transitions and unchanged checkpoint restores.
 - [x] Verify 14 timing, 10 resume and eight converter checks offline; preserve original recordings.
-- [ ] Replace cursor-target waits with observed, non-blocking scheduling.
+- [x] Replace cursor-target waits with non-blocking scheduled continuation; keep move-only semantics and avoid repeated key input.
 - [ ] Observe timed abilities only during gameplay for a missing medal; offline checks do not establish victory.
+
+- Preview 16: 18 timing and 10 resume checks pass. Matching delayed cursor intent survives resume; actual gameplay verification awaits a missing-medal recording that uses cursor targeting.

@@ -19,6 +19,19 @@ def restore_action(source, saved):
             if type(deadline) not in (int, float) or not isfinite(deadline):
                 raise ValueError('invalid checkpoint ability deadline')
             step['abilityDeadline'] = deadline
+    if source.get('action') == 'ability' and saved.get('abilityInputSent') is True:
+        same_intent = (saved.get('key') == source.get('key')
+                       and saved.get('timer', 0) == source.get('timer', 0)
+                       and saved.get('cursor_delay', 0) == source.get('cursor_delay', 0)
+                       and isinstance(saved.get('pos'), (list, tuple))
+                       and isinstance(source.get('pos'), (list, tuple))
+                       and list(saved['pos']) == list(source['pos']))
+        if same_intent:
+            deadline = saved.get('cursorDeadline')
+            if type(deadline) not in (int, float) or not isfinite(deadline):
+                raise ValueError('invalid checkpoint ability cursor deadline')
+            step['abilityInputSent'] = True
+            step['cursorDeadline'] = deadline
     for key in ('pos', 'originPos'):
         position = saved.get(key)
         if position is not None:

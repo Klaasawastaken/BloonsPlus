@@ -1,5 +1,11 @@
 ## Preview 13 — Round-relative strategy timing
 
+## Preview 16 — Non-blocking cursor targeting
+
+- Schedule delayed ability cursor movement without blocking screen reads or repeating the ability key.
+- Preserve existing move-only / move-and-click semantics and restore only matching cursor intent.
+- 28 timing/resume checks pass offline; live missing-medal observation remains pending.
+
 ## Preview 15 — Non-blocking ability timers
 
 - Gate timed abilities without blocking screen observation. Pin deadlines across round transitions.

@@ -13,7 +13,7 @@ from game_runtime import GameState, normalize_action
 from upgrade_rules import can_upgrade_path
 from upgrade_observation import observe_upgrade, resolve_hud_panels
 from placement_observation import held_placement_visible
-from route_timing import delay_ready, round_offset_ready, ability_ready
+from route_timing import delay_ready, round_offset_ready, ability_ready, issue_ability
 from resume_recovery import restore_upgrade_steps, probe_owned_upgrade
 
 LAST_HERO_FILE = 'last-hero.json'
@@ -3733,15 +3733,14 @@ def main():
                                     + ' round_delay=' + str(action.get('timer', 0))
                                     + ' deadline=' + str(action.get('abilityDeadline'))
                                     + ' target=' + str(action.get('pos')))
-                        sendKey(action['key'])
-                        if action.get('pos') is not None:
-                            cursorDelay = max(0.0, float(action.get('cursor_delay', 0)))
-                            if cursorDelay:
-                                time.sleep(cursorDelay)
-                                pyautogui.moveTo(action['pos'])
-                            else:
-                                pyautogui.moveTo(action['pos'])
-                                pyautogui.click()
+                        if action.get('abilityInputSent') is True:
+                            thisIterationAction = None  # Cursor continuation is not a second ability use.
+                        if not issue_ability(action, time.time(), sendKey, pyautogui.moveTo, pyautogui.click):
+                            mapConfig['steps'].insert(0, action)
+                            customPrint('TIMING ability cursor pending slot=' + str(action.get('slot'))
+                                        + ' deadline=' + str(action['cursorDeadline']))
+                        else:
+                            customPrint('TIMING ability completed slot=' + str(action.get('slot')))
                     elif action['action'] == 'speed':
                         customPrint('DEBUG speed change=' + str(action['speed']))
                         if currentGameState is not None:
