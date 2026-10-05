@@ -1,5 +1,7 @@
 # Changelog
 
+- Extend the stationary tower tracking repair to evidenced One Two Tree attempts while preserving unrelated failure exclusions and all saved-medal skip checks. Original routes remain unchanged.
+
 ## Unreleased — replay diagnostics and cash reading
 
 - Separate moving tower platforms from dynamic covers, water and lane access. The Polyphemus failure log showed visual tracking relocating heli1 from its original position beside heli0, causing the wrong upgrade panel. Coordinate tracking now requires a moving-platform flag; original recordings remain unchanged. Only Polyphemus receives a new attempt revision for this evidenced fix, preserving unrelated failure exclusions and all owned-medal skips.

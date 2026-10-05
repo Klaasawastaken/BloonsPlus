@@ -23,14 +23,21 @@ class TowerTrackingScope(unittest.TestCase):
         env.update(towerTracker=SimpleNamespace(locate=lambda *a: calls.append(a) or None),
                    towerName='heli1', screenshot=object())
         with patch.dict(os.environ, {'BLOONS_DYNAMIC_PLACEMENT':'1', 'BLOONS_MOVING_PLATFORMS':'0'}):
-            for name in ('polyphemus', 'covered_garden', 'glacial_trail', 'erosion', 'bloonarius_prime'):
+            for name in ('polyphemus', 'one_two_tree', 'x_factor', 'muddy_puddles', 'tricky_tracks',
+                         'covered_garden', 'glacial_trail', 'erosion', 'bloonarius_prime'):
                 env['mapConfig'] = {'map':name}
                 exec(compile(ast.Module(body=[gate], type_ignores=[]), '<tracking>', 'exec'), env)
             self.assertEqual(calls, [], 'Dynamic access alone cannot move click coordinates')
             for name in ('geared', 'sanctuary'):
                 self.assertTrue(env['hasMovingTowerPlatforms'](name))
+                env['mapConfig'] = {'map':name}
+                exec(compile(ast.Module(body=[gate], type_ignores=[]), '<tracking>', 'exec'), env)
+            self.assertEqual(len(calls), 2, 'Actual moving platforms must still run tracking')
         with patch.dict(os.environ, {'BLOONS_MOVING_PLATFORMS':'1'}):
             self.assertTrue(env['hasMovingTowerPlatforms']('future_platform_map'))
+            env['mapConfig'] = {'map':'future_platform_map'}
+            exec(compile(ast.Module(body=[gate], type_ignores=[]), '<tracking>', 'exec'), env)
+            self.assertEqual(len(calls), 3)
 
 
 if __name__ == '__main__':

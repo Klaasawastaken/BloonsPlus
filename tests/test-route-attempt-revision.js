@@ -16,6 +16,7 @@ function hash(map) {
   });
 }
 assert.notEqual(hash('polyphemus'), previous, 'Evidenced engine fix allows a new missing-medal attempt');
+assert.notEqual(hash('one_two_tree'), previous, 'Recorded stationary Heli drift also affected One Two Tree');
 assert.equal(hash('logs'), previous, 'Unrelated prior failures must remain excluded');
 assert.equal(hash('geared'), previous);
 assert.equal(hash('polyphemus'), hash('polyphemus'), 'Revision must be stable across sweep restarts');

@@ -4,6 +4,10 @@ Updated 5 October 2026. Checkboxes require evidence, not merely code. Preserve o
 
 ## Current repair pass
 
+- [x] Extend the stationary-coordinate audit to One Two Tree: its Impoppable failure log moved heli0 `(972,94)` to `(784,97)` with nine feature matches. Allow its still-missing medals to use the corrected engine without deleting prior failure records. Other OCR/upgrade problems in that loss remain unresolved; this is not a victory claim. Offline checks now exercise the tracking branch for both stationary and moving-platform maps. Batch deployment pending.
+
+- Latest operating rule: run only missing medals, never launch routes for validation, and stop when all supported obtainable medals are owned. Keep coding during replays and deploy batches only after a run finishes. Retain persistent failures and continue with other eligible candidates.
+
 - [x] Identify the Polyphemus CHIMPS wrong-Heli cause: `TOWER_TRACK` rewrote heli1 `(904,506)` to `(899,284)` with eight feature matches, next to heli0 `(905,301)`. Restrict coordinate tracking to actual moving-platform maps rather than the broad dynamic-placement/access flag. Offline checks preserve stationary coordinates and unrelated route failure revisions. Original CHIMPS bytes unchanged; deployment queued, no victory claim.
 - Guest batch through `f212998` installed at 21:20 on 5 October after Moon Landing Impoppable victory plus saved value `1050185`; sweep restarted successfully. No healthy replay was interrupted.
 
