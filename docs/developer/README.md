@@ -1,6 +1,7 @@
 # Developer reference
 
 - [Language map](../languages.md)
+- [Replay timing, abilities and selection](replay-controls.md)
 - [Build and GitHub setup](GITHUB_SETUP.md)
 - [Implementation review](CODE_REVIEW_2026-10-03.md)
 - Maintenance/import helpers are in `tools/`; run them from the repository root.

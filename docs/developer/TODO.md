@@ -355,7 +355,7 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [x] Move automatically detected profile details to Run Logs; keep heroes, hotkeys and Monkey Knowledge live and read-only.
 - [x] Hide the ISO override once setup has an ISO or an existing VM, and do not submit hidden stale paths. Show a working/error badge before a previously ready setup status.
 - [x] Review dark Settings and installed-VM diagnostics in the host preview; the existing VM shows its checks without an ISO input. Active replay left untouched.
-- [ ] Apply this batch to the guest at the next healthy replay boundary.
+- [x] Settings batch deployed in Preview 30 at the confirmed Scrapyard replay boundary; guest serves the simplified Settings.
 
 ## Repeated abilities and candidate fidelity (2026-10-06)
 
@@ -366,7 +366,7 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [x] Eight scheduler/importer/runtime checks, 18 timing checks and four paid-hero rejection checks pass; syntax and publication guard pass.
 - [x] Scrapyard CHIMPS earned: observed VICTORY_SUMMARY, controller clear confirmed, authoritative Scrapyard.difficult.Hard.modes.Clicks=1050185. Stop-after boundary confirmed running=false. Never replay this owned medal.
 - [x] Preview 30 guest update completed without error at the confirmed Scrapyard boundary. Guest serves new Settings and all three ability-preserved candidates. Exact host Electron owner reloaded only while guest idle; authoritative guest status confirms missing-medal sweep running again.
-- [ ] Observe repeated abilities when a candidate is naturally selected for a missing medal; no testing-only replay.
+- [x] Repeated abilities observed naturally during Dark Dungeons Easy at rounds 3–5 and 13; no validation-only replay launched.
 
 - Pinned upstream revision 17d624879c5ad777e82594da34450e66b2d60756 confirms duplicate-entry repeat lists, per-slot cancellation and the one-second cycle. Six existing JS route-validation/failure gates also pass.
 - New sweep naturally selected Dark Dungeons Easy for a missing medal using its ability-preserved source candidate; hero-picker logs show Etienne correctly read as Select. No validation-only run launched. Live repeating-input behavior and outcome remain to be observed.
@@ -377,4 +377,6 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [x] Shared selection closes a detected covering panel with two centre clicks before the tower click, including retries and selling. Independent HUD anchors detect hero panels without tier pips. Preserve ordinary uncovered selection.
 - [x] Captured-frame offline probe records two centre clicks followed by the intended tower; uncovered target records only the tower click. Three scale/ownership checks, 19 upgrade-observation and eight upgrade-queue checks pass. No test input sent to the game.
 - [x] Live repeat scheduler observed naturally during Dark Dungeons missing-medal run at rounds 3,4,5; no exception observed in those logs. No victory claimed for that candidate yet.
-- [ ] Stop-after requested for current replay; deploy covering-panel fix only at its terminal boundary, then resume missing medals.
+- [x] Preview 31 installed after Dark Dungeons Easy finished and running=false was confirmed; update completed without error and authoritative guest status confirms the missing-medal sweep resumed. Live recovery by the new selection helper remains to be observed naturally.
+
+- Dark Dungeons Easy clear recorded by the controller at 01:50; authoritative VM save independently reports DarkDungeons.difficult.Easy.modes.Standard=1049224. The controller requires observed victory plus saved medal before reporting a clear. This owned medal must never be replayed. Added a developer reference for timing, repeating abilities, checkpoints and panel selection.
