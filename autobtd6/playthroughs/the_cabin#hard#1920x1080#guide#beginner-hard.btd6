@@ -13,6 +13,8 @@ upgrade wizard0 path 1
 upgrade wizard0 path 2
 round 30
 place sniper sniper0 at 333, 842
+upgrade sniper0 path 1
+upgrade sniper0 path 1
 upgrade sniper0 path 2
 upgrade sniper0 path 2
 upgrade sniper0 path 2

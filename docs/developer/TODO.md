@@ -4,6 +4,17 @@ Updated 5 October 2026. Checkboxes require evidence, not merely code. Preserve o
 
 ## Current repair pass
 
+- [x] Restore the two missing middle-path Sniper upgrades in the Beginner Hard generator and its 26 guide-derived routes. The intended 0-2-4 build was incorrectly emitted as 0-0-4. Offline regression reproduced the omission; all 26 corrected routes pass build, legality and source-hash checks. Placement coordinates, round markers and original CHIMPS recordings are unchanged. This fixes the build mismatch, not a proof of victory. Batch guest deployment pending.
+- Controller update completed between replays at 22:01 on 5 October. Guest process output showed fresh Electron processes and the stale Node controller was absent. Sweep resumed for missing Polyphemus CHIMPS; no validation-only replay was started.
+
+### Medal sweep operating contract
+
+- Gameplay earns missing medals only. An owned map/mode is never a validation target, including after an engine or route change.
+- Keep development moving while a replay runs. Batch deployment at replay boundaries; interrupt a healthy replay only to prevent damage or corruption.
+- Persist failed attempts across sweeps and continue with another eligible candidate or missing medal. A failed route must not block unrelated development.
+- Generate and check candidate routes offline. Never launch BTD6 solely to validate them. Stop when every supported obtainable medal is earned; there is no later route-testing phase.
+- Count a clear only with observed victory and authoritative saved-medal confirmation.
+
 - [x] Add shared offline legality checks for multiple active heroes and duplicate active tier-five upgrades on the same tower/path. Selling releases the slot; different T5 paths remain legal. Preserve the knowledge-dependent Dart bottom-path exception outside CHIMPS. Focused tests pass; regenerated coverage remains 508 supported map/mode pairs and 696 gaps. No recordings were changed or games launched for validation.
 
 - [x] Diagnose the stale guest controller: after the 21:46 update, Electron had restarted but the installed Node server PID 6916 still dated from 19:55. Installer now checks explicit idle state, stops only exact installed Node/Electron executable paths, and waits for exit before replacing files. Compiled pure guard checks pass; guest deployment and fresh-process verification remain pending.
@@ -157,4 +168,4 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [x] Make the download page resolve the newest published GitHub installer automatically, with a local metadata fallback.
 - [x] Add more map environments and expand the public feature list.
 - [x] Stop Glacial Trail emergency spending from pulling recorded actions into freeze windows.
-- [ ] Validate frozen-tower upgrade deferral against a live Glacial Trail run before marking the route confirmed.
+- [ ] Check frozen-tower upgrade deferral offline. Observe a Glacial Trail replay only if it earns a missing medal; never launch an owned mode to validate this fix.

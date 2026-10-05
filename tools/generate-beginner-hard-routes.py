@@ -87,7 +87,7 @@ def build_route(hero, wizard, sniper, dart, druid):
     lines += upgrade_lines("wizard0", 1, 2)
     lines += upgrade_lines("wizard0", 2, 1)
     lines += ["round 30", f"place sniper sniper0 at {sniper[0]}, {sniper[1]}"]
-    lines += upgrade_lines("sniper0", 2, 2) + upgrade_lines("sniper0", 2, 2)
+    lines += upgrade_lines("sniper0", 1, 2) + upgrade_lines("sniper0", 2, 4)
     lines += ["round 45"] + upgrade_lines("dart0", 1, 2) + upgrade_lines("dart0", 2, 4)
     lines += ["round 55", f"place druid druid0 at {druid[0]}, {druid[1]}"]
     lines += upgrade_lines("druid0", 0, 2) + upgrade_lines("druid0", 1, 4)
