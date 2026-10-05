@@ -40,6 +40,12 @@ def publishViewerFrame(frame):
 ROUTE_CHECKPOINT_FILE = 'route-checkpoint.json'
 _route_checkpoint_lock = threading.Lock()
 
+def checkpointStepOffset(steps, total):
+    """Retries retain original route positions; supplemental actions consume none."""
+    indices = [step.get('routeStepIndex') for step in steps]
+    return min((index for index in indices if type(index) is int and 0 <= index < total), default=total)
+
+
 def recordUpgradeCheckpoint(checkpoint, action):
     """Retain planned upgrade intent until the same tower's tiers prove it owned."""
     pending = checkpoint.setdefault('unresolvedUpgrades', [])
@@ -1355,6 +1361,8 @@ def main():
                             + ' glueKnowledge=' + str(bonusGlueOwned)
                             + ' routeCost=' + str(step.get('cost')))
         routeStepTotal = len(mapConfig['steps'])
+        for routeStepIndex, step in enumerate(mapConfig['steps']):
+            step['routeStepIndex'] = routeStepIndex
 
         if len(argv) > iAdditional and argv[iAdditional] == 'resume':
             parsedArguments.append('resume')
@@ -3029,7 +3037,7 @@ def main():
                                             ' round=' + str(currentValues['round']))
                                 if routeCheckpoint is not None:
                                     routeCheckpoint.update(status='ready',
-                                                           nextStep=routeStepTotal - len(mapConfig['steps']),
+                                                           nextStep=checkpointStepOffset(mapConfig['steps'], routeStepTotal),
                                                            pendingAction=None)
                                     writeRouteCheckpoint(routeCheckpoint)
                             lastIterationAction = None
@@ -3139,7 +3147,7 @@ def main():
                             continue
                         if routeCheckpoint is not None:
                             routeCheckpoint.update(status='ready',
-                                                   nextStep=routeStepTotal - len(mapConfig['steps']),
+                                                   nextStep=checkpointStepOffset(mapConfig['steps'], routeStepTotal),
                                                    pendingAction=None)
                             writeRouteCheckpoint(routeCheckpoint)
                         pendingPlacementProbe = None
@@ -3345,7 +3353,7 @@ def main():
                         pendingPlacementProbe = None
                         if routeCheckpoint is not None:
                             routeCheckpoint.update(status='ready',
-                                                   nextStep=routeStepTotal - len(mapConfig['steps']),
+                                                   nextStep=checkpointStepOffset(mapConfig['steps'], routeStepTotal),
                                                    pendingAction=None)
                             writeRouteCheckpoint(routeCheckpoint)
                         continue
@@ -3645,7 +3653,7 @@ def main():
                     if routeCheckpoint is not None:
                         if action.get('action') == 'upgrade':
                             recordUpgradeCheckpoint(routeCheckpoint, action)
-                        routeCheckpoint['nextStep'] = routeStepTotal - len(mapConfig['steps'])
+                        routeCheckpoint['nextStep'] = checkpointStepOffset(mapConfig['steps'], routeStepTotal)
                         routeCheckpoint['pendingAction'] = None
                         routeCheckpoint['status'] = 'ready'
                         writeRouteCheckpoint(routeCheckpoint)

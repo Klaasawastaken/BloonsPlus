@@ -119,6 +119,19 @@ the recorded/tracked position; checkpoint recovery remains a separate open issue
 Unresolved checkpoint entries now refresh their tracked position and observation
 on retries, rather than retaining the first failed attempt's coordinates. Resume
 still needs to consume and reconcile those entries before this work is complete.
+Checkpoint offsets now use original instruction indices instead of remaining queue
+length. Duplicate retries and supplemental actions can no longer shift that offset.
+Thirty Python regressions pass after this change; full resume reconciliation is still open.
+
+## Ravine Hard follow-up
+
+The 2560x1440 route, scaled to the live 1920x1080 client, lost at round 14.
+After Benjamin placement, the next Dart upgrade waited for 110 cash while OCR
+reported 100 for several rounds, then 6 and 0 without a planned purchase. This is
+consistent with a wrong HUD crop reading lives, but requires frame evidence before
+changing the layout detector. Retrieval of the logged failure frame returned file
+not found. The sweep selected another candidate for the same still-missing medal;
+no Ravine clear is claimed. Original recordings remain unchanged.
 
 The first updated live run reproduced an unreadable panel on the first Heli input;
 the next action visibly bought tier 1 instead of tier 2. The follow-up patch now
