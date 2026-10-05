@@ -89,3 +89,13 @@ def issue_ability(step, now, press, move, click):
         move(target)
         click()
     return True
+
+
+def upgrade_ready(step, observed_round):
+    """Keep a temporarily unavailable upgrade ahead of its dependent actions."""
+    if not step or step.get('action') != 'upgrade' or 'deferredUpgradeRound' not in step:
+        return True
+    target = step['deferredUpgradeRound']
+    if type(target) is not int or target < 1:
+        raise ValueError('invalid deferred upgrade round')
+    return type(observed_round) is int and observed_round >= target

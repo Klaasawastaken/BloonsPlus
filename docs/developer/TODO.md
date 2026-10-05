@@ -214,7 +214,8 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [x] Make the download page resolve the newest published GitHub installer automatically, with a local metadata fallback.
 - [x] Add more map environments and expand the public feature list.
 - [x] Stop Glacial Trail emergency spending from pulling recorded actions into freeze windows.
-- [ ] Check frozen-tower upgrade deferral offline. Observe a Glacial Trail replay only if it earns a missing medal; never launch an owned mode to validate this fix.
+- [x] Check Glacial Trail upgrade deferral offline: seven cycle, gating, checkpoint and actual retry-branch checks pass, plus 10 resume and 18 timing checks. Predict availability only with confirmed placement history and an unavailable exact-tier observation; live frozen-tower recognition remains unfinished.
+- [ ] Observe Glacial Trail deferral only in a replay for a missing medal; never launch an owned mode to validate it.
 
 ## Settings cleanup (2026-10-05)
 
@@ -283,3 +284,10 @@ Start only after the current repair work is complete, as requested on 5 October.
 
 - Preview 21 is published and its installer includes Preview 20 Settings plus clock-aware activity. Guest/host reload is pending until Skulltweak CHIMPS finishes. Stop-after is confirmed enabled; resume the missing-medal sweep after successful deployment.
 - Live Skulltweak CHIMPS upgrade evidence: heli1 at round 57 first read 3-0-2 with button unavailable. Existing exact-tier retry reselected, then confirmed 4-0-2 through panel pips at 00:34:02 in replay logs. This was recovered, not a permanently failed upgrade or evidence of freezing. No route or CHIMPS recording was edited.
+
+## Glacial Trail upgrade availability (2026-10-06)
+
+- [x] Research per-tower freeze cycle from https://bloons.fandom.com/wiki/Glacial_Trail : two frozen rounds every ten, relative to placement. Update map guidance to distinguish per-tower cycles from a global storm timer.
+- [x] When a confirmed placement history predicts frozen rounds and the exact requested upgrade is visibly unavailable, retain its target ahead of dependent actions until predicted thaw. Then reselect and re-read tiers before any purchase. Other maps retain the bounded retry policy; unknown histories do not invent thaw times.
+- [x] Persist the deferral in unresolved upgrade checkpoints and gate ownership probes without blocking screenshot/round processing. Original recordings unchanged.
+- [x] Seven focused availability checks, 10 resume checks and 18 timing checks pass. This is prediction plus live availability reconciliation, not a visual freeze classifier or victory proof.

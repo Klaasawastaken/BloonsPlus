@@ -13,7 +13,8 @@ from game_runtime import GameState, normalize_action
 from upgrade_rules import can_upgrade_path
 from upgrade_observation import observe_upgrade, resolve_hud_panels
 from placement_observation import held_placement_visible
-from route_timing import delay_ready, round_offset_ready, ability_ready, issue_ability
+from route_timing import delay_ready, round_offset_ready, ability_ready, issue_ability, upgrade_ready
+from map_availability import predicted_thaw_round
 from resume_recovery import restore_upgrade_steps, probe_owned_upgrade
 
 LAST_HERO_FILE = 'last-hero.json'
@@ -67,6 +68,8 @@ def recordUpgradeCheckpoint(checkpoint, action):
     entry = {key: action[key] for key in ('action', 'name', 'path', 'key', 'cost') if key in action}
     entry['pos'] = list(action['pos']) if action.get('pos') is not None else None
     entry['expectedUpgradeTiers'] = list(target)
+    if 'deferredUpgradeRound' in action:
+        entry['deferredUpgradeRound'] = action['deferredUpgradeRound']
     entry['opportunistic'] = bool(action.get('extra', {}).get('opportunistic'))
     entry['observationStatus'] = observation.get('status', 'unknown')
     for index, previous in enumerate(pending):
@@ -3059,7 +3062,12 @@ def main():
                             exactIntent = (isinstance(plannedTiers, (list, tuple)) and len(plannedTiers) == 3
                                            and all(type(tier) is int and 0 <= tier <= 5 for tier in plannedTiers))
                             safeRecheck = upgradeStatus in ('unselected', 'unchanged') or (upgradeStatus in ('unknown', 'unexpected') and exactIntent)
-                            if safeRecheck and lastIterationAction.get('selectionAttempts', 0) < 2:
+                            towerInfo = currentGameState.towers.get(str(lastIterationAction.get('name')), {}) if currentGameState else {}
+                            thawRound = predicted_thaw_round(mapConfig.get('map'), lastIterationAction.get('name'),
+                                towerInfo.get('type'), currentGameState.events if currentGameState else [], currentValues.get('round'))
+                            deferForThaw = (exactIntent and thawRound is not None
+                                            and lastIterationAction.get('upgradeObservation', {}).get('reason') == 'button-unavailable')
+                            if safeRecheck and (lastIterationAction.get('selectionAttempts', 0) < 2 or deferForThaw):
                                 # Preserve this exact planned tier ahead of its dependents.
                                 # Unknown results require an exact target: observe_upgrade
                                 # re-reads pips and skips input if that target is already owned.
@@ -3074,6 +3082,15 @@ def main():
                                     # Reconcile visible ownership before waiting to afford it again.
                                     retry['resumeUpgradeProbe'] = True
                                 retry.pop('upgradeObservation', None)
+                                if deferForThaw:
+                                    retry['deferredUpgradeRound'] = thawRound
+                                    retry['resumeUpgradeProbe'] = True
+                                    if routeCheckpoint is not None:
+                                        recordUpgradeCheckpoint(routeCheckpoint, retry)
+                                    customPrint('MAP_AVAILABILITY upgrade deferred tower=' + str(retry.get('name'))
+                                                + ' observed_round=' + str(currentValues.get('round'))
+                                                + ' predicted_thaw_round=' + str(thawRound)
+                                                + '; exact tier retained; availability will be re-read')
                                 mapConfig['steps'].insert(0, retry)
                                 customPrint('RECOVERY upgrade retry queued before dependent steps tower=' + str(retry.get('name'))
                                             + ' reason=' + str(lastIterationAction.get('upgradeObservation', {}).get('reason') or upgradeStatus)
@@ -3329,7 +3346,7 @@ def main():
                         customPrint('detected money: ' + str(currentValues['money']) + ', required: ' + str(mapConfig['steps'][0]['cost']) + '          ', end = '', rewriteLine=True)
 
                 nextStep = mapConfig['steps'][0] if len(mapConfig['steps']) else None
-                if nextStep and nextStep.pop('resumeUpgradeProbe', False):
+                if nextStep and upgrade_ready(nextStep, currentValues.get('round')) and nextStep.pop('resumeUpgradeProbe', False):
                     # Check ownership before the cash gate: an already bought tier
                     # must not wait for enough cash to buy that tier a second time.
                     pyautogui.click(button='right')
@@ -3357,7 +3374,8 @@ def main():
                 nextStepAction = nextStep.get('action') if nextStep else None
                 nextStepDelayReady = (delay_ready(nextStep, time.time())
                                       and round_offset_ready(nextStep, time.time(), observedRound, observedRoundStartedAt)
-                                      and ability_ready(nextStep, time.time(), observedRoundStartedAt))
+                                      and ability_ready(nextStep, time.time(), observedRoundStartedAt)
+                                      and upgrade_ready(nextStep, currentValues.get('round')))
                 if nextStep and 'secondsAfterRound' in nextStep and observedRound is not None and observedRound > nextStep.get('round', observedRound):
                     customPrint('TIMING_RECOVERY overdue round offset target=' + str(nextStep['round']) + ' observed=' + str(observedRound) + '; executing remaining planned action')
                 nextStepCost = int(nextStep.get('cost', 0) or 0) if nextStep else 0

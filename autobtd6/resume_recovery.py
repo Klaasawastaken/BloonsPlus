@@ -32,6 +32,11 @@ def restore_action(source, saved):
                 raise ValueError('invalid checkpoint ability cursor deadline')
             step['abilityInputSent'] = True
             step['cursorDeadline'] = deadline
+    if source.get('action') == 'upgrade' and 'deferredUpgradeRound' in saved:
+        target = saved['deferredUpgradeRound']
+        if type(target) is not int or target < 1:
+            raise ValueError('invalid checkpoint upgrade deferral')
+        step['deferredUpgradeRound'] = target
     for key in ('pos', 'originPos'):
         position = saved.get(key)
         if position is not None:

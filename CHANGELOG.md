@@ -1,3 +1,10 @@
+## Preview 22 — Retain upgrades through Glacial Trail thaw
+
+- Predict per-tower thaw from confirmed placement history only after an unavailable exact-tier upgrade observation.
+- Keep that planned tier ahead of dependent actions and re-read ownership at thaw; do not spam unavailable purchase buttons.
+- Preserve deferred upgrades in resumable checkpoints and keep the main observation loop running.
+- Seven availability, 10 resume and 18 timing checks pass. Live frozen-tower recognition and victory evidence remain pending.
+
 ## Preview 21 — VM clock-aware activity
 
 - Retain the guest clock through status relays and ignore stale samples when calculating clock offset.
