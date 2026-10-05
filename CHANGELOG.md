@@ -1,5 +1,12 @@
 ## Preview 13 — Round-relative strategy timing
 
+## Preview 14 — Settings and unavailable upgrade safety
+
+- Simplify Settings and move diagnostic readouts into Run logs. Remove the inert queue toggle.
+- Apply imported/reset themes immediately.
+- Prevent hotkey fallback on unavailable upgrade buttons; retain bounded exact-target recovery and explain the reason in logs.
+- 19 upgrade observation and 10 resume checks pass offline. Freeze-specific recovery and live Settings visual checks remain pending.
+
 - Add `round N after S seconds` to parsing, recording, canonical validation and the replay execution gate.
 - Use one observed round-start timestamp for all scheduled actions; keep screen observation active during waits.
 - Preserve explicit offsets during emergency wait release and log overdue/resumed timing recovery.

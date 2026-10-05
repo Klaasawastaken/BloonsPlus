@@ -3076,7 +3076,8 @@ def main():
                                 retry.pop('upgradeObservation', None)
                                 mapConfig['steps'].insert(0, retry)
                                 customPrint('RECOVERY upgrade retry queued before dependent steps tower=' + str(retry.get('name'))
-                                            + ' reason=' + str(upgradeStatus) + ' attempt=' + str(retry['selectionAttempts']))
+                                            + ' reason=' + str(lastIterationAction.get('upgradeObservation', {}).get('reason') or upgradeStatus)
+                                            + ' attempt=' + str(retry['selectionAttempts']))
                             # Retrying on cash alone can buy a higher tier when income
                             # masks a successful purchase. The input branch already performs
                             # one button retry only after observing unchanged tier pips.

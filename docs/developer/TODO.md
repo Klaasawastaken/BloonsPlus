@@ -222,3 +222,10 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [x] Keep Appearance and VM actions visible; fold optional ISO, installation checks and backups away.
 - [x] Move profile, hotkey, Monkey Knowledge and passive-learning readouts to Run logs.
 - [x] Apply imported/reset themes immediately and clarify reset scope.
+
+## Upgrade input safety (2026-10-05)
+
+- [x] Reproduce unavailable-button hotkey fallback offline and prevent purchase input when the button is unavailable.
+- [x] Retain exact-tier recovery, already-owned reconciliation and one visually justified button retry; log the unavailable reason.
+- [x] Confirm One Two Tree Impoppable: victory summary and authoritative Hard.Impoppable medal value 1050191. Never replay this earned medal.
+- [ ] Deploy Preview 14 at the queued replay boundary and verify the controller reload before resuming.

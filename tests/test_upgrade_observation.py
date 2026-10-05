@@ -121,6 +121,25 @@ class UpgradeObservation(unittest.TestCase):
             self.assertEqual(calls.count('click'), 1)
             self.assertNotEqual(result['status'], 'confirmed')
 
+    def test_unavailable_button_never_sends_hotkey_or_purchase(self):
+        calls = []
+        result = observe_upgrade(0, lambda: panel([0, 0, 0], available=False),
+                                 lambda: calls.append('key'), lambda pos: calls.append('buy'),
+                                 lambda seconds: calls.append('wait'), expected_tiers=[1, 0, 0])
+        self.assertEqual(calls, [])
+        self.assertEqual(result['status'], 'unchanged')
+        self.assertEqual(result['inputMethod'], 'none')
+        self.assertEqual(result['reason'], 'button-unavailable')
+        self.assertEqual(result['before'], result['after'])
+
+    def test_owned_target_confirmed_even_when_button_unavailable(self):
+        calls = []
+        result = observe_upgrade(0, lambda: panel([1, 0, 0], available=False),
+                                 lambda: calls.append('key'), lambda pos: calls.append('buy'),
+                                 lambda seconds: None, expected_tiers=[1, 0, 0])
+        self.assertEqual(calls, [])
+        self.assertEqual(result['status'], 'confirmed')
+
     def test_confirmed_panel_reconciles_ledger_even_with_income(self):
         state = GameState({'map': 'test', 'gamemode': 'hard'}, 'test')
         action = {'action': 'upgrade', 'name': 'tower1', 'path': 0, 'pos': (1, 1),

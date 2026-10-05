@@ -108,6 +108,8 @@ def observe_upgrade(path, capture, press, click, wait, reselect=None, expected_t
 
     No input is sent to an unreadable panel. Reselecting is safe because it
     cannot buy another tier. Cash alone never authorizes a purchase retry.
+    An unavailable button does not authorize a hotkey fallback: it may mean
+    insufficient cash, a locked path, or a temporarily disabled tower.
     """
     before = read_upgrade_panel(capture())
     def matches_intent(panel):
@@ -142,11 +144,11 @@ def observe_upgrade(path, capture, press, click, wait, reselect=None, expected_t
             return {'status': 'unexpected', 'before': before['tiers'], 'after': before['tiers'], 'buttonRetry': False}
     # A stale user hotkey can enter tower placement instead of upgrading.
     # When the panel supplies a confirmed green button, use its actual position.
-    direct_button = bool(before['available'][path])
-    if direct_button:
-        click(before['buttons'][path])
-    else:
-        press()
+    if not before['available'][path]:
+        return {'status': 'unchanged', 'before': before['tiers'],
+                'after': before['tiers'], 'buttonRetry': False,
+                'inputMethod': 'none', 'reason': 'button-unavailable'}
+    click(before['buttons'][path])
     wait(1.0)
     after = read_upgrade_panel(capture())
     def result(panel):
@@ -164,4 +166,4 @@ def observe_upgrade(path, capture, press, click, wait, reselect=None, expected_t
         status = result(after)
     return {'status': status, 'before': before['tiers'] if before else None,
             'after': after['tiers'] if after else None, 'buttonRetry': bool(retried),
-            'inputMethod': 'button' if direct_button else 'hotkey'}
+            'inputMethod': 'button'}
