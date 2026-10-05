@@ -346,3 +346,5 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [x] Coalesce concurrent save reads from the five-second progress poll and ten-second save poll. Resolve the latest completed request after slow catalog/scanner requests so old profiles cannot roll back unlocks or reset hourly-rate samples.
 - [x] Offline deferred-response checks prove request sharing, stale-consumer replacement, genuine backward-clock preservation, newer VM-unavailable precedence, and recovery after malformed JSON. Existing profile-rate regressions pass.
 - [ ] Deploy with the pending Settings batch after the active healthy replay; check rates over a live sampling window. No new clear claimed; active run observed at round 45.
+
+- Host browser follow-up: live save reads updated XP remaining to 385,105; after the minimum sampling window, XP/hr and MM/hr showed 0 for an unchanged save balance instead of remaining unknown. Positive multi-run rates and spending semantics are still unverified.
