@@ -4,6 +4,9 @@ Updated 5 October 2026. Checkboxes require evidence, not merely code. Preserve o
 
 ## Current repair pass
 
+- [x] Identify the Polyphemus CHIMPS wrong-Heli cause: `TOWER_TRACK` rewrote heli1 `(904,506)` to `(899,284)` with eight feature matches, next to heli0 `(905,301)`. Restrict coordinate tracking to actual moving-platform maps rather than the broad dynamic-placement/access flag. Offline checks preserve stationary coordinates and unrelated route failure revisions. Original CHIMPS bytes unchanged; deployment queued, no victory claim.
+- Guest batch through `f212998` installed at 21:20 on 5 October after Moon Landing Impoppable victory plus saved value `1050185`; sweep restarted successfully. No healthy replay was interrupted.
+
 - [x] Scope saved medal modes to their actual difficulty in backend and app. A Moon Landing save exposed SuperChimps placeholders in Medium and Hard; a regression confirmed wrong-difficulty entries could overwrite earned state depending on object order. Both parsers now ignore those unrelated entries. Deployment queued.
 
 - [x] Treat malformed explicit saved medal values as unknown, not unearned, consistently in UI and sweep. Skip unreadable modes within the current pass so other readable missing medals continue; unavailable profiles still wait without gameplay. Offline gate/parity checks pass. Pending deployment.

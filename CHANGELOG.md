@@ -2,6 +2,8 @@
 
 ## Unreleased — replay diagnostics and cash reading
 
+- Separate moving tower platforms from dynamic covers, water and lane access. The Polyphemus failure log showed visual tracking relocating heli1 from its original position beside heli0, causing the wrong upgrade panel. Coordinate tracking now requires a moving-platform flag; original recordings remain unchanged. Only Polyphemus receives a new attempt revision for this evidenced fix, preserving unrelated failure exclusions and all owned-medal skips.
+
 - Read each medal only from its matching difficulty. Ignore CHIMPS and other placeholders stored under unrelated difficulties, preventing JSON property order from hiding an earned medal. Backend and browser regressions reproduce the conflicting CHIMPS placeholder case.
 
 - Preserve malformed saved medal values as unknown in both the app and sweep instead of treating them as unearned. Skip only the unreadable mode for the current pass without recording a route attempt; an unavailable whole profile still waits safely. Offline checks cover schema/value errors and UI parity.

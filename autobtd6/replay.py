@@ -787,6 +787,12 @@ def isDynamicPlacementMap(mapName):
     key = str(mapName or '').lower().replace(' ', '').replace("'", '').replace('_', '')
     return key in DYNAMIC_PLACEMENT_MAPS or os.environ.get('BLOONS_DYNAMIC_PLACEMENT') == '1'
 
+
+def hasMovingTowerPlatforms(mapName):
+    """Changing access, water or lanes does not mean tower coordinates move."""
+    key = str(mapName or '').lower().replace(' ', '').replace("'", '').replace('_', '')
+    return key in {'geared', 'sanctuary'} or os.environ.get('BLOONS_MOVING_PLATFORMS') == '1'
+
 def heroSelectionState():
     """Read the hero title and the button state instead of a skin check badge."""
     screenshot = np.array(pyautogui.screenshot())[:, :, ::-1].copy()
@@ -3593,7 +3599,7 @@ def main():
                         # also gives the game a frame to receive focus before the
                         # path hotkey is sent.
                         towerName = str(action.get('name'))
-                        if isDynamicPlacementMap(mapConfig.get('map')):
+                        if hasMovingTowerPlatforms(mapConfig.get('map')):
                             tracked = towerTracker.locate(towerName, screenshot)
                             if tracked is not None:
                                 newPos, inliers = tracked
