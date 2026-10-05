@@ -313,3 +313,14 @@ premature skip. Selection now prioritizes fully checked candidates and then
 considers the remaining eligible candidates. Known missing prerequisites remain
 excluded. Focused fallback and Expert-first order tests pass. This engine change
 is queued for a later between-run deployment, not a mid-game restart.
+
+## Authoritative medal prelaunch check
+
+Removed the startup path that continued without a readable save. The sweep now
+waits and retries the save read every 15 seconds without game input. Immediately
+before launching each selected replay it re-reads the map's saved medal: an owned
+medal is skipped, unknown progress waits without consuming an attempt, and only
+confirmed missing progress permits launch. Focused checks cover unavailable,
+absent and malformed map records plus missing and earned Hard medals. Candidate
+fallback regressions still pass. These source changes await the next batched
+between-run deployment; the active healthy replay was not interrupted.
