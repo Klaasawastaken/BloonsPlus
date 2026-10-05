@@ -2940,11 +2940,24 @@ def main():
                     and lastIterationCost > 0):
                     observedSpend = lastIterationBalance - currentValues['money']
                     upgradeStatus = lastIterationAction.get('upgradeObservation', {}).get('status')
-                    if upgradeStatus == 'confirmed' or (observedSpend > 0 and upgradeStatus not in ('unchanged', 'unexpected')):
+                    if upgradeStatus == 'confirmed' or (observedSpend > 0 and upgradeStatus not in ('unselected', 'unchanged', 'unexpected')):
                         if currentGameState is not None:
                             currentGameState.confirm_purchase(lastIterationAction, mapConfig, lastIterationBalance, currentValues['money'])
                             saveGameState(currentGameState)
                         if lastIterationAction.get('action') == 'upgrade':
+                            if upgradeStatus in ('unselected', 'unchanged') and lastIterationAction.get('selectionAttempts', 0) < 2:
+                                # Preserve this exact planned tier ahead of its dependents.
+                                # Only unselected/unchanged pips make replaying it safe.
+                                retry = dict(lastIterationAction)
+                                retry['selectionAttempts'] = retry.get('selectionAttempts', 0) + 1
+                                if upgradeStatus == 'unchanged':
+                                    target = list(lastIterationAction['upgradeObservation']['before'])
+                                    target[retry['path']] += 1
+                                    retry['expectedUpgradeTiers'] = target
+                                retry.pop('upgradeObservation', None)
+                                mapConfig['steps'].insert(0, retry)
+                                customPrint('RECOVERY upgrade retry queued before dependent steps tower=' + str(retry.get('name'))
+                                            + ' reason=' + str(upgradeStatus) + ' attempt=' + str(retry['selectionAttempts']))
                             updateUpgradeMemory(lastIterationAction, mapConfig, upgradeRunId,
                                                 lastIterationBalance, currentValues['money'], currentValues['round'])
                         else:
@@ -3499,7 +3512,9 @@ def main():
                                         action['path'],
                                         lambda: np.array(pyautogui.screenshot())[:, :, ::-1].copy(),
                                         lambda: sendKey(action['key']),
-                                        lambda pos: pyautogui.click(pos), time.sleep)
+                                        lambda pos: pyautogui.click(pos), time.sleep,
+                                        reselect=lambda: pyautogui.click(action['pos']),
+                                        expected_tiers=action.get('expectedUpgradeTiers'))
                                     customPrint('DEBUG upgrade panel observation tower=' + str(action.get('name'))
                                                 + ' path=' + str(action['path']) + ' ' + str(action['upgradeObservation']))
                                 else:

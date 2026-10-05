@@ -44,21 +44,34 @@ def read_upgrade_panel(frame):
     return panels[0] if len(panels) == 1 else None
 
 
-def observe_upgrade(path, capture, press, click, wait):
+def observe_upgrade(path, capture, press, click, wait, reselect=None, expected_tiers=None):
     """One hotkey, then at most one button retry supported by unchanged pips.
 
-    Unknown panels retain the existing single input behavior. No retry is
-    authorized from a cash delta or a missing/occluded panel.
+    No input is sent to an unreadable panel. Reselecting is safe because it
+    cannot buy another tier. Cash alone never authorizes a purchase retry.
     """
     before = read_upgrade_panel(capture())
+    for _ in range(2):
+        if before is not None or reselect is None:
+            break
+        reselect()
+        wait(1.0)
+        before = read_upgrade_panel(capture())
+    if before is None:
+        return {'status': 'unselected', 'before': None, 'after': None, 'buttonRetry': False}
+    expected = list(before['tiers'])
+    expected[path] += 1
+    if expected_tiers is not None:
+        if before['tiers'] == expected_tiers:
+            return {'status': 'confirmed', 'before': before['tiers'], 'after': before['tiers'], 'buttonRetry': False}
+        if expected != expected_tiers:
+            return {'status': 'unexpected', 'before': before['tiers'], 'after': before['tiers'], 'buttonRetry': False}
     press()
     wait(1.0)
     after = read_upgrade_panel(capture())
     def result(panel):
         if before is None or panel is None or panel['side'] != before['side']:
             return 'unknown'
-        expected = list(before['tiers'])
-        expected[path] += 1
         if panel['tiers'] == expected:
             return 'confirmed'
         return 'unchanged' if panel['tiers'] == before['tiers'] else 'unexpected'

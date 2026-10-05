@@ -63,6 +63,31 @@ class UpgradeObservation(unittest.TestCase):
         self.assertEqual(state.towers['tower1']['upgrades'], [3, 2, 0])
         self.assertEqual(state.events[-1]['status'], 'panel-tier-confirmed')
 
+    def test_reselect_before_pressing_upgrade(self):
+        frames = iter([None, panel([0, 0, 0]), panel([1, 0, 0])])
+        calls = []
+        result = observe_upgrade(0, lambda: next(frames), lambda: calls.append('key'),
+                                 lambda pos: calls.append('click'), lambda s: None,
+                                 reselect=lambda: calls.append('select'))
+        self.assertEqual(calls, ['select', 'key'])
+        self.assertEqual(result['status'], 'confirmed')
+
+    def test_missing_panel_never_sends_upgrade(self):
+        calls = []
+        result = observe_upgrade(0, lambda: None, lambda: calls.append('key'),
+                                 lambda pos: calls.append('click'), lambda s: None,
+                                 reselect=lambda: calls.append('select'))
+        self.assertEqual(calls, ['select', 'select'])
+        self.assertEqual(result['status'], 'unselected')
+
+    def test_late_purchase_does_not_buy_next_tier_on_retry(self):
+        calls = []
+        result = observe_upgrade(0, lambda: panel([1, 0, 0]), lambda: calls.append('key'),
+                                 lambda pos: calls.append('click'), lambda s: None,
+                                 expected_tiers=[1, 0, 0])
+        self.assertEqual(calls, [])
+        self.assertEqual(result['status'], 'confirmed')
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -85,5 +85,13 @@ without ordinary tower panels return unknown. Input duration increased from 30 t
 120 ms. Live verification is still required, especially on moving or obscured towers.
 
 The observer does not identify a tower by name. Correct selection still depends on
-the recorded/tracked position. Unrecognized layouts keep a single key input and
-the existing cash fallback; checkpoint recovery remains a separate open issue.
+the recorded/tracked position; checkpoint recovery remains a separate open issue.
+
+The first updated live run reproduced an unreadable panel on the first Heli input;
+the next action visibly bought tier 1 instead of tier 2. The follow-up patch now
+reselects twice before sending any upgrade input. If the panel is still unreadable,
+no upgrade key is sent. Unselected/unchanged actions are retried ahead of dependent
+steps, at most twice. A remembered expected tier prevents a delayed successful
+purchase from turning the retry into an unintended higher-tier purchase. Eight
+observer regressions pass. The sweep engine revision changes so failures recorded
+against the older input engine can be retried without editing CHIMPS recordings.
