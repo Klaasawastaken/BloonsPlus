@@ -28,6 +28,16 @@ class UpgradeObservation(unittest.TestCase):
         self.assertEqual(resolve_hud_panels(panel([1, 0, 0], 'left'), False, True), (True, False))
         self.assertEqual(resolve_hud_panels(np.zeros((540, 960, 3), dtype=np.uint8), False, False), (False, False))
 
+    def test_gear_anchor_overrides_false_panel_from_brown_map(self):
+        gear = cv2.imread(str(Path(__file__).resolve().parents[1] / 'autobtd6/images/hud/round-gear.png'))
+        for x, expected in ((784, False), (584, True)):
+            frame = np.full((540, 960, 3), (35, 80, 140), np.uint8)
+            h, w = gear.shape[:2]
+            frame[3:3+h, x:x+w] = gear
+            for size in ((1920, 1080), (2560, 1440)):
+                scaled = cv2.resize(frame, size)
+                self.assertEqual(resolve_hud_panels(scaled, False, not expected)[1], expected)
+
     def test_dimmed_unused_pips_on_maxed_crosspath(self):
         # Native Heli 2-0-3 panel: unused top-path pips change BGR colour
         # when that crosspath reaches its maximum. Closed middle path is brown.

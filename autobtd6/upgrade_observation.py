@@ -1,5 +1,8 @@
 """Observe ordinary tower tier pips and retry only an unchanged, available upgrade."""
 import numpy as np
+import cv2
+from functools import lru_cache
+from pathlib import Path
 
 PIP_ROWS = ((222, 234, 246, 258, 270),
             (296, 308, 320, 332, 344),
@@ -47,11 +50,36 @@ def read_upgrade_panel(frame):
     return panels[0] if len(panels) == 1 else None
 
 
+@lru_cache(maxsize=1)
+def _round_gear_template():
+    return cv2.imread(str(Path(__file__).resolve().parent / 'images/hud/round-gear.png'))
+
+
+def round_hud_on_right_panel(frame):
+    """Locate the fixed HUD gear, independently of playfield colours."""
+    if frame is None or frame.ndim != 3 or abs(frame.shape[0] / frame.shape[1] - 9 / 16) > .02:
+        return None
+    template = _round_gear_template()
+    if template is None:
+        return None
+    hud = cv2.resize(frame[:max(1, round(43 * frame.shape[1] / 960)), :, :3],
+                     (960, 43), interpolation=cv2.INTER_AREA)
+    scores = [float(cv2.minMaxLoc(cv2.matchTemplate(hud[:, x:x+54], template,
+                    cv2.TM_CCOEFF_NORMED))[1]) for x in (775, 575)]
+    winner = int(np.argmax(scores))
+    if scores[winner] >= .9 and scores[winner] - scores[1-winner] >= .15:
+        return winner == 1
+    return None
+
+
 def resolve_hud_panels(frame, left_guess, right_guess):
     """A complete tier panel outranks colour guesses influenced by map effects."""
     panel = read_upgrade_panel(frame)
     if panel is not None:
-        return panel['side'] == 'left', panel['side'] == 'right'
+        left_guess, right_guess = panel['side'] == 'left', panel['side'] == 'right'
+    right_anchor = round_hud_on_right_panel(frame)
+    if right_anchor is not None:
+        right_guess = right_anchor
     return left_guess, right_guess  # Heroes use a different panel without path pips.
 
 
