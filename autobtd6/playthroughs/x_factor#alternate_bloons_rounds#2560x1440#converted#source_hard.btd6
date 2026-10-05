@@ -1,5 +1,15 @@
-place etienne hero0 at 751, 723
+# ABR repair candidate: early 1-1-0 Sniper before Engineer tier 3 spending.
+# Placement inherited from this map Hard recording; original Hard and CHIMPS unchanged.
+# Camo lead reference: https://bloons.fandom.com/wiki/Night_Vision_Goggles_(BTD6)
+# Not live verified; late fortified-round performance still needs evidence.
 place engineer engineer0 at 1486, 686
+place sniper sniper0 at 1102, 1326
+upgrade sniper0 path 1
+upgrade sniper0 path 0
+retarget sniper0
+retarget sniper0
+retarget sniper0
+place etienne hero0 at 751, 723
 upgrade engineer0 path 1
 upgrade engineer0 path 0
 upgrade engineer0 path 0
@@ -9,13 +19,7 @@ upgrade engineer1 path 0
 upgrade engineer1 path 1
 upgrade engineer1 path 0
 upgrade engineer1 path 0
-place sniper sniper0 at 1102, 1326
-upgrade sniper0 path 0
-retarget sniper0
-retarget sniper0
-retarget sniper0
-upgrade sniper0 path 2
-upgrade sniper0 path 2
+upgrade sniper0 path 1
 upgrade engineer0 path 0
 upgrade engineer0 path 1
 upgrade sniper0 path 0

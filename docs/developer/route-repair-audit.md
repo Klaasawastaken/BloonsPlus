@@ -267,3 +267,17 @@ required a matching recorded instruction. Checkpoints now preserve that origin;
 resume leaves supplemental purchases to the existing live surplus planner.
 Unmatched ordinary route intent still fails validation. Both regressions and all
 52 Python tests pass. This patch is source-only pending between-run deployment.
+
+## X Factor ABR candidate repair
+
+The failed ABR candidate copied Hard's opening and used a bottom-crosspath
+Sniper without early camo coverage. The revised candidate opens with the existing
+Engineer placement, then the same recorded Sniper position with Night Vision
+Goggles and Full Metal Jacket before the hero and expensive Engineer progression.
+Its later Sniper crosspath uses Shrapnel instead of faster firing. The local
+price catalog gives 1,300 base cash for Engineer + 1-1-0 Sniper before difficulty
+and knowledge adjustments; timing and survival must still be observed live.
+The camo/lead combination is documented at
+https://bloons.fandom.com/wiki/Night_Vision_Goggles_%28BTD6%29 .
+Schema and crosspath validation pass. Original Hard and CHIMPS recordings are
+unchanged. No live success is claimed for this candidate.
