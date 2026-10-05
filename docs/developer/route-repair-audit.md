@@ -168,3 +168,18 @@ steps, at most twice. A remembered expected tier prevents a delayed successful
 purchase from turning the retry into an unintended higher-tier purchase. Eight
 observer regressions pass. The sweep engine revision changes so failures recorded
 against the older input engine can be retried without editing CHIMPS recordings.
+
+## X Factor Hard follow-up
+
+The `x_factor#hard#2560x1440#noLL.btd6` run reached the victory screens.
+The authoritative VM save's `XFactor` Hard Standard medal changed from 624 to
+1049864. The controller recorded `x_factor - hard clear confirmed` and stopped
+before the next replay as requested. This confirms this clear only.
+
+Cash and round HUD anchor fixes from `3014616` were built after this replay
+started. Deployment completed between games; the X Factor victory does not
+constitute live verification of those newer fixes. Native 1440p and interrupted
+upgrade recovery validation remain outstanding.
+The next selected target was X Factor Alternate Bloons Rounds, absent from the
+fresh authoritative save, and it reached round 3. Hard Standard was skipped.
+All 41 Python regression tests passed after deployment.
