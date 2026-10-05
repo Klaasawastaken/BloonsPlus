@@ -16,9 +16,19 @@ let latestRunLog = '';
 let latestAutomationStatus = null;
 let profileRateSamples = [];
 let profileRates = { monkeyMoneyPerHour: null, xpPerHour: null };
+let profileRateSource = null;
 function observeProfileRates(profile) {
   const at = Date.parse(profile?.readAt || '');
-  if (!Number.isFinite(at) || profileRateSamples.at(-1)?.at >= at) return;
+  if (!Number.isFinite(at)) return;
+  // Keep this identity only in memory. Switching saves (or correcting a guest
+  // clock) must not compare balances from unrelated sampling windows.
+  const source = JSON.stringify([profile.source || '', profile.file || '']);
+  if (source !== profileRateSource || at < (profileRateSamples.at(-1)?.at ?? at)) {
+    profileRateSamples = [];
+    profileRates = { monkeyMoneyPerHour: null, xpPerHour: null };
+    profileRateSource = source;
+  }
+  if (profileRateSamples.at(-1)?.at === at) return;
   profileRates = { monkeyMoneyPerHour: null, xpPerHour: null };
   const current = { at, monkeyMoney: profile.monkeyMoney, xp: profile.xp,
     rank: profile.rank, veteranXp: profile.veteranXp, veteranRank: profile.veteranRank };

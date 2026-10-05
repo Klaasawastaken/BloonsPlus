@@ -111,6 +111,8 @@ Start only after the current repair work is complete, as requested on 5 October.
 
 ## P1 — progress and diagnostics
 
+- [x] Reset MM/hour and XP/hour samples when the save source changes or its clock moves backwards. Offline regression reproduced a false 1,497,000 MM/hour reading after switching accounts; source changes now show no rate until a fresh window exists, and clock recovery resumes normally. Source identity stays in memory only. Guest/app deployment pending.
+
 - [x] Clear stale MM/hour and XP/hour values when samples expire or values are missing; compare veteran XP only within the same veteran rank. Focused regressions pass. Live multi-run rate validation remains below.
 
 - [ ] Check MM/hour and XP/hour against several live VM save updates, rank changes and spending; display no rate until enough samples exist.
