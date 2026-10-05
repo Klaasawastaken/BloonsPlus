@@ -278,3 +278,8 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [x] Calculate activity ages, run duration, profile freshness and result freshness against the source clock. Unknown time stays unknown instead of treating historical future-dated events as newly observed.
 - [x] JavaScript syntax and whitespace checked. Native theme selection and status projection preserved.
 - [ ] Confirm displayed ages and run time after deploying both host and guest at a healthy replay boundary.
+
+## Pending healthy boundary (2026-10-06)
+
+- Preview 21 is published and its installer includes Preview 20 Settings plus clock-aware activity. Guest/host reload is pending until Skulltweak CHIMPS finishes. Stop-after is confirmed enabled; resume the missing-medal sweep after successful deployment.
+- Live Skulltweak CHIMPS upgrade evidence: heli1 at round 57 first read 3-0-2 with button unavailable. Existing exact-tier retry reselected, then confirmed 4-0-2 through panel pips at 00:34:02 in replay logs. This was recovered, not a permanently failed upgrade or evidence of freezing. No route or CHIMPS recording was edited.
