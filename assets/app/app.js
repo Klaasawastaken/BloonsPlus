@@ -51,7 +51,23 @@ function observeProfileRates(profile) {
 let activeBossEvent = null;
 let lastRunRefreshAt = 0;
 let accumulatedRunLog = { startedAt: null, lines: [] };
-const activitySeenAt = new Map();
+let sourceClock = null;
+function observeSourceClock(status, requestedAt, receivedAt) {
+  // A host relay must retain the guest's clock, never substitute its own.
+  // Cached responses cannot calibrate an advancing clock.
+  if (status.statusStale || status.statusUnavailable || !Number.isFinite(status.sourceNow)) return;
+  sourceClock = { offset: status.sourceNow - (requestedAt + receivedAt) / 2 };
+}
+function sourceAgeMs(at, now = Date.now()) {
+  if (!sourceClock) return null;
+  const numeric = typeof at === 'number' || (typeof at === 'string' && /^\d+(?:\.\d+)?$/.test(at));
+  const value = numeric ? Number(at) : null;
+  const parsed = numeric ? (value < 1e12 ? value * 1000 : value) : Date.parse(at);
+  if (!Number.isFinite(parsed)) return null;
+  const age = now + sourceClock.offset - parsed;
+  // Small request timing differences are normal; large future dates are unknown.
+  return age >= -2500 ? Math.max(0, age) : null;
+}
 try { accumulatedRunLog = { ...accumulatedRunLog, ...JSON.parse(localStorage.getItem('bloonsRunLog') || '{}') }; } catch { /* storage unavailable */ }
 function keepRunLog(status) {
   const incoming = Array.isArray(status.log) ? status.log : [];
@@ -681,16 +697,6 @@ function renderAchievements() {
   });
   document.querySelector('#achievement-empty').classList.toggle('hidden', visible.length > 0);
 }
-function activityTimestamp(at, key, now = Date.now()) {
-  // Once anchored for VM clock skew, keep that anchor as the host clock advances.
-  if (activitySeenAt.has(key)) return activitySeenAt.get(key);
-  const numeric = typeof at === 'number' || (typeof at === 'string' && /^\d+(?:\.\d+)?$/.test(at));
-  const value = numeric ? Number(at) : null;
-  const parsed = numeric ? (value < 1e12 ? value * 1000 : value) : Date.parse(at);
-  if (!Number.isFinite(parsed)) return null;
-  if (parsed > now) { activitySeenAt.set(key, now); return now; }
-  return parsed;
-}
 
 function renderRecentActivity() {
   const recent = document.querySelector('#recent-maps');
@@ -724,11 +730,8 @@ function renderRecentActivity() {
       const detail = document.createElement('small');
       // Automation stores ISO strings, while older progress files stored Unix
       // seconds or milliseconds. Normalize all forms before calculating age.
-      const activityKey = `${map}|${mode}|${at}`;
-      // VM and host clocks can differ by hours. Anchor future-dated events when
-      // first observed so the UI still reports elapsed time accurately.
-      const rawTime = activityTimestamp(at, activityKey);
-      const ageSeconds = Number.isFinite(rawTime) ? Math.max(0, Math.floor((Date.now() - rawTime) / 1000)) : null;
+      const elapsed = sourceAgeMs(at);
+      const ageSeconds = elapsed == null ? null : Math.floor(elapsed / 1000);
       if (ageSeconds == null) { detail.textContent = `${MEDAL_BY_MODE[mode]?.[3] || mode} medal · time unknown`; }
       const age = ageSeconds < 60 ? `${ageSeconds}s`
         : ageSeconds < 3600 ? `${Math.floor(ageSeconds / 60)}m`
@@ -827,12 +830,14 @@ function render() {
 function liveSyncLabel() {
   const profileReadAt = detectedProgress.localSave?.readAt;
   if (profileReadAt) {
-    const seconds = Math.max(0, Math.round((Date.now() - new Date(profileReadAt).getTime()) / 1000));
-    return { title: `VM profile save · updated ${seconds}s ago`, detail: 'Tower XP, map medals, and profile totals come from the read-only BTD6 save inside the VM.' };
+    const elapsed = sourceAgeMs(profileReadAt);
+    const seconds = elapsed == null ? null : Math.round(elapsed / 1000);
+    return { title: seconds == null ? 'VM profile save · time unavailable' : `VM profile save · updated ${seconds}s ago`, detail: 'Tower XP, map medals, and profile totals come from the read-only BTD6 save inside the VM.' };
   }
   if (detectedProgress.localSave?.source === 'vm-unavailable') return { title: 'VM save unavailable', detail: detectedProgress.localSave.reason || 'Waiting for the VM profile-save reader.' };
   if (detectedProgress.source === 'live-scan') {
-    const seconds = detectedProgress.capturedAt ? Math.max(0, Math.round((Date.now() - new Date(detectedProgress.capturedAt).getTime()) / 1000)) : null;
+    const elapsed = sourceAgeMs(detectedProgress.capturedAt);
+    const seconds = elapsed == null ? null : Math.round(elapsed / 1000);
     const screen = detectedProgress.lastRecognizedScreen;
     return { title: seconds != null ? `Live scan · updated ${seconds}s ago` : 'Live scan', detail: screen && screen !== 'unknown' ? `Reading the ${screen} screen.` : 'Waiting for a recognized game screen.' };
   }
@@ -1082,7 +1087,8 @@ function renderRunConsole(status) {
   document.querySelector('#run-map').textContent = status.running && sweep?.currentMap ? sweep.currentMap.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase()) : '—';
   document.querySelector('#run-round').textContent = status.running && status.replay?.round != null ? `${status.replay.round} / ${FINAL_ROUNDS[mode] || '—'}` : '— / —';
   document.querySelector('#run-mode').textContent = status.running ? `${status.type.replace(/-/g, ' ')}${mode ? ` · ${MEDAL_BY_MODE[mode]?.[3] || mode}` : ''}` : 'Idle';
-  const minutes = status.running && status.startedAt ? Math.floor((Date.now() - status.startedAt) / 60000) : null;
+  const elapsed = status.running ? sourceAgeMs(status.startedAt) : null;
+  const minutes = elapsed == null ? null : Math.floor(elapsed / 60000);
   document.querySelector('#run-time').textContent = minutes == null ? '—' : minutes < 60 ? `${minutes}m` : `${Math.floor(minutes / 60)}h ${minutes % 60}m`;
   const runLog = status.log || [];
   const victoryCount = Number.isFinite(status.victories) ? status.victories : runLog.filter(line => /VICTORY_CONFIRMED\b/.test(line)).length;
@@ -1101,9 +1107,9 @@ function renderRunConsole(status) {
   const resultChip = document.querySelector('#run-result');
   if (resultChip) {
     const result = latestGameState?.result;
-    const ageMs = latestGameState?.updatedAt ? Date.now() - Date.parse(latestGameState.updatedAt) : Infinity;
+    const ageMs = sourceAgeMs(latestGameState?.updatedAt);
     // Only worth showing while it's the outcome of the run that just ended, not an old snapshot.
-    const fresh = ageMs < 3 * 60000 && !inRound;
+    const fresh = ageMs != null && ageMs < 3 * 60000 && !inRound;
     if (fresh && (result === 'victory' || result === 'defeat')) {
       resultChip.classList.remove('hidden', 'result-victory', 'result-defeat');
       resultChip.classList.add(result === 'victory' ? 'result-victory' : 'result-defeat');
@@ -1178,9 +1184,11 @@ async function loadAutomationStatus() {
   if (automationStatusLoading) return;
   automationStatusLoading = true;
   try {
+    const requestedAt = Date.now();
     const response = await fetch('/api/farm/status?view=ui', { cache: 'no-store', signal: AbortSignal.timeout(8000) });
     if (response.ok) {
       const status = await response.json();
+      observeSourceClock(status, requestedAt, Date.now());
       renderAutomationStatus(status);
       // Re-read Profile.Save as soon as a run ends so XP, medals, heroes and
       // profile counters reflect the completed replay immediately.

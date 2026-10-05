@@ -1,3 +1,10 @@
+## Preview 21 — VM clock-aware activity
+
+- Retain the guest clock through status relays and ignore stale samples when calculating clock offset.
+- Correct activity ages, run duration, profile freshness and result freshness when host and VM clocks differ.
+- Report unknown time honestly before clock calibration; do not reset historical event ages on reload.
+- Include the Preview 20 Settings redesign. Gameplay behavior is unchanged.
+
 ## Preview 20 — Cleaner Settings
 
 - Replace the theme dropdown with Light/Dark preview cards and native keyboard-accessible radio controls.

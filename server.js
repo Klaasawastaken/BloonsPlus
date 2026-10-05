@@ -599,7 +599,7 @@ http.createServer((req, res) => {
         // the VM cannot be reached. Keep start controls locked until status returns.
         result = { ...local, vm: true, statusUnavailable: true, busyWith: local.busyWith || 'VM status unavailable' };
       } else {
-        result = { ...local, vm: false };
+        result = { ...local, vm: false, sourceNow: Date.now() };
       }
       if (pendingStart && !result.running) {
         result.queued = true;

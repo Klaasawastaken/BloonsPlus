@@ -270,3 +270,11 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [x] Replace the two-option theme dropdown with accessible Light/Dark preview cards. Keep selection synchronized after import and reset.
 - [x] Separate reset from backup actions, shorten VM setup copy and remove the repeated Settings heading. Optional installation checks and ISO input remain collapsed.
 - [x] JavaScript syntax and diff whitespace checked; dark layout inspected in the host browser. No replay was interrupted or started for this change.
+
+## VM timestamp ages (2026-10-06)
+
+- [x] Confirm nine-hour VM/host skew using live readAt and host UTC, without changing OS clocks.
+- [x] Add a source-clock timestamp to guest status; relays retain it and stale responses cannot recalibrate it.
+- [x] Calculate activity ages, run duration, profile freshness and result freshness against the source clock. Unknown time stays unknown instead of treating historical future-dated events as newly observed.
+- [x] JavaScript syntax and whitespace checked. Native theme selection and status projection preserved.
+- [ ] Confirm displayed ages and run time after deploying both host and guest at a healthy replay boundary.
