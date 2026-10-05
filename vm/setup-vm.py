@@ -16,6 +16,7 @@ Steam owns authentication: the user types their login and 2FA in Steam's window 
 This script never asks for, stores or types Steam credentials.
 """
 import argparse
+import base64
 import os
 import subprocess
 import sys
@@ -80,18 +81,27 @@ def ssh_key_access_error(detail):
     return None
 
 
-def ssh(info, command):
-    result = subprocess.run(ssh_command(info) + ['powershell -NoProfile -Command "%s"' % command.replace('"', '\\"')],
-                            capture_output=True, text=True)
+def ssh(info, command, timeout=60):
+    # OpenSSH may use cmd.exe or PowerShell as its guest shell. An encoded payload
+    # preserves quotes, pipes and paths without an additional shell parsing them.
+    encoded = base64.b64encode(command.encode('utf-16le')).decode('ascii')
+    try:
+        result = subprocess.run(ssh_command(info) + ['powershell -NoProfile -NonInteractive -EncodedCommand ' + encoded],
+                                capture_output=True, text=True, timeout=timeout)
+    except subprocess.TimeoutExpired as error:
+        raise RuntimeError('VM command timed out after %ss. The guest command may still be running; '
+                           'check the VM before retrying setup. Command: %s' % (timeout, command)) from error
     if result.returncode != 0:
-        detail = result.stderr.strip()
+        detail = '\n'.join(value.strip() for value in (result.stderr, result.stdout) if value and value.strip())
+        if not detail:
+            detail = 'no diagnostic returned'
         local_key_error = ssh_key_access_error(detail)
         if local_key_error:
             raise RuntimeError(local_key_error + '\n' + detail)
         if 'Permission denied' in detail:
             raise RuntimeError('VM SSH key was rejected for %s@127.0.0.1:%s. The VM reports keyDeployed=%s, SSH state=%s. Recheck the selected App Sandbox key and VM key deployment.\n%s'
                                % (info.get('user', USER), info.get('port'), info.get('keyDeployed'), info.get('sshState'), detail))
-        raise RuntimeError('VM command failed: %s\n%s' % (command, detail))
+        raise RuntimeError('VM command failed: %s\nssh exit %s: %s' % (command, result.returncode, detail))
     return result.stdout.strip()
 
 
@@ -231,7 +241,7 @@ def provision(client, args):
         if not steam_setup.is_file():
             urllib.request.urlretrieve(STEAM_SETUP_URL, steam_setup)
         scp(info, steam_setup, desktop.replace('\\', '/') + '/SteamSetup.exe')
-        ssh(info, 'Start-Process -Wait \'%s\\SteamSetup.exe\' -ArgumentList \'/S\'' % desktop)
+        ssh(info, 'Start-Process -Wait \'%s\\SteamSetup.exe\' -ArgumentList \'/S\'' % desktop, timeout=600)
 
     installed = ssh(info, "Test-Path '%s'" % GUEST_APP) == 'True'
     if args.reinstall or not installed:
