@@ -4,6 +4,7 @@ Updated 5 October 2026. Checkboxes require evidence, not merely code. Preserve o
 
 ## Current repair pass
 
+- [x] Allow delayed Profile.Save writes after observed sweep victories with a bounded twenty-second, read-only confirmation window. Offline checks pass; guest deployment queued. Save absence beyond the window still remains unconfirmed and needs investigation rather than a claimed clear.
 - [x] Reject new route conversions that silently omit paid hero levels; four offline regressions pass. Original recordings remain unchanged.
 - [x] Exclude nine existing converted recordings whose headers report dropped hero purchases using shared route validation. Offline coverage remains 508 map/mode pairs because alternatives exist. No recordings changed and no owned medals replayed. Deployment is queued for a later batch.
 - [ ] Add faithful paid-hero-level support before restoring those incomplete converted candidates.
