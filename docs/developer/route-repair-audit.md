@@ -324,3 +324,15 @@ confirmed missing progress permits launch. Focused checks cover unavailable,
 absent and malformed map records plus missing and earned Hard medals. Candidate
 fallback regressions still pass. These source changes await the next batched
 between-run deployment; the active healthy replay was not interrupted.
+
+## Clear evidence correction
+
+The controller previously accepted a cached config medal plus a near-final OCR
+round, without requiring observed victory or independently checking the save.
+It could also erase that cache when round OCR lagged behind a real win. The replay
+monitor now retains victory evidence only after entering gameplay. Clear reporting
+requires that evidence, no observed defeat, and the authoritative earned medal.
+Offline regressions cover stale victory menus, missing save data, conflicting
+defeat evidence and a saved win despite unreadable round OCR. Deployment remains
+batched for the end of a replay. Delayed game-save writes can still leave a result
+unconfirmed until subsequent progress refresh; no clear is invented meanwhile.
