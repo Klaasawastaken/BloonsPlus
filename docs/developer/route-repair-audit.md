@@ -281,3 +281,12 @@ The camo/lead combination is documented at
 https://bloons.fandom.com/wiki/Night_Vision_Goggles_%28BTD6%29 .
 Schema and crosspath validation pass. Original Hard and CHIMPS recordings are
 unchanged. No live success is claimed for this candidate.
+
+Mesa ABR subsequently lost at round 27 with 447 cash. The retained native failure
+frame was successfully retrieved (clock-safe retention works in this case) and
+shows camo bloons leaking, zero lives, and an unupgraded Heli. The route's Sniper
+had the same bottom crosspath. Its ABR candidate now gets the same early 1-1-0
+Sniper coverage and later Shrapnel using its existing map position. Both revised
+candidates pass syntax and crosspath validation; both still need live attempts.
+The updated life filter recorded 53 to 10 at round 27, instead of permanently
+rejecting that sustained large loss. Round 27 in the log matches the frame.
