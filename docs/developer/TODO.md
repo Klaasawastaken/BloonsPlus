@@ -124,6 +124,8 @@ Start only after the current repair work is complete, as requested on 5 October.
 
 ## P2 — installer and distribution
 
+- [x] Preserve the last usable installer when a rebuild fails. Final EXE assembly now writes and flushes a unique temporary file before atomic replacement, with partial-file cleanup. Offline tests reproduced the old empty-output failure and cover copy errors, locked replacement and exact payload/footer bytes. No installer was executed by these tests.
+
 - [x] Remove HTTP 416 size-only promotion of partial downloads. A rejected range now requests the full file; a failed fresh request preserves the partial. Offline coverage includes a same-size stale file above the old 10 MiB threshold. Live clean-install verification remains open.
 
 - [x] Make the missing-Steam installer download atomic and reusable only with a matching completed-download receipt. Six offline checks cover truncated/changed/legacy caches, HTML error responses and network interruption. Existing Steam still bypasses installation; clean-machine verification remains open.

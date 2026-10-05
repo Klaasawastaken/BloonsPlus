@@ -14,6 +14,7 @@ import os
 import shutil
 import subprocess
 import sys
+import tempfile
 import time
 import zipfile
 from pathlib import Path
@@ -226,16 +227,24 @@ def build_installer() -> None:
     for stale in (DIST / "BloonsPlusSetup.sed", DIST / "~BloonsPlusSetup.DDF", DIST / "~BloonsPlusSetup.CAB"):
         if stale.exists():
             stale.unlink()
-    if OUTPUT.exists():
-        OUTPUT.unlink()
-    with OUTPUT.open("wb") as installer, bootstrap.open("rb") as stub, PACKAGE.open("rb") as payload:
-        shutil.copyfileobj(stub, installer, 1024 * 1024)
-        payload.seek(0, os.SEEK_END)
-        payload_length = payload.tell()
-        payload.seek(0)
-        shutil.copyfileobj(payload, installer, 4 * 1024 * 1024)
-        installer.write(b"BLPZIP01")
-        installer.write(payload_length.to_bytes(8, "little", signed=True))
+    # Keep the last usable installer until every byte of its replacement is
+    # written. A failed copy or locked destination must not publish a partial EXE.
+    descriptor, temporary_name = tempfile.mkstemp(dir=OUTPUT.parent, prefix=OUTPUT.name + '.', suffix='.tmp')
+    temporary = Path(temporary_name)
+    try:
+        with os.fdopen(descriptor, 'wb') as installer, bootstrap.open("rb") as stub, PACKAGE.open("rb") as payload:
+            shutil.copyfileobj(stub, installer, 1024 * 1024)
+            payload.seek(0, os.SEEK_END)
+            payload_length = payload.tell()
+            payload.seek(0)
+            shutil.copyfileobj(payload, installer, 4 * 1024 * 1024)
+            installer.write(b"BLPZIP01")
+            installer.write(payload_length.to_bytes(8, "little", signed=True))
+            installer.flush()
+            os.fsync(installer.fileno())
+        os.replace(temporary, OUTPUT)
+    finally:
+        temporary.unlink(missing_ok=True)
     if not OUTPUT.is_file():
         raise SystemExit("Installer executable was not produced")
     print(f"Online installer ready: {OUTPUT} ({OUTPUT.stat().st_size / (1024**2):.1f} MiB). Python packages, App Sandbox, Windows 11 and Steam download during setup.")
