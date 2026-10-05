@@ -5,13 +5,15 @@ import unittest
 
 
 class UpgradeQueue(unittest.TestCase):
-    def reconcile(self, status, attempts=0, money=22100):
+    def reconcile(self, status, attempts=0, money=22100, target=None):
         tree = ast.parse((Path(__file__).resolve().parents[1] / 'autobtd6/replay.py').read_text(encoding='utf-8'))
         branch = next(node for node in ast.walk(tree) if isinstance(node, ast.If)
                       and 'lastIterationCost > 0' in ast.unparse(node.test)
                       and 'lastIterationAction' in ast.unparse(node.test))
         action = dict(action='upgrade', name='heli0', path=0, selectionAttempts=attempts,
                       upgradeObservation=dict(status=status, before=[3, 2, 0]))
+        if target is not None:
+            action['expectedUpgradeTiers'] = target
         self.confirmations = []
         env = dict(lastIterationAction=action, lastIterationBalance=22000,
                    currentValues=dict(money=money, round=52), lastIterationCost=21170,
@@ -41,6 +43,13 @@ class UpgradeQueue(unittest.TestCase):
     def test_visible_tiers_confirm_despite_income(self):
         self.reconcile('confirmed', money=22100)
         self.assertEqual(len(self.confirmations), 1)
+
+    def test_unknown_with_exact_intent_rechecks_before_dependents(self):
+        steps = self.reconcile('unknown', target=[4, 2, 0])
+        self.assertEqual(steps[0]['action'], 'upgrade')
+        self.assertEqual(steps[0]['expectedUpgradeTiers'], [4, 2, 0])
+        self.assertNotIn('upgradeObservation', steps[0])
+        self.assertEqual(self.reconcile('unknown', attempts=2, target=[4, 2, 0]), [dict(action='next')])
 
 
 if __name__ == '__main__':

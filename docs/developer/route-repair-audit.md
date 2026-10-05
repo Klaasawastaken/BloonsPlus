@@ -233,3 +233,11 @@ an upgrade path, numeric round/cash thresholds and supported speed values.
 Missing fields previously passed the generic grammar but failed in the Python
 parser. The expanded syntax regression passes; all 887 active recordings pass
 the new syntax checks. No original route was modified.
+
+Unreadable upgrade results now get at most two rechecks before dependent steps
+when the exact intended tier vector is present. The existing observer reselects,
+reads ownership and sends no purchase when that target is already owned.
+Unknown results without an exact target still do not authorize a blind retry.
+The actual reconciliation-branch regression passes; the suite now has 50 tests.
+Guest validation remains pending. A later native Mesa frame showed round 69/80
+and 100 lives despite the old round tracker remaining at 44.

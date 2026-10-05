@@ -3033,9 +3033,14 @@ def main():
                                     ' path=' + str(lastIterationAction.get('path')) + ' expected=' + str(lastIterationCost) + ' observed=' + str(observedSpend))
                     else:
                         if lastIterationAction.get('action') == 'upgrade':
-                            if upgradeStatus in ('unselected', 'unchanged') and lastIterationAction.get('selectionAttempts', 0) < 2:
+                            plannedTiers = lastIterationAction.get('expectedUpgradeTiers')
+                            exactIntent = (isinstance(plannedTiers, (list, tuple)) and len(plannedTiers) == 3
+                                           and all(type(tier) is int and 0 <= tier <= 5 for tier in plannedTiers))
+                            safeRecheck = upgradeStatus in ('unselected', 'unchanged') or (upgradeStatus == 'unknown' and exactIntent)
+                            if safeRecheck and lastIterationAction.get('selectionAttempts', 0) < 2:
                                 # Preserve this exact planned tier ahead of its dependents.
-                                # Only unselected/unchanged pips make replaying it safe.
+                                # Unknown results require an exact target: observe_upgrade
+                                # re-reads pips and skips input if that target is already owned.
                                 retry = dict(lastIterationAction)
                                 retry['selectionAttempts'] = retry.get('selectionAttempts', 0) + 1
                                 if upgradeStatus == 'unchanged':
