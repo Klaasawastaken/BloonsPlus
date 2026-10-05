@@ -67,7 +67,7 @@ function keepRunLog(status) {
   try { localStorage.setItem('bloonsRunLog', JSON.stringify(accumulatedRunLog)); } catch { /* storage full */ }
   return accumulatedRunLog.lines;
 }
-const defaults = { queue: [], completedMaps: [], achievements: [], completed: [], towerChecks: {}, achievementProgress: {}, resume: true, xpTarget: '', theme: 'light' };
+const defaults = { queue: [], completedMaps: [], achievements: [], completed: [], towerChecks: {}, achievementProgress: {}, resume: true, theme: 'light' };
 let state = loadState();
 document.documentElement.dataset.theme = state.theme === 'dark' ? 'dark' : 'light';
 let toastTimer;
@@ -788,7 +788,7 @@ function render() {
   setText('#local-save-read', local?.readAt ? `Last save read ${new Date(local.readAt).toLocaleTimeString()}` : 'Last save read —');
   const resumeSetting = document.querySelector('#resume-setting'); if (resumeSetting) resumeSetting.checked = state.resume;
   const themeSetting = document.querySelector('#theme-setting'); if (themeSetting) themeSetting.value = state.theme || 'light';
-  const xpTarget = document.querySelector('#xp-target'); if (xpTarget) xpTarget.value = state.xpTarget;
+  window.refreshSelectControls?.();
   const player = detectedProgress.player;
   // Profile.Save is rewritten by BTD6 continuously; the menu-screen scan only refreshes when
   // the main menu is visible, so it goes stale during a sweep. Prefer the save.
@@ -1006,7 +1006,6 @@ document.querySelector('#maps-search').addEventListener('input', renderMaps);
 document.querySelector('#maps-hide-done').addEventListener('change', renderMaps);
 document.querySelector('#achievement-search').addEventListener('input', event => { achievementQuery = event.target.value.trim().toLowerCase(); renderAchievements(); });
 document.querySelector('#resume-setting').addEventListener('change', event => { state.resume = event.target.checked; saveState(); notify(state.resume ? 'Resume is on.' : 'Resume is off.'); });
-document.querySelector('#xp-target').addEventListener('change', event => { state.xpTarget = event.target.value; saveState(); notify('XP target saved.'); });
 document.querySelector('#theme-setting')?.addEventListener('change', event => {
   state.theme = event.target.value === 'dark' ? 'dark' : 'light';
   document.documentElement.dataset.theme = state.theme;

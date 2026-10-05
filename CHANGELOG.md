@@ -1,3 +1,11 @@
+## Preview 9 — App interface polish
+
+- Reorganize Settings into appearance, VM setup and backups; expand profile and passive-learning diagnostics only when needed.
+- Remove the unused XP target, redundant status rows and stale prototype notice from Settings.
+- Add shared searchable dropdowns with keyboard navigation and theme-aware menus. Preserve selections and focused options during live updates.
+- Repair dark control surfaces and contrast; restyle Boss Events with official tower art and clearly labelled planned features.
+- Keep healthy replays running while changing the interface. No route validation games or original CHIMPS recording edits.
+
 # Changelog
 
 - Replace generated promotional art with official BTD6 tower/map compositions and preserve character proportions. Rebuild Subscriptions and Contributors, change Wiki artwork, and contain the mobile comparison table without page overflow. Keep planned billing and Pro status explicit.
