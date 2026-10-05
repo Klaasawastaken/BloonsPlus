@@ -2,6 +2,7 @@
 
 ## Unreleased — replay diagnostics and cash reading
 
+- Keep structured failure sidecars when rotating screenshots. Image retention remains capped at 60 files; JSON diagnostic records are no longer accidentally deleted by that cleanup.
 - Recognize dimmed unused tier markers on capped crosspaths. Native Heli 2-0-3 frames were previously rejected as an unselected tower; they now decode correctly. Added left/right 1080p and 1440p regression coverage without changing original routes.
 - Capture unsuccessful upgrade observations before the panel closes, with a local PNG and map/mode/round/cash/position/tier sidecar. Keep the observation in the run ledger for diagnosis. These private artifacts are excluded from publication.
 - Fixed unreachable upgrade recovery: the retry queue was incorrectly inside the successful-purchase branch. Unselected and unchanged panel observations now retry before dependent actions, with bounded attempts and an exact target for unchanged tiers. Regression tests execute the replay branch itself.

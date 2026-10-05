@@ -1113,7 +1113,11 @@ def saveFailureShots(mapConfig, ingame, defeat):
         customPrint('FAILURE_SHOT ' + os.path.abspath(stem + ('_ingame.png' if ingame is not None else '_defeat.png')))
         # Oldest first by file time: a name sort put dated shots ("2026...") ahead of the
         # "badge_"/"gamemode_stuck_" ones and deleted every new defeat screenshot instantly.
-        shots = sorted(os.listdir(FAILURE_SHOT_DIR),
+        # Rotate image payloads only. Structured failure sidecars are permanent
+        # history and must survive subsequent defeats and screenshot rotation.
+        shots = sorted((name for name in os.listdir(FAILURE_SHOT_DIR)
+                        if os.path.splitext(name)[1].lower() in ('.png', '.jpg', '.jpeg')
+                        and os.path.isfile(os.path.join(FAILURE_SHOT_DIR, name))),
                        key=lambda name: os.path.getmtime(os.path.join(FAILURE_SHOT_DIR, name)))
         for old in shots[:max(0, len(shots) - FAILURE_SHOTS_KEPT)]:
             os.remove(os.path.join(FAILURE_SHOT_DIR, old))
