@@ -298,6 +298,10 @@ def writeBTD6InstructionsFile(
                 if action.get("cursor_delay", 0):
                     line += " move after " + str(action["cursor_delay"]) + " seconds"
             fp.write(line + "\n")
+        elif action["action"] == "repeat_ability":
+            fp.write("repeat ability " + str(action["slot"]) + "\n")
+        elif action["action"] == "stop_ability":
+            fp.write(("stop all abilities" if action.get("slot") is None else "stop ability " + str(action["slot"])) + "\n")
         elif action["action"] == "await_delay":
             fp.write("wait " + str(action["seconds"]) + " seconds\n")
         elif action["action"] == "await_round":
@@ -396,6 +400,14 @@ def parseBTD6InstructionsFile(
         delay = re.fullmatch(r"wait (\d+(?:\.\d+)?) seconds", line)
         if delay:
             newMapConfig['steps'].append({'action': 'await_delay', 'seconds': float(delay.group(1)), 'cost': 0})
+            continue
+        repeat = re.fullmatch(r"(repeat|stop) ability (10|[1-9])", line)
+        if repeat or line == "stop all abilities":
+            slot = int(repeat.group(2)) if repeat else None
+            step = {"action": "repeat_ability" if repeat and repeat.group(1) == "repeat" else "stop_ability", "slot": slot, "cost": 0}
+            if step["action"] == "repeat_ability":
+                step["key"] = keybinds.get("abilities", {}).get(slot, "0" if slot == 10 else str(slot))
+            newMapConfig["steps"].append(step)
             continue
         ability = re.search(
             r"^ability (?P<slot>10|[1-9])(?: after (?P<timer>\d+(?:\.\d+)?) seconds)?(?: at (?P<x>\d+), (?P<y>\d+)(?: move after (?P<cursor_delay>\d+(?:\.\d+)?) seconds)?)?$",

@@ -1,3 +1,10 @@
+## Preview 30 — Preserve repeating ability controls
+
+- Add main-loop repeat/stop commands and current-hotkey checkpoint restoration.
+- Serialize ability input with placement and targeting; avoid pause catch-up bursts.
+- Preserve BloonsPlayer zero-key ability and seconds waits; add three offline-checked source candidates.
+- Record ability slots and recurring use in the action ledger. Original CHIMPS recordings remain unchanged.
+
 ## Preview 29 — Simpler Settings
 
 - Focus preferences on appearance and game connection; remove legacy backup controls.

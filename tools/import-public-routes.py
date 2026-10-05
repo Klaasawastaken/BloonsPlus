@@ -535,16 +535,26 @@ def convert_bloonsplayer(path):
             route.round(int(m.group(1)))
         elif m := re.fullmatch(r"(delay|wait|lives)\s+(\d+(?:\.\d+)?)", low):
             command, amount = m.groups()
-            if command in ("delay", "wait") and float(amount) == 0:
-                route.harmless.add(command + "(0)")
+            if command in ("delay", "wait"):
+                if float(amount) == 0:
+                    route.harmless.add(command + "(0)")
+                else:
+                    route.wait(float(amount))
             else:
                 route.lossy.add("BloonsPlayer " + command + " " + amount + " control omitted")
         elif low in ("change speed", "toggle autostart") or low.startswith("start round"):
             route.lossy.add("BloonsPlayer " + low + " control omitted")
-        elif m := re.match(r"use ability\s+(10|[1-9])$", low):
-            route.ability(int(m.group(1)))
-        elif re.match(r"(repeat ability|stop ability|stop all abilities)", low):
-            route.lossy.add("activated abilities")
+        elif m := re.fullmatch(r"(use|repeat|stop) ability\s+([0-9])", low):
+            command, key = m.groups()
+            slot = 10 if key == "0" else int(key)
+            if command == "use":
+                route.ability(slot)
+            else:
+                route.lines.append(f"{command} ability {slot}")
+        elif low == "stop all abilities":
+            route.lines.append("stop all abilities")
+        elif re.match(r"(use ability|repeat ability|stop ability|stop all abilities)", low):
+            raise Unsupported("unmapped or malformed activated ability key: " + row)
         elif re.match(r"(repeat move|move|stop move)\b", low):
             route.lossy.add("mouse sweeps (banana/cash collection)")
         elif m := re.match(r"click\s+(.+)$", low):
@@ -898,8 +908,8 @@ for name in json.load(sys.stdin):
     else:
         text = open(path, encoding='utf-8').read()
         body = [l for l in text.splitlines() if l.strip() and not l.startswith('#')]
-        expected = sum(1 for l in body if re.match(r'^(place|upgrade|retarget|special|sell|remove|click|ability|round|cash) ', l))
-        actual = sum(1 for s in config['steps'] if s['action'] in ('place', 'upgrade', 'retarget', 'special', 'sell', 'remove', 'ability', 'await_round', 'await_cash')
+        expected = sum(1 for l in body if re.match(r'^(place|upgrade|retarget|special|sell|remove|click|ability|repeat|stop|round|cash|wait|speed) ', l))
+        actual = sum(1 for s in config['steps'] if s['action'] in ('place', 'upgrade', 'retarget', 'special', 'sell', 'remove', 'ability', 'repeat_ability', 'stop_ability', 'await_round', 'await_cash', 'await_delay', 'speed')
                      or (s['action'] == 'click' and s.get('name') == 'map'))
         if expected != actual or expected != len(body):
             errors.append(f'{len(body)} lines, {expected} recognised, {actual} parsed')
@@ -963,6 +973,36 @@ def emit_timing_candidates():
     print(json.dumps({'timingCandidates': written}, indent=2))
 
 
+def emit_ability_candidates():
+    """New faithful command candidates only; never overwrite a recording."""
+    written = []
+    for path in sorted((PUB / 'piweiblen-BloonsPlayer').rglob('*.txt')):
+        try:
+            route = convert_bloonsplayer(path)
+            lines = route.body()
+        except (Unsupported, KeyError, IndexError, ValueError):
+            continue
+        if route.lossy or not any(line.startswith('repeat ability ') for line in lines):
+            continue
+        source = SOURCES[route.source]
+        name = f'{route.map}#{route.mode}#{W}x{H}#converted#source_{route.source}#ability-preserved.btd6'
+        target = PT / name
+        meta = [f"source: {source['repo']} (license {source['license']}) commit {source['commit']}",
+                f"source file: {route.source_file}",
+                'Repeated ability keys and cancellation preserved; seconds waits remain non-blocking.',
+                'Offline-converted candidate; no local victory claimed. Original recordings preserved.']
+        content = '\n'.join(header(meta) + lines) + '\n'
+        if target.exists() and target.read_text(encoding='utf-8') != content:
+            raise RuntimeError(f'Refusing to overwrite changed ability candidate: {name}')
+        if not target.exists():
+            target.write_text(content, encoding='utf-8', newline='\n')
+        written.append(name)
+    errors = {name: error for name, error in validate(written).items() if error} if written else {}
+    if errors:
+        raise RuntimeError('Ability candidate parser errors: ' + json.dumps(errors))
+    print(json.dumps({'abilityCandidates': written, 'parserErrors': errors}, indent=2))
+
+
 def audit_legacy_timing():
     """Read-only inventory of legacy timing omissions; never launch or rewrite routes."""
     files = sorted(PT.glob('*.btd6'))
@@ -989,6 +1029,8 @@ def audit_legacy_timing():
 if __name__ == "__main__":
     if '--audit-timing' in sys.argv:
         print(json.dumps(audit_legacy_timing(), indent=2))
+    elif '--ability-candidates' in sys.argv:
+        emit_ability_candidates()
     elif '--timing-candidates' in sys.argv:
         emit_timing_candidates()
     else:

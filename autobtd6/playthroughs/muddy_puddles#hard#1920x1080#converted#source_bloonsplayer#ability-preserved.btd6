@@ -1,0 +1,93 @@
+# source: https://github.com/piweiblen/BloonsPlayer (license MIT (c) 2021 piweiblen) commit 17d624879c5ad777e82594da34450e66b2d60756
+# source file: tas/general/muddy puddles hard.txt
+# Repeated ability keys and cancellation preserved; seconds waits remain non-blocking.
+# Offline-converted candidate; no local victory claimed. Original recordings preserved.
+# generator: import-public-routes.py
+place quincy hero0 at 1187, 554
+repeat ability 1
+repeat ability 2
+place sniper sniper0 at 259, 331
+retarget sniper0
+retarget sniper0
+retarget sniper0
+place sub sub0 at 775, 588
+place dart dart0 at 468, 508
+upgrade sub0 path 0
+upgrade sub0 path 0
+sell dart0
+upgrade sub0 path 2
+place dart dart1 at 820, 290
+upgrade dart1 path 2
+place dart dart2 at 1332, 376
+upgrade sub0 path 2
+place dart dart3 at 345, 692
+upgrade dart2 path 2
+upgrade dart1 path 2
+upgrade sub0 path 2
+upgrade sniper0 path 0
+upgrade sniper0 path 2
+place alchemist alchemist0 at 863, 751
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+upgrade alchemist0 path 2
+place sub sub1 at 705, 626
+upgrade sub1 path 0
+upgrade sub1 path 0
+upgrade sub1 path 2
+upgrade dart3 path 2
+upgrade dart3 path 2
+upgrade alchemist0 path 0
+upgrade sub1 path 2
+upgrade dart2 path 2
+upgrade sub1 path 2
+upgrade sub0 path 2
+place village village0 at 880, 572
+upgrade village0 path 0
+upgrade village0 path 0
+upgrade dart3 path 2
+upgrade sub1 path 2
+upgrade dart3 path 1
+upgrade dart3 path 1
+upgrade village0 path 1
+upgrade village0 path 1
+place farm farm0 at 1559, 1000
+place farm farm1 at 1556, 857
+upgrade farm0 path 1
+upgrade farm0 path 1
+upgrade farm1 path 1
+upgrade farm1 path 1
+upgrade farm1 path 2
+upgrade farm1 path 2
+upgrade farm1 path 2
+upgrade farm0 path 2
+upgrade farm0 path 2
+upgrade farm0 path 2
+round 62
+sell farm1
+upgrade sub0 path 2
+upgrade dart1 path 2
+upgrade dart2 path 2
+place sub sub2 at 828, 644
+upgrade sub2 path 0
+upgrade sub2 path 0
+upgrade sub2 path 2
+upgrade sub2 path 2
+upgrade sub2 path 2
+upgrade sub2 path 2
+upgrade sniper0 path 2
+upgrade sniper0 path 0
+upgrade sniper0 path 0
+upgrade sniper0 path 0
+upgrade dart1 path 1
+upgrade dart1 path 1
+upgrade dart1 path 2
+upgrade dart3 path 2
+place sub sub3 at 761, 682
+upgrade sub3 path 0
+upgrade sub3 path 0
+upgrade sub3 path 2
+upgrade sub3 path 2
+upgrade sub3 path 2
+upgrade sub3 path 2
+place dart dart4 at 668, 122

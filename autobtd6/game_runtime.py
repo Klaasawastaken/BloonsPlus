@@ -11,7 +11,7 @@ import time
 
 SUPPORTED_ACTIONS = {
     'place', 'upgrade', 'sell', 'retarget', 'special', 'remove',
-    'click', 'press', 'ability', 'speed', 'await_round', 'await_cash', 'await_delay',
+    'click', 'press', 'ability', 'repeat_ability', 'stop_ability', 'speed', 'await_round', 'await_cash', 'await_delay',
 }
 POSITION_ACTIONS = {'place', 'upgrade', 'sell', 'retarget', 'special', 'remove', 'click'}
 TOWER_ACTIONS = {'place', 'upgrade', 'sell', 'retarget', 'special'}
@@ -56,8 +56,12 @@ def normalize_action(step):
     )
     if action_type in {'place', 'upgrade', 'sell', 'retarget', 'special'} and not valid_key:
         raise ValueError(action_type + ' action needs a game key')
-    if action_type in {'press', 'ability'} and not valid_key:
+    if action_type in {'press', 'ability', 'repeat_ability'} and not valid_key:
         raise ValueError(action_type + ' action needs a game key')
+    if action_type in {'repeat_ability', 'stop_ability'}:
+        slot = action.get('slot')
+        if not (action_type == 'stop_ability' and slot is None) and (type(slot) is not int or not 1 <= slot <= 10):
+            raise ValueError(action_type + ' needs a slot from 1 to 10')
     if action_type == 'ability':
         point = action.get('pos')
         if point is not None:
@@ -243,6 +247,13 @@ class GameState:
             'position': list(action['pos']) if action.get('pos') is not None else None,
             'issuedAt': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()),
         }
+        if action['action'] in {'ability', 'repeat_ability', 'stop_ability'}:
+            event['slot'] = action.get('slot')
+            event['repeated'] = action.get('repeated') is True
+            if action['action'] == 'repeat_ability':
+                event['status'] = 'scheduled'
+            elif action['action'] == 'stop_ability':
+                event['status'] = 'cancelled'
         if action.get('action') == 'upgrade' and isinstance(action.get('expectedUpgradeTiers'), (list, tuple)):
             event['expectedUpgradeTiers'] = list(action['expectedUpgradeTiers'])
         self.events.append(event)

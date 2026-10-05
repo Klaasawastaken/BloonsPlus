@@ -13,7 +13,7 @@ from game_runtime import GameState, normalize_action
 from upgrade_rules import can_upgrade_path
 from upgrade_observation import observe_upgrade, resolve_hud_panels
 from placement_observation import held_placement_visible
-from route_timing import delay_ready, round_offset_ready, ability_ready, issue_ability, upgrade_ready
+from route_timing import delay_ready, round_offset_ready, ability_ready, issue_ability, upgrade_ready, RepeatedAbilities
 from map_availability import predicted_thaw_round
 from resume_recovery import restore_upgrade_steps, probe_owned_upgrade
 
@@ -1824,6 +1824,7 @@ def main():
     lastCashErrorLoggedAt = 0
     observedRound = None
     observedRoundStartedAt = None
+    repeatedAbilities = RepeatedAbilities()
     pendingRoundRecovery = None
     pendingRoundRecoveryCount = 0
     lastRejectedRoundSignature = None
@@ -2107,6 +2108,8 @@ def main():
         except (OSError, ValueError, TypeError):
             customPrint('DEBUG resume found no matching persisted tower/path ledger')
         currentGameState.observe(round_number=resumeRound, screen=resumeScreen.name)
+        repeatedAbilities.restore(routeCheckpoint.get('repeatedAbilities', []), keybinds.get('abilities', {}))
+        customPrint('TIMING_RECOVERY restored repeat ability slots=' + str(repeatedAbilities.snapshot()))
         observedRound = resumeRound
         observedRoundStartedAt = time.time()
         if any(step.get('action') == 'await_round' and 'secondsAfterRound' in step and step.get('round') == resumeRound for step in mapConfig['steps']):
@@ -2484,6 +2487,7 @@ def main():
                 victoryRecorded = False
                 observedRound = None
                 observedRoundStartedAt = None
+                repeatedAbilities = RepeatedAbilities()
                 surplusUpgradeAttempts.clear()
                 surplusUpgradeStopped = False
                 surplusBlockedPaths.clear()
@@ -2846,6 +2850,8 @@ def main():
                 currentValues = {}
                 thisIterationCost = 0
                 thisIterationAction = None
+                routeActionExecuted = False
+                playToggleIssued = False
                 skippingIteration = False
 
                 # Read the HUD fields independently. A transient OCR failure in the cash box
@@ -3483,6 +3489,7 @@ def main():
                             writeRouteCheckpoint(routeCheckpoint, mapConfig['steps'])
                         continue
                     thisIterationAction = action
+                    routeActionExecuted = True
                     if action['action'] != 'sell' and action['action'] != 'await_round' and action['action'] != 'await_cash':
                         thisIterationCost = action['cost']
                     customPrint('performing action: ' + str(action))
@@ -3759,6 +3766,12 @@ def main():
                                         + ' deadline=' + str(action['cursorDeadline']))
                         else:
                             customPrint('TIMING ability completed slot=' + str(action.get('slot')))
+                    elif action['action'] == 'repeat_ability':
+                        repeatedAbilities.start(action['slot'], action['key'])
+                        customPrint('TIMING repeat ability enabled slot=' + str(action['slot']) + ' entries=' + str(repeatedAbilities.snapshot()))
+                    elif action['action'] == 'stop_ability':
+                        repeatedAbilities.stop(action.get('slot'))
+                        customPrint('TIMING repeat ability stopped slot=' + str(action.get('slot')) + ' entries=' + str(repeatedAbilities.snapshot()))
                     elif action['action'] == 'speed':
                         customPrint('DEBUG speed change=' + str(action['speed']))
                         if currentGameState is not None:
@@ -3783,6 +3796,7 @@ def main():
                             recordUpgradeCheckpoint(routeCheckpoint, action)
                         routeCheckpoint['nextStep'] = checkpointStepOffset(mapConfig['steps'], routeStepTotal)
                         routeCheckpoint['pendingAction'] = None
+                        routeCheckpoint['repeatedAbilities'] = repeatedAbilities.snapshot()
                         routeCheckpoint['status'] = 'ready'
                         writeRouteCheckpoint(routeCheckpoint, mapConfig['steps'])
                         customPrint('CHECKPOINT ' + mapConfig['map'] + ' ' + mapConfig['gamemode']
@@ -3828,9 +3842,31 @@ def main():
                         customPrint('DEBUG play toggle state=' + gameState + ' diff=' + str(round(float(bestMatchDiff), 4)) + ' fast=' + str(fast))
                         sendKey(keybinds['others']['play'])
                         lastPlayToggleAt = time.time()
+                        playToggleIssued = True
                     elif wantsToggle:
                         customPrint('DEBUG play toggle skipped state=' + gameState + ' diff=' + str(round(float(bestMatchDiff), 4)))
                     
+                # Repeating keys stay in this input-owning loop, never a background
+                # thread. This frame predates any just-issued action: do not use it
+                # to authorize another key during placement or delayed targeting.
+                if repeatedAbilities.entries:
+                    repeatPlaying = False
+                    repeatDiff = None
+                    for repeatName in ('game_playing_fast', 'game_playing_slow', 'game_paused'):
+                        diff = cv2.matchTemplate(cutImage(screenshot, imageAreas['compare']['game_state']),
+                                                cutImage(comparisonImages['game_state'][repeatName], imageAreas['compare']['game_state']),
+                                                cv2.TM_SQDIFF_NORMED)[0][0]
+                        if repeatDiff is None or diff < repeatDiff:
+                            repeatDiff = diff
+                            repeatPlaying = repeatName != 'game_paused'
+                    cursorPending = any(step.get('abilityInputSent') is True for step in mapConfig['steps'])
+                    repeatedSlot = repeatedAbilities.tick(time.monotonic(), repeatPlaying and repeatDiff < 0.05,
+                                                          not (skippingIteration or routeActionExecuted or playToggleIssued
+                                                               or placementRetryPending or heldPlacement or cursorPending), sendKey)
+                    if repeatedSlot is not None:
+                        customPrint('TIMING repeated ability issued slot=' + str(repeatedSlot) + ' round=' + str(currentValues.get('round')))
+                        if currentGameState is not None:
+                            currentGameState.record_issued_action({'action': 'ability', 'slot': repeatedSlot, 'repeated': True})
                 lastIterationScreenshotAreas = images
                 lastIterationBalance = currentValues['money']
                 lastIterationCost = thisIterationCost

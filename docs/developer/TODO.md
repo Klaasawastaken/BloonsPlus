@@ -356,3 +356,14 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [x] Hide the ISO override once setup has an ISO or an existing VM, and do not submit hidden stale paths. Show a working/error badge before a previously ready setup status.
 - [x] Review dark Settings and installed-VM diagnostics in the host preview; the existing VM shows its checks without an ISO input. Active replay left untouched.
 - [ ] Apply this batch to the guest at the next healthy replay boundary.
+
+## Repeated abilities and candidate fidelity (2026-10-06)
+
+- [x] Inspect BloonsPlayer's actual repeat/stop implementation. Unlike its README, repeats persist across rounds until cancelled; stopping a slot removes one occurrence. Source: src/player.py TAS_repeat_ability, TAS_stop_ability, TAS_stop_all_abilities, timer_hit.
+- [x] Add canonical repeat/stop commands, parser and recorder roundtrip, contract validation, main-loop scheduler, current-hotkey checkpoint restore and ability-slot event logging. Keep input serialized; do not send during route actions, pending cursor targeting, held placements, speed toggles, pause or uncertain play-state reads.
+- [x] Preserve BloonsPlayer numeric-key zero as slot 10 and seconds waits. Reject unmapped or malformed keys.
+- [x] Add three separately named source candidates (Dark Dungeons Easy, Glacial Trail Easy, Muddy Puddles Hard). Both Python and JS route validators pass. No original recording overwritten and no validation-only game launched. No candidate victory claimed.
+- [x] Eight scheduler/importer/runtime checks, 18 timing checks and four paid-hero rejection checks pass; syntax and publication guard pass.
+- [x] Scrapyard CHIMPS earned: observed VICTORY_SUMMARY, controller clear confirmed, authoritative Scrapyard.difficult.Hard.modes.Clicks=1050185. Stop-after boundary confirmed running=false. Never replay this owned medal.
+- [ ] Deploy this batch and queued UI updates, then resume only missing medals.
+- [ ] Observe repeated abilities when a candidate is naturally selected for a missing medal; no testing-only replay.

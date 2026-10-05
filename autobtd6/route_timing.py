@@ -99,3 +99,68 @@ def upgrade_ready(step, observed_round):
     if type(target) is not int or target < 1:
         raise ValueError('invalid deferred upgrade round')
     return type(observed_round) is int and observed_round >= target
+
+
+class RepeatedAbilities:
+    """Main-loop key scheduler; no worker thread can race placement input.
+
+    BloonsPlayer's implementation keeps repeats until explicit cancellation
+    (despite its README mentioning round end). Entries are a multiset: adding
+    the same slot twice repeats it twice per cycle; stop removes one entry.
+    A cycle lasts at least one second, without catch-up bursts after a pause.
+    Checkpoints store slots only, never clock values or arbitrary input keys.
+    """
+    def __init__(self):
+        self.entries = []
+        self.index = 0
+        self.next_at = None
+
+    def start(self, slot, key):
+        if type(slot) is not int or not 1 <= slot <= 10:
+            raise ValueError('repeat ability needs a slot from 1 to 10')
+        if not (isinstance(key, str) and key or type(key) is int and 0 <= key <= 255):
+            raise ValueError('repeat ability needs a bound game key')
+        self.entries.append((slot, key))
+
+    def stop(self, slot=None):
+        if slot is None:
+            self.entries.clear()
+        else:
+            if type(slot) is not int or not 1 <= slot <= 10:
+                raise ValueError('stop ability needs a slot from 1 to 10')
+            for index, entry in enumerate(self.entries):
+                if entry[0] == slot:
+                    self.entries.pop(index)
+                    break
+        self.index = 0
+        self.next_at = None
+
+    def snapshot(self):
+        return [slot for slot, _ in self.entries]
+
+    def restore(self, slots, keys):
+        if not isinstance(slots, list) or any(type(slot) is not int or not 1 <= slot <= 10 for slot in slots):
+            raise ValueError('invalid checkpoint repeat abilities')
+        restored = RepeatedAbilities()
+        for slot in slots:
+            restored.start(slot, keys.get(slot))
+        self.entries = restored.entries
+        self.index = 0
+        self.next_at = None
+
+    def tick(self, now, playing, input_free, press):
+        if type(now) not in (int, float) or not math.isfinite(now):
+            raise ValueError('invalid repeat ability clock')
+        if not self.entries:
+            self.next_at = None
+            return None
+        if not playing or not input_free:
+            return None
+        if self.next_at is not None and now < self.next_at:
+            return None
+        self.index %= len(self.entries)
+        slot, key = self.entries[self.index]
+        press(key)
+        self.index = (self.index + 1) % len(self.entries)
+        self.next_at = now + 1 / len(self.entries)
+        return slot
