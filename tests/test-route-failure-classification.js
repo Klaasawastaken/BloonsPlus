@@ -33,3 +33,26 @@ for (const line of ['BTD6 could not be focused', 'stopping before map click', 'm
 assert.equal(classifyRouteFailure({ ...base, log:['Traceback (most recent call last)'], sameRun:false, lastRound:null }), 'technical-failure');
 assert.equal(classifyRouteFailure({ ...base, defeatObserved:true, log:['screen INGAME!', 'screen STARTMENU!'] }), 'gameplay-defeat', 'Ordinary screen transitions are not navigation failures');
 console.log('Route failure classification checks passed.');
+
+const { unresolvedUpgradeCount } = require('../lib/upgrade-failures');
+const ambiguous = { type: 'upgrade', tower: 'heli1', path: 0, status: 'cash-ambiguous',
+  upgradeObservation: { before: [3, 0, 2] } };
+const confirmed = { type: 'upgrade', tower: 'heli1', path: 0, status: 'panel-tier-confirmed', upgradeLevel: 4 };
+assert.equal(unresolvedUpgradeCount([ambiguous]), 1);
+assert.equal(unresolvedUpgradeCount([ambiguous, confirmed]), 0);
+assert.equal(unresolvedUpgradeCount([confirmed, ambiguous]), 1);
+assert.equal(unresolvedUpgradeCount([ambiguous, { ...confirmed, upgradeLevel: 3 }]), 1);
+assert.equal(unresolvedUpgradeCount([ambiguous, { ...confirmed, tower: 'heli0' }]), 1);
+assert.equal(unresolvedUpgradeCount([ambiguous, { ...confirmed, path: 2 }]), 1);
+assert.equal(unresolvedUpgradeCount([ambiguous, { ...confirmed, status: 'cash-confirmed' }]), 1);
+assert.equal(unresolvedUpgradeCount([{ ...ambiguous, upgradeObservation: {} }, confirmed]), 1);
+assert.equal(unresolvedUpgradeCount([{ ...ambiguous, upgradeObservation: {}, expectedUpgradeTiers: [4, 0, 2] }, confirmed]), 0);
+assert.equal(unresolvedUpgradeCount([]), null);
+assert.equal(classifyRouteFailure({ ...base, defeatObserved: true, unresolvedUpgrades: 0,
+  log: ['RECOVERY upgrade_unconfirmed tower=heli1'] }), 'gameplay-defeat');
+assert.equal(classifyRouteFailure({ ...base, defeatObserved: true, unresolvedUpgrades: 1,
+  log: ['RECOVERY upgrade_unconfirmed tower=heli1'] }), 'upgrade-unconfirmed');
+
+assert.equal(unresolvedUpgradeCount([ambiguous, { type: 'sell', tower: 'heli1' }, confirmed]), 1);
+assert.equal(unresolvedUpgradeCount([ambiguous, { type: 'place', tower: 'heli1' }, confirmed]), 1);
+assert.equal(unresolvedUpgradeCount([ambiguous, { ...confirmed, upgradeLevel: 779 }]), 1);

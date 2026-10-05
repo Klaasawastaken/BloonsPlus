@@ -247,7 +247,7 @@ http.createServer((req, res) => {
         // category/actionable (from classifyRouteFailure): whether this is a real bug worth fixing
         // (route-corruption, navigation-bug), just missing diagnostic data (insufficient-data), or an
         // honest gameplay loss that needs a better strategy, not a code fix (gameplay-defeat).
-        category: f.category || null, actionable: f.actionable !== false,
+        category: f.category || null, actionable: f.actionable !== false, unresolvedUpgrades: f.unresolvedUpgrades ?? null,
         // The notable-filtered summary and the full unfiltered run output - both were being
         // computed by recordRouteFailure and then silently dropped before ever reaching the app.
         log: f.log, fullLog: f.fullLog,

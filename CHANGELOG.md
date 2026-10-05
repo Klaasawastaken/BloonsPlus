@@ -1,3 +1,10 @@
+## Preview 23 — Distinguish recovered upgrade retries
+
+- Do not classify a later defeat as an unresolved upgrade failure when same-run panel-tier evidence proves recovery.
+- Preserve uncertainty for unknown targets, reused tower instances and mismatched paths or insufficient tiers.
+- Retain exact planned targets in action events and expose the unresolved count in failure reports.
+- Keep prior history unchanged and retain legacy fallback when evidence is missing.
+
 ## Preview 22 — Retain upgrades through Glacial Trail thaw
 
 - Predict per-tower thaw from confirmed placement history only after an unavailable exact-tier upgrade observation.

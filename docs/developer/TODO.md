@@ -291,3 +291,10 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [x] When a confirmed placement history predicts frozen rounds and the exact requested upgrade is visibly unavailable, retain its target ahead of dependent actions until predicted thaw. Then reselect and re-read tiers before any purchase. Other maps retain the bounded retry policy; unknown histories do not invent thaw times.
 - [x] Persist the deferral in unresolved upgrade checkpoints and gate ownership probes without blocking screenshot/round processing. Original recordings unchanged.
 - [x] Seven focused availability checks, 10 resume checks and 18 timing checks pass. This is prediction plus live availability reconciliation, not a visual freeze classifier or victory proof.
+
+## Recovered upgrade failure reporting (2026-10-06)
+
+- [x] Reproduce classification of a later defeat as upgrade-unconfirmed solely because a recovered retry warning remained in its log.
+- [x] Reconcile same-run ambiguous upgrade events against later panel-tier-confirmed purchases on the same tower/path and target tier. Preserve unknown targets, later failures, cross-tower/path isolation and sold/replaced instances. Keep the legacy log fallback when evidence is absent.
+- [x] Save exact planned upgrade targets in new action events and expose unresolved count in failure reports. Existing persistent history is not rewritten.
+- [x] Focused failure-classification checks pass; Python action-ledger file compiles. Deployment is queued after the current replay.

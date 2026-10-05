@@ -243,6 +243,8 @@ class GameState:
             'position': list(action['pos']) if action.get('pos') is not None else None,
             'issuedAt': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()),
         }
+        if action.get('action') == 'upgrade' and isinstance(action.get('expectedUpgradeTiers'), (list, tuple)):
+            event['expectedUpgradeTiers'] = list(action['expectedUpgradeTiers'])
         self.events.append(event)
         self.updated_at = event['issuedAt']
 
