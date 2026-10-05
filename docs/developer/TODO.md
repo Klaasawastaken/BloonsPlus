@@ -4,6 +4,8 @@ Updated 5 October 2026. Checkboxes require evidence, not merely code. Preserve o
 
 ## Current repair pass
 
+- [x] Stop treating the earliest retained observation as the opening round. Failure entries keep only the last 240 observations, so late defeats could be misclassified as instant failures and receive extra attempts. Classification now uses the mode's opening round; offline cases cover Hard, CHIMPS, Deflation, truncated tails and non-defeats. Deployment pending.
+
 - [x] Persist pre-game technical failures before relaunch, skip or blocked returns. Window loss, spawn/stop failures, focus failures, pre-game crashes and map navigation errors previously bypassed the failure history. Offline branch tests confirm each is recorded once without recording owned-medal skips or consuming route attempts. Deployment pending.
 - Offline gate on 5 October: all 20 existing JavaScript test files and 62 Python tests passed; local public-site HTML links and assets resolved. These do not establish clean-install readiness or prove route victories.
 

@@ -1,0 +1,17 @@
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const vm = require('node:vm');
+const source = fs.readFileSync(require.resolve('../lib/automation'), 'utf8');
+const start = source.indexOf('function classifyLoss(');
+const code = source.slice(start, source.indexOf('const STRENGTHEN_QUEUE_PATH', start));
+const loss = entry => vm.runInNewContext(code + '\nclassifyLoss(entry)', {entry});
+const base = {defeatObserved:true, result:'defeat', gamemode:'hard', finalRound:80, log:[]};
+assert.equal(loss({...base,lastRound:79,observations:[{round:78},{round:79}]}), 'late', 'A trimmed observation tail is not the starting round');
+assert.equal(loss({...base,lastRound:50,observations:[{round:49},{round:50}]}), 'mid');
+assert.equal(loss({...base,lastRound:6,observations:[]}), 'instant');
+assert.equal(loss({...base,gamemode:'chimps',finalRound:100,lastRound:9}), 'instant');
+assert.equal(loss({...base,gamemode:'deflation',finalRound:60,lastRound:33}), 'instant');
+assert.equal(loss({...base,gamemode:'deflation',finalRound:60,lastRound:59,observations:[{round:58}]}), 'late');
+assert.equal(loss({...base,lastRound:79,defeatObserved:false}), null);
+assert.equal(loss({...base,lastRound:79,interrupted:true,defeatObserved:false}), null);
+console.log('Loss timing does not refund late defeats because observations were truncated.');

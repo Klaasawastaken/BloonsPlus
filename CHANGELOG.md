@@ -1,5 +1,7 @@
 # Changelog
 
+- Classify defeat timing from the mode's opening round instead of a truncated observation tail, preventing late losses from receiving extra instant-failure retries.
+
 - Keep persistent evidence for pre-game window, focus, startup and navigation failures, including recoverable relaunches. Their route attempt allowance remains unchanged.
 
 - Block remote installation when guest replay status is missing or malformed; an update now requires an explicitly idle guest.
