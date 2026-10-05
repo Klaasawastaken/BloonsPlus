@@ -133,6 +133,15 @@ changing the layout detector. Retrieval of the logged failure frame returned fil
 not found. The sweep selected another candidate for the same still-missing medal;
 no Ravine clear is claimed. Original recordings remain unchanged.
 
+The subsequent `ravine#hard#1920x1080#converted#source_randyhodges.btd6`
+attempt did reach victory at round 80. Its authoritative VM Standard medal changed
+from 752 to 1049864. That is a confirmed Hard clear, not verification of the first
+candidate or other modes. During this run, map-colour-based right-panel detection
+flickered and delayed round tracking around rounds 51–62. A native frame read
+62/80 with all three tested OCR thresholds; the complete tier panel was recognized
+as right-side Ace 2-0-4. The new HUD fix prioritizes that panel evidence. It was
+prepared after this run began, so live validation of the fix remains pending.
+
 The first updated live run reproduced an unreadable panel on the first Heli input;
 the next action visibly bought tier 1 instead of tier 2. The follow-up patch now
 reselects twice before sending any upgrade input. If the panel is still unreadable,
