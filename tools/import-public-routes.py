@@ -7,14 +7,14 @@ btd6bot/, with their LICENSE files, so a rerun needs no network):
   * ThuyTran735/BTD6-Everything-Macro  public-sources/ThuyTran735-...  absolute 1920x1080 pixels
   * Randy-Hodges/BTD6-Autoplay         public-sources/Randy-Hodges-... absolute 1920x1080 pixels
 
-Every route is converted action by action. Nothing is invented: coordinates, towers, upgrade order
-and round timing come from the source file. Actions AutoBTD6 cannot express are handled like this:
-  * harmless (timing only, speed/autostart toggles): dropped, noted in header;
-  * lossy (activated abilities, map clicks, banana collection sweeps, targeting that needs a click,
-    obstacle removal without a price): the route is written only for Easy/Medium/Hard - the modes
-    automation.js already accepts unverified routes for - with the #lossy flag. A lossy CHIMPS or
-    Impoppable plan is written as Easy/Medium/Hard routes (#fromChimps) where those are uncovered;
-  * fatal (paid hero levels, unknown tower/hero, moving-map position updates, unreadable statements): rejected.
+Routes retain source placement and upgrade order where supported. A conversion is not
+proof of victory or timing equivalence. Original AutoBTD6 CHIMPS recordings are not edited.
+  * supported BTD6bot waits: emitted as non-blocking seconds-based wait commands;
+  * annotated omissions: no-ops and legacy timing/flow omissions are recorded in headers.
+    Older "dropped (timing only)" wording does not prove those omissions harmless;
+  * lossy commands: written as #lossy drafts, with each omitted operation listed;
+  * fatal commands (paid hero levels, unknown tower/hero, moved tower coordinates,
+    unreadable statements): rejected rather than replaced with invented actions.
 Rejections and remaining gaps go to route-gaps.json.
 
 A final pass adds compatibility copies of existing trusted routes, following AutoBTD6's own
@@ -752,15 +752,10 @@ def main():
             emit(route, route.mode, ["lossy"], [], lines)
         else:
             lossy_routes.append((route, lines))
-    # A lossy route is still written for its OWN mode (e.g. a CHIMPS plan missing only a manually-
-    # aimed special's click target keeps its full placement/upgrade order otherwise). automation.js's
-    # getRecordedCombos() already refuses to trust an unconfirmed #lossy file as a candidate
-    # (`if (pt.flags.includes('lossy') && !confirmed) continue`), so this cannot be picked by the
-    # medal sweep on its own - it only becomes usable once the achievements sweep (which runs every
-    # playthrough file directly, lossy or not, to look for real wins) confirms a clear and records the
-    # hash in verified-routes.json. That is strictly safer than the alternative of writing nothing:
-    # it gives real, mostly-complete human strategies a path to get verified instead of leaving the
-    # mode with no candidate at all.
+    # Preserve lossy drafts for their source mode and applicable standard-mode alternatives.
+    # Candidate eligibility is decided by the runner; a generated file does not prove victory.
+    # Gameplay may earn missing medals only. There is no achievements/validation sweep,
+    # and an owned map/mode must never be replayed to confirm one of these drafts.
     for route, lines in lossy_routes:
         emit(route, route.mode, ["lossy"], [], lines)
         used = False
