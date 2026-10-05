@@ -2042,6 +2042,10 @@ def main():
             return 2
         try:
             x1, y1, x2, y2 = segmentCoordinates['round']
+            _, resumeRightPanel = resolve_hud_panels(resumeImage, False, False)
+            if resumeRightPanel:
+                x1, y1, x2, y2 = [int(value * resumeImage.shape[1] / 960)
+                                   for value in (505, 17, 612, 39)]
             resumeRound = int(custom_ocr(resumeImage[y1:y2, x1:x2]).split('/')[0])
         except (ValueError, IndexError, TypeError):
             customPrint('resume refused: current round could not be read')

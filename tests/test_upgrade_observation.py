@@ -38,6 +38,15 @@ class UpgradeObservation(unittest.TestCase):
                 scaled = cv2.resize(frame, size)
                 self.assertEqual(resolve_hud_panels(scaled, False, not expected)[1], expected)
 
+    def test_currency_anchor_selects_cash_layout_without_portrait(self):
+        symbol = cv2.imread(str(Path(__file__).resolve().parents[1] / 'autobtd6/images/hud/currency-symbol.png'))
+        for x, expected in ((173, False), (367, True)):
+            frame = np.full((540, 960, 3), (40, 60, 80), np.uint8)
+            h, w = symbol.shape[:2]
+            frame[10:10+h, x:x+w] = symbol
+            for size in ((1920, 1080), (2560, 1440)):
+                self.assertEqual(resolve_hud_panels(cv2.resize(frame, size), not expected, False)[0], expected)
+
     def test_dimmed_unused_pips_on_maxed_crosspath(self):
         # Native Heli 2-0-3 panel: unused top-path pips change BGR colour
         # when that crosspath reaches its maximum. Closed middle path is brown.
