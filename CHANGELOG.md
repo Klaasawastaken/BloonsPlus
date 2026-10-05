@@ -2,6 +2,7 @@
 
 ## Unreleased — replay diagnostics and cash reading
 
+- Recognize dimmed unused tier markers on capped crosspaths. Native Heli 2-0-3 frames were previously rejected as an unselected tower; they now decode correctly. Added left/right 1080p and 1440p regression coverage without changing original routes.
 - Capture unsuccessful upgrade observations before the panel closes, with a local PNG and map/mode/round/cash/position/tier sidecar. Keep the observation in the run ledger for diagnosis. These private artifacts are excluded from publication.
 - Fixed unreachable upgrade recovery: the retry queue was incorrectly inside the successful-purchase branch. Unselected and unchanged panel observations now retry before dependent actions, with bounded attempts and an exact target for unchanged tiers. Regression tests execute the replay branch itself.
 - Extended key presses from 30 ms to 120 ms for VM input. Added ordinary-tower tier-pip observation on both panel sides, a one-second wait, and at most one button retry when the same tiers remain visible and the upgrade button is available. Confirmed visual tiers reconcile the run ledger even when income hides spending.

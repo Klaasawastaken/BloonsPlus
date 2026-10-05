@@ -25,7 +25,10 @@ def read_upgrade_panel(frame):
                 b, g, r = color(x, y)
                 if b < 100 and g >= 180 and r >= 70:
                     filled.append(1)
-                elif abs(b-36) <= 22 and abs(g-74) <= 22 and abs(r-128) <= 26:
+                elif ((abs(b-36) <= 22 and abs(g-74) <= 22 and abs(r-128) <= 26)
+                      or (abs(b-59) <= 12 and abs(g-110) <= 12 and abs(r-151) <= 12)):
+                    # BTD6 dims unused pips on a capped crosspath (native
+                    # Heli 2-0-3 capture). They still represent unowned tiers.
                     filled.append(0)
                 else:
                     break

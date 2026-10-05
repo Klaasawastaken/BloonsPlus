@@ -3,6 +3,7 @@ import sys
 from pathlib import Path
 import unittest
 import numpy as np
+import cv2
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'autobtd6'))
 from upgrade_observation import read_upgrade_panel, observe_upgrade, PIP_ROWS
@@ -22,6 +23,20 @@ def panel(tiers, side='right', available=True):
 
 
 class UpgradeObservation(unittest.TestCase):
+    def test_dimmed_unused_pips_on_maxed_crosspath(self):
+        # Native Heli 2-0-3 panel: unused top-path pips change BGR colour
+        # when that crosspath reaches its maximum. Closed middle path is brown.
+        for side in ('left', 'right'):
+            frame = panel([2, 0, 3], side)
+            x = 28 if side == 'left' else 639
+            for y in PIP_ROWS[0][:3]:
+                frame[y-3:y+3, x-3:x+3] = (59, 110, 151)
+            for width, height in ((1920, 1080), (2560, 1440)):
+                scaled = cv2.resize(frame, (width, height), interpolation=cv2.INTER_NEAREST)
+                result = read_upgrade_panel(scaled)
+                self.assertIsNotNone(result)
+                self.assertEqual(result['tiers'], [2, 0, 3])
+
     def test_uncertain_purchase_retains_panel_evidence(self):
         state = GameState({'map': 'test', 'gamemode': 'hard'}, 'test')
         state.events.append(dict(status='issued-unverified', type='upgrade', tower='heli0', path=0))
