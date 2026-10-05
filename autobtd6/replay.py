@@ -12,6 +12,7 @@ from copy import deepcopy
 from game_runtime import GameState, normalize_action
 from upgrade_rules import can_upgrade_path
 from upgrade_observation import observe_upgrade, resolve_hud_panels
+from placement_observation import held_placement_visible
 from route_timing import delay_ready
 from resume_recovery import restore_upgrade_steps, probe_owned_upgrade
 
@@ -3025,6 +3026,8 @@ def main():
                         routeCheckpoint['persistedRound'] = currentValues['round']
                         writeRouteCheckpoint(routeCheckpoint, mapConfig['steps'])
 
+                heldPlacement = bool(lastIterationAction and lastIterationAction.get('action') == 'place'
+                                     and held_placement_visible(screenshot))
                 # Money can rise while an action is applied because pops and round income
                 # arrive between screenshots. Cash can support placement evidence,
                 # but cannot identify an upgrade's resulting path/tier.
@@ -3033,7 +3036,7 @@ def main():
                     and lastIterationCost > 0):
                     observedSpend = lastIterationBalance - currentValues['money']
                     upgradeStatus = lastIterationAction.get('upgradeObservation', {}).get('status')
-                    if upgradeStatus == 'confirmed' or (lastIterationAction.get('action') == 'place' and observedSpend > 0):
+                    if upgradeStatus == 'confirmed' or (lastIterationAction.get('action') == 'place' and observedSpend > 0 and not heldPlacement):
                         if currentGameState is not None:
                             currentGameState.confirm_purchase(lastIterationAction, mapConfig, lastIterationBalance, currentValues['money'])
                             saveGameState(currentGameState)
@@ -3114,10 +3117,15 @@ def main():
                 # unchanged reading is eligible for spatial retries; otherwise a duplicate tower
                 # could be placed after the first one already succeeded.
                 if (lastIterationAction and lastIterationAction.get('action') == 'place'
-                    and lastIterationBalance >= 0 and currentValues['money'] == lastIterationBalance
+                    and (heldPlacement or (lastIterationBalance >= 0 and currentValues['money'] == lastIterationBalance))
                     and (lastIterationCost >= 0 or lastIterationAction.get('extra', {}).get('freePlacement'))):
                     probe = pendingPlacementProbe if pendingPlacementProbe and pendingPlacementProbe.get('name') == lastIterationAction.get('name') else None
                     placementConfirmed, visualStats = placementVisualCheck(probe, screenshot)
+                    if heldPlacement:
+                        placementConfirmed = False
+                        visualStats = {**visualStats, 'rejected': 'held-placement-controls'}
+                        customPrint('RECOVERY held placement detected tower=' + str(lastIterationAction.get('name'))
+                                    + '; cash changes cannot confirm a tower still on the cursor')
                     # A held tower ghost (and its range circle) at the target passes the visual
                     # check too. For a paid tower, unchanged cash means nothing was bought; trusting
                     # the visual left the ghost on the cursor, which hides the round counter and

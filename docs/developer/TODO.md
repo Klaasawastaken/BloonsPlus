@@ -116,6 +116,9 @@ Start only after the current repair work is complete, as requested on 5 October.
 
 ## P1 — routes and sweep
 
+- [x] Recover held placement ghosts despite rising cash. Downstream CHIMPS failure evidence showed an unplaced village ghost while round income bypassed retries. Two placement controls now override cash and visual-patch confirmation and enter existing bounded recovery. Offline recognition checks cover 1080p/1440p and missing controls; actual failed frame recognized. Guest deployment and live outcome remain pending. Original CHIMPS routes unchanged.
+
+
 - [x] Add canonical `wait N seconds` route commands and preserve explicit BTD6bot waits during conversion. The replay keeps its screen loop running while the next action waits; Deflation cannot bypass the delay. Checkpoints retain an unchanged wait deadline, and edited waits restart with the current duration. Six focused timing/parser/resume/execution-gate tests pass. Manual round control, cursor aiming and recurring abilities remain separate unfinished cases; old recordings were not regenerated or live-tested.
 
 - [x] Stop new BTD6bot conversions from labeling waits, manual round control and cursor movement as harmless omissions. Upstream `bot/commands/flow.py` explicitly uses waits to buffer commands and manual starts to spend round-end cash; cursor movement can aim towers. Offline regression reproduced six dropped-control cases. Zero-second waits remain no-ops. Existing recordings were not rewritten or newly verified.
@@ -167,7 +170,7 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [ ] Make app category switching, scrolling and the VM viewer responsive without polling viewer frames when its tab is closed.
   - Viewer lifecycle regressions confirm no requests while unfocused, category-hidden or browser-hidden, one in-flight capture, abort on blur, and no timer after page suspension. Fixed resume after browser Back/Forward cache restoration and released revoked image references. Actual browser cache restoration and broader scrolling performance still need verification; guest deployment queued.
 - [ ] Tidy repo folders without blindly moving runtime data. Exclude personal saves, logs, keys, VM images and private Discord bot source.
-- [x] Replace the README banner with a new BTD6-inspired illustrated jungle, towers and bloons, linked to the website. Retain attribution; show actual tower artwork separately and clarify preview status, installation and planned Pro additions.
+- [x] Replace the README banner with official Wizard, Ninja, Engineer and Super Monkey artwork, linked to the website. No generated artwork or map thumbnails; preserve proportions and attribution. Clarify preview status, installation and planned Pro additions.
 
 ## Later — experimental systems
 
