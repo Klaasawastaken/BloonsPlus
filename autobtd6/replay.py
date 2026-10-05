@@ -40,6 +40,29 @@ def publishViewerFrame(frame):
 ROUTE_CHECKPOINT_FILE = 'route-checkpoint.json'
 _route_checkpoint_lock = threading.Lock()
 
+def recordUpgradeCheckpoint(checkpoint, action):
+    """Retain planned upgrade intent until the same tower's tiers prove it owned."""
+    pending = checkpoint.setdefault('unresolvedUpgrades', [])
+    observation = action.get('upgradeObservation', {})
+    actual = observation.get('after')
+    if observation.get('status') == 'confirmed' and isinstance(actual, list) and len(actual) == 3:
+        checkpoint['unresolvedUpgrades'] = [entry for entry in pending
+            if not (entry.get('name') == action.get('name')
+                    and len(entry.get('expectedUpgradeTiers', [])) == 3
+                    and all(a >= t for a, t in zip(actual, entry['expectedUpgradeTiers'])))]
+        return
+    target = action.get('expectedUpgradeTiers')
+    if not isinstance(target, list) or len(target) != 3:
+        return  # No trustworthy target; never invent tiers from an unreadable panel.
+    if any(entry.get('name') == action.get('name') and entry.get('expectedUpgradeTiers') == target
+           for entry in pending):
+        return
+    entry = {key: action[key] for key in ('action', 'name', 'path', 'key', 'cost') if key in action}
+    entry['pos'] = list(action['pos']) if action.get('pos') is not None else None
+    entry['expectedUpgradeTiers'] = list(target)
+    entry['observationStatus'] = observation.get('status', 'unknown')
+    pending.append(entry)
+
 def writeRouteCheckpoint(checkpoint):
     """Atomically persist resume state without letting a transient Windows file lock kill a run."""
     temporary = None
@@ -3619,6 +3642,8 @@ def main():
                         currentGameState.record_issued_action(action)
                         saveGameState(currentGameState)
                     if routeCheckpoint is not None:
+                        if action.get('action') == 'upgrade':
+                            recordUpgradeCheckpoint(routeCheckpoint, action)
                         routeCheckpoint['nextStep'] = routeStepTotal - len(mapConfig['steps'])
                         routeCheckpoint['pendingAction'] = None
                         routeCheckpoint['status'] = 'ready'
