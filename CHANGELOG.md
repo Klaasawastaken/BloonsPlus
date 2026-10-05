@@ -2,6 +2,8 @@
 
 ## Unreleased — replay diagnostics and cash reading
 
+- Preserve malformed saved medal values as unknown in both the app and sweep instead of treating them as unearned. Skip only the unreadable mode for the current pass without recording a route attempt; an unavailable whole profile still waits safely. Offline checks cover schema/value errors and UI parity.
+
 - Recover HTTP 416 downloads with a fresh full request instead of declaring a same-size partial file complete. Size alone cannot identify cached content. Offline checks cover a stale large partial and preservation when the fresh request fails.
 
 - Avoid scheduling website reading-progress animation frames while reduced motion is requested or the page is hidden. Coalesce scroll and resize updates into one pending frame, cancel it on preference/visibility changes and refresh when visible again. Public pages use a refreshed script cache version.

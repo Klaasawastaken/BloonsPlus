@@ -306,7 +306,7 @@ const mapObservationFor = name => {
 };
 function medalsFromLocalRecord(record) {
   // Once a map has a Profile.Save record, show the full medal grid from that
-  // authoritative snapshot. Unknown medals on that map are explicitly false;
+  // authoritative snapshot. Absent modes on that map are explicitly false;
   // this prevents an old OCR result from continuing to claim a medal.
   const medals = Object.fromEntries(['easy', 'primary_only', 'deflation', 'medium', 'military_only', 'reverse',
     'apopalypse', 'hard', 'magic_monkeys_only', 'double_hp_moabs', 'half_cash',
@@ -334,9 +334,9 @@ function medalsFromLocalRecord(record) {
       const key = mode === 'Standard' ? difficulty.toLowerCase() : modeNames[mode];
       if (!key) continue;
       medals[key] = typeof value === 'boolean' ? value
-        : typeof value === 'number' && Number.isFinite(value) ? value >= MEDAL_VALUE_THRESHOLD
+        : Number.isSafeInteger(value) && value >= 0 ? value >= MEDAL_VALUE_THRESHOLD
           : value && typeof value === 'object' && typeof value.completed === 'boolean' ? value.completed
-            : false;
+            : null; // Do not convert malformed saved values into unearned medals.
     }
   }
   return medals;
