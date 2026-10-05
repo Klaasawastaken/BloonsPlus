@@ -1,5 +1,13 @@
 # Changelog
 
+## Website and README refresh — 5 October 2026
+
+- Replace the README banner with BTD6-inspired jungle artwork and a linked website destination; add actual tower art and clearer preview/setup information.
+- Refresh Features with named map thumbnails, distinct account-aware features and a compact Discord community card. Add varied tower art across About, Contributors, Wiki and Subscriptions.
+- Add setup/update FAQs, canonical URLs, social previews and a public sitemap. Preserve clean URLs and redirect the retired route-tools article to route development.
+- Select the newest published installer, including previews, with bounded network timeouts and validated GitHub asset links. Add offline release-lookup regression coverage.
+- Keep Pro prices and example additions explicitly planned; no checkout or production-release claim.
+
 - Reject solo routes with multiple active heroes or duplicate active tier-five upgrades on one tower path. Preserve selling/rebuying, different T5 paths and the non-CHIMPS Crossbow Master knowledge exception.
 
 - Close stale installed Bloons+ Node controllers during installation only after an explicit idle response; preserve unrelated Node processes, Python replays and BTD6.

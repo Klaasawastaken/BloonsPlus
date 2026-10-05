@@ -54,7 +54,7 @@
         const selection = window.getSelection();
         selection.removeAllRanges();
         selection.addRange(range);
-        notify('Commands selected. Press Ctrl+C or âŒ˜C to copy.');
+        notify('Commands selected. Press Ctrl+C or Cmd+C to copy.');
       }
     });
   }
@@ -121,24 +121,28 @@
     function displayRelease(release) {
       const asset = release.assets?.find(item => /^BloonsPlusSetup.*\.exe$/i.test(item.name));
       if (!asset) return false;
-      const url = new URL(asset.browser_download_url);
+      let url;
+      try { url = new URL(asset.browser_download_url); } catch { return false; }
       if (url.protocol !== 'https:' || url.hostname !== 'github.com' || !url.pathname.startsWith('/Klaasawastaken/BloonsPlus/releases/download/')) return false;
       download.href = url.href;
       download.textContent = 'Download Windows installer ↓';
       releaseStatus.textContent = `${release.tag_name} · Windows x64 preview`;
       detail.textContent = `${(asset.size / 1048576).toFixed(1)} MB · Dependencies download during setup`;
-      notes.href = release.html_url;
+      notes.href = `https://github.com/Klaasawastaken/BloonsPlus/releases/tag/${encodeURIComponent(release.tag_name)}`;
       return true;
     }
     async function loadRelease() {
       try {
-        const response = await fetch('https://api.github.com/repos/Klaasawastaken/BloonsPlus/releases/latest', {signal: AbortSignal.timeout(8000)});
+        const response = await fetch('https://api.github.com/repos/Klaasawastaken/BloonsPlus/releases?per_page=20', {signal: AbortSignal.timeout(8000)});
         if (!response.ok) throw new Error('No published installer');
-        if (!displayRelease(await response.json())) throw new Error('No installer asset');
+        const releases = await response.json();
+        if (!Array.isArray(releases)) throw new Error('Invalid release list');
+        const published = releases.filter(release => !release.draft && release.published_at).sort((a, b) => Date.parse(b.published_at) - Date.parse(a.published_at));
+        if (!published.some(release => displayRelease(release))) throw new Error('No installer asset');
         return;
       } catch {}
       try {
-        const local = await fetch('../release.json', {cache: 'no-cache'});
+        const local = await fetch('../release.json', {cache: 'no-cache', signal: AbortSignal.timeout(5000)});
         if (local.ok && displayRelease(await local.json())) return;
         throw new Error('No local installer metadata');
       } catch {

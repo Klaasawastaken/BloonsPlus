@@ -4,6 +4,9 @@ Updated 5 October 2026. Checkboxes require evidence, not merely code. Preserve o
 
 ## Current repair pass
 
+- Website/README sidequest, 5 October: public page refresh completed locally with no gameplay input or controller reload. The missing-medal sweep stayed running. Actual screen-reader speech and final Pro entitlements remain distinct release checks; no checkout or production-1.0 claim added.
+
+
 - Confirmed Polyphemus CHIMPS victory at 22:30:22 on 5 October, with Hard/Clicks=1050185 in the authoritative save. This missing medal is complete and must never be replayed. The queued installer through `b853fe0` finished afterward; the sweep resumed on Ancient Portal Hard. Later source changes remain queued for another batch.
 - [x] Add four separate timing-preserved BTD6bot candidates: Castle Revenge, Enchanted Glade, Encrypted and Pat's Pond CHIMPS. Their executable actions match the older conversion after removing the newly preserved waits; no other loss is reported by the converter. Offline legality checks pass. New selective `--timing-candidates` mode never removes/replaces existing recordings, is idempotent and refuses to overwrite edited candidates. No victory or new map/mode coverage is claimed; gameplay remains limited to missing medals.
 
@@ -155,11 +158,11 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [x] Stop hidden reading-progress work for reduced-motion and background pages; coalesce scroll/resize frames and cancel pending work on preference changes. Offline lifecycle regression passes; local subscriptions page loads with the progress marker and no console errors. Actual screen-reader speech and browser reduced-motion emulation remain unverified.
 
 - [ ] Finish Subscriptions accessibility checks in reduced-motion mode and with a screen reader. Verified monthly/annual switching by pointer and keyboard at desktop and 390px mobile widths, light/dark theme switching and no mobile horizontal overflow on 5 October. Prices on the site are planned at $5.99/month or $49.99/year for 31 October 2026; checkout and entitlements do not exist yet. Added a polite, atomic price announcement; actual screen-reader speech still needs verification.
-- [ ] Keep Features, About, Wiki, Contributors and Subscriptions visually tied to BTD6 with independent-project attribution.
+- [x] Tie Features, About, Wiki, Contributors and Subscriptions to BTD6 with varied actual tower artwork, named map thumbnails and independent-project attribution. Finish the compact Discord card, setup FAQ, static mobile links, sharing metadata, sitemap and latest published preview installer lookup. Local link audit and release-lookup regressions pass; mobile layout and pricing keyboard checks pass.
 - [ ] Make app category switching, scrolling and the VM viewer responsive without polling viewer frames when its tab is closed.
   - Viewer lifecycle regressions confirm no requests while unfocused, category-hidden or browser-hidden, one in-flight capture, abort on blur, and no timer after page suspension. Fixed resume after browser Back/Forward cache restoration and released revoked image references. Actual browser cache restoration and broader scrolling performance still need verification; guest deployment queued.
 - [ ] Tidy repo folders without blindly moving runtime data. Exclude personal saves, logs, keys, VM images and private Discord bot source.
-- [ ] Redesign the README banner again with a stronger BTD6-inspired map, tower and bloon composition while keeping original or licensed artwork and the independent-project attribution.
+- [x] Replace the README banner with a new BTD6-inspired illustrated jungle, towers and bloons, linked to the website. Retain attribution; show actual tower artwork separately and clarify preview status, installation and planned Pro additions.
 
 ## Later — experimental systems
 
