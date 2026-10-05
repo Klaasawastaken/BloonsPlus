@@ -1,5 +1,14 @@
 # Replay failure audit
 
+## Fresh catalog check — 5 October 2026
+
+The current selector reports 508 selectable map/mode pairs out of 1,204 across
+86 maps; 696 pairs have no eligible candidate. These are route availability
+counts, not victories or a claim that every candidate meets live requirements.
+All 931 active recording files pass the complete-command grammar check. The
+validator now rejects unknown commands and trailing garbage rather than letting
+the Python reader silently skip them. Existing route availability is preserved.
+
 This audit covers an archive of 584 failure records and a recent diagnostic
 window of 150 records. A failure record is an attempt, not necessarily a distinct
 route or a confirmed engine defect. The recent window contains:
