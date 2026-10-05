@@ -7,6 +7,12 @@ from upgrade_observation import read_upgrade_panel
 def restore_action(source, saved):
     """Keep current parsed inputs/economy, retaining only recovery state."""
     step = deepcopy(source)
+    if source.get('action') == 'await_delay' and saved.get('seconds') == source.get('seconds'):
+        deadline = saved.get('delayDeadline')
+        if deadline is not None:
+            if type(deadline) not in (int, float) or not isfinite(deadline):
+                raise ValueError('invalid checkpoint delay deadline')
+            step['delayDeadline'] = deadline
     for key in ('pos', 'originPos'):
         position = saved.get(key)
         if position is not None:

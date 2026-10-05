@@ -233,6 +233,13 @@ class Route:
         x, y = self.point(x, y)
         self.lines.append(f"click map at {x}, {y}")
 
+    def wait(self, seconds):
+        import math
+        if type(seconds) not in (int, float) or not math.isfinite(seconds) or seconds < 0:
+            raise Unsupported('wait duration must be finite and non-negative')
+        if seconds:
+            self.lines.append(f'wait {seconds:g} seconds')
+
     def ability(self, slot, timer=0, target=None, cursor_delay=0):
         slot = int(slot)
         timer, cursor_delay = float(timer), float(cursor_delay)
@@ -367,7 +374,7 @@ def btd6bot_statement(route, stmt):
             if timer == 0:
                 route.harmless.add('wait(0)')
             else:
-                route.lossy.add(f'wait({timer}) timing omitted')
+                route.wait(timer)
         elif action in BTD6BOT_FLOW_CONTROLS:
             # Manual round control can wait for end-of-round cash or alter
             # ability timing. Cursor movement can aim a tower. Neither is a no-op.

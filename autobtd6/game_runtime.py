@@ -11,7 +11,7 @@ import time
 
 SUPPORTED_ACTIONS = {
     'place', 'upgrade', 'sell', 'retarget', 'special', 'remove',
-    'click', 'press', 'ability', 'speed', 'await_round', 'await_cash',
+    'click', 'press', 'ability', 'speed', 'await_round', 'await_cash', 'await_delay',
 }
 POSITION_ACTIONS = {'place', 'upgrade', 'sell', 'retarget', 'special', 'remove', 'click'}
 TOWER_ACTIONS = {'place', 'upgrade', 'sell', 'retarget', 'special'}
@@ -31,6 +31,10 @@ def normalize_action(step):
         raise ValueError('unsupported action: ' + str(action_type))
     action = deepcopy(step)
     action['kind'] = action_type
+    if action_type == 'await_delay':
+        seconds = action.get('seconds')
+        if type(seconds) not in (int, float) or not math.isfinite(seconds) or seconds < 0:
+            raise ValueError('await_delay needs finite non-negative seconds')
     if action_type in POSITION_ACTIONS:
         point = action.get('pos')
         if not isinstance(point, (tuple, list)) or len(point) != 2:

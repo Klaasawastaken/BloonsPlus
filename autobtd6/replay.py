@@ -12,6 +12,7 @@ from copy import deepcopy
 from game_runtime import GameState, normalize_action
 from upgrade_rules import can_upgrade_path
 from upgrade_observation import observe_upgrade, resolve_hud_panels
+from route_timing import delay_ready
 from resume_recovery import restore_upgrade_steps, probe_owned_upgrade
 
 LAST_HERO_FILE = 'last-hero.json'
@@ -3343,6 +3344,7 @@ def main():
                         lastIterationBalance = currentValues['money']
                         continue
                 nextStepAction = nextStep.get('action') if nextStep else None
+                nextStepDelayReady = delay_ready(nextStep, time.time())
                 nextStepCost = int(nextStep.get('cost', 0) or 0) if nextStep else 0
                 cashRequiredForNext = bool(nextStep and (nextStepCost > 0 or nextStepAction in ('await_cash', 'sell')))
                 roundRequiredForNext = bool(nextStep and nextStepAction == 'await_round')
@@ -3422,7 +3424,7 @@ def main():
                         lastCashErrorLogged = roundErrorSignature
                         lastCashErrorLoggedAt = time.time()
                     skippingIteration = True
-                elif len(mapConfig['steps']) and ((mapConfig['steps'][0]['action'] != 'sell' and mapConfig['steps'][0]['action'] != 'await_round' and mapConfig['steps'][0]['action'] != 'await_cash' and (nextStepCost <= 0 or min(currentValues['money'], lastIterationBalance - lastIterationCost) >= nextStepCost))
+                elif len(mapConfig['steps']) and nextStepDelayReady and ((mapConfig['steps'][0]['action'] != 'sell' and mapConfig['steps'][0]['action'] != 'await_round' and mapConfig['steps'][0]['action'] != 'await_cash' and (nextStepCost <= 0 or min(currentValues['money'], lastIterationBalance - lastIterationCost) >= nextStepCost))
                 or mapConfig['gamemode'] == 'deflation' and mapConfig['steps'][0]['action'] != 'await_cash'
                 or mapConfig['steps'][0]['action'] == 'await_round' and currentValues['round'] >= mapConfig['steps'][0]['round']
                 or mapConfig['steps'][0]['action'] == 'await_cash' and currentValues['money'] >= mapConfig['steps'][0]['cash']
@@ -3731,6 +3733,8 @@ def main():
                             fast = True
                         elif action['speed'] == 'slow':
                             fast = False
+                    elif action['action'] == 'await_delay':
+                        customPrint('DEBUG route wait completed seconds=' + str(action['seconds']))
                     elif action['action'] == 'await_cash':
                         customPrint('DEBUG cash threshold reached=' + str(currentValues['money']) + ' requested=' + str(action['cash']))
                         if currentGameState is not None:

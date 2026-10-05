@@ -105,6 +105,8 @@ Start only after the current repair work is complete, as requested on 5 October.
 
 ## P1 — routes and sweep
 
+- [x] Add canonical `wait N seconds` route commands and preserve explicit BTD6bot waits during conversion. The replay keeps its screen loop running while the next action waits; Deflation cannot bypass the delay. Checkpoints retain an unchanged wait deadline, and edited waits restart with the current duration. Six focused timing/parser/resume/execution-gate tests pass. Manual round control, cursor aiming and recurring abilities remain separate unfinished cases; old recordings were not regenerated or live-tested.
+
 - [x] Stop new BTD6bot conversions from labeling waits, manual round control and cursor movement as harmless omissions. Upstream `bot/commands/flow.py` explicitly uses waits to buffer commands and manual starts to spend round-end cash; cursor movement can aim towers. Offline regression reproduced six dropped-control cases. Zero-second waits remain no-ops. Existing recordings were not rewritten or newly verified.
 - [ ] Add faithful timed-wait, manual-round and cursor-target support before restoring conversions that depend on them. Audit older `dropped (timing only)` headers against their source; they do not establish timing equivalence. Repeat-ability schedules and moved-tower coordinates also remain unsupported conversion cases.
 
