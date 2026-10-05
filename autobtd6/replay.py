@@ -65,6 +65,7 @@ def recordUpgradeCheckpoint(checkpoint, action):
     entry = {key: action[key] for key in ('action', 'name', 'path', 'key', 'cost') if key in action}
     entry['pos'] = list(action['pos']) if action.get('pos') is not None else None
     entry['expectedUpgradeTiers'] = list(target)
+    entry['opportunistic'] = bool(action.get('extra', {}).get('opportunistic'))
     entry['observationStatus'] = observation.get('status', 'unknown')
     for index, previous in enumerate(pending):
         if previous.get('name') == action.get('name') and previous.get('expectedUpgradeTiers') == target:

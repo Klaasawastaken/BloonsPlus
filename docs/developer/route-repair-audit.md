@@ -255,3 +255,15 @@ readings still time out and the overall duration limit still applies. Regression
 cover these cases and paused-time accounting. The stale HUD crop fix remains the
 primary round repair; activity tracking avoids abandoning viable games when OCR
 is temporarily unavailable.
+
+## Supplemental upgrade checkpoint provenance
+
+After deployment, auto-resume reported an unresolved upgrade absent from the
+recorded route. The previous checkpoint was replaced by the next run, so its
+exact entry is unavailable. A matching source-level failure is reproducible:
+an unchanged surplus upgrade retry gains an exact tier target, but saving that
+intent discarded its optional/supplemental origin. Resume then incorrectly
+required a matching recorded instruction. Checkpoints now preserve that origin;
+resume leaves supplemental purchases to the existing live surplus planner.
+Unmatched ordinary route intent still fails validation. Both regressions and all
+52 Python tests pass. This patch is source-only pending between-run deployment.

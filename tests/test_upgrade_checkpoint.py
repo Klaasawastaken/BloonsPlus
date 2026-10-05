@@ -54,6 +54,13 @@ class UpgradeCheckpoint(unittest.TestCase):
         self.assertEqual(checkpoint['unresolvedUpgrades'][0]['pos'], [130, 240])
         self.assertEqual(checkpoint['unresolvedUpgrades'][0]['observationStatus'], 'unchanged')
 
+    def test_surplus_retry_keeps_provenance(self):
+        checkpoint = {}
+        self.record(checkpoint, dict(action='upgrade', name='heli0', path=0,
+                    expectedUpgradeTiers=[5, 0, 2], extra={'opportunistic': True},
+                    upgradeObservation={'status': 'unchanged'}))
+        self.assertTrue(checkpoint['unresolvedUpgrades'][0]['opportunistic'])
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -7,6 +7,10 @@ def restore_upgrade_steps(original, checkpoint):
     offset = checkpoint['nextStep']
     pending = {}
     for entry in checkpoint.get('unresolvedUpgrades', []):
+        if entry.get('opportunistic') is True:
+            # Supplemental spending is recalculated from the restored ledger
+            # and live tiers/cash; it is not an instruction in the recording.
+            continue
         match = next((step for step in original
                       if step.get('action') == 'upgrade'
                       and step.get('name') == entry.get('name')

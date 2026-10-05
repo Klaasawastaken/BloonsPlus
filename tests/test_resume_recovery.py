@@ -29,6 +29,12 @@ class ResumeRecovery(unittest.TestCase):
             restore_upgrade_steps([], dict(nextStep=0, unresolvedUpgrades=[
                 dict(name='unknown', expectedUpgradeTiers=[5, 0, 0])]))
 
+    def test_surplus_intent_is_recomputed_without_rejecting_recorded_queue(self):
+        original = [dict(action='await_round', round=80, routeStepIndex=0)]
+        checkpoint = dict(nextStep=0, remainingSteps=original, unresolvedUpgrades=[
+            dict(name='heli0', expectedUpgradeTiers=[5, 0, 2], opportunistic=True)])
+        self.assertEqual(restore_upgrade_steps(original, checkpoint), original)
+
     def test_saved_queue_does_not_replay_placements_after_an_old_retry(self):
         original = [dict(action='upgrade', name='dart0', path=0, key='x', cost=100,
                          pos=(10, 20), expectedUpgradeTiers=[1, 0, 0], routeStepIndex=0),
