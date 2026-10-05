@@ -41,11 +41,14 @@ function observeProfileRates(profile) {
     profileRates.monkeyMoneyPerHour = Math.max(0, (current.monkeyMoney - oldest.monkeyMoney) / hours);
   const xpField = Number.isFinite(current.veteranXp) && Number.isFinite(current.veteranRank) && current.veteranRank > 0
     ? 'veteranXp' : 'xp';
-  const sameRank = profileRateSamples.find(sample => at - sample.at >= 30_000
-    && sample.rank === current.rank
-    && (xpField !== 'veteranXp' || sample.veteranRank === current.veteranRank));
-  if (sameRank && Number.isFinite(current[xpField]) && Number.isFinite(sameRank[xpField]))
-    profileRates.xpPerHour = Math.max(0, (current[xpField] - sameRank[xpField]) / ((at - sameRank.at) / 3_600_000));
+  // Ordinary save XP is cumulative: a rank-up must not reset the rate window.
+  // Veteran rollover semantics remain isolated until confirmed from live save evidence.
+  const xpBaseline = profileRateSamples.find(sample => at - sample.at >= 30_000
+    && (xpField === 'xp' ? sample.rank < 155 && current.rank < 155
+      : sample.rank === current.rank && sample.veteranRank === current.veteranRank));
+  if (xpBaseline && Number.isFinite(current[xpField]) && Number.isFinite(xpBaseline[xpField])
+    && current[xpField] >= xpBaseline[xpField])
+    profileRates.xpPerHour = (current[xpField] - xpBaseline[xpField]) / ((at - xpBaseline.at) / 3_600_000);
   else profileRates.xpPerHour = null;
 }
 let activeBossEvent = null;
@@ -773,6 +776,7 @@ function render() {
   const setText = (selector, value) => { const node = document.querySelector(selector); if (node) node.textContent = value; };
   const upgradeCount = Array.isArray(localRaw.acquiredUpgrades) ? localRaw.acquiredUpgrades.length : 0;
   setText('#stat-upgrades', localAvailable ? upgradeCount.toLocaleString() : '—');
+  setText('#stat-upgrades-source', localAvailable ? 'Unlocked in game save' : 'Waiting for game save');
   setText('#local-rank', localAvailable ? localRaw.rank ?? '—' : '—');
   setText('#local-veteran-rank', localAvailable ? localRaw.veteranRank ?? '—' : '—');
   setText('#local-monkey-money', localAvailable && Number.isFinite(localRaw.monkeyMoney) ? localRaw.monkeyMoney.toLocaleString() : '—');
@@ -802,11 +806,15 @@ function render() {
   setText('#player-level', saveRank ?? (player?.level != null && player.level !== '—' ? player.level : '—'));
   setText('#player-veteran', localAvailable && Number.isFinite(localRaw.veteranRank) ? localRaw.veteranRank
     : player?.veteran != null && player.veteran !== '—' ? player.veteran : '—');
-  // The scanned XP bar belongs to the level it was scanned at; once the save shows a newer
-  // level that bar is stale.
-  const validXp = (saveRank == null || player?.level === saveRank) && Number.isFinite(player?.xp) && Number.isFinite(player?.nextLevelXp) && player.nextLevelXp > 0 && player.xp >= 0 && player.xp <= player.nextLevelXp;
-  const xpBar = document.querySelector('#player-xp-bar'); if (xpBar) xpBar.style.width = validXp ? `${Math.min(100, player.xp / player.nextLevelXp * 100)}%` : '0%';
-  setText('#player-xp', validXp ? `${(player.nextLevelXp - player.xp).toLocaleString()} XP to next level` : 'XP not verified');
+  const savedXp = localAvailable ? window.BloonsPlayerXp.saveLevelProgress(localRaw) : null;
+  // A readable save is authoritative. Do not replace a mismatched save with stale OCR.
+  const scannedXpValid = !localAvailable && Number.isFinite(player?.xp) && Number.isFinite(player?.nextLevelXp)
+    && player.nextLevelXp > 0 && player.xp >= 0 && player.xp <= player.nextLevelXp;
+  const xpProgress = savedXp || (scannedXpValid ? { xp: player.xp, nextLevelXp: player.nextLevelXp, remaining: player.nextLevelXp - player.xp } : null);
+  const xpBar = document.querySelector('#player-xp-bar');
+  if (xpBar) xpBar.style.width = xpProgress?.capped ? '100%' : xpProgress ? `${Math.min(100, xpProgress.xp / xpProgress.nextLevelXp * 100)}%` : '0%';
+  setText('#player-xp', xpProgress?.capped ? 'Level cap reached · veteran progression' : xpProgress
+    ? `${Math.ceil(xpProgress.remaining).toLocaleString()} XP to next level` : 'XP not verified');
   const formatRate = value => Number.isFinite(value) && value >= 0 ? `${Math.round(value).toLocaleString()}` : '—';
   const formatTime = hours => {
     if (!Number.isFinite(hours) || hours <= 0) return '—';
@@ -816,7 +824,7 @@ function render() {
   };
   const xpRate = localAvailable ? profileRates.xpPerHour : player?.xpPerHour;
   const moneyRate = localAvailable ? profileRates.monkeyMoneyPerHour : player?.monkeyMoneyPerHour;
-  const xpRemaining = validXp ? player.nextLevelXp - player.xp : NaN;
+  const xpRemaining = xpProgress && !xpProgress.capped ? xpProgress.remaining : NaN;
   const monkeyMoney = Number.isFinite(localRaw.monkeyMoney) ? localRaw.monkeyMoney : player?.monkeyMoney;
   setText('#player-monkey-money', Number.isFinite(monkeyMoney) ? monkeyMoney.toLocaleString() : '—');
   setText('#player-monkey-money-rate', Number.isFinite(moneyRate) ? formatRate(moneyRate) : '—');

@@ -317,3 +317,12 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [x] Make profile readouts use theme colors and remove obsolete hidden hero-checklist styling.
 - [x] Preserve dropdown focus when live options change; Home/End from the trigger focus the first/last enabled option.
 - [x] JavaScript syntax and whitespace checked; dark Settings inspected in the host browser. Active Winter Park Hard replay remained running. Guest deployment queued at a healthy replay boundary.
+
+## Save XP and public shared scripts (2026-10-06)
+
+- [x] Calculate normal per-level progress from cumulative save XP with rank/threshold consistency guards. Share the existing level table with the scanner; reject missing/malformed/mismatched data.
+- [x] Keep ordinary cumulative XP rate samples across rank-up while isolating profile switches and unconfirmed veteran rollover semantics.
+- [x] Correct the overview counter to Upgrades unlocked; it counts acquired upgrade IDs, not towers awaiting XP.
+- [x] Repair public loading of map guidance and issue-report redaction by moving browser-safe implementations into assets and retaining server require wrappers. Keep lib blocked by the static privacy guard.
+- [x] Check all normal rank boundaries, cap threshold 180M, malformed save fields, rank-up rate and profile switch. Host visibly shows 493,535 XP remaining and issue-report dialog opens without publishing data.
+- [ ] Confirm veteran XP remainder/rollover semantics against authoritative live data before displaying veteran ETA.

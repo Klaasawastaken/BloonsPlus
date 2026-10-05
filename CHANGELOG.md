@@ -1,3 +1,9 @@
+## Preview 26 — Save XP and shared browser scripts
+
+- Read ordinary level progress from cumulative save XP and retain XP-rate samples through rank-up.
+- Label the acquired-upgrade count correctly.
+- Restore public map guidance and local log-redaction scripts without exposing server modules.
+
 ## Preview 25 — Clearer Settings and dropdown navigation
 
 - Group detected game controls with Settings rather than run diagnostics.

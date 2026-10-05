@@ -67,7 +67,7 @@
       <div class="stats-grid">
         <article class="stat-card"><div class="stat-top"><span>MAPS WITHOUT BLACK BORDER</span><span class="stat-icon purple"><svg><use href="#icon-border"/></svg></span></div><strong id="stat-queue">0</strong><div class="stat-foot"><span id="stat-next">Waiting for a map scan</span></div></article>
         <article class="stat-card"><div class="stat-top"><span>BLACK BORDERS OBSERVED</span><span class="stat-icon green-icon">✓</span></div><strong id="stat-completed">0</strong><div class="stat-foot">Among inspected maps</div></article>
-        <article class="stat-card"><div class="stat-top"><span>TOWERS TO CHECK</span><span class="stat-icon gold"><svg><use href="#icon-tower"/></svg></span></div><strong id="stat-upgrades">—</strong><div class="stat-foot">XP awaiting game data</div></article>
+        <article class="stat-card"><div class="stat-top"><span>UPGRADES UNLOCKED</span><span class="stat-icon gold"><svg><use href="#icon-tower"/></svg></span></div><strong id="stat-upgrades">—</strong><div class="stat-foot" id="stat-upgrades-source">Waiting for game save</div></article>
         <article class="stat-card"><div class="stat-top"><span>ACHIEVEMENTS DONE</span><span class="stat-icon gold">✧</span></div><strong id="stat-achievements">0</strong><div class="stat-foot" id="stat-achievements-pct">Detected game progress</div></article>
       </div>
       <div class="panel activity-panel"><div class="panel-title"><div><h3>Activity</h3><p>Live run progress and recent verified map clears.</p></div><span class="status-chip" id="active-time">Active 0m</span></div><div id="recent-maps" class="recent-maps"><span class="muted">No completed maps recorded yet.</span></div></div>
@@ -148,10 +148,11 @@
   <script src="data/catalogs/achievements.js"></script>
   <script src="data/catalogs/towers-catalog.js"></script>
   <script src="data/catalogs/map-catalog.js"></script>
-  <script src="lib/map-mechanics.js"></script>
+  <script src="assets/app/map-mechanics.js"></script>
   <script src="data/catalogs/boss-catalog.js"></script>
   <script src="data/catalogs/boss-plans.js"></script>
-  <script src="lib/support-report.js"></script>
+  <script src="assets/app/support-report.js"></script>
+  <script src="assets/app/player-xp.js"></script>
   <script src="assets/app/app.js"></script>
   <script src="assets/app/vm-viewer.js"></script>
   <script src="assets/app/setup-bar.js"></script>
