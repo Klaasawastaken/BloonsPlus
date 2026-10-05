@@ -239,6 +239,7 @@ http.createServer((req, res) => {
       }
       const recent = failures.slice(-150).reverse().map(f => ({
         at: f.at, map: f.map, gamemode: f.gamemode, route: f.route, reason: f.reason,
+        interrupted: f.interrupted, defeatObserved: f.defeatObserved,
         lastRound: f.lastRound, finalRound: f.finalRound, rawRoundOcr: f.rawRoundOcr, livesLeft: f.livesLeft, result: f.result,
         cash: f.cash, screenshot: f.screenshot, observations: f.observations, actions: f.actions,
         // category/actionable (from classifyRouteFailure): whether this is a real bug worth fixing

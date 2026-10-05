@@ -49,6 +49,9 @@ route-verification.json
 **/playthroughs_live_edit_backups/
 *.log
 debug-*.png
+debug-*.jpg
+debug-*.jpeg
+debug-*.json
 vm-current.png
 vm-darkcastle-now.png
 vm-resumed.png

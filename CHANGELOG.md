@@ -1,5 +1,14 @@
 # Changelog
 
+## Unreleased — replay diagnostics and cash reading
+
+- Corrected ordinary-tower crosspath eligibility for surplus upgrades: legal T1/T2 crosspaths remain available beside a T3–T5 main path, and a third path cannot be opened.
+- Cropped the currency symbol out of the cash reader and widened its digit area. Removed arithmetic that fabricated balances from suspicious OCR; invalid leading-zero readings now require agreement between two alternate masks.
+- Matched failure evidence to the current map, mode and attempt time. Interrupted and unconfirmed runs are no longer automatically classified as gameplay defeats.
+- Audited historical failure categories and created a private repair backlog. Original CHIMPS recordings are unchanged; unresolved upgrade confirmation and checkpoint issues remain documented.
+- Replaced the README banner with original BTD6-inspired track, monkey, tack shooter, bloon and blimp artwork; retained the website link.
+- Excluded local JPEG captures and debug JSON from Git. These changes have focused offline checks; live VM deployment and route victories are not yet verified.
+
 ## 2026-10-04 — Preview 4 site and diagnostics
 
 - Added a Subscriptions comparison with Bloons+ Free forever and planned Bloons+ Pro pricing of $5.99/month or $40 lifetime. The target date is 31 October 2026; purchase and entitlement flows are not yet available.

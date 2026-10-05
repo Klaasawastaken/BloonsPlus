@@ -1,6 +1,18 @@
 # Bloons+ roadmap and repair list
 
-Updated 4 October 2026. Checkboxes require evidence, not merely code. Preserve original CHIMPS recordings and BTD6 saves. Gameplay stays behind simulated input.
+Updated 5 October 2026. Checkboxes require evidence, not merely code. Preserve original CHIMPS recordings and BTD6 saves. Gameplay stays behind simulated input.
+
+## Current repair pass
+
+- [x] Fix surplus crosspath legality and cover it with offline regressions.
+- [x] Separate interrupted/unconfirmed outcomes from observed defeats; reject stale map/mode/run evidence.
+- [x] Replace cash digit-rewriting heuristics with a currency-free crop and alternate-mask recovery for invalid leading zeros.
+- [x] Create a private backlog of 204 map/mode/route combinations covering 584 archived attempts.
+- [x] Redo the linked README banner with original BTD6-inspired map and tower artwork.
+- [ ] Deploy the local patches and validate cash at native 1080p and 1440p in the guest.
+- [ ] Resolve ambiguous upgrades using observed panel tiers; do not claim the cash reader alone fixes missed purchases.
+- [ ] Keep unresolved upgrades explicit in resumable checkpoints, then validate recovery without buying a wrong tier.
+- [ ] Review each backlog entry against its own evidence and confirm a subsequent victory plus saved medal.
 
 ## P0 — replay reliability
 

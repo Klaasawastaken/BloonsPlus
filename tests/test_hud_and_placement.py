@@ -14,6 +14,23 @@ def functions(file, names, namespace):
     return namespace
 
 class Regressions(unittest.TestCase):
+    def test_cash_does_not_invent_digits(self):
+        env = functions('autobtd6/ocr.py', ['parse_cash_digits', 'cash_ocr'], {})
+        parse = env['parse_cash_digits']
+        for raw in ('0000', '01', '5/60', '-1', '', None, '１２３'):
+            self.assertEqual(parse(raw), -1)
+        self.assertEqual(parse('0'), 0)
+        self.assertEqual(parse('40000'), 40000)
+        # This is suspicious, but must never silently become 40,000.
+        self.assertEqual(parse('540006'), 540006)
+        reads = {224: '0000', 230: '40000', 242: '40000'}
+        env['custom_ocr'] = lambda img, resolution, white_threshold=224: reads[white_threshold]
+        self.assertEqual(env['cash_ocr'](None, (2560, 1440)), 40000)
+        reads[242] = '40008'
+        self.assertEqual(env['cash_ocr'](None, (2560, 1440)), -1)
+        reads[224] = '0'
+        self.assertEqual(env['cash_ocr'](None, (2560, 1440)), 0)
+
     def test_round_recovery_requires_complete_counter(self):
         read = functions('autobtd6/ocr.py', ['round_recovery_candidate'], {})['round_recovery_candidate']
         self.assertTrue(read('19/60', 10, 30))
@@ -21,6 +38,7 @@ class Regressions(unittest.TestCase):
         self.assertFalse(read('619/60', 10, 100))
         self.assertFalse(read('9/60', 10, 30))
         self.assertFalse(read('19/60', 10, 1))
+        self.assertFalse(read('779/80', 79, 30))
 
     def test_offset_cash_glyph(self):
         class Model:

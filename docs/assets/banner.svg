@@ -1,15 +1,72 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="300" viewBox="0 0 1280 300" role="img" aria-labelledby="title desc">
-<title id="title">Bloons+ — your next run, in view</title><desc id="desc">Bloons+ logo, balloon icons, a map track and desktop run controls.</desc>
-<defs><linearGradient id="bg" x2="1" y2="1"><stop stop-color="#18362d"/><stop offset="1" stop-color="#315743"/></linearGradient><linearGradient id="balloon" x2="1" y2="1"><stop stop-color="#ffbb9d"/><stop offset="1" stop-color="#e9745f"/></linearGradient></defs>
-<rect width="1280" height="300" rx="28" fill="url(#bg)"/>
-<path d="M678-24C591 43 731 98 821 55s114 27 66 75 75 70 154 23 179-9 299 101" fill="none" stroke="#6b9072" stroke-width="18" stroke-linecap="round" opacity=".38"/>
-<path d="M678-24C591 43 731 98 821 55s114 27 66 75 75 70 154 23 179-9 299 101" fill="none" stroke="#b0bb82" stroke-width="2" stroke-dasharray="8 18" opacity=".65"/>
-<g transform="translate(55 48)"><rect width="50" height="50" rx="16" fill="url(#balloon)"/><path d="M24 10C16 10 11 16 11 24c0 7 5 13 11 15l-2 4h9l-2-4c6-2 11-8 11-15 0-8-6-14-14-14Z" fill="#fff"/><circle cx="36" cy="32" r="9" fill="#213b36"/><path d="M36 28v8m-4-4h8" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/></g>
-<text x="119" y="83" fill="#f6f8ed" font-family="Manrope,Segoe UI,Arial,sans-serif" font-size="30" font-weight="800">Bloons+</text>
-<text x="55" y="161" fill="#f6f8ed" font-family="Manrope,Segoe UI,Arial,sans-serif" font-size="49" font-weight="800" letter-spacing="-1.5">Every map. One control room.</text>
-<text x="58" y="204" fill="#c1d6c7" font-family="DM Sans,Segoe UI,Arial,sans-serif" font-size="20">Routes, medals and live runs for Bloons TD 6.</text>
-<g transform="translate(675 45)"><circle cx="44" cy="44" r="41" fill="#b8794e"/><circle cx="29" cy="35" r="6" fill="#f5efe2"/><circle cx="59" cy="35" r="6" fill="#f5efe2"/><circle cx="30" cy="35" r="3" fill="#203b34"/><circle cx="60" cy="35" r="3" fill="#203b34"/><path d="M26 58q18 14 36 0" fill="none" stroke="#503728" stroke-width="5" stroke-linecap="round"/><path d="m80 21 50-16-34 39Z" fill="#e68a57"/><path d="m97 18 29-9-19 21Z" fill="#f2c36d"/></g>
-<text x="675" y="145" fill="#f4aa8e" font-family="Segoe UI,Arial,sans-serif" font-size="12" font-weight="800" letter-spacing="2">BTD6 AUTOMATION COMPANION</text>
-<rect x="55" y="236" width="170" height="33" rx="16" fill="#f4aa8e"/><text x="78" y="258" fill="#243c35" font-family="Segoe UI,Arial,sans-serif" font-size="14" font-weight="700">BLOONSPLUS.COM ↗</text>
-<g transform="translate(968 61)"><rect width="232" height="182" rx="24" fill="#edf4e8"/><rect x="17" y="17" width="198" height="148" rx="17" fill="#d8e7c9"/><path d="M33 100c43-89 66 80 114-3s42 27 81 13" fill="none" stroke="#af9573" stroke-width="22" stroke-linecap="round"/><path d="M33 100c43-89 66 80 114-3s42 27 81 13" fill="none" stroke="#ded0a3" stroke-width="7" stroke-dasharray="5 10"/><circle cx="59" cy="72" r="12" fill="#e97664"/><circle cx="166" cy="71" r="10" fill="#f6bc59"/><circle cx="97" cy="129" r="11" fill="#77b5d3"/><rect x="19" y="157" width="92" height="8" rx="4" fill="#7b9d7c"/></g>
-<g transform="translate(710 210)"><ellipse cx="0" cy="0" rx="18" ry="23" fill="#e9745f"/><path d="m0 23-5 9h10Z" fill="#e9745f"/><ellipse cx="55" cy="-18" rx="16" ry="21" fill="#f6bc59"/><path d="m55 3-5 8h10Z" fill="#f6bc59"/><ellipse cx="105" cy="8" rx="17" ry="22" fill="#77b5d3"/><path d="m105 30-5 8h10Z" fill="#77b5d3"/></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="380" viewBox="0 0 1280 380" role="img" aria-labelledby="title desc">
+<title id="title">Bloons+ — More Bloons. Less busywork.</title>
+<desc id="desc">A forest-green banner with an original Bloons-inspired track, dart monkey, tack shooter, colorful balloons and a blue blimp. An independent companion for Bloons TD 6.</desc>
+<defs>
+<linearGradient id="forest" x2="1" y2="1"><stop stop-color="#132f28"/><stop offset="1" stop-color="#254b3a"/></linearGradient>
+<linearGradient id="pond" x2="0" y2="1"><stop stop-color="#70ccbd"/><stop offset="1" stop-color="#369e9c"/></linearGradient>
+<linearGradient id="blue" x2="0" y2="1"><stop stop-color="#8acef1"/><stop offset="1" stop-color="#3d86b7"/></linearGradient>
+<clipPath id="edge"><rect width="1280" height="380" rx="26"/></clipPath>
+<g id="bloon"><ellipse cy="-3" rx="15" ry="19"/><path d="m0 15-4 7h8Z"/><ellipse cx="-5" cy="-10" rx="3" ry="6" fill="#fff" opacity=".38" transform="rotate(25 -5 -10)"/></g>
+<g id="leaf"><path d="M0 0Q-42-46-58-20Q-55 6 0 0Z" fill="#477b53"/><path d="M0 0Q-26-17-50-20" fill="none" stroke="#73976b" stroke-width="2"/></g>
+</defs>
+<g clip-path="url(#edge)">
+<rect width="1280" height="380" fill="url(#forest)"/>
+<circle cx="1110" cy="174" r="282" fill="#477053" opacity=".22"/>
+<circle cx="1110" cy="174" r="217" fill="none" stroke="#73936f" stroke-opacity=".18"/>
+<!-- Original map art, kept clear of the headline. -->
+<path d="M772-34C702 26 858 54 872 93S761 126 770 198 1023 207 1028 274 1146 298 1150 416" fill="none" stroke="#a18c62" stroke-width="53"/>
+<path d="M772-34C702 26 858 54 872 93S761 126 770 198 1023 207 1028 274 1146 298 1150 416" fill="none" stroke="#d4c69a" stroke-width="39"/>
+<path d="M772-34C702 26 858 54 872 93S761 126 770 198 1023 207 1028 274 1146 298 1150 416" fill="none" stroke="#f0e2b5" stroke-width="3" stroke-dasharray="2 17" stroke-linecap="round"/>
+<path d="M1138 119C1165 101 1223 116 1234 151S1205 208 1166 192 1095 150 1138 119Z" fill="url(#pond)" stroke="#819b6b" stroke-width="6"/>
+<path d="M1146 140q22-14 43 0m-25 28q22-14 43 0" stroke="#b0e5d5" stroke-width="3" fill="none" opacity=".65"/>
+<!-- Dart monkey. -->
+<g transform="translate(914 164)">
+<ellipse cy="31" rx="47" ry="16" fill="#122d25" opacity=".48"/>
+<path d="M22 22q40 14 32-15-5-13-17-5" fill="none" stroke="#855335" stroke-width="11" stroke-linecap="round"/>
+<ellipse cy="17" rx="26" ry="23" fill="#a76d43"/>
+<ellipse cx="-20" cy="33" rx="15" ry="8" fill="#dca56c"/><ellipse cx="20" cy="33" rx="15" ry="8" fill="#dca56c"/>
+<circle cx="-31" cy="-20" r="15" fill="#a76d43"/><circle cx="31" cy="-20" r="15" fill="#a76d43"/>
+<circle cx="-31" cy="-20" r="8" fill="#e6b782"/><circle cx="31" cy="-20" r="8" fill="#e6b782"/>
+<path d="M-33-22Q-34-55 0-57L-5-69 14-58Q41-48 33-19Z" fill="#9b633e"/>
+<ellipse cy="-22" rx="30" ry="28" fill="#e6b782"/>
+<ellipse cx="-11" cy="-28" rx="8" ry="11" fill="#fff8e9"/><ellipse cx="11" cy="-28" rx="8" ry="11" fill="#fff8e9"/>
+<ellipse cx="-9" cy="-27" rx="4" ry="6" fill="#213c32"/><ellipse cx="13" cy="-27" rx="4" ry="6" fill="#213c32"/>
+<path d="M-9-8Q0-1 10-9" fill="none" stroke="#74452e" stroke-width="3" stroke-linecap="round"/>
+<path d="M-22 7-45-3" stroke="#a76d43" stroke-width="13" stroke-linecap="round"/>
+<path d="m-44-4-19-25" stroke="#e9d6a3" stroke-width="5"/><path d="m-63-29-9-17 18 8Z" fill="#9bb9bc"/>
+</g>
+<!-- Tack shooter. -->
+<g transform="translate(1024 80)">
+<ellipse cy="22" rx="36" ry="12" fill="#132d27" opacity=".5"/>
+<path d="M-29-4v23q29 23 58 0V-4Z" fill="#a2486d"/>
+<ellipse rx="29" ry="20" fill="#e695b1" stroke="#f7bbcc" stroke-width="3"/><ellipse rx="12" ry="8" fill="#6a4558"/>
+<path d="M-29 6h-10m68 0h10M0 20v13" stroke="#3d4544" stroke-width="7" stroke-linecap="round"/>
+</g>
+<!-- MOAB-inspired blimp. -->
+<g transform="translate(1120 282) rotate(-13)">
+<ellipse cy="10" rx="75" ry="26" fill="#132d27" opacity=".35"/>
+<path d="m46-15 27-23-2 25m-24 30 26 22-2-25" fill="#508faf" stroke="#a0d5ee" stroke-width="2"/>
+<ellipse rx="65" ry="28" fill="url(#blue)"/>
+<path d="M-29-25Q-39 0-29 25M23-26Q34 0 23 26" fill="none" stroke="#e4f3f3" stroke-width="8"/>
+<path d="M-44-11Q-15-26 9-15" fill="none" stroke="#c5e9f5" stroke-width="4" stroke-linecap="round"/>
+</g>
+<use href="#bloon" x="836" y="72" fill="#ee8976" transform="rotate(-24 836 72)"/>
+<use href="#bloon" x="797" y="141" fill="#f0c565" transform="rotate(22 797 141)"/>
+<use href="#bloon" x="781" y="195" fill="#88bedd" transform="rotate(-15 781 195)"/>
+<use href="#bloon" x="1031" y="269" fill="#b7cd8e"/>
+<use href="#leaf" transform="translate(1260 34) rotate(8) scale(1.8)"/><use href="#leaf" transform="translate(1260 34) rotate(96) scale(1.6)"/>
+<use href="#leaf" transform="translate(1235 371) rotate(-20) scale(1.7)"/><use href="#leaf" transform="translate(1235 371) rotate(62) scale(1.4)"/>
+<g transform="translate(54 40)">
+<rect width="46" height="46" rx="14" fill="#f4aa8e"/>
+<path d="M22 9C14 9 10 15 10 22c0 7 5 12 10 14l-2 4h9l-3-4c7-2 11-7 11-14 0-7-5-13-13-13Z" fill="#fff8ef"/>
+<circle cx="34" cy="31" r="9" fill="#24493a"/><path d="M34 27v8m-4-4h8" stroke="#fff8ef" stroke-width="2.5" stroke-linecap="round"/>
+</g>
+<g font-family="Segoe UI,Arial,sans-serif">
+<text x="115" y="72" fill="#f4f6e9" font-size="29" font-weight="700">Bloons+</text>
+<text x="54" y="147" fill="#a9c4ac" font-size="13" font-weight="700" letter-spacing="2.5">YOUR BLOONS TD 6 COMPANION</text>
+<text x="51" y="205" fill="#f4f6e9" font-size="52" font-weight="700" letter-spacing="-1.5">More Bloons.</text>
+<text x="51" y="262" fill="#f4aa8e" font-size="52" font-weight="700" letter-spacing="-1.5">Less busywork.</text>
+<text x="54" y="302" fill="#c1d4c3" font-size="18">Plan a run. Follow the action. Track your medals.</text>
+<text x="54" y="350" fill="#e5edda" font-size="13" font-weight="700" letter-spacing="1">BLOONSPLUS.COM ↗</text>
+<text x="729" y="354" fill="#a9c4ac" font-size="11">Independent fan project · Not affiliated with Ninja Kiwi</text>
+</g></g></svg>

@@ -1,6 +1,6 @@
 import windowed_input  # patch game-relative screenshot/input before helper binds resolutions
 from helper import *
-from ocr import custom_ocr, round_recovery_candidate
+from ocr import custom_ocr, cash_ocr, round_recovery_candidate
 import subprocess
 import os
 import hashlib
@@ -9,6 +9,7 @@ import tempfile
 import threading
 import time
 from game_runtime import GameState, normalize_action
+from upgrade_rules import can_upgrade_path
 
 LAST_HERO_FILE = 'last-hero.json'
 UPGRADE_MEMORY_FILE = 'upgrade-memory.json'
@@ -1933,12 +1934,10 @@ def main():
             if len(levels) != 3:
                 continue
             for path in range(3):
+                if not can_upgrade_path(levels, path):
+                    continue
                 tier = int(levels[path]) + 1
                 if tier > 5 or len(priceTable) <= path or len(priceTable[path]) < tier:
-                    continue
-                # BTD6 crosspath rule: only one path may exceed T2.
-                otherTiers = [int(levels[index]) for index in range(3) if index != path]
-                if any(value >= 3 for value in otherTiers):
                     continue
                 attemptKey = (str(instance), path, tier)
                 if attemptKey in surplusUpgradeAttempts or (str(instance), path) in surplusBlockedPaths:
@@ -2732,9 +2731,12 @@ def main():
                     return [int(value * scale) for value in box]
                 if hudPanelOpen:
                     segmentCoordinates['lives'] = gameBox((226, 4, 312, 36))
-                    segmentCoordinates['money'] = gameBox((360, 4, 442, 36))
+                    # Crop starts after the currency symbol. The digit-only
+                    # model can mistake '$' for 2/5/6/9, adding phantom cash.
+                    segmentCoordinates['money'] = gameBox((378, 4, 503, 36))
                 else:
                     segmentCoordinates = getIngameOcrSegments(mapConfig)
+                    segmentCoordinates['money'] = gameBox((184, 4, 309, 36))
                 if hudRightPanelOpen:
                     # The right upgrade panel pushes the round counter from the
                     # far-right HUD into this central slot. Keep the small
@@ -2753,7 +2755,7 @@ def main():
                 # must not throw away a valid round reading (and vice versa), because that can
                 # make the route wait forever or issue a late action at the wrong round.
                 try:
-                    currentValues['money'] = int(custom_ocr(images[2]))
+                    currentValues['money'] = cash_ocr(images[2], resolution=(screenshot.shape[1], screenshot.shape[0]))
                 except (TypeError, ValueError):
                     currentValues['money'] = -1
                 try:
@@ -2812,38 +2814,9 @@ def main():
                             customPrint('DEBUG round OCR recovered at threshold 230: ' + str(alternateRound))
                     except (AttributeError, TypeError, ValueError):
                         pass
-                # The stylized dollar sign is occasionally classified as a
-                # leading 5 (`$1,300` -> `51300`). This is only unambiguous
-                # before the first accepted balance and within that narrow
-                # 50,000 prefix range; remove the glyph artifact there.
-                if lastGoodMoney < 10000 and 50000 <= currentValues['money'] < 55000 and mapConfig.get('gamemode') != 'deflation':
-                    correctedOpeningMoney = currentValues['money'] - 50000
-                    customPrint('DEBUG corrected opening cash OCR ' + str(currentValues['money']) + ' -> ' + str(correctedOpeningMoney))
-                    currentValues['money'] = correctedOpeningMoney
-                # Deflation commonly opens at $20,000 ($40,000 with Double Cash).
-                # At the normal threshold the outlined dollar sign and final zero can be
-                # classified as digits (`$40,000` -> `540006`). A stricter white mask cleanly
-                # removes those two artifacts on the same frame. Re-read before rejecting so
-                # Deflation routes do not wait forever with a perfectly visible cash counter.
-                malformedOpeningCash = str(currentValues['money'])
-                # Full-resolution Deflation evidence: `$40,000` produced `540006` on
-                # every frame. The leading 5 is the dollar glyph and the trailing 6 is
-                # the final outlined zero. Normalize later frames too, but only when the
-                # result cannot be an implausible rise from the last trusted balance.
-                patternedCash = -1
-                if (mapConfig.get('gamemode') == 'deflation'
-                        and len(malformedOpeningCash) == 6
-                        and malformedOpeningCash.startswith('5')):
-                    try:
-                        patternedCash = int(malformedOpeningCash[1:-1] + '0')
-                    except ValueError:
-                        patternedCash = -1
-                if (0 <= patternedCash <= 100000
-                        and (lastGoodMoney == 0 or patternedCash <= lastGoodMoney + 10000)):
-                    customPrint('DEBUG corrected patterned Deflation cash OCR ' + malformedOpeningCash
-                                + ' -> ' + str(patternedCash))
-                    currentValues['money'] = patternedCash
-
+                # Never manufacture a balance by removing or replacing digits.
+                # The cash crop excludes the currency glyph; implausible openings
+                # get an independent mask read of the same frame instead.
                 openingCashLimit = 100000 if mapConfig.get('gamemode') == 'deflation' else 10000
                 if lastGoodMoney == 0 and currentValues['money'] > openingCashLimit:
                     try:

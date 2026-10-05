@@ -9,6 +9,27 @@ os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 # paying the cost on every process spawn.
 _ocr_model = None
 
+def parse_cash_digits(raw):
+    """Cash has no slash, sign or padded leading zeroes in the HUD."""
+    if not isinstance(raw, str) or not raw.isascii() or not raw.isdigit():
+        return -1
+    if len(raw) > 1 and raw.startswith('0'):
+        return -1
+    return int(raw)
+
+def cash_ocr(img, resolution=None):
+    """Recover missing glyphs using agreeing masks, never invented digits."""
+    if resolution is None:
+        resolution = pyautogui.size()
+    primary = parse_cash_digits(custom_ocr(img, resolution=resolution))
+    if primary >= 0:
+        return primary
+    # e.g. a dropped leading 4 leaves "0000". It cannot be real HUD cash.
+    alternatives = [parse_cash_digits(custom_ocr(img, resolution=resolution,
+                                                white_threshold=threshold))
+                    for threshold in (230, 242)]
+    return alternatives[0] if alternatives[0] >= 0 and alternatives[0] == alternatives[1] else -1
+
 def round_recovery_candidate(raw, anchor, elapsed):
     """Allow delayed counter recovery only with a complete, bounded round HUD."""
     parts = raw.split('/')
