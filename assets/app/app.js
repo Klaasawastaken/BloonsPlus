@@ -1460,6 +1460,20 @@ function renderTowerRequirements() {
     const pill = document.createElement('span'); pill.className = `tier-pill ${enabled ? 'valid' : 'invalid'}`; pill.textContent = enabled ? '✓ Hero' : '× Hero';
     pills.append(pill); row.append(title, pills); cards.push(row);
   }
+  for (const id of needs.knowledge || []) {
+    const mk = detectedProgress.localProfile?.monkeyKnowledge || {};
+    const owned = Array.isArray(mk.acquired) && mk.acquired.some(item => mapProgressKey(typeof item === 'string' ? item : item?.id || item?.name || '') === mapProgressKey(id));
+    const ready = mk.enabled === true && owned;
+    const unknown = mk.enabled !== false && (mk.enabled == null || !Array.isArray(mk.acquired));
+    const row = document.createElement('div'); row.className = 'tower-requirement-card';
+    const title = document.createElement('div'); title.className = 'tower-requirement-title';
+    const name = document.createElement('b'); name.textContent = id === 'MasterDoubleCross' ? 'Master Double Cross' : id;
+    const note = document.createElement('small');
+    note.textContent = ready ? 'Acquired and Monkey Knowledge enabled' : mk.enabled === false ? 'Monkey Knowledge is disabled' : unknown ? 'Waiting for knowledge data' : 'Not acquired in game save';
+    const pill = document.createElement('span'); pill.className = `tier-pill ${ready ? 'valid' : unknown ? 'unknown' : 'invalid'}`;
+    pill.textContent = `${ready ? '✓' : unknown ? '?' : '×'} Required knowledge`;
+    title.append(name, note); row.append(title, pill); cards.push(row);
+  }
   for (const [slug, tiers] of Object.entries(needs.towers || {})) {
     const display = TOWER_NAMES[slug] || titleCase(slug);
     const tower = observed[display] || {};

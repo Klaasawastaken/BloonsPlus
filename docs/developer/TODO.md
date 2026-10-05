@@ -4,6 +4,8 @@ Updated 5 October 2026. Checkboxes require evidence, not merely code. Preserve o
 
 ## Current repair pass
 
+- [x] Derive Master Double Cross only when a route needs two simultaneous Crossbow Masters. Gate that candidate on acquired and enabled knowledge, show the requirement in the app, and log absent/disabled/unknown knowledge. Selling/reusing a tower name no longer accumulates impossible tiers. Focused offline regressions pass; guest deployment remains queued between replays. Original recordings untouched.
+
 - Website/README sidequest, 5 October: public page refresh completed locally with no gameplay input or controller reload. The missing-medal sweep stayed running. Actual screen-reader speech and final Pro entitlements remain distinct release checks; no checkout or production-1.0 claim added.
 
 
