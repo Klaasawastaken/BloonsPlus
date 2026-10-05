@@ -13,7 +13,7 @@ from game_runtime import GameState, normalize_action
 from upgrade_rules import can_upgrade_path
 from upgrade_observation import observe_upgrade, resolve_hud_panels
 from placement_observation import held_placement_visible
-from route_timing import delay_ready
+from route_timing import delay_ready, round_offset_ready
 from resume_recovery import restore_upgrade_steps, probe_owned_upgrade
 
 LAST_HERO_FILE = 'last-hero.json'
@@ -2106,6 +2106,8 @@ def main():
         currentGameState.observe(round_number=resumeRound, screen=resumeScreen.name)
         observedRound = resumeRound
         observedRoundStartedAt = time.time()
+        if any(step.get('action') == 'await_round' and 'secondsAfterRound' in step and step.get('round') == resumeRound for step in mapConfig['steps']):
+            customPrint('TIMING_RECOVERY resumed mid-round; pending offsets use the fresh observed round anchor, not an assumed pre-interruption clock')
         saveGameState(currentGameState)
         routeCheckpoint['runId'] = upgradeRunId
         writeRouteCheckpoint(routeCheckpoint, mapConfig['steps'])
@@ -3304,7 +3306,7 @@ def main():
                 # recorded round. No new tower or upgrade is invented here.
                 # Preserve Glacial Trail's recorded thaw timing; early action release during a storm can target frozen towers.
                 if emergencySpend and mapConfig.get('gamemode') != 'chimps' and mapConfig.get('map') != 'glacial_trail':
-                    while len(mapConfig['steps']) and mapConfig['steps'][0].get('action') == 'await_round':
+                    while len(mapConfig['steps']) and mapConfig['steps'][0].get('action') == 'await_round' and 'secondsAfterRound' not in mapConfig['steps'][0]:
                         upcoming = next((step for step in mapConfig['steps'][1:]
                                          if step.get('action') not in ('await_round', 'await_cash', 'speed')), None)
                         if upcoming is None or currentValues.get('money', -1) < int(upcoming.get('cost', 0) or 0):
@@ -3352,7 +3354,10 @@ def main():
                         lastIterationBalance = currentValues['money']
                         continue
                 nextStepAction = nextStep.get('action') if nextStep else None
-                nextStepDelayReady = delay_ready(nextStep, time.time())
+                nextStepDelayReady = (delay_ready(nextStep, time.time())
+                                      and round_offset_ready(nextStep, time.time(), observedRound, observedRoundStartedAt))
+                if nextStep and 'secondsAfterRound' in nextStep and observedRound is not None and observedRound > nextStep.get('round', observedRound):
+                    customPrint('TIMING_RECOVERY overdue round offset target=' + str(nextStep['round']) + ' observed=' + str(observedRound) + '; executing remaining planned action')
                 nextStepCost = int(nextStep.get('cost', 0) or 0) if nextStep else 0
                 cashRequiredForNext = bool(nextStep and (nextStepCost > 0 or nextStepAction in ('await_cash', 'sell')))
                 roundRequiredForNext = bool(nextStep and nextStepAction == 'await_round')

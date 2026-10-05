@@ -4,6 +4,8 @@ Updated 5 October 2026. Checkboxes require evidence, not merely code. Preserve o
 
 ## Current repair pass
 
+- [x] Add executable `round N after S seconds` across parser, recorder, canonical action validation, strict JS validation and the non-blocking replay gate. Use the existing observed round-start timestamp, not per-action sleeps. Emergency wait release retains explicit offsets; overdue and mid-round resume cases log timing recovery. Nine offline timing/recording checks and eight converter checks pass. Two separate Everything Macro timing-preserved candidates pass both full Python parser and JS legality checks: Dark Castle Deflation and Tricky Tracks Impoppable. No original route replaced; live timing verification remains pending missing-medal gameplay.
+
 - [x] Reproduce and fix false harmless classification of BloonsPlayer delays, life thresholds, speed/autostart and manual-round controls, plus Everything Macro round-relative delays. Preserve zero waits as no-ops. Add read-only `--audit-timing`: 891 files scanned, 48 legacy review candidates, four timing-preserved alternatives. Eight offline regressions pass. No original recordings regenerated. Faithful round-relative/manual-control execution remains unfinished.
 
 - Confirmed Alpine Run CHIMPS at 23:33 on 5 October: live victory observed, Hard/Clicks=1050185 in the authoritative VM save, and controller logged `alpine_run - chimps clear confirmed`. Missing medal complete; never replay it. Stop-after-replay completed before the Preview 11 update began. Update finished at 23:34:37 without error; guest Settings and dropdown assets were checked. Missing-medal sweep resumed on One Two Tree Impoppable using its CHIMPS recording.

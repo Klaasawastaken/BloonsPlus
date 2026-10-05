@@ -65,15 +65,16 @@ class TimingConversionTests(unittest.TestCase):
                 self.assertFalse(route.lossy)
                 self.assertTrue(route.harmless)
 
-    def test_everythingmacro_mid_round_delay_is_not_harmless(self):
+    def test_everythingmacro_mid_round_delay_is_preserved(self):
         with tempfile.TemporaryDirectory() as folder:
             path = Path(folder) / 'Maps' / 'Logs.ahk'
             path.parent.mkdir()
             path.write_text('RunConfig := {map: "Logs", difficulty: "Hard", gameMode: "Standard"}\n'
                             'TowerSetup := {}\nstrategy := [[20, 5000, () => UseAbility("1")]]', encoding='utf-8')
             route = module.convert_everythingmacro(path)
-            self.assertTrue(route.lossy)
+            self.assertFalse(route.lossy)
             self.assertFalse(route.harmless)
+            self.assertEqual(route.lines, ['round 20 after 5 seconds', 'ability 1'])
 
     def test_legacy_audit_is_read_only_and_distinguishes_source_noops(self):
         with tempfile.TemporaryDirectory() as folder:

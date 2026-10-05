@@ -35,6 +35,12 @@ def normalize_action(step):
         seconds = action.get('seconds')
         if type(seconds) not in (int, float) or not math.isfinite(seconds) or seconds < 0:
             raise ValueError('await_delay needs finite non-negative seconds')
+    if action_type == 'await_round' and 'secondsAfterRound' in action:
+        seconds = action['secondsAfterRound']
+        if type(action.get('round')) is not int or action['round'] < 1:
+            raise ValueError('round offset needs a positive round')
+        if type(seconds) not in (int, float) or not math.isfinite(seconds) or seconds < 0:
+            raise ValueError('round offset needs finite non-negative seconds')
     if action_type in POSITION_ACTIONS:
         point = action.get('pos')
         if not isinstance(point, (tuple, list)) or len(point) != 2:

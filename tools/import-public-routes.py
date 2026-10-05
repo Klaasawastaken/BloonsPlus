@@ -27,6 +27,7 @@ run in a subprocess with cwd=autobtd6). Run: .venv/Scripts/python.exe import-pub
 Then: node tools/route-coverage-report.js
 """
 import ast
+import os
 import json
 import re
 import subprocess
@@ -221,6 +222,15 @@ class Route:
         if number != self.last_round:
             self.lines.append(f"round {number}")
             self.last_round = number
+
+    def round_offset(self, number, seconds):
+        import math
+        if type(number) is not int or number < 1:
+            raise Unsupported('round offset needs a positive round')
+        if type(seconds) not in (int, float) or not math.isfinite(seconds) or seconds < 0:
+            raise Unsupported('round offset must be finite and non-negative')
+        self.lines.append(f'round {number} after {seconds:g} seconds')
+        self.last_round = number
 
     def cash(self, amount):
         self.lines.append(f"cash {int(amount)}")
@@ -581,9 +591,12 @@ def convert_everythingmacro(path):
         names = re.findall(r"TowerSetup\[\"([^\"]+)\"\]", rest)
         values = re.findall(r"\"([^\"]*)\"", re.sub(r"TowerSetup\[\"[^\"]+\"\]", "", rest))
         if int(rnd) > 0:
-            route.round(int(rnd))
-        if int(delay):
-            route.lossy.add("round-relative delay of " + delay + " milliseconds omitted")
+            if int(delay):
+                route.round_offset(int(rnd), int(delay) / 1000)
+            else:
+                route.round(int(rnd))
+        elif int(delay):
+            route.lossy.add("pregame delay of " + delay + " milliseconds omitted")
         if action == "PlaceTower":
             kind, x, y = setup[names[0]]
             route.place(names[0], "hero" if kind.lower() == "hero" else kind, x, y)
@@ -600,7 +613,7 @@ def convert_everythingmacro(path):
         elif action == "UseAbility":
             if not values:
                 raise Unsupported("UseAbility without a slot")
-            route.ability(int(values[0]), int(delay) / 1000)
+            route.ability(int(values[0]))
         elif action in ("AimDartling", "LockHeliInPlace", "RetargetDartling", "RetargetHeli", "RetargetMortar",
                         "SetMortarTarget", "SetSubmerge", "PlaceMermonkeyTotem", "RetargetMermonkeyTotem"):
             raise Unsupported(f"{action} needs a coordinate-targeting action AutoBTD6 cannot express")
@@ -898,8 +911,12 @@ print(json.dumps(result))
 
 def validate(files):
     python = ROOT / ".venv" / "Scripts" / "python.exe"
+    environment = os.environ.copy()
+    local_ahk = ROOT / '.venv' / 'Scripts' / 'AutoHotkey.exe'
+    if local_ahk.is_file():
+        environment['AHK_PATH'] = str(local_ahk)
     proc = subprocess.run([str(python if python.exists() else sys.executable), "-c", VALIDATOR], cwd=AUTO,
-                          input=json.dumps(files), capture_output=True, text=True, timeout=600)
+                          input=json.dumps(files), capture_output=True, text=True, timeout=600, env=environment)
     if proc.returncode != 0:
         raise SystemExit(f"validator failed: {proc.stderr[-2000:]}")
     return json.loads(proc.stdout.strip().splitlines()[-1])
@@ -908,22 +925,24 @@ def validate(files):
 def emit_timing_candidates():
     """Add complete timing-preserved candidates without replacing any recording."""
     written = []
-    for source_path in sorted(BTD6BOT_PLANS.glob('*.py')):
+    sources = [(convert_btd6bot, path) for path in sorted(BTD6BOT_PLANS.glob('*.py'))]
+    sources += [(convert_everythingmacro, path) for path in sorted((PUB / 'ThuyTran735-BTD6-Everything-Macro' / 'Maps').rglob('*.ahk')) if path.name != 'MapTemplate.ahk']
+    for converter, source_path in sources:
         if source_path.name.startswith('_'):
             continue
         try:
-            route = convert_btd6bot(source_path)
+            route = converter(source_path)
             lines = route.body()
         except (Unsupported, KeyError, IndexError, ValueError):
             continue
-        if route.lossy or not any(line.startswith('wait ') for line in lines):
+        if route.lossy or not any(line.startswith('wait ') or re.match(r'^round \d+ after ', line) for line in lines):
             continue
         source = SOURCES[route.source]
-        name = f'{route.map}#{route.mode}#{W}x{H}#converted#source_btd6bot#timing-preserved.btd6'
+        name = f'{route.map}#{route.mode}#{W}x{H}#converted#source_{route.source}#timing-preserved.btd6'
         target = PT / name
         meta = [f"source: {source['repo']} (license {source['license']}) commit {source['commit']}",
                 f"source file: {route.source_file}",
-                'Explicit waits preserved; no source actions omitted except zero waits and bare-name no-ops.',
+                ('Round-relative offsets preserved against observed round starts; no source actions omitted.' if route.source == 'everythingmacro' else 'Explicit waits preserved; no source actions omitted except zero waits and bare-name no-ops.'),
                 'Offline-converted candidate; no local victory claimed. Original recordings preserved.']
         content = '\n'.join(header(meta) + lines) + '\n'
         if target.exists() and target.read_text(encoding='utf-8') != content:

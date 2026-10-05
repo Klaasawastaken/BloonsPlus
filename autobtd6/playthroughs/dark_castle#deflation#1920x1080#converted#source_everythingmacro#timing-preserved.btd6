@@ -1,0 +1,57 @@
+# source: https://github.com/ThuyTran735/BTD6-Everything-Macro (license MIT (c) 2026 ThuyTran735) commit afd8a30917bcab798a9ed8bf15f83897f6fb0a60
+# source file: Maps/Expert/Dark Castle/Easy/DarkCastleDeflation.ahk
+# Round-relative offsets preserved against observed round starts; no source actions omitted.
+# Offline-converted candidate; no local victory claimed. Original recordings preserved.
+# generator: import-public-routes.py
+place captain_churchill hero0 at 989, 429
+place dart dart0 at 797, 447
+upgrade dart0 path 1
+upgrade dart0 path 1
+upgrade dart0 path 2
+upgrade dart0 path 2
+upgrade dart0 path 2
+upgrade dart0 path 2
+place dart dart1 at 797, 674
+upgrade dart1 path 1
+upgrade dart1 path 1
+upgrade dart1 path 2
+upgrade dart1 path 2
+upgrade dart1 path 2
+upgrade dart1 path 2
+place dart dart2 at 893, 669
+upgrade dart2 path 1
+upgrade dart2 path 1
+upgrade dart2 path 2
+upgrade dart2 path 2
+upgrade dart2 path 2
+upgrade dart2 path 2
+place dart dart3 at 546, 475
+upgrade dart3 path 1
+upgrade dart3 path 1
+upgrade dart3 path 2
+upgrade dart3 path 2
+upgrade dart3 path 2
+upgrade dart3 path 2
+place dart dart4 at 537, 640
+upgrade dart4 path 1
+upgrade dart4 path 1
+upgrade dart4 path 2
+upgrade dart4 path 2
+upgrade dart4 path 2
+upgrade dart4 path 2
+place dart dart5 at 883, 440
+upgrade dart5 path 0
+upgrade dart5 path 0
+upgrade dart5 path 0
+upgrade dart5 path 0
+upgrade dart5 path 2
+upgrade dart5 path 2
+retarget dart5
+retarget dart5
+retarget dart5
+round 60 after 6 seconds
+ability 1
+round 60 after 6.25 seconds
+ability 2
+round 60 after 6.5 seconds
+ability 3

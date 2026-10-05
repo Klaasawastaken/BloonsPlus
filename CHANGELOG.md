@@ -1,3 +1,11 @@
+## Preview 13 — Round-relative strategy timing
+
+- Add `round N after S seconds` to parsing, recording, canonical validation and the replay execution gate.
+- Use one observed round-start timestamp for all scheduled actions; keep screen observation active during waits.
+- Preserve explicit offsets during emergency wait release and log overdue/resumed timing recovery.
+- Convert Everything Macro millisecond offsets into seconds and create separate Dark Castle Deflation and Tricky Tracks Impoppable candidates. Original recordings remain unchanged.
+- Nine offline timing/recording tests and eight converter checks pass; both new candidates pass full Python parser and JavaScript legality checks. Live timing validation remains pending missing-medal gameplay.
+
 ## Preview 12 — Route timing audit
 
 - Stop calling omitted BloonsPlayer timing, life, speed and manual-round controls harmless. Mark incomplete conversions explicitly.

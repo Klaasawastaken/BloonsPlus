@@ -301,7 +301,10 @@ def writeBTD6InstructionsFile(
         elif action["action"] == "await_delay":
             fp.write("wait " + str(action["seconds"]) + " seconds\n")
         elif action["action"] == "await_round":
-            fp.write("round " + str(action["round"]) + "\n")
+            line = "round " + str(action["round"])
+            if 'secondsAfterRound' in action:
+                line += " after " + str(action['secondsAfterRound']) + " seconds"
+            fp.write(line + "\n")
         elif action["action"] == "await_cash":
             fp.write("cash " + str(action["cash"]) + "\n")
 
@@ -385,6 +388,11 @@ def parseBTD6InstructionsFile(
         newMapConfig["extrainstructions"] = 1
 
     for line in configLines:
+        roundOffset = re.fullmatch(r"round ([1-9]\d*) after (\d+(?:\.\d+)?) seconds", line)
+        if roundOffset:
+            newMapConfig['steps'].append({'action': 'await_round', 'round': int(roundOffset.group(1)),
+                                         'secondsAfterRound': float(roundOffset.group(2)), 'cost': 0})
+            continue
         delay = re.fullmatch(r"wait (\d+(?:\.\d+)?) seconds", line)
         if delay:
             newMapConfig['steps'].append({'action': 'await_delay', 'seconds': float(delay.group(1)), 'cost': 0})
