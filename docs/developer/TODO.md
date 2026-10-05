@@ -46,6 +46,7 @@ Updated 4 October 2026. Checkboxes require evidence, not merely code. Preserve o
 - [ ] Keep Features, About, Wiki, Contributors and Subscriptions visually tied to BTD6 with independent-project attribution.
 - [ ] Make app category switching, scrolling and the VM viewer responsive without polling viewer frames when its tab is closed.
 - [ ] Tidy repo folders without blindly moving runtime data. Exclude personal saves, logs, keys, VM images and private Discord bot source.
+- [ ] Redesign the README banner again with a stronger BTD6-inspired map, tower and bloon composition while keeping original or licensed artwork and the independent-project attribution.
 
 ## Later — experimental systems
 

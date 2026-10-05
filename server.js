@@ -224,7 +224,20 @@ http.createServer((req, res) => {
     const readLocalFailures = () => {
       let failures = [];
       try { failures = JSON.parse(fs.readFileSync(path.join(root, 'route-failures.json'), 'utf8')); } catch { /* none yet */ }
-      return failures.slice(-100).reverse().map(f => ({
+      const categoryCounts = {};
+      const routeCounts = {};
+      for (const failure of failures) {
+        const category = failure.category || 'unclassified';
+        categoryCounts[category] = (categoryCounts[category] || 0) + 1;
+        const key = [failure.map || 'unknown', failure.gamemode || 'unknown', failure.route || 'unknown'].join('|');
+        const summary = routeCounts[key] || { map: failure.map, gamemode: failure.gamemode, route: failure.route, attempts: 0, categories: {}, lastAt: null, lastRound: null };
+        summary.attempts += 1;
+        summary.categories[category] = (summary.categories[category] || 0) + 1;
+        summary.lastAt = failure.at || summary.lastAt;
+        summary.lastRound = Number.isInteger(failure.lastRound) ? failure.lastRound : summary.lastRound;
+        routeCounts[key] = summary;
+      }
+      const recent = failures.slice(-150).reverse().map(f => ({
         at: f.at, map: f.map, gamemode: f.gamemode, route: f.route, reason: f.reason,
         lastRound: f.lastRound, finalRound: f.finalRound, rawRoundOcr: f.rawRoundOcr, livesLeft: f.livesLeft, result: f.result,
         cash: f.cash, screenshot: f.screenshot, observations: f.observations, actions: f.actions,
@@ -236,10 +249,16 @@ http.createServer((req, res) => {
         // computed by recordRouteFailure and then silently dropped before ever reaching the app.
         log: f.log, fullLog: f.fullLog,
       }));
+      return {
+        total: failures.length,
+        categoryCounts,
+        routeSummary: Object.values(routeCounts).sort((a, b) => b.attempts - a.attempts),
+        failures: recent,
+      };
     };
     if (vmSetup.isGuest()) {
       res.writeHead(200, { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' });
-      res.end(JSON.stringify({ available: true, sourceTransport: 'vm', failures: readLocalFailures() }));
+      res.end(JSON.stringify({ available: true, sourceTransport: 'vm', ...readLocalFailures() }));
       return;
     }
     // Route failures only happen where the replay actually runs, inside the VM. The host's own

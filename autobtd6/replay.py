@@ -158,15 +158,31 @@ def updateUpgradeMemory(action, mapConfig, runId, cashBefore, cashAfter, roundNu
             'position': monkey.get('pos'),
             'confirmedAt': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()),
         }
-        temporaryFile = UPGRADE_MEMORY_FILE + '.tmp'
+        temporaryFile = None
         try:
-            with open(temporaryFile, 'w', encoding='utf-8') as fp:
+            directory = os.path.dirname(os.path.abspath(UPGRADE_MEMORY_FILE))
+            fd, temporaryFile = tempfile.mkstemp(prefix='.upgrade-memory-', suffix='.tmp', dir=directory)
+            with os.fdopen(fd, 'w', encoding='utf-8') as fp:
                 json.dump(memory, fp, indent=2)
                 fp.flush()
                 os.fsync(fp.fileno())
-            os.replace(temporaryFile, UPGRADE_MEMORY_FILE)
+            lastError = None
+            for attempt in range(6):
+                try:
+                    os.replace(temporaryFile, UPGRADE_MEMORY_FILE)
+                    temporaryFile = None
+                    return
+                except PermissionError as error:
+                    lastError = error
+                    if attempt < 5:
+                        time.sleep(0.05 * (attempt + 1))
+            customPrint('WARNING could not persist upgrade memory after Windows file-lock retries: ' + str(lastError))
         except OSError as error:
             customPrint('WARNING could not persist upgrade memory: ' + str(error))
+        finally:
+            if temporaryFile and os.path.exists(temporaryFile):
+                try: os.unlink(temporaryFile)
+                except OSError: pass
 
 def readLastHero():
     try:
@@ -1721,6 +1737,8 @@ def main():
     observedRoundStartedAt = None
     pendingRoundRecovery = None
     pendingRoundRecoveryCount = 0
+    lastRejectedRoundSignature = None
+    lastRejectedRoundLoggedAt = 0
     # Nearby spots (2560-wide pixels) tried when a placement spent nothing; the first retry is the same spot.
     PLACE_RETRY_OFFSETS = [(0, 0), (40, 0), (-40, 0), (0, 40), (0, -40),
                            (80, 0), (-80, 0), (0, 80), (0, -80),
@@ -2768,8 +2786,13 @@ def main():
                     pendingRoundRecoveryCount = (pendingRoundRecoveryCount + 1 if eligible and followsPrior
                                                  else (1 if eligible else 0))
                     pendingRoundRecovery = (readingRound, newLimit) if eligible else None
-                    customPrint('WARNING rejecting implausible round OCR ' + str(readingRound)
-                                + ' after ' + str(anchorRound))
+                    rejectedSignature = (readingRound, anchorRound)
+                    now = time.time()
+                    if rejectedSignature != lastRejectedRoundSignature or now - lastRejectedRoundLoggedAt >= 8:
+                        customPrint('WARNING rejecting implausible round OCR ' + str(readingRound)
+                                    + ' after ' + str(anchorRound))
+                        lastRejectedRoundSignature = rejectedSignature
+                        lastRejectedRoundLoggedAt = now
                     if pendingRoundRecoveryCount >= 3:
                         customPrint('WARNING round counter resynchronized after HUD occlusion: ' + rawRound)
                         pendingRoundRecoveryCount = 0
@@ -2778,6 +2801,7 @@ def main():
                 else:
                     pendingRoundRecovery = None
                     pendingRoundRecoveryCount = 0
+                    lastRejectedRoundSignature = None
                 if currentValues['round'] == -1:
                     # A slightly stricter white threshold recovers glyph edges on snowy
                     # maps. Accept it only if it also follows the known round sequence.
