@@ -19,6 +19,7 @@ let profileRates = { monkeyMoneyPerHour: null, xpPerHour: null };
 function observeProfileRates(profile) {
   const at = Date.parse(profile?.readAt || '');
   if (!Number.isFinite(at) || profileRateSamples.at(-1)?.at >= at) return;
+  profileRates = { monkeyMoneyPerHour: null, xpPerHour: null };
   const current = { at, monkeyMoney: profile.monkeyMoney, xp: profile.xp,
     rank: profile.rank, veteranXp: profile.veteranXp, veteranRank: profile.veteranRank };
   profileRateSamples.push(current);
@@ -28,9 +29,11 @@ function observeProfileRates(profile) {
   const hours = (at - oldest.at) / 3_600_000;
   if (Number.isFinite(current.monkeyMoney) && Number.isFinite(oldest.monkeyMoney))
     profileRates.monkeyMoneyPerHour = Math.max(0, (current.monkeyMoney - oldest.monkeyMoney) / hours);
-  const sameRank = profileRateSamples.find(sample => at - sample.at >= 30_000 && sample.rank === current.rank);
   const xpField = Number.isFinite(current.veteranXp) && Number.isFinite(current.veteranRank) && current.veteranRank > 0
     ? 'veteranXp' : 'xp';
+  const sameRank = profileRateSamples.find(sample => at - sample.at >= 30_000
+    && sample.rank === current.rank
+    && (xpField !== 'veteranXp' || sample.veteranRank === current.veteranRank));
   if (sameRank && Number.isFinite(current[xpField]) && Number.isFinite(sameRank[xpField]))
     profileRates.xpPerHour = Math.max(0, (current[xpField] - sameRank[xpField]) / ((at - sameRank.at) / 3_600_000));
   else profileRates.xpPerHour = null;

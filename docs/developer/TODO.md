@@ -61,6 +61,8 @@ Start only after the current repair work is complete, as requested on 5 October.
 
 ## P1 — progress and diagnostics
 
+- [x] Clear stale MM/hour and XP/hour values when samples expire or values are missing; compare veteran XP only within the same veteran rank. Focused regressions pass. Live multi-run rate validation remains below.
+
 - [ ] Check MM/hour and XP/hour against several live VM save updates, rank changes and spending; display no rate until enough samples exist.
 - [ ] Confirm level, veteran rank, Monkey Money, hero ownership, Monkey Knowledge, tower XP and T1–T5 unlocks from the VM save with source and freshness.
 - [ ] Reconcile achievement progress with Steam unlock state and clearly label unsupported progress.
