@@ -26,6 +26,15 @@ class BeginnerGuideBuildTests(unittest.TestCase):
         points = [(100 + i * 100, 200, 'dart', 'point') for i in range(5)]
         self.assert_build(generator.build_route(*points))
 
+    def test_land_build_never_falls_back_to_water_points(self):
+        points = [(100, 100, 'sauda', 'hero'), (200, 200, 'sniper', 's'),
+                  (300, 300, 'wizard', 'w'), (400, 400, 'buccaneer', 'b'),
+                  (500, 500, 'druid', 'd'), (600, 600, 'dart', 'a')]
+        chosen = generator.choose_points(points)
+        self.assertTrue(all(point[2] != 'buccaneer' for point in chosen))
+        with self.assertRaises(ValueError):
+            generator.choose_points(points[:-1])
+
     def test_shipped_guide_routes_match_documented_build(self):
         routes = list((ROOT / 'autobtd6/playthroughs').glob('*#hard#1920x1080#guide#beginner-hard.btd6'))
         self.assertTrue(routes)

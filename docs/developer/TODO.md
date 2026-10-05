@@ -4,6 +4,8 @@ Updated 5 October 2026. Checkboxes require evidence, not merely code. Preserve o
 
 ## Current repair pass
 
+- [x] Prevent the Beginner Hard generator from using water-tower positions for its land-only build or recycling its own inferred guide coordinates. Candy Falls' Dart opener was at a Buccaneer position; moved only that opener to a normalized land Village position from the map's original ABR recording. Source provenance and hash updated. Three offline build/placement-selection regressions pass. This establishes a land-source coordinate, not range coverage or a guaranteed opening; guest deployment pending.
+
 - [x] Close direct-file launch's validation bypass: previously a route filtered out of sweep candidates could still start without legality or account checks. Direct starts now validate the actual file against the requested mode and derive requirements from its commands. Regression reproduces an unplaced upgrade bypass and covers malformed commands, restricted towers and missing prerequisites. All 24 JavaScript test files pass. Batch guest deployment pending.
 
 - [x] Restore the two missing middle-path Sniper upgrades in the Beginner Hard generator and its 26 guide-derived routes. The intended 0-2-4 build was incorrectly emitted as 0-0-4. Offline regression reproduced the omission; all 26 corrected routes pass build, legality and source-hash checks. Placement coordinates, round markers and original CHIMPS recordings are unchanged. This fixes the build mismatch, not a proof of victory. Batch guest deployment pending.

@@ -122,9 +122,10 @@
   "candy_falls#hard#1920x1080#guide#beginner-hard.btd6": {
     "source": "https://www.reddit.com/r/btd6/comments/1j9511e/almost_foolproof_strategy_for_beginner_maps/",
     "sourceMode": "hard",
-    "routeHash": "d35560592fd2aabec5c2f9c0b7219b6021c3f660fff8a410a2dd7dcee79bd98b",
+    "routeHash": "f8a9869f848c487575113158ea54730c54afd89a68465a38a74b2ac0a6ff76ee",
     "sourceClaimsWin": true,
-    "notes": "Adapted published Beginner-map strategy (Sauda, 0-2-4 Wizard, 0-2-4 Sniper, 0-2-4 Dart, 2-4-0 Druid). Positions come from existing routes on this same map. Source reports the build across Beginner maps; this exact placement/timing has not been locally replayed."
+    "notes": "Adapted published Beginner-map strategy (Sauda, 0-2-4 Wizard, 0-2-4 Sniper, 0-2-4 Dart, 2-4-0 Druid). Positions come from existing routes on this same map. Source reports the build across Beginner maps; this exact placement/timing has not been locally replayed.",
+    "placementRepair": "Dart opener uses normalized land Village position (1549,849 at 2560x1440) from candy_falls#alternate_bloons_rounds#2560x1440#noMK.btd6; removes former Buccaneer water position. Range and opening defense remain unverified."
   },
   "winter_park#hard#1920x1080#guide#beginner-hard.btd6": {
     "source": "https://www.reddit.com/r/btd6/comments/1j9511e/almost_foolproof_strategy_for_beginner_maps/",

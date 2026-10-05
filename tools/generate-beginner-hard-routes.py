@@ -14,6 +14,9 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 PLAYTHROUGHS = ROOT / "autobtd6" / "playthroughs"
 MAPS = json.loads((ROOT / "autobtd6" / "maps.json").read_text(encoding="utf-8"))
+TOWERS = json.loads((ROOT / "autobtd6" / "towers.json").read_text(encoding="utf-8"))
+LAND_TYPES = {name for group in (TOWERS['monkeys'], TOWERS['heros'])
+              for name, data in group.items() if data.get('class') == 'land'}
 CATALOG = (ROOT / "data" / "catalogs" / "map-catalog.js").read_text(encoding="utf-8")
 SOURCE_URL = "https://www.reddit.com/r/btd6/comments/1j9511e/almost_foolproof_strategy_for_beginner_maps/"
 METADATA_PATH = ROOT / "route-library" / "metadata" / "online-guide-sources.json"
@@ -30,6 +33,10 @@ def read_map_points(map_slug):
     points = []
     for path in sorted(PLAYTHROUGHS.glob(f"{map_slug}#*.btd6")):
         parts = path.name[:-5].split("#")
+        # Do not recycle inferred placements from this generator or incomplete
+        # conversions: doing so makes a bad coordinate reinforce itself.
+        if {'generated', 'guide', 'compat', 'lossy'}.intersection(parts[3:]):
+            continue
         resolution = parts[2] if len(parts) > 2 else "1920x1080"
         sx, sy = (0.75, 0.75) if resolution == "2560x1440" else (1.0, 1.0)
         for line in path.read_text(encoding="utf-8", errors="ignore").splitlines():
@@ -37,6 +44,8 @@ def read_map_points(map_slug):
             if not match:
                 continue
             tower, name, x, y = match.groups()
+            if tower not in LAND_TYPES:
+                continue
             x, y = round(int(x) * sx), round(int(y) * sy)
             if not (20 <= x <= 1900 and 20 <= y <= 1060):
                 continue
@@ -47,6 +56,7 @@ def read_map_points(map_slug):
 
 
 def choose_points(points):
+    points = [point for point in points if point[2] in LAND_TYPES]
     if len(points) < 5:
         raise ValueError(f"need five distinct map positions, found {len(points)}")
     selected = []
