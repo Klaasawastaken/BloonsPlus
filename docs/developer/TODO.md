@@ -387,4 +387,5 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [x] Extract only issued one-shot/repeating slots, check saved bindings against the replay's supported key names, and count unavailable slots in candidate readiness. Cancellation and unused slots do not block. Empty/absent gameplay sections preserve replay defaults.
 - [x] Identify required slots in sweep skip and direct-run diagnostics; subtract binding failures from the missing-upgrade count.
 - [x] Focused command, slot 10, binding, defaults and alternative checks pass, as does the adjacent knowledge gate. No game or save file changed, no original recording modified.
-- [ ] Publish Preview 32 and deploy the batch after the current healthy replay finishes. No validation-only replay.
+- [x] Preview 32 published with the reviewed-source installer; publication guard reports no findings.
+- [ ] Deploy Preview 32 after the current healthy replay finishes. Stop-after confirmed while round 49 remained active; boundary updater waits for authoritative running=false before installing, then resumes missing medals. No validation-only replay.
