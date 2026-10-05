@@ -3046,7 +3046,7 @@ def main():
                             plannedTiers = lastIterationAction.get('expectedUpgradeTiers')
                             exactIntent = (isinstance(plannedTiers, (list, tuple)) and len(plannedTiers) == 3
                                            and all(type(tier) is int and 0 <= tier <= 5 for tier in plannedTiers))
-                            safeRecheck = upgradeStatus in ('unselected', 'unchanged') or (upgradeStatus == 'unknown' and exactIntent)
+                            safeRecheck = upgradeStatus in ('unselected', 'unchanged') or (upgradeStatus in ('unknown', 'unexpected') and exactIntent)
                             if safeRecheck and lastIterationAction.get('selectionAttempts', 0) < 2:
                                 # Preserve this exact planned tier ahead of its dependents.
                                 # Unknown results require an exact target: observe_upgrade
@@ -3057,6 +3057,10 @@ def main():
                                     target = list(lastIterationAction['upgradeObservation']['before'])
                                     target[retry['path']] += 1
                                     retry['expectedUpgradeTiers'] = target
+                                if exactIntent or upgradeStatus == 'unchanged':
+                                    # A delayed purchase may already have spent the money.
+                                    # Reconcile visible ownership before waiting to afford it again.
+                                    retry['resumeUpgradeProbe'] = True
                                 retry.pop('upgradeObservation', None)
                                 mapConfig['steps'].insert(0, retry)
                                 customPrint('RECOVERY upgrade retry queued before dependent steps tower=' + str(retry.get('name'))

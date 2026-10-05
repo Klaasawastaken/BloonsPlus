@@ -2,6 +2,8 @@
 
 ## Unreleased — replay diagnostics and cash reading
 
+- Reconcile uncertain upgrade retries against visible tiers before waiting for their purchase cost again. Exact-intent panel mismatches can rejoin the bounded retry queue ahead of dependent actions; missing intent does not authorize retries. Offline checks execute the replay branch with zero cash and an already-owned target.
+
 - Reselect the intended tower up to twice when a readable panel contradicts its planned upgrade tiers. A persistent mismatch never authorizes purchase input. Offline regressions reproduce the Polyphemus Heli mismatch; this is not a claim that the route now wins.
 - Write game-state snapshots through unique temporary files with serialized writes, bounded Windows-lock retries and cleanup. Serialization failures preserve the previous snapshot rather than terminating gameplay. Exclude temporary files from Git and installers and reject them in publication checks.
 
