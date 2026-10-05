@@ -1,6 +1,6 @@
 // Setup bar: shows the first-run VM setup at the top of the app until every step is done.
 // Polls /api/setup/status (vm-setup.js) and drives /api/setup/start. Self-contained on purpose:
-// it only touches the #setup-bar block in index.html.
+// Shares the same detected setup state with the Settings game environment panel.
 (() => {
   const bar = document.getElementById('setup-bar');
   if (!bar) return;
@@ -10,6 +10,7 @@
   const progress = $('setup-bar-progress'), progressFill = progress.querySelector('span');
   const settingsStatus = $('vm-settings-status'), settingsSteps = $('vm-settings-steps');
   const settingsChip = $('vm-settings-chip'), settingsStart = $('vm-settings-start');
+  const settingsProgress = $('vm-settings-progress'), settingsProgressLabel = $('vm-settings-progress-label');
   const settingsIso = $('vm-settings-iso'), settingsRefresh = $('vm-settings-refresh'), settingsUpdate = $('vm-settings-update');
   let hiddenByUser = false;
   try { hiddenByUser = sessionStorage.getItem('setupBarHidden') === '1'; } catch { /* storage blocked */ }
@@ -34,7 +35,19 @@
         : status.allDone ? 'Ready: VM connected, Steam signed in, and BTD6 installed.'
         : next.message || status.reason || 'Checking setup…';
       settingsStatus.classList.toggle('error', !!setupJob.error);
-      settingsChip.textContent = status.allDone ? 'READY' : setupJob.running ? 'WORKING' : 'ACTION NEEDED';
+      settingsChip.textContent = !status.applicable ? 'LOCAL' : status.allDone ? 'READY' : setupJob.running ? 'WORKING' : 'ACTION NEEDED';
+      settingsStart.hidden = !status.applicable || status.allDone;
+      if (settingsUpdate) settingsUpdate.hidden = !status.applicable;
+      if (settingsProgress && settingsProgressLabel) {
+        const checks = status.steps || [];
+        const completed = checks.filter(step => step.done).length;
+        const partial = Number.isFinite(setupJob.progress) ? Math.max(0, Math.min(1, setupJob.progress)) : 0;
+        const percent = checks.length ? Math.min(100, Math.round((completed + partial) / checks.length * 100)) : 0;
+        settingsProgress.hidden = settingsProgressLabel.hidden = !setupJob.running || !checks.length;
+        settingsProgress.setAttribute('aria-valuenow', String(percent));
+        settingsProgress.querySelector('span').style.width = `${percent}%`;
+        settingsProgressLabel.textContent = `${completed} of ${checks.length} checks ready · ${percent}%`;
+      }
       settingsSteps.replaceChildren(...(status.steps || []).map(step => {
         const item = document.createElement('li');
         item.className = step.done ? 'done' : step.id === next.id ? 'current' : '';

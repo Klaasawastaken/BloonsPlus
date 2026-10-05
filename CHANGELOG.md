@@ -1,3 +1,10 @@
+## Preview 25 — Clearer Settings and dropdown navigation
+
+- Group detected game controls with Settings rather than run diagnostics.
+- Hide completed setup actions, show local mode correctly, and display setup progress in Settings.
+- Match profile readouts to the selected theme; preserve keyboard focus during dropdown updates and implement Home/End navigation.
+- Keep active replays running while UI changes are prepared.
+
 ## Preview 24 — Scope live progress to the current run
 
 - Show checkpoint steps only when its map and mode match the current replay.

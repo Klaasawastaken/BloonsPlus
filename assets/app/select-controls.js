@@ -32,6 +32,7 @@
   }
 
   function options(control, query = '') {
+    const focusedIndex = control.list.contains(document.activeElement) ? document.activeElement.dataset.optionIndex : null;
     control.signature = signature(control.select);
     control.list.replaceChildren();
     const needle = query.trim().toLocaleLowerCase();
@@ -48,6 +49,7 @@
       }
       const row = document.createElement('button');
       row.type = 'button';
+      row.dataset.optionIndex = String(option.index);
       row.className = 'app-select-option';
       row.setAttribute('role', 'option');
       row.setAttribute('aria-selected', String(option.selected));
@@ -72,6 +74,10 @@
         }
       });
       control.list.append(row);
+    }
+    if (focusedIndex != null) {
+      const matching = Array.from(control.list.querySelectorAll('[role="option"]:not(:disabled)')).find(row => row.dataset.optionIndex === focusedIndex);
+      (matching || control.menu.querySelector('input') || control.list.querySelector('[role="option"]:not(:disabled)') || control.button).focus();
     }
     if (!control.list.querySelector('[role="option"]')) {
       const empty = document.createElement('p');
@@ -149,6 +155,12 @@
       if (['ArrowDown', 'ArrowUp', 'Home', 'End'].includes(event.key)) {
         event.preventDefault();
         open(control);
+        if (event.key === 'Home' || event.key === 'End') {
+          const rows = control.list.querySelectorAll('[role="option"]:not(:disabled)');
+          const target = event.key === 'Home' ? rows[0] : rows[rows.length - 1];
+          target?.focus();
+          target?.scrollIntoView({ block: 'nearest' });
+        }
       }
     });
     menu.addEventListener('keydown', event => {

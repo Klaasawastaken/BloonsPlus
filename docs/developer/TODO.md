@@ -309,3 +309,11 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [x] Guest Preview 23 update completed without error. Guest status now includes sourceNow; clock-aware app code is served. Host Electron reloaded only after the setup job finished.
 - [x] Host UI visibly shows historical ages (Skulltweak 1–2 minutes, One Two Tree CHIMPS 27–28 minutes), a sane new run duration, and the correct new map. Missing-medal sweep resumed on Winter Park Hard; Skulltweak CHIMPS remains earned.
 - [x] Follow-up UI evidence found Winter Park navigation displaying the previous Skulltweak checkpoint's 61/61 steps. Scope checkpoint progress and result badges to the current map/mode; syntax check passes. This small follow-up is pending the next healthy deployment boundary.
+
+## Settings organization and dropdown focus (2026-10-06)
+
+- [x] Move detected heroes, hotkeys and Monkey Knowledge from Run logs to Settings. Keep experimental observations in diagnostics.
+- [x] Hide completed/inapplicable setup actions; distinguish local mode from missing VM setup. Add an accessible setup progress bar to Settings using existing job/check data.
+- [x] Make profile readouts use theme colors and remove obsolete hidden hero-checklist styling.
+- [x] Preserve dropdown focus when live options change; Home/End from the trigger focus the first/last enabled option.
+- [x] JavaScript syntax and whitespace checked; dark Settings inspected in the host browser. Active Winter Park Hard replay remained running. Guest deployment queued at a healthy replay boundary.
