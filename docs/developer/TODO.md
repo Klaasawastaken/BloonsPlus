@@ -29,6 +29,7 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [x] Implement ordinary-panel tier observation and bounded button retry with native-frame and offline regression evidence.
 - [x] Verify the observer and 120 ms keyboard hold in a fresh VM replay; Workshop Hard victory and authoritative saved medal confirmed on 5 October.
 - [ ] Keep unresolved upgrades explicit in resumable checkpoints, then validate recovery without buying a wrong tier.
+  - Implemented: version-2 remaining-action snapshots; pending upgrades restored in original order; ownership probe before cash gating; owned targets removed without purchase input. Six recovery regressions pass. Live restart validation remains open.
 - [ ] Review each backlog entry against its own evidence and confirm a subsequent victory plus saved medal.
 
 ## P0 — replay reliability

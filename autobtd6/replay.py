@@ -8,9 +8,11 @@ import json
 import tempfile
 import threading
 import time
+from copy import deepcopy
 from game_runtime import GameState, normalize_action
 from upgrade_rules import can_upgrade_path
 from upgrade_observation import observe_upgrade
+from resume_recovery import restore_upgrade_steps, probe_owned_upgrade
 
 LAST_HERO_FILE = 'last-hero.json'
 UPGRADE_MEMORY_FILE = 'upgrade-memory.json'
@@ -70,10 +72,13 @@ def recordUpgradeCheckpoint(checkpoint, action):
             return
     pending.append(entry)
 
-def writeRouteCheckpoint(checkpoint):
+def writeRouteCheckpoint(checkpoint, remainingSteps=None):
     """Atomically persist resume state without letting a transient Windows file lock kill a run."""
     temporary = None
     with _route_checkpoint_lock:
+        if remainingSteps is not None:
+            checkpoint['remainingSteps'] = deepcopy(remainingSteps)
+            checkpoint['version'] = 2
         checkpoint['updatedAt'] = time.time()
         try:
             directory = os.path.dirname(os.path.abspath(ROUTE_CHECKPOINT_FILE))
@@ -1388,7 +1393,11 @@ def main():
             if not isinstance(instructionOffset, int) or not 0 <= instructionOffset <= routeStepTotal:
                 customPrint('resume refused: invalid checkpoint step')
                 return 2
-            mapConfig['steps'] = mapConfig['steps'][instructionOffset:]
+            try:
+                mapConfig['steps'] = restore_upgrade_steps(mapConfig['steps'], routeCheckpoint)
+            except ValueError as error:
+                customPrint('resume refused: ' + str(error))
+                return 2
             customPrint('resuming ' + mapConfig['map'] + ' ' + mapConfig['gamemode']
                         + ' at route step ' + str(instructionOffset) + '/' + str(routeStepTotal))
 
@@ -1957,7 +1966,7 @@ def main():
         playthroughLog[filename][gamemode]['wins'] += 1
         if routeCheckpoint is not None:
             routeCheckpoint.update(status='victory', pendingAction=None)
-            writeRouteCheckpoint(routeCheckpoint)
+            writeRouteCheckpoint(routeCheckpoint, mapConfig['steps'])
         if not isContinue or isResume:
             updateMedalStatus(mapConfig['map'], gamemode)
         customPrint('VICTORY_CONFIRMED screen=' + screenName + ' map=' + str(mapConfig['map']) +
@@ -2069,7 +2078,7 @@ def main():
         observedRoundStartedAt = time.time()
         saveGameState(currentGameState)
         routeCheckpoint['runId'] = upgradeRunId
-        writeRouteCheckpoint(routeCheckpoint)
+        writeRouteCheckpoint(routeCheckpoint, mapConfig['steps'])
         customPrint('resume verified in-game screen and round ' + str(resumeRound))
 
     while True:
@@ -2290,7 +2299,7 @@ def main():
             elif screen == Screen.VICTORY_SUMMARY:
                 if routeCheckpoint is not None:
                     routeCheckpoint.update(status='victory', pendingAction=None)
-                    writeRouteCheckpoint(routeCheckpoint)
+                    writeRouteCheckpoint(routeCheckpoint, mapConfig['steps'])
                 pyautogui.click(imageAreas["click"]["screen_victory_summary_button_next"])
             elif screen == Screen.VICTORY:
                 # The Home button's vertical position shifts with how many reward rows the
@@ -2472,7 +2481,7 @@ def main():
                         'runId': upgradeRunId, 'mapScene': mapSceneSignature(screenshot),
                         'parentJob': os.environ.get('BLOONS_PARENT_JOB'),
                     }
-                    writeRouteCheckpoint(routeCheckpoint)
+                    writeRouteCheckpoint(routeCheckpoint, mapConfig['steps'])
                 iterationBalances = []
                 if logStats:
                     lastPlaythroughStats = {'gamemode': mapConfig['gamemode'], 'time': [], 'result': PlaythroughResult.UNDEFINED}
@@ -2702,7 +2711,7 @@ def main():
                 saveFailureShots(mapConfig, lastIngameShot, screenshot)
                 if routeCheckpoint is not None:
                     routeCheckpoint.update(status='defeat', pendingAction=None)
-                    writeRouteCheckpoint(routeCheckpoint)
+                    writeRouteCheckpoint(routeCheckpoint, mapConfig['steps'])
                 if currentGameState is not None:
                     currentGameState.finish('defeat')
                     saveGameState(currentGameState)
@@ -2973,7 +2982,7 @@ def main():
                     # Persist round changes so a restarted runner cannot replay actions after rounds advanced.
                     if currentValues['round'] != routeCheckpoint.get('persistedRound'):
                         routeCheckpoint['persistedRound'] = currentValues['round']
-                        writeRouteCheckpoint(routeCheckpoint)
+                        writeRouteCheckpoint(routeCheckpoint, mapConfig['steps'])
 
                 # Money can rise while an action is applied because pops and round income
                 # arrive between screenshots. A positive net decrease proves a purchase;
@@ -3046,7 +3055,7 @@ def main():
                                     routeCheckpoint.update(status='ready',
                                                            nextStep=checkpointStepOffset(mapConfig['steps'], routeStepTotal),
                                                            pendingAction=None)
-                                    writeRouteCheckpoint(routeCheckpoint)
+                                    writeRouteCheckpoint(routeCheckpoint, mapConfig['steps'])
                             lastIterationAction = None
                         else:
                             customPrint('DEBUG placement cash result is not a confirmed purchase expected=' + str(lastIterationCost) +
@@ -3156,7 +3165,7 @@ def main():
                             routeCheckpoint.update(status='ready',
                                                    nextStep=checkpointStepOffset(mapConfig['steps'], routeStepTotal),
                                                    pendingAction=None)
-                            writeRouteCheckpoint(routeCheckpoint)
+                            writeRouteCheckpoint(routeCheckpoint, mapConfig['steps'])
                         pendingPlacementProbe = None
                     lastIterationAction = None
                 elif (lastIterationAction and lastIterationAction.get('action') == 'place'
@@ -3218,7 +3227,7 @@ def main():
                                 'tower': extraUpgrade['name'], 'path': extraUpgrade['path'],
                                 'tier': extraUpgrade['extra']['upgrade'][1], 'cost': extraUpgrade['cost'],
                             })
-                            writeRouteCheckpoint(routeCheckpoint)
+                            writeRouteCheckpoint(routeCheckpoint, mapConfig['steps'])
                         customPrint('SURPLUS_UPGRADE planned tower=' + str(extraUpgrade['name']) +
                                     ' path=' + str(extraUpgrade['path'] + 1) + ' tier=' +
                                     str(extraUpgrade['extra']['upgrade'][1]) + ' cost=' + str(extraUpgrade['cost']) +
@@ -3259,6 +3268,31 @@ def main():
                         customPrint('detected money: ' + str(currentValues['money']) + ', required: ' + str(mapConfig['steps'][0]['cost']) + '          ', end = '', rewriteLine=True)
 
                 nextStep = mapConfig['steps'][0] if len(mapConfig['steps']) else None
+                if nextStep and nextStep.pop('resumeUpgradeProbe', False):
+                    # Check ownership before the cash gate: an already bought tier
+                    # must not wait for enough cash to buy that tier a second time.
+                    pyautogui.click(button='right')
+                    try:
+                        probe = probe_owned_upgrade(nextStep['expectedUpgradeTiers'],
+                            capture=lambda: np.array(pyautogui.screenshot())[:, :, ::-1].copy(),
+                            select=lambda: pyautogui.click(nextStep['pos']), wait=time.sleep)
+                    finally:
+                        pyautogui.click(button='right')
+                    customPrint('RESUME_UPGRADE ' + str(nextStep.get('name')) + ' ' + str(probe))
+                    if probe['status'] == 'confirmed':
+                        nextStep['upgradeObservation'] = probe
+                        mapConfig['steps'].pop(0)
+                        if currentGameState is not None:
+                            currentGameState.confirm_purchase(nextStep, mapConfig, 0, 0)
+                            saveGameState(currentGameState)
+                        if routeCheckpoint is not None:
+                            recordUpgradeCheckpoint(routeCheckpoint, nextStep)
+                            routeCheckpoint['nextStep'] = checkpointStepOffset(mapConfig['steps'], routeStepTotal)
+                            writeRouteCheckpoint(routeCheckpoint, mapConfig['steps'])
+                        lastIterationAction = None
+                        lastIterationCost = 0
+                        lastIterationBalance = currentValues['money']
+                        continue
                 nextStepAction = nextStep.get('action') if nextStep else None
                 nextStepCost = int(nextStep.get('cost', 0) or 0) if nextStep else 0
                 cashRequiredForNext = bool(nextStep and (nextStepCost > 0 or nextStepAction in ('await_cash', 'sell')))
@@ -3348,7 +3382,7 @@ def main():
                     if routeCheckpoint is not None:
                         routeCheckpoint['status'] = 'pending'
                         routeCheckpoint['pendingAction'] = mapConfig['steps'][0].get('action')
-                        writeRouteCheckpoint(routeCheckpoint)
+                        writeRouteCheckpoint(routeCheckpoint, mapConfig['steps'])
                     action = mapConfig['steps'].pop(0)
                     try:
                         action = normalize_action(action)
@@ -3362,7 +3396,7 @@ def main():
                             routeCheckpoint.update(status='ready',
                                                    nextStep=checkpointStepOffset(mapConfig['steps'], routeStepTotal),
                                                    pendingAction=None)
-                            writeRouteCheckpoint(routeCheckpoint)
+                            writeRouteCheckpoint(routeCheckpoint, mapConfig['steps'])
                         continue
                     thisIterationAction = action
                     if action['action'] != 'sell' and action['action'] != 'await_round' and action['action'] != 'await_cash':
@@ -3663,7 +3697,7 @@ def main():
                         routeCheckpoint['nextStep'] = checkpointStepOffset(mapConfig['steps'], routeStepTotal)
                         routeCheckpoint['pendingAction'] = None
                         routeCheckpoint['status'] = 'ready'
-                        writeRouteCheckpoint(routeCheckpoint)
+                        writeRouteCheckpoint(routeCheckpoint, mapConfig['steps'])
                         customPrint('CHECKPOINT ' + mapConfig['map'] + ' ' + mapConfig['gamemode']
                                     + ' step ' + str(routeCheckpoint['nextStep']) + '/' + str(routeStepTotal)
                                     + ' round ' + str(routeCheckpoint.get('round')))
