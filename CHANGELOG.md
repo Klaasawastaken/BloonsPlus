@@ -1,5 +1,7 @@
 # Changelog
 
+- Block remote installation when guest replay status is missing or malformed; an update now requires an explicitly idle guest.
+
 - Extend the stationary tower tracking repair to evidenced One Two Tree attempts while preserving unrelated failure exclusions and all saved-medal skip checks. Original routes remain unchanged.
 
 ## Unreleased — replay diagnostics and cash reading
