@@ -47,6 +47,14 @@ def read_upgrade_panel(frame):
     return panels[0] if len(panels) == 1 else None
 
 
+def resolve_hud_panels(frame, left_guess, right_guess):
+    """A complete tier panel outranks colour guesses influenced by map effects."""
+    panel = read_upgrade_panel(frame)
+    if panel is not None:
+        return panel['side'] == 'left', panel['side'] == 'right'
+    return left_guess, right_guess  # Heroes use a different panel without path pips.
+
+
 def observe_upgrade(path, capture, press, click, wait, reselect=None, expected_tiers=None):
     """Prefer a visible available button; allow one retry supported by unchanged pips.
 

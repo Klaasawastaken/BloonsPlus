@@ -11,7 +11,7 @@ import time
 from copy import deepcopy
 from game_runtime import GameState, normalize_action
 from upgrade_rules import can_upgrade_path
-from upgrade_observation import observe_upgrade
+from upgrade_observation import observe_upgrade, resolve_hud_panels
 from resume_recovery import restore_upgrade_steps, probe_owned_upgrade
 
 LAST_HERO_FILE = 'last-hero.json'
@@ -2775,6 +2775,7 @@ def main():
                 rightPanelBrown = brownFraction(625, 50, 645, 440)
                 rightMapBrown = brownFraction(585, 50, 605, 440)
                 hudRightPanelOpen = rightPanelBrown > 0.40 and rightPanelBrown > rightMapBrown + 0.22
+                hudPanelOpen, hudRightPanelOpen = resolve_hud_panels(screenshot, hudPanelOpen, hudRightPanelOpen)
                 if hudPanelOpen != lastHudPanelOpen or hudRightPanelOpen != lastHudRightPanelOpen:
                     customPrint('DEBUG HUD layout leftPanel=' + str(hudPanelOpen) +
                                 ' rightPanel=' + str(hudRightPanelOpen) +
