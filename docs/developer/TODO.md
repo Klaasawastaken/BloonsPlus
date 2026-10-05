@@ -215,3 +215,10 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [x] Add more map environments and expand the public feature list.
 - [x] Stop Glacial Trail emergency spending from pulling recorded actions into freeze windows.
 - [ ] Check frozen-tower upgrade deferral offline. Observe a Glacial Trail replay only if it earns a missing medal; never launch an owned mode to validate this fix.
+
+## Settings cleanup (2026-10-05)
+
+- [x] Remove the inert remember-queue toggle; queue persistence continues automatically.
+- [x] Keep Appearance and VM actions visible; fold optional ISO, installation checks and backups away.
+- [x] Move profile, hotkey, Monkey Knowledge and passive-learning readouts to Run logs.
+- [x] Apply imported/reset themes immediately and clarify reset scope.

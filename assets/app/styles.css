@@ -311,3 +311,6 @@ body.boss-view-active{background:radial-gradient(ellipse at 95% 0,color-mix(in s
 [data-theme="dark"] #vm-settings-steps .done,[data-theme="dark"] #setup-bar-steps .done{background:#213c30;color:#c5efd5}
 [data-theme="dark"] #vm-settings-steps .current,[data-theme="dark"] #setup-bar-steps .current{background:#283b4b;color:#d3e6ff;border-color:#6682a0}
 [data-theme="dark"] #vm-settings-status.error,[data-theme="dark"] #setup-bar-activity.error{background:#422c2c;color:#ffc3b8;border-color:#795149}
+
+/* Settings: primary actions first, optional setup and diagnostics folded away. */
+.settings-subdetails{margin:16px 0;border-top:1px solid var(--line);padding-top:14px}.settings-subdetails>summary{cursor:pointer;color:var(--ink);font-size:12px;font-weight:600;padding:4px 0}.settings-subdetails>summary:focus-visible{outline:2px solid var(--accent);outline-offset:4px}.settings-subdetails .field{margin-top:14px}.settings-subdetails input{width:100%}.settings-details-body .data-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}#settings .vm-settings-actions{margin-top:22px}#settings .vm-settings-actions button{flex:0 1 auto}#logs>.settings-details{margin-top:20px}
