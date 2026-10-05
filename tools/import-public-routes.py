@@ -905,5 +905,39 @@ def validate(files):
     return json.loads(proc.stdout.strip().splitlines()[-1])
 
 
+def emit_timing_candidates():
+    """Add complete timing-preserved candidates without replacing any recording."""
+    written = []
+    for source_path in sorted(BTD6BOT_PLANS.glob('*.py')):
+        if source_path.name.startswith('_'):
+            continue
+        try:
+            route = convert_btd6bot(source_path)
+            lines = route.body()
+        except (Unsupported, KeyError, IndexError, ValueError):
+            continue
+        if route.lossy or not any(line.startswith('wait ') for line in lines):
+            continue
+        source = SOURCES[route.source]
+        name = f'{route.map}#{route.mode}#{W}x{H}#converted#source_btd6bot#timing-preserved.btd6'
+        target = PT / name
+        meta = [f"source: {source['repo']} (license {source['license']}) commit {source['commit']}",
+                f"source file: {route.source_file}",
+                'Explicit waits preserved; no source actions omitted except zero waits and bare-name no-ops.',
+                'Offline-converted candidate; no local victory claimed. Original recordings preserved.']
+        content = '\n'.join(header(meta) + lines) + '\n'
+        if target.exists() and target.read_text(encoding='utf-8') != content:
+            raise RuntimeError(f'Refusing to overwrite changed timing candidate: {name}')
+        if not target.exists():
+            target.write_text(content, encoding='utf-8', newline='\n')
+        written.append({'file': name, 'sourceFile': route.source_file,
+                        'map': route.map, 'mode': route.mode,
+                        'waits': sum(line.startswith('wait ') for line in lines)})
+    print(json.dumps({'timingCandidates': written}, indent=2))
+
+
 if __name__ == "__main__":
-    main()
+    if '--timing-candidates' in sys.argv:
+        emit_timing_candidates()
+    else:
+        main()

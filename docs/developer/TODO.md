@@ -4,6 +4,9 @@ Updated 5 October 2026. Checkboxes require evidence, not merely code. Preserve o
 
 ## Current repair pass
 
+- Confirmed Polyphemus CHIMPS victory at 22:30:22 on 5 October, with Hard/Clicks=1050185 in the authoritative save. This missing medal is complete and must never be replayed. The queued installer through `b853fe0` finished afterward; the sweep resumed on Ancient Portal Hard. Later source changes remain queued for another batch.
+- [x] Add four separate timing-preserved BTD6bot candidates: Castle Revenge, Enchanted Glade, Encrypted and Pat's Pond CHIMPS. Their executable actions match the older conversion after removing the newly preserved waits; no other loss is reported by the converter. Offline legality checks pass. New selective `--timing-candidates` mode never removes/replaces existing recordings, is idempotent and refuses to overwrite edited candidates. No victory or new map/mode coverage is claimed; gameplay remains limited to missing medals.
+
 - [x] Tighten offline command legality: cap the knowledge-dependent Crossbow Master exception at two active towers and reject ordinary path-upgrade commands targeting heroes. Focused regressions pass; regenerated coverage remains 508 eligible map/mode pairs, 696 gaps. No route recordings were changed.
 - Live observation at native 1920x1080 on 5 October: Polyphemus CHIMPS round 75 frame showed $14,396 and Glue Gunner 0-2-3, matching the reported state and panel reader. This checks one active replay frame, not all HUD layouts or 1440p. Screenshot remains private.
 
