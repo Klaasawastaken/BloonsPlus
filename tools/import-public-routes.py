@@ -9,12 +9,12 @@ btd6bot/, with their LICENSE files, so a rerun needs no network):
 
 Every route is converted action by action. Nothing is invented: coordinates, towers, upgrade order
 and round timing come from the source file. Actions AutoBTD6 cannot express are handled like this:
-  * harmless (timing only, hero level purchases, speed/autostart toggles): dropped, noted in header;
+  * harmless (timing only, speed/autostart toggles): dropped, noted in header;
   * lossy (activated abilities, map clicks, banana collection sweeps, targeting that needs a click,
     obstacle removal without a price): the route is written only for Easy/Medium/Hard - the modes
     automation.js already accepts unverified routes for - with the #lossy flag. A lossy CHIMPS or
     Impoppable plan is written as Easy/Medium/Hard routes (#fromChimps) where those are uncovered;
-  * fatal (unknown tower/hero, moving-map position updates, unreadable statements): rejected.
+  * fatal (paid hero levels, unknown tower/hero, moving-map position updates, unreadable statements): rejected.
 Rejections and remaining gaps go to route-gaps.json.
 
 A final pass adds compatibility copies of existing trusted routes, following AutoBTD6's own
@@ -158,8 +158,7 @@ class Route:
         name = self.tower(source_name)
         state = self.towers[name]
         if state["hero"]:
-            self.harmless.add("hero level purchases (AutoBTD6 levels heroes by XP only)")
-            return
+            raise Unsupported("paid hero levels cannot be replaced by passive XP")
         up = list(state["up"])
         up[path] += 1
         if up[path] > 5 or sum(v > 0 for v in up) > 2 or sum(v > 2 for v in up) > 1:
@@ -171,8 +170,7 @@ class Route:
         """Upgrade to an absolute crosspath, buying top, middle then bottom tiers (source order)."""
         name = self.tower(source_name)
         if self.towers[name]["hero"]:
-            self.harmless.add("hero level purchases (AutoBTD6 levels heroes by XP only)")
-            return
+            raise Unsupported("paid hero levels cannot be replaced by passive XP")
         current = self.towers[name]["up"]
         if any(t < c for t, c in zip(target, current)):
             raise Unsupported(f"upgrade target {target} below current {current} on {source_name} ({name}); "
@@ -474,8 +472,7 @@ def convert_bloonsplayer(path):
             a = bp_args(m.group(1))
             name = route.tower(a[0])
             if route.towers[name]["hero"]:
-                route.harmless.add("hero level purchases (AutoBTD6 levels heroes by XP only)")
-                continue
+                raise Unsupported("paid hero levels cannot be replaced by passive XP")
             for p in a[1:]:
                 if p not in ("1", "2", "3"):
                     raise Unsupported(f"bad upgrade path {p}")

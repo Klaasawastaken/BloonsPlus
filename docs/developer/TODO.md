@@ -4,6 +4,8 @@ Updated 5 October 2026. Checkboxes require evidence, not merely code. Preserve o
 
 ## Current repair pass
 
+- [x] Reject new route conversions that silently omit paid hero levels; four offline regressions pass. Original recordings remain unchanged.
+- [ ] Review existing converted recordings whose headers report dropped hero purchases; restore the required purchase semantics or exclude the incomplete candidate. Do not replay owned medals to validate them.
 - [x] Refresh restored replay inputs from the current route; validate saved coordinates and retry counts. Ten focused recovery regressions pass; guest deployment and live resume validation remain open.
 - [x] Keep mobile website navigation synchronized with desktop links, including Wiki and current-page highlighting.
 - [x] Restore host/guest connectivity: reopening the desktop app started the existing VM, connected its app and completed setup without errors on 5 October. The sweep was idle afterward.

@@ -2,6 +2,7 @@
 
 ## Unreleased — replay diagnostics and cash reading
 
+- Reject imported strategies that require paid hero levels instead of silently dropping those purchases as harmless. Four offline regressions cover both upgrade APIs, BloonsPlayer text conversion and ordinary tower upgrades. Existing recordings are unchanged; previously converted routes with dropped hero purchases still need individual review.
 - Retain unresolved planned upgrades in checkpoint metadata until observed tiers prove those targets owned. Deduplicate repeated attempts without erasing other towers or higher pending tiers. Automatic resume reconciliation is still outstanding.
 - Preserve the intended three-path tier vector on every parsed recorded upgrade. Already-owned target tiers (or higher) are recognized without another purchase; a missing prerequisite is no longer mistaken for the planned higher-tier upgrade. Resumable unresolved-action recovery remains unfinished.
 - Exclude unverified, unchanged Hard-route aliases from unsupported variation reuse. Compare executable strategy content, so genuinely adapted candidates remain eligible. Dedicated #Ouch ABR candidates remain available; a renamed Hard recording no longer masquerades as one.
