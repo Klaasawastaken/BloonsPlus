@@ -2820,13 +2820,24 @@ def main():
                     correctedOpeningMoney = currentValues['money'] - 50000
                     customPrint('DEBUG corrected opening cash OCR ' + str(currentValues['money']) + ' -> ' + str(correctedOpeningMoney))
                     currentValues['money'] = correctedOpeningMoney
-                # Do not let a repeated opening OCR artifact become the cash
-                # baseline merely because the round reader initialized first.
-                # A normal mode cannot legitimately open above this bound;
-                # Deflation has its own higher starting-cash allowance.
-                if lastGoodMoney == 0 and currentValues['money'] > (25000 if mapConfig.get('gamemode') == 'deflation' else 5000):
-                    customPrint('WARNING rejecting implausible opening cash OCR ' + str(currentValues['money']))
-                    currentValues['money'] = -1
+                # Deflation commonly opens at $20,000 ($40,000 with Double Cash).
+                # At the normal threshold the outlined dollar sign and final zero can be
+                # classified as digits (`$40,000` -> `540006`). A stricter white mask cleanly
+                # removes those two artifacts on the same frame. Re-read before rejecting so
+                # Deflation routes do not wait forever with a perfectly visible cash counter.
+                openingCashLimit = 100000 if mapConfig.get('gamemode') == 'deflation' else 10000
+                if lastGoodMoney == 0 and currentValues['money'] > openingCashLimit:
+                    try:
+                        stricterCash = int(custom_ocr(images[2], white_threshold=242))
+                    except (TypeError, ValueError):
+                        stricterCash = -1
+                    if 0 <= stricterCash <= openingCashLimit:
+                        customPrint('DEBUG corrected opening cash OCR ' + str(currentValues['money'])
+                                    + ' -> ' + str(stricterCash) + ' at threshold 242')
+                        currentValues['money'] = stricterCash
+                    else:
+                        customPrint('WARNING rejecting implausible opening cash OCR ' + str(currentValues['money']))
+                        currentValues['money'] = -1
 
                 # OCR sometimes inserts a digit (45628 -> 452506). A lone jump to several times the
                 # last good reading is treated as unreadable unless the next frame repeats it.
