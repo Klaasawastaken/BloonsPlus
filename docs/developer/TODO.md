@@ -11,6 +11,8 @@ Updated 5 October 2026. Checkboxes require evidence, not merely code. Preserve o
 - [x] Redo the linked README banner with original BTD6-inspired map and tower artwork.
 - [ ] Deploy the local patches and validate cash at native 1080p and 1440p in the guest.
 - [ ] Resolve ambiguous upgrades using observed panel tiers; do not claim the cash reader alone fixes missed purchases.
+- [x] Implement ordinary-panel tier observation and bounded button retry with native-frame and offline regression evidence.
+- [ ] Verify the observer and 120 ms keyboard hold in a fresh VM replay; reconcile a confirmed win with its saved medal.
 - [ ] Keep unresolved upgrades explicit in resumable checkpoints, then validate recovery without buying a wrong tier.
 - [ ] Review each backlog entry against its own evidence and confirm a subsequent victory plus saved medal.
 

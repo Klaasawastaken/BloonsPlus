@@ -182,9 +182,14 @@ class GameState:
         })
         if action_type == 'upgrade':
             path = action['path']
-            tower['upgrades'][path] = min(5, tower['upgrades'][path] + 1)
+            observation = action.get('upgradeObservation', {})
+            if observation.get('status') == 'confirmed':
+                tower['upgrades'] = list(observation['after'])
+            else:
+                tower['upgrades'][path] = min(5, tower['upgrades'][path] + 1)
         event = {
             'type': action_type,
+            'status': 'panel-tier-confirmed' if action.get('upgradeObservation', {}).get('status') == 'confirmed' else 'cash-confirmed',
             'tower': name,
             'towerType': tower.get('type'),
             'position': list(tower.get('position') or []),

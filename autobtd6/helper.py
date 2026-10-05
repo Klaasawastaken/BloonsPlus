@@ -1409,7 +1409,8 @@ def keyToAHK(x):
     return "{sc" + hex(x).replace("0x", "") + "}" if type(x) == type(int()) else x
 
 def sendKey(key):
-    ahk.send(keyToAHK(key), key_delay=15, key_press_duration=30, send_mode='Event')
+    # A 30 ms tap can occur entirely between frames in the VM.
+    ahk.send(keyToAHK(key), key_delay=30, key_press_duration=120, send_mode='Event')
 
 def mapnameToKeyname(mapname):
     return (

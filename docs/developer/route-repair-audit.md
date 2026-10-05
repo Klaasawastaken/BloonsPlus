@@ -68,3 +68,22 @@ aggregate counts alone do not satisfy that requirement.
   in this snapshot. Remaining combinations are explicitly awaiting evidence review.
 - VM deployment is pending. No route is declared repaired or victorious solely
   because these offline regressions pass.
+
+## Native-frame follow-up
+
+The latest Tinkerton CHIMPS attempt ended at round 28. Its native failure frame
+shows the Village at 0-1-0, while the log issued its top-path upgrade before the
+middle-path purchase. This confirms a missed upgrade, not merely ambiguous cash.
+
+The new observer reads the panel's fifteen tier pips, rejects partial/noncontiguous
+patterns, waits one second after input, and retries once through the available
+upgrade button only when all observed tiers stayed unchanged on the same panel side.
+Five offline regressions cover both sides, T5, successful/no-retry input, a supported
+button retry, unavailable/unknown panels, and tier-ledger reconciliation with income.
+The native Village frame reads 0-1-0; a left Dart panel reads 0-0-0; three screenshots
+without ordinary tower panels return unknown. Input duration increased from 30 to
+120 ms. Live verification is still required, especially on moving or obscured towers.
+
+The observer does not identify a tower by name. Correct selection still depends on
+the recorded/tracked position. Unrecognized layouts keep a single key input and
+the existing cash fallback; checkpoint recovery remains a separate open issue.

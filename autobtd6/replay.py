@@ -10,6 +10,7 @@ import threading
 import time
 from game_runtime import GameState, normalize_action
 from upgrade_rules import can_upgrade_path
+from upgrade_observation import observe_upgrade
 
 LAST_HERO_FILE = 'last-hero.json'
 UPGRADE_MEMORY_FILE = 'upgrade-memory.json'
@@ -120,7 +121,7 @@ def saveGameState(gameState):
                 time.sleep(0.05 * (attempt + 1))
 
 def updateUpgradeMemory(action, mapConfig, runId, cashBefore, cashAfter, roundNumber):
-    """Persist an upgrade only when OCR sees a positive net cash drop after its input."""
+    """Persist route purchases confirmed by tier pips or a positive cash drop."""
     if action.get('action') != 'upgrade' or 'path' not in action:
         return
     try:
@@ -146,7 +147,13 @@ def updateUpgradeMemory(action, mapConfig, runId, cashBefore, cashAfter, roundNu
     levels = entry.setdefault('upgrades', [0, 0, 0])
     path = int(action['path'])
     if 0 <= path < 3:
-        levels[path] = min(5, int(levels[path]) + 1)
+        observation = action.get('upgradeObservation', {})
+        if observation.get('status') == 'confirmed':
+            levels[:] = observation['after']
+            entry['source'] = 'panel-tier-confirmed-route'
+            memory['scope'] = 'observed-route-purchases'
+        else:
+            levels[path] = min(5, int(levels[path]) + 1)
         entry['lastUpdated'] = time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())
         entry['lastAction'] = {
             'path': path,
@@ -2932,7 +2939,8 @@ def main():
                     and lastIterationBalance >= 0 and currentValues['money'] >= 0
                     and lastIterationCost > 0):
                     observedSpend = lastIterationBalance - currentValues['money']
-                    if observedSpend > 0:
+                    upgradeStatus = lastIterationAction.get('upgradeObservation', {}).get('status')
+                    if upgradeStatus == 'confirmed' or (observedSpend > 0 and upgradeStatus not in ('unchanged', 'unexpected')):
                         if currentGameState is not None:
                             currentGameState.confirm_purchase(lastIterationAction, mapConfig, lastIterationBalance, currentValues['money'])
                             saveGameState(currentGameState)
@@ -2943,27 +2951,15 @@ def main():
                             recordSpot(mapConfig.get('map'), placementClassFor(lastIterationAction, mapConfig), lastIterationAction['pos'], True, screenshot.shape[1])
                             learnPlacementSample(mapConfig.get('map'), placementClassFor(lastIterationAction, mapConfig), patchFeature(pendingPlacementProbe.get('before')) if pendingPlacementProbe and pendingPlacementProbe.get('name') == lastIterationAction.get('name') else None, True)
                             towerTracker.remember(lastIterationAction.get('name'), screenshot, lastIterationAction['pos'])
-                        confidence = 'cash-confirmed' if observedSpend == lastIterationCost else 'cash-drop-confirmed (income/price delta differed)'
+                        confidence = ('panel-tier-confirmed' if upgradeStatus == 'confirmed' else
+                                      'cash-confirmed' if observedSpend == lastIterationCost else 'cash-drop-confirmed (income/price delta differed)')
                         customPrint('DEBUG ' + lastIterationAction['action'] + ' ' + confidence + ' tower=' + str(lastIterationAction.get('name')) +
                                     ' path=' + str(lastIterationAction.get('path')) + ' expected=' + str(lastIterationCost) + ' observed=' + str(observedSpend))
                     else:
                         if lastIterationAction.get('action') == 'upgrade':
-                            # If the balance is exactly unchanged, retry once after reselecting
-                            # the tower. A rising balance is different: pop income can hide a
-                            # successful purchase, so repeating a path hotkey could buy the next
-                            # tier by mistake.
-                            if observedSpend == 0 and not lastIterationAction.get('upgradeRetried'):
-                                customPrint('RECOVERY upgrade cash unchanged; reselecting tower and retrying path once: tower=' +
-                                            str(lastIterationAction.get('name')) + ' path=' + str(lastIterationAction.get('path')))
-                                pyautogui.click(lastIterationAction['pos'])
-                                time.sleep(max(actionDelay, 0.35))
-                                sendKey(lastIterationAction['key'])
-                                time.sleep(0.2)
-                                pyautogui.click(button='right')
-                                lastIterationAction['upgradeRetried'] = True
-                                lastIterationBalance = currentValues['money']
-                                lastIterationRound = currentValues['round']
-                                continue
+                            # Retrying on cash alone can buy a higher tier when income
+                            # masks a successful purchase. The input branch already performs
+                            # one button retry only after observing unchanged tier pips.
                             if currentGameState is not None:
                                 # Keep recovery compatible with older installed game_runtime.py
                                 # copies. A missing optional ledger helper must never terminate
@@ -3498,7 +3494,16 @@ def main():
                                 time.sleep(actionDelay)
                             else:
                                 customPrint('DEBUG nested key=' + str(action.get('key')))
-                                sendKey(action['key'])
+                                if action['action'] == 'upgrade':
+                                    action['upgradeObservation'] = observe_upgrade(
+                                        action['path'],
+                                        lambda: np.array(pyautogui.screenshot())[:, :, ::-1].copy(),
+                                        lambda: sendKey(action['key']),
+                                        lambda pos: pyautogui.click(pos), time.sleep)
+                                    customPrint('DEBUG upgrade panel observation tower=' + str(action.get('name'))
+                                                + ' path=' + str(action['path']) + ' ' + str(action['upgradeObservation']))
+                                else:
+                                    sendKey(action['key'])
                                 # BTD6 applies path upgrades on the next frame;
                                 # do not close the tower panel immediately.
                                 time.sleep(0.18)

@@ -2,6 +2,8 @@
 
 ## Unreleased — replay diagnostics and cash reading
 
+- Extended key presses from 30 ms to 120 ms for VM input. Added ordinary-tower tier-pip observation on both panel sides, a one-second wait, and at most one button retry when the same tiers remain visible and the upgrade button is available. Confirmed visual tiers reconcile the run ledger even when income hides spending.
+- Removed the blind retry on unchanged cash. Unknown or occluded panels do not authorize a second purchase.
 - Corrected ordinary-tower crosspath eligibility for surplus upgrades: legal T1/T2 crosspaths remain available beside a T3–T5 main path, and a third path cannot be opened.
 - Cropped the currency symbol out of the cash reader and widened its digit area. Removed arithmetic that fabricated balances from suspicious OCR; invalid leading-zero readings now require agreement between two alternate masks.
 - Matched failure evidence to the current map, mode and attempt time. Interrupted and unconfirmed runs are no longer automatically classified as gameplay defeats.
