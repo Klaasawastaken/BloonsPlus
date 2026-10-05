@@ -13,7 +13,7 @@ from game_runtime import GameState, normalize_action
 from upgrade_rules import can_upgrade_path
 from upgrade_observation import observe_upgrade, resolve_hud_panels
 from placement_observation import held_placement_visible
-from route_timing import delay_ready, round_offset_ready
+from route_timing import delay_ready, round_offset_ready, ability_ready
 from resume_recovery import restore_upgrade_steps, probe_owned_upgrade
 
 LAST_HERO_FILE = 'last-hero.json'
@@ -3356,7 +3356,8 @@ def main():
                         continue
                 nextStepAction = nextStep.get('action') if nextStep else None
                 nextStepDelayReady = (delay_ready(nextStep, time.time())
-                                      and round_offset_ready(nextStep, time.time(), observedRound, observedRoundStartedAt))
+                                      and round_offset_ready(nextStep, time.time(), observedRound, observedRoundStartedAt)
+                                      and ability_ready(nextStep, time.time(), observedRoundStartedAt))
                 if nextStep and 'secondsAfterRound' in nextStep and observedRound is not None and observedRound > nextStep.get('round', observedRound):
                     customPrint('TIMING_RECOVERY overdue round offset target=' + str(nextStep['round']) + ' observed=' + str(observedRound) + '; executing remaining planned action')
                 nextStepCost = int(nextStep.get('cost', 0) or 0) if nextStep else 0
@@ -3727,13 +3728,11 @@ def main():
                         customPrint('DEBUG press key=' + str(action['key']))
                         sendKey(action['key'])
                     elif action['action'] == 'ability':
-                        timer = max(0.0, float(action.get('timer', 0)))
-                        wait = 0.0 if observedRoundStartedAt is None else max(0.0, observedRoundStartedAt + timer - time.time())
+                        # The execution gate has waited while screen reads continued.
                         customPrint('DEBUG ability slot=' + str(action.get('slot')) + ' key=' + str(action['key'])
-                                    + ' round_delay=' + str(timer) + ' wait_remaining=' + str(round(wait, 3))
+                                    + ' round_delay=' + str(action.get('timer', 0))
+                                    + ' deadline=' + str(action.get('abilityDeadline'))
                                     + ' target=' + str(action.get('pos')))
-                        if wait:
-                            time.sleep(wait)
                         sendKey(action['key'])
                         if action.get('pos') is not None:
                             cursorDelay = max(0.0, float(action.get('cursor_delay', 0)))

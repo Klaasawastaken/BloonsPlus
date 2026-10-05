@@ -1,5 +1,11 @@
 ## Preview 13 — Round-relative strategy timing
 
+## Preview 15 — Non-blocking ability timers
+
+- Gate timed abilities without blocking screen observation. Pin deadlines across round transitions.
+- Restore unchanged ability deadlines from checkpoints and reject malformed values.
+- 32 focused offline timing, resume and converter checks pass. Cursor-target waits remain unfinished.
+
 ## Preview 14 — Settings and unavailable upgrade safety
 
 - Simplify Settings and move diagnostic readouts into Run logs. Remove the inert queue toggle.

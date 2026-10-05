@@ -6,7 +6,7 @@ import io
 import textwrap
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'autobtd6'))
-from route_timing import delay_ready, round_offset_ready
+from route_timing import delay_ready, round_offset_ready, ability_ready
 from resume_recovery import restore_action
 from game_runtime import normalize_action
 
@@ -17,6 +17,44 @@ class RouteTimingTests(unittest.TestCase):
         self.assertFalse(delay_ready(step, 10))
         self.assertFalse(delay_ready(step, 12))
         self.assertTrue(delay_ready(step, 12.5))
+
+    def test_ability_wait_is_nonblocking_and_round_change_does_not_reset_it(self):
+        step = dict(action='ability', timer=8)
+        self.assertFalse(ability_ready(step, 102, 100))
+        self.assertFalse(ability_ready(step, 107, 106))
+        self.assertTrue(ability_ready(step, 108, 106))
+        self.assertEqual(step['abilityDeadline'], 108)
+
+    def test_ability_overdue_zero_and_missing_anchor_keep_legacy_behavior(self):
+        self.assertTrue(ability_ready(dict(action='ability', timer=2), 105, 100))
+        self.assertTrue(ability_ready(dict(action='ability'), 100, 100))
+        self.assertTrue(ability_ready(dict(action='ability', timer=5), 100, None))
+        self.assertTrue(ability_ready(dict(action='upgrade'), 100, 100))
+
+    def test_ability_invalid_timer_and_deadline_rejected(self):
+        for value in (-1, True, '5', float('inf'), float('nan')):
+            with self.assertRaises(ValueError):
+                ability_ready(dict(action='ability', timer=value), 100, 100)
+        with self.assertRaises(ValueError):
+            ability_ready(dict(action='ability', abilityDeadline=float('nan')), 100, 100)
+
+    def test_replay_no_long_sleep_before_ability_input(self):
+        source = (Path(__file__).resolve().parents[1] / 'autobtd6/replay.py').read_text(encoding='utf-8')
+        start = source.index("                    elif action['action'] == 'ability':")
+        branch = source[start:source.index("                    elif action['action'] == 'speed':", start)]
+        self.assertNotIn('time.sleep(wait)', branch)
+        gate = source[source.index('                nextStepDelayReady = '):source.index('                nextStepCost = ', source.index('                nextStepDelayReady = '))]
+        self.assertIn('ability_ready(nextStep', gate)
+
+    def test_resume_preserves_unchanged_ability_deadline(self):
+        source = dict(action='ability', timer=8)
+        saved = dict(source, abilityDeadline=108)
+        step = restore_action(source, saved)
+        self.assertFalse(ability_ready(step, 107, 106))
+        self.assertTrue(ability_ready(step, 108, 106))
+        self.assertNotIn('abilityDeadline', restore_action(dict(source, timer=9), saved))
+        with self.assertRaises(ValueError):
+            restore_action(source, dict(saved, abilityDeadline=float('nan')))
 
     def test_round_offsets_share_one_round_start(self):
         first = dict(action='await_round', round=20, secondsAfterRound=5)

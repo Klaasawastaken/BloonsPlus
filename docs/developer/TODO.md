@@ -229,3 +229,10 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [x] Retain exact-tier recovery, already-owned reconciliation and one visually justified button retry; log the unavailable reason.
 - [x] Confirm One Two Tree Impoppable: victory summary and authoritative Hard.Impoppable medal value 1050191. Never replay this earned medal.
 - [ ] Deploy Preview 14 at the queued replay boundary and verify the controller reload before resuming.
+
+## Ability timing (2026-10-06)
+
+- [x] Move ability timer waits into the non-blocking execution gate and preserve deadlines across round transitions and unchanged checkpoint restores.
+- [x] Verify 14 timing, 10 resume and eight converter checks offline; preserve original recordings.
+- [ ] Replace cursor-target waits with observed, non-blocking scheduling.
+- [ ] Observe timed abilities only during gameplay for a missing medal; offline checks do not establish victory.

@@ -13,6 +13,12 @@ def restore_action(source, saved):
             if type(deadline) not in (int, float) or not isfinite(deadline):
                 raise ValueError('invalid checkpoint delay deadline')
             step['delayDeadline'] = deadline
+    if source.get('action') == 'ability' and saved.get('timer', 0) == source.get('timer', 0):
+        deadline = saved.get('abilityDeadline')
+        if deadline is not None:
+            if type(deadline) not in (int, float) or not isfinite(deadline):
+                raise ValueError('invalid checkpoint ability deadline')
+            step['abilityDeadline'] = deadline
     for key in ('pos', 'originPos'):
         position = saved.get(key)
         if position is not None:
