@@ -14,6 +14,20 @@ def functions(file, names, namespace):
     return namespace
 
 class Regressions(unittest.TestCase):
+    def test_support_repositioning_requires_experiment_and_safe_mode(self):
+        tree = ast.parse((ROOT / 'autobtd6/replay.py').read_text(encoding='utf-8'))
+        guard = next(node for node in ast.walk(tree) if isinstance(node, ast.If)
+                     and any(isinstance(child, ast.Assign) and any(isinstance(t, ast.Name)
+                             and t.id == 'nearbyReach' for t in child.targets) for child in node.body))
+        for enabled, mode, dynamic, expected in (
+                ('0', 'hard', False, False), ('1', 'chimps', False, False),
+                ('1', 'hard', True, False), ('1', 'hard', False, True)):
+            env = dict(os=SimpleNamespace(environ={'BLOONS_EXPERIMENTAL_PLACEMENT':enabled}),
+                       mapConfig={'gamemode':mode}, dynamicHere=dynamic,
+                       supportPx=100, allies=[(1,1)], originVerdict=False)
+            result = eval(compile(ast.Expression(guard.test), '<support-guard>', 'eval'),env)
+            self.assertEqual(bool(result),expected,(enabled,mode,dynamic))
+
     def test_cash_does_not_invent_digits(self):
         env = functions('autobtd6/ocr.py', ['parse_cash_digits', 'cash_ocr'], {})
         parse = env['parse_cash_digits']

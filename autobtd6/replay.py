@@ -3528,7 +3528,11 @@ def main():
                         villages = ([tuple(t['position']) for _, t in placedTowers if t.get('type') == 'village']
                                     + [tuple(st['pos']) for st in plannedPlaces if st.get('type') == 'village' and st.get('pos')])
                         poorSupport = False
-                        if supportPx is not None and allies and originVerdict is False:
+                        # Coverage optimization is optional, not placement recovery.
+                        # Keep recorded support coverage on CHIMPS and changing terrain.
+                        if (os.environ.get('BLOONS_EXPERIMENTAL_PLACEMENT') == '1'
+                                and mapConfig.get('gamemode') != 'chimps' and not dynamicHere
+                                and supportPx is not None and allies and originVerdict is False):
                             originReach = towersInside(action['pos'], supportPx, allies)
                             nearbyReach = max(towersInside((int(action['pos'][0] + rr * math.cos(math.radians(a)) * frameWidth / 1920),
                                                             int(action['pos'][1] + rr * math.sin(math.radians(a)) * frameWidth / 1920)),

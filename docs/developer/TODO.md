@@ -4,6 +4,10 @@ Updated 5 October 2026. Checkboxes require evidence, not merely code. Preserve o
 
 ## Current repair pass
 
+- [x] Gate support-tower coverage optimization behind experimental placement, excluding CHIMPS and changing-terrain maps. The offline regression reproduced repositioning with the experiment disabled; disabled/CHIMPS/dynamic cases now retain recorded positions. Failed-placement recovery remains available. Guest deployment pending.
+- Preview 7 published and installed between replays at 23:07 on 5 October. Guest replay, placement detector and wait-runtime hashes matched source; missing-medal sweep resumed. The release contains earlier queued knowledge, route-wait, rate and installer fixes. GitHub Actions reported an outage; latest Pages deployment remained queued rather than a site build failure.
+
+
 - [x] User art correction: remove generated banner PNG and references; compose README/Features from existing official BTD6 tower and map assets, retaining character proportions and attribution. Give Wiki an Engineer icon. Rebuild Subscriptions as a direct comparison with monthly/annual controls and Contributors as owner/community/help sections. Mobile checks pass at 390px; fix absolute table-caption overflow. No live replay interrupted.
 
 
