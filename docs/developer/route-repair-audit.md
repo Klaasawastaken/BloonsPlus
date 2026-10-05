@@ -217,3 +217,19 @@ Rotation now protects images written by the current call and expires older
 future-dated payloads before normally dated images. It does not alter timestamps
 or structured failure records. All 48 Python regressions pass; deployment is
 queued behind the active Mesa Hard run.
+
+## Round crop retained across panel transitions
+
+A native Mesa frame showed 56/80 with a left Engineer panel while replay remained
+at round 44 and returned unreadable round values. The per-frame layout code reset
+the base crop only when no left panel was open. Switching from right to left
+therefore retained the previous right-panel round coordinates. A regression of
+the actual layout branch reproduced this exact transition. Base coordinates are
+now refreshed on every frame before applying offsets. All 49 Python tests pass;
+live validation is pending deployment after Mesa finishes.
+
+Route syntax validation also now requires coordinates for placements/removals,
+an upgrade path, numeric round/cash thresholds and supported speed values.
+Missing fields previously passed the generic grammar but failed in the Python
+parser. The expanded syntax regression passes; all 887 active recordings pass
+the new syntax checks. No original route was modified.

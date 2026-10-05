@@ -2801,13 +2801,15 @@ def main():
                     lastHudRightPanelOpen = hudRightPanelOpen
                 def gameBox(box):
                     return [int(value * scale) for value in box]
+                # Derive every frame from the base HUD. A right-to-left panel
+                # transition must not retain the previous shifted round crop.
+                segmentCoordinates = getIngameOcrSegments(mapConfig)
                 if hudPanelOpen:
                     segmentCoordinates['lives'] = gameBox((226, 4, 312, 36))
                     # Crop starts after the currency symbol. The digit-only
                     # model can mistake '$' for 2/5/6/9, adding phantom cash.
                     segmentCoordinates['money'] = gameBox((378, 4, 503, 36))
                 else:
-                    segmentCoordinates = getIngameOcrSegments(mapConfig)
                     segmentCoordinates['money'] = gameBox((184, 4, 309, 36))
                 if hudRightPanelOpen:
                     # The right upgrade panel pushes the round counter from the
