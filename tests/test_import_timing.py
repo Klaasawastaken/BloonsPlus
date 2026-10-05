@@ -14,6 +14,14 @@ spec.loader.exec_module(module)
 
 
 class TimingConversionTests(unittest.TestCase):
+    def test_randy_start_is_flow_control_and_finish_is_source_noop(self):
+        with tempfile.TemporaryDirectory() as folder:
+            path = Path(folder) / 'logs_script.py'
+            path.write_text("script = [Action('start', action='start', cost=0), Action('finish', action='finish', cost=0)]", encoding='utf-8')
+            route = module.convert_randyhodges(path)
+        self.assertIn('explicit start game / speed control', route.lossy)
+        self.assertEqual(route.harmless, {'finish (automatic source handler sends no input)'})
+
     def test_full_import_preserves_repaired_generator_recording(self):
         with tempfile.TemporaryDirectory() as folder:
             root = Path(folder)

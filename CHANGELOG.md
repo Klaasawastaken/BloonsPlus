@@ -1,5 +1,11 @@
 ## Preview 13 — Round-relative strategy timing
 
+## Preview 18 — Source flow audit
+
+- Classify Randy explicit start/speed as omitted flow control rather than a source no-op.
+- Confirm automatic finish sends no input; manual Sanctuary remains excluded.
+- Ten offline importer checks pass. Existing recordings and runtime behavior are unchanged.
+
 ## Preview 17 — Preserve repaired imports
 
 - Remove blanket deletion of existing imported recordings; retain repairs and original bytes.

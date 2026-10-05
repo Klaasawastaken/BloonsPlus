@@ -10,7 +10,7 @@ Updated 5 October 2026. Checkboxes require evidence, not merely code. Preserve o
 
 - Confirmed Alpine Run CHIMPS at 23:33 on 5 October: live victory observed, Hard/Clicks=1050185 in the authoritative VM save, and controller logged `alpine_run - chimps clear confirmed`. Missing medal complete; never replay it. Stop-after-replay completed before the Preview 11 update began. Update finished at 23:34:37 without error; guest Settings and dropdown assets were checked. Missing-medal sweep resumed on One Two Tree Impoppable using its CHIMPS recording.
 
-- [ ] Audit non-BTD6bot import timing: BloonsPlayer delay/wait/lives, speed/autostart and start-round commands are currently called harmless at tools/import-public-routes.py:526; Everything Macro nonzero mid-round delays are omitted at :580; Randy start/finish commands are omitted at :635. Determine source units and execution semantics before preserving them or flagging an incomplete conversion. Do not rewrite original CHIMPS routes.
+- [x] Audit source command semantics for BloonsPlayer, Everything Macro and Randy collection scripts. Nonzero waits/round offsets are preserved where supported; unsupported lives/manual-round/speed controls are explicitly lossy. Randy start sends Space twice; automatic finish is a literal no-input handler. Original recordings unchanged. Faithful manual-round conversion remains open below.
 
 - [x] Bound Microsoft C++ runtime download and installation waits. Show byte progress; reject oversized, truncated and non-executable responses before launch. Keep a timed-out Windows runtime installer running and report its process rather than terminating system installation. Compiled offline payload/ownership guards and atomic-output regressions pass. A clean Windows install remains unverified.
 
@@ -245,3 +245,8 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [x] Reject validation output outside the newly created batch before cleanup. Nine importer checks pass; the full importer was not run on the real route library.
 
 - Refreshed offline reports on 6 October: 893 recordings, 48 legacy timing review candidates; 508 of 1,204 map/mode pairs have eligible candidates across 86 maps, with 696 gaps and six maps lacking eligible routes. Coverage is not victory evidence.
+
+## Source control semantics (2026-10-06)
+
+- [x] Inspect Randy autoplayV2.py and play_collection_event.py at pinned commit 7c36862ffec1d64bb95ddabecf20c73cb54046fd without executing source. Start sends Space twice, automatic finish returns without input, Sanctuary uses manual controls and remains excluded.
+- [x] Classify omitted explicit start/speed as lossy rather than a no-op; ten converter regressions pass. Existing legacy recordings still require review; classification is not faithful conversion or a route win.

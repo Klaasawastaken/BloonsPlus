@@ -650,8 +650,14 @@ def convert_randyhodges(path):
             route.upgrade(name, {"upgrade 1": 0, "upgrade 2": 1, "upgrade 3": 2}[action])
         elif kind == "target":
             route.set_target(name, action)
-        elif kind in ("start", "finish"):
-            route.harmless.add(kind)
+        elif kind == "start":
+            # Pinned autoplayV2.start_game sends Space twice (start + speed).
+            # Automatic cash-driven startup is not an explicit equivalent.
+            route.lossy.add("explicit start game / speed control")
+        elif kind == "finish":
+            # Collection runner selects automatic mode except Sanctuary, which
+            # is rejected above. Its ordinary finish handler sends no input.
+            route.harmless.add("finish (automatic source handler sends no input)")
         elif kind == "click":
             route.lossy.add("map clicks (gimmicks/obstacles)")
         else:
