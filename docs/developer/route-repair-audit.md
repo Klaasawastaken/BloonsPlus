@@ -336,3 +336,14 @@ Offline regressions cover stale victory menus, missing save data, conflicting
 defeat evidence and a saved win despite unreadable round OCR. Deployment remains
 batched for the end of a replay. Delayed game-save writes can still leave a result
 unconfirmed until subsequent progress refresh; no clear is invented meanwhile.
+
+## Failure-history preservation
+
+Failure history now distinguishes a missing file from damaged JSON or access
+errors. Damaged content is copied to a private timestamped .log backup before
+the index is replaced; inability to preserve it aborts the write. Permission
+errors no longer silently discard history. Regression cases cover truncated JSON,
+incorrect shapes, missing files, denied reads and failed backups. New failures
+also retain the route content hash captured at replay startup, engine version
+and start time, so later source edits cannot obscure which recording failed.
+Private backups remain excluded by Git's *.log rule and installer log exclusions.
