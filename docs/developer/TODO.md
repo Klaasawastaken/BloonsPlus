@@ -365,5 +365,8 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [x] Add three separately named source candidates (Dark Dungeons Easy, Glacial Trail Easy, Muddy Puddles Hard). Both Python and JS route validators pass. No original recording overwritten and no validation-only game launched. No candidate victory claimed.
 - [x] Eight scheduler/importer/runtime checks, 18 timing checks and four paid-hero rejection checks pass; syntax and publication guard pass.
 - [x] Scrapyard CHIMPS earned: observed VICTORY_SUMMARY, controller clear confirmed, authoritative Scrapyard.difficult.Hard.modes.Clicks=1050185. Stop-after boundary confirmed running=false. Never replay this owned medal.
-- [ ] Deploy this batch and queued UI updates, then resume only missing medals.
+- [x] Preview 30 guest update completed without error at the confirmed Scrapyard boundary. Guest serves new Settings and all three ability-preserved candidates. Exact host Electron owner reloaded only while guest idle; authoritative guest status confirms missing-medal sweep running again.
 - [ ] Observe repeated abilities when a candidate is naturally selected for a missing medal; no testing-only replay.
+
+- Pinned upstream revision 17d624879c5ad777e82594da34450e66b2d60756 confirms duplicate-entry repeat lists, per-slot cancellation and the one-second cycle. Six existing JS route-validation/failure gates also pass.
+- New sweep naturally selected Dark Dungeons Easy for a missing medal using its ability-preserved source candidate; hero-picker logs show Etienne correctly read as Select. No validation-only run launched. Live repeating-input behavior and outcome remain to be observed.
