@@ -48,7 +48,7 @@ def read_upgrade_panel(frame):
 
 
 def observe_upgrade(path, capture, press, click, wait, reselect=None, expected_tiers=None):
-    """One hotkey, then at most one button retry supported by unchanged pips.
+    """Prefer a visible available button; allow one retry supported by unchanged pips.
 
     No input is sent to an unreadable panel. Reselecting is safe because it
     cannot buy another tier. Cash alone never authorizes a purchase retry.
@@ -70,7 +70,13 @@ def observe_upgrade(path, capture, press, click, wait, reselect=None, expected_t
             return {'status': 'confirmed', 'before': before['tiers'], 'after': before['tiers'], 'buttonRetry': False}
         if expected != expected_tiers:
             return {'status': 'unexpected', 'before': before['tiers'], 'after': before['tiers'], 'buttonRetry': False}
-    press()
+    # A stale user hotkey can enter tower placement instead of upgrading.
+    # When the panel supplies a confirmed green button, use its actual position.
+    direct_button = bool(before['available'][path])
+    if direct_button:
+        click(before['buttons'][path])
+    else:
+        press()
     wait(1.0)
     after = read_upgrade_panel(capture())
     def result(panel):
@@ -87,4 +93,5 @@ def observe_upgrade(path, capture, press, click, wait, reselect=None, expected_t
         after = read_upgrade_panel(capture())
         status = result(after)
     return {'status': status, 'before': before['tiers'] if before else None,
-            'after': after['tiers'] if after else None, 'buttonRetry': bool(retried)}
+            'after': after['tiers'] if after else None, 'buttonRetry': bool(retried),
+            'inputMethod': 'button' if direct_button else 'hotkey'}

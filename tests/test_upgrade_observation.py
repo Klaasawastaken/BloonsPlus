@@ -64,19 +64,20 @@ class UpgradeObservation(unittest.TestCase):
     def test_success_is_not_retried(self):
         result, calls = self.run_observation([panel([0, 0, 0]), panel([1, 0, 0])])
         self.assertEqual(result['status'], 'confirmed')
-        self.assertNotIn('click', calls)
+        self.assertEqual(calls.count('click'), 1)
+        self.assertNotIn('key', calls)
         self.assertIn(1.0, calls)
 
     def test_only_unchanged_available_path_gets_button_retry(self):
         result, calls = self.run_observation([panel([0, 0, 0]), panel([0, 0, 0]), panel([1, 0, 0])])
         self.assertEqual(result['status'], 'confirmed')
-        self.assertEqual(calls.count('click'), 1)
+        self.assertEqual(calls.count('click'), 2)
         self.assertTrue(result['buttonRetry'])
 
     def test_unavailable_and_unknown_panels_do_not_authorize_retry(self):
         for after in (panel([0, 0, 0], available=False), None, panel([2, 0, 0]), panel([0, 0, 0], side='left')):
             result, calls = self.run_observation([panel([0, 0, 0]), after])
-            self.assertNotIn('click', calls)
+            self.assertEqual(calls.count('click'), 1)
             self.assertNotEqual(result['status'], 'confirmed')
 
     def test_confirmed_panel_reconciles_ledger_even_with_income(self):
@@ -93,7 +94,7 @@ class UpgradeObservation(unittest.TestCase):
         result = observe_upgrade(0, lambda: next(frames), lambda: calls.append('key'),
                                  lambda pos: calls.append('click'), lambda s: None,
                                  reselect=lambda: calls.append('select'))
-        self.assertEqual(calls, ['select', 'key'])
+        self.assertEqual(calls, ['select', 'click'])
         self.assertEqual(result['status'], 'confirmed')
 
     def test_missing_panel_never_sends_upgrade(self):
