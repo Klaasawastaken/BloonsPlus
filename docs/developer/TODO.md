@@ -264,3 +264,9 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [x] Update completed without error; guest serves new app code and UI status view. Resume selected missing Skulltweak CHIMPS (save Clicks=1233), while earned One Two Tree CHIMPS remains Clicks=1050185.
 
 - Host app reloaded only after setup job completion. Fresh host status: running=true, vm=true, statusStale=false, compact payload 135,519 bytes with 1,277 current log lines; independent guest replay continued at round 10 without fatal error. This proves status synchronization/API deployment, not visual layout or a Skulltweak victory.
+
+## Settings polish (2026-10-06)
+
+- [x] Replace the two-option theme dropdown with accessible Light/Dark preview cards. Keep selection synchronized after import and reset.
+- [x] Separate reset from backup actions, shorten VM setup copy and remove the repeated Settings heading. Optional installation checks and ISO input remain collapsed.
+- [x] JavaScript syntax and diff whitespace checked; dark layout inspected in the host browser. No replay was interrupted or started for this change.

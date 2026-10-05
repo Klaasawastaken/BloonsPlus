@@ -788,7 +788,7 @@ function render() {
     }));
   }
   setText('#local-save-read', local?.readAt ? `Last save read ${new Date(local.readAt).toLocaleTimeString()}` : 'Last save read —');
-  const themeSetting = document.querySelector('#theme-setting'); if (themeSetting) themeSetting.value = state.theme || 'light';
+  document.querySelectorAll('#theme-setting input[name="app-theme"]').forEach(input => { input.checked = input.value === state.theme; });
   window.refreshSelectControls?.();
   const player = detectedProgress.player;
   // Profile.Save is rewritten by BTD6 continuously; the menu-screen scan only refreshes when
@@ -1007,6 +1007,7 @@ document.querySelector('#maps-search').addEventListener('input', renderMaps);
 document.querySelector('#maps-hide-done').addEventListener('change', renderMaps);
 document.querySelector('#achievement-search').addEventListener('input', event => { achievementQuery = event.target.value.trim().toLowerCase(); renderAchievements(); });
 document.querySelector('#theme-setting')?.addEventListener('change', event => {
+  if (!event.target.matches('input[name="app-theme"]')) return;
   state.theme = event.target.value === 'dark' ? 'dark' : 'light';
   document.documentElement.dataset.theme = state.theme;
   saveState();
@@ -1038,10 +1039,10 @@ refreshConnection();
 setInterval(() => { if (!document.hidden) refreshConnection(); }, 15000);
 document.querySelector('#export-save').addEventListener('click', () => {
   const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' }); const link = document.createElement('a');
-  link.href = URL.createObjectURL(blob); link.download = 'bloons-plus-save.json'; link.click(); URL.revokeObjectURL(link.href); notify('Save exported.');
+  link.href = URL.createObjectURL(blob); link.download = 'bloons-plus-save.json'; link.click(); URL.revokeObjectURL(link.href); notify('App backup exported.');
 });
 document.querySelector('#import-save').addEventListener('change', async event => {
-  try { const imported = JSON.parse(await event.target.files[0].text()); if (!Array.isArray(imported.queue) || !imported.towerChecks) throw new Error(); state = { ...defaults, ...imported }; saveState(); notify('Save imported.'); }
+  try { const imported = JSON.parse(await event.target.files[0].text()); if (!Array.isArray(imported.queue) || !imported.towerChecks) throw new Error(); state = { ...defaults, ...imported }; saveState(); notify('App backup restored.'); }
   catch { notify('That save file could not be read.'); }
   event.target.value = '';
 });
@@ -1050,7 +1051,7 @@ document.querySelector('#delete-save').addEventListener('click', () => {
 });
 document.querySelector('#confirm-dialog').addEventListener('close', event => {
   if (event.target.returnValue !== 'reset') return;
-  state = structuredClone(defaults); saveState(); notify('Local data reset.');
+  state = structuredClone(defaults); saveState(); notify('App preferences reset.');
 });
 document.addEventListener('keydown', event => { if (event.key === 'Escape' && !document.querySelector('#confirm-dialog').open) showView('overview'); });
 render();

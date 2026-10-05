@@ -1,3 +1,10 @@
+## Preview 20 — Cleaner Settings
+
+- Replace the theme dropdown with Light/Dark preview cards and native keyboard-accessible radio controls.
+- Separate preference reset from backup actions; keep optional setup details collapsed.
+- Shorten VM setup descriptions and remove the repeated Settings heading.
+- Preserve repair, VM update, backup and reset flows. No gameplay changes.
+
 ## Preview 13 — Round-relative strategy timing
 
 ## Preview 19 — Lighter status polling
