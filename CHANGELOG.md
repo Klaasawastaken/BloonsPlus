@@ -2,6 +2,9 @@
 
 ## Unreleased — replay diagnostics and cash reading
 
+- Reselect the intended tower up to twice when a readable panel contradicts its planned upgrade tiers. A persistent mismatch never authorizes purchase input. Offline regressions reproduce the Polyphemus Heli mismatch; this is not a claim that the route now wins.
+- Write game-state snapshots through unique temporary files with serialized writes, bounded Windows-lock retries and cleanup. Serialization failures preserve the previous snapshot rather than terminating gameplay. Exclude temporary files from Git and installers and reject them in publication checks.
+
 - Count sweep victories only after the existing victory-plus-saved-medal confirmation, rather than immediately from a result-screen log. Defeats still update when observed, and repeated result lines do not double count. Offline regression also checks consecutive wins and preserves non-medal farming outcome behavior.
 - Keep the first-observed activity timestamp stable when the VM clock is ahead; ages no longer reset to zero as the host clock approaches the original future time. Support numeric-string Unix timestamps and show unknown for malformed dates. Focused offline timestamp checks pass; existing saved timestamps are unchanged.
 - Download missing Steam setup into an isolated temporary file and promote it only after length and executable-format checks. Reuse completed unchanged downloads via a local integrity receipt; replace incomplete legacy caches and clean up interrupted downloads. Existing installed Steam still bypasses this step. Six offline cache-recovery checks pass; no Steam or game installation was changed during testing.

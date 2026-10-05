@@ -130,31 +130,40 @@ def sceneMatches(saved, current):
                    if len(before) == 3 and sum(abs(int(a) - int(b)) for a, b in zip(before, after)) < 85)
     return matching >= int(len(current) * 0.60)
 
+_game_state_lock = threading.Lock()
+
+
 def saveGameState(gameState):
     if gameState is None:
         return
-    temporaryFile = GAME_STATE_FILE + '.tmp'
-    try:
-        with open(temporaryFile, 'w', encoding='utf-8') as fp:
-            json.dump(gameState.to_dict(), fp, indent=2)
-            fp.flush()
-            os.fsync(fp.fileno())
-    except OSError as error:
-        customPrint('WARNING could not persist game state: ' + str(error))
-        return
-    # server.js polls this same path (fs.readFile/readFileSync) for the live-status UI, so a replace
-    # can lose a brief race against that read or an antivirus scan holding the handle without
-    # FILE_SHARE_DELETE (WinError 5). That is transient, not a real failure - retry briefly instead of
-    # dropping this round's state and only warning once retries are exhausted.
-    for attempt in range(5):
+    temporaryFile = None
+    with _game_state_lock:
         try:
-            os.replace(temporaryFile, GAME_STATE_FILE)
-            return
-        except OSError as error:
-            if attempt == 4:
-                customPrint('WARNING could not persist game state: ' + str(error))
-            else:
-                time.sleep(0.05 * (attempt + 1))
+            # Use a private sibling file so concurrent writers cannot truncate
+            # the payload waiting for Windows readers to release the target.
+            directory = os.path.dirname(os.path.abspath(GAME_STATE_FILE))
+            fd, temporaryFile = tempfile.mkstemp(prefix='.game-state-', suffix='.tmp', dir=directory)
+            with os.fdopen(fd, 'w', encoding='utf-8') as fp:
+                json.dump(gameState.to_dict(), fp, indent=2)
+                fp.flush()
+                os.fsync(fp.fileno())
+            for attempt in range(5):
+                try:
+                    os.replace(temporaryFile, GAME_STATE_FILE)
+                    return
+                except PermissionError:
+                    if attempt == 4:
+                        raise
+                    time.sleep(0.05 * (attempt + 1))
+        except (OSError, TypeError, ValueError) as error:
+            customPrint('WARNING could not persist game state; previous state preserved: ' + str(error))
+        finally:
+            if temporaryFile and os.path.exists(temporaryFile):
+                try:
+                    os.unlink(temporaryFile)
+                except OSError:
+                    pass
+
 
 def updateUpgradeMemory(action, mapConfig, runId, cashBefore, cashAfter, roundNumber):
     """Persist route purchases confirmed by tier pips or a positive cash drop."""

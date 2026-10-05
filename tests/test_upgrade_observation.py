@@ -23,6 +23,23 @@ def panel(tiers, side='right', available=True):
 
 
 class UpgradeObservation(unittest.TestCase):
+    def test_wrong_heli_panel_reselected_before_purchase(self):
+        frames = iter([panel([5, 0, 2]), panel([2, 0, 4]), panel([2, 0, 5])])
+        calls = []
+        result = observe_upgrade(2, lambda: next(frames), lambda: calls.append('key'),
+                                 lambda pos: calls.append('buy'), lambda s: None,
+                                 reselect=lambda: calls.append('select'), expected_tiers=[2, 0, 5])
+        self.assertEqual(calls, ['select', 'buy'])
+        self.assertEqual(result['status'], 'confirmed')
+
+    def test_persistent_wrong_panel_never_buys(self):
+        calls = []
+        result = observe_upgrade(2, lambda: panel([5, 0, 2]), lambda: calls.append('key'),
+                                 lambda pos: calls.append('buy'), lambda s: None,
+                                 reselect=lambda: calls.append('select'), expected_tiers=[2, 0, 5])
+        self.assertEqual(calls, ['select', 'select'])
+        self.assertEqual(result['status'], 'unexpected')
+
     def test_observed_panel_overrides_unstable_map_colour_guess(self):
         self.assertEqual(resolve_hud_panels(panel([2, 0, 4], 'right'), True, False), (False, True))
         self.assertEqual(resolve_hud_panels(panel([1, 0, 0], 'left'), False, True), (True, False))

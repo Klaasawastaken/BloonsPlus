@@ -18,7 +18,7 @@ def inspect(name, data):
     findings=[]; path=Path(name)
     if 'private' in path.parts:
         findings.append((name, 'private project'))
-    if path.name.lower() in PRIVATE_NAMES or path.suffix.lower() in {'.key','.pem','.pfx','.p12'} or path.name.startswith(('.env','id_appsandbox')):
+    if path.name.lower() in PRIVATE_NAMES or path.suffix.lower() in {'.key','.pem','.pfx','.p12','.tmp'} or path.name.startswith(('.env','id_appsandbox')):
         findings.append((name,'private runtime file'))
     if path.suffix.lower() in TEXT_SUFFIXES:
         try: content=data.decode('utf-8')

@@ -4,6 +4,11 @@ Updated 5 October 2026. Checkboxes require evidence, not merely code. Preserve o
 
 ## Current repair pass
 
+- [x] Harden game-state persistence with unique temporary files, serialized writes and cleanup after replacement/serialization failure. Three offline checks pass; transient Windows locks remain possible and no live resolution is claimed. Temporary files are excluded from Git/installers and rejected by the publication guard. Deployment queued.
+
+- [x] Add two bounded selection retries when a readable upgrade panel contradicts the exact planned tier. Polyphemus CHIMPS round-98 defeat logs showed the second Heli reading the first Heli's 5-0-2 panel before its intended 2-0-5 purchase. Seventeen offline observation checks pass, including recovery and zero purchase input on persistent mismatch. This does not prove the underlying wrong-selection cause or a route win; deployment remains queued. Original CHIMPS recording unchanged.
+- Latest guest batch through `7b3e721` deployed between runs on 5 October. Missing-medal sweep resumed after the Polyphemus CHIMPS loss; its failed candidate remains persisted and excluded. No owned medal was replayed for validation.
+
 - [x] Allow delayed Profile.Save writes after observed sweep victories with a bounded twenty-second, read-only confirmation window. Offline checks pass; guest deployment queued. Save absence beyond the window still remains unconfirmed and needs investigation rather than a claimed clear.
 - [x] Reject new route conversions that silently omit paid hero levels; four offline regressions pass. Original recordings remain unchanged.
 - [x] Exclude nine existing converted recordings whose headers report dropped hero purchases using shared route validation. Offline coverage remains 508 map/mode pairs because alternatives exist. No recordings changed and no owned medals replayed. Deployment is queued for a later batch.

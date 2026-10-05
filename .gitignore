@@ -48,6 +48,7 @@ route-verification.json
 **/known-spots/
 **/playthroughs_live_edit_backups/
 *.log
+*.tmp
 debug-*.png
 debug-*.jpg
 debug-*.jpeg

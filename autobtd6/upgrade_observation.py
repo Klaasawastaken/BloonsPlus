@@ -110,8 +110,22 @@ def observe_upgrade(path, capture, press, click, wait, reselect=None, expected_t
     cannot buy another tier. Cash alone never authorizes a purchase retry.
     """
     before = read_upgrade_panel(capture())
+    def matches_intent(panel):
+        if panel is None:
+            return False
+        if expected_tiers is None:
+            return True
+        if len(expected_tiers) != 3:
+            return False
+        next_tiers = list(panel['tiers'])
+        next_tiers[path] += 1
+        return (next_tiers == list(expected_tiers)
+                or all(actual >= target for actual, target in zip(panel['tiers'], expected_tiers)))
+
     for _ in range(2):
-        if before is not None or reselect is None:
+        # A readable panel can still belong to the previously selected tower.
+        # Reselect before giving up; never send purchase input on a mismatch.
+        if matches_intent(before) or reselect is None:
             break
         reselect()
         wait(1.0)
