@@ -2990,14 +2990,14 @@ def main():
                         writeRouteCheckpoint(routeCheckpoint, mapConfig['steps'])
 
                 # Money can rise while an action is applied because pops and round income
-                # arrive between screenshots. A positive net decrease proves a purchase;
-                # an exact-price requirement is too strict and used to abort winning routes.
+                # arrive between screenshots. Cash can support placement evidence,
+                # but cannot identify an upgrade's resulting path/tier.
                 if (lastIterationAction and lastIterationAction.get('action') in ('place', 'upgrade')
                     and lastIterationBalance >= 0 and currentValues['money'] >= 0
                     and lastIterationCost > 0):
                     observedSpend = lastIterationBalance - currentValues['money']
                     upgradeStatus = lastIterationAction.get('upgradeObservation', {}).get('status')
-                    if upgradeStatus == 'confirmed' or (observedSpend > 0 and upgradeStatus not in ('unselected', 'unchanged', 'unexpected')):
+                    if upgradeStatus == 'confirmed' or (lastIterationAction.get('action') == 'place' and observedSpend > 0):
                         if currentGameState is not None:
                             currentGameState.confirm_purchase(lastIterationAction, mapConfig, lastIterationBalance, currentValues['money'])
                             saveGameState(currentGameState)

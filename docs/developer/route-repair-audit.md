@@ -183,3 +183,14 @@ upgrade recovery validation remain outstanding.
 The next selected target was X Factor Alternate Bloons Rounds, absent from the
 fresh authoritative save, and it reached round 3. Hard Standard was skipped.
 All 41 Python regression tests passed after deployment.
+
+## Ambiguous upgrade confirmation follow-up
+
+The reconciliation branch still treated an `unknown` panel observation as a
+confirmed upgrade whenever cash fell. A regression using the actual branch
+reproduced the false progress write. Upgrade confirmation now requires observed
+tiers; cash evidence remains available for placement handling. Unknown upgrades
+retain the existing uncertainty/checkpoint handling without a blind purchase
+retry. All 43 Python tests pass, including the reproduced case and confirmation
+despite rising cash when panel tiers are known. Guest deployment remains pending
+until the active missing-medal replay ends.
