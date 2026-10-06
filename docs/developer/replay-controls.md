@@ -51,3 +51,17 @@ node tests/test-route-syntax.js
 ```
 
 The importer option `--ability-candidates` creates separately named complete conversions with recurring abilities and validates their parser output. It refuses to overwrite changed candidates and excludes conversions with remaining omitted commands. Offline checks establish command handling and legality, not in-game victory. Observe gameplay only as the sweep earns missing medals.
+
+## Manual round controls: remaining work
+
+Run `tools/audit-round-controls.py` for a read-only source inventory. The saved report is `data/reports/round-controls-audit.json`. It records exact commands, source line numbers and remaining conversion omissions without rewriting routes or launching BTD6.
+
+The pinned BloonsPlayer implementation uses these controls:
+
+- `change speed` presses Space once. It is a toggle, not an absolute speed request.
+- `start round` presses Space, waits the configured input delay, then presses Space again. Only a first argument equal to `slow` removes the second press. Arguments are comma-separated and stripped of parentheses/spaces.
+- `toggle autostart` opens pause settings, attempts detected on/off clicks in a three-iteration loop, then closes settings. A failed detection is logged. Its opening sequence can also enable autostart when the upstream user's `ensure autostart` preference is set.
+
+These operations are still omitted and flagged as lossy. Supporting them requires an observed starting state, serialized input ownership, and explicit coordination with the replay's automatic round controller. Checkpoints must distinguish an input already issued from a control confirmed by a later frame; blindly repeating a toggle on resume could undo it. Preserve actual victory/defeat observation after recorded controls end.
+
+The 6 October audit found 12 affected files among 83 source scripts: 11 convert as lossy and one race script is rejected. Six routes have only a round-start omission: Balance CHIMPS, Quarry CHIMPS, Dark Castle Deflation, #Ouch Hard, Ravine Hard and Workshop Hard. This identifies the next implementation candidates; it does not prove those strategies win or authorize replaying owned medals. Original CHIMPS recordings remain unchanged.

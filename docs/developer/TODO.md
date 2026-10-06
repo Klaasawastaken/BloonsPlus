@@ -388,4 +388,12 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [x] Identify required slots in sweep skip and direct-run diagnostics; subtract binding failures from the missing-upgrade count.
 - [x] Focused command, slot 10, binding, defaults and alternative checks pass, as does the adjacent knowledge gate. No game or save file changed, no original recording modified.
 - [x] Preview 32 published with the reviewed-source installer; publication guard reports no findings.
-- [ ] Deploy Preview 32 after the current healthy replay finishes. Stop-after confirmed while round 49 remained active; boundary updater waits for authoritative running=false before installing, then resumes missing medals. No validation-only replay.
+- [x] Preview 32 update completed after Spa Pits Deflation finished; guest running=false was confirmed before installing. Authoritative guest status confirms sweep resumed on missing Cubism Primary Only. No healthy replay interrupted and no validation-only replay.
+
+- Spa Pits Deflation earned: VICTORY_CONFIRMED at round 60 (02:01:11), followed by victory screen; authoritative VM save SpaPits.difficult.Easy.modes.Deflation=1049545. Never replay this owned medal.
+
+## Manual round-control source audit (2026-10-06)
+
+- [x] Read pinned BloonsPlayer implementation including argument parsing, opening autostart preference, Space toggles and pause-setting controls. Add read-only inventory with source line numbers, conversion status and remaining omissions; three focused parser/semantics checks pass.
+- [x] Audit 83 source scripts: 12 affected, 11 lossy conversions and one rejected race. Six have only a round-start omission. Preserve all recordings and keep these incomplete conversions excluded.
+- [ ] Implement observed round-start control with input ownership and checkpoint acknowledgement before restoring the six candidates. Explicit autostart and relative speed controls require further work; do not treat an automatic Space press as equivalent.

@@ -1,0 +1,267 @@
+{
+  "sourceImplementation": "https://github.com/piweiblen/BloonsPlayer/blob/17d624879c5ad777e82594da34450e66b2d60756/src/player.py",
+  "scanned": 83,
+  "affected": 12,
+  "operationCounts": {
+    "autostart-toggle": 1,
+    "round-start": 11,
+    "speed-toggle": 7
+  },
+  "findings": [
+    {
+      "sourceFile": "route-library/public-sources/piweiblen-BloonsPlayer/tas/CHIMPS/adoras temple CHIMPS sauda.txt",
+      "controls": [
+        {
+          "line": 3,
+          "command": "start round",
+          "kind": "round-start",
+          "sourceBehavior": "Space, configured input delay, then Space again."
+        },
+        {
+          "line": 4,
+          "command": "toggle autostart",
+          "kind": "autostart-toggle",
+          "sourceBehavior": "Open pause settings, attempt detected on/off clicks in a three-iteration loop, close settings."
+        }
+      ],
+      "map": "adoras_temple",
+      "mode": "chimps",
+      "conversion": "lossy",
+      "remainingOmissions": [
+        "BloonsPlayer start round control omitted",
+        "BloonsPlayer toggle autostart control omitted"
+      ]
+    },
+    {
+      "sourceFile": "route-library/public-sources/piweiblen-BloonsPlayer/tas/CHIMPS/balance CHIMPS (sauda).txt",
+      "controls": [
+        {
+          "line": 3,
+          "command": "start round",
+          "kind": "round-start",
+          "sourceBehavior": "Space, configured input delay, then Space again."
+        }
+      ],
+      "map": "balance",
+      "mode": "chimps",
+      "conversion": "lossy",
+      "remainingOmissions": [
+        "BloonsPlayer start round control omitted"
+      ]
+    },
+    {
+      "sourceFile": "route-library/public-sources/piweiblen-BloonsPlayer/tas/CHIMPS/dark castle CHIMPS (obyn).txt",
+      "controls": [
+        {
+          "line": 4,
+          "command": "start round",
+          "kind": "round-start",
+          "sourceBehavior": "Space, configured input delay, then Space again."
+        }
+      ],
+      "map": "dark_castle",
+      "mode": "chimps",
+      "conversion": "lossy",
+      "remainingOmissions": [
+        "BloonsPlayer start round control omitted",
+        "mouse sweeps (banana/cash collection)"
+      ]
+    },
+    {
+      "sourceFile": "route-library/public-sources/piweiblen-BloonsPlayer/tas/CHIMPS/quarry CHIMPS.txt",
+      "controls": [
+        {
+          "line": 4,
+          "command": "start round",
+          "kind": "round-start",
+          "sourceBehavior": "Space, configured input delay, then Space again."
+        }
+      ],
+      "map": "quarry",
+      "mode": "chimps",
+      "conversion": "lossy",
+      "remainingOmissions": [
+        "BloonsPlayer start round control omitted"
+      ]
+    },
+    {
+      "sourceFile": "route-library/public-sources/piweiblen-BloonsPlayer/tas/CHIMPS/workshop CHIMPS (sauda).txt",
+      "controls": [
+        {
+          "line": 7,
+          "command": "start round",
+          "kind": "round-start",
+          "sourceBehavior": "Space, configured input delay, then Space again."
+        },
+        {
+          "line": 9,
+          "command": "change speed",
+          "kind": "speed-toggle",
+          "sourceBehavior": "One Space press; not an absolute fast/slow setting."
+        },
+        {
+          "line": 11,
+          "command": "change speed",
+          "kind": "speed-toggle",
+          "sourceBehavior": "One Space press; not an absolute fast/slow setting."
+        }
+      ],
+      "map": "workshop",
+      "mode": "chimps",
+      "conversion": "lossy",
+      "remainingOmissions": [
+        "BloonsPlayer change speed control omitted",
+        "BloonsPlayer start round control omitted",
+        "obstacle removal without a known price"
+      ]
+    },
+    {
+      "sourceFile": "route-library/public-sources/piweiblen-BloonsPlayer/tas/general/dark castle deflation.txt",
+      "controls": [
+        {
+          "line": 14,
+          "command": "start round",
+          "kind": "round-start",
+          "sourceBehavior": "Space, configured input delay, then Space again."
+        }
+      ],
+      "map": "dark_castle",
+      "mode": "deflation",
+      "conversion": "lossy",
+      "remainingOmissions": [
+        "BloonsPlayer start round control omitted"
+      ]
+    },
+    {
+      "sourceFile": "route-library/public-sources/piweiblen-BloonsPlayer/tas/general/monkey meadow deflation.txt",
+      "controls": [
+        {
+          "line": 8,
+          "command": "change speed",
+          "kind": "speed-toggle",
+          "sourceBehavior": "One Space press; not an absolute fast/slow setting."
+        },
+        {
+          "line": 9,
+          "command": "change speed",
+          "kind": "speed-toggle",
+          "sourceBehavior": "One Space press; not an absolute fast/slow setting."
+        }
+      ],
+      "map": "monkey_meadow",
+      "mode": "deflation",
+      "conversion": "lossy",
+      "remainingOmissions": [
+        "BloonsPlayer change speed control omitted"
+      ]
+    },
+    {
+      "sourceFile": "route-library/public-sources/piweiblen-BloonsPlayer/tas/general/ouch hard.txt",
+      "controls": [
+        {
+          "line": 6,
+          "command": "start round",
+          "kind": "round-start",
+          "sourceBehavior": "Space, configured input delay, then Space again."
+        }
+      ],
+      "map": "ouch",
+      "mode": "hard",
+      "conversion": "lossy",
+      "remainingOmissions": [
+        "BloonsPlayer start round control omitted"
+      ]
+    },
+    {
+      "sourceFile": "route-library/public-sources/piweiblen-BloonsPlayer/tas/general/quad hard.txt",
+      "controls": [
+        {
+          "line": 5,
+          "command": "start round",
+          "kind": "round-start",
+          "sourceBehavior": "Space, configured input delay, then Space again."
+        },
+        {
+          "line": 29,
+          "command": "change speed",
+          "kind": "speed-toggle",
+          "sourceBehavior": "One Space press; not an absolute fast/slow setting."
+        },
+        {
+          "line": 33,
+          "command": "change speed",
+          "kind": "speed-toggle",
+          "sourceBehavior": "One Space press; not an absolute fast/slow setting."
+        }
+      ],
+      "map": "quad",
+      "mode": "hard",
+      "conversion": "lossy",
+      "remainingOmissions": [
+        "BloonsPlayer change speed control omitted",
+        "BloonsPlayer start round control omitted"
+      ]
+    },
+    {
+      "sourceFile": "route-library/public-sources/piweiblen-BloonsPlayer/tas/general/ravine hard.txt",
+      "controls": [
+        {
+          "line": 8,
+          "command": "start round",
+          "kind": "round-start",
+          "sourceBehavior": "Space, configured input delay, then Space again."
+        }
+      ],
+      "map": "ravine",
+      "mode": "hard",
+      "conversion": "lossy",
+      "remainingOmissions": [
+        "BloonsPlayer start round control omitted"
+      ]
+    },
+    {
+      "sourceFile": "route-library/public-sources/piweiblen-BloonsPlayer/tas/general/workshop hard.txt",
+      "controls": [
+        {
+          "line": 7,
+          "command": "start round",
+          "kind": "round-start",
+          "sourceBehavior": "Space, configured input delay, then Space again."
+        }
+      ],
+      "map": "workshop",
+      "mode": "hard",
+      "conversion": "lossy",
+      "remainingOmissions": [
+        "BloonsPlayer start round control omitted"
+      ]
+    },
+    {
+      "sourceFile": "route-library/public-sources/piweiblen-BloonsPlayer/tas/races/race example.txt",
+      "controls": [
+        {
+          "line": 4,
+          "command": "start round slow",
+          "kind": "round-start",
+          "sourceBehavior": "One Space press."
+        },
+        {
+          "line": 7,
+          "command": "change speed",
+          "kind": "speed-toggle",
+          "sourceBehavior": "One Space press; not an absolute fast/slow setting."
+        }
+      ],
+      "conversion": "rejected",
+      "reason": "map 'race' is not in autobtd6/maps.json"
+    }
+  ],
+  "requiredRuntimeWork": [
+    "Establish observed initial autostart state; upstream ensure-autostart is a user preference.",
+    "Serialize controls with placements, upgrade retries and delayed ability targeting.",
+    "Prevent the automatic round controller from issuing competing Space presses.",
+    "Observe and checkpoint a control before consuming it; do not repeat a toggle after resume.",
+    "Restore normal victory/defeat observation without exiting when recorded controls end."
+  ],
+  "note": "Read-only audit. No recording regenerated, no gameplay launched, no route victory implied."
+}
