@@ -467,3 +467,9 @@ Start only after the current repair work is complete, as requested on 5 October.
 - Confirmed Tricky Tracks Medium on 6 October at 03:12:53: victory at round 60 and authoritative Medium/Standard=1049544. Preview 36 installed at the replay boundary; guest confirmed the missing-medal sweep resumed. Never replay this earned medal.
 
 - Preview 37 published on 6 October with observed speed controls and Settings cleanup. Installer payload matches the current Settings and replay source byte-for-byte; publication guard reports no findings. VM deployment is queued for the next replay boundary.
+
+### Explicit source cursor targets — 6 October
+
+- [x] Preserve BTD6bot move_cursor as a move-only command with normalized source coordinates, full route grammar, recording, canonical action and serialized replay execution. Reject malformed, boolean and outside-playfield source coordinates.
+- [x] Add one separate #Ouch Alternate Bloons Rounds cursor-preserved candidate. All 103 commands pass the complete Python parser and JS mode/legality validation. Original recordings unchanged; no victory claimed. Four offline cursor checks and 14 importer checks pass.
+- [ ] Deploy cursor support in the next batch after Preview 37; observe it only during missing-medal gameplay. Manual rounds, autostart, positional special actions and source Sniper path regression remain unresolved conversion cases.

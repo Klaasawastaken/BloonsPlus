@@ -1,3 +1,9 @@
+## Preview 38 — Preserve explicit cursor targets
+
+- Add move-only route targets to parser, recorder, action ledger and replay.
+- Preserve a separate #Ouch ABR candidate without changing original recordings.
+- Reject malformed cursor arguments and retain unsupported-source restrictions.
+
 ## Preview 37 — Recorded speed controls and clearer Settings
 
 - Preserve relative speed commands with observed state, serialized input and checkpoint-safe resume.

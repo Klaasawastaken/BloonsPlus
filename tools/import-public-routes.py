@@ -283,7 +283,7 @@ BTD6BOT_MODES = {"EasyStandard": ("easy", 1, 40), "EasyPrimary": ("primary_only"
                  "HardMagic": ("magic_monkeys_only", 3, 80), "HardDouble_hp": ("double_hp_moabs", 3, 80),
                  "HardHalf_cash": ("half_cash", 3, 80), "HardAlternate": ("alternate_bloons_rounds", 3, 80),
                  "HardImpoppable": ("impoppable", 6, 100), "HardChimps": ("chimps", 6, 100)}
-BTD6BOT_FLOW_CONTROLS = {"forward", "change_autostart", "end_round", "move_cursor"}
+BTD6BOT_FLOW_CONTROLS = {"forward", "change_autostart", "end_round"}
 
 
 def literal(node):
@@ -385,6 +385,15 @@ def btd6bot_statement(route, stmt):
                 route.harmless.add('wait(0)')
             else:
                 route.wait(timer)
+        elif action == "move_cursor":
+            if (len(args) not in (0, 2) or any(key not in ('x', 'y') for key in kwargs)
+                    or len(args) == 2 and kwargs or not args and set(kwargs) != {'x', 'y'}):
+                raise Unsupported('move_cursor requires exactly x and y')
+            x, y = (literal(value) for value in args) if args else (literal(kwargs['x']), literal(kwargs['y']))
+            if any(type(value) not in (int, float) or not 0 <= value < 1 for value in (x, y)):
+                raise Unsupported('move_cursor needs normalized coordinates in [0, 1)')
+            x, y = route.point(x * W, y * H)
+            route.lines.append(f'move cursor to {x}, {y}')
         elif action in BTD6BOT_FLOW_CONTROLS:
             # Manual round control can wait for end-of-round cash or alter
             # ability timing. Cursor movement can aim a tower. Neither is a no-op.
@@ -916,8 +925,8 @@ for name in json.load(sys.stdin):
     else:
         text = open(path, encoding='utf-8').read()
         body = [l for l in text.splitlines() if l.strip() and not l.startswith('#')]
-        expected = sum(1 for l in body if re.match(r'^(place|upgrade|retarget|special|sell|remove|click|ability|repeat|stop|round|cash|wait|speed|start|change) ', l))
-        actual = sum(1 for s in config['steps'] if s['action'] in ('place', 'upgrade', 'retarget', 'special', 'sell', 'remove', 'ability', 'repeat_ability', 'stop_ability', 'await_round', 'await_cash', 'await_delay', 'speed', 'speed_toggle', 'start_round')
+        expected = sum(1 for l in body if re.match(r'^(place|upgrade|retarget|special|sell|remove|click|ability|repeat|stop|round|cash|wait|speed|start|change|move) ', l))
+        actual = sum(1 for s in config['steps'] if s['action'] in ('place', 'upgrade', 'retarget', 'special', 'sell', 'remove', 'ability', 'repeat_ability', 'stop_ability', 'await_round', 'await_cash', 'await_delay', 'speed', 'speed_toggle', 'start_round', 'move_cursor')
                      or (s['action'] == 'click' and s.get('name') == 'map'))
         if expected != actual or expected != len(body):
             errors.append(f'{len(body)} lines, {expected} recognised, {actual} parsed')
@@ -979,6 +988,38 @@ def emit_timing_candidates():
                         'map': route.map, 'mode': route.mode,
                         'waits': sum(line.startswith('wait ') for line in lines)})
     print(json.dumps({'timingCandidates': written}, indent=2))
+
+
+def emit_cursor_candidates():
+    """Preserve explicit source cursor movements in separate complete candidates."""
+    written = []
+    for path in sorted(BTD6BOT_PLANS.glob('*.py')):
+        if path.name.startswith('_'):
+            continue
+        try:
+            route = convert_btd6bot(path)
+            lines = route.body()
+        except (Unsupported, KeyError, IndexError, ValueError):
+            continue
+        if route.lossy or not any(line.startswith('move cursor to ') for line in lines):
+            continue
+        source = SOURCES[route.source]
+        name = f'{route.map}#{route.mode}#{W}x{H}#converted#source_{route.source}#cursor-preserved.btd6'
+        target = PT / name
+        meta = [f"source: {source['repo']} (license {source['license']}) commit {source['commit']}",
+                f"source file: {route.source_file}",
+                'Explicit move-only cursor targets and waits preserved. No gameplay commands omitted.',
+                'Offline-converted candidate; no local victory claimed. Original recordings preserved.']
+        content = '\n'.join(header(meta) + lines) + '\n'
+        if target.exists() and target.read_text(encoding='utf-8') != content:
+            raise RuntimeError(f'Refusing to overwrite changed cursor candidate: {name}')
+        if not target.exists():
+            target.write_text(content, encoding='utf-8', newline='\n')
+        written.append({'file': name, 'map': route.map, 'mode': route.mode})
+    failures = {name: error for name, error in validate([item['file'] for item in written]).items() if error}
+    if failures:
+        raise RuntimeError('Cursor candidate parser validation failed: ' + str(failures))
+    print(json.dumps({'cursorCandidates': written}, indent=2))
 
 
 def emit_ability_candidates():
@@ -1103,6 +1144,8 @@ if __name__ == "__main__":
         emit_round_start_candidates()
     elif '--speed-candidates' in sys.argv:
         emit_speed_candidates()
+    elif '--cursor-candidates' in sys.argv:
+        emit_cursor_candidates()
     elif '--timing-candidates' in sys.argv:
         emit_timing_candidates()
     else:

@@ -12,6 +12,8 @@ const {validateRoute} = require('../lib/route-validation');
 const controlCatalog = {monkeys:{},heros:{}};
 assert.deepEqual(validateRoute('change speed', 'hard', controlCatalog), []);
 assert.ok(validateRoute('change speed turbo', 'hard', controlCatalog).length);
+assert.deepEqual(validateRoute('move cursor to 20, 30', 'hard', controlCatalog), []);
+for (const line of ['move cursor to -20, 30', 'move cursor to 20, 30 click', 'move cursor to 20']) assert.ok(validateRoute(line, 'hard', controlCatalog).length);
 const req = requirements('ability 10 at 20, 30\nrepeat ability 3\nability 3 after 1 seconds\nstop ability 4\nstop all abilities\n# ability 1', {}, {});
 assert.deepEqual(Array.from(req.abilities), [3, 10]);
 assert.deepEqual(Array.from(requirements('stop ability 1', {}, {}).abilities), []);

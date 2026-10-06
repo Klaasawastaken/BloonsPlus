@@ -3768,6 +3768,9 @@ def main():
                         time.sleep(menuChangeDelay)
                         result = cv2.matchTemplate(np.array(pyautogui.screenshot())[:, :, ::-1].copy(), locateImages['remove_obstacle_confirm_button'], cv2.TM_SQDIFF_NORMED)
                         pyautogui.click(cv2.minMaxLoc(result)[2])
+                    elif action['action'] == 'move_cursor':
+                        customPrint('CURSOR_TARGET issued position=' + str(action['pos']) + ' round=' + str(currentValues.get('round')))
+                        pyautogui.moveTo(action['pos'])
                     elif action['action'] == 'click':
                         customPrint('DEBUG click pos=' + str(action['pos']))
                         pyautogui.moveTo(action['pos'])

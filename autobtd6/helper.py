@@ -287,6 +287,8 @@ def writeBTD6InstructionsFile(
                 + str(cost)
                 + "\n"
             )
+        elif action["action"] == "move_cursor":
+            fp.write("move cursor to " + tupleToStr(action["pos"]) + "\n")
         elif action["action"] == "click":
             fp.write("click map at " + tupleToStr(action["pos"]) + "\n")
         elif action["action"] == "ability":
@@ -396,6 +398,11 @@ def parseBTD6InstructionsFile(
         newMapConfig["extrainstructions"] = 1
 
     for line in configLines:
+        cursorMove = re.fullmatch(r"move cursor to (?P<x>\d+), (?P<y>\d+)", line)
+        if cursorMove:
+            newMapConfig['steps'].append({'action': 'move_cursor',
+                'pos': (int(cursorMove.group('x')), int(cursorMove.group('y'))), 'cost': 0})
+            continue
         if line == 'change speed':
             newMapConfig['steps'].append({'action': 'speed_toggle',
                 'key': keybinds['others'].get('round_start', keybinds['others']['play']), 'cost': 0})

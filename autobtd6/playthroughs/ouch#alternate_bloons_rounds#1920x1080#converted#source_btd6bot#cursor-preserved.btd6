@@ -1,0 +1,108 @@
+# source: https://github.com/j-miet/BTD6bot (license MIT (c) 2025 Jani Miettinen) commit 2d6dac0957a0d55d0af201bd497afbebf7f3e5c2
+# source file: btd6bot/plans/#ouchHardAlternate.py
+# Explicit move-only cursor targets and waits preserved. No gameplay commands omitted.
+# Offline-converted candidate; no local victory claimed. Original recordings preserved.
+# generator: import-public-routes.py
+place etienne hero0 at 687, 420
+place sub sub0 at 945, 598
+round 6
+place ninja ninja0 at 993, 430
+round 8
+place ninja ninja1 at 687, 650
+round 12
+upgrade sub0 path 1
+upgrade sub0 path 1
+round 15
+upgrade sub0 path 0
+upgrade sub0 path 0
+retarget sub0
+retarget sub0
+retarget sub0
+round 16
+place sub sub1 at 762, 458
+round 18
+upgrade sub1 path 0
+upgrade sub1 path 0
+round 20
+upgrade sub1 path 2
+round 25
+upgrade sub1 path 2
+round 27
+upgrade sub1 path 2
+round 33
+upgrade sub1 path 2
+round 35
+place buccaneer buccaneer0 at 861, 550
+round 36
+upgrade buccaneer0 path 1
+upgrade buccaneer0 path 1
+upgrade buccaneer0 path 0
+upgrade buccaneer0 path 0
+round 38
+upgrade buccaneer0 path 0
+round 39
+upgrade sub0 path 1
+round 40
+ability 1
+round 41
+place farm farm0 at 451, 229
+move cursor to 451, 229
+round 42
+upgrade farm0 path 0
+upgrade farm0 path 0
+upgrade farm0 path 2
+upgrade farm0 path 2
+round 44
+upgrade farm0 path 2
+round 46
+place farm farm1 at 1196, 819
+move cursor to 1196, 819
+upgrade farm1 path 0
+upgrade farm1 path 0
+upgrade farm1 path 2
+upgrade farm1 path 2
+round 47
+upgrade farm1 path 2
+round 50
+ability 2
+upgrade buccaneer0 path 0
+round 51
+place mermonkey mermonkey0 at 774, 550
+round 52
+upgrade mermonkey0 path 0
+upgrade mermonkey0 path 0
+upgrade mermonkey0 path 0
+upgrade mermonkey0 path 0
+round 53
+upgrade mermonkey0 path 2
+upgrade mermonkey0 path 2
+round 54
+place mermonkey mermonkey1 at 941, 514
+upgrade mermonkey1 path 2
+upgrade mermonkey1 path 2
+place mermonkey mermonkey2 at 838, 311
+upgrade mermonkey2 path 2
+upgrade mermonkey2 path 2
+place mermonkey mermonkey3 at 764, 632
+upgrade mermonkey3 path 2
+upgrade mermonkey3 path 2
+place mermonkey mermonkey4 at 865, 642
+upgrade mermonkey4 path 2
+upgrade mermonkey4 path 2
+round 55
+place mermonkey mermonkey5 at 1147, 549
+upgrade mermonkey5 path 2
+upgrade mermonkey5 path 2
+round 63
+ability 1 after 2 seconds
+ability 2 after 4 seconds
+round 64
+upgrade buccaneer0 path 0
+round 75
+upgrade mermonkey0 path 0
+round 77
+upgrade mermonkey1 path 2
+upgrade mermonkey1 path 2
+round 79
+upgrade mermonkey3 path 2
+upgrade mermonkey3 path 2

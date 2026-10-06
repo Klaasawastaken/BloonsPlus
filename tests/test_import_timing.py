@@ -68,7 +68,7 @@ class TimingConversionTests(unittest.TestCase):
                 self.assertEqual(candidate.read_text(encoding='utf-8'), 'user edit')
 
     def test_timing_and_manual_round_controls_are_not_harmless(self):
-        for command in ('change_autostart()', 'end_round()', 'forward(1)', 'move_cursor(0.5, 0.5)'):
+        for command in ('change_autostart()', 'end_round()', 'forward(1)'):
             with self.subTest(command=command):
                 route = module.Route('test', 'test', 'logs', 'hard')
                 module.btd6bot_statement(route, ast.parse(command).body[0])

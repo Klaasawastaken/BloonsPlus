@@ -11,9 +11,9 @@ import time
 
 SUPPORTED_ACTIONS = {
     'place', 'upgrade', 'sell', 'retarget', 'special', 'remove',
-    'click', 'press', 'ability', 'repeat_ability', 'stop_ability', 'speed', 'speed_toggle', 'start_round', 'await_round', 'await_cash', 'await_delay',
+    'click', 'move_cursor', 'press', 'ability', 'repeat_ability', 'stop_ability', 'speed', 'speed_toggle', 'start_round', 'await_round', 'await_cash', 'await_delay',
 }
-POSITION_ACTIONS = {'place', 'upgrade', 'sell', 'retarget', 'special', 'remove', 'click'}
+POSITION_ACTIONS = {'place', 'upgrade', 'sell', 'retarget', 'special', 'remove', 'click', 'move_cursor'}
 TOWER_ACTIONS = {'place', 'upgrade', 'sell', 'retarget', 'special'}
 ALLOWED_CLASS_BY_MODE = {
     'primary_only': ['primary'],
@@ -45,7 +45,7 @@ def normalize_action(step):
         point = action.get('pos')
         if not isinstance(point, (tuple, list)) or len(point) != 2:
             raise ValueError(action_type + ' action needs a two-coordinate position')
-        if not all(isinstance(value, (int, float)) and math.isfinite(value) for value in point):
+        if not all(type(value) in (int, float) and math.isfinite(value) for value in point):
             raise ValueError(action_type + ' action position must contain finite coordinates')
         action['pos'] = tuple(point)
     if action_type in TOWER_ACTIONS and not isinstance(action.get('name'), str):
