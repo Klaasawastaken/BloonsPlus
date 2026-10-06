@@ -16,6 +16,7 @@ dist/
 .claude/
 .codex/
 .agents/
+.superpowers/
 .aws/
 .env
 .env.*
