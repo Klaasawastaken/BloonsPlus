@@ -4,6 +4,12 @@ Updated 6 October 2026. Checkboxes require evidence, not merely code. Preserve o
 
 ## Current repair pass
 
+- [x] Add same-map, same-tower route coordinates as unverified placement hints after local search fails. Normalize/deduplicate source coordinates, reject malformed maps/resolutions and out-of-bounds points, require positive live preview, preserve occupancy/range checks, and exclude CHIMPS/dynamic maps from this fallback. Actual search probes pass without game input. Infernal Heli hints include (103,600), (102,571) and opposite-bank (1565,553); none newly claimed legal.
+
+- [x] Allow one stable fresh attempt specifically for non-CHIMPS Infernal routes with Heli after this evidenced recovery change. Preserve unrelated failure exclusions, original content hashes and saved-medal skipping. Actual fingerprint checks pass. Infernal ABR round 19 and Reverse round 17 defeats remain recorded; their routes are not marked fixed or winning.
+
+- Preview 50 deployment completed after Infernal Reverse ended; its worker confirmed the missing-medal sweep restarted. Preview 51 source changes are not yet deployed.
+
 - [x] Diagnose Infernal ABR Heli retries from screenshot/logs: held placement remained and the run did not earn its medal at round 19. Separate learned placement spots/samples/refusals by tower or hero footprint. Remove victory-route planned-placement seeding, which incorrectly treated skipped towers as confirmed placements. Preserve legacy data without applying its broad terrain-only buckets. Offline actual-function probes and eight existing HUD/placement checks pass; this does not prove the Heli route fixed.
 
 - [x] Prevent stale refusal caches from blacklisting changed terrain phases or earlier runs' occupied layouts. Dynamic-map spots still require live hover/click confirmation; cached refusal is not current legality evidence. Current static-run scoped refusals remain effective. Earlier negative observations remain stored for learning. Offline probes only; phase-specific live recovery remains open.

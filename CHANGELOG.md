@@ -1,3 +1,10 @@
+## Preview 51 — Same-tower placement fallback
+
+- Read route coordinates as unverified hints for the same map and tower.
+- Try bounded hints after local placement recovery fails, requiring positive live preview evidence.
+- Keep CHIMPS and changing terrain on their existing recovery path.
+- Allow one targeted fresh attempt for failed non-CHIMPS Infernal Heli routes; owned medals remain skipped.
+
 ## Preview 50 — Placement evidence and changing surfaces
 
 - Keep placement memory separate for each tower and hero footprint.

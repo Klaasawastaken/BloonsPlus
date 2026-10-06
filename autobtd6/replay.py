@@ -13,6 +13,7 @@ from game_runtime import GameState, normalize_action
 from upgrade_rules import can_upgrade_in_roster, read_upgrade_caps
 from upgrade_observation import observe_upgrade, resolve_hud_panels, select_tower
 from placement_observation import held_placement_visible
+from placement_hints import route_placement_hints
 from route_timing import delay_ready, round_offset_ready, ability_ready, issue_ability, upgrade_ready, RepeatedAbilities, round_start_ready
 from map_availability import predicted_thaw_round
 from resume_recovery import restore_upgrade_steps, probe_owned_upgrade, resumable_round_start
@@ -1974,6 +1975,37 @@ def main():
                     recordSpot(mapName, cls, cand, False, w)
             if verdict is False:
                 return cand, ('known' if cand in known else 'predicted') + ' p=' + str(round(priority, 2))
+        # A source coordinate is only a hover candidate. Different versions and
+        # occupied layouts may invalidate it; never add it to confirmed memory.
+        # Keep changing terrain and original CHIMPS execution on their existing path.
+        if not dynamic and mapConfig.get('gamemode') != 'chimps':
+            hints = route_placement_hints('playthroughs', str(mapName), cls)
+            tested = {tuple(item[1]) for item in scored[:14]}
+            for point, source in sorted(hints, key=lambda item: math.hypot(item[0][0]*scale-origin[0], item[0][1]*scale-origin[1]))[:12]:
+                cand = (round(point[0]*scale), round(point[1]*scale))
+                if cand in tested or not (half <= cand[0] < min(w-half, int(1635*scale)) and half <= cand[1] < h-half):
+                    continue
+                if any((cand[0]-o[0])**2 + (cand[1]-o[1])**2 < (34*scale)**2 for o in occupied):
+                    continue
+                if knownSpotIsIllegal(mapName, cls, cand, w) or motion is not None and motion.isMoving(cand, w):
+                    continue
+                distance = math.hypot(cand[0]-origin[0], cand[1]-origin[1])
+                if distance > 320*scale and (rangePx is not None or supportPx is not None):
+                    coverage = heat.coverage(cand, rangePx, w) if heat is not None and rangePx is not None else None
+                    if best <= 0 or coverage is None or coverage < .35*best or supportPx is not None:
+                        continue
+                pyautogui.moveTo(cand)
+                time.sleep(.08)
+                if confirmPlacementMode:
+                    pyautogui.click(cand)
+                    time.sleep(.2)
+                    verdict = not confirmButtonVisible(np.array(pyautogui.screenshot())[:, :, ::-1])
+                else:
+                    verdict = ghostLooksInvalid(baseline, cand)
+                # Unlike nearby recovery, a distant hint requires positive
+                # preview evidence; an unknown tint must not authorize it.
+                if verdict is False:
+                    return cand, 'route hint (unverified source; live preview accepted): ' + source
         if motion is not None and not allowMoving:
             # Mostly-moving maps (Sanctuary's rotating ring): no stable legal spot nearby, so
             # accept moving ground; TowerTracker follows the tower for later upgrades.
