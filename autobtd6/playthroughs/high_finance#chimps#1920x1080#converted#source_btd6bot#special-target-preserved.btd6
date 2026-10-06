@@ -1,0 +1,117 @@
+# source: https://github.com/j-miet/BTD6bot (license MIT (c) 2025 Jani Miettinen) commit 2d6dac0957a0d55d0af201bd497afbebf7f3e5c2
+# source file: btd6bot/plans/high_financeHardChimps.py
+# generator: import-public-routes.py
+# Special-1 target clicks and independent tower selection coordinates preserved. No gameplay commands omitted.
+# Candidate is unverified until victory and saved medal are confirmed.
+# generator: import-public-routes.py
+place dart dart0 at 700, 876
+place sub sub0 at 835, 455
+round 7
+place dart dart1 at 964, 878
+round 9
+upgrade sub0 path 2
+round 13
+place gwendolin hero0 at 711, 691
+round 15
+place buccaneer buccaneer0 at 771, 643
+special hero0 to 628, 557
+ability 1 after 3.5 seconds
+round 17
+upgrade buccaneer0 path 1
+round 19
+upgrade buccaneer0 path 1
+ability 1 after 2.5 seconds
+round 20
+upgrade buccaneer0 path 0
+round 22
+upgrade buccaneer0 path 0
+place desperado desperado0 at 943, 414
+round 23
+ability 1 after 2 seconds
+round 25
+upgrade sub0 path 0
+upgrade sub0 path 0
+round 27
+ability 1 after 9 seconds
+round 31
+ability 1 after 1.5 seconds
+round 33
+upgrade sub0 path 0
+round 34
+ability 1 after 1.5 seconds
+special sub0
+upgrade buccaneer0 path 0
+round 35
+special sub0
+round 36
+click map at 851, 829
+click map at 949, 891
+round 37
+place ace ace0 at 851, 809
+upgrade ace0 path 0
+upgrade ace0 path 0
+round 38
+upgrade ace0 path 0
+round 39
+place alchemist alchemist0 at 769, 725
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+special sub0
+round 40
+ability 1
+round 41
+special sub0
+upgrade alchemist0 path 0
+round 42
+place village village0 at 949, 715
+upgrade village0 path 0
+round 43
+ability 1 after 2.5 seconds
+upgrade village0 path 0
+round 44
+upgrade ace0 path 2
+upgrade ace0 path 2
+round 45
+upgrade village0 path 1
+upgrade village0 path 1
+special sub0
+round 49
+ability 1 after 2 seconds
+upgrade buccaneer0 path 0
+round 63
+ability 1 after 2 seconds
+ability 2 after 7 seconds
+ability 1 after 13 seconds
+round 64
+upgrade buccaneer0 path 0
+round 66
+upgrade alchemist0 path 0
+upgrade alchemist0 path 2
+round 69
+upgrade ace0 path 0
+round 84
+upgrade ace0 path 0
+place mermonkey mermonkey0 at 855, 671
+upgrade mermonkey0 path 0
+upgrade mermonkey0 path 0
+upgrade mermonkey0 path 0
+round 85
+upgrade mermonkey0 path 0
+upgrade mermonkey0 path 2
+upgrade mermonkey0 path 2
+round 87
+place druid druid0 at 683, 545
+upgrade druid0 path 0
+upgrade druid0 path 0
+upgrade druid0 path 1
+upgrade druid0 path 1
+upgrade druid0 path 1
+round 89
+upgrade druid0 path 1
+round 98
+upgrade druid0 path 1
+round 99
+ability 2 after 2 seconds
+round 100
+ability 1 after 3 seconds
+ability 2

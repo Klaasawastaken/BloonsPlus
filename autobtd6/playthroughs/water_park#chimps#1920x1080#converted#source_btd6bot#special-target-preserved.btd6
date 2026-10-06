@@ -1,0 +1,67 @@
+# source: https://github.com/j-miet/BTD6bot (license MIT (c) 2025 Jani Miettinen) commit 2d6dac0957a0d55d0af201bd497afbebf7f3e5c2
+# source file: btd6bot/plans/water_parkHardChimps.py
+# generator: import-public-routes.py
+# Special-1 target clicks and independent tower selection coordinates preserved. No gameplay commands omitted.
+# Candidate is unverified until victory and saved medal are confirmed.
+# generator: import-public-routes.py
+place quincy hero0 at 1203, 473
+round 8
+place sniper sniper0 at 917, 337
+retarget sniper0
+retarget sniper0
+retarget sniper0
+round 15
+place heli heli0 at 1005, 435
+special heli0 to 1199, 599
+round 19
+upgrade heli0 path 0
+round 21
+upgrade heli0 path 0
+round 27
+upgrade heli0 path 0
+round 31
+place village village0 at 1023, 313
+upgrade village0 path 1
+round 35
+upgrade village0 path 1
+round 36
+place heli heli1 at 847, 216
+round 37
+upgrade heli1 path 0
+upgrade heli1 path 0
+round 38
+upgrade heli1 path 2
+upgrade heli1 path 2
+round 41
+upgrade heli1 path 2
+upgrade heli0 path 2
+upgrade heli0 path 2
+round 48
+upgrade heli1 path 2
+round 57
+upgrade heli0 path 0
+round 59
+upgrade village0 path 0
+upgrade village0 path 0
+round 81
+upgrade heli0 path 0
+round 89
+upgrade village0 path 1
+round 94
+upgrade heli1 path 2
+round 95
+place glue glue0 at 1127, 445
+upgrade glue0 path 1
+upgrade glue0 path 1
+upgrade glue0 path 2
+upgrade glue0 path 2
+upgrade glue0 path 2
+round 96
+upgrade glue0 path 2
+upgrade sniper0 path 0
+upgrade sniper0 path 0
+upgrade sniper0 path 0
+round 98
+upgrade sniper0 path 0
+upgrade sniper0 path 1
+upgrade sniper0 path 1

@@ -267,7 +267,7 @@ def writeBTD6InstructionsFile(
                 + "\n"
             )
         elif action["action"] == "special":
-            fp.write("special " + action["name"] + selectionSuffix + "\n")
+            fp.write("special " + action["name"] + (" to " + tupleToStr(action["to"]) if "to" in action else "") + selectionSuffix + "\n")
         elif action["action"] == "sell":
             fp.write("sell " + action["name"] + selectionSuffix + "\n")
         elif action["action"] == "remove":
@@ -690,6 +690,8 @@ def parseBTD6InstructionsFile(
                 "pos": monkeys[matches.group("name")]["pos"],
                 "cost": 0,
             }
+            if matches.group("x"):
+                newStep["to"] = (int(matches.group("x")), int(matches.group("y")))
             newSteps.append(newStep)
         elif matches.group("action") == "sell":
             if not monkeys.get(matches.group("name")):

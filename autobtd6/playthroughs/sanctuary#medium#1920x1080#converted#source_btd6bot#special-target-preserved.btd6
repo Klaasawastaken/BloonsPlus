@@ -1,0 +1,109 @@
+# source: https://github.com/j-miet/BTD6bot (license MIT (c) 2025 Jani Miettinen) commit 2d6dac0957a0d55d0af201bd497afbebf7f3e5c2
+# source file: btd6bot/plans/sanctuaryMediumStandard.py
+# generator: import-public-routes.py
+# Special-1 target clicks and independent tower selection coordinates preserved. No gameplay commands omitted.
+# Candidate is unverified until victory and saved medal are confirmed.
+# generator: import-public-routes.py
+place sniper sniper0 at 1239, 823
+round 2
+place sniper sniper1 at 1377, 914
+retarget sniper1
+retarget sniper1
+retarget sniper1
+round 4
+place sniper sniper2 at 1473, 972
+round 7
+place dart dart0 at 643, 491
+round 8
+place dart dart1 at 1210, 469
+round 10
+place sniper sniper3 at 782, 66
+round 14
+place psi hero0 at 736, 115
+retarget hero0
+retarget hero0
+retarget hero0
+round 17
+place boomerang boomerang0 at 960, 275
+round 18
+upgrade boomerang0 path 0 at 816, 297
+upgrade boomerang0 path 2 at 816, 297
+upgrade boomerang0 path 0 at 816, 297
+round 20
+upgrade sniper3 path 2 at 780, 61
+round 21
+upgrade sniper3 path 0 at 937, 27
+retarget sniper3 at 937, 27
+retarget sniper3 at 937, 27
+retarget sniper3 at 937, 27
+round 23
+ability 1 after 1 seconds
+retarget sniper3 at 639, 38
+round 24
+upgrade boomerang0 path 0 at 818, 294
+round 26
+upgrade sniper3 path 2 at 788, 64
+round 27
+place sniper sniper4 at 748, 48
+special sniper4
+round 28
+upgrade sniper4 path 0 at 892, 62
+upgrade sniper4 path 1 at 892, 62
+round 30
+retarget sniper3 at 788, 64
+retarget sniper3 at 788, 64
+retarget sniper3 at 788, 64
+round 31
+ability 1 after 1 seconds
+retarget sniper3 at 639, 38
+round 35
+upgrade boomerang0 path 0 at 672, 277
+upgrade boomerang0 path 2 at 672, 277
+round 36
+upgrade sniper3 path 0 at 788, 64
+round 38
+ability 1 after 1 seconds
+round 39
+upgrade sniper3 path 0 at 639, 38
+place village village0 at 716, 135
+round 40
+ability 1 after 1 seconds
+round 41
+upgrade village0 path 1 at 1010, 157
+upgrade village0 path 1 at 1010, 157
+round 42
+place mermonkey mermonkey0 at 744, 255
+round 43
+upgrade mermonkey0 path 0 at 598, 247
+upgrade mermonkey0 path 0 at 598, 247
+upgrade mermonkey0 path 2 at 598, 247
+upgrade mermonkey0 path 2 at 598, 247
+round 45
+upgrade mermonkey0 path 2 at 880, 241
+round 49
+upgrade mermonkey0 path 2 at 882, 239
+special mermonkey0 to 844, 403 at 882, 239
+place alchemist alchemist0 at 968, 213
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+upgrade alchemist0 path 2
+round 50
+upgrade alchemist0 path 0 at 830, 223
+round 52
+upgrade village0 path 0 at 857, 120
+upgrade village0 path 0 at 857, 120
+round 53
+place glue glue0 at 1034, 223
+round 54
+upgrade glue0 path 0 at 896, 241
+upgrade glue0 path 0 at 896, 241
+upgrade glue0 path 0 at 896, 241
+upgrade glue0 path 1 at 896, 241
+round 55
+upgrade glue0 path 1 at 754, 219
+round 57
+ability 1 after 4 seconds
+upgrade glue0 path 0 at 1040, 221
+round 58
+upgrade village0 path 0 at 870, 161

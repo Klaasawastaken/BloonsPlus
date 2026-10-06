@@ -235,9 +235,9 @@ class Route:
         for _ in range(steps):
             self.lines.append(f"retarget {name}" + self.selection_suffix(name))
 
-    def special(self, source_name):
+    def special(self, source_name, to=None):
         name = self.tower(source_name)
-        self.lines.append(f"special {name}" + self.selection_suffix(name))
+        self.lines.append(f"special {name}" + (f" to {to[0]}, {to[1]}" if to is not None else '') + self.selection_suffix(name))
 
     def sell(self, source_name):
         name = self.tower(source_name)
@@ -468,7 +468,11 @@ def btd6bot_statement(route, stmt):
             y = literal(args[2] if len(args) > 2 else kwargs["y"]) * H
             route.retarget(owner, 1, route.point(x, y))
         elif has_xy:
-            route.lossy.add(f"{route.towers[name]['type']} special with a target position")
+            x = literal(args[1] if len(args) > 1 else kwargs['x'])
+            y = literal(args[2] if len(args) > 2 else kwargs['y'])
+            if any(type(value) not in (int, float) or not 0 <= value < 1 for value in (x, y)):
+                raise Unsupported('special target needs normalized coordinates in [0, 1)')
+            route.special(owner, route.point(x * W, y * H))
         else:
             route.special(owner)
     elif action == "sell":
@@ -1223,6 +1227,38 @@ def emit_selection_candidates():
     print(json.dumps({'selectionCandidates':written,'parserErrors':errors}, indent=2))
 
 
+def emit_special_target_candidates():
+    """Preserve targetable special-1 commands in new complete candidates only."""
+    written = []
+    for path in sorted((ROOT / 'btd6bot/btd6bot/plans').glob('*.py')):
+        try:
+            route = convert_btd6bot(path)
+        except Unsupported:
+            continue
+        lines = route.body()
+        if route.lossy or not any(re.match(r'^special \w+ to \d+, \d+', line) for line in lines):
+            continue
+        name = f'{route.map}#{route.mode}#{W}x{H}#converted#source_{route.source}#special-target-preserved.btd6'
+        info = SOURCES[route.source]
+        content = '\n'.join(header([
+            f"source: {info['repo']} (license {info['license']}) commit {info['commit']}",
+            'source file: ' + route.source_file,
+            'generator: ' + GENERATOR,
+            'Special-1 target clicks and independent tower selection coordinates preserved. No gameplay commands omitted.',
+            'Candidate is unverified until victory and saved medal are confirmed.',
+        ]) + lines) + '\n'
+        target = PT / name
+        if target.exists() and target.read_text(encoding='utf-8') != content:
+            raise RuntimeError('Refusing to overwrite changed special target candidate: ' + name)
+        if not target.exists():
+            target.write_text(content, encoding='utf-8', newline='\n')
+        written.append(name)
+    errors = {name:error for name,error in validate(written).items() if error} if written else {}
+    if errors:
+        raise RuntimeError('Special target candidate parser errors: ' + json.dumps(errors))
+    print(json.dumps({'specialTargetCandidates':written,'parserErrors':errors}, indent=2))
+
+
 def audit_legacy_timing():
     """Read-only inventory of legacy timing omissions; never launch or rewrite routes."""
     files = sorted(PT.glob('*.btd6'))
@@ -1249,6 +1285,8 @@ def audit_legacy_timing():
 if __name__ == "__main__":
     if '--audit-timing' in sys.argv:
         print(json.dumps(audit_legacy_timing(), indent=2))
+    elif '--special-target-candidates' in sys.argv:
+        emit_special_target_candidates()
     elif '--ability-candidates' in sys.argv:
         emit_ability_candidates()
     elif '--round-start-candidates' in sys.argv:

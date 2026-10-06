@@ -1,0 +1,106 @@
+# source: https://github.com/j-miet/BTD6bot (license MIT (c) 2025 Jani Miettinen) commit 2d6dac0957a0d55d0af201bd497afbebf7f3e5c2
+# source file: btd6bot/plans/spillwayHardChimps.py
+# generator: import-public-routes.py
+# Special-1 target clicks and independent tower selection coordinates preserved. No gameplay commands omitted.
+# Candidate is unverified until victory and saved medal are confirmed.
+# generator: import-public-routes.py
+place ninja ninja0 at 834, 522
+round 7
+place sniper sniper0 at 196, 178
+retarget sniper0
+retarget sniper0
+retarget sniper0
+round 8
+upgrade ninja0 path 0
+round 14
+place psi hero0 at 441, 379
+retarget hero0
+retarget hero0
+retarget hero0
+round 15
+upgrade ninja0 path 2
+round 17
+upgrade ninja0 path 2
+round 20
+upgrade ninja0 path 0
+round 21
+retarget hero0
+round 22
+retarget hero0
+retarget hero0
+retarget hero0
+round 27
+upgrade ninja0 path 2
+round 30
+place village village0 at 359, 547
+round 32
+upgrade village0 path 2
+upgrade village0 path 2
+round 35
+place ace ace0 at 287, 448
+round 36
+upgrade ace0 path 2
+upgrade ace0 path 2
+round 37
+upgrade ace0 path 2
+round 38
+upgrade ace0 path 0
+upgrade ace0 path 0
+place alchemist alchemist0 at 221, 554
+round 39
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+round 41
+upgrade village0 path 0
+upgrade village0 path 0
+place ice ice0 at 543, 478
+round 44
+upgrade ice0 path 1
+upgrade ice0 path 1
+upgrade ice0 path 1
+round 45
+place engineer engineer0 at 481, 442
+upgrade engineer0 path 1
+upgrade engineer0 path 1
+upgrade engineer0 path 1
+upgrade engineer0 path 2
+special engineer0 to 689, 502
+round 47
+place wizard wizard0 at 541, 558
+upgrade wizard0 path 0
+upgrade wizard0 path 0
+upgrade wizard0 path 0
+round 48
+upgrade wizard0 path 1
+upgrade wizard0 path 1
+special wizard0 to 687, 496
+round 51
+upgrade wizard0 path 0
+round 53
+place alchemist alchemist1 at 457, 720
+upgrade alchemist1 path 0
+upgrade alchemist1 path 0
+upgrade alchemist1 path 0
+upgrade alchemist1 path 1
+upgrade alchemist1 path 1
+round 74
+upgrade wizard0 path 0
+place spike spike0 at 461, 523
+upgrade spike0 path 1
+upgrade spike0 path 1
+round 77
+upgrade spike0 path 1
+upgrade spike0 path 0
+upgrade spike0 path 0
+round 79
+upgrade spike0 path 1
+round 91
+upgrade spike0 path 1
+round 96
+upgrade ace0 path 2
+round 97
+upgrade ninja0 path 2
+round 98
+ability 3 after 8 seconds
+ability 2 after 11 seconds

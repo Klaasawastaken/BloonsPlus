@@ -16,6 +16,7 @@ from placement_observation import held_placement_visible
 from placement_hints import route_placement_hints
 from route_timing import delay_ready, round_offset_ready, ability_ready, issue_ability, upgrade_ready, RepeatedAbilities, round_start_ready
 from purchase_pacing import affordable_upgrade_batch, purchase_pacing_ready
+from targeted_special import perform_targeted_special
 from map_availability import predicted_thaw_round
 from resume_recovery import restore_upgrade_steps, probe_owned_upgrade, resumable_round_start
 
@@ -3820,7 +3821,8 @@ def main():
                         time.sleep(max(actionDelay, 0.35))
                         actionTmp = None
                         while action:
-                            if 'to' in action:
+                            targetedSpecial = action['action'] == 'special' and 'to' in action
+                            if 'to' in action and not targetedSpecial:
                                 customPrint('DEBUG action target move name=' + str(action.get('name')) + ' to=' + str(action['to']))
                                 pyautogui.moveTo(action['to'])
                                 time.sleep(smallActionDelay)
@@ -3832,7 +3834,12 @@ def main():
                                 time.sleep(actionDelay)
                             else:
                                 customPrint('DEBUG nested key=' + str(action.get('key')))
-                                if action['action'] == 'upgrade':
+                                if targetedSpecial:
+                                    perform_targeted_special(action, sendKey, pyautogui.moveTo,
+                                                             pyautogui.click, time.sleep)
+                                    customPrint('DEBUG special target sent name=' + str(action.get('name'))
+                                                + ' selection=' + str(action['pos']) + ' target=' + str(action['to']))
+                                elif action['action'] == 'upgrade':
                                     action['upgradeObservation'] = observe_upgrade(
                                         action['path'],
                                         lambda: np.array(pyautogui.screenshot())[:, :, ::-1].copy(),
@@ -3874,7 +3881,7 @@ def main():
                                 # BTD6 applies path upgrades on the next frame;
                                 # do not close the tower panel immediately.
                                 time.sleep(0.18)
-                            if 'to' in action and mapConfig['monkeys'][action['name']]['type'] == 'mortar':
+                            if 'to' in action and not targetedSpecial and mapConfig['monkeys'][action['name']]['type'] == 'mortar':
                                 pyautogui.click()
                             time.sleep(smallActionDelay)
                             actionTmp = action

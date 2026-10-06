@@ -63,7 +63,7 @@ print(json.dumps(dict(steps=steps,recorded=next(Path(output).glob('*.btd6')).rea
             route.write_text('place mortar mortar0 at 300, 400\n'
                 'upgrade mortar0 path 0 at 600, 700\n'
                 'retarget mortar0 to 1000, 800 at 700, 700\n'
-                'special mortar0 at 800, 700\n'
+                'special mortar0 to 1100, 850 at 800, 700\n'
                 'sell mortar0 at 900, 700\n')
             env = dict(os.environ, AHK_PATH=str(ROOT / '.venv/Scripts/AutoHotkey.exe'))
             result = subprocess.run([sys.executable, '-X', 'utf8', '-c', script, str(route), str(root/'output')],
@@ -76,7 +76,8 @@ print(json.dumps(dict(steps=steps,recorded=next(Path(output).glob('*.btd6')).rea
         self.assertEqual(value['steps'][2]['to'], [1333, 1067])
         self.assertIn('retarget mortar0 to 1333, 1067 at 933, 933', value['recorded'])
         self.assertIn('upgrade mortar0 path 0 at 800, 933', value['recorded'])
-        self.assertIn('special mortar0 at 1067, 933', value['recorded'])
+        self.assertEqual(value['steps'][3]['to'], [1467,1133])
+        self.assertIn('special mortar0 to 1467, 1133 at 1067, 933', value['recorded'])
         self.assertIn('sell mortar0 at 1200, 933', value['recorded'])
 
     def test_resume_and_confirmed_ledger_use_updated_selection(self):
