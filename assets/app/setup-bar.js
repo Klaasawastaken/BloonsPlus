@@ -30,9 +30,9 @@
     const setupJob = status.job || {};
     if (settingsStatus) {
       const next = status.next || {};
-      $('vm-settings-title').textContent = status.applicable ? 'VM connection' : 'Game connection';
+      $('vm-settings-title').textContent = status.applicable ? 'Game & VM' : 'Game connection';
       $('vm-settings-description').textContent = status.applicable
-        ? 'Connect your game, finish setup or update Bloons+.'
+        ? 'Connect your game and keep it up to date.'
         : 'VM setup is managed from your main PC.';
       settingsStatus.textContent = actionError || (setupJob.error ? `Setup stopped: ${setupJob.error}`
         : setupJob.running ? (setupJob.activity || 'Setting up the VM…')

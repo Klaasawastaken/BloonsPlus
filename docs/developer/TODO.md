@@ -4,6 +4,8 @@ Updated 6 October 2026. Checkboxes require evidence, not merely code. Preserve o
 
 ## Current repair pass
 
+- [x] Settings follow-up: clearer Appearance/Game & VM headings, compact support cards, remove repeated introductory and theme descriptions. Preserve conditional ISO controls, folded reset and action-state protections. Action-state/syntax/publication checks pass; dark layout reviewed. Preview 70 boundary updater completed and guest confirmed the missing-medal sweep resumed.
+
 - Preview 67 boundary updater completed after Peninsula Hard victory and saved medal confirmation. Guest confirmed the missing-medal sweep resumed. Preview 69 boundary updater completed after the next replay ended and confirmed the missing-medal sweep resumed. Hero-title preprocessing is being improved further from saved-frame evidence; no additional clear is claimed. Compact Settings is visually checked in both themes.
 
 - Preview 66 boundary updater completed after Sanctuary Medium returned to the menu with no result, then confirmed the missing-medal sweep resumed. Guest setup reports VM update installed. Pacing is deployed; live winning-route evidence remains pending. Legacy Sanctuary moving-position copies still require correction/exclusion based on the source audit.

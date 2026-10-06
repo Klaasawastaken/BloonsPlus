@@ -130,24 +130,25 @@
 
 
     <section id="settings" class="view hidden" aria-labelledby="settings-title">
-      <div class="page-intro settings-intro"><div><h2 id="settings-title" class="sr-only">Settings preferences</h2><p>Make it yours. Keep your game connected.</p></div></div>
+      <h2 id="settings-title" class="sr-only">App settings</h2>
       <div class="settings-layout">
         <div class="panel settings-panel settings-appearance">
-          <div class="panel-title"><div><h3>Appearance</h3><p>Saved automatically on this device.</p></div></div>
+          <div class="panel-title settings-section-heading"><span class="settings-section-icon" aria-hidden="true"><svg><use href="#icon-settings"/></svg></span><div><h3>Appearance</h3><p>Choose how Bloons+ looks.</p></div></div>
           <fieldset id="theme-setting" class="theme-choices"><legend class="sr-only">Choose your theme</legend>
-            <label class="theme-choice"><input type="radio" name="app-theme" value="light"><span class="theme-preview theme-preview-light" aria-hidden="true"><i></i><i></i><i></i></span><span class="theme-choice-label"><b>Light</b><small>Bright surfaces</small></span></label>
-            <label class="theme-choice"><input type="radio" name="app-theme" value="dark"><span class="theme-preview theme-preview-dark" aria-hidden="true"><i></i><i></i><i></i></span><span class="theme-choice-label"><b>Dark</b><small>Muted surfaces</small></span></label>
+            <label class="theme-choice"><input type="radio" name="app-theme" value="light"><span class="theme-preview theme-preview-light" aria-hidden="true"><i></i><i></i><i></i></span><span class="theme-choice-label"><b>Light</b></span></label>
+            <label class="theme-choice"><input type="radio" name="app-theme" value="dark"><span class="theme-preview theme-preview-dark" aria-hidden="true"><i></i><i></i><i></i></span><span class="theme-choice-label"><b>Dark</b></span></label>
           </fieldset>
+          <p class="settings-save-note">Changes save automatically.</p>
         </div>
         <div class="panel vm-settings-panel">
-          <div class="panel-title"><div><h3 id="vm-settings-title">VM connection</h3><p id="vm-settings-description">Setup, repairs and updates in one place.</p></div><span class="status-chip" id="vm-settings-chip">CHECKING</span></div>
+          <div class="panel-title settings-section-heading"><span class="settings-section-icon" aria-hidden="true"><svg><use href="#icon-automation"/></svg></span><div><h3 id="vm-settings-title">Game &amp; VM</h3><p id="vm-settings-description">Connect your game and keep it up to date.</p></div><span class="status-chip" id="vm-settings-chip">CHECKING</span></div>
           <div id="vm-settings-status" class="vm-settings-status" role="status">Checking this PC and the VM…</div>
           <div id="vm-settings-progress" class="settings-progress" role="progressbar" aria-label="Game setup progress" aria-valuemin="0" aria-valuemax="100" hidden><span></span></div>
           <p id="vm-settings-progress-label" class="settings-progress-label" hidden></p>
           <div class="form-row vm-settings-actions" id="vm-settings-actions"><button class="primary-button" id="vm-settings-start" disabled>Set up VM</button><button class="quiet-button" id="vm-settings-update" disabled>Update VM app</button></div>
-          <details class="settings-subdetails" id="vm-settings-checks"><summary>Connection checklist <span id="vm-settings-check-count"></span></summary><ol id="vm-settings-steps" class="setup-bar-steps"></ol></details>
+          <details class="settings-subdetails" id="vm-settings-checks"><summary>Setup details <span id="vm-settings-check-count"></span></summary><ol id="vm-settings-steps" class="setup-bar-steps"></ol></details>
           <details class="settings-subdetails" id="vm-settings-advanced"><summary>Advanced · Windows installation</summary><label class="field" id="vm-settings-iso-field"><span>Use your own Windows 11 ISO</span><input id="vm-settings-iso" type="text" placeholder="Full path to an existing ISO" aria-describedby="vm-settings-iso-hint"></label><p class="field-hint" id="vm-settings-iso-hint">Optional. Leave empty to download from Microsoft when creating a VM.</p></details>
-          <div class="settings-connection-footer"><button class="text-button settings-recheck" id="vm-settings-refresh">Check connection</button><span id="vm-settings-update-hint">Update from your main PC between replays.</span></div>
+          <div class="settings-connection-footer"><button class="text-button settings-recheck" id="vm-settings-refresh">Refresh connection</button><span id="vm-settings-update-hint">Updates apply between replays.</span></div>
         </div>
 
       </div>
