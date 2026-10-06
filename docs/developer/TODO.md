@@ -5,7 +5,7 @@ Updated **6 October 2026**. This is the readable, active task list. Technical no
 ## At a glance
 
 - **Current priority:** installer/setup, app polish, folders and the website alongside missing-medal gameplay.
-- **Sweep:** running in the VM again. The previous stopped Bloody Puddles game showed defeat at round 40 after updating; recovery refused the stale round-34 checkpoint. The cause of that game progression remains under investigation. No new victory or medal claimed yet.
+- **Sweep:** running in the VM. Dark Castle Military Monkeys Only was confirmed by victory and the saved medal; Underground CHIMPS is the current missing-medal replay. The previous Bloody Puddles interruption remains under investigation.
 - **Development alongside gameplay:** installer/setup polish, app polish, folder organization and website redesign. Check the sweep every five minutes and diagnose meaningful failures.
 - **Background work:** improve routes and placement from missing-medal gameplay evidence; retain failures and skip owned medals.
 - **Latest release:** Preview 86 is published with the refreshed website/README, verified VM transfer and bounded cash recovery. Its round-boundary fix is installed in the VM. Live cash-recovery evidence remains open.
@@ -114,6 +114,7 @@ The sweep earns missing medals alongside development. Deploy changes together af
 - [ ] **I-02 — Check the complete VM setup.** Steam sign-in, game install/launch, SSH, bridge connection and remote updates. Never store Steam credentials.
   - Current VM update now uses a unique application staging folder and verifies size/hash before launch. Installed successfully; clean-machine and interrupted-install checks remain open.
 - [ ] **I-03 — Check partial-install repair.** Reuse healthy components without changing Steam or game data.
+  - Installer now uses five named steps with measured percentages or a working indicator. Healthy unstamped Python environments pass version, dependency and runtime import probes before reuse. Offline progress/reuse checks pass; clean-machine repair evidence remains open.
 - [ ] **I-04 — Check release packaging.** Installer, release notes and latest-download link. No separate `SHA256SUMS.txt` asset.
 - [ ] **I-05 — Add trusted code signing when available.** Unsigned installers may still trigger SmartScreen.
 - [ ] **I-06 — Meet production acceptance gates.** Complete the specification before publishing **v1.0.0**; previews do not establish production readiness.
@@ -123,6 +124,7 @@ The sweep earns missing medals alongside development. Deploy changes together af
 ## 5. App polish and files
 
 - [ ] **A-01 — Check app performance.** Scrolling and category changes should feel responsive.
+  - Hidden card lists are deferred; unchanged medal data retains map cards. Overview and navigation counters remain live. Focused redraw/search/medal checks and browser search inspection pass; wider performance acceptance remains open.
 - [ ] **A-02 — Check the inline VM viewer.** Capture only while visible/focused, including browser cache restoration. Lifecycle checks exist; broader live performance remains open.
 - [ ] **A-03 — Finish accessibility checks.** Reduced motion and screen readers for Subscriptions, including price announcements.
 - [ ] **A-04 — Organize folders.** Preserve runtime paths and exclude private/generated files.

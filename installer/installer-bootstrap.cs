@@ -14,6 +14,36 @@ using System.Drawing.Drawing2D;
 using System.Collections.Generic;
 using System.Web.Script.Serialization;
 
+internal enum InstallerStage { Prepare = 1, Files, CppRuntime, Python, Finish }
+
+internal sealed class InstallerProgress
+{
+    private static readonly string[] Names = { "", "Preparation", "App files", "Microsoft C++ runtime", "Python packages", "Finish & open" };
+    public InstallerStage Stage { get; private set; }
+    public int? Percent { get; private set; }
+    public string Scope { get; private set; }
+    public bool Failed { get; private set; }
+    public bool IsBusy { get { return !Failed && !Percent.HasValue; } }
+    public int Value { get { return Percent.GetValueOrDefault() * 10; } }
+    public string Caption {
+        get {
+            string step = "Install step " + (int)Stage + " of 5 · " + Names[(int)Stage];
+            if (Failed) return "Setup paused · " + step;
+            return step + " · " + (Percent.HasValue
+                ? (String.IsNullOrEmpty(Scope) ? "" : Scope + " ") + Percent.Value + "%"
+                : "Working…");
+        }
+    }
+    public InstallerProgress() { Update(InstallerStage.Prepare, null); }
+    public void Update(InstallerStage stage, int? percent, string scope = null)
+    {
+        if ((int)stage < 1 || (int)stage > 5) throw new ArgumentOutOfRangeException("stage");
+        if (percent.HasValue && (percent.Value < 0 || percent.Value > 100)) throw new ArgumentOutOfRangeException("percent");
+        Stage = stage; Percent = percent; Scope = scope; Failed = false;
+    }
+    public void Fail() { Failed = true; }
+}
+
 internal sealed class InstallerForm : Form
 {
     private readonly Label status = new Label();
@@ -25,6 +55,9 @@ internal sealed class InstallerForm : Form
     private readonly Label isoLabel = new Label();
     private readonly Button browseIso = new Button();
     private readonly Label progressCaption = new Label();
+    private readonly InstallerProgress progressState = new InstallerProgress();
+    private readonly System.Windows.Forms.Timer progressTimer = new System.Windows.Forms.Timer();
+    private int busyOffset;
     private bool requestedVmSetup = true;
     private string requestedIsoPath = "";
     private readonly bool silent = Environment.GetCommandLineArgs().Any(arg => String.Equals(arg, "/silent", StringComparison.OrdinalIgnoreCase));
@@ -172,6 +205,7 @@ internal sealed class InstallerForm : Form
         introduction.SetBounds(320, 52, 535, 48);
         introduction.Font = new Font("Segoe UI Semibold", 23, FontStyle.Bold);
         introduction.BackColor = Color.Transparent;
+        introduction.ForeColor = Color.FromArgb(37, 61, 54);
         AddCopy("Install once. Let guided setup handle the next steps.", 322, 110, 505, 34, 11, false);
         AddCopy("Bloons+", 50, 67, 196, 44, 27, true);
         AddCopy("LESS BUSYWORK. MORE PLAY.", 51, 110, 195, 24, 8, true);
@@ -205,6 +239,12 @@ internal sealed class InstallerForm : Form
         progressCaption.ForeColor = Color.FromArgb(112, 129, 119);
         progressCaption.BackColor = Color.Transparent;
         Controls.Add(progressCaption);
+        progressTimer.Interval = 100;
+        progressTimer.Tick += delegate {
+            busyOffset = (busyOffset + 12) % 447;
+            Invalidate(new Rectangle(329, 470, 447, 8));
+        };
+        FormClosed += delegate { progressTimer.Dispose(); };
         installButton.SetBounds(594, 565, 245, 47);
         StyleButton(installButton, true);
         AcceptButton = installButton;
@@ -258,20 +298,52 @@ internal sealed class InstallerForm : Form
         }
         using (var track = Rounded(new Rectangle(329, 470, 447, 8), 4))
         using (var brush = new SolidBrush(Color.FromArgb(217, 229, 219))) e.Graphics.FillPath(brush, track);
+        if (progressState.IsBusy && progressTimer.Enabled) {
+            using (var clip = Rounded(new Rectangle(329, 470, 447, 8), 4)) {
+                GraphicsState saved = e.Graphics.Save();
+                e.Graphics.SetClip(clip);
+                using (var brush = new SolidBrush(Color.FromArgb(118, 170, 140))) {
+                    e.Graphics.FillRectangle(brush, 329 + busyOffset - 90, 470, 90, 8);
+                    e.Graphics.FillRectangle(brush, 329 + busyOffset + 357, 470, 90, 8);
+                }
+                e.Graphics.Restore(saved);
+            }
+            return;
+        }
         int width = (int)(447L * progress.Value / 1000);
         if (width >= 8) using (var fill = Rounded(new Rectangle(329, 470, width, 8), 4))
         using (var brush = new LinearGradientBrush(new Rectangle(329, 470, 447, 8), Color.FromArgb(118,170,140), Color.FromArgb(239,152,126), 0f)) e.Graphics.FillPath(brush, fill);
     }
 
-    private void SetStatus(string text, int value)
+    private void SetStatus(string text, InstallerStage stage, int? percent = null, string scope = null)
     {
         Log(text);
         if (IsDisposed) return;
         BeginInvoke((Action)delegate
         {
             status.Text = text;
-            progress.Value = Math.Max(progress.Minimum, Math.Min(progress.Maximum, value));
-            progressCaption.Text = value >= 1000 ? "App installed · opening guided setup" : (value / 10).ToString() + "% · App installation";
+            progressState.Update(stage, percent, scope);
+            progress.Value = progressState.Value;
+            progressCaption.Text = progressState.Caption;
+            progressTimer.Enabled = progressState.IsBusy && !silent;
+            Invalidate();
+        });
+    }
+
+    private void SetDetail(string text)
+    {
+        Log(text);
+        if (!IsDisposed) BeginInvoke((Action)delegate { status.Text = text; });
+    }
+
+    private void SetFailure(string text)
+    {
+        Log(text);
+        if (!IsDisposed) BeginInvoke((Action)delegate {
+            status.Text = text;
+            progressState.Fail();
+            progressTimer.Stop();
+            progressCaption.Text = progressState.Caption;
             Invalidate();
         });
     }
@@ -388,7 +460,7 @@ internal sealed class InstallerForm : Form
                 }
             }
             if (owned.Count == 0) return;
-            SetStatus("Checking that the current replay has finished…", 0);
+            SetStatus("Checking that the current replay has finished…", InstallerStage.Prepare);
             var request = (HttpWebRequest)WebRequest.Create("http://127.0.0.1:4173/api/farm/status");
             request.Timeout = request.ReadWriteTimeout = 5000;
             request.Proxy = null;
@@ -415,7 +487,7 @@ internal sealed class InstallerForm : Form
         {
             WriteResult("RUNNING");
             CloseInstalledControllers();
-            SetStatus("Reading embedded app package…", 0);
+            SetStatus("Reading embedded app package…", InstallerStage.Prepare);
             using (FileStream installer = new FileStream(Application.ExecutablePath, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
                 if (installer.Length < 16) throw new InvalidDataException("The installer package is incomplete.");
@@ -444,7 +516,7 @@ internal sealed class InstallerForm : Form
 
             Directory.CreateDirectory(installRoot);
             BackupExistingData(backupRoot);
-            SetStatus("Installing Bloons+ files…", 5);
+            SetStatus("Installing Bloons+ files…", InstallerStage.Files, 0);
             using (FileStream package = new FileStream(tempZip, FileMode.Open, FileAccess.Read, FileShare.Read))
             using (ZipArchive archive = new ZipArchive(package, ZipArchiveMode.Read))
             {
@@ -477,19 +549,20 @@ internal sealed class InstallerForm : Form
                         }
                     }
                     if (writtenBytes % (64L * 1024 * 1024) < buffer.Length)
-                        SetStatus("Installing Bloons+ files… " + (writtenBytes / (1024 * 1024)).ToString("N0") + " MB", 5 + (int)(writtenBytes * 920 / totalBytes));
+                        SetStatus("Installing Bloons+ files… " + (writtenBytes / (1024 * 1024)).ToString("N0") + " MB", InstallerStage.Files, (int)(writtenBytes * 100 / totalBytes));
                 }
-                SetStatus("App files ready; reused " + reusedFiles + " unchanged files.", 950);
+                SetStatus("App files ready; reused " + reusedFiles + " unchanged files.", InstallerStage.Files, 100);
             }
 
             RestoreExistingData(backupRoot);
-            SetStatus("Finalizing Python runtime and shortcuts…", 960);
+            SetStatus("Checking required runtime components…", InstallerStage.CppRuntime);
             EnsureVisualCppRuntime();
             ConfigurePython();
+            SetStatus("Creating the app shortcut…", InstallerStage.Finish);
             CreateStartMenuShortcut();
             KeepInstallerCopy();
             SaveSetupIntent();
-            SetStatus("Bloons+ is installed. Launching the app…", 1000);
+            SetStatus("Bloons+ is installed. Launching the app…", InstallerStage.Finish, 100);
             Process.Start(new ProcessStartInfo(Path.Combine(installRoot, "Bloons+.exe")) { WorkingDirectory = installRoot, UseShellExecute = true });
             installed = true;
             WriteResult("OK");
@@ -501,7 +574,7 @@ internal sealed class InstallerForm : Form
             WriteResult("ERROR: " + error.Message);
             try { RestoreExistingData(backupRoot); }
             catch (Exception restoreError) { Log("Data backup retained at " + backupRoot + ": " + restoreError); }
-            SetStatus("Installation failed: " + error.Message, 0);
+            SetFailure("Installation failed: " + error.Message);
             if (silent) {
                 Environment.ExitCode = 1;
                 if (!IsDisposed && IsHandleCreated) BeginInvoke((Action)Close);
@@ -526,6 +599,7 @@ internal sealed class InstallerForm : Form
 
     private void ConfigurePython()
     {
+        SetStatus("Checking the existing Python environment…", InstallerStage.Python);
         string appRoot = Path.Combine(installRoot, "resources", "app");
         string python = FindCompatiblePython() ?? Path.Combine(appRoot, "python", "python.exe");
         string venv = Path.Combine(appRoot, ".venv");
@@ -540,12 +614,12 @@ internal sealed class InstallerForm : Form
         string venvPython = Path.Combine(venv, "Scripts", "python.exe");
         if (Directory.Exists(venv) && (!File.Exists(venvPython) || !ProcessSucceeds(venvPython, "-c \"import sys; assert sys.version_info[:2] == (3,12) and sys.maxsize > 2**32; import pip\""))) {
             string preserved = venv + ".repair-" + DateTime.UtcNow.ToString("yyyyMMddHHmmss") + "-" + Guid.NewGuid().ToString("N").Substring(0, 6);
-            SetStatus("Preserving an unusable Python environment and rebuilding it…", 965);
+            SetStatus("Preserving an unusable Python environment and rebuilding it…", InstallerStage.Python);
             Directory.Move(venv, preserved);
             Log("Previous environment preserved at " + preserved);
         }
         if (!File.Exists(venvPython)) {
-            SetStatus("Creating Bloons+’s private Python environment…", 965);
+            SetStatus("Creating Bloons+’s private Python environment…", InstallerStage.Python);
             RunInstallerProcess(python, "-m venv --copies " + Quote(venv), appRoot, "Could not create the private Python environment");
         }
         if (!File.Exists(venvPython)) throw new FileNotFoundException("The private Python environment was not created.");
@@ -553,18 +627,21 @@ internal sealed class InstallerForm : Form
         string requirementsHash = HashFile(pipRequirements);
         string installedCheck = "-c \"from importlib import metadata as m;import sys;lines=[x.strip().split('==',1) for x in open(sys.argv[1]) if '==' in x];assert all(m.version(n)==v for n,v in lines)\" " + Quote(pipRequirements);
         string probe = Quote(Path.Combine(appRoot, "autobtd6", "runtime_check.py")) + " --requirements " + Quote(pipRequirements);
-        if (File.Exists(stamp) && File.ReadAllText(stamp).Trim() == requirementsHash &&
-            ProcessSucceeds(venvPython, installedCheck) && ProcessSucceeds(venvPython, "-m pip check") && ProcessSucceeds(venvPython, probe, 120000)) {
-            SetStatus("Existing Python packages are ready.", 985);
+        // The stamp is a cache receipt, not evidence that an installed runtime
+        // is healthy. Reuse exact pinned packages after all real checks pass,
+        // including an older installation with no stamp or a changed stamp.
+        if (ProcessSucceeds(venvPython, installedCheck) && ProcessSucceeds(venvPython, "-m pip check") && ProcessSucceeds(venvPython, probe, 120000)) {
+            File.WriteAllText(stamp, requirementsHash);
+            SetStatus("Existing Python packages are ready.", InstallerStage.Python, 100);
             return;
         }
-        SetStatus("Downloading Python dependencies (including TensorFlow); this may take a while…", 975);
+        SetStatus("Downloading Python dependencies (including TensorFlow); this may take a while…", InstallerStage.Python);
         RunInstallerProcess(venvPython, "-m ensurepip --upgrade", appRoot, "Could not repair pip");
         string installArgs = "-m pip install --disable-pip-version-check --no-input --prefer-binary --retries 3 --timeout 60 -r " + Quote(pipRequirements);
         RunInstallerProcess(venvPython, installArgs, appRoot, "Python dependency installation failed");
-        SetStatus("Verifying image processing, TensorFlow and keyboard dependencies…", 985);
+        SetStatus("Verifying image processing, TensorFlow and keyboard dependencies…", InstallerStage.Python);
         if (!ProcessSucceeds(venvPython, probe, 120000) || !ProcessSucceeds(venvPython, "-m pip check")) {
-            SetStatus("Repairing incomplete Python packages…", 985);
+            SetStatus("Repairing incomplete Python packages…", InstallerStage.Python);
             RunInstallerProcess(venvPython, installArgs + " --force-reinstall", appRoot, "Python package repair failed");
         }
         RunInstallerProcess(venvPython, "-m pip check", appRoot, "Python dependencies are incompatible");
@@ -578,10 +655,10 @@ internal sealed class InstallerForm : Form
         string runtime = Path.Combine(system, "msvcp140.dll");
         string runtime1 = Path.Combine(system, "msvcp140_1.dll");
         if (File.Exists(runtime) && File.Exists(runtime1)) {
-            SetStatus("Microsoft C++ runtime is ready.", 945);
+            SetStatus("Microsoft C++ runtime is ready.", InstallerStage.CppRuntime, 100);
             return;
         }
-        SetStatus("Downloading the Microsoft C++ runtime required by TensorFlow…", 930);
+        SetStatus("Downloading the Microsoft C++ runtime required by TensorFlow…", InstallerStage.CppRuntime);
         string installer = Path.Combine(Path.GetTempPath(), "BloonsPlus-vc_redist.x64.exe");
         try {
             // .NET Framework can otherwise negotiate legacy TLS on older Windows installs,
@@ -596,10 +673,10 @@ internal sealed class InstallerForm : Form
                 CopyRuntimeDownload(source, target, response.ContentLength, (received, total) => {
                     string amount = (received / 1048576.0).ToString("0.0") + " MB";
                     if (total > 0) amount += " of " + (total / 1048576.0).ToString("0.0") + " MB";
-                    SetStatus("Downloading Microsoft C++ runtime: " + amount, 930 + (total > 0 ? (int)(9 * received / total) : 0));
+                    SetStatus("Downloading Microsoft C++ runtime: " + amount, InstallerStage.CppRuntime, total > 0 ? (int?)(100 * received / total) : null, "Download");
                 });
             }
-            SetStatus("Installing the Microsoft C++ runtime (Windows may ask for permission)…", 940);
+            SetStatus("Installing the Microsoft C++ runtime (Windows may ask for permission)…", InstallerStage.CppRuntime);
             ProcessStartInfo start = new ProcessStartInfo(installer, "/install /quiet /norestart") {
                 UseShellExecute = true, Verb = "runas", WindowStyle = ProcessWindowStyle.Hidden
             };
@@ -715,7 +792,7 @@ internal sealed class InstallerForm : Form
                 lastOutput = eventArgs.Data;
                 Log(eventArgs.Data);
                 if (eventArgs.Data.IndexOf("Downloading", StringComparison.OrdinalIgnoreCase) >= 0 || eventArgs.Data.IndexOf("Installing", StringComparison.OrdinalIgnoreCase) >= 0 || eventArgs.Data.IndexOf("Successfully installed", StringComparison.OrdinalIgnoreCase) >= 0)
-                    SetStatus(eventArgs.Data.Length > 80 ? eventArgs.Data.Substring(0, 77) + "…" : eventArgs.Data, 980);
+                    SetDetail(eventArgs.Data.Length > 80 ? eventArgs.Data.Substring(0, 77) + "…" : eventArgs.Data);
             }
         };
         child.ErrorDataReceived += delegate(object sender, DataReceivedEventArgs eventArgs)
@@ -742,7 +819,7 @@ internal sealed class InstallerForm : Form
         string source = Path.GetFullPath(Application.ExecutablePath);
         string target = Path.Combine(installRoot, "BloonsPlusSetup.exe");
         if (String.Equals(source, Path.GetFullPath(target), StringComparison.OrdinalIgnoreCase)) return;
-        SetStatus("Keeping a copy of the installer for the VM setup…", 990);
+        SetStatus("Keeping a copy of the installer for the VM setup…", InstallerStage.Finish);
         if (!File.Exists(target) || HashFile(source) != HashFile(target)) File.Copy(source, target, true);
     }
 

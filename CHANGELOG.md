@@ -1,3 +1,11 @@
+## Preview 87 — Installer steps and less background rendering
+
+- Show named installation steps, measured file/download progress and a working indicator for tasks without a measurable percentage.
+- Preserve the failed step and stop treating package output as 98% complete.
+- Reuse healthy private Python environments without requiring an old receipt; retain version, dependency and import checks.
+- Defer hidden app card lists and retain unchanged map cards while keeping overview/navigation counters live.
+- Verification: 297 Python checks, ten setup-transport checks and focused UI/site checks. Clean-machine acceptance remains open.
+
 ## Preview 86 — Manual round recovery and character artwork
 
 - Confirm a completed manual round when the paused HUD retains the same round number; do not repeat an issued Play input.

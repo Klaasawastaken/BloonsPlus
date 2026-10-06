@@ -118,6 +118,8 @@ function showView(view) {
     if (el.dataset.view === view) el.setAttribute('aria-current', 'page'); else el.removeAttribute('aria-current');
   });
   document.querySelector('#page-title').textContent = ({ overview: 'Overview', blackborder: 'Maps', achievements: 'Achievements', towers: 'Tower progress', automation: 'Automation', bosses: 'Boss events', logs: 'Run logs', 'specific-map': 'Specific map', settings: 'Settings' })[view] || 'Overview';
+  if (view === 'blackborder') renderMaps();
+  if (view === 'achievements') renderAchievements();
   if (view === 'automation' || view === 'overview') loadAutomationStatus();
   window.scrollTo(0, 0);
   document.querySelector('main')?.scrollTo?.(0, 0);
@@ -155,6 +157,7 @@ function saveBossRoute(bossId, variant, routePath) {
   try { localStorage.setItem('bloonsplus-boss-routes', JSON.stringify(bossRouteStore)); } catch { /* private/blocked storage: route just won't survive a reload */ }
 }
 function renderBossHub() {
+  if (document.querySelector('#bosses')?.classList.contains('hidden')) return;
   const list = document.querySelector('#boss-list');
   if (!list || !Array.isArray(window.BLOONS_BOSSES)) return;
   const profile = detectedProgress.localProfile;
@@ -326,7 +329,9 @@ const mapObservationFor = name => {
 function medalsFromLocalRecord(record) {
   return BloonsMedals.medalsFromMapRecord(record);
 }
+let lastMapRenderKey = null;
 function renderMaps() {
+  if (document.querySelector('#blackborder')?.classList.contains('hidden')) return;
   const grid = document.querySelector('#maps-grid'); if (!grid) return;
   const filters = document.querySelector('#maps-filters');
   if (!filters.childElementCount) {
@@ -341,17 +346,26 @@ function renderMaps() {
   filters.querySelectorAll('.filter-chip').forEach(button => button.classList.toggle('active', button.textContent === mapsCategory));
   const query = (document.querySelector('#maps-search')?.value || '').trim().toLowerCase();
   const hideDone = document.querySelector('#maps-hide-done')?.checked;
-  const cards = mapChoices.filter(map => (mapsCategory === 'All' || map.category === mapsCategory)
-    && map.name.toLowerCase().includes(query) && !(hideDone && isMapDone(map.name))).map(map => {
+  // A save read changes its timestamp on every poll. Only medal content and
+  // filters change these cards; retain their nodes across identical reads.
+  const observations = mapChoices.map(map => {
     const observation = mapObservationFor(map.name);
-    const medals = observation.medals;
+    return { ...map, medals: observation.medals, done: observation.blackBorder === true
+      || MEDAL_SLOTS.every(([mode]) => observation.medals?.[mode] === true) };
+  });
+  const renderKey = JSON.stringify([mapsCategory, query, hideDone, observations.map(map =>
+    [map.name, map.category, map.done, Boolean(map.medals), MEDAL_SLOTS.map(([mode]) => map.medals?.[mode] ?? null)])]);
+  if (renderKey === lastMapRenderKey) return;
+  const cards = observations.filter(map => (mapsCategory === 'All' || map.category === mapsCategory)
+    && map.name.toLowerCase().includes(query) && !(hideDone && map.done)).map(map => {
+    const medals = map.medals;
     const earned = MEDAL_SLOTS.filter(([mode]) => medals?.[mode] === true).length;
-    const card = document.createElement('article'); card.className = `map-card${isMapDone(map.name) ? ' done' : ''}`;
+    const card = document.createElement('article'); card.className = `map-card${map.done ? ' done' : ''}`;
     const head = document.createElement('div'); head.className = 'map-card-head';
     const info = document.createElement('div'); info.className = 'map-card-info';
     const name = document.createElement('b'); name.textContent = map.name;
     const meta = document.createElement('small');
-    meta.textContent = `${map.category} · ${isMapDone(map.name) ? 'Black bordered' : medals ? `${earned}/${MEDAL_SLOTS.length} medals` : 'Not scanned'}`;
+    meta.textContent = `${map.category} · ${map.done ? 'Black bordered' : medals ? `${earned}/${MEDAL_SLOTS.length} medals` : 'Not scanned'}`;
     info.append(name, meta); head.append(mapThumb(map.name, map.category), info);
     const row = document.createElement('div'); row.className = 'medal-row';
     // A medal the scan did not report stays "not scanned" rather than counted as missing.
@@ -361,7 +375,8 @@ function renderMaps() {
   });
   if (!cards.length) { const empty = document.createElement('p'); empty.className = 'muted'; empty.textContent = 'No maps match.'; cards.push(empty); }
   grid.replaceChildren(...cards);
-  document.querySelector('#queue-count').textContent = mapChoices.filter(map => !isMapDone(map.name)).length;
+  document.querySelector('#queue-count').textContent = observations.filter(map => !map.done).length;
+  lastMapRenderKey = renderKey;
 }
 function findMap(name) { return mapChoices.find(map => map.name.toLowerCase() === name.toLowerCase()); }
 // Black border = every medal on the map, whether the game's border read or the medal row says so.
@@ -428,6 +443,7 @@ function towerThumb(name) {
   return thumb;
 }
 function renderTowers() {
+  if (document.querySelector('#towers')?.classList.contains('hidden')) return;
   const list = document.querySelector('#tower-list'); list.replaceChildren();
   const local = detectedProgress.localProfile || {};
   const upgradeDataReady = Array.isArray(local.acquiredUpgrades);
@@ -593,6 +609,9 @@ function renderAchievements() {
   document.querySelector('#stat-achievements-pct').textContent = count.unknown === entries.length ? 'Detected game progress' : `${pct}% of ${entries.length} completed`;
   document.querySelector('#achievement-count').textContent = count.unknown ? '—' : count.todo + count.working;
 
+  // Overview counters above remain live; hidden achievement cards need no DOM work.
+  if (document.querySelector('#achievements')?.classList.contains('hidden')) return;
+
   const filters = document.querySelector('#achievement-categories'); filters.replaceChildren();
   const categories = ['All', ...achievementCategories];
   categories.forEach(category => {
@@ -697,7 +716,9 @@ function render() {
   state.theme = state.theme === 'dark' ? 'dark' : 'light';
   document.documentElement.dataset.theme = state.theme;
   renderMaps(); renderTowers(); renderAchievements(); renderBossHub();
-  document.querySelector('#stat-queue').textContent = Object.keys(detectedProgress.maps).length ? mapChoices.filter(map => !isMapDone(map.name)).length : '—';
+  const remainingMapCount = Object.keys(detectedProgress.maps).length ? mapChoices.filter(map => !isMapDone(map.name)).length : '—';
+  document.querySelector('#stat-queue').textContent = remainingMapCount;
+  document.querySelector('#queue-count').textContent = remainingMapCount;
   document.querySelector('#stat-completed').textContent = Object.keys(detectedProgress.maps).length ? Object.values(detectedProgress.maps).filter(map => map.blackBorder).length : '—';
   const next = mapChoices.find(map => mapObservationFor(map.name)?.medals && !isMapDone(map.name));
   document.querySelector('#stat-next').textContent = next ? `Next: ${next.name}` : 'Waiting for a map scan';
