@@ -76,6 +76,7 @@ The sweep earns missing medals alongside development. Deploy changes together af
 - [ ] **R-15 — Bound recovery attempts.** Cover placement, upgrades, navigation and stalled rounds. Preserve exact intent; avoid blind purchase retries.
 - [ ] **R-16 — Save useful failure evidence.** Include frame, action, target, selected tower/hero, cash, round and freshness. Redact shared logs.
 - [ ] **R-17 — Review past failures.** Investigate Hedge, Spa Pits, Cubism, Infernal, Glacial Trail and other remaining failures from their evidence. Retain cleared-map history; never replay owned medals.
+  - Cornfield's converted no-harvest candidate has evidenced Heli/Village footprint failures and skipped dependent upgrades. The [failure audit](route-repair-audit.md) records the repair target; original CHIMPS recordings remain unchanged and the sweep continued with another candidate.
 
 ## 2. Routes and medals
 

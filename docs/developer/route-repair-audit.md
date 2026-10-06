@@ -347,3 +347,28 @@ incorrect shapes, missing files, denied reads and failed backups. New failures
 also retain the route content hash captured at replay startup, engine version
 and start time, so later source edits cannot obscure which recording failed.
 Private backups remain excluded by Git's *.log rule and installer log exclusions.
+
+## Cornfield placement dependency failure — 6 October
+
+The converted BloonsPlayer no-harvest CHIMPS candidate, reused for Impoppable,
+failed to place its Heli and Village. Native saved placement frames show red,
+blocked footprints; this is stronger evidence than unchanged cash alone. Nearby
+placement retries did not find a legal footprint. Recovery then skipped seven
+Heli-dependent actions and five Village-dependent actions, so the recorded
+defense was no longer the defense executed in game.
+
+The final saved frame confirms a 2-0-5 Spike Factory, readable cash and an actual
+defeat. It does not prove every planned tower upgrade was absent or that the
+strategy itself loses when executed correctly. The immediate repair target is
+legal placement and dependency-aware recovery, not an OCR-based cash rewrite.
+
+Original CHIMPS recordings remain unchanged. A future corrected non-CHIMPS
+candidate must preserve usable placement space or explicitly clear permitted
+terrain, retain the required Heli/Village upgrade intent, and pass offline mode,
+command and placement checks before eligibility. Exact footprint validity still
+requires live evidence during missing-medal gameplay; no owned medal may be used
+for testing. The sweep retained this failure and continued with another candidate.
+
+The failure logs and native frames are retained only in private, ignored runtime
+storage. No screenshots, credentials, machine paths or account data are included
+in this audit. This entry is diagnosis evidence, not a completed route repair.
