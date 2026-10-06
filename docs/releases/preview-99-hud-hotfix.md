@@ -11,6 +11,7 @@
 - Capture again before the second centre click, so a newly visible victory, defeat or missing frame cannot authorize it from older pixels.
 - Preserve pending placement, ability and round controls. Recheck replay ownership, focus and pause state, and prevent automatic Play or repeated abilities from using the frame preceding recovery input.
 - Verify eight focused checks, all 373 Python tests and the captured private Magic failure frame. Keep ordinary gameplay running toward a real result. Live recovery and full production acceptance remain open.
+- Package the 246,877,193-byte online installer. All 126 runtime comparisons, 1,692 inventory hashes and seven exact icon frames in both executables pass; source/payload privacy checks report no findings.
 - Retain the approved Spike targeting, separate Last Resort/Erosion candidates, prior Magic shop repair and original CHIMPS recordings. Private account evidence stays outside the installer and repository.
 
 ## Removed
