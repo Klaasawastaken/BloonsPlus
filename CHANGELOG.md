@@ -1,8 +1,10 @@
-## Unreleased — Saved hotkey validation
+## Preview 48 — Replay binding validation and medal-first cleanup
 
 - Reject unsupported saved modifiers instead of sending the bare upgrade key.
 - Handle malformed saved binding objects without crashing startup.
 - Align route readiness with keyboard/modifier support in the replay runner.
+- Remove the obsolete achievement sweep backend that could replay owned modes.
+- Show current replay victories and defeats instead of its stale recording count.
 
 ## Preview 47 — Settings connection cleanup
 

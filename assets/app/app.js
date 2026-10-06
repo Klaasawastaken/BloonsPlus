@@ -1133,15 +1133,15 @@ function renderAutomationStatus(status) {
   try { renderRecentActivity(); } catch (error) { console.warn('Activity rendering failed:', error); }
   const detail = document.querySelector('#automation-status-detail');
   if (!detail) return;
-  const saved = status.progress?.achievementsSweep?.completedFiles?.length || 0;
+  const outcomes = `${Number.isInteger(status.victories) && status.victories >= 0 ? status.victories : 0} victories · ${Number.isInteger(status.defeats) && status.defeats >= 0 ? status.defeats : 0} defeats`;
   const recentOutcome = (status.log || []).slice().reverse().find(line => /victory|defeat|ROUTE_FAILURE|objective failed/i.test(line));
   detail.textContent = status.statusUnavailable ? 'VM status unavailable · reconnecting; start is temporarily locked'
     : status.stopping ? 'Stopping replay · waiting for the input process to exit'
-    : status.running ? `${status.replay?.screen === 'INGAME' ? 'Playing' : 'Navigating'}: ${status.type}${status.replay?.round != null ? ` · round ${status.replay.round}` : ''} · ${saved} recorded wins saved`
+    : status.running ? `${status.replay?.screen === 'INGAME' ? 'Playing' : 'Navigating'}: ${status.type}${status.replay?.round != null ? ` · round ${status.replay.round}` : ''} · ${outcomes}`
     : status.busyWith ? `Waiting — ${status.busyWith} automation task is running`
     : status.exitCode && status.exitCode !== 0 ? `Last run stopped with code ${status.exitCode} · see log below`
-    : status.runtime?.available === false ? `AutoBTD6 needs ${status.runtime.missing} · ${saved} recorded wins saved`
-    : `Idle · ${saved} recorded wins saved`;
+    : status.runtime?.available === false ? `AutoBTD6 needs ${status.runtime.missing}`
+    : `Idle · ${outcomes}`;
   if (status.statusStale) detail.textContent = `VM reconnecting · last confirmed active run${status.replay?.round != null ? ` · round ${status.replay.round}` : ''}`;
   if (recentOutcome && status.running) detail.textContent += ` · ${recentOutcome.replace(/^.*?\]\s*/, '').slice(0, 160)}`;
   document.querySelector('#automation-stop').disabled = !status.running;

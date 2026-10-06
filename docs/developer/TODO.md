@@ -4,6 +4,8 @@ Updated 6 October 2026. Checkboxes require evidence, not merely code. Preserve o
 
 ## Current repair pass
 
+- [x] Remove obsolete achievement sweep implementation and API run type, which ignored owned medals. Preserve historical progress data; automation status now displays the current job's victory/defeat counters instead of the obsolete recording count. Missing-medal sweep remains the supported completion loop.
+
 - [x] Reproduce malformed saved modifiers crashing replay startup and unknown modifiers silently becoming bare upgrade keys. Reject unsupported modifier/device combinations in both replay decoding and route readiness; malformed binding entries no longer crash decoding. Supported keyboard scan codes and Shift/Alt/Ctrl preserved. Offline checks only; deployment pending at a replay boundary.
 
 - [x] Finish Settings connection cleanup: distinguish the guest's Game Connection from host VM setup, disable stale install/update actions during controller disconnection, and label queue reset explicitly. JavaScript syntax checked; live replay left untouched.
