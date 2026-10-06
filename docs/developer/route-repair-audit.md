@@ -810,6 +810,24 @@ The replay reached `VICTORY_CONFIRMED` at round 80; saved Hard/MagicOnly progres
 reports 1,049,865 and the sweep recorded the clear before advancing to Spring
 Spring Hard. Streambed's earned medal is permanently skipped.
 
+## Spring Spring Hard and observations persistence — 7 October 2026
+
+The replay logged `VICTORY_CONFIRMED` at round 80. The current VM save's
+SpringSpring Hard/Standard record decodes to an owned medal using the production
+decoder. The sweep recorded two victories and no defeats, then stopped on an
+`EPERM` rename of its secondary `game-observations.json.tmp` file. This is a
+post-victory persistence failure, not a strategy defeat. The earned Hard medal
+must remain excluded when gameplay resumes. The bounded write-recovery design
+awaits approval; no permission changes or game/save edits were made.
+
+A read-only observer of the actual host VM profile relay captured 45 samples
+over 461 seconds, including two XP changes and one Monkey Money change following
+victory. Production rate calculations returned finite values after the sampling
+window. Full account values and profile paths remain private. This evidence does
+not establish actual veteran rollover, disconnect recovery or every decoder's
+meaning. Offline rate checks additionally cover ordinary rank changes,
+regressed XP and the fresh baseline required on entering veteran XP.
+
 Live panel observations confirmed the first Wizard's bottom-path transition
 from Tier 4 to Tier 5 and the second Wizard's top-path Tier 1, 2 and 3 purchases.
 The round-40 log reported lost lives, with later observations at 88. Retain that

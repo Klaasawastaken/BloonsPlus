@@ -8,7 +8,7 @@ The [production acceptance matrix](production-1.0-gates.md) separates implemente
 
 - **Current priority:** the installer and first-launch redesign, app polish, folders and the website alongside missing-medal gameplay.
 - **Release target:** milestone 100 is the full **v1.0.0** release. Use Previews 97–99 for preparation and complete production acceptance before publishing 1.0. Future notes use only **Additions**, **Changes**, and **Removed**; see the [release policy](release-policy.md) and [template](../releases/TEMPLATE.md).
-- **Sweep:** Quiet Street, Downstream and Streambed Magic Monkeys Only are confirmed. The second-special and achievement-label batch activated after Downstream's completed replay. The missing-medal sweep continued to Spring Spring Hard. Owned medals are skipped and failures persist.
+- **Sweep:** Quiet Street, Downstream and Streambed Magic Monkeys Only, plus Spring Spring Hard, are confirmed. After Spring Spring's victory, a secondary observations-file rename failed with `EPERM` and stopped the sweep. The bounded persistence repair awaits approval. Owned medals are skipped and failures persist.
 - **Recent clears:** Bloonarius Prime ABR, Impoppable and CHIMPS; Balance Hard; Rake Hard and Reverse; Quarry Magic Monkeys Only; Chutes Medium and Hard; Quiet Street, Downstream and Streambed Magic Monkeys Only. Each has victory plus saved-medal evidence.
 - **Open failures:** Balance Magic Monkeys Only and Rake ABR. The former exposed a held-placement recognition bug now repaired; the latter lost at round 30 with confirmed upgrades and needs strategy review. Sunken Columns ABR also remains open.
   - A read-only catalog audit found 55 eligible map/mode candidates with unchanged Hard actions whose original filenames carry flags such as `#noMK`. The existing source-comparison guard checks only a flag-free filename. The bounded guard repair awaits approval; no recordings have been changed by this audit.
@@ -129,6 +129,7 @@ The sweep earns missing medals alongside development. Deploy changes together af
 - [ ] **P-03 — Reconcile achievements.** Compare progress with Steam unlocks; label unsupported counters accurately.
   - Approved source-label repair distinguishes guest-local cache, successful VM relay and genuine host fallback. Activated with v0.1.8 after Downstream finished: live guest/host values match with correct labels and no host fallback. Cache values and completion calculations remain unchanged. Production endpoint/UI regression, all 387 Python checks and 64 JavaScript files pass. Broader achievement reconciliation remains open.
 - [ ] **P-04 — Check MM/hour and XP/hour.** Handle spending, source changes and rank changes. Wait for enough valid samples.
+  - A 461-second read-only observation of the actual VM relay captured 45 samples, two XP changes and a Monkey Money change following victory. Both rates became finite after the sampling window. Offline checks cover spending, freshness, source resets, ordinary rank changes, regressed XP and entry into veteran XP. Actual veteran rollover and disconnect acceptance remain open; no account balances or identifiers are published.
 - [ ] **P-05 — Check activity and run counters.** Keep ages, elapsed time and victory/defeat counts correct across reloads. Confirm clears from saves.
 
 ### Logs and connection

@@ -31,6 +31,20 @@ observe = tracker();
 observe(sample(0, {monkeyMoney:500}));
 assert.equal(observe(sample(60, {monkeyMoney:400})).monkeyMoneyPerHour, -6000, 'Spending is a negative net balance change, not zero earnings');
 assert.equal(observe(sample(120, {monkeyMoney:-1})).monkeyMoneyPerHour, null, 'A negative saved balance is invalid');
+observe = tracker();
+observe(sample(0, {rank:130, veteranRank:0, xp:1000}));
+assert.equal(observe(sample(60, {rank:131, veteranRank:0, xp:1600})).xpPerHour, 36000,
+  'Ordinary rank changes must retain cumulative player XP');
+assert.equal(observe(sample(120, {rank:131, veteranRank:0, xp:900})).xpPerHour, null,
+  'A regressed XP counter must not create negative earnings');
+observe = tracker();
+observe(sample(0, {rank:154, veteranRank:0, xp:1000}));
+assert.equal(observe(sample(60, {rank:155, veteranRank:0, xp:1600})).xpPerHour, null,
+  'Entering the level cap must not compare an unverified veteran counter');
+assert.equal(observe(sample(120, {rank:155, veteranRank:1, veteranXp:0})).xpPerHour, null,
+  'The first veteran observation needs its own baseline');
+assert.equal(observe(sample(180, {rank:155, veteranRank:1, veteranXp:600})).xpPerHour, 36000,
+  'A fresh veteran baseline can recover after entering the level cap');
 const format = vm.runInNewContext(source.match(/const formatRate = value => (.*);/)[0] + ';formatRate');
 assert.equal(format(-6000), (-6000).toLocaleString(), 'Display signed net balance rates');
 assert.equal(format(-0.1), '0', 'Do not display negative zero');

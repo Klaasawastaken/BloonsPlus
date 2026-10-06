@@ -62,6 +62,7 @@ Copy the example configuration only on a fresh checkout. Preserve existing setti
 | `lib/` | Backend modules: automation, progress, capture, setup and VM bridge |
 | `autobtd6/` | Replay engine and recorded strategies |
 | `docs/` | Website, wiki and developer reference |
+| `installer/` | Native Windows installer engine, presentation and package builder |
 | `tools/` | Build, import and maintenance scripts |
 | `vm/` | Guest provisioning |
 | `data/`, `assets/` | Shared catalogs and application artwork |
