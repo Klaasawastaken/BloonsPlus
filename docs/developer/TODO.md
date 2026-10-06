@@ -1,19 +1,29 @@
-# Bloons+ roadmap
+# Bloons+ TODO
 
-Updated **6 October 2026**. This is the active task list. Detailed implementation notes, past failures and release evidence are preserved in the [history archive](history/roadmap-2026-10-06.md).
+Updated **6 October 2026**. This is the readable, active task list. Technical notes, past failures and release evidence are preserved in the [history archive](history/roadmap-2026-10-06.md).
 
-## At a glance
+## Work order
 
-| Priority | Area | What remains |
+| Order | Area | Main outcome |
 | --- | --- | --- |
-| **Now** | Replay reliability | Finish manual controls, upgrade recovery and live HUD/hero evidence |
-| **Next** | Routes and medals | Audit incomplete conversions, improve failed candidates, fill coverage gaps |
-| **Next** | Progress and connection | Check live save data, counters, rates and host/VM synchronization |
-| **Then** | Installer and release | Complete clean-install, repair and distribution checks |
-| **Later** | App and website | Performance, accessibility, website redesign and repository cleanup |
-| **Experimental** | AI, bosses and Pro | Separate development after core reliability |
+| **1 — Current focus** | [Replay reliability](#1-replay-reliability) | Reliable placement, upgrades, round reads and recovery |
+| **2 — Next** | [Routes and medals](#2-routes-and-medals) | Better candidates for missing medals; failed routes cannot block the sweep |
+| **3 — Next** | [Progress and VM connection](#3-progress-and-vm-connection) | Accurate live progress, counters and connection status |
+| **4 — Then** | [Installer and release](#4-installer-and-release) | Clear setup, repair and production acceptance checks |
+| **5 — Later** | [App polish and files](#5-app-polish-and-files) | Smoother app, accessible controls and organized folders |
+| **6 — Deferred** | [Website redesign](#6-website-redesign) | Clearer pages with varied official BTD6 artwork |
+| **7 — Experimental** | [AI, bosses and Pro](#7-ai-bosses-and-pro) | Separate development after core reliability |
 
-**Status key:** unchecked means unfinished or awaiting evidence. A shipped patch does not prove every route works. Completed work is summarized below; its detailed evidence stays in the archive.
+**How to read this list:** unchecked tasks remain open, including tasks awaiting live evidence. Checked tasks have recorded completion evidence. Task IDs stay stable when priorities change. A shipped fix does not prove every route wins.
+
+### Immediate queue
+
+1. **R-01 / R-04:** finish missing route commands and audit incomplete imports.
+2. **R-08 / R-09:** resolve upgrades from the selected tower's actual path/tier state.
+3. **R-12 / R-13:** strengthen cash and round reading using recorded failure evidence.
+4. **S-01 / S-02:** improve eligible candidates for medals still missing.
+
+The sweep earns missing medals alongside development. Deploy changes together after the current healthy replay finishes.
 
 ## Rules for every task
 
@@ -25,93 +35,104 @@ Updated **6 October 2026**. This is the active task list. Detailed implementatio
 - Keep private saves, logs, account details, credentials, VM images and private Discord bot code out of public code and installers.
 - Stop the sweep when every supported obtainable medal is owned. There is no later gameplay validation phase.
 
-## 1. Current work — replay reliability
+## 1. Replay reliability
 
 ### Manual controls and route import
 
 - [x] Preserve source `end_round` / `forward` commands, implicit first-round Play, logical branch order and skip-round-check consumption by empty iterations. Fifteen loop/import checks pass; eight separate candidates pass the full Python parser and JS legality checks.
-- [ ] Observe the integrated manual controls and resumable checkpoints during missing-medal gameplay. Keep plans with remaining omissions excluded; new candidates are not claimed winning.
-- [ ] Add faithful paid hero-level purchases before restoring candidates that omitted them.
-- [ ] Audit legacy `source_btd6bot` / compatibility recordings against pinned source. Timing-only omission labels are not evidence of equivalent behavior.
-- [ ] Finish remaining dependent conversion cases: repeat-ability schedules, moved selectors, positional specials and Ace centering where required. Preserve already-supported commands.
+- [ ] **R-01 — Finish missing commands.** Preserve repeat-ability schedules, moved selectors, positional specials and Ace centering.
+- [ ] **R-02 — Check manual controls and resume.** Observe them during missing-medal gameplay. Keep incomplete plans excluded.
+- [ ] **R-03 — Support paid hero levels.** Preserve the source purchase before restoring routes that omitted it.
+- [ ] **R-04 — Audit older imports.** Compare `source_btd6bot` and compatibility recordings with pinned source. Timing labels alone do not prove equivalence.
 
 **Already implemented:** nonblocking waits, cursor and targeted-special commands, absolute Auto Start support, observed single/double Play receipts, logical round clocks and chronological source-loop traversal. Manual flow is now converted; some plans still need other commands and live outcome evidence.
 
 ### Hero, placement and upgrades
 
-- [ ] Confirm hero name and Select/Selected state at 1080p and 1440p; observe improved title recognition and reduced picker searches during missing-medal runs.
-- [ ] Confirm free and paid placements when cash is unchanged, including free Dart Monkey knowledge and Deflation cash.
-- [ ] Resolve ambiguous upgrades from the exact tower panel and path/tier state; retry only the intended purchase.
-- [ ] Validate unresolved-upgrade checkpoint recovery without buying the wrong tier. Remaining-action snapshots and ownership probes are implemented; live restart evidence remains open.
-- [ ] Verify frozen-tower deferral and Glacial Trail timing during missing-medal gameplay. Restore excluded candidates only after their timing is preserved.
-- [ ] Observe timed abilities and cursor targeting during missing-medal gameplay; offline command checks alone do not prove a win.
+- [ ] **R-05 — Confirm hero selection.** Read the hero name and Select/Selected state at 1080p and 1440p. Check title recognition and picker searches during missing-medal runs.
+- [ ] **R-06 — Confirm free placements.** Handle free Dart Monkey knowledge when cash does not change.
+- [ ] **R-07 — Confirm paid placements.** Resolve unchanged or ambiguous cash observations, including Deflation cash.
+- [ ] **R-08 — Confirm the intended upgrade.** Read the exact tower panel and path/tier state before retrying.
+- [ ] **R-09 — Recover pending upgrades after resume.** Use remaining-action snapshots and ownership probes without buying the wrong tier. Live restart evidence remains open.
+- [ ] **R-10 — Handle freezing.** Check frozen-tower deferral and Glacial Trail timing before restoring excluded candidates.
+- [ ] **R-11 — Check abilities and targeting.** Observe timing and cursor targets during missing-medal gameplay; offline checks do not prove a win.
 
 ### HUD, recovery and failure evidence
 
-- [ ] Verify cash at native 1080p/1440p, both panel sides and Double Cash. Reject sell-price and implausible readings.
-- [ ] Confirm round reads through panels, speed changes, effects and scaling; bound stalled `await_round` actions.
-- [ ] Confirm viable games continue after the planned actions end until an actual result. This already worked on individual clears; broader evidence remains open.
-- [ ] Check bounded recovery for failed placement, upgrades, navigation and stalled rounds; retain exact intent and avoid blind purchase retries.
-- [ ] Keep failure evidence complete: frame, action, target, selected tower/hero, cash, round and freshness. Redact shared logs.
-- [ ] Review the persistent failure backlog by its own evidence. Investigate Hedge, Spa Pits, Cubism, Infernal, Glacial Trail and other remaining failures; retain historical failures for maps already cleared and never replay their owned medals.
+- [ ] **R-12 — Improve cash reading.** Cover native 1080p/1440p, both panel sides and Double Cash. Reject sell prices and implausible readings.
+- [ ] **R-13 — Improve round reading.** Cover panels, speed changes, effects and scaling. Bound stalled `await_round` actions.
+- [ ] **R-14 — Continue until a real result.** Keep viable games running after route actions end. Individual clears worked; broader evidence remains open.
+- [ ] **R-15 — Bound recovery attempts.** Cover placement, upgrades, navigation and stalled rounds. Preserve exact intent; avoid blind purchase retries.
+- [ ] **R-16 — Save useful failure evidence.** Include frame, action, target, selected tower/hero, cash, round and freshness. Redact shared logs.
+- [ ] **R-17 — Review past failures.** Investigate Hedge, Spa Pits, Cubism, Infernal, Glacial Trail and other remaining failures from their evidence. Retain cleared-map history; never replay owned medals.
 
-## 2. Routes and the missing-medal sweep
+## 2. Routes and medals
 
-- [ ] Audit candidates against mode restrictions, required paths, owned heroes/upgrades, game version and map layout.
-- [ ] Generate strong candidates for missing map/mode combinations. Validate offline; mark winning only after victory plus saved medal.
-- [ ] Complete map-mechanics handling: moving platforms, freezing, changing layouts, obstacles, water and line of sight.
-- [ ] Review the Sanctuary legacy moving-selector failure and other incomplete conversions before restoring eligibility.
-- [ ] Confirm saved-medal reconciliation after runs and restarts, partial-sweep resume and exclusion of owned or unreadable medals.
-- [ ] Confirm persistent per-route outcomes and clear skip reasons: requirements, restrictions, known failures or no eligible candidate.
-- [ ] Confirm Expert-to-Beginner ordering, shuffled within categories, without repeating excluded candidates.
-- [ ] Regenerate coverage and audit architecture before extending the production overhaul. Eligibility is not victory evidence.
+### Candidate quality
+
+- [ ] **S-01 — Check route requirements.** Cover mode restrictions, required paths, owned heroes/upgrades, game version and layout.
+- [ ] **S-02 — Fill route gaps.** Generate strong candidates for missing map/mode combinations. Validate offline; a win requires victory plus saved medal.
+- [ ] **S-03 — Handle map mechanics.** Cover moving platforms, freezing, changing layouts, obstacles, water and line of sight.
+- [ ] **S-04 — Review incomplete conversions.** Include Sanctuary's moving-selector failure before restoring eligibility.
+
+### Sweep behavior
+
+- [ ] **S-05 — Reconcile saved medals.** Check after runs and restarts, resume partial sweeps and exclude owned or unreadable medals.
+- [ ] **S-06 — Preserve outcomes and skip reasons.** Distinguish missing requirements, restrictions, known failures and no eligible candidate.
+- [ ] **S-07 — Check map ordering.** Expert to Beginner, shuffled within categories, without repeating excluded candidates.
+- [ ] **S-08 — Refresh coverage and architecture audit.** Complete before extending the production overhaul. Eligibility is not victory evidence.
 
 **Last recorded offline coverage:** 526 of 1,204 map/mode pairs eligible; 678 gaps and three maps without eligible routes. Manual source schedules now require the target's starting round unless an exact-content target win exists. Eligibility does not establish winning strategies or account prerequisites.
 
-## 3. Progress, activity and host/VM connection
+## 3. Progress and VM connection
 
-- [ ] Confirm live VM save fields: level, veteran rank, Monkey Money, owned heroes, Monkey Knowledge, tower XP and T1–T5 unlocks, with source and freshness.
-- [ ] Confirm veteran XP rollover semantics before displaying veteran ETA.
-- [ ] Reconcile achievement progress with Steam unlocks; label unsupported counters accurately.
-- [ ] Check MM/hour and XP/hour over live save updates, spending, source changes and rank changes. Show no rate until enough valid samples exist.
-- [ ] Confirm activity ages, elapsed run time and victory/defeat counters across host/guest reloads. Count clears only after save confirmation.
-- [ ] Keep full redacted logs and group failures by actionable cause, even when stale game-state files remain.
-- [ ] Confirm host/guest synchronization after updates and restarts; expose the actual failed connection/setup step.
-- [x] Deploy Preview 81 while the guest is idle, then resume missing medals. Setup confirms installation; host and guest both report the sweep running. The worker's initial two-second resume check was too early; later authoritative checks confirmed success without starting another sweep.
-- [x] Apply Preview 83 after High Finance Reverse finished. Update completed and the guest confirmed the missing-medal sweep resumed. Preview 82's earlier waiting worker was stopped before installation to batch the schedule-reuse fix; the healthy replay was not interrupted.
+### Save data and statistics
 
-## 4. Installer, updates and production release
+- [ ] **P-01 — Check live VM save data.** Level, veteran rank, Monkey Money, heroes, Monkey Knowledge, tower XP and T1–T5 unlocks need source and freshness.
+- [ ] **P-02 — Check veteran XP rollover.** Confirm its meaning before displaying veteran ETA.
+- [ ] **P-03 — Reconcile achievements.** Compare progress with Steam unlocks; label unsupported counters accurately.
+- [ ] **P-04 — Check MM/hour and XP/hour.** Handle spending, source changes and rank changes. Wait for enough valid samples.
+- [ ] **P-05 — Check activity and run counters.** Keep ages, elapsed time and victory/defeat counts correct across reloads. Confirm clears from saves.
 
-- [ ] Verify a clean Windows setup without Python, Visual C++ runtime, App Sandbox or an existing VM. Show progress and a repair action for each prerequisite.
-- [ ] Verify Steam sign-in, BTD6 install/launch, SSH provisioning, bridge connection and remote guest update without storing Steam credentials.
-- [ ] Verify partial-install repair and reuse healthy components without changing existing Steam or game data.
-- [ ] Check the next packaged installer, release notes and latest-download link. Do not add a separate `SHA256SUMS.txt` asset.
-- [ ] Add trusted code signing when available; unsigned installers may still trigger SmartScreen.
-- [ ] Meet the production specification's acceptance gates before publishing **v1.0.0**. Preview releases are not production readiness.
+### Logs and connection
+
+- [ ] **P-06 — Keep complete redacted logs.** Group failures by cause, including when stale game-state files remain.
+- [ ] **P-07 — Check host/VM synchronization.** Cover updates and restarts; show the actual failed connection or setup step.
+
+## 4. Installer and release
+
+- [ ] **I-01 — Check a clean Windows setup.** No Python, Visual C++ runtime, App Sandbox or existing VM. Show progress and repair for each prerequisite.
+- [ ] **I-02 — Check the complete VM setup.** Steam sign-in, game install/launch, SSH, bridge connection and remote updates. Never store Steam credentials.
+- [ ] **I-03 — Check partial-install repair.** Reuse healthy components without changing Steam or game data.
+- [ ] **I-04 — Check release packaging.** Installer, release notes and latest-download link. No separate `SHA256SUMS.txt` asset.
+- [ ] **I-05 — Add trusted code signing when available.** Unsigned installers may still trigger SmartScreen.
+- [ ] **I-06 — Meet production acceptance gates.** Complete the specification before publishing **v1.0.0**; previews do not establish production readiness.
 
 **Latest published:** [Preview 83](https://github.com/Klaasawastaken/BloonsPlus/releases/tag/v0.1.0-preview.83), installer 245,319,496 bytes. The manual-flow batch passed 134 focused Python checks, candidate-selection/coverage regressions and 24 packaged-source comparisons; publication guard reported zero findings. This does not establish clean-machine installation or winning routes.
 
-## 5. App usability and repository cleanup
+## 5. App polish and files
 
-- [ ] Check scrolling and category-switch performance in the actual app.
-- [ ] Confirm the inline VM viewer only captures while visible/focused, including browser cache restoration. Lifecycle checks exist; broader live performance remains open.
-- [ ] Finish reduced-motion and screen-reader checks for Subscriptions, including its price announcement.
-- [ ] Organize repository folders while preserving runtime paths and excluding private/generated files.
+- [ ] **A-01 — Check app performance.** Scrolling and category changes should feel responsive.
+- [ ] **A-02 — Check the inline VM viewer.** Capture only while visible/focused, including browser cache restoration. Lifecycle checks exist; broader live performance remains open.
+- [ ] **A-03 — Finish accessibility checks.** Reduced motion and screen readers for Subscriptions, including price announcements.
+- [ ] **A-04 — Organize folders.** Preserve runtime paths and exclude private/generated files.
 
-## 6. Deferred website redesign
+## 6. Website redesign
 
 Requested **6 October**. Start after current replay/control work and VM recovery are stable.
 
-- [ ] Use different official BTD6 monkeys on **About us** and **Contributors**. Keep **Engineer Monkey on the Wiki**.
-- [ ] Fully rebuild **Features** around what Bloons+ actually does, with clear groups and varied official BTD6 art.
-- [ ] Partially redesign **Home**: streamline sections, reduce clutter and strengthen its BTD6 theme.
-- [ ] Preserve artwork proportions, attribution, responsive layout and accessibility. Use no AI-generated images.
+- [ ] **W-01 — Vary character artwork.** Different official monkeys on About us and Contributors; keep Engineer Monkey on the Wiki.
+- [ ] **W-02 — Rebuild Features.** Present actual Bloons+ capabilities with clear groups and varied official BTD6 art.
+- [ ] **W-03 — Streamline Home.** Reduce clutter and strengthen the BTD6 theme.
+- [ ] **W-04 — Check artwork and layout.** Preserve proportions, attribution, responsiveness and accessibility. No AI-generated images.
 
-## 7. Later — experimental systems
+## 7. AI, bosses and Pro
 
-- [ ] Develop experimental strategy/placement assistance with redacted observations and route-level evidence before live decisions.
-- [ ] Add executable boss routes only after handling modifiers, restrictions, game versions and outcome checks.
-- [ ] Finalize Pro features, pricing and entitlements before launch. Proposed additions are not shipped features; checkout does not exist yet.
+Start after core reliability. These are future work, not completed features.
+
+- [ ] **E-01 — Develop experimental assistance.** Use redacted observations and route evidence before live strategy or placement decisions.
+- [ ] **E-02 — Add executable boss routes.** Handle modifiers, restrictions, game versions and outcome checks first.
+- [ ] **E-03 — Finalize Pro.** Decide features, pricing and entitlements before launch. Proposed additions are not shipped; checkout does not exist yet.
 
 ## Completed milestones
 
@@ -124,7 +145,9 @@ Requested **6 October**. Start after current replay/control work and VM recovery
 - [x] Atomic installer/download handling and bounded SSH commands with diagnostics.
 - [x] Official-art README banner, monthly/annual plan selector and latest-release download lookup.
 - [x] Source import/control groundwork described in section 1; original recordings preserved.
+- [x] Preview 81 deployed while the guest was idle. Later host/guest checks confirmed resume; the initial two-second check was too early.
 - [x] Preview 83 deployed between replays, including eight separate manual-flow candidates and the schedule-reuse guard.
+- [x] Preview 82's waiting deployment stopped before installation so the schedule fix could join Preview 83. The healthy replay continued.
 - [x] High Finance Reverse earned on 6 October: victory at round 60 plus authoritative saved medal. Never repeat the owned medal.
 
 For exact checks, release history, confirmed medals and limitations, see the [evidence archive](history/roadmap-2026-10-06.md). Archive checkboxes and deployment notes are historical; use this list to choose the next task.

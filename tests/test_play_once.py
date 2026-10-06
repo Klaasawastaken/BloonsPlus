@@ -36,6 +36,28 @@ class PlayOnceTests(unittest.TestCase):
         self.assertEqual(play_once_ready(step,11,'paused',7,True,self.fail),(True,False))
         self.assertIsNone(step['speed'])
 
+    def test_running_input_completed_round_before_speed_confirmation(self):
+        # Live failure: the receipt began on fast at round 13; the next
+        # observable frame was paused at 14, so opposite speed was gone.
+        for origin in ('fast', 'slow'):
+            step=self.step(); calls=[]; messages=[]
+            play_once_ready(step,10,origin,13,True,calls.append)
+            self.assertEqual(play_once_ready(step,10.2,'paused',14,True,self.fail),(False,False))
+            self.assertEqual(play_once_ready(step,11,'paused',14,True,self.fail,report=messages.append),(True,False))
+            self.assertEqual(calls,['F8'])
+            self.assertTrue(step['playStateConfirmed'])
+            self.assertIsNone(step['speed'])
+            self.assertTrue(any('round boundary' in message for message in messages))
+
+    def test_running_receipt_rejects_pause_without_round_boundary_and_survives_resume(self):
+        step=self.step();play_once_ready(step,10,'fast',13,True,lambda key:None)
+        restored=restore_action(self.step(),json.loads(json.dumps(step)))
+        for round_ in (12,13):
+            self.assertEqual(play_once_ready(restored,11,'paused',round_,True,self.fail),(False,False))
+        self.assertEqual(play_once_ready(restored,12,'paused',14,False,self.fail),(False,False))
+        self.assertEqual(play_once_ready(restored,12,None,14,True,self.fail),(False,False))
+        self.assertEqual(play_once_ready(restored,12,'paused',14,True,self.fail),(True,False))
+
     def test_unknown_busy_unreadable_or_unbound_withholds_input(self):
         for state,round_,free in ((None,6,True),('slow',None,True),('paused',True,True),('slow',6,False)):
             self.assertEqual(play_once_ready(self.step(),10,state,round_,free,self.fail),(False,False))
@@ -64,6 +86,23 @@ class PlayOnceTests(unittest.TestCase):
             bad=deepcopy(saved);bad['playOncePending'][field]=value
             with self.assertRaises(ValueError):restore_action(source,bad)
             self.assertFalse(resumable_round_start(dict(checkpoint,remainingSteps=[bad])))
+
+    def test_explicit_resume_accepts_stopped_round_control_but_not_pending_purchase(self):
+        step=self.step();play_once_ready(step,10,'fast',13,True,lambda key:None)
+        checkpoint=dict(status='paused',pendingAction=None,nextStep=4,remainingSteps=[step])
+        self.assertTrue(resumable_round_start(checkpoint))
+        self.assertEqual(play_once_ready(restore_action(self.step(),step),12,'paused',14,True,self.fail),(True,False))
+        for change in ({'nextStep':5}, {'remainingSteps':[self.step()]},
+                       {'pendingAction':'upgrade'}, {'remainingSteps':[dict(action='upgrade',routeStepIndex=4)]}):
+            self.assertFalse(resumable_round_start(dict(checkpoint,**change)))
+        broken=deepcopy(step);broken['playOncePending']['sentAt']=True
+        self.assertFalse(resumable_round_start(dict(checkpoint,remainingSteps=[broken])))
+        for action in ('start_round','speed_toggle'):
+            control=dict(action=action,routeStepIndex=4,speed='slow',speedToggleFrom='fast',
+                         roundStartPending=dict(sentAt=10,**{'from':'fast'}))
+            self.assertTrue(resumable_round_start(dict(checkpoint,remainingSteps=[control])))
+            control['roundStartPending']['sentAt']=True
+            self.assertFalse(resumable_round_start(dict(checkpoint,remainingSteps=[control])))
 
     def test_backward_clock_rebases_without_input_or_losing_failed_save(self):
         step=self.step();play_once_ready(step,20,'slow',6,True,lambda key:None)

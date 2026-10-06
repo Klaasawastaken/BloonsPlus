@@ -9,8 +9,7 @@ from play_sequence import restore_play_sequence
 
 def resumable_round_start(checkpoint):
     """Admit an observed round control, never an ambiguous pending purchase."""
-    if (not isinstance(checkpoint, dict) or checkpoint.get('status') != 'pending'
-            or checkpoint.get('pendingAction') not in ('play_once', 'play_twice', 'start_round', 'speed_toggle')):
+    if not isinstance(checkpoint, dict) or checkpoint.get('status') not in ('pending', 'paused'):
         return False
     remaining = checkpoint.get('remainingSteps')
     offset = checkpoint.get('nextStep')
@@ -18,14 +17,22 @@ def resumable_round_start(checkpoint):
             or not remaining or not isinstance(remaining[0], dict)):
         return False
     step = remaining[0]
-    if step.get('action') == checkpoint['pendingAction'] == 'play_twice':
+    # An explicit Stop records 'paused' even when the control receipt was
+    # safely saved as ready. Only restore that observed control; never infer
+    # whether a pending purchase was sent. Automatic resume still needs ready.
+    pending_action = checkpoint.get('pendingAction')
+    if checkpoint['status'] == 'paused' and pending_action is None:
+        pending_action = step.get('action')
+    if pending_action not in ('play_once', 'play_twice', 'start_round', 'speed_toggle'):
+        return False
+    if step.get('action') == pending_action == 'play_twice':
         try:
             restore_play_sequence(step, step)
         except ValueError:
             return False
         return (isinstance(step.get('sequencePending'), dict)
                 and type(step.get('routeStepIndex')) is int and step['routeStepIndex'] == offset)
-    if step.get('action') == checkpoint['pendingAction'] == 'play_once':
+    if step.get('action') == pending_action == 'play_once':
         try:
             restore_play_once(step,step)
         except ValueError:
@@ -39,7 +46,14 @@ def resumable_round_start(checkpoint):
                      or step.get('speedToggleFrom') not in ('paused', 'fast', 'slow')
                      or step.get('speed') != ('fast' if step['speedToggleFrom'] == 'slow' else 'slow')):
         return False
-    return (step.get('action') == checkpoint['pendingAction'] and step.get('speed') in ('fast', 'slow')
+    if checkpoint['status'] == 'paused' and not isinstance(pending, dict):
+        return False
+    if checkpoint['status'] == 'paused':
+        try:
+            restore_action(step, step)
+        except ValueError:
+            return False
+    return (step.get('action') == pending_action and step.get('speed') in ('fast', 'slow')
             and type(step.get('routeStepIndex')) is int
             and step['routeStepIndex'] == offset)
 

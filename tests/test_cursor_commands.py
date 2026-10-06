@@ -46,8 +46,12 @@ class CursorCommands(unittest.TestCase):
                 self.assertEqual(set(before), {
                     'original.btd6',
                     'ouch#alternate_bloons_rounds#1920x1080#converted#source_btd6bot#cursor-preserved.btd6',
+                    'ouch#chimps#1920x1080#converted#source_btd6bot#cursor-preserved.btd6',
                     'party_parade#hard#1920x1080#converted#source_btd6bot#cursor-preserved.btd6',
                 })
+                manual=output/'ouch#chimps#1920x1080#converted#source_btd6bot#cursor-preserved.btd6'
+                self.assertIn(b'source round 6',manual.read_bytes())
+                self.assertIn(b'play once',manual.read_bytes())
                 converter.emit_cursor_candidates();self.assertEqual(before,{p.name:p.read_bytes() for p in output.glob('*.btd6')})
                 candidate=next(output.glob('*#cursor-preserved.btd6'));candidate.write_text('user edit')
                 with self.assertRaisesRegex(RuntimeError,'Refusing to overwrite'):converter.emit_cursor_candidates()

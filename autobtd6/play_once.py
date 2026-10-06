@@ -24,7 +24,10 @@ def play_once_ready(step, now, play_state, observed_round, input_free, press,
     A pending receipt is never blindly replayed after a process restart. A
     paused-origin command may already have finished a short round before the
     next frame, so a fresh higher round also confirms that transition. Running
-    origins require the opposite speed, not mere ongoing round progression.
+    origins require the opposite speed or a completed round boundary. A round
+    may end before the next capture; a higher, paused round confirms that
+    boundary without inventing a speed or sending another key. Mere ongoing
+    round progression is insufficient.
     """
     if step.get('action') != 'play_once':
         raise ValueError('single Play controller needs play_once')
@@ -44,11 +47,16 @@ def play_once_ready(step, now, play_state, observed_round, input_free, press,
         if now-pending['sentAt'] < 1:
             return False,False
         origin=pending['from']
+        round_boundary=play_state=='paused' and observed_round>pending['round']
         confirmed=(play_state==('fast' if origin=='slow' else 'slow') if origin!='paused'
                    else play_state in ('fast','slow') or observed_round>pending['round'])
-        if confirmed:
+        if confirmed or round_boundary:
             step['playStateConfirmed']=True
             step['speed']=play_state if play_state in ('slow','fast') else None
+            if round_boundary:
+                report('PLAY_ONCE confirmed completed round boundary from=' + origin
+                       + ' round=' + str(pending['round']) + ' observed=' + str(observed_round)
+                       + '; no additional key issued')
             return True,False
         report('PLAY_ONCE awaiting observed transition; retaining command without another key')
         return False,False
