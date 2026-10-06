@@ -1774,8 +1774,10 @@ def main():
     pendingLivesFrames = 0
     terrainMotion = None
     lastMotionSampleAt = 0
-    # Remembered across runs: BTD6's placement-confirmation setting rarely changes.
-    confirmPlacementMode = os.path.exists(os.path.join(KNOWN_SPOTS_DIR, 'confirm_mode.flag'))
+    # The user may change placement confirmation between runs. A historical flag
+    # is not evidence that the current game expects a green check. Discover it
+    # from the live post-click control, as normal placement already does below.
+    confirmPlacementMode = False
     towerTracker = TowerTracker()
     pathHeat = None
     lastGoodMoney = 0
@@ -3705,11 +3707,7 @@ def main():
                         if confirmButtonVisible(afterClick):
                             if not confirmPlacementMode:
                                 confirmPlacementMode = True
-                                try:
-                                    os.makedirs(KNOWN_SPOTS_DIR, exist_ok=True)
-                                    open(os.path.join(KNOWN_SPOTS_DIR, 'confirm_mode.flag'), 'w').close()
-                                except OSError:
-                                    pass
+                                customPrint('PLACE_CONFIRM_MODE enabled from live check button; historical flags ignored')
                             pyautogui.click(confirmButtonPos(afterClick.shape[1]))
                             customPrint('PLACE_CONFIRM ' + str(action.get('name')) + ' pressed the placement check at ' + str(action['pos']))
                         # Let the purchase reach the cash counter before the next read judges it.
