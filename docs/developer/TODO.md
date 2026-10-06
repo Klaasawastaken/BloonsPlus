@@ -4,6 +4,14 @@ Updated 6 October 2026. Checkboxes require evidence, not merely code. Preserve o
 
 ## Current repair pass
 
+- Confirmed Flooded Valley Alternate Bloons Rounds victory at 03:46:39, round 80; authoritative VM save Hard/AlternateBloonsRounds=1049865. Missing medal earned; never replay it. Preview 39 boundary update remains tracked through its existing process handle.
+
+- [x] Enforce active T5 limits in surplus spending. Flooded Valley ABR showed Sub0 at 2-0-5 while the planner issued Sub1’s 2-0-5 purchase. Block duplicate tower/path T5 purchases; allow at most two Crossbow Masters only outside CHIMPS with enabled Master Double Cross. Original route actions unchanged; deployment pending.
+
+- [x] Bound surplus waiting logs to round changes or changed cash after 15 seconds. Live Flooded Valley ABR logs showed income causing repeated messages every frame; purchases and failure messages remain immediate. Runtime deployment queued at a replay boundary.
+
+- [x] Settings cleanup: remove repeated category labels, use Appearance and VM Connection cards, consolidate logs/reset into collapsed Troubleshooting, and explicitly describe queue reset. Preserve setup, theme and reset handlers. No replay interrupted.
+
 - [x] Settings follow-up: remove duplicate introduction/category labels, shorten connection guidance and name the reset section directly. Keep setup/update/theme/reset IDs and working handlers; installation details remain collapsed.
 
 - [x] Add executable `round N after S seconds` across parser, recorder, canonical action validation, strict JS validation and the non-blocking replay gate. Use the existing observed round-start timestamp, not per-action sleeps. Emergency wait release retains explicit offsets; overdue and mid-round resume cases log timing recovery. Nine offline timing/recording checks and eight converter checks pass. Two separate Everything Macro timing-preserved candidates pass both full Python parser and JS legality checks: Dark Castle Deflation and Tricky Tracks Impoppable. No original route replaced; live timing verification remains pending missing-medal gameplay.

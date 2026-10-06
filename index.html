@@ -130,26 +130,26 @@
 
 
     <section id="settings" class="view hidden" aria-labelledby="settings-title">
-      <div class="page-intro settings-intro"><div><div class="eyebrow green">PREFERENCES</div><h2 id="settings-title">Make it yours.</h2><p>Appearance, game connection and app maintenance.</p></div><button class="quiet-button" data-go="logs">Open diagnostics</button></div>
+      <div class="page-intro settings-intro"><div><h2 id="settings-title">Settings</h2><p>Personalize your app and manage your game connection.</p></div></div>
       <div class="settings-layout">
         <div class="panel settings-panel settings-appearance">
-          <div class="panel-title"><div><span class="settings-eyebrow">PERSONALIZE</span><h3>Appearance</h3><p>Choose a theme. Saved automatically on this device.</p></div></div>
+          <div class="panel-title"><div><h3>Appearance</h3><p>Your theme is saved automatically.</p></div></div>
           <fieldset id="theme-setting" class="theme-choices"><legend class="sr-only">Choose your theme</legend>
             <label class="theme-choice"><input type="radio" name="app-theme" value="light"><span class="theme-preview theme-preview-light" aria-hidden="true"><i></i><i></i><i></i></span><span class="theme-choice-label"><b>Light</b><small>Bright surfaces</small></span></label>
             <label class="theme-choice"><input type="radio" name="app-theme" value="dark"><span class="theme-preview theme-preview-dark" aria-hidden="true"><i></i><i></i><i></i></span><span class="theme-choice-label"><b>Dark</b><small>Muted surfaces</small></span></label>
           </fieldset>
         </div>
         <div class="panel vm-settings-panel">
-          <div class="panel-title"><div><span class="settings-eyebrow">CONNECT &amp; UPDATE</span><h3>Game connection</h3><p>The next required setup step appears here.</p></div><span class="status-chip" id="vm-settings-chip">CHECKING</span></div>
+          <div class="panel-title"><div><h3>VM connection</h3><p>Setup, repairs and updates in one place.</p></div><span class="status-chip" id="vm-settings-chip">CHECKING</span></div>
           <div id="vm-settings-status" class="vm-settings-status" role="status">Checking this PC and the VM…</div>
           <div id="vm-settings-progress" class="settings-progress" role="progressbar" aria-label="Game setup progress" aria-valuemin="0" aria-valuemax="100" hidden><span></span></div>
           <p id="vm-settings-progress-label" class="settings-progress-label" hidden></p>
           <div class="form-row vm-settings-actions"><button class="primary-button" id="vm-settings-start">Set up VM</button><button class="quiet-button" id="vm-settings-update">Update VM app</button></div>
-          <details class="settings-subdetails" id="vm-settings-advanced"><summary>Installation details</summary><ol id="vm-settings-steps" class="setup-bar-steps"></ol><label class="field" id="vm-settings-iso-field"><span>Windows 11 ISO (optional)</span><input id="vm-settings-iso" type="text" placeholder="Use an existing ISO, or leave empty"></label><p class="field-hint" id="vm-settings-iso-hint">Leave empty to download from Microsoft when creating a VM.</p></details>
+          <details class="settings-subdetails" id="vm-settings-advanced"><summary>Setup details &amp; existing ISO</summary><ol id="vm-settings-steps" class="setup-bar-steps"></ol><label class="field" id="vm-settings-iso-field"><span>Windows 11 ISO (optional)</span><input id="vm-settings-iso" type="text" placeholder="Use an existing ISO, or leave empty"></label><p class="field-hint" id="vm-settings-iso-hint">Leave empty to download from Microsoft when creating a VM.</p></details>
           <div class="settings-connection-footer"><button class="text-button settings-recheck" id="vm-settings-refresh">Check connection</button><span id="vm-settings-update-hint">Update from your main PC between replays.</span></div>
         </div>
       </div>
-      <details class="panel settings-details settings-maintenance"><summary><span><b>App maintenance</b><small>Reset local preferences when you need a fresh start.</small></span><span class="settings-expand" aria-hidden="true">+</span></summary><div class="settings-details-body"><div class="settings-reset-row"><div><b>Reset preferences</b><p>Your BTD6 saves, unlocks and earned medals are kept.</p></div><button class="danger-button" id="delete-save">Reset preferences</button></div></div></details>
+      <details class="panel settings-details settings-maintenance"><summary><span><b>Troubleshooting</b><small>Run logs and preference reset.</small></span><span class="settings-expand" aria-hidden="true">+</span></summary><div class="settings-details-body"><div class="settings-help-row"><div><b>Run logs</b><p>View errors and export logs for an issue report.</p></div><button class="quiet-button" data-go="logs">Open run logs</button></div><div class="settings-reset-row"><div><b>Reset preferences &amp; queue</b><p>Clears this app’s preferences and queued runs. Your BTD6 saves and earned medals are kept.</p></div><button class="danger-button" id="delete-save">Reset preferences</button></div></div></details>
     </section>
     <footer><span>Bloons+ <i>•</i> Prototype 0.1</span><span>Progress stays on this device</span></footer>
   </main>

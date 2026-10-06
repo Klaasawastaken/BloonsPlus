@@ -1,3 +1,9 @@
+## Preview 42 — Settings and surplus upgrade limits
+
+- Simplify Settings and consolidate troubleshooting controls.
+- Enforce active tier-five limits before surplus upgrade purchases.
+- Rate-limit income-driven upgrade waiting logs.
+
 ## Preview 41 — Verified hero-picker hints
 
 - Remember visually confirmed card locations as resolution/layout-scoped hints.

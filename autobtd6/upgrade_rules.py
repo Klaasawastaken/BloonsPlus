@@ -21,3 +21,26 @@ def can_upgrade_path(levels, path):
         and sum(level > 0 for level in proposed) <= 2
         and sum(level > 2 for level in proposed) <= 1
     )
+
+
+def can_upgrade_in_roster(levels, path, tower_type, roster, *, double_cross=False):
+    """Include active tier-five limits when extending a confirmed tower build."""
+    if not can_upgrade_path(levels, path):
+        return False
+    if levels[path] != 4:
+        return True
+    if not isinstance(roster, dict):
+        return False
+    limit = 2 if tower_type == 'dart' and path == 2 and double_cross is True else 1
+    owned = 0
+    for tower in roster.values():
+        if not isinstance(tower, dict):
+            return False
+        if tower.get('type') != tower_type:
+            continue
+        tiers = tower.get('upgrades')
+        if (not isinstance(tiers, (list, tuple)) or len(tiers) != 3
+                or any(type(tier) is not int or not 0 <= tier <= 5 for tier in tiers)):
+            return False
+        owned += tiers[path] == 5
+    return owned < limit

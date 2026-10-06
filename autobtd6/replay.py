@@ -10,7 +10,7 @@ import threading
 import time
 from copy import deepcopy
 from game_runtime import GameState, normalize_action
-from upgrade_rules import can_upgrade_path
+from upgrade_rules import can_upgrade_in_roster
 from upgrade_observation import observe_upgrade, resolve_hud_panels, select_tower
 from placement_observation import held_placement_visible
 from route_timing import delay_ready, round_offset_ready, ability_ready, issue_ability, upgrade_ready, RepeatedAbilities, round_start_ready
@@ -1793,6 +1793,8 @@ def main():
     lowLivesFrames = 0
     emergencySpend = False
     lastSurplusWaitCash = None
+    lastSurplusWaitRound = None
+    lastSurplusWaitAt = 0.0
 
     lastIterationBalance = -1
     lastIterationRound = -1
@@ -2044,7 +2046,10 @@ def main():
             if len(levels) != 3:
                 continue
             for path in range(3):
-                if not can_upgrade_path(levels, path):
+                if not can_upgrade_in_roster(
+                        levels, path, towerType, currentGameState.towers,
+                        double_cross=(mapConfig.get('gamemode') != 'chimps'
+                                      and userHasMonkeyKnowledge('master_double_cross'))):
                     continue
                 tier = int(levels[path]) + 1
                 if tier > 5 or len(priceTable) <= path or len(priceTable[path]) < tier:
@@ -2524,6 +2529,8 @@ def main():
                 lowLivesFrames = 0
                 emergencySpend = False
                 lastSurplusWaitCash = None
+                lastSurplusWaitRound = None
+                lastSurplusWaitAt = 0.0
                 upgradeRunId = str(time.time_ns())
                 currentGameState = GameState(mapConfig, upgradeRunId)
                 currentGameState.observe(screen=Screen.INGAME.name)
@@ -3337,9 +3344,14 @@ def main():
                                     ' path=' + str(extraUpgrade['path'] + 1) + ' tier=' +
                                     str(extraUpgrade['extra']['upgrade'][1]) + ' cost=' + str(extraUpgrade['cost']) +
                                     ' cash=' + str(currentValues['money']))
-                    elif lastSurplusWaitCash != currentValues['money']:
+                    elif (lastSurplusWaitRound != currentValues['round']
+                          or (lastSurplusWaitCash != currentValues['money']
+                              and time.monotonic() - lastSurplusWaitAt >= 15)):
                         lastSurplusWaitCash = currentValues['money']
-                        customPrint('SURPLUS_UPGRADE waiting for enough cash or another round; cash=' + str(currentValues['money']))
+                        lastSurplusWaitRound = currentValues['round']
+                        lastSurplusWaitAt = time.monotonic()
+                        customPrint('SURPLUS_UPGRADE waiting for enough cash; round=' +
+                                    str(currentValues['round']) + ' cash=' + str(currentValues['money']))
 
                 # Preserve the recorded round order and upgrade paths. Extra spending is
                 # allowed above only after every planned action has been executed; buying
