@@ -22,6 +22,10 @@ assert.equal(classifyRouteFailure({ ...base, interrupted: true, log: ['screen DE
 assert.equal(classifyRouteFailure({ ...base, interrupted: true, defeatObserved: true }), 'gameplay-defeat');
 assert.equal(classifyRouteFailure({ ...base, sameRun: false, lastRound: null }), 'insufficient-data');
 assert.equal(classifyRouteFailure({ ...base, log: ['ERROR hero selection was not confirmed'] }), 'navigation-bug');
+assert.equal(classifyRouteFailure({ ...base, reason:'exit', sameRun:false, lastRound:null,
+  defeatObserved:false, log:['ERROR hero obyn_greenfoot was not found in the picker'] }), 'navigation-bug');
+assert.equal(classifyRouteFailure({ ...base, reason:'exit', sameRun:false, lastRound:null,
+  defeatObserved:false, log:['DEBUG hero obyn_greenfoot found visually on page 0'] }), 'insufficient-data');
 assert.equal(classifyRouteFailure({ ...base, log: ['RECOVERY upgrade_unconfirmed tower=heli1'] }), 'upgrade-unconfirmed');
 assert.equal(classifyRouteFailure({ ...base, log: ['ERROR place of hero failed'] }), 'placement-bug');
 for (const reason of ['game-unavailable', 'invalid-window', 'spawn-error', 'stop-failed']) {

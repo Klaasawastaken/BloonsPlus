@@ -665,3 +665,10 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [x] Inspect the saved picker frame: the old 1920px crop began at x675 inside Corvus's first glyph and stopped at x1013. Widen the name-banner crop to include the full heading without its subtitle. Existing saved frame now returns a title containing corvus and Select.
 - [x] Stop the bounded card search if every card in a page returns the same nonempty title. Preserve live verification; no cache or OCR alias is added to claim Obyn from an unreadable title. Six memory/search regressions and actual saved-frame OCR pass.
 - [ ] Observe Obyn verification in a missing-medal run after deployment; this screenshot proves the crop improvement for Corvus, not every hero or resolution. No attempt history was reset.
+
+
+### Pre-game hero failures — 6 October
+
+- [x] Reproduce the exact Obyn not-found log being labelled insufficient-data. Recognize it as navigation failure without treating successful visual discovery messages as failures.
+- [x] Keep a pre-game hero-selection failure retryable in the actual sweep branch, record its evidence and move to the next map before saving a route attempt. A recorded INGAME/INGAME_PAUSED or GOTO_INGAME transition, or observed defeat, prevents this exception. Actual-branch fixtures and medal admission tests pass.
+- [ ] Deploy at a healthy boundary after the existing Preview 67 worker terminates. Preserve all prior failures and earned medals; no blanket attempt resets.
