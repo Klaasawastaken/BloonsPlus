@@ -368,3 +368,26 @@ uploaded size/state and digest match the archived build. Download fallback metad
 and the local Preview 99 selector were updated only after that confirmation. The
 previous v0.1.10 archive is retained. These publication checks do not close the
 remaining production acceptance gates.
+
+## Native shared-details redaction — 7 October 2026
+
+The approved diagnostics acceptance exposed quoted-field leaks in the native
+redactor. JSON and Python field names prevented its old assignment pattern from
+matching credentials; escaped quotes and truncated strings could also expose
+remaining secret text. The production native helper now consumes those values
+and removes account/player/session identifiers in structured fields.
+
+The compiled regression failed before each repair, then passed ten complete-field
+cases and three truncated-string cases. Complete-field cases retain map/round
+context and are idempotent. Both native Copy and Export use `SharedDetails`, which
+calls this helper. The app's separate shared-log helper remains unchanged pending
+its design approval. Broader save-content and arbitrary-PII acceptance remain
+open; this is not an exhaustive privacy certification.
+
+Fresh verification passed 401 Python tests and all 65 approved JavaScript check
+files. Three isolated Electron fixtures needed their usual renderer permission
+outside the sandbox; they passed there without accessing the guest or game.
+The prepared v0.1.12-preview.99 installer is 246,919,920 bytes. Its 126 runtime
+comparisons, 1,707 inventory hashes, four staged identities, actual native embedded
+identity and both seven-frame application icons pass. The prior installer archive
+is retained, and the pending ABR draft was excluded from packaging.

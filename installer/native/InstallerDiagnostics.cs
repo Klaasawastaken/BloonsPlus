@@ -5,6 +5,11 @@ internal static class InstallerDiagnostics {
     public static string Redact(string text) {
         string value = text ?? "";
         value = Regex.Replace(value, @"(?s)-----BEGIN [^-]*(?:PRIVATE KEY|TOKEN)[^-]*-----.*?(?:-----END [^-]+-----|$)", "[private credential removed]");
+        // Logs may contain JSON or Python dictionaries. Consume complete quoted
+        // values, including escaped quotes, so a suffix cannot survive export.
+        value = Regex.Replace(value,
+            @"(?i)((?<![\w-])(?:""|')?(?:authorization|password|passwd|secret|token|api[_-]?key|access[_-]?token|refresh[_-]?token|x-bloons-setup-key|session[_-]?id|account[_-]?(?:id|name)|player[_-]?(?:id|name)|steam[_-]?name|user[_-]?name|host[_-]?name)(?:""|')?\s*[:=]\s*)(?:""(?:\\.|[^""\\])*(?:""|\\?$)|'(?:\\.|[^'\\])*(?:'|\\?$)|[^\s,;}]+)",
+            "$1\"[credential removed]\"");
         value = Regex.Replace(value, @"(?i)(?:[a-z]:[\\/]users[\\/]|/home/)[^\r\n""'<>]*", "[user path removed]");
         value = Regex.Replace(value, @"(?i)\b[^\s@]+@(?:[a-z0-9._-]+|\[[^\]]+\])", "[remote account removed]");
         value = Regex.Replace(value, @"(?i)(?:https?|ssh)://[^/\s]+", "[endpoint]");

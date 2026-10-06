@@ -1,3 +1,18 @@
+## Preview 99 installer diagnostics hotfix — 7 October 2026
+
+### Additions
+
+- Add compiled native structured-field and truncated-credential export checks and an aggregate failure-evidence audit.
+
+### Changes
+
+- Redact quoted credentials and account/session identifiers while preserving safe run context in the tested formats.
+- Keep remaining app-log and structured failure-evidence gaps explicit; production acceptance remains incomplete.
+
+### Removed
+
+- Remove native shared-details leaks caused by quoted fields, escaped quotes and incomplete strings.
+
 ## Preview 99 installer progress hotfix — 7 October 2026
 
 ### Additions

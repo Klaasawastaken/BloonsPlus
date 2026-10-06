@@ -892,3 +892,18 @@ decoded Cubism's Half Cash medal as owned through the production save decoder.
 The sweep recorded two victories and zero defeats in this job, then automatically
 navigated toward Skulltweak. No restart, deployment or manual gameplay input was
 needed. Cubism Half Cash must remain skipped for this account.
+
+## Skulltweak Military Monkeys Only — 7 October 2026
+
+Fresh guest logs showed progress from round 59 to round 60, then
+`VICTORY_CONFIRMED` and `clear confirmed`. An independent read-only VM profile
+request decoded the Military Monkeys Only medal as owned. The sweep counted
+three victories and zero defeats and automatically started Skulltweak Reverse.
+No restart, deployment or manual input was needed. The earned military medal
+must remain skipped for this account.
+
+The host relay and guest controller both reported an active, unpaused sweep;
+stop-after-replay was disabled. The existing five-minute monitor remained active.
+The current host power plan disables sleep and hibernation on AC power. These
+checks establish current operation and monitoring, not uninterrupted future
+uptime.
