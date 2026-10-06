@@ -838,3 +838,24 @@ not establish that the route's `noLL` filename still describes every run.
 The [read-only transition observation](replay-transition-timing-2026-10-06.md)
 records the subsequent 65-second interval to recognized gameplay. No recovery
 click, wait or route was changed from this observation alone.
+
+### Observations-file diagnosis — 7 October 2026
+
+A read-only guest probe found Spring Spring's Hard medal absent from the main
+observations file but present in the leftover temporary file. This is consistent
+with a completed write followed by a failed replacement. Saved-profile progress
+remains the authority for excluding the earned medal.
+
+At observation time, all four installed BloonsPlus processes and the SSH query
+process were elevated. Both observations files permitted non-mutating handles
+with delete access and full sharing. The earlier metadata probe also found
+neither file read-only and no applicable delete-deny rule. These present-time
+checks do not reproduce the earlier rename failure or identify a competing
+reader. No privilege, ACL, file content, scheduled task or gameplay was changed.
+The bounded persistence repair still awaits approval; the sweep remains stopped
+with two victories and zero defeats.
+
+The repeated second-special approval was reconciled with the installed
+implementation rather than producing another candidate. Fresh offline checks
+passed all ten targeted-special Python tests and the JavaScript binding and
+direct-start suites. Live Firing Range behavior remains unverified.

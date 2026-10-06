@@ -1,6 +1,6 @@
 # Bloons+ TODO
 
-Updated **6 October 2026**. This is the readable, active task list. Technical notes, past failures and release evidence are preserved in the [history archive](history/roadmap-2026-10-06.md).
+Updated **7 October 2026**. This is the readable, active task list. Technical notes, past failures and release evidence are preserved in the [history archive](history/roadmap-2026-10-06.md).
 
 The [production acceptance matrix](production-1.0-gates.md) separates implemented behavior, evidence and remaining release gates.
 
@@ -8,7 +8,7 @@ The [production acceptance matrix](production-1.0-gates.md) separates implemente
 
 - **Current priority:** the installer and first-launch redesign, app polish, folders and the website alongside missing-medal gameplay.
 - **Release target:** milestone 100 is the full **v1.0.0** release. Use Previews 97–99 for preparation and complete production acceptance before publishing 1.0. Future notes use only **Additions**, **Changes**, and **Removed**; see the [release policy](release-policy.md) and [template](../releases/TEMPLATE.md).
-- **Sweep:** Quiet Street, Downstream and Streambed Magic Monkeys Only, plus Spring Spring Hard, are confirmed. After Spring Spring's victory, a secondary observations-file rename failed with `EPERM` and stopped the sweep. The bounded persistence repair awaits approval. Owned medals are skipped and failures persist.
+- **Sweep:** Quiet Street, Downstream and Streambed Magic Monkeys Only, plus Spring Spring Hard, are confirmed. After Spring Spring's victory, a secondary observations-file rename failed with `EPERM` and stopped the sweep. The temporary file contains its new Hard medal; the main file is stale. Current elevated-process and delete-access checks do not reproduce the earlier replacement failure. The bounded persistence repair awaits approval. Owned medals are skipped and failures persist.
 - **Recent clears:** Bloonarius Prime ABR, Impoppable and CHIMPS; Balance Hard; Rake Hard and Reverse; Quarry Magic Monkeys Only; Chutes Medium and Hard; Quiet Street, Downstream and Streambed Magic Monkeys Only. Each has victory plus saved-medal evidence.
 - **Open failures:** Balance Magic Monkeys Only and Rake ABR. The former exposed a held-placement recognition bug now repaired; the latter lost at round 30 with confirmed upgrades and needs strategy review. Sunken Columns ABR also remains open.
   - A read-only catalog audit found 55 eligible map/mode candidates with unchanged Hard actions whose original filenames carry flags such as `#noMK`. The existing source-comparison guard checks only a flag-free filename. The bounded guard repair awaits approval; no recordings have been changed by this audit.
