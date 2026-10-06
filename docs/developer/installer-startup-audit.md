@@ -255,3 +255,27 @@ fixed filename, missing-artifact fallback and size-mismatch rejection remain.
 Both regressions passed RED to GREEN; the full 354-check Python suite and 60
 JavaScript check files passed. Scoped read-only review found no regressions.
 The unpublished route draft was excluded from JavaScript checks and publication.
+
+## Live app requirements and dark surfaces — 6 October
+
+The host app was inspected against its real VM API while Balance Hard continued.
+Monkey Meadow's owned medal disabled Run Selected. Route requirements displayed
+the saved Sauda/Etienne ownership and Engineer path unlocks; the Hard route's
+required T5 appeared on the same row as T1–T4. No route was launched for this UI
+inspection and no owned medal was replayed.
+
+Dark checklist rows retained a white translucent background and border from the
+light stylesheet. The actual label/value contrast was 2.06:1/3.88:1. Only dark
+rows now use existing control-background and line tokens. A production-stylesheet
+regression reproduced the contrast failure before the repair. Independent hidden
+Chromium windows at actual 1,266 px and 606 px widths now measure 6.05:1/11.39:1,
+retain T1–T5 on one row and preserve the light surface. The live host browser
+also displayed the corrected opaque dark background and subdued border.
+
+The first narrow fixture attempted to resize a hidden window without waiting for
+Chromium's viewport change. An explicit width check rejected that evidence; the
+replacement uses independently initialized windows and verifies the actual CSS
+viewport. This test does not certify physical DPI, screen readers, all themes or
+all requirement states. The older running host controller still reports its
+known legacy setup API mismatch; backend activation remains a separate boundary
+operation. The private screenshot is excluded from publication.

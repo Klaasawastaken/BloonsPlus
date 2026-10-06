@@ -263,6 +263,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible{ou
 [hidden]{display:none!important}
 
 /* Repair legacy light-only colors throughout the dark workspace. */
+[data-theme="dark"] .requirement-item{background:var(--control-bg);border-color:var(--line)}
 [data-theme="dark"] .search-field,[data-theme="dark"] .goal-card,[data-theme="dark"] .run-console,[data-theme="dark"] dialog,[data-theme="dark"] .map-options,[data-theme="dark"] .map-requirements-panel,[data-theme="dark"] .requirements-list{background:var(--control-bg);border-color:var(--line);color:var(--ink)}
 [data-theme="dark"] .field textarea,[data-theme="dark"] textarea,[data-theme="dark"] .field input,[data-theme="dark"] select{background:var(--control-bg);border-color:var(--control-border);color:var(--ink)}
 [data-theme="dark"] .quiet-button:hover:not(:disabled),[data-theme="dark"] .row-actions button:hover,[data-theme="dark"] .map-option:hover,[data-theme="dark"] .map-option:focus-visible{background:var(--control-hover);color:var(--ink)}
