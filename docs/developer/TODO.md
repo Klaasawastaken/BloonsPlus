@@ -683,3 +683,6 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [x] Add four separate parser-checked candidates: Dark Castle CHIMPS, Dark Dungeons Easy, Ravine Easy and Workshop Easy. Preserve existing candidates and original CHIMPS recordings. These improve alternatives, not total eligibility: coverage remains 512/1,204 pairs and 692 gaps. Never replay an owned medal to validate a candidate.
 - [x] Isolate teal hero-heading pixels and retain a natural-text reading as a separate candidate. Saved Corvus frame produces exact corvus; fifteen combined hero/Spike/selector checks pass. The Selected-button requirement and wrong-hero rejection remain.
 - [ ] Deploy at the next completed replay boundary; observe other heroes only during missing-medal gameplay. A saved Corvus frame does not prove all heroes/resolutions.
+
+
+- Preview 70 published and its packaged runtime/four new candidates match source; the developer-only importer remains intentionally outside the installer. Captured live Silas picker frame also reads exact silas/Select through the new reader, with no extra gameplay input. Preview 69 worker terminated successfully after deployment/resume. Preview 70's worker is now live at the next replay boundary; its root payload is reserved until terminal.
