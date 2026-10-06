@@ -731,3 +731,9 @@ checks and 63 JavaScript check files pass; two isolated Electron checks needed
 sandbox escalation. A scoped independent review found no material issue.
 Successful live Dart placement at a nearby point remains unverified. Deployment
 waits for the current healthy Chutes Hard replay to finish.
+
+Chutes Hard subsequently reached `VICTORY_CONFIRMED` at round 80. Its saved
+Hard/Standard value changed from 816 to 1,049,864, and stop-after-replay saved the
+clear before ending the sweep. It ran on the previously installed build; the new
+placement correction did not interrupt that game and cannot receive credit for
+its victory. The earned Hard medal is now permanently skipped.
