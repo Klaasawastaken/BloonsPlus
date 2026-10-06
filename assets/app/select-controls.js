@@ -28,12 +28,15 @@
   }
 
   function signature(select) {
-    return JSON.stringify(Array.from(select.options, option => [option.textContent, option.selected, option.disabled, option.hidden, option.parentElement.disabled, option.parentElement.hidden, option.parentElement.label]));
+    return JSON.stringify(Array.from(select.options, option => [option.value, option.textContent, option.selected, option.disabled, option.hidden, option.parentElement.disabled, option.parentElement.hidden, option.parentElement.label]));
   }
 
   function options(control, query = '') {
     const focusedIndex = control.list.contains(document.activeElement) ? document.activeElement.dataset.optionIndex : null;
     control.signature = signature(control.select);
+    // Equal labels/values do not make replacement nodes interchangeable: each
+    // row handler closes over its native option, whose index becomes -1 on removal.
+    control.optionNodes = Array.from(control.select.options);
     control.list.replaceChildren();
     const needle = query.trim().toLocaleLowerCase();
     let group = null;
@@ -65,6 +68,10 @@
       row.append(text, mark);
       row.addEventListener('click', () => {
         if (row.disabled) return;
+        if (option.index < 0 || control.select.options[option.index] !== option) {
+          sync(control);
+          return;
+        }
         const changed = control.select.selectedIndex !== option.index;
         control.select.selectedIndex = option.index;
         close(true);
@@ -122,7 +129,10 @@
     button.setAttribute('aria-label', `${control.label}: ${text.textContent}`);
     if (opened === control) {
       if (button.disabled || !select.isConnected) close();
-      else if (control.signature !== signature(select)) options(control, control.menu.querySelector('input')?.value || '');
+      else if (control.signature !== signature(select)
+          || Array.from(select.options).some((option, index) => control.optionNodes?.[index] !== option)) {
+        options(control, control.menu.querySelector('input')?.value || '');
+      }
     }
   }
 
