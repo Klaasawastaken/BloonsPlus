@@ -599,7 +599,26 @@ checks cover 960, 1920 and 2560 widths. Nine focused checks and the complete
 365-check Python suite pass. A scoped read-only review found no actionable issue.
 The captured private frame also qualifies with the new observer.
 
-This change is separate from the already published Preview 99 installer.
-It does not rewrite the original route or claim to repair every upgrade failure.
-Safe activation and a future missing-medal outcome remain open. The private
+This change is published in v0.1.1-preview.99, separately from the first Preview
+99 installer. After Rake Hard finished with victory and a saved medal, the shared
+update completed; six installed guest file hashes match the hotfix payload. The
+sweep resumed for missing Rake Alternate Bloons Rounds. This does not rewrite the
+original route or prove that every upgrade failure is repaired. A future Magic
+missing-medal outcome remains open. The private
 account screenshot and full logs remain outside public code and packages.
+
+
+### End-of-actions HUD recovery audit — 6 October
+
+The Balance Magic failure also exposed a separate source gap: HUD recovery is
+gated on the next action needing cash or being `await_round`. With no remaining
+action, both flags are false, so an unreadable round counter does not enter the
+existing close-panel recovery branch. With readable cash and a purchase queued,
+the round counter can also remain stale. The log's income and old round are not
+victory evidence. Recognition of the held Magic shop now prevents one observed
+selection failure, but does not close this general R-13 gap.
+
+A future repair must preserve pending placement and ability targeting intent,
+use fresh overlay evidence, and keep ordinary completed-route gameplay running
+until a real result. No additional centre-click behavior or round estimate was
+introduced during the hotfix deployment.
