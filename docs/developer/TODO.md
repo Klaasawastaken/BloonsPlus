@@ -78,6 +78,7 @@ Updated **6 October 2026**. This is the active task list. Detailed implementatio
 - [ ] Keep full redacted logs and group failures by actionable cause, even when stale game-state files remain.
 - [ ] Confirm host/guest synchronization after updates and restarts; expose the actual failed connection/setup step.
 - [x] Deploy Preview 81 while the guest is idle, then resume missing medals. Setup confirms installation; host and guest both report the sweep running. The worker's initial two-second resume check was too early; later authoritative checks confirmed success without starting another sweep.
+- [ ] Apply Preview 82 at the next completed replay boundary. Stop-after is confirmed and the update worker is waiting; keep the current replay untouched and resume missing medals after installation.
 
 ## 4. Installer, updates and production release
 
@@ -88,7 +89,7 @@ Updated **6 October 2026**. This is the active task list. Detailed implementatio
 - [ ] Add trusted code signing when available; unsigned installers may still trigger SmartScreen.
 - [ ] Meet the production specification's acceptance gates before publishing **v1.0.0**. Preview releases are not production readiness.
 
-**Latest published:** [Preview 81](https://github.com/Klaasawastaken/BloonsPlus/releases/tag/v0.1.0-preview.81), installer 245,297,964 bytes. Fifteen packaged-source comparisons passed; publication guard reported zero findings. This does not establish clean-machine installation or winning routes.
+**Latest published:** [Preview 82](https://github.com/Klaasawastaken/BloonsPlus/releases/tag/v0.1.0-preview.82), installer 245,318,358 bytes. 134 focused checks and 23 packaged-source comparisons passed; publication guard reported zero findings. This does not establish clean-machine installation or winning routes.
 
 ## 5. App usability and repository cleanup
 
@@ -123,6 +124,6 @@ Requested **6 October**. Start after current replay/control work and VM recovery
 - [x] Atomic installer/download handling and bounded SSH commands with diagnostics.
 - [x] Official-art README banner, monthly/annual plan selector and latest-release download lookup.
 - [x] Source import/control groundwork described in section 1; original recordings preserved.
-- [x] Preview 80 deployed between replays; Preview 81 published with package/privacy checks.
+- [x] Preview 81 deployed while idle; Preview 82 published with eight separate manual-flow candidates and package/privacy checks.
 
 For exact checks, release history, confirmed medals and limitations, see the [evidence archive](history/roadmap-2026-10-06.md). Archive checkboxes and deployment notes are historical; use this list to choose the next task.
