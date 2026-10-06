@@ -82,3 +82,55 @@ def autostart_ready(step, now, screen, observation, input_free, session_id,
     if pending and pending['phase'] == 'toggling' and now - pending['sentAt'] < 3:
         return False, False
     return issue('toggling', click, tuple(position))
+
+
+def parse_autostart_command(line):
+    """Draft route grammar; runtime admission remains gated until integration."""
+    if line in ('autostart on', 'autostart off'):
+        return {'action': 'set_autostart', 'enabled': line == 'autostart on', 'cost': 0}
+    if isinstance(line, str) and line.split(' ', 1)[0] == 'autostart':
+        raise ValueError('Auto Start command must be exactly autostart on or autostart off')
+    return None
+
+
+def serialize_autostart_command(step):
+    if not isinstance(step, dict) or step.get('action') != 'set_autostart' or type(step.get('enabled')) is not bool:
+        raise ValueError('Auto Start command needs an absolute boolean intent')
+    return 'autostart on' if step['enabled'] else 'autostart off'
+
+
+def resume_autostart_intent(original, checkpoint):
+    """Derive recheck intent from consumed source steps, never a cached setting.
+
+    The caller must run this separately from remainingSteps before normal route
+    actions. It is not a new recorded instruction and must not change indices.
+    """
+    if not isinstance(original, list) or not isinstance(checkpoint, dict):
+        raise ValueError('Invalid Auto Start recovery data')
+    offset = checkpoint.get('nextStep')
+    if type(offset) is not int or not 0 <= offset <= len(original):
+        raise ValueError('Invalid Auto Start recovery offset')
+    intent = None
+    for source in original[:offset]:
+        if not isinstance(source, dict):
+            raise ValueError('Invalid source route step')
+        if source.get('action') == 'set_autostart':
+            serialize_autostart_command(source)
+            intent = {'action': 'set_autostart', 'enabled': source['enabled'], 'cost': 0}
+    return intent
+
+
+def restore_autostart_pending(source, saved):
+    """Restore only a matching intent and well-formed retry phase."""
+    serialize_autostart_command(source)
+    if not isinstance(saved, dict) or saved.get('action') != source['action'] or saved.get('enabled') is not source['enabled']:
+        raise ValueError('Auto Start checkpoint differs from the source intent')
+    restored = deepcopy(source)
+    pending = saved.get('autostartPending')
+    if pending is not None:
+        if (not isinstance(pending, dict) or pending.get('phase') not in ('opening', 'toggling', 'closing')
+                or type(pending.get('sentAt')) not in (int, float) or not isfinite(pending['sentAt'])
+                or not isinstance(pending.get('session'), str) or not pending['session']):
+            raise ValueError('Invalid saved Auto Start phase')
+        restored['autostartPending'] = {key: pending[key] for key in ('phase', 'sentAt', 'session')}
+    return restored

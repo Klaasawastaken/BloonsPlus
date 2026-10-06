@@ -727,3 +727,9 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [x] Build the absolute Auto Start controller foundation with serialized opening/toggling/closing phases, fresh-observation delays, checkpoint-before-input and cooldowns. A new process reopens/reobserves after a saved close instead of trusting the previous process. Thirteen offline callback tests pass; this module is not yet connected to replay or route admission.
 - [ ] Wire parser/serializer, replay input ownership and resume rechecking together before admitting manual plans. Restore the desired switch even when its earlier route step has already been consumed. Keep round/speed automation and purchase pacing from competing with source manual control.
 - [ ] Preserve source `end_round(time_limit)` semantics: the source waits, sends exactly one Play keypress, and sets `skip_roundcheck` for its next loop. Do not translate it into only `await_round` or assume it waits for round completion. Source `forward(1)` is one keypress; `forward(2)` is two, with Deflation's initially running speed accounted for. Preserve source round branch transitions and waits before enabling conversion.
+
+
+### Resume counter and manual-control contract — 6 October
+
+- [x] Apply canonical counter/selected-mode total checks to the actual resume OCR statement as well as normal/fallback reads. Reject phantom digits, wrong-mode totals and padded counters before comparing to the checkpoint. Five reader-structure tests pass, including the actual resume statements.
+- [x] Add draft absolute Auto Start parsing/serialization and source-derived consumed-step resume intent. Restore only matching, well-formed retry metadata through the real resume queue; discard saved coordinates. Seventeen controller/contract tests pass. Runtime grammar and public route admission remain gated until input ownership and resume-menu recovery are integrated.

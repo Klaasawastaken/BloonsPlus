@@ -2157,7 +2157,12 @@ def main():
             if resumeRightPanel:
                 x1, y1, x2, y2 = [int(value * resumeImage.shape[1] / 960)
                                    for value in (505, 17, 612, 39)]
-            resumeRound = int(custom_ocr(resumeImage[y1:y2, x1:x2]).split('/')[0])
+            resumeModeValue = gamemodes.get(mapConfig['gamemode'], {}).get('value')
+            resumeRoundLimit = {1: 40, 2: 60, 3: 60, 4: 80, 5: 100}.get(resumeModeValue)
+            rawResumeRound = custom_ocr(resumeImage[y1:y2, x1:x2])
+            resumeRound = parse_round_digits(rawResumeRound, resumeRoundLimit)
+            if resumeRound < 1:
+                raise ValueError('resume counter is malformed or outside the selected mode')
         except (ValueError, IndexError, TypeError):
             customPrint('resume refused: current round could not be read')
             return 2

@@ -40,6 +40,29 @@ class RoundCounterStructure(unittest.TestCase):
             self.assertEqual(env['currentValues']['round'], parse(raw, 80))
             self.assertEqual(env['alternateRound'], parse(raw, 80))
 
+    def test_actual_resume_reader_rejects_wrong_mode_and_phantom_digits(self):
+        names = ('resumeModeValue', 'resumeRoundLimit', 'rawResumeRound', 'resumeRound')
+        nodes = [next(node for node in ast.walk(replay) if isinstance(node, ast.Assign)
+                      and any(isinstance(target, ast.Name) and target.id == name for target in node.targets))
+                 for name in names]
+        rejection = next(node for node in ast.walk(replay) if isinstance(node, ast.If)
+                         and isinstance(node.test, ast.Compare) and isinstance(node.test.left, ast.Name)
+                         and node.test.left.id == 'resumeRound' and isinstance(node.body[0], ast.Raise))
+        code = compile(ast.Module(body=nodes + [rejection], type_ignores=[]), '<actual-resume-reader>', 'exec')
+        import numpy as np
+        modes = json.loads((ROOT / 'autobtd6/gamemodes.json').read_text())
+        for mode, raw, expected in (('hard', '79/80', 79), ('medium', '59/60', 59),
+                                    ('easy', '39/40', 39), ('chimps', '99/100', 99),
+                                    ('hard', '779/80', None), ('medium', '59/80', None),
+                                    ('hard', '82/80', None), ('easy', '039/40', None)):
+            env = dict(gamemodes=modes, mapConfig={'gamemode': mode}, parse_round_digits=parse,
+                       custom_ocr=lambda *args: raw, resumeImage=np.zeros((2, 2, 3)), x1=0,y1=0,x2=2,y2=2)
+            if expected is None:
+                with self.assertRaises(ValueError): exec(code, env)
+            else:
+                exec(code, env)
+                self.assertEqual(env['resumeRound'], expected)
+
     def test_mode_limit_uses_target_mode_even_for_harder_source_recording(self):
         assignments = [next(node for node in ast.walk(replay) if isinstance(node, ast.Assign)
                             and any(isinstance(target, ast.Name) and target.id == name for target in node.targets))

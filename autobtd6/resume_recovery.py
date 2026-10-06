@@ -2,6 +2,7 @@
 from copy import deepcopy
 from math import isfinite
 from upgrade_observation import read_upgrade_panel
+from autostart_control import restore_autostart_pending
 
 
 def resumable_round_start(checkpoint):
@@ -29,7 +30,7 @@ def resumable_round_start(checkpoint):
 
 def restore_action(source, saved):
     """Keep current parsed inputs/economy, retaining only recovery state."""
-    step = deepcopy(source)
+    step = restore_autostart_pending(source, saved) if source.get('action') == 'set_autostart' else deepcopy(source)
     if source.get('action') == 'speed_toggle':
         pending = saved.get('roundStartPending')
         if pending is not None:
