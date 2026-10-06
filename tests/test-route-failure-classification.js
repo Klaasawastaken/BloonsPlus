@@ -60,3 +60,23 @@ assert.equal(classifyRouteFailure({ ...base, defeatObserved: true, unresolvedUpg
 assert.equal(unresolvedUpgradeCount([ambiguous, { type: 'sell', tower: 'heli1' }, confirmed]), 1);
 assert.equal(unresolvedUpgradeCount([ambiguous, { type: 'place', tower: 'heli1' }, confirmed]), 1);
 assert.equal(unresolvedUpgradeCount([ambiguous, { ...confirmed, upgradeLevel: 779 }]), 1);
+
+// A replacement can have its own ambiguous purchase followed by confirmation.
+// That confirms only the replacement, never the retired tower's purchase.
+for (const boundary of ['sell', 'place']) {
+  assert.equal(unresolvedUpgradeCount([
+    ambiguous, { type: boundary, tower: 'heli1' }, ambiguous,
+  ]), 2, `${boundary}: old and replacement purchases are separate uncertainties`);
+  assert.equal(unresolvedUpgradeCount([
+    ambiguous, { type: boundary, tower: 'heli1' }, ambiguous, confirmed,
+  ]), 1, `${boundary}: replacement confirmation must preserve the old ambiguity`);
+}
+assert.equal(unresolvedUpgradeCount([
+  ambiguous, { type: 'sell', tower: 'heli1' }, { type: 'place', tower: 'heli1' },
+  ambiguous, { type: 'sell', tower: 'heli1' }, { type: 'place', tower: 'heli1' },
+  ambiguous, confirmed,
+]), 2, 'Each retired instance retains its own unresolved purchase');
+assert.equal(unresolvedUpgradeCount([
+  ambiguous, { ...ambiguous, path: 2, expectedUpgradeTiers: [3, 0, 3] },
+  { type: 'sell', tower: 'heli1' }, ambiguous, confirmed,
+]), 2, 'Distinct unresolved paths survive replacement');

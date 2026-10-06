@@ -522,3 +522,29 @@ the repair, then passed. Seven source-start and seven manual-cash checks also
 pass, as does the complete 353-check Python suite. This establishes the input
 contract offline; it does not prove an account with no Play binding can finish
 a route. The healthy guest replay is not interrupted to deploy the change.
+
+### Upgrade uncertainties across replacement towers — 6 October
+
+The failure counter retained a retired tower's unresolved path as a null entry
+under its route name. A later ambiguous purchase on a replacement reused that
+same entry. Two distinct tower instances therefore appeared as one unresolved
+purchase. Repeated replacements and multiple unresolved paths could further
+undercount the evidence.
+
+The counter now archives pending path counts at a sale or placement boundary,
+then removes those entries from the active instance. Later panel confirmations
+resolve only active purchases. A sale followed by placement does not count the
+same retired uncertainty twice. Existing history remains unchanged.
+
+Six added cases cover both boundaries, replacement confirmation, repeated
+replacements and distinct paths. The new count assertion failed with 1 instead
+of 2 before the repair. All 61 JavaScript check files pass afterward, excluding
+the unpublished ABR draft; a scoped read-only review found no actionable issue.
+This is diagnostic evidence, not proof that an upgrade was purchased or that
+a strategy wins. It awaits the next safe deployment batch.
+
+The live missing-medal sweep independently completed Balance Hard at round 80.
+The read-only profile's Hard/Standard value is 1,049,864, above the earned bit
+threshold, and the controller recorded the clear. It then continued to Balance
+Magic Monkeys Only without a restart. The renewed offline coverage audit still
+finds 526 eligible pairs out of 1,204 across 86 maps; 678 route gaps remain.
