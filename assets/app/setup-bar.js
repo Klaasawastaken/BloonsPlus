@@ -25,6 +25,17 @@
   downloadHelp.hidden = true;
   isoInput.insertAdjacentElement('afterend', downloadHelp);
 
+  const stateLabels = { pending: 'Pending', checking: 'Checking', 'already-ready': 'Already ready',
+    installing: 'Installing', validating: 'Validating', complete: 'Complete', retrying: 'Retrying',
+    'restart-required': 'Restart required', failed: 'Failed' };
+  function stepPresentation(step, next) {
+    const state = stateLabels[step.state] ? step.state : step.done ? 'already-ready' : 'pending';
+    const failed = state === 'failed', restart = state === 'restart-required';
+    const active = ['checking', 'installing', 'validating', 'retrying'].includes(state);
+    return { state, label: stateLabels[state], icon: failed ? '×' : restart ? '↻' : active ? '→' : step.done ? '✓' : '○',
+      className: failed ? 'failed' : restart ? 'restart-required' : active ? 'current' : step.done ? 'done' : step.id === next.id ? 'current' : '' };
+  }
+
   function render(status) {
     last = status;
     const setupJob = status.job || {};
@@ -64,12 +75,16 @@
         settingsProgress.hidden = settingsProgressLabel.hidden = !setupJob.running || !checks.length;
         settingsProgress.setAttribute('aria-valuenow', String(percent));
         settingsProgress.querySelector('span').style.width = `${percent}%`;
-        settingsProgressLabel.textContent = `${completed} of ${checks.length} checks ready · ${percent}%`;
+        const activeStep = checks.find(step => step.id === setupJob.stepId);
+        const phase = stateLabels[setupJob.state];
+        settingsProgressLabel.textContent = `${completed} of ${checks.length} checks ready${phase && activeStep ? ` · ${phase}: ${activeStep.title}` : ` · ${percent}%`}`;
       }
       settingsSteps.replaceChildren(...(status.steps || []).map(step => {
         const item = document.createElement('li');
-        item.className = step.done ? 'done' : step.id === next.id ? 'current' : '';
-        item.textContent = `${step.done ? '✓' : '○'} ${step.title} · ${step.detail || 'Pending'}`;
+        const presentation = stepPresentation(step, next);
+        item.className = presentation.className;
+        item.setAttribute('data-state', presentation.state);
+        item.textContent = `${presentation.icon} ${step.title} · ${presentation.label}${step.detail ? ` · ${step.detail}` : ''}`;
         return item;
       }));
       settingsStart.disabled = actionPending || !status.applicable || status.allDone || !!setupJob.running || !next.button;
@@ -92,8 +107,10 @@
       : `${done} of ${(status.steps || []).length} checks ready. ${next.message || ''}`;
     stepsList.replaceChildren(...(status.steps || []).map(step => {
       const item = document.createElement('li');
-      item.className = step.done ? 'done' : step.id === next.id ? 'current' : '';
-      item.textContent = `${step.done ? '✓' : step.id === next.id ? '→' : '○'} ${step.title}`;
+      const presentation = stepPresentation(step, next);
+      item.className = presentation.className;
+      item.setAttribute('data-state', presentation.state);
+      item.textContent = `${presentation.icon} ${step.title} · ${presentation.label}`;
       item.title = step.detail || '';
       return item;
     }));

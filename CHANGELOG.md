@@ -1,3 +1,11 @@
+## Preview 89 — Validated setup states and remote updates
+
+- Show explicit VM setup states, including readiness checks, retries, restart requirements and failed steps.
+- Validate each finished action before advancing; stop an unready step instead of reinstalling it in a loop.
+- Keep Steam sign-in as a user step and verify app reconnection before reporting a VM update complete.
+- Add light/dark state styling, setup-state documentation and flow/reconnection regressions.
+- Verification: 301 Python checks, ten setup transport checks and 50 JavaScript check files. Clean/interrupted setup acceptance remains open.
+
 ## Preview 88 — Published VM installer and Python reuse
 
 - Prefer the published preview installer in developer checkouts instead of an older generic build.

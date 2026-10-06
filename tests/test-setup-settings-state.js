@@ -5,7 +5,7 @@ class Element {
   constructor() { this.hidden = false; this.disabled = false; this.value = ''; this.style = {}; this.listeners = {}; this.classList = { add() {}, remove() {}, toggle() {} }; }
   addEventListener(name, fn) { this.listeners[name] = fn; }
   querySelector() { return new Element(); }
-  replaceChildren() {}
+  replaceChildren(...children) { this.children = children; }
   setAttribute() {}
   insertAdjacentElement() {}
 }
@@ -29,6 +29,21 @@ class Element {
   const flush = async () => { for (let i = 0; i < 8; i++) await Promise.resolve(); };
   await flush();
   assert.match(get('vm-settings-status').textContent, /Ready:/);
+  status.allDone = false;
+  status.steps = [{ id: 'connected', done: false, state: 'failed', title: 'VM connection', detail: 'Bridge unavailable' }];
+  status.next = { id: 'connected', button: 'Retry connection', message: 'Reconnect the VM app.' };
+  status.job = { state: 'failed', stepId: 'connected', error: 'Bridge unavailable', running: false };
+  await get('vm-settings-refresh').listeners.click();
+  assert.match(get('vm-settings-steps').children[0].textContent, /Failed/);
+  assert.match(get('vm-settings-steps').children[0].className, /failed/);
+  status.steps[0].state = 'validating';
+  status.job = { state: 'validating', stepId: 'connected', running: true, activity: 'Verifying connection' };
+  await get('vm-settings-refresh').listeners.click();
+  assert.match(get('vm-settings-steps').children[0].textContent, /Validating/);
+  status.allDone = true;
+  status.steps = [{ id: 'vm', done: true, title: 'VM' }];
+  status.job = {};
+  await get('vm-settings-refresh').listeners.click();
   const readsBeforeOpen = statusReads;
   await documentListeners['bloons-settings-open']();
   assert.equal(statusReads, readsBeforeOpen + 1, 'opening Settings fetches fresh setup state');

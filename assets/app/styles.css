@@ -394,6 +394,10 @@ body.boss-view-active{background:radial-gradient(ellipse at 95% 0,color-mix(in s
 #settings #vm-settings-steps li:last-child{border-bottom:0}
 #settings #vm-settings-steps .done{color:var(--ink)}
 #settings #vm-settings-steps .current{color:var(--accent);font-weight:600}
+#setup-bar-steps .failed,#settings #vm-settings-steps .failed{color:#a32e2e;border-color:#e7b9b3;font-weight:600}
+#setup-bar-steps .restart-required,#settings #vm-settings-steps .restart-required{color:#805316;border-color:#c9aa75;font-weight:600}
+[data-theme="dark"] #setup-bar-steps .failed,[data-theme="dark"] #settings #vm-settings-steps .failed{color:#ffc3b8;border-color:#795149}
+[data-theme="dark"] #setup-bar-steps .restart-required,[data-theme="dark"] #settings #vm-settings-steps .restart-required{color:#f5d399;border-color:#a88449}
 #settings .settings-maintenance{max-width:960px;margin-top:18px;box-shadow:none;background:var(--control-bg);border-color:var(--line)}
 .settings-help-row{display:flex;align-items:flex-start;justify-content:space-between;gap:24px}
 .settings-help-row h3{margin:0;font-size:16px}
