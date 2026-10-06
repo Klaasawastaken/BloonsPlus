@@ -53,6 +53,13 @@ checked desktop viewport. This replaces Preview 90 as the latest-download
 evidence; the earlier page observations remain historical. No installer was
 executed by this browser check.
 
+After Preview 95 publication and its metadata push, a fresh background browser
+tab reached the deployed Download page. The resolved installer URL, notes URL
+and rendered version label all identified **v0.1.0-preview.95**. The page displayed
+**235.4 MB**, matching the binary-size formatting of its 246,840,323-byte asset.
+The checked desktop viewport had no horizontal overflow. Preview 95 is now the
+latest-download evidence; the observations above record earlier releases.
+
 ## Open readability defect
 
 The rendered light theme uses `--muted: #708177` for secondary text, including

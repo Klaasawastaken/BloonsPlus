@@ -130,7 +130,7 @@ The sweep earns missing medals alongside development. Deploy changes together af
   - Healthy environment reuse now happens before the 5 GB package-install space check. Repairs still check space before moving or rebuilding environments.
   - VM setup now reports explicit states and validates actions before advancing. Retry/failure/restart/sign-in and delayed update connection checks pass offline. Interrupted-process recovery and clean/interrupted setup acceptance remain open.
   - The native installer now holds an exclusive installation lock before file changes or result receipts. VM requests have unique tasks and receipts; setup waits for an owner and compares installer hashes before reusing an identical completed update. Real Windows cross-process, duplicate-result and PowerShell lock checks pass. Unsupported older installers are refused before staging. Recovery of orphaned package processes remains open.
-- [x] **I-04 — Check release packaging.** Preview 95 installer, notes and uploaded size/digest were checked. One installer asset; no separate `SHA256SUMS.txt` asset. The deployed latest-download link was checked for Preview 94 and needs its follow-up after the Preview 95 metadata deployment. Repeat this gate for each later release.
+- [x] **I-04 — Check release packaging.** Preview 95 installer, notes, uploaded size/digest and the live HTTPS latest-download link were checked. One installer asset; no separate `SHA256SUMS.txt` asset. Repeat this gate for each later release.
 - [ ] **I-05 — Add trusted code signing when available.** Unsigned installers may still trigger SmartScreen.
 - [ ] **I-06 — Meet production acceptance gates.** Complete the specification before publishing **v1.0.0**; previews do not establish production readiness.
 
@@ -185,7 +185,7 @@ Requested **6 October**. Work alongside background missing-medal gameplay after 
 - [x] **W-02 — Rebuild Features.** Four practical workflow groups and a compact progress section, using varied official monkeys. Desktop/dark/narrow browser checks pass without broken images or horizontal overflow.
 - [x] **W-03 — Streamline Home.** Three feature cards, clearer copy and corrected installation link. Retain the requested app-preview hero and floating card.
 - [ ] **W-04 — Check artwork and layout.** Preserve proportions, attribution, responsiveness and accessibility. No AI-generated images.
-  - [Browser/source evidence](website-acceptance-2026-10-06.md): 18 phone/tablet page checks, menu keyboard behavior, Wiki search/highlighting, annual pricing and all 26 HTML files' local targets passed. The latest deployed HTTPS download target is Preview 94. Light secondary-text contrast needs repair; broader keyboard, screen-reader and motion checks remain open.
+  - [Browser/source evidence](website-acceptance-2026-10-06.md): 18 phone/tablet page checks, menu keyboard behavior, Wiki search/highlighting, annual pricing and all 26 HTML files' local targets passed. The latest deployed HTTPS download target is Preview 95. Light secondary-text contrast needs repair; broader keyboard, screen-reader and motion checks remain open.
 
 ## 7. AI, bosses and Pro
 
