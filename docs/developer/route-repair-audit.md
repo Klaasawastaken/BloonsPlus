@@ -772,3 +772,34 @@ the clear, and the VM save-backed progress reports the completed Hard/MagicOnly
 medal. The sweep continued to Downstream Magic Monkeys Only. The new
 second-special code did not run during this clear; it receives no credit for
 the result. Quiet Street's earned medal is permanently excluded.
+
+## Flagged Hard source filenames — 6 October 2026
+
+Rake's Alternate Bloons Rounds alias has the same executable strategy as its
+Hard recording, including tower placement and upgrade order. The original file
+ends in `#noMK.btd6`; the selection guard checks only a flag-free source filename,
+so it does not compare these actions. This explains admission of the unchanged
+alias, not every cause of the observed round-30 defeat.
+
+A read-only audit of the current eligible catalog found 55 such map/mode
+candidates across ten maps. It compares canonical executable actions against
+unconverted Hard originals with the same map and resolution. Confirmed local
+target wins and the explicitly supported Easy/Medium reuse are excluded from
+this count. The bounded guard repair awaits approval. The audit changes no
+recordings and supplies no new victory claim.
+
+## Downstream Magic Monkeys Only — 6 October 2026
+
+The replay reached `VICTORY_CONFIRMED` at round 80. Saved Hard/MagicOnly progress
+changed from 657 before victory to 1,049,865 afterward. This clear ran on the
+previously installed v0.1.6-preview.99 controller. The second-special batch did
+not interrupt it and receives no credit for the result. The earned medal is
+permanently skipped. Stop-after-replay retains the safe deployment boundary.
+
+The shared update then completed with sixteen installed file hashes matching
+the published v0.1.8-preview.99 payload. Inventory and running-controller
+versions agree. Fifteen save-backed profile groups match between guest and host;
+achievement values match with `steam-local-guest` and `steam-local-vm` labels,
+without host fallback. These checks establish transport and artifact identity,
+not every decoder's meaning or a live second-special victory. Fresh idle/setup
+checks passed, and missing-medal gameplay resumed on Streambed Magic Monkeys Only.
