@@ -23,6 +23,8 @@ def controls(text):
             # TAS_start_round checks only its first argument for literal "slow".
             first_arg = command[len('start round'):].split(',')[0].strip('( )')
             semantics = 'One Space press.' if first_arg == 'slow' else 'Space, configured input delay, then Space again.'
+        elif command.startswith('wait '):
+            kind, semantics = 'unregistered-wait', 'No wait handler is registered in the pinned source; seconds interpretation needs strategy review.'
         else:
             continue
         result.append({'line': number, 'command': command, 'kind': kind, 'sourceBehavior': semantics})

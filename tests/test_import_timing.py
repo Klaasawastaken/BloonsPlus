@@ -83,13 +83,24 @@ class TimingConversionTests(unittest.TestCase):
             self.assertFalse(route.lossy)
 
     def test_bloonsplayer_omitted_flow_is_not_harmless(self):
-        for command in ('delay 5', 'wait 2', 'lives 50', 'change speed', 'toggle autostart', 'start round'):
+        for command in ('wait 2', 'lives 50', 'change speed', 'toggle autostart', 'start round'):
             with self.subTest(command=command), tempfile.TemporaryDirectory() as folder:
                 path = Path(folder) / 'strategy.txt'
                 path.write_text('open Logs, Hard, Standard\n' + command + '\n', encoding='utf-8')
                 route = module.convert_bloonsplayer(path)
                 self.assertTrue(route.lossy, command)
                 self.assertFalse(route.harmless)
+
+    def test_bloonsplayer_delay_preserved_and_wait_assumption_explicit(self):
+        for command, expected, review in [('delay 5', 'wait 5 seconds', False), ('wait 2', 'wait 2 seconds', True)]:
+            with self.subTest(command=command), tempfile.TemporaryDirectory() as folder:
+                path = Path(folder) / 'strategy.txt'
+                path.write_text('open Logs, Hard, Standard\n' + command + '\n', encoding='utf-8')
+                route = module.convert_bloonsplayer(path)
+                self.assertEqual(route.lines, [expected])
+                self.assertEqual(bool(route.lossy), review)
+                if review:
+                    self.assertTrue(any('no pinned source handler' in item for item in route.lossy))
 
     def test_bloonsplayer_zero_delay_is_a_noop(self):
         for command in ('wait 0', 'delay 0.0'):

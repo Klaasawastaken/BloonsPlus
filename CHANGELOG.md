@@ -1,3 +1,9 @@
+## Preview 33 — Review inferred source waits
+
+- Preserve supported BloonsPlayer delays while flagging unregistered wait interpretations.
+- Mark the affected Glacial Trail candidate for review, including its stale installed filename.
+- Extend read-only source audits and correct the timing regression checks.
+
 ## Preview 32 — Check required ability bindings
 
 - Extract one-shot and repeating ability slots from recorded routes.

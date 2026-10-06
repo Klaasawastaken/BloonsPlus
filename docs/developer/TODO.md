@@ -397,3 +397,10 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [x] Read pinned BloonsPlayer implementation including argument parsing, opening autostart preference, Space toggles and pause-setting controls. Add read-only inventory with source line numbers, conversion status and remaining omissions; three focused parser/semantics checks pass.
 - [x] Audit 83 source scripts: 12 affected, 11 lossy conversions and one rejected race. Six have only a round-start omission. Preserve all recordings and keep these incomplete conversions excluded.
 - [ ] Implement observed round-start control with input ownership and checkpoint acknowledgement before restoring the six candidates. Explicit autostart and relative speed controls require further work; do not treat an automatic Space press as equivalent.
+
+## Inferred source wait correction (2026-10-06)
+
+- [x] Wider timing gate exposed two obsolete expectations. Pinned source implements TAS_delay but no wait handler; source scripts nevertheless use wait. Preserve supported delay and label nonzero wait interpretation for strategy review rather than claiming complete conversion.
+- [x] Retain the Glacial Trail Easy candidate body with a review header/lossy filename. Mark its stale installed name lossy because installer updates preserve recordings. Original CHIMPS recordings unchanged.
+- [x] Updated audit: 83 source files, 15 affected (14 lossy, one rejected), including six unregistered wait operations. Eleven importer, four audit, eight repeated-ability and ability-binding checks pass. Two complete repeating-ability candidates remain; no recordings regenerated or gameplay launched for validation.
+- [ ] Publish Preview 33; deploy with the next maintenance batch at a healthy replay boundary. Review intended Glacial Trail freezing/timing before restoring a complete candidate.

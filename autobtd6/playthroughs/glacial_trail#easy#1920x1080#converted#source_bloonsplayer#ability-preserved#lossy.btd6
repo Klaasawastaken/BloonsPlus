@@ -1,3 +1,4 @@
+# source review required: pinned BloonsPlayer has no wait handler; interpreting wait as seconds is an unverified strategy adaptation.
 # source: https://github.com/piweiblen/BloonsPlayer (license MIT (c) 2021 piweiblen) commit 17d624879c5ad777e82594da34450e66b2d60756
 # source file: tas/general/glacial easy.txt
 # Repeated ability keys and cancellation preserved; seconds waits remain non-blocking.

@@ -540,6 +540,8 @@ def convert_bloonsplayer(path):
                     route.harmless.add(command + "(0)")
                 else:
                     route.wait(float(amount))
+                    if command == 'wait':
+                        route.lossy.add('BloonsPlayer wait has no pinned source handler; seconds interpretation requires strategy review')
             else:
                 route.lossy.add("BloonsPlayer " + command + " " + amount + " control omitted")
         elif low in ("change speed", "toggle autostart") or low.startswith("start round"):

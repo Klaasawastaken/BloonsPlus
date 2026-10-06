@@ -1,11 +1,12 @@
 {
   "sourceImplementation": "https://github.com/piweiblen/BloonsPlayer/blob/17d624879c5ad777e82594da34450e66b2d60756/src/player.py",
   "scanned": 83,
-  "affected": 12,
+  "affected": 15,
   "operationCounts": {
     "autostart-toggle": 1,
     "round-start": 11,
-    "speed-toggle": 7
+    "speed-toggle": 7,
+    "unregistered-wait": 6
   },
   "findings": [
     {
@@ -130,6 +131,77 @@
       "conversion": "lossy",
       "remainingOmissions": [
         "BloonsPlayer start round control omitted"
+      ]
+    },
+    {
+      "sourceFile": "route-library/public-sources/piweiblen-BloonsPlayer/tas/general/glacial easy.txt",
+      "controls": [
+        {
+          "line": 11,
+          "command": "wait 40",
+          "kind": "unregistered-wait",
+          "sourceBehavior": "No wait handler is registered in the pinned source; seconds interpretation needs strategy review."
+        },
+        {
+          "line": 15,
+          "command": "wait 5",
+          "kind": "unregistered-wait",
+          "sourceBehavior": "No wait handler is registered in the pinned source; seconds interpretation needs strategy review."
+        }
+      ],
+      "map": "glacial_trail",
+      "mode": "easy",
+      "conversion": "lossy",
+      "remainingOmissions": [
+        "BloonsPlayer wait has no pinned source handler; seconds interpretation requires strategy review"
+      ]
+    },
+    {
+      "sourceFile": "route-library/public-sources/piweiblen-BloonsPlayer/tas/general/glacial hard.txt",
+      "controls": [
+        {
+          "line": 11,
+          "command": "wait 40",
+          "kind": "unregistered-wait",
+          "sourceBehavior": "No wait handler is registered in the pinned source; seconds interpretation needs strategy review."
+        },
+        {
+          "line": 15,
+          "command": "wait 5",
+          "kind": "unregistered-wait",
+          "sourceBehavior": "No wait handler is registered in the pinned source; seconds interpretation needs strategy review."
+        },
+        {
+          "line": 50,
+          "command": "wait 10",
+          "kind": "unregistered-wait",
+          "sourceBehavior": "No wait handler is registered in the pinned source; seconds interpretation needs strategy review."
+        }
+      ],
+      "map": "glacial_trail",
+      "mode": "hard",
+      "conversion": "lossy",
+      "remainingOmissions": [
+        "BloonsPlayer wait has no pinned source handler; seconds interpretation requires strategy review",
+        "mouse sweeps (banana/cash collection)"
+      ]
+    },
+    {
+      "sourceFile": "route-library/public-sources/piweiblen-BloonsPlayer/tas/general/infernal hard.txt",
+      "controls": [
+        {
+          "line": 15,
+          "command": "wait 1",
+          "kind": "unregistered-wait",
+          "sourceBehavior": "No wait handler is registered in the pinned source; seconds interpretation needs strategy review."
+        }
+      ],
+      "map": "infernal",
+      "mode": "hard",
+      "conversion": "lossy",
+      "remainingOmissions": [
+        "BloonsPlayer wait has no pinned source handler; seconds interpretation requires strategy review",
+        "mouse sweeps (banana/cash collection)"
       ]
     },
     {

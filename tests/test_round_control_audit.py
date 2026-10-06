@@ -22,7 +22,12 @@ class ControlAuditTests(unittest.TestCase):
             self.assertEqual(module.controls(command)[0]['sourceBehavior'], 'One Space press.')
 
     def test_other_commands_are_not_controls(self):
-        self.assertEqual(module.controls('repeat ability 1\nwait 2\nplace dart, (0.1, 0.2), dart0'), [])
+        self.assertEqual(module.controls('repeat ability 1\ndelay 2\nplace dart, (0.1, 0.2), dart0'), [])
+
+    def test_unregistered_wait_requires_review(self):
+        row = module.controls('wait 40')[0]
+        self.assertEqual(row['kind'], 'unregistered-wait')
+        self.assertIn('No wait handler', row['sourceBehavior'])
 
 
 if __name__ == '__main__':

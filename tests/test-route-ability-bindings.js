@@ -33,3 +33,9 @@ const absent = rank({ PlayFastForward: { path: '<Keyboard>/Space' } }).find(entr
 assert.equal(absent.profileReadiness.missingAbilityBindings, 2);
 assert.equal(rank({ PlayFastForward: { path: '<Keyboard>/Space' } }, [])[0].profileReadiness.missing, 0, 'unused slots do not block');
 console.log('Ability prerequisites: commands, saved bindings, defaults, unsupported keys and alternatives pass');
+
+const parseSource = source.slice(source.indexOf('function parsePlaythroughFile('), source.indexOf('\nfunction listPlaythroughs('));
+const parse = vm.runInNewContext(parseSource + ';parsePlaythroughFile');
+assert.ok(parse('glacial_trail#easy#1920x1080#converted#source_bloonsplayer#ability-preserved.btd6').flags.includes('lossy'), 'stale installed inferred-wait candidate remains a draft');
+assert.ok(parse('glacial_trail#easy#1920x1080#converted#source_bloonsplayer#ability-preserved#lossy.btd6').flags.includes('lossy'));
+assert.ok(!parse('glacial_trail#chimps#1920x1080.btd6').flags.includes('lossy'), 'original recordings retain their flags');
