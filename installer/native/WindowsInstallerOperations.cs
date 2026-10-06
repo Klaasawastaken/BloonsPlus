@@ -94,31 +94,55 @@ internal class WindowsInstallerOperations : IDisposable
 
     }
     public virtual void InstallAppFiles(string tempZip) {
-            SetStatus("Installing Bloons+ files…", InstallerStage.Files, 0);
+            SetStatus("Preparing Bloons+ files…", InstallerStage.Files, 0);
             using (FileStream package = new FileStream(tempZip, FileMode.Open, FileAccess.Read, FileShare.Read))
             using (ZipArchive archive = new ZipArchive(package, ZipArchiveMode.Read))
             {
-                long totalBytes = Math.Max(1, archive.Entries.Sum(entry => entry.Length));
-                long writtenBytes = 0;
-                int reusedFiles = 0;
-                byte[] buffer = new byte[1024 * 1024];
-                foreach (ZipArchiveEntry entry in archive.Entries)
-                {
+                // Reject the complete path plan before changing any installed file.
+                var files = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+                var directories = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+                foreach (ZipArchiveEntry entry in archive.Entries) {
                     Cancellation.ThrowIfCancellationRequested();
                     string destination = SafeDestination(installRoot, entry.FullName);
-                    if (entry.FullName.EndsWith("/", StringComparison.Ordinal) || entry.FullName.EndsWith("\\", StringComparison.Ordinal))
+                    if (IsArchiveDirectory(entry)) directories.Add(destination.TrimEnd(Path.DirectorySeparatorChar));
+                    else if (!files.Add(destination)) throw new InvalidDataException("Installer archive contains duplicate app files.");
+                }
+                string root = Path.GetFullPath(installRoot).TrimEnd(Path.DirectorySeparatorChar);
+                foreach (string destination in files.Concat(directories)) {
+                    if (directories.Contains(destination) && files.Contains(destination))
+                        throw new InvalidDataException("Installer archive uses an app file as a directory.");
+                    string parent = Path.GetDirectoryName(destination);
+                    while (!String.Equals(parent, root, StringComparison.OrdinalIgnoreCase)) {
+                        if (String.IsNullOrEmpty(parent) || files.Contains(parent))
+                            throw new InvalidDataException("Installer archive uses an app file as a directory.");
+                        parent = Path.GetDirectoryName(parent);
+                    }
+                }
+                long totalBytes = Math.Max(1, archive.Entries.Sum(entry => entry.Length));
+                long writtenBytes = 0;
+                long reusedBytes = 0;
+                long workBytes = checked(totalBytes * 2);
+                int reusedFiles = 0;
+                byte[] buffer = new byte[1024 * 1024];
+                var prepared = new List<PreparedAppFile>();
+                bool retainBackups = false;
+                try {
+                    foreach (ZipArchiveEntry entry in archive.Entries)
                     {
-                        Directory.CreateDirectory(destination);
-                        continue;
-                    }
-                    if (SameAsArchiveEntry(entry, destination)) {
-                        writtenBytes += entry.Length;
-                        reusedFiles++;
-                        continue;
-                    }
-                    Directory.CreateDirectory(Path.GetDirectoryName(destination));
-                    string staged = destination + "." + Guid.NewGuid().ToString("N") + ".tmp";
-                    try {
+                        Cancellation.ThrowIfCancellationRequested();
+                        string destination = SafeDestination(installRoot, entry.FullName);
+                        if (IsArchiveDirectory(entry)) continue;
+                        if (SameAsArchiveEntry(entry, destination)) {
+                            writtenBytes += entry.Length;
+                            reusedBytes += entry.Length;
+                            reusedFiles++;
+                            continue;
+                        }
+                        Directory.CreateDirectory(Path.GetDirectoryName(destination));
+                        string staged = destination + "." + Guid.NewGuid().ToString("N") + ".tmp";
+                        var file = new PreparedAppFile { Staged = staged, Destination = destination,
+                            BeforeHash = File.Exists(destination) ? HashFile(destination) : null, Length = entry.Length };
+                        prepared.Add(file);
                         using (Stream input = entry.Open())
                         using (FileStream output = new FileStream(staged, FileMode.CreateNew, FileAccess.Write, FileShare.None)) {
                             int read;
@@ -130,16 +154,75 @@ internal class WindowsInstallerOperations : IDisposable
                             output.Flush(true);
                         }
                         if (!SameAsArchiveEntry(entry, staged)) throw new InvalidDataException("An app file failed verification before replacement.");
-                        CommitStagedFile(staged, destination);
-                    } finally {
-                        if (File.Exists(staged)) File.Delete(staged);
+                        file.AfterHash = HashFile(staged);
+                        if (file.BeforeHash != null) {
+                            file.Backup = staged + ".backup.tmp";
+                            File.Copy(destination, file.Backup, false);
+                            if (HashFile(file.Backup) != file.BeforeHash)
+                                throw new IOException("An installed app file changed while its recovery copy was prepared. Retry setup.");
+                        }
+                        if (prepared.Count == 1 || writtenBytes % (64L * 1024 * 1024) < buffer.Length)
+                            SetStatus("Preparing Bloons+ files… " + (writtenBytes / (1024 * 1024)).ToString("N0") + " MB", InstallerStage.Files, null, "Prepare and apply", writtenBytes, workBytes);
                     }
-                    if (writtenBytes % (64L * 1024 * 1024) < buffer.Length)
-                        SetStatus("Installing Bloons+ files… " + (writtenBytes / (1024 * 1024)).ToString("N0") + " MB", InstallerStage.Files, (int)(writtenBytes * 100 / totalBytes), "Copy", writtenBytes, totalBytes);
+                    Cancellation.ThrowIfCancellationRequested();
+                    long appliedBytes = reusedBytes;
+                    SetStatus("Applying verified Bloons+ files…", InstallerStage.Files, null, "Prepare and apply", writtenBytes + appliedBytes, workBytes);
+                    foreach (string directory in directories) Directory.CreateDirectory(directory);
+                    foreach (var file in prepared) {
+                        Cancellation.ThrowIfCancellationRequested();
+                        string current = File.Exists(file.Destination) ? HashFile(file.Destination) : null;
+                        if (current != file.BeforeHash)
+                            throw new IOException("An installed app file changed during setup. Retry after closing the app.");
+                        file.Attempted = true;
+                        CommitStagedFile(file.Staged, file.Destination);
+                        appliedBytes += file.Length;
+                        if (appliedBytes % (64L * 1024 * 1024) < buffer.Length)
+                            SetStatus("Applying verified Bloons+ files…", InstallerStage.Files, null, "Prepare and apply", writtenBytes + appliedBytes, workBytes);
+                    }
+                    Cancellation.ThrowIfCancellationRequested();
+                    SetStatus("App files ready; reused " + reusedFiles + " unchanged files.", InstallerStage.Files, 100, "Copy", writtenBytes, totalBytes);
+                } catch (Exception originalError) {
+                    var rollbackErrors = new List<Exception>();
+                    foreach (var file in prepared.AsEnumerable().Reverse().Where(file => file.Attempted)) {
+                        try { RestorePreparedFile(file); }
+                        catch (Exception rollbackError) { rollbackErrors.Add(rollbackError); }
+                    }
+                    if (rollbackErrors.Count > 0) {
+                        retainBackups = true;
+                        rollbackErrors.Insert(0, originalError);
+                        throw new IOException("App file recovery could not finish. Recovery copies were retained; close the app and retry setup.", new AggregateException(rollbackErrors));
+                    }
+                    throw;
+                } finally {
+                    foreach (var file in prepared) {
+                        if (File.Exists(file.Staged)) File.Delete(file.Staged);
+                        if (!retainBackups && file.Backup != null && File.Exists(file.Backup)) File.Delete(file.Backup);
+                    }
                 }
-                SetStatus("App files ready; reused " + reusedFiles + " unchanged files.", InstallerStage.Files, 100, "Copy", writtenBytes, totalBytes);
             }
 
+    }
+    private static bool IsArchiveDirectory(ZipArchiveEntry entry) {
+        return entry.FullName.EndsWith("/", StringComparison.Ordinal) || entry.FullName.EndsWith("\\", StringComparison.Ordinal);
+    }
+    private sealed class PreparedAppFile {
+        public string Staged, Destination, Backup, BeforeHash, AfterHash;
+        public long Length;
+        public bool Attempted;
+    }
+    private static void RestorePreparedFile(PreparedAppFile file) {
+        string current = File.Exists(file.Destination) ? HashFile(file.Destination) : null;
+        if (current == file.BeforeHash) return;
+        if (current != file.AfterHash && current != null)
+            throw new IOException("An app file changed outside setup; its recovery copy was retained.");
+        if (file.BeforeHash == null) {
+            if (File.Exists(file.Destination)) File.Delete(file.Destination);
+            return;
+        }
+        if (file.Backup == null || !File.Exists(file.Backup) || HashFile(file.Backup) != file.BeforeHash)
+            throw new IOException("An app recovery copy could not be verified.");
+        if (File.Exists(file.Destination)) File.Replace(file.Backup, file.Destination, null);
+        else File.Move(file.Backup, file.Destination);
     }
     protected virtual void CommitStagedFile(string staged, string destination) {
         if (File.Exists(destination)) File.Replace(staged, destination, null);

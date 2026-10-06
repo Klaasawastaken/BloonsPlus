@@ -177,3 +177,26 @@ Evidence: Preview 93's capability string occurs at byte 396,749. The VM helper s
 The native adapter previously discarded the structured component error and replaced the failed phase with generic validation. It now retains the actual error in the snapshot, result, log and automatically expanded details. Repeated identical detail lines are suppressed. Regression fixtures cover both defects; the actual installed executable passes the corrected helper. Only the host setup script was updated in place; no active replay, VM controller or game/save file was changed.
 
 Preview 94 artifact checks: 336 Python checks, ten SSH checks, 56 existing JavaScript suites, 126 source comparisons, 1,683 inventory hashes and all seven icon frames pass. Installer size is 246,836,142 bytes. Clean-machine/UAC/reboot/physical acceptance remains open; this diagnosis does not claim complete guest provisioning while the missing-medal replay is active.
+
+## Archive preparation and caught-failure rollback — 6 October
+
+The installer previously committed each archive entry before inspecting later
+entries. An isolated real ZIP fixture reproduced an unsafe later path leaving an
+earlier installed file changed. A second fixture reproduced the first replacement
+remaining changed after the second replacement failed.
+
+The file operator now validates the complete path plan, rejects duplicate files
+and file/directory collisions, stages all changes on the destination volume and
+verifies recovery copies before replacement. Caught failures or cancellation roll
+back attempted replacements in reverse order. A changed destination is preserved
+and its verified prior copy retained. Staging files are cleaned after an observed
+failure. Measured preparation/application work remains below completion until the
+replacement pass finishes; unchanged files retain their modification time.
+
+Both regressions passed RED to GREEN. The three archive checks cover eight
+preparation/rollback scenarios plus locked-file and reuse behavior. The complete
+341-check Python suite, ten SSH checks and 57 JavaScript suites pass. These are
+isolated fixtures; no installed app, healthy guest replay or game/save file was
+changed. Abrupt process termination/power-loss recovery still needs a persistent
+package transaction. Retained copies are not automatically replayed on retry.
+Clean-machine and physical acceptance remain open.
