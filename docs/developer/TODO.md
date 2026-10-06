@@ -71,6 +71,7 @@ The sweep earns missing medals alongside development. Deploy changes together af
 - [ ] **R-05 — Confirm hero selection.** Read the hero name and Select/Selected state at 1080p and 1440p. Check title recognition and picker searches during missing-medal runs.
 - [ ] **R-06 — Confirm free placements.** Handle free Dart Monkey knowledge when cash does not change.
 - [ ] **R-07 — Confirm paid placements.** Resolve unchanged or ambiguous cash observations, including Deflation cash.
+  - Magic Monkeys Only's purple shop cards are now included in held-placement recognition. The observed Balance failure frame previously returned false; it now qualifies with the existing close anchor and two shop rows. Cancellation-before-selection, scale and negative checks pass, as does the full 365-check Python suite. This post-Preview-99 source fix awaits safe activation; preventing the live failure remains unverified.
 - [ ] **R-08 — Confirm the intended upgrade.** Read the exact tower panel and path/tier state before retrying.
 - [ ] **R-09 — Recover pending upgrades after resume.** Use remaining-action snapshots and ownership probes without buying the wrong tier. Live restart evidence remains open.
 - [ ] **R-10 — Handle freezing.** Check frozen-tower deferral and Glacial Trail timing before restoring excluded candidates.

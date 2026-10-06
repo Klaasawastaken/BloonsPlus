@@ -581,3 +581,25 @@ round HUD while cash continued to rise. The controller reported the last valid
 round, 36, while current round OCR returned -1. A private screenshot and log
 excerpt preserve the evidence. End-of-actions HUD recovery requires further
 investigation; no victory is inferred from income or a stale round.
+
+### Magic Monkeys Only held placement — 6 October
+
+Balance's dedicated Magic Monkeys Only route subsequently lost. Persistent
+history retains repeated wizard `upgrade-unselected` observations; the sweep
+continued to Rake Hard. The actual pre-defeat frame contains the placement close
+anchor (template score 0.975) and purple shop cards covering more than half of
+each of three sampled rows. The old observer required cyan cards and returned
+false, allowing tower-selection clicks while placement remained active.
+
+Held-placement recognition now accepts the evidenced purple cards alongside
+cyan, while retaining the close-anchor and two-row requirements. A missing
+anchor, one colored row and neutral cards remain negative. An input fixture
+confirms cancellation precedes the requested tower selection at 1080p; scale
+checks cover 960, 1920 and 2560 widths. Nine focused checks and the complete
+365-check Python suite pass. A scoped read-only review found no actionable issue.
+The captured private frame also qualifies with the new observer.
+
+This change is separate from the already published Preview 99 installer.
+It does not rewrite the original route or claim to repair every upgrade failure.
+Safe activation and a future missing-medal outcome remain open. The private
+account screenshot and full logs remain outside public code and packages.

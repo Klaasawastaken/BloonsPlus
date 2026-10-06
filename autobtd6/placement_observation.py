@@ -35,12 +35,15 @@ def held_placement_visible(frame):
     if match('placement-cancel.png', (828, 482, 883, 535)):
         return True
     # Ordinary placement keeps the tower shop, with no lower nudge-mode cancel
-    # button. Require the same placement-only close anchor plus several cyan
-    # shop-card rows, so an upgrade panel's close control alone cannot qualify.
+    # button. Require the same close anchor plus several shop-card rows.
+    # Normal cards are cyan; Magic Monkeys Only uses purple cards. Neither
+    # colour alone, nor a tower panel's close control alone, can qualify.
     shop_rows = 0
     for y1, y2 in ((148, 210), (216, 276), (280, 343)):
         row = normalized[y1:y2, 828:940]
         hsv = cv2.cvtColor(row, cv2.COLOR_BGR2HSV)
         cyan = cv2.inRange(hsv, (85, 90, 90), (115, 255, 255))
-        shop_rows += cv2.countNonZero(cyan) / cyan.size >= .30
+        magic = cv2.inRange(hsv, (116, 45, 100), (165, 255, 255))
+        cards = cv2.bitwise_or(cyan, magic)
+        shop_rows += cv2.countNonZero(cards) / cards.size >= .30
     return shop_rows >= 2

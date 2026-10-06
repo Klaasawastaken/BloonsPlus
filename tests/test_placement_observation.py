@@ -32,5 +32,25 @@ class HeldPlacement(unittest.TestCase):
         for frame in (None,np.zeros((540,960)),np.zeros((200,300,3),np.uint8)):
             self.assertFalse(held_placement_visible(frame))
 
+    def shop(self, color, rows=3, close=True):
+        frame=self.frame(close=close,cancel=False)
+        for y1,y2 in ((148,210),(216,276),(280,343))[:rows]:
+            frame[y1:y2,828:940]=color
+        return frame
+
+    def test_magic_shop_placement_is_recognized_at_supported_scales(self):
+        # Magic Monkeys Only uses purple shop cards, not the normal cyan.
+        purple=tuple(int(v) for v in cv2.cvtColor(np.uint8([[[135,130,210]]]),cv2.COLOR_HSV2BGR)[0,0])
+        for size in ((960,540),(1920,1080),(2560,1440)):
+            self.assertTrue(held_placement_visible(cv2.resize(self.shop(purple),size)))
+
+    def test_shop_color_still_requires_close_and_two_distinct_rows(self):
+        purple=tuple(int(v) for v in cv2.cvtColor(np.uint8([[[135,130,210]]]),cv2.COLOR_HSV2BGR)[0,0])
+        self.assertFalse(held_placement_visible(self.shop(purple,close=False)))
+        self.assertFalse(held_placement_visible(self.shop(purple,rows=1)))
+        self.assertFalse(held_placement_visible(self.shop((190,190,190))))
+        cyan=tuple(int(v) for v in cv2.cvtColor(np.uint8([[[100,150,210]]]),cv2.COLOR_HSV2BGR)[0,0])
+        self.assertTrue(held_placement_visible(self.shop(cyan)))
+
 if __name__ == '__main__':
     unittest.main()

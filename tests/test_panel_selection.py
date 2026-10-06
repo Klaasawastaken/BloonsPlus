@@ -36,6 +36,17 @@ class PanelSelectionTests(unittest.TestCase):
         select_tower((100, 200), lambda: None, clicks.append, lambda seconds: None)
         self.assertEqual(clicks, [(100, 200)])
 
+    def test_magic_ghost_is_cancelled_before_tower_selection(self):
+        from test_placement_observation import HeldPlacement
+        import cv2
+        purple=tuple(int(v) for v in cv2.cvtColor(np.uint8([[[135,130,210]]]),cv2.COLOR_HSV2BGR)[0,0])
+        held=cv2.resize(HeldPlacement().shop(purple),(1920,1080))
+        frames=iter([held,np.zeros_like(held)])
+        clicks=[];waits=[]
+        self.assertTrue(select_tower((844,362),lambda:next(frames),clicks.append,waits.append))
+        self.assertEqual(clicks,[(1600,120),(844,362)])
+        self.assertEqual(waits,[1.0])
+
 
 if __name__ == '__main__':
     unittest.main()
