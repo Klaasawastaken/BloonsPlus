@@ -1,3 +1,9 @@
+## Preview 44 — Checkpoint recovery validation
+
+- Refuse malformed unresolved-upgrade collections and action metadata cleanly.
+- Reject boolean offsets and duplicated recorded queue positions.
+- Refresh route coverage and gap reports without launching validation games.
+
 ## Preview 43 — Owned upgrade limits for surplus spending
 
 - Derive optional upgrade caps from the read-only profile at replay launch.

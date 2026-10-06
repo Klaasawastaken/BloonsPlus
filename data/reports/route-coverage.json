@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-06T00:20:19.080Z",
+  "generatedAt": "2026-10-06T01:56:11.657Z",
   "modes": [
     "easy",
     "primary_only",
@@ -63,6 +63,7 @@
         "deflation": [
           "monkey_meadow#deflation#2560x1440#noMK#ninjaOnly#noLL.btd6",
           "monkey_meadow#deflation#1920x1080#converted#source_bloonsplayer.btd6",
+          "monkey_meadow#deflation#1920x1080#converted#source_bloonsplayer#speed-preserved.btd6",
           "monkey_meadow#deflation#1920x1080#converted#source_everythingmacro.btd6"
         ],
         "medium": [
@@ -3321,6 +3322,7 @@
       "modes": {
         "easy": [
           "quad#hard#2560x1440#noMK.btd6",
+          "quad#hard#1920x1080#converted#source_bloonsplayer#speed-preserved.btd6",
           "quad#hard#1920x1080#converted#source_randyhodges.btd6",
           "quad#easy#1920x1080#converted#source_bloonsplayer.btd6",
           "quad#easy#1920x1080#converted#source_btd6bot.btd6"
@@ -3332,6 +3334,7 @@
         "medium": [
           "quad#medium#2560x1440#noMK.btd6",
           "quad#hard#2560x1440#noMK.btd6",
+          "quad#hard#1920x1080#converted#source_bloonsplayer#speed-preserved.btd6",
           "quad#hard#1920x1080#converted#source_randyhodges.btd6"
         ],
         "military_only": "missing",
@@ -3343,6 +3346,7 @@
         ],
         "hard": [
           "quad#hard#2560x1440#noMK.btd6",
+          "quad#hard#1920x1080#converted#source_bloonsplayer#speed-preserved.btd6",
           "quad#hard#1920x1080#converted#source_randyhodges.btd6"
         ],
         "magic_monkeys_only": "missing",
@@ -3480,7 +3484,8 @@
         "double_hp_moabs": "missing",
         "half_cash": "missing",
         "alternate_bloons_rounds": [
-          "ouch#alternate_bloons_rounds#1920x1080#converted#source_btd6bot.btd6"
+          "ouch#alternate_bloons_rounds#1920x1080#converted#source_btd6bot.btd6",
+          "ouch#alternate_bloons_rounds#1920x1080#converted#source_btd6bot#cursor-preserved.btd6"
         ],
         "impoppable": "missing",
         "chimps": "missing"

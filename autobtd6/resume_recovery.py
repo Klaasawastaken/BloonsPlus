@@ -96,9 +96,16 @@ def restore_action(source, saved):
 
 
 def restore_upgrade_steps(original, checkpoint):
-    offset = checkpoint['nextStep']
+    if not isinstance(checkpoint, dict) or not isinstance(original, list):
+        raise ValueError('invalid checkpoint recovery data')
+    offset = checkpoint.get('nextStep')
+    if type(offset) is not int or not 0 <= offset <= len(original):
+        raise ValueError('invalid checkpoint step')
+    unresolved = checkpoint.get('unresolvedUpgrades', [])
+    if not isinstance(unresolved, list) or any(not isinstance(entry, dict) for entry in unresolved):
+        raise ValueError('invalid checkpoint unresolved upgrades')
     pending = {}
-    for entry in checkpoint.get('unresolvedUpgrades', []):
+    for entry in unresolved:
         if entry.get('opportunistic') is True:
             # Supplemental spending is recalculated from the restored ledger
             # and live tiers/cash; it is not an instruction in the recording.
@@ -116,16 +123,23 @@ def restore_upgrade_steps(original, checkpoint):
     remaining = checkpoint.get('remainingSteps', original[offset:])
     if not isinstance(remaining, list):
         raise ValueError('invalid checkpoint action queue')
+    seen_indices = set()
     for step in remaining:
         if not isinstance(step, dict):
             raise ValueError('invalid checkpoint action')
         index = step.get('routeStepIndex')
-        if index is None and step.get('action') == 'upgrade' and step.get('extra', {}).get('opportunistic'):
+        extra = step.get('extra', {})
+        if not isinstance(extra, dict):
+            raise ValueError('invalid checkpoint action metadata')
+        if index is None and step.get('action') == 'upgrade' and extra.get('opportunistic'):
             # The surplus planner re-evaluates current cash and the restored
             # tower ledger. Its temporary plans are not recorded route steps.
             continue
         if type(index) is not int or not 0 <= index < len(original):
             raise ValueError('checkpoint action lacks a valid route position')
+        if index in seen_indices:
+            raise ValueError('checkpoint repeats a recorded action')
+        seen_indices.add(index)
         source = original[index]
         if step.get('action') != source.get('action') or step.get('name') != source.get('name'):
             raise ValueError('checkpoint action differs from recorded route')

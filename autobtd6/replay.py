@@ -1439,7 +1439,7 @@ def main():
                 customPrint('resume refused: checkpoint is missing, ambiguous, or belongs to another route')
                 return 2
             instructionOffset = routeCheckpoint.get('nextStep')
-            if not isinstance(instructionOffset, int) or not 0 <= instructionOffset <= routeStepTotal:
+            if type(instructionOffset) is not int or not 0 <= instructionOffset <= routeStepTotal:
                 customPrint('resume refused: invalid checkpoint step')
                 return 2
             try:

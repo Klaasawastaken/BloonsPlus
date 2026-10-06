@@ -4,6 +4,10 @@ Updated 6 October 2026. Checkboxes require evidence, not merely code. Preserve o
 
 ## Current repair pass
 
+- Refreshed offline coverage on 6 October: 509 eligible map/mode pairs, 695 gaps (21 with rejected candidates, 674 without a found candidate). Source Auto Start controls need observed setting ownership; time-based clicks alone cannot establish faithful manual-round conversion.
+
+- [x] Validate checkpoint unresolved-upgrade collections, action metadata and strict integer offsets before recovery. Reject duplicate recorded queue positions instead of repeating a placement/purchase. Malformed data now reaches the existing explicit resume-refusal handler. Manual Auto Start source plans remain unsupported pending observed setting control; do not relabel them faithful.
+
 - [x] Pass a read-only Profile.Save-derived per-tower path unlock snapshot at replay launch. Optional surplus upgrades respect owned contiguous tiers; unknown names cannot authorize purchases. Unavailable snapshots retain live observation recovery. Recorded actions and game saves are unchanged; deployment pending.
 
 - Confirmed Flooded Valley Alternate Bloons Rounds victory at 03:46:39, round 80; authoritative VM save Hard/AlternateBloonsRounds=1049865. Missing medal earned; never replay it. Preview 39 boundary update remains tracked through its existing process handle.
