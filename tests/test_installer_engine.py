@@ -36,6 +36,7 @@ internal sealed class FakeOperations : WindowsInstallerOperations {
         if (FailPython) throw new IOException("probe failed");
     }
     public override void CreateStartMenuShortcut() { Calls.Add("shortcut"); }
+    public override void CreateDesktopShortcut() { Calls.Add("desktop"); }
     public override void KeepInstallerCopy() { Calls.Add("copy"); }
     public override void SaveSetupIntent() { Calls.Add("intent"); }
     public override void LaunchApp() { Calls.Add("launch"); }
@@ -69,6 +70,10 @@ internal static class EngineChecks {
             var pending = fullEngine.RunAsync(CancellationToken.None).GetAwaiter().GetResult();
             Check(pending.LocalReady && !pending.EnvironmentReady && pending.HumanAction == "steam_sign_in", "Human action invented environment readiness");
             Check(!fullOperations.Calls.Contains("launch"), "Dashboard launched before environment acceptance");
+            typeof(InstallerEngine).GetMethod("ObserveEnvironment",System.Reflection.BindingFlags.NonPublic|System.Reflection.BindingFlags.Instance).Invoke(fullEngine,new object[]{new Dictionary<string,object>{
+                {"phase","downloading"},{"status","Downloading Windows"},{"step","iso"},{"numerator",42L},{"denominator",100L},{"scope","Download"}
+            }});
+            Check(fullEngine.CurrentSnapshot.StageNumerator==42&&fullEngine.CurrentSnapshot.StageDenominator==100,"Measured environment progress was discarded");
             fullOperations.EnvironmentReady = true;
             var resumed = fullEngine.ResumeEnvironmentAsync(CancellationToken.None).GetAwaiter().GetResult();
             Check(resumed.EnvironmentReady && fullEngine.CurrentSnapshot.Phase == "complete", "Fresh environment acceptance missing");
@@ -87,6 +92,9 @@ internal static class EngineChecks {
             result = engine.RunAsync(CancellationToken.None).GetAwaiter().GetResult();
             Check(result.RestartRequired && result.ExitCode == 3010 && engine.CurrentSnapshot.Phase == "restart_required", "Reboot falsely completed or lost");
             Check(!operations.Calls.Contains("python") && !operations.Calls.Contains("launch"), "Reboot continued mutation");
+            rebootOptions.DesktopShortcut=true;
+            engine.CommandEnvironmentAsync("restart_later",CancellationToken.None).GetAwaiter().GetResult();
+            Check(engine.CurrentSnapshot.RestartDeferred,"Installer Later choice was not persisted");
             operations = new FakeOperations(rebootOptions); engine = new InstallerEngine(rebootOptions, operations);
             result = engine.RunAsync(CancellationToken.None).GetAwaiter().GetResult();
             Check(result.RestartRequired && operations.Calls.Count == 0, "Retry bypassed the required reboot");

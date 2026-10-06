@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -16,12 +17,15 @@ internal sealed class InstallerOptions
     public string RequestedIsoPath { get; set; }
     public bool LaunchAfterInstall { get; set; }
     public bool StartMenuShortcut { get; set; }
+    public bool DesktopShortcut { get; set; }
+    public string Operation { get; set; }
     public InstallerOptions(string root, string dataRoot, string installerPath, bool silent, string attemptToken) {
         InstallRoot = Path.GetFullPath(root); DataRoot = Path.GetFullPath(dataRoot);
         InstallerPath = Path.GetFullPath(installerPath); Silent = silent;
         AttemptResultPath = InstallerEngine.AttemptResultPath(DataRoot, attemptToken);
         RequestedVmSetup = !silent; RequestedIsoPath = "";
         LaunchAfterInstall = StartMenuShortcut = true;
+        Operation = "install";
     }
 }
 
@@ -130,6 +134,24 @@ internal sealed class InstallerEngine
     public Task<InstallerResult> RunAsync(CancellationToken cancellation) {
         return Task.Run(() => Run(cancellation), cancellation);
     }
+    public async Task CommandEnvironmentAsync(string action, CancellationToken cancellation) {
+        if (session == null || !new[] { "restart_later", "restart_now", "open_vm" }.Contains(action))
+            throw new InvalidOperationException("No matching setup action is available.");
+        var snapshot = session.Snapshot;
+        if (action == "restart_later") {
+            if (!session.TryCommand(snapshot.SessionId, snapshot.Sequence, action))
+                throw new InvalidOperationException("Setup changed. Check its current state before choosing Later.");
+            NotifySnapshot();
+        }
+        if (snapshot.AppValidated && snapshot.EnvironmentRequired) {
+            using (var controller = new SetupControllerClient(options.InstallRoot, options.DataRoot, snapshot.SessionId)) {
+                var remote = await controller.ConnectAsync("resume", options.RequestedIsoPath, cancellation);
+                await controller.CommandFreshAsync(action, cancellation);
+            }
+        } else if (action == "restart_now" && snapshot.Phase == "restart_required") {
+            await Task.Run(() => operations.RequestRestart(), cancellation);
+        } else if (action != "restart_later") throw new InvalidOperationException("This action requires a validated local installation.");
+    }
     private void NotifySnapshot() { var handler = SnapshotChanged; if (handler != null) handler(CurrentSnapshot); }
     private void ObserveEnvironment(System.Collections.Generic.Dictionary<string, object> value) {
         object field;
@@ -137,7 +159,19 @@ internal sealed class InstallerEngine
         string status = value.TryGetValue("status", out field) ? field as string : "Checking environment";
         string step = value.TryGetValue("step", out field) ? field as string : null;
         if (phase == "complete") phase = "validating";
-        session.Observe(phase, step, status, null, null, null);
+        long? numerator = null, denominator = null;
+        string scope = null;
+        {
+            var stage = value;
+            object count, total, description;
+            if (stage != null && stage.TryGetValue("numerator", out count) && stage.TryGetValue("denominator", out total)
+                && count != null && total != null) {
+                long currentCount = Convert.ToInt64(count), totalCount = Convert.ToInt64(total);
+                if (currentCount >= 0 && totalCount > 0 && currentCount <= totalCount) { numerator = currentCount; denominator = totalCount; }
+                if (stage.TryGetValue("scope", out description)) scope = description as string;
+            }
+        }
+        session.Observe(phase, step, status, numerator, denominator, scope);
         session.SetHumanAction(value.TryGetValue("humanAction", out field) ? field as string : null);
         if (value.TryGetValue("completedWeight", out field)) session.ObserveEnvironmentWeight(Convert.ToInt32(field));
         if (phase == "restart_required") session.RequireRestart(status);
@@ -162,10 +196,18 @@ internal sealed class InstallerEngine
     }
     public Task<InstallerResult> ResumeEnvironmentAsync(CancellationToken cancellation) {
         return Task.Run(() => {
+            using (AcquireInstallLock(options.InstallRoot)) {
+            operations.Cancellation = cancellation;
+            if (session == null) {
+                session = InstallSession.LoadOrCreate(options.InstallRoot, "resume", options.RequestedVmSetup);
+                if (!session.Snapshot.AppValidated || !operations.ProbeInstalledRuntime())
+                    throw new InvalidOperationException("Repair the local installation before resuming environment setup.");
+            }
             if (session == null || !session.Snapshot.AppValidated || !session.Snapshot.EnvironmentRequired)
                 throw new InvalidOperationException("Validated local installation is required before environment resume.");
-            using (AcquireInstallLock(options.InstallRoot)) {
-                operations.Cancellation = cancellation;
+            if (session.Snapshot.Phase == "restart_required" && (String.IsNullOrEmpty(session.Snapshot.RestartBootIdentity)
+                || String.IsNullOrEmpty(OwnedProcess.CurrentBootIdentity) || session.Snapshot.RestartBootIdentity == OwnedProcess.CurrentBootIdentity))
+                return new InstallerResult { LocalReady = true, Receipt = "APP_READY", RestartRequired = true, HumanAction = "restart_windows", ExitCode = 3010 };
                 try { return FinishEnvironment(); }
                 catch (Exception error) {
                     Log(error.ToString()); session.Observe("recovering", "environment", "Setup connection needs attention. Reconnect and continue.", null, null, null);
@@ -185,7 +227,8 @@ internal sealed class InstallerEngine
         try {
             installLock = AcquireInstallLock(options.InstallRoot);
             operations.Cancellation = cancellation;
-            session = InstallSession.LoadOrCreate(options.InstallRoot, "install", !options.Silent && options.RequestedVmSetup);
+            session = InstallSession.LoadOrCreate(options.InstallRoot, options.Operation, !options.Silent && options.RequestedVmSetup);
+            InstallerPreferences.Save(options);
             if (session.Snapshot.Phase == "restart_required"
                 && (String.IsNullOrEmpty(session.Snapshot.RestartBootIdentity) || String.IsNullOrEmpty(OwnedProcess.CurrentBootIdentity)
                     || session.Snapshot.RestartBootIdentity == OwnedProcess.CurrentBootIdentity))
@@ -218,6 +261,7 @@ internal sealed class InstallerEngine
             session.MarkValidated(true, false);
             SetStatus("Creating the app shortcut…", InstallerStage.Finish);
             if (options.StartMenuShortcut) operations.CreateStartMenuShortcut();
+            if (options.DesktopShortcut) operations.CreateDesktopShortcut();
             operations.SaveSetupIntent();
             if (session.Snapshot.EnvironmentRequired) {
                 installed = true;

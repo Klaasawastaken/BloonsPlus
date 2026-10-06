@@ -55,7 +55,8 @@ internal class WindowsInstallerOperations : IDisposable
                 if (Cancellation.WaitHandle.WaitOne(1500)) {
                     // Cancel scheduling through the coordinator, never kill a shared
                     // dependency or a healthy replay to dismiss the installer.
-                    try { controller.CommandAsync(Convert.ToInt64(snapshot["sequence"]), "cancel", CancellationToken.None).GetAwaiter().GetResult(); } catch { }
+                    try { controller.CommandFreshAsync("cancel", CancellationToken.None).GetAwaiter().GetResult(); }
+                    catch (Exception error) { SetDetail("Could not confirm setup pause: " + error.Message + ". Reconnect to observe outstanding work."); }
                     Cancellation.ThrowIfCancellationRequested();
                 }
                 snapshot = controller.ObserveAsync(Cancellation).GetAwaiter().GetResult();
@@ -145,6 +146,17 @@ internal class WindowsInstallerOperations : IDisposable
     }
     public virtual void LaunchApp() {
         Process.Start(new ProcessStartInfo(Path.Combine(installRoot, "Bloons+.exe")) { WorkingDirectory = installRoot, UseShellExecute = true });
+    }
+    public virtual bool ProbeInstalledRuntime() {
+        string app=Path.Combine(installRoot,"resources","app");
+        string python=Path.Combine(app,".venv","Scripts","python.exe");
+        return File.Exists(python)&&File.Exists(Path.Combine(app,"server.js"))&&File.Exists(Path.Combine(app,"electron-main.js"))
+            &&ProcessSucceeds(python,Quote(Path.Combine(app,"autobtd6","runtime_check.py"))+" --requirements "+Quote(Path.Combine(app,"requirements-installer.txt")),120000);
+    }
+    public virtual void RequestRestart() {
+        using (var process = Process.Start(new ProcessStartInfo(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "shutdown.exe"), "/r /t 10") {
+            UseShellExecute = true, Verb = "runas", WindowStyle = ProcessWindowStyle.Hidden
+        })) { if (process == null) throw new InvalidOperationException("Windows restart could not be requested."); }
     }
     private static string SafeDestination(string root, string entryName)
     {
@@ -509,7 +521,14 @@ internal class WindowsInstallerOperations : IDisposable
 
     public virtual void CreateStartMenuShortcut()
     {
-        string programs = Environment.GetFolderPath(Environment.SpecialFolder.Programs);
+        CreateShortcut(Environment.GetFolderPath(Environment.SpecialFolder.Programs));
+    }
+    public virtual void CreateDesktopShortcut()
+    {
+        CreateShortcut(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory));
+    }
+    private void CreateShortcut(string programs)
+    {
         Directory.CreateDirectory(programs);
         string shortcutPath = Path.Combine(programs, "Bloons+.lnk");
         Type shellType = Type.GetTypeFromProgID("WScript.Shell");

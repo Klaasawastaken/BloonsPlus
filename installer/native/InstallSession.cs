@@ -19,6 +19,16 @@ internal sealed class InstallSession
         get { lock (stateLock) return serializer.Deserialize<InstallerSnapshot>(serializer.Serialize(state)); }
     }
     private InstallSession(string root) { checkpoint = Path.Combine(Path.GetFullPath(root), ".bloons-setup", "session.json"); }
+    public static InstallerSnapshot ReadExisting(string root) {
+        var session = new InstallSession(root);
+        if (!File.Exists(session.checkpoint)) return null;
+        if (new FileInfo(session.checkpoint).Length > 256 * 1024) throw new InvalidDataException("Setup checkpoint is too large.");
+        var snapshot = session.serializer.Deserialize<InstallerSnapshot>(File.ReadAllText(session.checkpoint));
+        Guid id;
+        if (snapshot == null || snapshot.ProtocolVersion != 1 || !Guid.TryParseExact(snapshot.SessionId, "N", out id)
+            || snapshot.Sequence < 0 || snapshot.PlanWeight != 100 || !Phases.Contains(snapshot.Phase)) throw new InvalidDataException("Setup checkpoint cannot be trusted.");
+        return snapshot;
+    }
     public static InstallSession LoadOrCreate(string root, string operation, bool environmentRequired)
     {
         if (!new[] { "install", "update", "repair", "resume" }.Contains(operation)) throw new ArgumentException("Invalid setup operation.");

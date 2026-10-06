@@ -58,7 +58,7 @@ internal static class GuardTests {
                 '/reference:System.Windows.Forms.dll', '/reference:System.Drawing.dll',
                 '/reference:System.IO.Compression.dll', '/reference:Microsoft.CSharp.dll',
                 '/reference:System.Web.Extensions.dll', '/out:' + str(binary),
-                str(root / 'installer/installer-bootstrap.cs'), *map(str, sorted((root / 'installer/native').glob('*.cs'))), str(test)], capture_output=True, text=True)
+                str(root / 'installer/installer-bootstrap.cs'), *map(str, sorted((root / 'installer/native').glob('*.cs'))), *map(str, sorted((root / 'installer/presentation').glob('*.cs'))), str(test)], capture_output=True, text=True)
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
             run = subprocess.run([str(binary)], capture_output=True, text=True)
             self.assertEqual(run.returncode, 0, run.stdout + run.stderr)

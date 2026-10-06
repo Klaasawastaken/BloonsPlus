@@ -80,7 +80,7 @@ internal static class OwnershipTests {
                 '/reference:System.Windows.Forms.dll', '/reference:System.Drawing.dll',
                 '/reference:System.IO.Compression.dll', '/reference:Microsoft.CSharp.dll',
                 '/reference:System.Web.Extensions.dll', '/out:' + str(binary),
-                str(ROOT / 'installer/installer-bootstrap.cs'), *map(str, sorted((ROOT / 'installer/native').glob('*.cs'))), str(harness)], capture_output=True, text=True)
+                str(ROOT / 'installer/installer-bootstrap.cs'), *map(str, sorted((ROOT / 'installer/native').glob('*.cs'))), *map(str, sorted((ROOT / 'installer/presentation').glob('*.cs'))), str(harness)], capture_output=True, text=True)
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
             run = subprocess.run([str(binary)], capture_output=True, text=True, timeout=30)
             self.assertEqual(run.returncode, 0, run.stdout + run.stderr)

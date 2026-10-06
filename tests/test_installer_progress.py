@@ -111,7 +111,7 @@ internal static class ProgressChecks {
                 '/reference:System.Windows.Forms.dll', '/reference:System.Drawing.dll',
                 '/reference:System.IO.Compression.dll', '/reference:Microsoft.CSharp.dll',
                 '/reference:System.Web.Extensions.dll', '/out:' + str(binary),
-                str(root / 'installer/installer-bootstrap.cs'), *map(str, sorted((root / 'installer/native').glob('*.cs'))), str(harness)
+                str(root / 'installer/installer-bootstrap.cs'), *map(str, sorted((root / 'installer/native').glob('*.cs'))), *map(str, sorted((root / 'installer/presentation').glob('*.cs'))), str(harness)
             ], capture_output=True, text=True)
             self.assertEqual(compile_result.returncode, 0, compile_result.stdout + compile_result.stderr)
             run = subprocess.run([str(binary)], capture_output=True, text=True)

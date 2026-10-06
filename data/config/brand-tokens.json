@@ -1,0 +1,24 @@
+{
+  "colors": {
+    "light": {
+      "background": "#f5f7fc",
+      "surface": "#ffffff",
+      "soft": "#eef2fb",
+      "text": "#1e2a52",
+      "muted": "#596981",
+      "border": "#dbe3f2",
+      "primary": "#3e5acf",
+      "accent": "#f39783"
+    },
+    "dark": {
+      "background": "#11192b",
+      "surface": "#17223a",
+      "soft": "#202d47",
+      "text": "#eef2fb",
+      "muted": "#aabbda",
+      "border": "#314160",
+      "primary": "#3e5acf",
+      "accent": "#f39783"
+    }
+  }
+}

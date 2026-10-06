@@ -21,6 +21,15 @@ async function start(f) {
   return f.session.command({ sessionId, sequence: f.session.snapshot().sequence, action: 'start' });
 }
 (async () => {
+  const measured = fixture();
+  measured.status({applicable:true,allDone:false,steps:[{id:'iso',done:false}],job:{running:true,stepId:'iso',numerator:42,denominator:100,scope:'Download'}});
+  await measured.session.observe();
+  assert.equal(measured.session.snapshot().numerator,42);
+  assert.equal(measured.session.snapshot().denominator,100);
+  assert.equal(measured.session.snapshot().indeterminate,false);
+  measured.status({applicable:true,allDone:false,steps:[{id:'vm',done:false}],job:{running:true,stepId:'vm'}});
+  await measured.session.observe();
+  assert.equal(measured.session.snapshot().numerator,null,'Unknown new stage must not retain old byte progress');
   const fresh = fixture();
   await assert.rejects(fresh.session.command({sessionId: 'c'.repeat(32), sequence: 0, action: 'start'}), /stale/i);
   await assert.rejects(fresh.session.command({sessionId, sequence: -1, action: 'start'}), /stale/i);

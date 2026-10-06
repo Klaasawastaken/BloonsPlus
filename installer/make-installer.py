@@ -11,6 +11,7 @@ import hashlib
 import io
 import json
 import os
+import runpy
 import shutil
 import subprocess
 import sys
@@ -121,6 +122,7 @@ def optimize_pngs(folder: Path) -> None:
 
 
 def stage_app() -> None:
+    runpy.run_path(str(ROOT / 'installer/brand_tokens.py'))['generate']()
     if not ELECTRON.joinpath("electron.exe").is_file():
         raise SystemExit("Electron runtime not found at node_modules/electron/dist/electron.exe")
     if not PYTHON_HOME.joinpath("python.exe").is_file():
@@ -191,7 +193,26 @@ def stage_app() -> None:
             raise SystemExit(f"Staged app is missing {required}")
 
 
+def write_inventory(stage: Path) -> None:
+    files = []
+    preserved = {'userconfig.json', 'automation-progress.json', 'game-observations.json', 'route-verification.json', 'playthrough_stats.json'}
+    for file in sorted(stage.rglob('*')):
+        if not file.is_file() or file.name == 'bloons-package.json':
+            continue
+        relative = file.relative_to(stage).as_posix()
+        if file.name in preserved or any(part in relative.split('/') for part in ('route-library', 'playthroughs')) or '/data/config/' in '/' + relative:
+            continue
+        files.append({'path': relative, 'sha256': hashlib.sha256(file.read_bytes()).hexdigest()})
+    fingerprint = hashlib.sha256(json.dumps(files, separators=(',', ':')).encode()).hexdigest()
+    package = json.loads((stage / 'resources/app/package.json').read_text(encoding='utf-8'))
+    text = json.dumps({'protocolVersion': 1, 'version': package['version'], 'fingerprint': fingerprint, 'files': files}, separators=(',', ':'))
+    if len(files) > 20000 or len(text.encode('utf-8')) > 8 * 1024 * 1024:
+        raise ValueError('App inventory exceeds native safety limits')
+    (stage / 'bloons-package.json').write_text(text, encoding='utf-8')
+
+
 def zip_payload() -> None:
+    write_inventory(STAGE)
     if PACKAGE.exists():
         PACKAGE.unlink()
     files = [path for path in STAGE.rglob("*") if path.is_file()]
@@ -209,21 +230,26 @@ def zip_payload() -> None:
 
 
 def build_installer() -> None:
+    runpy.run_path(str(ROOT / 'installer/brand_tokens.py'))['generate']()
     compiler = Path(os.environ.get("WINDIR", r"C:\Windows")) / "Microsoft.NET" / "Framework64" / "v4.0.30319" / "csc.exe"
     if not compiler.is_file():
         compiler = Path(os.environ.get("WINDIR", r"C:\Windows")) / "Microsoft.NET" / "Framework" / "v4.0.30319" / "csc.exe"
     if not compiler.is_file():
         raise SystemExit("The Windows .NET Framework C# compiler (csc.exe) is required to build the installer")
     source_directory = Path(__file__).resolve().parent
-    sources = [source_directory / "installer-bootstrap.cs", *sorted((source_directory / "native").glob("*.cs"))]
+    sources = [source_directory / "installer-bootstrap.cs", *sorted((source_directory / "native").glob("*.cs")),
+               *sorted((source_directory / "presentation").glob("*.cs"))]
     bootstrap = DIST / "BloonsPlusSetup.bootstrap.exe"
+    inventory = STAGE / 'bloons-package.json'
+    resources = ["/resource:" + str(inventory) + ",BloonsPlus.Package"] if inventory.is_file() else []
     subprocess.run([
         str(compiler), "/nologo", "/target:winexe", "/platform:x64", "/optimize+",
         "/reference:System.Windows.Forms.dll", "/reference:System.Drawing.dll",
         "/reference:System.IO.Compression.dll", "/reference:Microsoft.CSharp.dll",
         "/reference:System.Web.Extensions.dll",
         "/win32icon:" + str(ROOT / "bloonsplus.ico"),
-        "/out:" + str(bootstrap), *(str(source) for source in sources),
+        "/resource:" + str(ROOT / "tower-icons/engineer-monkey.png") + ",BloonsPlus.Engineer",
+        "/out:" + str(bootstrap), *resources, *(str(source) for source in sources),
     ], check=True)
     for stale in (DIST / "BloonsPlusSetup.sed", DIST / "~BloonsPlusSetup.DDF", DIST / "~BloonsPlusSetup.CAB"):
         if stale.exists():

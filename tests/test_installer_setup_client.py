@@ -31,6 +31,7 @@ internal static class SetupClientChecks {
   Check(!SetupControllerClient.PortOwnedBy(port,1),"Unrelated PID could impersonate port owner");
   int protocol=2; string reportedOwner=owner; int reportedPid=Process.GetCurrentProcess().Id;
   var serializer=new JavaScriptSerializer(); int commands=0; bool keySeen=false;string sessionId=Guid.NewGuid().ToString("N");
+  bool rejectNextCommand=false;
   var service=Task.Run(()=> {
    while(true) {
     TcpClient socket;
@@ -46,7 +47,10 @@ internal static class SetupClientChecks {
      int length=headers.ContainsKey("Content-Length")?Int32.Parse(headers["Content-Length"]):0;
      char[] body=new char[length];int read=0;while(read<length)read+=reader.Read(body,read,length-read);
      Check(!new string(body).Contains("key"),"Secret entered body");
-     if(route.EndsWith("command")) commands++;
+     if(route.EndsWith("command")) {
+      commands++;
+      if(rejectNextCommand){rejectNextCommand=false;byte[] conflict=System.Text.Encoding.ASCII.GetBytes("HTTP/1.1 409 Conflict\r\nContent-Length: 0\r\nConnection: close\r\n\r\n");stream.Write(conflict,0,conflict.Length);continue;}
+     }
      result=new {protocolVersion=1,sessionId,phase="validating",sequence=4};
     }
     byte[] bytes=System.Text.Encoding.UTF8.GetBytes(serializer.Serialize(result));
@@ -67,6 +71,9 @@ internal static class SetupClientChecks {
     Check((string)snapshot["phase"]=="validating"&&keySeen,"Authenticated connect missing");
     await client.CommandAsync(4,"resume",CancellationToken.None);
     Check(commands==1,"Command missing");
+    rejectNextCommand=true;
+    await client.CommandFreshAsync("cancel",CancellationToken.None);
+    Check(commands==3,"Stale cancellation was not re-observed and retried exactly once");
     await client.ObserveAsync(CancellationToken.None);
     Check(Directory.GetFiles(Path.Combine(root,"setup-handoff")).Length==1,"Private handoff missing");
    }

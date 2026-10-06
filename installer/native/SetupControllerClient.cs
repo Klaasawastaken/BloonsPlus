@@ -167,6 +167,18 @@ internal sealed class SetupControllerClient : IDisposable
         if (!connected) throw new InvalidOperationException("Connect setup before submitting commands.");
         return Task.Run(() => VerifySnapshot(Request("/api/setup/session/command", new { sessionId, sequence, action }, true, cancellation)), cancellation);
     }
+    public async Task<Dictionary<string, object>> CommandFreshAsync(string action, CancellationToken cancellation) {
+        for (int attempt = 0; attempt < 3; attempt++) {
+            var snapshot = await ObserveAsync(cancellation);
+            try { return await CommandAsync(Convert.ToInt64(snapshot["sequence"]), action, cancellation); }
+            catch (WebException error) {
+                var response = error.Response as HttpWebResponse;
+                if (response == null || response.StatusCode != HttpStatusCode.Conflict || attempt == 2) throw;
+                response.Dispose(); // Only an explicit rejected command is safe to retry.
+            }
+        }
+        throw new InvalidOperationException("Setup changed repeatedly. Reconnect before retrying this action.");
+    }
     public Task ReleaseAsync(CancellationToken cancellation) {
         if (!connected) throw new InvalidOperationException("Connect setup before releasing it.");
         return Task.Run(() => { if (setupOnly) Request("/api/setup/session/release", new {}, true, cancellation); }, cancellation);

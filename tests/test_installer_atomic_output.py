@@ -11,6 +11,27 @@ spec.loader.exec_module(builder)
 
 
 class InstallerAtomicOutputTests(unittest.TestCase):
+    def test_inventory_excludes_personal_routes_and_configuration(self):
+        import json
+        with tempfile.TemporaryDirectory() as folder:
+            stage = Path(folder)
+            app = stage / 'resources/app'
+            (app / 'data/config').mkdir(parents=True)
+            (app / 'route-library').mkdir()
+            (app / 'package.json').write_text('{"version":"0.1.0"}')
+            (app / 'server.js').write_text('app code')
+            (app / 'data/config/calibration.json').write_text('user calibration')
+            (app / 'route-library/custom.btd6').write_text('personal route')
+            (app / 'autobtd6').mkdir()
+            (app / 'autobtd6/userconfig.json').write_text('user choices')
+            builder.write_inventory(stage)
+            inventory = json.loads((stage / 'bloons-package.json').read_text())
+            self.assertEqual({item['path'] for item in inventory['files']}, {'resources/app/package.json', 'resources/app/server.js'})
+            self.assertEqual(len(inventory['fingerprint']), 64)
+            (app / 'data/config/calibration.json').write_text('new calibration')
+            builder.write_inventory(stage)
+            self.assertEqual(json.loads((stage / 'bloons-package.json').read_text())['fingerprint'], inventory['fingerprint'])
+
     def test_private_plan_ledger_is_not_packaged(self):
         with tempfile.TemporaryDirectory() as folder:
             source = Path(folder) / 'source'
@@ -38,7 +59,7 @@ class InstallerAtomicOutputTests(unittest.TestCase):
             bootstrap = dist / 'BloonsPlusSetup.bootstrap.exe'
             bootstrap.write_bytes(b'stub')
             with patch.object(builder, 'DIST', dist), patch.object(builder, 'OUTPUT', output), \
-                 patch.object(builder, 'PACKAGE', payload), patch.object(builder.subprocess, 'run'):
+                 patch.object(builder, 'PACKAGE', payload), patch.object(builder.subprocess, 'run') as compile_call:
                 if failure == 'copy':
                     with patch.object(builder.shutil, 'copyfileobj', side_effect=OSError('disk full')):
                         with self.assertRaises(OSError):
@@ -53,6 +74,9 @@ class InstallerAtomicOutputTests(unittest.TestCase):
                 self.assertEqual(output.read_bytes(), b'previous-good-installer')
             else:
                 self.assertEqual(output.read_bytes(), b'stubpayloadBLPZIP01' + (7).to_bytes(8, 'little', signed=True))
+                command = compile_call.call_args.args[0]
+                self.assertTrue(any('presentation' in value and value.endswith('InstallerView.cs') for value in command))
+                self.assertTrue(any(value.startswith('/resource:') and 'BloonsPlus.Engineer' in value for value in command))
             self.assertFalse(list(dist.glob('*.tmp')), 'Partial build must be cleaned up')
 
     def test_failed_copy_preserves_previous_installer(self):

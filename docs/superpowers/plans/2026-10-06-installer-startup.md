@@ -113,12 +113,12 @@
 - `Show details`: bounded recent technical lines and explicit redacted Copy/Export; no automatic upload.
 - Existing install: observed version/health determines Launch/Update/Repair; Modify/Uninstall are secondary explicit commands preserving user/VM/game data.
 
-- [ ] Add failing native view assertions: welcome shows one Install action and Options, hides pipeline/ISO/details; completion requires validated facts and exposes Launch.
-- [ ] Add tests for error/human-action/restart/deferred states and preserved Options after retry. Raw SSH commands must not replace the friendly main status.
-- [ ] Implement compact responsive layout, restrained gradients/shadows and immediate feedback; no animation blocks an operation.
-- [ ] Render actual native controls into isolated artifacts at 100%, 150% and 200% text/DPI scale; inspect proportions, clipped text, focus order and both themes.
-- [ ] Test details export redaction and unavailable progress as indeterminate. Verify no credentials/session key appear in exports.
-- [ ] Run baseline native and view suites, compile the complete installer and commit.
+- [x] Add failing native view assertions: welcome shows one Install action and Options, hides pipeline/ISO/details; completion requires validated facts and exposes Launch.
+- [x] Add tests for error/human-action/restart/deferred states and preserved Options after retry. Raw SSH commands must not replace the friendly main status.
+- [x] Implement compact responsive layout, restrained gradients/shadows and immediate feedback; no animation blocks an operation.
+- [x] Render actual native controls into isolated artifacts at 100%, 150% and 200% simulated text/layout scale; inspect proportions, clipped text and declared focus order in both themes. Actual Windows DPI/accessibility remains Task 6 acceptance.
+- [x] Test details export redaction and unavailable progress as indeterminate. Verify no credentials/session key appear in exports.
+- [x] Run baseline native and view suites and compile the complete installer: 39 Python checks, seven Node suites and a 226,816-byte native bootstrap. Batch 4 commit follows these checks.
 
 ## Task 5 — First-launch setup and original startup intro
 
