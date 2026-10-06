@@ -331,3 +331,33 @@ The complete Python suite subsequently passed 399 tests. Existing JavaScript
 controller, session, setup-phase and source-selection-guard checks also passed;
 the publication guard found no private-file findings. No installer binary or
 runtime changed in this acceptance batch.
+
+## Completed milestones during recovery — 7 October
+
+The approved progress contract requires completed work to remain visible during
+rechecks. A new native regression reproduced both local and environment progress
+resetting when the same session retried an earlier stage. `ObserveMilestone` and
+`ObserveEnvironmentWeight` overwrote the persisted total with the latest stage's
+lower value.
+
+Both methods now retain the greater completed milestone for the current session.
+Unknown current-stage progress remains indeterminate, and readiness still requires
+fresh validation. The final five units stay reserved; reopening retains completed
+work, while a new operation after completion gets a new session and zero progress.
+No VM, game, save, permission or scheduled-task behavior changed.
+
+The local and environment cases failed before repair. Restoring only the old
+environment update after repairing local milestones also reproduced its separate
+failure; the final repair passes both cases. The complete suite passes 400 Python
+tests and 65 approved JavaScript check files. Packaging and public release identity
+are checked separately; this does not close clean-machine or physical reboot gates.
+
+The prepared `v0.1.11-preview.99` installer contains 246,915,052 bytes. All 126
+runtime source comparisons and 1,705 inventory hashes match; its appended payload
+matches the checked archive byte for byte. Both executable icons contain the seven
+exact application frames. Staged app/lock/inventory and native embedded package
+resource versions agree. Source dependency metadata is unchanged, and publication
+guards report zero findings.
+The pending ABR draft is retained only in the worktree; packaging uses its committed
+version. Public download metadata remains on the previous release until publication
+is independently confirmed. Native progress changes do not reload the healthy guest.

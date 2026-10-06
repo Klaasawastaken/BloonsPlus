@@ -1,3 +1,18 @@
+## Preview 99 installer progress hotfix — 7 October 2026
+
+### Additions
+
+- Add actual native/Node setup protocol acceptance and persisted milestone regressions.
+
+### Changes
+
+- Retain completed work across component rechecks and resume without inferring current-stage progress or readiness.
+- Verify 400 Python tests and 65 approved JavaScript check files. Production clean-machine, physical reboot and accessibility gates remain open.
+
+### Removed
+
+- Remove recovery progress resets within the same setup operation.
+
 ## Preview 99 installer text scaling hotfix — 7 October 2026
 
 ### Additions

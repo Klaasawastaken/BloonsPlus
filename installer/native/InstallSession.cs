@@ -102,11 +102,14 @@ internal sealed class InstallSession
     public void ObserveMilestone(InstallerStage stage) {
         int[] weights = { 0, 5, 30, 15, 45, 5 };
         int completed = 0; for (int index = 1; index < (int)stage; index++) completed += weights[index];
-        lock (stateLock) { state.CompletedWeight = state.EnvironmentRequired ? completed * 60 / 100 : completed; SaveCheckpoint(); }
+        // Rechecking an earlier component does not erase milestones already
+        // earned by this operation. Readiness still requires fresh validation.
+        lock (stateLock) { state.CompletedWeight = Math.Max(state.CompletedWeight,
+            state.EnvironmentRequired ? completed * 60 / 100 : completed); SaveCheckpoint(); }
     }
     public void ObserveEnvironmentWeight(int completed) {
         if (completed < 0 || completed > 100) throw new ArgumentOutOfRangeException("completed");
-        lock (stateLock) { state.CompletedWeight = 60 + completed * 35 / 100; SaveCheckpoint(); }
+        lock (stateLock) { state.CompletedWeight = Math.Max(state.CompletedWeight, 60 + completed * 35 / 100); SaveCheckpoint(); }
     }
     public void MarkValidated(bool app, bool environment)
     {
