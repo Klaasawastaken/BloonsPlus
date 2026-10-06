@@ -26,6 +26,12 @@ DIST = ROOT / "dist"
 STAGE = DIST / "installer-stage"
 PACKAGE = DIST / "BloonsPlusPayload.zip"
 OUTPUT = DIST / "BloonsPlusSetup.exe"
+REQUIRED_RUNTIME_FILES = (
+    "lib/vm-setup.js", "lib/automation.js", "lib/route-validation.js", "assets/app/setup-bar.js", "vm/setup-vm.py", "vm/iso-patch.exe", "autobtd6/runtime_check.py", "autobtd6/placement_hints.py", "data/tower-upgrades.json", "lib/support-report.js", "lib/live-screen.js", "assets/app/vm-viewer.js", "autobtd6/live_capture.py", "tools/read-hero-selection.js", "tools/verify-map-page.js", "python/Lib/ensurepip/__init__.py", "python/Lib/venv/__init__.py",
+    'lib/setup-session.js', 'lib/setup-controller.js', 'assets/app/setup-client.js',
+    'assets/app/startup.js', 'assets/app/startup.css', 'assets/app/brand-tokens.css', 'assets/logo.svg',
+)
+
 ELECTRON = ROOT / "node_modules" / "electron" / "dist"
 PYVENV_CONFIG = ROOT / ".venv" / "pyvenv.cfg"
 PYTHON_HOME = Path(next((line.split("=", 1)[1].strip() for line in PYVENV_CONFIG.read_text(encoding="utf-8").splitlines() if line.strip().lower().startswith("home =")), ""))
@@ -188,7 +194,7 @@ def stage_app() -> None:
         shutil.copy2(ROOT / "tools" / name, runtime_tools / name)
     # The base Python only bootstraps the private venv (setup downloads the pinned pip packages).
     copy_tree(PYTHON_HOME, app / "python", exclude_relative_paths=PYTHON_EXCLUDES)
-    for required in ("lib/vm-setup.js", "lib/automation.js", "lib/route-validation.js", "assets/app/setup-bar.js", "vm/setup-vm.py", "vm/iso-patch.exe", "autobtd6/runtime_check.py", "autobtd6/placement_hints.py", "data/tower-upgrades.json", "lib/support-report.js", "lib/live-screen.js", "assets/app/vm-viewer.js", "autobtd6/live_capture.py", "tools/read-hero-selection.js", "tools/verify-map-page.js", "python/Lib/ensurepip/__init__.py", "python/Lib/venv/__init__.py"):
+    for required in REQUIRED_RUNTIME_FILES:
         if not (app / required).is_file():
             raise SystemExit(f"Staged app is missing {required}")
 

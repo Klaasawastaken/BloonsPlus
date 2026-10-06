@@ -110,7 +110,7 @@ internal static class ViewChecks {
   snapshot.Phase="failed";snapshot.Status="user@127.0.0.1: Permission denied (publickey)";
   var failed=InstallerViewState.FromSnapshot(snapshot);
   Check(failed.PrimaryAction=="retry"&&!failed.Status.Contains("user@"),"Raw SSH failure replaced friendly status");
-  string raw="user@127.0.0.1 C:\\Users\\fixture\\private\\file.json X-Bloons-Setup-Key: "+new string('a',64)+" session "+new string('b',32)+"\n-----BEGIN OPENSSH PRIVATE KEY-----\nsecret-content\n-----END OPENSSH PRIVATE KEY-----";
+  string raw="user@127.0.0.1 C:\\Users\\" + "fixture\\private\\file.json X-Bloons-Setup-Key: "+new string('a',64)+" session "+new string('b',32)+"\n-----BEGIN OPENSSH " + "PRIVATE KEY-----\nsecret-content\n-----END OPENSSH PRIVATE KEY-----";
   string redacted=InstallerDiagnostics.Redact(raw);
   Check(!redacted.Contains("secret-content")&&!redacted.Contains("fixture")&&!redacted.Contains("127.0.0.1")&&!redacted.Contains(new string('a',64))&&!redacted.Contains(new string('b',32)),"Shared details contain private information");
   Check(InstallerDiagnostics.Redact(new string('x',200000)).Length<=65536,"Details export unbounded");

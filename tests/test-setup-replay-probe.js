@@ -22,6 +22,7 @@ async function probe(remote,sshResult) {
   const unknown=await probe(null,{running:'false'});assert.equal(unknown.result,null);
   const command=Buffer.from(fresh.command.split(' ').at(-1),'base64').toString('utf16le');
   assert.match(command,/Get-Process/);assert.match(command,/\.MainModule\.FileName/);assert.match(command,/OwnedProcess/);
+  assert.match(command,/GetConstructor\(\[type\[\]\]@\(\[string\],\[Func\[string\]\]\)\)/,'Reflection must include the actual optional boot identity parameter');
   assert.doesNotMatch(command,/Stop-Process|Start-Process|Set-Acl|schtasks|Remove-Item/i,'Fallback observation cannot alter guest state');
   console.log('Setup replay probe: fresh API, bounded read-only SSH fallback, exact process/native ownership and unknown states passed');
 })().catch(error=>{console.error(error);process.exitCode=1;});

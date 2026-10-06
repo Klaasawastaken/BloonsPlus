@@ -48,8 +48,17 @@ async function start(f) {
   await cancel.session.command({sessionId, sequence: cancel.session.snapshot().sequence, action: 'cancel'});
   cancel.replay({running:false}); await cancel.session.observe();
   assert.equal(cancel.starts(), 0, 'Cancel must not leave a queued mutation');
+  const activeCancel=fixture();await start(activeCancel);
+  activeCancel.status({applicable:true,allDone:false,next:{id:'provision'},steps:[{id:'provision',done:false}],job:{running:true}});
+  await activeCancel.session.observe();await activeCancel.session.command({sessionId,sequence:activeCancel.session.snapshot().sequence,action:'cancel'});
+  activeCancel.status({applicable:true,allDone:false,next:{id:'provision'},steps:[{id:'provision',done:false}],job:{running:false}});
+  await activeCancel.session.observe();
+  await activeCancel.session.command({sessionId,sequence:activeCancel.session.snapshot().sequence,action:'resume'});
+  assert.equal(activeCancel.starts(),2,'Resume remained blocked after observed safe cancellation');
   const ready = fixture(); ready.status({applicable:true, allDone:true, steps:[{id:'connected',done:true},{id:'steam',done:true}],job:{running:false}});
   await start(ready); assert.equal(ready.starts(), 0); assert.equal(ready.session.snapshot().phase, 'complete');
+  ready.status({applicable:true,allDone:false,steps:[{id:'connected',done:false},{id:'steam',done:false}],job:{running:false}});
+  await ready.session.observe();assert.equal(ready.session.snapshot().humanAction,'retry','Lost readiness has no recovery action');
   let updates=0;
   const update=createSetupSession({sessionId,owner,operation:'update',options:{}},{
     getStatus:async()=>({applicable:true,allDone:true,steps:[{id:'connected',done:true},{id:'steam',done:true}],job:{running:false}}),

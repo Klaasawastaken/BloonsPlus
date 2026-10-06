@@ -171,18 +171,20 @@ internal sealed class InstallerEngine
                 if (stage.TryGetValue("scope", out description)) scope = description as string;
             }
         }
+        if (phase == "restart_required") session.RequireRestart(status);
         session.Observe(phase, step, status, numerator, denominator, scope);
         session.SetHumanAction(value.TryGetValue("humanAction", out field) ? field as string : null);
         if (value.TryGetValue("completedWeight", out field)) session.ObserveEnvironmentWeight(Convert.ToInt32(field));
-        if (phase == "restart_required") session.RequireRestart(status);
         NotifySnapshot();
         var progress = new InstallerProgress { Message = status }; progress.Update(InstallerStage.Finish, null);
         var handler = ProgressChanged; if (handler != null) handler(progress);
     }
     private InstallerResult FinishEnvironment() {
+        options.Operation = session.Snapshot.Operation;
         var environment = operations.ConfigureEnvironment(session.Snapshot.SessionId);
         if (!environment.Ready) {
-            session.Observe(environment.RestartRequired ? "restart_required" : "validating", "environment", environment.Status, null, null, null);
+            if (environment.RestartRequired) session.RequireRestart(environment.Status);
+            else session.Observe("validating", "environment", environment.Status, null, null, null);
             session.SetHumanAction(environment.HumanAction);
             NotifySnapshot();
             return new InstallerResult { LocalReady = true, Receipt = "APP_READY", HumanAction = environment.HumanAction,
@@ -199,14 +201,14 @@ internal sealed class InstallerEngine
             using (AcquireInstallLock(options.InstallRoot)) {
             operations.Cancellation = cancellation;
             if (session == null) {
-                session = InstallSession.LoadOrCreate(options.InstallRoot, "resume", options.RequestedVmSetup);
+                session = InstallSession.LoadOrCreate(options.InstallRoot, "resume", options.RequestedVmSetup, operations.GetBootIdentity);
                 if (!session.Snapshot.AppValidated || !operations.ProbeInstalledRuntime())
                     throw new InvalidOperationException("Repair the local installation before resuming environment setup.");
             }
             if (session == null || !session.Snapshot.AppValidated || !session.Snapshot.EnvironmentRequired)
                 throw new InvalidOperationException("Validated local installation is required before environment resume.");
             if (session.Snapshot.Phase == "restart_required" && (String.IsNullOrEmpty(session.Snapshot.RestartBootIdentity)
-                || String.IsNullOrEmpty(OwnedProcess.CurrentBootIdentity) || session.Snapshot.RestartBootIdentity == OwnedProcess.CurrentBootIdentity))
+                || String.IsNullOrEmpty(operations.GetBootIdentity()) || session.Snapshot.RestartBootIdentity == operations.GetBootIdentity()))
                 return new InstallerResult { LocalReady = true, Receipt = "APP_READY", RestartRequired = true, HumanAction = "restart_windows", ExitCode = 3010 };
                 try { return FinishEnvironment(); }
                 catch (Exception error) {
@@ -227,11 +229,11 @@ internal sealed class InstallerEngine
         try {
             installLock = AcquireInstallLock(options.InstallRoot);
             operations.Cancellation = cancellation;
-            session = InstallSession.LoadOrCreate(options.InstallRoot, options.Operation, !options.Silent && options.RequestedVmSetup);
+            session = InstallSession.LoadOrCreate(options.InstallRoot, options.Operation, !options.Silent && options.RequestedVmSetup, operations.GetBootIdentity);
             InstallerPreferences.Save(options);
             if (session.Snapshot.Phase == "restart_required"
-                && (String.IsNullOrEmpty(session.Snapshot.RestartBootIdentity) || String.IsNullOrEmpty(OwnedProcess.CurrentBootIdentity)
-                    || session.Snapshot.RestartBootIdentity == OwnedProcess.CurrentBootIdentity))
+                && (String.IsNullOrEmpty(session.Snapshot.RestartBootIdentity) || String.IsNullOrEmpty(operations.GetBootIdentity())
+                    || session.Snapshot.RestartBootIdentity == operations.GetBootIdentity()))
                 throw new InstallerRestartRequiredException("Restart Windows before resuming setup. Required reboot has not been confirmed.");
             session.Observe("preflight", "ownership", "Checking installation", null, null, null);
             WriteResult("RUNNING");

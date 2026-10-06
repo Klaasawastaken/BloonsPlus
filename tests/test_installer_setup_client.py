@@ -2,11 +2,18 @@ import os
 import subprocess
 import tempfile
 import unittest
+from pathlib import Path
 from native_installer_harness import compile_harness
 
 
 @unittest.skipUnless(os.name == 'nt', 'Windows native compiler')
 class InstallerSetupClientTests(unittest.TestCase):
+    def test_environment_handoff_keeps_selected_operation(self):
+        source=(Path(__file__).resolve().parents[1]/'installer/native/WindowsInstallerOperations.cs').read_text()
+        self.assertIn('ConnectAsync(options.Operation,',source)
+        engine=(Path(__file__).resolve().parents[1]/'installer/native/InstallerEngine.cs').read_text()
+        self.assertIn('options.Operation = session.Snapshot.Operation;',engine)
+
     def test_owned_protocol_handoff_and_async_commands(self):
         with tempfile.TemporaryDirectory() as folder:
             binary = compile_harness(folder, 'SetupClientChecks', r'''

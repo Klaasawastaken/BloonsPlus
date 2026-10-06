@@ -25,6 +25,7 @@ internal sealed class FakeOperations : WindowsInstallerOperations {
     public bool EnvironmentReady = true;
     public Action OnCpp;
     public FakeOperations(InstallerOptions options) : base(options) {}
+    public override string GetBootIdentity() { return "fixture-boot"; }
     public override void CloseInstalledControllers() { Calls.Add("controllers"); }
     public override void ReadEmbeddedPackage(string path) { Calls.Add("package"); }
     public override void BackupExistingData(string path) { Calls.Add("backup"); }
@@ -74,6 +75,12 @@ internal static class EngineChecks {
                 {"phase","downloading"},{"status","Downloading Windows"},{"step","iso"},{"numerator",42L},{"denominator",100L},{"scope","Download"}
             }});
             Check(fullEngine.CurrentSnapshot.StageNumerator==42&&fullEngine.CurrentSnapshot.StageDenominator==100,"Measured environment progress was discarded");
+            typeof(InstallerEngine).GetMethod("ObserveEnvironment",System.Reflection.BindingFlags.NonPublic|System.Reflection.BindingFlags.Instance).Invoke(fullEngine,new object[]{new Dictionary<string,object>{
+                {"phase","restart_required"},{"status","Restart Windows"},{"step","vmp"}
+            }});
+            Check(!String.IsNullOrEmpty(fullEngine.CurrentSnapshot.RestartBootIdentity),"Remote restart did not retain host boot identity");
+            typeof(InstallerEngine).GetField("session",System.Reflection.BindingFlags.NonPublic|System.Reflection.BindingFlags.Instance).GetValue(fullEngine).GetType().GetMethod("Observe").Invoke(
+                typeof(InstallerEngine).GetField("session",System.Reflection.BindingFlags.NonPublic|System.Reflection.BindingFlags.Instance).GetValue(fullEngine),new object[]{"validating","environment","Fixture resume after restart proof",null,null,null});
             fullOperations.EnvironmentReady = true;
             var resumed = fullEngine.ResumeEnvironmentAsync(CancellationToken.None).GetAwaiter().GetResult();
             Check(resumed.EnvironmentReady && fullEngine.CurrentSnapshot.Phase == "complete", "Fresh environment acceptance missing");

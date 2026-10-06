@@ -4,6 +4,7 @@ const os = require('node:os');
 const path = require('node:path');
 const http = require('node:http');
 const crypto = require('node:crypto');
+const {spawn}=require('node:child_process');
 const { createSetupController, controllerOwner } = require('../lib/setup-controller');
 
 (async () => {
@@ -70,6 +71,21 @@ const { createSetupController, controllerOwner } = require('../lib/setup-control
     const timerBlock = source.slice(source.indexOf('}).listen(port'));
     assert.ok(timerBlock.indexOf('if (setupOnly) return') < timerBlock.indexOf('setInterval(collectAiObservation'), 'Setup-only mode must suppress every gameplay timer');
     assert.match(fs.readFileSync(path.join(__dirname,'../electron-main.js'),'utf8'), /if \(!setupOnly\) createWindow\(\)/);
+    assert.ok(source.includes("setupOnly && pathname.startsWith('/api/') && !(pathname === '/api/setup/status' && req.method === 'GET')"),'Setup-only controller must serve the app shell and readonly setup status while refusing gameplay APIs');
     console.log('Setup controller: identity, key, containment, origin, stale/duplicate commands, private checkpoint and setup-only checks passed');
+    // Actual setup-only HTTP handler: static shell works while gameplay stays off.
+    const portProbe=http.createServer();await new Promise(resolve=>portProbe.listen(0,'127.0.0.1',resolve));
+    const isolatedPort=portProbe.address().port;await new Promise(resolve=>portProbe.close(resolve));
+    const child=spawn(process.execPath,['server.js'],{cwd:path.join(__dirname,'..'),windowsHide:true,stdio:'ignore',
+      env:{...process.env,PORT:String(isolatedPort),BLOONS_SETUP_ONLY:'1',LOCALAPPDATA:temp}});
+    try{
+      let connected=false;
+      for(let attempt=0;attempt<40;attempt++){
+        try{const identity=await (await fetch(`http://127.0.0.1:${isolatedPort}/api/setup/controller`)).json();if(identity.pid!==child.pid)throw new Error('Wrong isolated port owner');connected=true;break;}catch{await new Promise(resolve=>setTimeout(resolve,100));}
+      }
+      assert.ok(connected,'Isolated setup-only controller did not start');
+      const shell=await fetch(`http://127.0.0.1:${isolatedPort}/`);assert.equal(shell.status,200);assert.match(await shell.text(),/startup-branding/);
+      assert.equal((await fetch(`http://127.0.0.1:${isolatedPort}/api/farm/start`,{method:'POST'})).status,503,'Setup-only allowed gameplay mutation');
+    }finally{const exited=new Promise(resolve=>child.once('exit',resolve));child.kill();await exited;}
   } finally { await new Promise(resolve=>server.close(resolve)); fs.rmSync(temp,{recursive:true,force:true}); }
 })().catch(error => {console.error(error);process.exitCode=1;});

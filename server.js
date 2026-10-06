@@ -142,7 +142,9 @@ const server = http.createServer((req, res) => {
   const pathname = decodeURIComponent(requestUrl.pathname);
   if (pathname === '/api/setup/controller' || pathname.startsWith('/api/setup/session'))
     return setupController.handle(req, res, pathname);
-  if (setupOnly) {
+  // A user may open the app while native setup is paused. Serve its static shell
+  // and readonly setup checks; keep all ordinary APIs and gameplay timers off.
+  if (setupOnly && pathname.startsWith('/api/') && !(pathname === '/api/setup/status' && req.method === 'GET')) {
     res.writeHead(503, { 'Content-Type':'application/json' });
     return res.end(JSON.stringify({error:'Controller is running in setup-only mode'}));
   }
@@ -668,7 +670,7 @@ const server = http.createServer((req, res) => {
   }
   fs.readFile(file, async (error, data) => {
     // Map thumbnails are cut in the VM (where the game runs); copy any the host lacks on first use.
-    if (error && /^(map-icons|tower-icons)\/[a-z0-9-]+\.png$/.test(requested)) {
+    if (!setupOnly && error && /^(map-icons|tower-icons)\/[a-z0-9-]+\.png$/.test(requested)) {
       const fetched = await vmFetchBuffer(`/${requested}`);
       if (fetched) {
         fs.mkdirSync(path.dirname(file), { recursive: true });

@@ -11,6 +11,11 @@ spec.loader.exec_module(builder)
 
 
 class InstallerAtomicOutputTests(unittest.TestCase):
+    def test_shared_setup_and_startup_assets_are_required(self):
+        required = set(builder.REQUIRED_RUNTIME_FILES)
+        self.assertTrue({'lib/setup-session.js','lib/setup-controller.js','assets/app/setup-client.js',
+            'assets/app/startup.js','assets/app/startup.css','assets/app/brand-tokens.css','assets/logo.svg'} <= required)
+
     def test_inventory_excludes_personal_routes_and_configuration(self):
         import json
         with tempfile.TemporaryDirectory() as folder:

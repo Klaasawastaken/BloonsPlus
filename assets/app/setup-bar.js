@@ -36,8 +36,7 @@
   }
   function coordinated(status, snapshot) {
     if(!snapshot || !status.applicable)return status;
-    const waiting=!!snapshot.humanAction;
-    const running=snapshot.operationOutstanding||snapshot.queued||(!waiting&&!['idle','complete','failed','cancelled'].includes(snapshot.phase));
+    const running=status.job?.running===true || snapshot.operationOutstanding || snapshot.queued;
     const commandText=snapshot.phase==='idle'?'Continue setup':snapshot.humanAction==='steam_sign_in'?'Check again':'Continue setup';
     return {...status,coordinator:snapshot,allDone:status.allDone&&snapshot.phase==='complete',
       next:{...(status.next||{}),message:snapshot.status,button:snapshot.phase==='complete'||snapshot.phase==='restart_required'||running?null:commandText},

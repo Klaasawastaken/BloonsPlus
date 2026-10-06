@@ -38,9 +38,10 @@ internal class WindowsInstallerOperations : IDisposable
     protected void SetDetail(string text) { var handler = DetailAdded; if (handler != null) handler(text); }
     protected void Log(string text) { var handler = LogAdded; if (handler != null) handler(text); }
     public void Dispose() { ownedProcess.Dispose(); }
+    public virtual string GetBootIdentity() { return OwnedProcess.CurrentBootIdentity; }
     public virtual SetupEnvironmentResult ConfigureEnvironment(string sessionId) {
         using (var controller = new SetupControllerClient(installRoot, options.DataRoot, sessionId)) {
-            var snapshot = controller.ConnectAsync("install", options.RequestedIsoPath, Cancellation).GetAwaiter().GetResult();
+            var snapshot = controller.ConnectAsync(options.Operation, options.RequestedIsoPath, Cancellation).GetAwaiter().GetResult();
             string phase = snapshot.ContainsKey("phase") ? snapshot["phase"] as string : null;
             if (phase == "idle" || phase == "failed" || phase == "cancelled" || phase == "validating")
                 snapshot = controller.CommandAsync(Convert.ToInt64(snapshot["sequence"]), phase == "idle" ? "start" : "resume", Cancellation).GetAwaiter().GetResult();

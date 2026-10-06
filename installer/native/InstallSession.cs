@@ -15,10 +15,11 @@ internal sealed class InstallSession
     private readonly object stateLock = new object();
     private InstallerSnapshot state;
     private readonly JavaScriptSerializer serializer = new JavaScriptSerializer();
+    private readonly Func<string> bootIdentity;
     public InstallerSnapshot Snapshot {
         get { lock (stateLock) return serializer.Deserialize<InstallerSnapshot>(serializer.Serialize(state)); }
     }
-    private InstallSession(string root) { checkpoint = Path.Combine(Path.GetFullPath(root), ".bloons-setup", "session.json"); }
+    private InstallSession(string root, Func<string> bootIdentity = null) { checkpoint = Path.Combine(Path.GetFullPath(root), ".bloons-setup", "session.json"); this.bootIdentity = bootIdentity ?? (() => OwnedProcess.CurrentBootIdentity); }
     public static InstallerSnapshot ReadExisting(string root) {
         var session = new InstallSession(root);
         if (!File.Exists(session.checkpoint)) return null;
@@ -29,10 +30,10 @@ internal sealed class InstallSession
             || snapshot.Sequence < 0 || snapshot.PlanWeight != 100 || !Phases.Contains(snapshot.Phase)) throw new InvalidDataException("Setup checkpoint cannot be trusted.");
         return snapshot;
     }
-    public static InstallSession LoadOrCreate(string root, string operation, bool environmentRequired)
+    public static InstallSession LoadOrCreate(string root, string operation, bool environmentRequired, Func<string> bootIdentity = null)
     {
         if (!new[] { "install", "update", "repair", "resume" }.Contains(operation)) throw new ArgumentException("Invalid setup operation.");
-        var session = new InstallSession(root);
+        var session = new InstallSession(root, bootIdentity);
         if (File.Exists(session.checkpoint)) {
             if (new FileInfo(session.checkpoint).Length > 256 * 1024) throw new InvalidDataException("Setup checkpoint is too large.");
             session.state = session.serializer.Deserialize<InstallerSnapshot>(File.ReadAllText(session.checkpoint));
@@ -117,7 +118,7 @@ internal sealed class InstallSession
         Observe("restart_required", "windows", status, null, null, null);
         lock (stateLock) {
             state.HumanAction = "restart_windows";
-            if (!alreadyRequired) { state.RestartDeferred = false; state.RestartBootIdentity = OwnedProcess.CurrentBootIdentity; }
+            if (!alreadyRequired) { state.RestartDeferred = false; state.RestartBootIdentity = bootIdentity(); }
             SaveCheckpoint();
         }
     }
