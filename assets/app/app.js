@@ -981,7 +981,9 @@ async function loadSteamAchievements() {
     if (banner) banner.textContent = result.available
       ? result.hostFallback
         ? 'Read from this PC’s Steam cache; the VM cache is not reachable yet.'
-        : 'Read directly from Steam’s local achievement cache — exact, not a screen scan.'
+        : result.sourceTransport === 'vm'
+          ? 'Read from the VM’s Steam achievement cache.'
+          : 'Read from Steam’s local achievement cache.'
       : `Steam achievement cache unavailable: ${result.reason || 'unknown reason'}.`;
     if (!result.available) return;
     const entries = {};

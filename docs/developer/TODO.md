@@ -123,7 +123,7 @@ The sweep earns missing medals alongside development. Deploy changes together af
 - [ ] **P-01 — Check live VM save data.** Level, veteran rank, Monkey Money, heroes, Monkey Knowledge, tower XP and T1–T5 unlocks need source and freshness.
 - [ ] **P-02 — Check veteran XP rollover.** Confirm its meaning before displaying veteran ETA.
 - [ ] **P-03 — Reconcile achievements.** Compare progress with Steam unlocks; label unsupported counters accurately.
-  - Read-only live observation found the guest reports its own cache as `hostFallback: true`, and the host relays that label unchanged. Both endpoints expose 156 entries. Correcting source labels awaits bounded design approval; do not mistake this label issue for proof of wrong achievement completion values.
+  - Approved source-label repair distinguishes guest-local cache, successful VM relay and genuine host fallback. A successful relay also corrects older guest labels. Cache values and completion calculations remain unchanged. Production endpoint/UI regression, all 387 Python checks and 64 JavaScript files pass; activation awaits a batched replay boundary. Do not mistake the earlier label issue for proof of wrong completion values.
 - [ ] **P-04 — Check MM/hour and XP/hour.** Handle spending, source changes and rank changes. Wait for enough valid samples.
 - [ ] **P-05 — Check activity and run counters.** Keep ages, elapsed time and victory/defeat counts correct across reloads. Confirm clears from saves.
 

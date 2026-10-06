@@ -170,17 +170,25 @@ const server = http.createServer((req, res) => {
   // copy of Steam (if any) is only a last-resort fallback when the VM can't be reached at all.
   if (pathname === '/api/achievements/steam') {
     if (req.method !== 'GET') { res.writeHead(405); return res.end(); }
+    const sendLocalAchievements = hostFallback => {
+      let result;
+      try { result = readSteamAchievements(); } catch (error) { result = { available: false, reason: error.message }; }
+      res.writeHead(200, { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' });
+      res.end(JSON.stringify({ ...result, hostFallback, sourceTransport: hostFallback ? 'host' : 'local',
+        source: result.available ? (hostFallback ? 'steam-local-host' : 'steam-local-guest') : result.source }));
+    };
+    // This server also runs inside the guest. Its own cache is not a host fallback.
+    if (vmSetup.isGuest()) return sendLocalAchievements(false);
     vmFetch('/api/achievements/steam').then(vmData => {
       let vmResult = null;
       if (vmData) { try { vmResult = JSON.parse(vmData); } catch { /* fall through to local */ } }
       if (vmResult?.available) {
         res.writeHead(200, { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' });
-        return res.end(JSON.stringify(vmResult));
+        // Replace legacy guest labels at the transport boundary as well.
+        return res.end(JSON.stringify({ ...vmResult, hostFallback: false,
+          sourceTransport: 'vm', source: 'steam-local-vm' }));
       }
-      let result;
-      try { result = readSteamAchievements(); } catch (error) { result = { available: false, reason: error.message }; }
-      res.writeHead(200, { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' });
-      res.end(JSON.stringify({ ...result, hostFallback: true, source: result.available ? 'steam-local-host' : result.source }));
+      sendLocalAchievements(true);
     });
     return;
   }

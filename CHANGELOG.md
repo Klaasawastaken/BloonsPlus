@@ -1,3 +1,18 @@
+## Preview 99 achievement source hotfix — 6 October 2026
+
+### Additions
+
+- Add production endpoint and UI regressions for achievement cache source labels and older guest compatibility.
+
+### Changes
+
+- Distinguish guest-local cache, successful VM relay and genuine host fallback without changing completion values.
+- Verify 387 Python checks and 64 JavaScript check files; activation remains batched between replays.
+
+### Removed
+
+- Remove the incorrect PC cache label for VM achievement data.
+
 ## Preview 99 Chutes placement hotfix — 6 October 2026
 
 ### Additions
