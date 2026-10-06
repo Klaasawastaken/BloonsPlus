@@ -78,7 +78,7 @@ Updated **6 October 2026**. This is the active task list. Detailed implementatio
 - [ ] Keep full redacted logs and group failures by actionable cause, even when stale game-state files remain.
 - [ ] Confirm host/guest synchronization after updates and restarts; expose the actual failed connection/setup step.
 - [x] Deploy Preview 81 while the guest is idle, then resume missing medals. Setup confirms installation; host and guest both report the sweep running. The worker's initial two-second resume check was too early; later authoritative checks confirmed success without starting another sweep.
-- [ ] Apply the Preview 83 batch at the next completed replay boundary. Preview 82's waiting worker was stopped before installation to add the manual-schedule reuse fix. The current replay remains untouched with stop-after enabled; resume missing medals after installation.
+- [x] Apply Preview 83 after High Finance Reverse finished. Update completed and the guest confirmed the missing-medal sweep resumed. Preview 82's earlier waiting worker was stopped before installation to batch the schedule-reuse fix; the healthy replay was not interrupted.
 
 ## 4. Installer, updates and production release
 
@@ -89,7 +89,7 @@ Updated **6 October 2026**. This is the active task list. Detailed implementatio
 - [ ] Add trusted code signing when available; unsigned installers may still trigger SmartScreen.
 - [ ] Meet the production specification's acceptance gates before publishing **v1.0.0**. Preview releases are not production readiness.
 
-**Latest published:** [Preview 82](https://github.com/Klaasawastaken/BloonsPlus/releases/tag/v0.1.0-preview.82), installer 245,318,358 bytes. 134 focused checks and 23 packaged-source comparisons passed; publication guard reported zero findings. This does not establish clean-machine installation or winning routes.
+**Latest published:** [Preview 83](https://github.com/Klaasawastaken/BloonsPlus/releases/tag/v0.1.0-preview.83), installer 245,319,496 bytes. The manual-flow batch passed 134 focused Python checks, candidate-selection/coverage regressions and 24 packaged-source comparisons; publication guard reported zero findings. This does not establish clean-machine installation or winning routes.
 
 ## 5. App usability and repository cleanup
 
@@ -124,6 +124,7 @@ Requested **6 October**. Start after current replay/control work and VM recovery
 - [x] Atomic installer/download handling and bounded SSH commands with diagnostics.
 - [x] Official-art README banner, monthly/annual plan selector and latest-release download lookup.
 - [x] Source import/control groundwork described in section 1; original recordings preserved.
-- [x] Preview 81 deployed while idle; Preview 82 published with eight separate manual-flow candidates and package/privacy checks.
+- [x] Preview 83 deployed between replays, including eight separate manual-flow candidates and the schedule-reuse guard.
+- [x] High Finance Reverse earned on 6 October: victory at round 60 plus authoritative saved medal. Never repeat the owned medal.
 
 For exact checks, release history, confirmed medals and limitations, see the [evidence archive](history/roadmap-2026-10-06.md). Archive checkboxes and deployment notes are historical; use this list to choose the next task.
