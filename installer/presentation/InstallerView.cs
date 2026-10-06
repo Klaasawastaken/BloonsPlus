@@ -17,6 +17,7 @@ internal sealed class InstallerStatusLabel : Label {
 
 internal sealed class InstallerView : UserControl {
     private readonly Label heading = new Label(), caption = new Label();
+    private readonly Label footerNote = Copy("Internet needed for downloads. Sign in directly through Steam.",8,false);
     private readonly InstallerStatusLabel status = new InstallerStatusLabel();
     private readonly Button primary = new Button(), secondary = new Button();
     private readonly LinkLabel optionsLink = new LinkLabel(), detailsLink = new LinkLabel();
@@ -51,7 +52,7 @@ internal sealed class InstallerView : UserControl {
         var layout = new TableLayoutPanel { Dock=DockStyle.Fill,ColumnCount=1,RowCount=3 };
         layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent,100));
         layout.RowStyles.Add(new RowStyle(SizeType.AutoSize)); layout.RowStyles.Add(new RowStyle(SizeType.Percent,100));
-        layout.RowStyles.Add(new RowStyle(SizeType.Absolute,94)); Controls.Add(layout);
+        layout.RowStyles.Add(new RowStyle(SizeType.AutoSize)); Controls.Add(layout);
         var header = new TableLayoutPanel { Dock=DockStyle.Top,AutoSize=true,ColumnCount=2,Margin=new Padding(0,0,0,22) };
         header.ColumnStyles.Add(new ColumnStyle(SizeType.Percent,100)); header.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute,64));
         var copy = Column(); copy.Dock=DockStyle.Fill;
@@ -90,13 +91,13 @@ internal sealed class InstallerView : UserControl {
         copyDetails.Click+=delegate {try {Clipboard.SetText(SharedDetails());} catch {caption.Text="Clipboard unavailable. Export details instead.";}};
         export.Click+=delegate {try {using(var picker=new SaveFileDialog()) {picker.FileName="BloonsPlus-setup-details.txt";picker.Filter="Text file (*.txt)|*.txt";if(picker.ShowDialog(FindForm())==DialogResult.OK)System.IO.File.WriteAllText(picker.FileName,SharedDetails());}} catch {caption.Text="Export failed. Choose a writable folder and try again.";}};
         detailActions.Controls.Add(copyDetails);detailActions.Controls.Add(export);detailsPanel.Controls.Add(detailActions);detailsPanel.Visible=false;content.Controls.Add(detailsPanel);
-        var footer=new TableLayoutPanel {Dock=DockStyle.Fill,ColumnCount=2,RowCount=2,Margin=new Padding(0,18,0,0)};
+        var footer=new TableLayoutPanel {Dock=DockStyle.Fill,AutoSize=true,AutoSizeMode=AutoSizeMode.GrowAndShrink,ColumnCount=2,RowCount=2,Margin=new Padding(0,18,0,0)};
         footer.ColumnStyles.Add(new ColumnStyle(SizeType.Percent,42));footer.ColumnStyles.Add(new ColumnStyle(SizeType.Percent,58));
-        footer.RowStyles.Add(new RowStyle(SizeType.Absolute,46));footer.RowStyles.Add(new RowStyle(SizeType.Percent,100));
-        ConfigureButton(primary);ConfigureButton(secondary);primary.Dock=secondary.Dock=DockStyle.Fill;
+        footer.RowStyles.Add(new RowStyle(SizeType.AutoSize));footer.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+        ConfigureButton(primary);ConfigureButton(secondary);primary.AutoSize=secondary.AutoSize=true;primary.Dock=secondary.Dock=DockStyle.Fill;
         primary.Click+=delegate {Emit(state.PrimaryAction);};secondary.Click+=delegate {if(state.SecondaryAction=="options")ToggleOptions();else if(state.SecondaryAction=="details")ToggleDetails();else Emit(state.SecondaryAction);};
         footer.Controls.Add(secondary,0,0);footer.Controls.Add(primary,1,0);
-        var note=Copy("Internet needed for downloads. Sign in directly through Steam.",8,false);note.Margin=new Padding(0,10,0,0);footer.Controls.Add(note,0,1);footer.SetColumnSpan(note,2);layout.Controls.Add(footer,0,2);
+        footerNote.Margin=new Padding(0,10,0,0);footer.Controls.Add(footerNote,0,1);footer.SetColumnSpan(footerNote,2);layout.Controls.Add(footer,0,2);
         primary.TabIndex=0;secondary.TabIndex=1;optionsLink.TabIndex=2;detailsLink.TabIndex=3;
         status.AccessibleName="Setup status";progress.AccessibleName="Current step progress";
         location.AccessibleName="Installation folder";iso.AccessibleName="Existing Windows 11 ISO";details.AccessibleName="Recent setup details";
@@ -138,6 +139,7 @@ internal sealed class InstallerView : UserControl {
     private void ResizeContent() {
         int width=Math.Max(260,body.ClientSize.Width-SystemInformation.VerticalScrollBarWidth-4);
         foreach(var label in new[]{heading,status,caption})label.MaximumSize=new Size(width,0);
+        footerNote.MaximumSize=new Size(Math.Max(1,ClientSize.Width-Padding.Horizontal),0);
         progress.Width=location.Width=iso.Width=details.Width=width;
         foreach(Control container in new[]{optionsPanel,detailsPanel})foreach(Control child in container.Controls)if(child is Label)child.MaximumSize=new Size(width,0);
         content.PerformLayout();

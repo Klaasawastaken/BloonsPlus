@@ -1,3 +1,18 @@
+## Preview 99 installer text scaling hotfix — 7 October 2026
+
+### Additions
+
+- Add actual native text-layout checks across both themes, four text sizes, default/minimum windows and six setup states.
+
+### Changes
+
+- Size the footer and action buttons to their content and wrap the installation note within the window.
+- Verify 397 Python tests and 64 approved JavaScript check files. Actual Windows DPI/text scaling, screen-reader and clean-machine acceptance remain open.
+
+### Removed
+
+- Remove fixed footer heights that clipped enlarged text.
+
 ## Preview 99 installer accessibility hotfix — 7 October 2026
 
 ### Additions

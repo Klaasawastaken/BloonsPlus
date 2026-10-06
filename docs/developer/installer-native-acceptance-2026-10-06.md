@@ -107,7 +107,22 @@ alongside all 64 approved JavaScript check files. These prove the native control
 contract, not physical screen-reader speech, announcement priority, Windows DPI,
 or weak-hardware performance. Those production gates remain open.
 
-### Outstanding environment and recovery checks
+### Text-only scaling follow-up — 7 October
+
+The approved native acceptance work reproduced clipped footer text at 125%
+text scaling and an undersized action button at 150%. A new test exercises the
+actual native view while enlarging its fonts without enlarging the window.
+The footer now uses its content's preferred height, its note wraps within the
+window, and the action buttons size to their labels.
+
+Checks pass for both themes, default and minimum window sizes, six setup states
+and 100%, 125%, 150% and 200% text scaling. They compare visible text controls'
+preferred heights with their actual bounds and verify primary-action containment.
+Rendered native frames retain the official Engineer art. These are isolated
+font-scaling fixtures, not proof of Windows text-scale settings, per-monitor
+DPI changes, physical screen-reader behavior or every scroll interaction.
+
+### Remaining recovery checks
 
 After the approved checkpoint repair, repeat these checks and add deterministic
 bounded-retry and persistent-error coverage before changing product code.
