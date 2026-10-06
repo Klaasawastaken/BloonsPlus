@@ -730,7 +730,10 @@ guards and Geared/Sanctuary movement flags remain intact. The full 387 Python
 checks and 63 JavaScript check files pass; two isolated Electron checks needed
 sandbox escalation. A scoped independent review found no material issue.
 Successful live Dart placement at a nearby point remains unverified. Deployment
-waits for the current healthy Chutes Hard replay to finish.
+completed only after the healthy Chutes Hard replay finished: eleven guest file
+hashes match the published payload, and installed/running versions both report
+`0.1.6-preview.99`. The missing-medal sweep resumed on Quiet Street Magic Monkeys
+Only after fresh setup, idle and game-readiness checks.
 
 Chutes Hard subsequently reached `VICTORY_CONFIRMED` at round 80. Its saved
 Hard/Standard value changed from 816 to 1,049,864, and stop-after-replay saved the
