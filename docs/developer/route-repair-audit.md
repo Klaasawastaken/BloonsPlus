@@ -407,3 +407,19 @@ recognition, source-equivalent timing under every frame rate, or strategy victor
 R-01 remains open for source-command coverage; R-11 retains live timing evidence
 from missing-medal gameplay only. No existing route or original CHIMPS recording
 was modified by this audit.
+
+### Selector and targeted-special checks
+
+Four checks in `tests/test_selection_positions.py` and three in
+`tests/test_targeted_special.py` also passed on 6 October. They verify persistent
+source selection coordinates, invalid-coordinate rejection, full parser scaling
+and recording round trips, resume/ledger selection positions, distinct special
+targets, simulated key-then-target order and continued exclusion of unsupported
+second-special commands. Temporary parser fixtures are isolated; no gameplay
+input or original recording is changed.
+
+This confirms existing support rather than completing every source dialect.
+BloonsPlayer positional priority and non-Mortar positional targeting still carry
+lossy markers; the separate EverythingMacro adapter rejects several coordinate
+targeting actions. Ace centering and source-specific action semantics therefore
+remain part of R-01's audit instead of being marked globally supported.
