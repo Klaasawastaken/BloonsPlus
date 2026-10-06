@@ -11,6 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'autobtd6'))
 from route_timing import round_start_ready
 from resume_recovery import restore_action
+from autostart_control import parse_autostart_command
 from game_runtime import normalize_action, GameState
 
 class RoundStartTests(unittest.TestCase):
@@ -58,7 +59,7 @@ class RoundStartTests(unittest.TestCase):
         text = (ROOT / 'autobtd6/helper.py').read_text()
         a = text.index('    for line in configLines:')
         b = text.index('        roundOffset =', a)
-        ctx = dict(re=re, configLines=['start round fast','start round slow'], newMapConfig={'steps':[]}, keybinds={'others':{'play':'Space'}})
+        ctx = dict(re=re,parse_autostart_command=parse_autostart_command, configLines=['start round fast','start round slow'], newMapConfig={'steps':[]}, keybinds={'others':{'play':'Space'}})
         exec('if True:\n'+text[a:b], ctx)
         for step in ctx['newMapConfig']['steps']: self.assertEqual(normalize_action(step)['action'], 'start_round')
         ctx['keybinds']['others']['round_start'] = None

@@ -5,6 +5,7 @@ from unittest.mock import patch
 from contextlib import redirect_stdout
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'autobtd6'))
+from autostart_control import parse_autostart_command
 from game_runtime import normalize_action, GameState
 spec=importlib.util.spec_from_file_location('cursor_import',ROOT/'tools/import-public-routes.py')
 converter=importlib.util.module_from_spec(spec);spec.loader.exec_module(converter)
@@ -21,7 +22,7 @@ class CursorCommands(unittest.TestCase):
     def test_parser_recorder_and_position_contract(self):
         source=(ROOT/'autobtd6/helper.py').read_text()
         start=source.index('    for line in configLines:');end=source.index("        if line == 'change speed':",start)
-        ctx=dict(re=re,configLines=['move cursor to 960, 270'],newMapConfig={'steps':[]})
+        ctx=dict(re=re,parse_autostart_command=parse_autostart_command,configLines=['move cursor to 960, 270'],newMapConfig={'steps':[]})
         exec('if True:\n'+source[start:end],ctx)
         action=normalize_action(ctx['newMapConfig']['steps'][0]);self.assertEqual(action['pos'],(960,270))
         start=source.index('        elif action["action"] == "move_cursor":');end=source.index('        elif action["action"] == "click":',start)
@@ -42,7 +43,11 @@ class CursorCommands(unittest.TestCase):
             output=Path(folder);original=output/'original.btd6';original.write_text('original')
             with patch.object(converter,'PT',output),patch.object(converter,'validate',return_value={}),redirect_stdout(io.StringIO()):
                 converter.emit_cursor_candidates();before={p.name:p.read_bytes() for p in output.glob('*.btd6')}
-                self.assertEqual(len(before),2)
+                self.assertEqual(set(before), {
+                    'original.btd6',
+                    'ouch#alternate_bloons_rounds#1920x1080#converted#source_btd6bot#cursor-preserved.btd6',
+                    'party_parade#hard#1920x1080#converted#source_btd6bot#cursor-preserved.btd6',
+                })
                 converter.emit_cursor_candidates();self.assertEqual(before,{p.name:p.read_bytes() for p in output.glob('*.btd6')})
                 candidate=next(output.glob('*#cursor-preserved.btd6'));candidate.write_text('user edit')
                 with self.assertRaisesRegex(RuntimeError,'Refusing to overwrite'):converter.emit_cursor_candidates()

@@ -1,3 +1,4 @@
+from autostart_control import parse_autostart_command, serialize_autostart_command
 import datetime
 import keyboard
 import cv2
@@ -309,6 +310,8 @@ def writeBTD6InstructionsFile(
             fp.write(("stop all abilities" if action.get("slot") is None else "stop ability " + str(action["slot"])) + "\n")
         elif action["action"] == "await_delay":
             fp.write("wait " + str(action["seconds"]) + " seconds\n")
+        elif action["action"] == "set_autostart":
+            fp.write(serialize_autostart_command(action) + "\n")
         elif action["action"] == "start_round":
             fp.write("start round " + action['speed'] + "\n")
         elif action["action"] == "speed_toggle":
@@ -401,6 +404,10 @@ def parseBTD6InstructionsFile(
         newMapConfig["extrainstructions"] = 1
 
     for line in configLines:
+        autoStart = parse_autostart_command(line)
+        if autoStart is not None:
+            newMapConfig['steps'].append(autoStart)
+            continue
         cursorMove = re.fullmatch(r"move cursor to (?P<x>\d+), (?P<y>\d+)", line)
         if cursorMove:
             newMapConfig['steps'].append({'action': 'move_cursor',

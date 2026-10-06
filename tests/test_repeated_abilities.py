@@ -10,6 +10,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'autobtd6'))
 from route_timing import RepeatedAbilities
+from autostart_control import parse_autostart_command
 from game_runtime import normalize_action
 
 
@@ -78,7 +79,7 @@ class RepeatTests(unittest.TestCase):
         helper = (ROOT / 'autobtd6/helper.py').read_text(encoding='utf-8')
         start = helper.index('    for line in configLines:')
         code = helper[start:helper.index('        ability = re.search(', start)]
-        context = dict(re=re, configLines=['repeat ability 10', 'stop ability 10', 'stop all abilities'],
+        context = dict(re=re,parse_autostart_command=parse_autostart_command, configLines=['repeat ability 10', 'stop ability 10', 'stop all abilities'],
                        newMapConfig={'steps': []}, keybinds={'abilities':{10:'F10'}})
         exec('if True:\n' + code, context)
         steps = context['newMapConfig']['steps']

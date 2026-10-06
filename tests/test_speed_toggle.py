@@ -8,6 +8,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'autobtd6'))
 from route_timing import round_start_ready
 from resume_recovery import restore_action, resumable_round_start
+from autostart_control import parse_autostart_command
 from game_runtime import normalize_action, GameState
 
 
@@ -62,7 +63,7 @@ class RelativeSpeed(unittest.TestCase):
         source=(ROOT/'autobtd6/helper.py').read_text()
         start=source.index('    for line in configLines:')
         end=source.index('        roundOffset =',start)
-        ctx=dict(re=re,configLines=['change speed'],newMapConfig={'steps':[]},keybinds={'others':{'play':'F8'}})
+        ctx=dict(re=re,parse_autostart_command=parse_autostart_command,configLines=['change speed'],newMapConfig={'steps':[]},keybinds={'others':{'play':'F8'}})
         exec('if True:\n'+source[start:end],ctx)
         self.assertEqual(normalize_action(ctx['newMapConfig']['steps'][0])['action'],'speed_toggle')
         start=source.index('        elif action["action"] == "speed_toggle":')

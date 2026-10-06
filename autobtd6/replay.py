@@ -7,6 +7,7 @@ import hashlib
 import json
 import tempfile
 import threading
+import uuid
 import time
 from copy import deepcopy
 from game_runtime import GameState, normalize_action
@@ -18,6 +19,7 @@ from route_timing import delay_ready, round_offset_ready, ability_ready, issue_a
 from purchase_pacing import affordable_upgrade_batch, purchase_pacing_ready
 from targeted_special import perform_targeted_special
 from autostart_observation import observe_autostart
+from autostart_control import pending_autostart_step, drive_autostart, resume_autostart_intent
 from map_availability import predicted_thaw_round
 from resume_recovery import restore_upgrade_steps, probe_owned_upgrade, resumable_round_start
 
@@ -1255,6 +1257,7 @@ def main():
     isContinue = False
     isResume = False
     routeCheckpoint = None
+    autostartSession = uuid.uuid4().hex
     routeStepTotal = 0
     repeatObjectives = False
     doAllStepsBeforeStart = False
@@ -1445,6 +1448,7 @@ def main():
                 customPrint('resume refused: invalid checkpoint step')
                 return 2
             try:
+                mapConfig['resumeAutostartCheck'] = resume_autostart_intent(mapConfig['steps'], routeCheckpoint)
                 mapConfig['steps'] = restore_upgrade_steps(mapConfig['steps'], routeCheckpoint)
                 mapConfig['roundStartCompleted'] = routeCheckpoint.get('roundStartCompleted') is True
             except ValueError as error:
@@ -2145,6 +2149,18 @@ def main():
         segmentCoordinates = getIngameOcrSegments(mapConfig)
         resumeImage = np.array(pyautogui.screenshot())[:, :, ::-1].copy()
         resumeScreen = recognizeScreen(resumeImage, comparisonImages)
+        # A process may have stopped while its absolute Auto Start operation
+        # owned the pause menu. Close only a visually confirmed full menu, then
+        # validate the actual playfield/round and reobserve the setting later.
+        resumeAutoStep = pending_autostart_step(mapConfig)
+        if resumeAutoStep is not None and resumeScreen == Screen.INGAME_PAUSED:
+            resumePause = observe_autostart(resumeImage, comparisonImages['screens']['ingame_paused'])
+            if resumePause.get('pauseConfirmed') is True and windowed_input.is_game_foreground():
+                customPrint('AUTOSTART resume closing confirmed menu before playfield verification')
+                sendKey('{Esc}')
+                time.sleep(1.0)
+                resumeImage = np.array(pyautogui.screenshot())[:, :, ::-1].copy()
+                resumeScreen = recognizeScreen(resumeImage, comparisonImages)
         if resumeScreen != Screen.INGAME:
             customPrint('resume refused: BTD6 is not on the in-game screen (' + resumeScreen.name + ')')
             return 2
@@ -2790,6 +2806,31 @@ def main():
                 state = State.GOTO_HOME
                 lastStateTransitionSuccessful = False
         elif state == State.INGAME:
+            # The setting controller owns an entire fresh frame. Start it only
+            # after normal OCR has supplied a resumable round and prior purchase
+            # confirmation has released its input slot. Otherwise the ordinary
+            # loop may reconcile that purchase, but cannot consume this command.
+            autoStep = pending_autostart_step(mapConfig)
+            autoInputFree = not (lastIterationAction and lastIterationAction.get('action') in ('place', 'upgrade'))
+            autoRoundKnown = (routeCheckpoint is None or (type(routeCheckpoint.get('round')) is int
+                                                        and routeCheckpoint['round'] > 0))
+            if autoStep is not None and autoInputFree and autoRoundKnown and screen in (Screen.INGAME, Screen.INGAME_PAUSED):
+                autoObservation = (observe_autostart(screenshot, comparisonImages['screens']['ingame_paused'])
+                                   if screen == Screen.INGAME_PAUSED else None)
+                autoScreen = ('ingame' if screen == Screen.INGAME else 'pause_menu'
+                              if autoObservation.get('pauseConfirmed') is True else 'unknown')
+                def persistAutostart():
+                    if routeCheckpoint is None:
+                        return True
+                    routeCheckpoint.update(status='ready', pendingAction=None,
+                                           nextStep=checkpointStepOffset(mapConfig['steps'], routeStepTotal))
+                    return writeRouteCheckpoint(routeCheckpoint, mapConfig['steps'])
+                drive_autostart(mapConfig, time.time(), autoScreen, autoObservation,
+                                windowed_input.is_game_foreground(), autostartSession,
+                                sendKey, pyautogui.click, persistAutostart, customPrint)
+                lastScreen, lastState = screen, state
+                time.sleep(1.0)
+                continue
             if screen == Screen.INGAME_PAUSED:
                 # Tiny template patches can classify a live frame as paused. A
                 # single false match followed by Esc creates the pause/nudge
@@ -3509,6 +3550,10 @@ def main():
                                       and round_offset_ready(nextStep, time.time(), observedRound, observedRoundStartedAt)
                                       and ability_ready(nextStep, time.time(), observedRoundStartedAt)
                                       and upgrade_ready(nextStep, currentValues.get('round')))
+                # Auto Start is handled by the input-owning menu controller,
+                # never the generic zero-cost action path.
+                if nextStepAction == 'set_autostart':
+                    nextStepDelayReady = False
                 roundStartInputIssued = False
                 if nextStepAction in ('start_round', 'speed_toggle') and nextStepDelayReady:
                     startState, startDiff = None, None
@@ -4010,7 +4055,8 @@ def main():
                 # fresh frame confirm it before automatic Play/Fast Forward input.
                 if (not skippingIteration and not placementRetryPending and not startupRoundStartPending and not roundStartInputIssued
                     and not (routeActionExecuted or heldPlacement or playToggleIssued)
-                    and nextStepAction not in ('start_round', 'speed_toggle')
+                    and nextStepAction not in ('set_autostart', 'start_round', 'speed_toggle')
+                    and (mapConfig.get('autostartEnabled') is not False or not mapConfig['steps'])
                     and ((not doAllStepsBeforeStart and mapConfig['gamemode'] != 'deflation'
                           and (waitingForLaterRound or getNextCostingAction(mapConfig['steps'])['cost'] > min(currentValues['money'], lastIterationBalance - lastIterationCost)))
                          or len(mapConfig['steps']) == 0)):

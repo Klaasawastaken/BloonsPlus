@@ -437,3 +437,11 @@
 - Checked JavaScript syntax, local links and loaded artwork; browser-checked Docs and wiki.
 
 These changes do not certify route victories or clean-PC installer compatibility.
+## Preview 78 — Auto Start recovery and Settings cleanup
+
+- Wire absolute Auto Start commands into replay parsing, recording, input ownership and checkpoint recovery.
+- Confirm the observed setting and close the menu before completing a command; preserve it when a checkpoint save fails.
+- Recheck consumed Auto Start intent after resume and prevent automatic round control from competing with explicit manual settings.
+- Validate resumed round counters against the selected mode's total.
+- Simplify Settings maintenance controls and explain updates from the main PC to the VM.
+- Keep incomplete source manual-round conversions excluded and original recordings unchanged.

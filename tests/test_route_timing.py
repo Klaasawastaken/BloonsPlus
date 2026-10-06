@@ -8,6 +8,7 @@ import textwrap
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'autobtd6'))
 from route_timing import delay_ready, round_offset_ready, ability_ready, issue_ability
 from resume_recovery import restore_action
+from autostart_control import parse_autostart_command
 from game_runtime import normalize_action
 
 
@@ -129,7 +130,7 @@ class RouteTimingTests(unittest.TestCase):
         helper = (Path(__file__).resolve().parents[1] / 'autobtd6/helper.py').read_text(encoding='utf-8')
         start = helper.index('    for line in configLines:')
         code = helper[start:helper.index('        ability = re.search(', start)]
-        context = dict(re=re, configLines=['round 20 after 5.5 seconds'], newMapConfig={'steps': []})
+        context = dict(re=re,parse_autostart_command=parse_autostart_command, configLines=['round 20 after 5.5 seconds'], newMapConfig={'steps': []})
         exec('if True:\n' + code, context)
         self.assertEqual(context['newMapConfig']['steps'], [dict(action='await_round', round=20, secondsAfterRound=5.5, cost=0)])
 
@@ -157,7 +158,7 @@ class RouteTimingTests(unittest.TestCase):
         helper = (Path(__file__).resolve().parents[1] / 'autobtd6/helper.py').read_text(encoding='utf-8')
         start = helper.index('    for line in configLines:')
         code = helper[start:helper.index('        ability = re.search(', start)]
-        context = dict(re=re, configLines=['wait 1.5 seconds'], newMapConfig={'steps': []})
+        context = dict(re=re,parse_autostart_command=parse_autostart_command, configLines=['wait 1.5 seconds'], newMapConfig={'steps': []})
         exec('if True:\n' + code, context)
         action = context['newMapConfig']['steps'][0]
         self.assertEqual(action, dict(action='await_delay', seconds=1.5, cost=0))

@@ -1,7 +1,6 @@
 """Observed, serialized Auto Start input; caller retains the step until ready.
 
-This controller is not yet wired into route admission. It owns only the pause
-menu switch sequence, never tower inputs or round advancement.
+This controller owns only the pause-menu switch sequence, never tower inputs or round advancement.
 """
 from copy import deepcopy
 from math import isfinite
@@ -85,7 +84,7 @@ def autostart_ready(step, now, screen, observation, input_free, session_id,
 
 
 def parse_autostart_command(line):
-    """Draft route grammar; runtime admission remains gated until integration."""
+    """Parse an absolute route command, rejecting malformed reserved syntax."""
     if line in ('autostart on', 'autostart off'):
         return {'action': 'set_autostart', 'enabled': line == 'autostart on', 'cost': 0}
     if isinstance(line, str) and line.split(' ', 1)[0] == 'autostart':
@@ -134,3 +133,50 @@ def restore_autostart_pending(source, saved):
             raise ValueError('Invalid saved Auto Start phase')
         restored['autostartPending'] = {key: pending[key] for key in ('phase', 'sentAt', 'session')}
     return restored
+
+
+def pending_autostart_step(config):
+    recheck = config.get('resumeAutostartCheck')
+    if recheck is not None:
+        return recheck
+    steps = config.get('steps', [])
+    return steps[0] if steps and steps[0].get('action') == 'set_autostart' else None
+
+
+def drive_autostart(config, now, screen, observation, input_free, session_id,
+                    press, click, persist=lambda: True, report=lambda message: None):
+    """Own this frame; dequeue only after observed closing and a saved commit.
+
+    Resume rechecking stays outside the recorded queue, retaining its indices.
+    Caller must defer competing inputs for every owned frame, including frames
+    awaiting confirmation and checkpoint retries.
+    """
+    step = pending_autostart_step(config)
+    if step is None:
+        return False, False
+    ready, issued = autostart_ready(step, now, screen, observation, input_free,
+                                    session_id, press, click, persist, report)
+    if not ready:
+        return True, issued
+    recheck = config.get('resumeAutostartCheck') is not None
+    old_present = 'autostartEnabled' in config
+    old_enabled = config.get('autostartEnabled')
+    config['autostartEnabled'] = step['enabled']
+    if recheck:
+        config.pop('resumeAutostartCheck')
+    else:
+        config['steps'].pop(0)
+    if persist() is not True:
+        if recheck:
+            config['resumeAutostartCheck'] = step
+        else:
+            config['steps'].insert(0, step)
+        if old_present:
+            config['autostartEnabled'] = old_enabled
+        else:
+            config.pop('autostartEnabled', None)
+        report('AUTOSTART completion checkpoint not saved; retaining setting intent')
+        return True, False
+    report('AUTOSTART confirmed and closed enabled=' + str(step['enabled'])
+           + (' resume-recheck' if recheck else ' route-step'))
+    return True, False
