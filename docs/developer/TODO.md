@@ -5,10 +5,10 @@ Updated **6 October 2026**. This is the readable, active task list. Technical no
 ## At a glance
 
 - **Current priority:** installer/setup, app polish, folders and the website alongside missing-medal gameplay.
-- **Sweep:** running in the VM. Dark Castle Military Monkeys Only was confirmed by victory and the saved medal; Underground CHIMPS is the current missing-medal replay. The previous Bloody Puddles interruption remains under investigation.
+- **Sweep:** running in the VM. Dark Castle Military Monkeys Only and Underground CHIMPS were confirmed by victory and saved medals. The user restarted the sweep; Off the Coast Military Monkeys Only is the current replay. The previous Bloody Puddles interruption remains under investigation.
 - **Development alongside gameplay:** installer/setup polish, app polish, folder organization and website redesign. Check the sweep every five minutes and diagnose meaningful failures.
 - **Background work:** improve routes and placement from missing-medal gameplay evidence; retain failures and skip owned medals.
-- **Latest release:** Preview 88 is published with correct developer VM installer selection and healthy Python reuse before package-install disk-space checks. The VM retains Preview 86's round-boundary fix. Live cash-recovery evidence remains open.
+- **Latest release:** Preview 89 is published with explicit VM setup states, validated step advancement and verified update reconnection. The healthy VM replay retains its existing runtime; this batch was not deployed mid-run. Live cash-recovery evidence remains open.
 
 ## Work order
 
@@ -122,7 +122,7 @@ The sweep earns missing medals alongside development. Deploy changes together af
 - [ ] **I-05 — Add trusted code signing when available.** Unsigned installers may still trigger SmartScreen.
 - [ ] **I-06 — Meet production acceptance gates.** Complete the specification before publishing **v1.0.0**; previews do not establish production readiness.
 
-**Latest published:** [Preview 88](https://github.com/Klaasawastaken/BloonsPlus/releases/tag/v0.1.0-preview.88), installer 246,302,496 bytes. Verified 301 Python checks, ten setup-transport checks, 49 JavaScript check files and 29 packaged-source comparisons; publication guard reported zero findings. Dark Castle Military Monkeys Only was confirmed by victory and its saved medal; the sweep moved on to Underground CHIMPS. Clean-machine installation and live recovery evidence remain open.
+**Latest published:** [Preview 89](https://github.com/Klaasawastaken/BloonsPlus/releases/tag/v0.1.0-preview.89), installer 246,305,639 bytes. Verified 301 Python checks, ten setup-transport checks, 50 JavaScript check files and 29 packaged-source comparisons; publication guard reported zero findings. Dark Castle Military Monkeys Only and Underground CHIMPS were confirmed by victory and saved medals. Clean-machine installation and live recovery evidence remain open.
 
 ## 5. App polish and files
 
@@ -164,6 +164,7 @@ Start after core reliability. These are future work, not completed features.
 - [x] Preview 83 deployed between replays, including eight separate manual-flow candidates and the schedule-reuse guard.
 - [x] Preview 82's waiting deployment stopped before installation so the schedule fix could join Preview 83. The healthy replay continued.
 - [x] High Finance Reverse earned on 6 October: victory at round 60 plus authoritative saved medal. Never repeat the owned medal.
+- [x] Underground CHIMPS earned on 6 October: victory plus authoritative saved medal. Never repeat the owned medal.
 - [x] Preview 84 recovered the stalled Bloody Puddles Play receipt without restarting the map or sending an extra Play input. The run continues toward its missing Impoppable medal.
 
 For exact checks, release history, confirmed medals and limitations, see the [evidence archive](history/roadmap-2026-10-06.md). Archive checkboxes and deployment notes are historical; use this list to choose the next task.
