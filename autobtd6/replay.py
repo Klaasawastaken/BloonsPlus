@@ -4234,9 +4234,14 @@ def main():
                     wantsToggle = ((gameState == 'game_playing_fast' and not fast)
                                    or (gameState == 'game_playing_slow' and fast)
                                    or gameState == 'game_paused')
-                    if wantsToggle and bestMatchDiff < 0.05 and time.time() - lastPlayToggleAt > 3:
+                    playKey = keybinds['others'].get('play')
+                    if wantsToggle and playKey is None:
+                        if time.time() - lastPlayToggleAt > 3:
+                            customPrint('WARNING automatic play toggle unavailable: saved PlayFastForward key is unbound or unsupported')
+                            lastPlayToggleAt = time.time()
+                    elif wantsToggle and bestMatchDiff < 0.05 and time.time() - lastPlayToggleAt > 3:
                         customPrint('DEBUG play toggle state=' + gameState + ' diff=' + str(round(float(bestMatchDiff), 4)) + ' fast=' + str(fast))
-                        sendKey(keybinds['others']['play'])
+                        sendKey(playKey)
                         lastPlayToggleAt = time.time()
                         playToggleIssued = True
                     elif wantsToggle:

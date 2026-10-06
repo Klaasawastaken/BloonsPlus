@@ -62,6 +62,12 @@ latest-download evidence; the observations above record earlier releases.
 
 ## Open readability defect
 
+After Preview 98 publication, the deployed HTTPS Download page resolved both
+installer and release-note links to **v0.1.0-preview.98**. Its rendered label
+and **235.4 MB** size matched the published 246,861,800-byte installer. This is
+the current download evidence; previous observations remain historical. This
+read-only browser check did not execute the installer.
+
 The rendered light theme uses `--muted: #708177` for secondary text, including
 11–17 pixel paragraphs and billing notes. Its contrast is **3.79:1** against
 the `#f5f6f1` page background and **4.12:1** against white. Both combinations

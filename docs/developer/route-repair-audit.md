@@ -499,3 +499,26 @@ the existing technical retry bound remains two. The actual sweep branch passes
 regression checks for gameplay losses, uncertain evidence, corruption, unresolved
 upgrades and bounded placement/OCR retries. This repair does not establish the
 strategy's winning reliability, and the healthy ongoing replay is left untouched.
+
+### Unbound Play alias — 6 October
+
+The save-binding adapter assigned `round_start = None` for an unbound or
+unsupported PlayFastForward binding, but retained the default `play = Space`.
+Automatic speed/start input and manual income recovery use the latter alias,
+so they could send a key the account had explicitly unbound. After clearing the
+alias, the automatic branch also needed to reject `None` rather than pass it to
+the keyboard sender.
+
+Both aliases now follow the same decoded binding. The automatic branch preserves
+bound-key behavior and reports a missing binding at most once every three seconds.
+An absent gameplay section retains the known prior binding; an explicit section
+with a missing or invalid Play entry does not invent one. The app's existing
+hotkey report remains the place to resolve unsupported bindings. No game setting
+or save is changed automatically.
+
+Three focused checks execute the actual binding functions and automatic input
+branch. They failed for the retained Space key and attempted `None` input before
+the repair, then passed. Seven source-start and seven manual-cash checks also
+pass, as does the complete 353-check Python suite. This establishes the input
+contract offline; it does not prove an account with no Play binding can finish
+a route. The healthy guest replay is not interrupted to deploy the change.

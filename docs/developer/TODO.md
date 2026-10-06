@@ -74,6 +74,7 @@ The sweep earns missing medals alongside development. Deploy changes together af
 - [ ] **R-09 — Recover pending upgrades after resume.** Use remaining-action snapshots and ownership probes without buying the wrong tier. Live restart evidence remains open.
 - [ ] **R-10 — Handle freezing.** Check frozen-tower deferral and Glacial Trail timing before restoring excluded candidates.
 - [ ] **R-11 — Check abilities and targeting.** Observe timing and cursor targets during missing-medal gameplay; offline checks do not prove a win.
+  - Automatic round control now clears its default Play alias when the saved game binding is unbound or unsupported. Its actual input branch reports the missing binding without sending a guessed key or an invalid `None` value. Three focused regressions and the full 353-check Python suite pass. Live activation waits for the current replay boundary.
 
 ### HUD, recovery and failure evidence
 
@@ -170,7 +171,7 @@ The sweep earns missing medals alongside development. Deploy changes together af
 - [ ] **A-02 — Check the inline VM viewer.** Capture only while visible/focused, including browser cache restoration. Lifecycle checks exist; broader live performance remains open.
 - [ ] **A-03 — Finish accessibility checks.** Reduced motion and screen readers for Subscriptions, including price announcements.
   - Custom dropdowns now honor inherited fieldset disablement, native legend exceptions and options disabled while a menu is open. An isolated actual Electron renderer reproduces and checks the stale-row bug; physical screen-reader and broader keyboard acceptance remain open.
-- [ ] **A-04 — Organize folders.** Preserve runtime paths and exclude private/generated files.
+- [x] **A-04 — Organize folders.** The tracked root now has 11 files and 16 directories, with app modules, backend modules, tools, installer code and documentation grouped by purpose. Backend layout checks, packaged runtime comparisons and publication guards pass. Private/generated files and the pending route draft are excluded from publication. Recheck these guards after future moves.
 
 ### App startup and first launch — requested 6 October
 
@@ -190,7 +191,7 @@ Requested **6 October**. Work alongside background missing-medal gameplay after 
 - [x] **W-02 — Rebuild Features.** Four practical workflow groups and a compact progress section, using varied official monkeys. Desktop/dark/narrow browser checks pass without broken images or horizontal overflow.
 - [x] **W-03 — Streamline Home.** Three feature cards, clearer copy and corrected installation link. Retain the requested app-preview hero and floating card.
 - [ ] **W-04 — Check artwork and layout.** Preserve proportions, attribution, responsiveness and accessibility. No AI-generated images.
-  - [Browser/source evidence](website-acceptance-2026-10-06.md): 18 phone/tablet page checks, menu keyboard behavior, Wiki search/highlighting, annual pricing and all 26 HTML files' local targets passed. The latest deployed HTTPS download target is Preview 95. Light secondary-text contrast needs repair; broader keyboard, screen-reader and motion checks remain open.
+  - [Browser/source evidence](website-acceptance-2026-10-06.md): 18 phone/tablet page checks, menu keyboard behavior, Wiki search/highlighting, annual pricing and all 26 HTML files' local targets passed. The latest deployed HTTPS download target is Preview 98. Light secondary-text contrast needs repair; broader keyboard, screen-reader and motion checks remain open.
 
 ## 7. AI, bosses and Pro
 

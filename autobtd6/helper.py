@@ -1690,8 +1690,7 @@ def applyGameHotkeys(raw):
         keybinds['others']['sell'] = key(gameplay, 'Sell')
         play = key(gameplay, 'PlayFastForward')
         keybinds['others']['round_start'] = play
-        if play is not None:
-            keybinds['others']['play'] = play
+        keybinds['others']['play'] = play
         keybinds['abilities'] = {slot: key(gameplay, 'Activated Ability ' + str(slot)) for slot in range(1, 13)}
     return True
 
