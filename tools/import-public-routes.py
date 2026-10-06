@@ -355,34 +355,90 @@ def convert_btd6bot(path):
     module = ast.parse(source)
     play = next((n for n in module.body if isinstance(n, ast.FunctionDef) and n.name == "play"), None)
     loop = next((n for n in play.body if isinstance(n, ast.While)), None) if play else None
-    branches = [n for n in loop.body if isinstance(n, ast.If)] if loop else []
-    if not branches:
-        raise Unsupported("no round branches")
-    # A few plans use `if round == BEGIN` followed by a second, independent `if round == 7`
-    # chain. Reading only the first If silently produced tiny, incomplete routes. Walk each root
-    # chain in source order, while each chain still consumes its own elif nodes.
-    for root_branch in branches:
-        branch = root_branch
+    convert_btd6bot_loop(route, loop, begin, end)
+    return route
+
+
+def convert_btd6bot_loop(route, loop, begin, end):
+    """Interpret only the pinned source's bounded round loop, never execute it.
+
+    Each round evaluates independent root if chains in source order. An elif
+    chain chooses exactly one body; reassigning round affects subsequent root
+    chains and the next iteration, not the currently selected body's remainder.
+    HUD waits use the round_check entry value, never a reassigned loop variable.
+    Manual input/timing omissions remain tracked by btd6bot_statement.
+    """
+    if loop is None or ast.unparse(loop.test) != 'round < END + 1':
+        raise Unsupported('nonstandard round loop boundary')
+    if not loop.body or not isinstance(loop.body[0], ast.Assign):
+        raise Unsupported('round loop must begin with round_check')
+    check = loop.body[0]
+    if (len(check.targets) != 1 or not isinstance(check.targets[0], ast.Name)
+            or check.targets[0].id != 'round' or not isinstance(check.value, ast.Call)
+            or ast.unparse(check.value.func) != 'Rounds.round_check'
+            or check.value.keywords or len(check.value.args) not in (2, 3)
+            or ast.unparse(check.value.args[0]) != 'round'
+            or ast.unparse(check.value.args[1]) != 'map_start'
+            or len(check.value.args) == 3 and ast.unparse(check.value.args[2]) != 'data[2]'):
+        raise Unsupported('nonstandard round_check invocation')
+    roots = loop.body[1:]
+    if not roots or any(not isinstance(node, ast.If) for node in roots):
+        raise Unsupported('unsupported top-level round loop command')
+
+    def number(node):
+        if isinstance(node, ast.Name) and node.id in ('BEGIN', 'END'):
+            return begin if node.id == 'BEGIN' else end
+        value = literal(node)
+        if type(value) is not int or not begin <= value <= end:
+            raise Unsupported('round loop value outside selected mode')
+        return value
+
+    chains = []
+    for root in roots:
+        chain = []
+        branch = root
         while branch is not None:
             test = branch.test
-            if not (isinstance(test, ast.Compare) and isinstance(test.left, ast.Name) and test.left.id == "round"
-                    and len(test.ops) == 1 and isinstance(test.ops[0], ast.Eq)):
-                raise Unsupported("nonstandard round condition")
-            rhs = test.comparators[0]
-            if isinstance(rhs, ast.Name) and rhs.id == "BEGIN":
-                pass   # opening block: no round marker, so it runs at the start of any mode
-            else:
-                number = end if isinstance(rhs, ast.Name) and rhs.id == "END" else literal(rhs)
-                route.round(number)
-            for stmt in branch.body:
-                btd6bot_statement(route, stmt)
+            if (not isinstance(test, ast.Compare) or not isinstance(test.left, ast.Name)
+                    or test.left.id != 'round' or len(test.ops) != 1
+                    or not isinstance(test.ops[0], ast.Eq) or len(test.comparators) != 1):
+                raise Unsupported('nonstandard round condition')
+            chain.append((number(test.comparators[0]), branch.body))
             if not branch.orelse:
                 branch = None
             elif len(branch.orelse) == 1 and isinstance(branch.orelse[0], ast.If):
                 branch = branch.orelse[0]
             else:
-                raise Unsupported("nonstandard branch")
-    return route
+                raise Unsupported('nonstandard round branch fallback')
+        chains.append(chain)
+
+    route.source_loop_trace = []
+    current = begin - 1
+    visits = set()
+    while current < end:
+        current += 1  # Rounds.round_check's logical increment.
+        entry = current
+        if entry in visits:
+            raise Unsupported('round reassignment creates a repeated logical round')
+        visits.add(entry)
+        marked = False
+        for chain in chains:
+            body = next((body for target, body in chain if target == current), None)
+            if body is None:
+                continue
+            route.source_loop_trace.append((entry, current))
+            if not marked and entry != begin:
+                route.round(entry)
+            marked = True
+            for stmt in body:
+                if (isinstance(stmt, ast.Assign) and len(stmt.targets) == 1
+                        and isinstance(stmt.targets[0], ast.Name) and stmt.targets[0].id == 'round'):
+                    target = number(stmt.value)
+                    if target < current:
+                        raise Unsupported('round reassignment moves source loop backwards')
+                    current = target
+                else:
+                    btd6bot_statement(route, stmt)
 
 
 def btd6bot_statement(route, stmt):
@@ -393,8 +449,7 @@ def btd6bot_statement(route, stmt):
         return
     if isinstance(stmt, ast.Assign) and len(stmt.targets) == 1 and isinstance(stmt.targets[0], ast.Name):
         if stmt.targets[0].id == "round" and isinstance(stmt.value, (ast.Name, ast.Constant)):
-            route.harmless.add("round loop-control reassignment (ends the branch chain early)")
-            return
+            raise Unsupported("round reassignment requires the source loop interpreter")
         _, kind = call_parts(stmt.value)
         args = stmt.value.args
         if kind == "Hero" and len(args) >= 2:

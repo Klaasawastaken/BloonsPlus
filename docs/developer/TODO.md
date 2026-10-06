@@ -767,3 +767,11 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [ ] Finish pinned-source end_round/forward(2) timing and actual logical branch/skip semantics before emitting manual plans. Manual omissions remain excluded; no original recordings modified and no gameplay launched for validation.
 
 - [x] Package and publish Preview 80: installer 245294097 bytes; fourteen exact packaged-source comparisons pass and publication guard reports zero findings. Includes compact Settings and source logical-clock groundwork. Existing Preview 79 worker session 7688 still owns the pending boundary update; root payload left untouched while Underground Impoppable remains healthy (last read round 94). No new medal claimed.
+
+
+### Source loop traversal and completed medal — 6 October
+
+- [x] Replace file-order branch traversal with bounded chronological source-loop interpretation. Preserve independent root chains, first-match elif semantics, body commands after round reassignment and later-root checks against the new loop variable. Wait against the round_check entry value rather than a reassigned value; reject backward/out-of-mode/dynamic loop control and unsupported loop headers. Seven source-loop regressions pass. Compare all 115 pinned plans: 109 still convert, the same six reject; only Infernal Apopalypse reassignment classification and Peninsula CHIMPS unreachable duplicate-round branch differ. Peninsula's centering omission and all manual-flow exclusions remain. No recordings regenerated.
+- Confirmed Underground Impoppable at 09:02:07 on 6 October: VICTORY_CONFIRMED on VICTORY_SUMMARY plus controller clear confirmation; authoritative VM save Underground/Hard/Impoppable=1050185. Never repeat this earned medal. Preview 79 worker session 7688 completed successfully and confirmed the missing-medal sweep resumed.
+
+- [ ] Apply Preview 80 at a completed replay boundary: worker session 51509 launched and confirmed waiting; host setup was authoritatively idle before replacing the root payload. Root dist payload now belongs to this worker until terminal. Current gameplay left running, stop-after requested. Combined logical-loop/timing/resume/control suite: 111 passing checks.
