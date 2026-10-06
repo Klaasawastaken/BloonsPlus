@@ -1,3 +1,22 @@
+## Preview 98 — 6 October 2026
+
+### Additions
+
+- Preserve exact hero-picker failure frames, OCR inputs and freshness in local diagnostics.
+- Check disabled fieldsets and stale dropdown rows in an isolated actual renderer.
+
+### Changes
+
+- Keep opening strategy defeats consumed; reserve bounded retries for evidenced placement/OCR failures.
+- Honor inherited native disablement and refresh custom menus when fieldsets change.
+- Preserve failure screenshot paths containing spaces; reject malformed hero OCR states.
+- Keep recognition and production acceptance gates open until their required live evidence exists.
+- Verify 350 Python checks, ten setup-transport checks and 61 JavaScript check files.
+
+### Removed
+
+- Remove dropdown selection through a stale menu after the native field or option becomes unavailable.
+
 ## Preview 97 — 6 October 2026
 
 ### Additions

@@ -816,9 +816,17 @@ def hasMovingTowerPlatforms(mapName):
     key = str(mapName or '').lower().replace(' ', '').replace("'", '').replace('_', '')
     return key in {'geared', 'sanctuary'} or os.environ.get('BLOONS_MOVING_PLATFORMS') == '1'
 
+_lastHeroPickerObservation = None
+
+
 def heroSelectionState():
     """Read the hero title and the button state instead of a skin check badge."""
+    global _lastHeroPickerObservation
     screenshot = np.array(pyautogui.screenshot())[:, :, ::-1].copy()
+    # Keep one frame, not a recording. Failure evidence must correspond to the
+    # pixels read by OCR, even if the picker changes while OCR is running.
+    _lastHeroPickerObservation = {'frame': screenshot, 'observedAt': time.time(),
+                                  'monotonic': time.monotonic(), 'state': {}}
     encoded, png = cv2.imencode('.png', screenshot)
     if not encoded:
         return {}
@@ -835,6 +843,10 @@ def heroSelectionState():
         return {}
     try:
         state = json.loads(result.stdout)
+        if not isinstance(state, dict):
+            customPrint('WARNING hero OCR returned a non-object state')
+            return {}
+        _lastHeroPickerObservation['state'] = state
         print('DEBUG hero OCR:', state, flush=True)
         return state
     except ValueError:
@@ -1211,13 +1223,15 @@ FAILURE_SHOT_DIR = 'failure-shots'
 FAILURE_SHOTS_KEPT = 60
 
 
-def saveFailureShots(mapConfig, ingame, defeat):
+def saveFailureShots(mapConfig, ingame, defeat, phase='ingame'):
     """Keep the last in-game frame (towers still visible) and the defeat screen for route fixing."""
     try:
         os.makedirs(FAILURE_SHOT_DIR, exist_ok=True)
         stem = os.path.join(FAILURE_SHOT_DIR, time.strftime('%Y%m%d-%H%M%S') + '_' + str(mapConfig.get('map')) + '_' + str(mapConfig.get('gamemode')))
         saved = []
-        for suffix, frame in (('_ingame.png', ingame), ('_defeat.png', defeat)):
+        # Only known phases may become file suffixes.
+        phase = 'hero-picker' if phase == 'hero-picker' else 'ingame'
+        for suffix, frame in (('_' + phase + '.png', ingame), ('_defeat.png', defeat)):
             if frame is None:
                 continue
             path = stem + suffix
@@ -1247,6 +1261,26 @@ def saveFailureShots(mapConfig, ingame, defeat):
             os.remove(os.path.join(FAILURE_SHOT_DIR, old))
     except Exception as error:
         customPrint('WARNING could not save failure screenshots: ' + str(error))
+
+
+def saveHeroPickerFailure(mapConfig, reason, state, attempts=0, position=None):
+    """Preserve exact picker pixels and their age without further game input."""
+    observation = _lastHeroPickerObservation or {}
+    frame = observation.get('frame')
+    age = max(0, time.monotonic() - observation['monotonic']) if 'monotonic' in observation else None
+    observedState = observation.get('state', {})
+    fields = ('title', 'titleCandidates', 'button', 'buttonCandidates', 'greenFraction')
+    evidence = {'reason': reason, 'map': mapConfig.get('map'), 'gamemode': mapConfig.get('gamemode'),
+                'hero': mapConfig.get('hero'), 'attempts': attempts,
+                'position': list(position) if position is not None else None,
+                'state': {key: observedState[key] for key in fields if key in observedState},
+                'decisionState': {key: state[key] for key in fields if key in state},
+                'observedAt': observation.get('observedAt'),
+                'ageSeconds': round(age, 3) if age is not None else None,
+                'freshness': 'missing' if frame is None else 'fresh' if age is not None and age <= 10 else 'stale',
+                'frameSize': [frame.shape[1], frame.shape[0]] if frame is not None else None}
+    customPrint('ERROR HERO_PICKER_FAILURE ' + json.dumps(evidence, separators=(',', ':')))
+    saveFailureShots(mapConfig, frame, None, phase='hero-picker')
 
 
 def setExitAfterGame():
@@ -2748,6 +2782,7 @@ def main():
                         heroState = findHeroCard(mapConfig['hero'])
                         if not heroAlreadySelected(mapConfig['hero'], {**heroState, 'button': 'selected'}):
                             customPrint('ERROR hero ' + mapConfig['hero'] + ' was not found in the picker')
+                            saveHeroPickerFailure(mapConfig, 'hero-not-found', heroState)
                             sys.exit(2)
                     if heroState.get('button') == 'selected':
                         customPrint("hero " + mapConfig['hero'] + " already selected; skipping select click")
@@ -2764,9 +2799,11 @@ def main():
                                 break
                         if not heroAlreadySelected(mapConfig['hero'], confirmedHero):
                             customPrint('ERROR hero selection was not confirmed after 3 Select attempts: ' + str(confirmedHero))
+                            saveHeroPickerFailure(mapConfig, 'select-unconfirmed', confirmedHero, attempts=3, position=selectPos)
                             sys.exit(2)
                     else:
                         customPrint('ERROR hero Select button is unconfirmed; refusing to enter a run with an unverified hero')
+                        saveHeroPickerFailure(mapConfig, 'button-unconfirmed', heroState)
                         sys.exit(2)
                 customPrint("goal SELECT_HERO " + mapConfig['hero'] + " fullfilled!")
                 lastHeroSelected = mapConfig['hero']

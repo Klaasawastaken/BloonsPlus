@@ -51,6 +51,8 @@ const normalize = value => String(value).toLowerCase().replace(/[^a-z]/g, '');
   const resolvedButton = button === 'select' && greenFraction >= 0.08 && greenFraction <= 0.20
     ? 'selected' : button === 'unknown' ? visualButton : button;
   const titleCandidates = [...new Set([title, warmTitle, violetTitle, naturalTitle].map(normalize).filter(Boolean))];
-  process.stdout.write(JSON.stringify({ title: titleCandidates[0] || '', titleCandidates, button: resolvedButton, greenFraction: Number(greenFraction.toFixed(3)) }));
+  process.stdout.write(JSON.stringify({ title: titleCandidates[0] || '', titleCandidates,
+    button: resolvedButton, buttonCandidates: [...new Set(buttons.filter(Boolean))],
+    greenFraction: Number(greenFraction.toFixed(3)) }));
 })().catch(error => { process.stderr.write(error.message); process.exitCode = 2; })
   .finally(() => shutdown());

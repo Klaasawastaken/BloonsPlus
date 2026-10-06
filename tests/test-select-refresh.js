@@ -6,7 +6,8 @@ const signature = source.slice(source.indexOf('  function signature('), source.i
 const sync = source.slice(source.indexOf('  function sync('), source.indexOf('  function enhance('));
 const option = () => ({ value: 'hard', textContent: 'Hard', selected: true, disabled: false, hidden: false, parentElement: {} });
 const nativeOption = option();
-const select = { options: [nativeOption], selectedOptions: [nativeOption], isConnected: true, disabled: false };
+const select = { options: [nativeOption], selectedOptions: [nativeOption], isConnected: true, disabled: false,
+  matches: selector => selector === ':disabled' && select.disabled };
 let rebuilds = 0;
 const control = { select, label: 'Difficulty', text: {}, button: { setAttribute() {} }, menu: { querySelector: () => null }, optionNodes: [nativeOption] };
 const context = { opened: control, options: () => { rebuilds++; }, close: () => { throw Error('Unexpected close'); }, control };

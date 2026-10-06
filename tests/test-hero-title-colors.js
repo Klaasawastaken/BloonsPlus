@@ -28,6 +28,7 @@ const vm = require('node:vm');
   assert.equal(error, '');
   assert.deepEqual(JSON.parse(output).titleCandidates, ['unreadable','admiralbrickell','psi']);
   assert.equal(JSON.parse(output).button, 'selected');
+  assert.deepEqual(JSON.parse(output).buttonCandidates, ['selected'], 'Retain the OCR inputs used for button classification');
   assert.equal(masks.length, 3);
   assert.equal(masks[0](30,210,238), true, 'retain cyan titles');
   assert.equal(masks[1](255,200,30), true, 'read yellow titles');

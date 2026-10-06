@@ -67,7 +67,13 @@
       mark.textContent = option.selected ? '✓' : '';
       row.append(text, mark);
       row.addEventListener('click', () => {
-        if (row.disabled) return;
+        // Menus live outside the fieldset. Recheck native availability before
+        // selection, including changes made before MutationObserver runs.
+        if (row.disabled || control.select.matches(':disabled') || option.disabled || option.hidden
+            || (parent.tagName === 'OPTGROUP' && (parent.disabled || parent.hidden))) {
+          sync(control);
+          return;
+        }
         if (option.index < 0 || control.select.options[option.index] !== option) {
           sync(control);
           return;
@@ -125,7 +131,7 @@
   function sync(control) {
     const { select, button, text } = control;
     text.textContent = select.selectedOptions[0]?.textContent || 'Choose an option';
-    button.disabled = select.disabled || !select.options.length;
+    button.disabled = select.matches(':disabled') || !select.options.length;
     button.setAttribute('aria-label', `${control.label}: ${text.textContent}`);
     if (opened === control) {
       if (button.disabled || !select.isConnected) close();
@@ -210,10 +216,15 @@
   window.refreshSelectControls = () => { for (const control of controls.values()) sync(control); };
   document.querySelectorAll('select').forEach(enhance);
   new MutationObserver(records => {
-    for (const record of records) for (const node of record.addedNodes) {
-      if (node.nodeType !== 1) continue;
-      if (node.matches('select')) enhance(node);
-      node.querySelectorAll('select').forEach(enhance);
+    for (const record of records) {
+      if (record.type === 'attributes' && record.target.tagName === 'FIELDSET') {
+        for (const control of controls.values()) if (record.target.contains(control.select)) sync(control);
+      }
+      for (const node of record.addedNodes) {
+        if (node.nodeType !== 1) continue;
+        if (node.matches('select')) enhance(node);
+        node.querySelectorAll('select').forEach(enhance);
+      }
     }
     for (const [select, control] of controls) if (!select.isConnected) {
       if (opened === control) close();
@@ -221,7 +232,7 @@
       control.button.remove();
       controls.delete(select);
     }
-  }).observe(document.body, { childList: true, subtree: true });
+  }).observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['disabled'] });
   document.addEventListener('pointerdown', event => {
     if (opened && !opened.menu.contains(event.target) && !opened.button.contains(event.target)) close();
   });

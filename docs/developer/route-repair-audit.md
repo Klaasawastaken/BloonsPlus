@@ -458,3 +458,44 @@ identical conversion results before and after this fix. This proves preservation
 of that source sample, not every possible source call or strategy victory. No
 recording, game file or save was rewritten, and no gameplay was launched for this
 check.
+
+## Hero-picker failures — 6 October
+
+The live sweep recorded pre-game navigation failures for Dark Castle Impoppable
+with Obyn Greenfoot and Sanctuary Hard with Psi. Obyn's title was recognized,
+but three Select attempts continued returning `select`, with a 0.489 green
+fraction after the click. Psi's card produced unreadable title candidates during
+the bounded search. Neither failure had a saved picker frame, so these logs alone
+do not justify changing the selection threshold or accepting an uncertain hero.
+
+Replay now retains one exact frame passed to hero OCR and saves it through the
+existing failure-image retention on all three terminal picker branches. The
+persistent error log includes the expected hero, observed and decision states,
+button OCR candidates, target position, attempts, dimensions and frame age.
+Missing and stale observations are labeled explicitly; no additional capture or
+game input is performed by failure reporting. Non-object OCR responses are
+rejected. Failure history also preserves full screenshot paths containing spaces.
+
+Four isolated Python checks cover actual branch exits, exact image pixels,
+malformed responses and freshness. The underlying Obyn/Psi recognition repair
+remains open until the relevant frames establish the cause. No game/save file or
+original CHIMPS route was modified by these diagnostics.
+
+### Opening-loss retry allowance
+
+Bloonarius Prime's CHIMPS recording lost at round 7 after cash-confirmed Boat and
+Sub placements, with $72 left while the next $215 Dart placement waited. The saved
+frame confirms both towers and zero lives. Comparing its Play-button crop with
+the actual templates identifies slow speed; the double-arrow graphic alone is
+not proof of fast speed. No placement/OCR failure is established by this frame,
+and the original recording remains intact.
+
+The sweep's timing classifier labeled this an instant loss and automatically
+returned the same candidate to the pool. That contradicted the branch's stated
+purpose of refunding bot-side failures. Opening timing now permits a refund only
+when the persistent failure category establishes a placement or OCR failure.
+Other strategy defeats retain their attempt and can move to another candidate;
+the existing technical retry bound remains two. The actual sweep branch passes
+regression checks for gameplay losses, uncertain evidence, corruption, unresolved
+upgrades and bounded placement/OCR retries. This repair does not establish the
+strategy's winning reliability, and the healthy ongoing replay is left untouched.

@@ -6,7 +6,7 @@ Updated **6 October 2026**. This is the readable, active task list. Technical no
 
 - **Current priority:** the installer and first-launch redesign, app polish, folders and the website alongside missing-medal gameplay.
 - **Release target:** milestone 100 is the full **v1.0.0** release. Use Previews 97–99 for preparation and complete production acceptance before publishing 1.0. Future notes use only **Additions**, **Changes**, and **Removed**; see the [release policy](release-policy.md) and [template](../releases/TEMPLATE.md).
-- **Sweep:** running in the VM. Latest confirmed clears: Sunken Columns Reverse, Spice Islands Hard Standard and Spice Islands Alternate Bloons Rounds and Impoppable and CHIMPS, each with victory and saved-medal evidence. Sunken Columns Alternate Bloons Rounds lost at round 27; the persistent failure remains open. Earlier confirmed clears remain in saved progress and are skipped.
+- **Sweep:** running in the VM. Latest confirmed clears include Bloonarius Prime Alternate Bloons Rounds and Impoppable, each with victory and saved-medal evidence. Its CHIMPS attempt lost at round 7 and remains in persistent history; the current replay is not interrupted. Earlier confirmed clears remain saved and are skipped. Sunken Columns Alternate Bloons Rounds remains an open route repair.
 - **Installer batches 1–5:** native separation, durable recovery, shared setup coordination and compact native presentation are implemented. Batch 4 passes 39 focused Python checks and seven Node suites; the complete native bootstrap compiles. The shared first-launch controls and Full/Reduced/Off intro are implemented and checked in an isolated actual renderer. Clean-machine and physical accessibility acceptance remain open. These sources have not replaced the healthy guest runtime.
 - **Development alongside gameplay:** installer/setup polish, app polish, folder organization and website redesign. Check the sweep every five minutes and diagnose meaningful failures.
 - **Background work:** improve routes and placement from missing-medal gameplay evidence; retain failures and skip owned medals.
@@ -82,6 +82,7 @@ The sweep earns missing medals alongside development. Deploy changes together af
 - [ ] **R-14 — Continue until a real result.** Keep viable games running after route actions end. Individual clears worked; broader evidence remains open.
 - [ ] **R-15 — Bound recovery attempts.** Cover placement, upgrades, navigation and stalled rounds. Preserve exact intent; avoid blind purchase retries.
 - [ ] **R-16 — Save useful failure evidence.** Include frame, action, target, selected tower/hero, cash, round and freshness. Redact shared logs.
+  - Hero lookup, button recognition and Select confirmation failures now preserve the exact OCR frame plus the expected hero, title/button candidates, click position, attempt count and frame age. Four offline checks cover all exit branches and real image writes. Older Obyn/Psi failures had no frame; recognition remains open pending live evidence. Screenshot paths with spaces are retained correctly.
 - [ ] **R-17 — Review past failures.** Investigate Hedge, Spa Pits, Cubism, Infernal, Glacial Trail and other remaining failures from their evidence. Retain cleared-map history; never replay owned medals.
   - Cornfield's converted no-harvest candidate has evidenced Heli/Village footprint failures and skipped dependent upgrades. The [failure audit](route-repair-audit.md) records the repair target; original CHIMPS recordings remain unchanged and the sweep continued with another candidate.
 
@@ -98,6 +99,7 @@ The sweep earns missing medals alongside development. Deploy changes together af
 
 - [ ] **S-05 — Reconcile saved medals.** Check after runs and restarts, resume partial sweeps and exclude owned or unreadable medals.
 - [ ] **S-06 — Preserve outcomes and skip reasons.** Distinguish missing requirements, restrictions, known failures and no eligible candidate.
+  - Early strategy defeats now keep their consumed attempt. Automatic opening retries require an evidenced placement/OCR failure and retain the two-retry bound. The actual failure branch passes offline checks; live behavior awaits deployment at a replay boundary.
 - [ ] **S-07 — Check map ordering.** Expert to Beginner, shuffled within categories, without repeating excluded candidates.
 - [ ] **S-08 — Refresh coverage and architecture audit.** Complete before extending the production overhaul. Eligibility is not victory evidence.
 
@@ -167,6 +169,7 @@ The sweep earns missing medals alongside development. Deploy changes together af
   - Hidden card lists are deferred; unchanged medal data retains map cards. Overview and navigation counters remain live. Focused redraw/search/medal checks and browser search inspection pass; wider performance acceptance remains open.
 - [ ] **A-02 — Check the inline VM viewer.** Capture only while visible/focused, including browser cache restoration. Lifecycle checks exist; broader live performance remains open.
 - [ ] **A-03 — Finish accessibility checks.** Reduced motion and screen readers for Subscriptions, including price announcements.
+  - Custom dropdowns now honor inherited fieldset disablement, native legend exceptions and options disabled while a menu is open. An isolated actual Electron renderer reproduces and checks the stale-row bug; physical screen-reader and broader keyboard acceptance remain open.
 - [ ] **A-04 — Organize folders.** Preserve runtime paths and exclude private/generated files.
 
 ### App startup and first launch — requested 6 October
