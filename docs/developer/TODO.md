@@ -26,7 +26,7 @@ Updated **6 October 2026**. This is the readable, active task list. Technical no
 
 ### Immediate queue
 
-1. **I-07 — Inspect before redesigning:** map installer, app startup, privileges, real progress, concurrency and safe recovery.
+1. **I-07 complete — Review the redesign:** the [source audit](installer-startup-audit.md) is complete; the native approach is approved. Review the [written design](../superpowers/specs/2026-10-06-installer-startup-design.md) before the implementation plan.
 2. **I-08–I-11 / A-05–A-07 — Installer and first launch:** implement the simple install flow and branded startup in verified, recoverable batches.
 3. **I-01 / I-03 / I-04 — Acceptance and releases:** check clean and interrupted setup, repair and release packaging.
 4. **A-01 / A-03 / A-04 — App and files:** polish controls, accessibility, scrolling and folder organization.
