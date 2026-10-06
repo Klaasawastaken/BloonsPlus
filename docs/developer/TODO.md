@@ -4,6 +4,8 @@ Updated 6 October 2026. Checkboxes require evidence, not merely code. Preserve o
 
 ## Current repair pass
 
+- [x] Correct Infernal’s displayed terrain guidance: include the narrow left/right edge strips for Heli/Farm footprints, reserve space before support, and require live legality. Source: https://bloons.fandom.com/wiki/Infernal . This does not authorize an unobserved placement or change original recordings.
+
 - [x] Reproduce stale confirmation-mode admission from an old private flag. Start each replay with mode unconfirmed, learn it only from the actual post-click check button, and stop persisting the setting. Preserve historical files without reading/deleting them. Three actual-block regressions pass (old flag ignored, live check clicked, absent check sends no input) plus eight nearby placement/HUD checks. Infernal recovery still needs a missing-medal run; do not mark its routes winning.
 
 - [x] Add bounded placement-search diagnostics for footprint, active confirmation mode, candidate count and source-hint live verdicts. Infernal ABR still lost at round 19; this is instrumentation, not a repaired strategy claim.
