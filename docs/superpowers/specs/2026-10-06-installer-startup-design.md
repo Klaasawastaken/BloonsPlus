@@ -1,6 +1,6 @@
 # BloonsPlus installer and startup design
 
-Status: **written design for user review**. The native approach was approved in chat on 6 October 2026. Implementation is not yet approved by this document.
+Status: **approved design**. The native approach was approved in chat on 6 October 2026. The subsequent instruction, “yes you can do everything that has to do with the installer,” authorizes this installer and first-launch scope. Implementation proceeds through the linked plan and its review; approval does not replace the installation acceptance evidence.
 
 Source baseline: Preview 90, commit `b835fd9`. The [source audit](../../developer/installer-startup-audit.md) describes existing behavior and acceptance gaps. Roadmap tasks: I-08–I-11 and A-05–A-07; I-01–I-03 remain the installation acceptance gates.
 

@@ -32,7 +32,7 @@ PYTHON_HOME = Path(next((line.split("=", 1)[1].strip() for line in PYVENV_CONFIG
 # The bundled app currently uses AutoBTD6. These two vendored engines are retained in
 # the workspace for later work, but their source and documentation do not belong in the
 # current installer payload (the V2/V3 tabs were removed from the product UI).
-SKIP_DIRS = {".git", "__pycache__", ".cache", ".pytest_cache", ".mypy_cache", ".claude", ".codex", ".agents", "btd6autoplay", "btd6bot", "failure-shots", "public-sources", "obsolete-conversions", "unsupported-conversions", "copied-drafts", "copied-btd6bot-aliases", "broken-guide-routes", "tools", "private", "tests"}
+SKIP_DIRS = {".git", ".superpowers", "__pycache__", ".cache", ".pytest_cache", ".mypy_cache", ".claude", ".codex", ".agents", "btd6autoplay", "btd6bot", "failure-shots", "public-sources", "obsolete-conversions", "unsupported-conversions", "copied-drafts", "copied-btd6bot-aliases", "broken-guide-routes", "tools", "private", "tests"}
 PERSONAL_FILES = {"game-observations.json", "automation-progress.json", "game-state.json", "last-hero.json", "upgrade-memory.json", "route-checkpoint.json", "Profile.Save", "playthrough_stats.json", "experimental-ai-data.json", "route-failures.json", "route-verification.json", "route-strengthen-queue.json", "pending-automation.json", "live-frame.jpg", "live-frame.jpg.tmp", "viewer-request.json", "host.json", "pause.flag", "exit_after_game.flag"}
 SKIP_SUFFIXES = {".pyc", ".pyo", ".log", ".tmp"}
 # Base-Python parts never used at runtime: Tk GUI, IDLE, turtle demos, C headers/import libraries (every
@@ -214,7 +214,8 @@ def build_installer() -> None:
         compiler = Path(os.environ.get("WINDIR", r"C:\Windows")) / "Microsoft.NET" / "Framework" / "v4.0.30319" / "csc.exe"
     if not compiler.is_file():
         raise SystemExit("The Windows .NET Framework C# compiler (csc.exe) is required to build the installer")
-    source = Path(__file__).resolve().parent / "installer-bootstrap.cs"
+    source_directory = Path(__file__).resolve().parent
+    sources = [source_directory / "installer-bootstrap.cs", *sorted((source_directory / "native").glob("*.cs"))]
     bootstrap = DIST / "BloonsPlusSetup.bootstrap.exe"
     subprocess.run([
         str(compiler), "/nologo", "/target:winexe", "/platform:x64", "/optimize+",
@@ -222,7 +223,7 @@ def build_installer() -> None:
         "/reference:System.IO.Compression.dll", "/reference:Microsoft.CSharp.dll",
         "/reference:System.Web.Extensions.dll",
         "/win32icon:" + str(ROOT / "bloonsplus.ico"),
-        "/out:" + str(bootstrap), str(source),
+        "/out:" + str(bootstrap), *(str(source) for source in sources),
     ], check=True)
     for stale in (DIST / "BloonsPlusSetup.sed", DIST / "~BloonsPlusSetup.DDF", DIST / "~BloonsPlusSetup.CAB"):
         if stale.exists():

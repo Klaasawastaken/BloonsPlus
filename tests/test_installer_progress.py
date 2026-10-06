@@ -10,9 +10,9 @@ import unittest
 class InstallerProgressChecks(unittest.TestCase):
     def test_healthy_runtime_is_checked_before_install_space_and_mutation(self):
         root = Path(__file__).resolve().parents[1]
-        source = (root / 'installer/installer-bootstrap.cs').read_text(encoding='utf-8')
-        start = source.index('    private void ConfigurePython()')
-        end = source.index('    private void EnsureVisualCppRuntime()', start)
+        source = (root / 'installer/native/WindowsInstallerOperations.cs').read_text(encoding='utf-8')
+        start = source.index('    public virtual void ConfigurePython()')
+        end = source.index('    public virtual void EnsureVisualCppRuntime()', start)
         method = source[start:end]
         ready = method.index('Existing Python packages are ready.')
         space = method.index('AvailableFreeSpace')
@@ -23,7 +23,7 @@ class InstallerProgressChecks(unittest.TestCase):
     @unittest.skipUnless(os.name == 'nt', 'Windows .NET compiler')
     def test_healthy_runtime_without_old_stamp_is_reused(self):
         root = Path(__file__).resolve().parents[1]
-        source = (root / 'installer/installer-bootstrap.cs').read_text(encoding='utf-8')
+        source = (root / 'installer/native/WindowsInstallerOperations.cs').read_text(encoding='utf-8')
         start = source.index('        string probe = Quote(')
         end = source.index('            SetStatus("Existing Python packages are ready.', start)
         condition = re.search(r'if \((.*?)\)\s*\{', source[start:end], re.S)[1]
@@ -111,7 +111,7 @@ internal static class ProgressChecks {
                 '/reference:System.Windows.Forms.dll', '/reference:System.Drawing.dll',
                 '/reference:System.IO.Compression.dll', '/reference:Microsoft.CSharp.dll',
                 '/reference:System.Web.Extensions.dll', '/out:' + str(binary),
-                str(root / 'installer/installer-bootstrap.cs'), str(harness)
+                str(root / 'installer/installer-bootstrap.cs'), *map(str, sorted((root / 'installer/native').glob('*.cs'))), str(harness)
             ], capture_output=True, text=True)
             self.assertEqual(compile_result.returncode, 0, compile_result.stdout + compile_result.stderr)
             run = subprocess.run([str(binary)], capture_output=True, text=True)

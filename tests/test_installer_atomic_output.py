@@ -11,6 +11,17 @@ spec.loader.exec_module(builder)
 
 
 class InstallerAtomicOutputTests(unittest.TestCase):
+    def test_private_plan_ledger_is_not_packaged(self):
+        with tempfile.TemporaryDirectory() as folder:
+            source = Path(folder) / 'source'
+            (source / '.superpowers/sdd/plan').mkdir(parents=True)
+            (source / '.superpowers/sdd/plan/progress.md').write_text('private scratch')
+            (source / 'app.js').write_text('public source')
+            target = Path(folder) / 'target'
+            builder.copy_tree(source, target)
+            self.assertTrue((target / 'app.js').exists())
+            self.assertFalse((target / '.superpowers').exists())
+
     def run_build(self, failure=None):
         with tempfile.TemporaryDirectory() as folder:
             dist = Path(folder)
