@@ -626,3 +626,10 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [x] Consolidate duplicated browser/server medal rules into one browser-safe data/catalogs/medal-progress.js contract. Preserve public Node export and UI wrapper, exact difficulty/mode mapping, Clicks vs SuperChimps, empirical completion threshold and null unknown values. No schema or saved-data change.
 - [x] Run the same authoritative admission/alias tests before and after extraction. Shared-decoder coverage checks all 14 supported modes across 14 value schemas, browser/server parity and unchanged input records. Script-load order is checked before app initialization.
 - [ ] Deploy with the next boundary batch. This removes one source of UI/sweep divergence; it does not prove every save field or route is correct.
+
+### Steam account selection — 6 October
+
+- [x] Reproduce first-directory selection in a two-account profile fixture. Both profile and achievement readers previously chose the first matching cached account without checking active identity.
+- [x] Use Steam's read-only ActiveProcess/ActiveUser signal when available. If it is unavailable, accept only one unambiguous cached account; logged-out or ambiguous selections return unavailable rather than another account's progress. Achievements invalidate their short cache when the detected account changes.
+- [x] Offline checks cover registry parsing, two-account selection, missing active cache, single-cache fallback, logged-out state, profile/stats parity and cache switching. Existing authoritative medal and shared-decoder tests pass. Actual multi-account switching on a live Steam client remains unverified.
+- [ ] Deploy at a replay boundary and check the current VM still resolves its profile. No Steam/game files or account preferences are modified; no identifiers are included in public notes.
