@@ -376,3 +376,7 @@ body.boss-view-active{background:radial-gradient(ellipse at 95% 0,color-mix(in s
 #settings .settings-help-row .form-row{flex-shrink:0;flex-wrap:wrap;gap:10px}
 #settings #vm-settings-actions[hidden]{display:none}
 #settings .settings-subdetails[open]>summary{color:var(--ink)}
+
+/* Error surfaces must outrank the normal Settings status card in both themes. */
+#settings #vm-settings-status.error{background:#fff2f2;color:#a32e2e;border-color:#e7b9b3}
+[data-theme="dark"] #settings #vm-settings-status.error{background:#422c2c;color:#ffc3b8;border-color:#795149}

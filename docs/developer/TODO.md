@@ -4,6 +4,9 @@ Updated 6 October 2026. Checkboxes require evidence, not merely code. Preserve o
 
 ## Current repair pass
 
+- [x] Respect hidden optgroups in dropdown rendering/signatures, close open menus when the document becomes hidden, and give Settings error surfaces sufficient specificity in both themes. Syntax/diff checks only; broader dropdown keyboard and visual coverage remains open.
+- Preview 53 boundary update completed after Infernal ABR lost at round 19; the guest confirmed the missing-medal sweep resumed. Heli recovery remains unresolved; no medal claimed.
+
 - [x] Finish the Settings help pass: make logs/reporting directly accessible, keep installation/reset details collapsed, hide empty guest VM actions, remove obsolete calibration instructions, and start setup/update buttons disabled until fresh connection state arrives. Reuse existing redacted reporting; JS syntax/diff checks and browser accessibility tree reviewed. No active replay interrupted.
 
 - [x] Reproduce client-geometry error masking: 304x201 and 320x180 windows incorrectly ended as minimized. Preserve transition/not-ready reasons and dimensions; reserve minimized for a zero-area/iconic client. Four actual-function geometry checks pass. No live capture failure or complete installer recovery claim.

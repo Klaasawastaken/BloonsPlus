@@ -28,7 +28,7 @@
   }
 
   function signature(select) {
-    return JSON.stringify(Array.from(select.options, option => [option.textContent, option.selected, option.disabled, option.hidden, option.parentElement.disabled]));
+    return JSON.stringify(Array.from(select.options, option => [option.textContent, option.selected, option.disabled, option.hidden, option.parentElement.disabled, option.parentElement.hidden]));
   }
 
   function options(control, query = '') {
@@ -38,8 +38,9 @@
     const needle = query.trim().toLocaleLowerCase();
     let group = null;
     for (const option of control.select.options) {
-      if (option.hidden || (needle && !option.textContent.toLocaleLowerCase().includes(needle))) continue;
       const parent = option.parentElement;
+      if (option.hidden || (parent.tagName === 'OPTGROUP' && parent.hidden)
+          || (needle && !option.textContent.toLocaleLowerCase().includes(needle))) continue;
       if (parent.tagName === 'OPTGROUP' && parent !== group) {
         const heading = document.createElement('div');
         heading.className = 'app-select-group';
@@ -212,4 +213,5 @@
   }, true);
   window.addEventListener('resize', () => close());
   window.addEventListener('blur', () => close());
+  document.addEventListener('visibilitychange', () => { if (document.hidden) close(); });
 })();
