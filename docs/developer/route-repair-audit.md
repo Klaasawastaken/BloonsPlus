@@ -644,8 +644,10 @@ checks and the complete 373-check Python suite now pass. Review caught the
 second-click stale-frame hazard; its new changed/missing-frame regression failed
 before repair and passes afterward. A scoped re-review found no actionable issue.
 The private Balance Magic frame cancels the orphan placement without a world
-click in an injected-input fixture. Deployment is deferred until a healthy
-replay finishes; future missing-medal gameplay must supply live outcome evidence.
+click in an injected-input fixture. Published as v0.1.2-preview.99 and installed only after Rake Reverse finished
+with victory and its saved medal. Seven installed guest hashes match the published
+payload, the app/game connection is ready and the sweep resumed for Quarry Magic
+Monkeys Only. Future missing-medal gameplay must supply live recovery evidence.
 
 
 ### Rake Alternate Bloons Rounds failure — 6 October
