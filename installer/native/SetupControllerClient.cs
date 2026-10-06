@@ -17,11 +17,14 @@ using System.Web.Script.Serialization;
 internal sealed class SetupControllerClient : IDisposable
 {
     private readonly string installRoot, dataRoot, sessionId, appRoot, expectedExecutable, owner, key;
-    private readonly int port;
+    private int port;
+    private readonly string controllerReceipt;
+    private readonly Action<int> launcher;
+    private readonly bool savedController;
     private readonly JavaScriptSerializer serializer = new JavaScriptSerializer { MaxJsonLength = 65536 };
     private bool connected;
     private bool setupOnly;
-    public SetupControllerClient(string installRoot, string dataRoot, string sessionId, int port = 4173, string expectedExecutable = null) {
+    public SetupControllerClient(string installRoot, string dataRoot, string sessionId, int port = 4173, string expectedExecutable = null, Action<int> launcher = null) {
         Guid parsed;
         if (!Guid.TryParseExact(sessionId, "N", out parsed)) throw new ArgumentException("Invalid setup session identifier.");
         if (port < 1 || port > 65535) throw new ArgumentException("Invalid setup controller port.");
@@ -30,6 +33,22 @@ internal sealed class SetupControllerClient : IDisposable
         appRoot = Path.Combine(this.installRoot, "resources", "app");
         this.expectedExecutable = Path.GetFullPath(expectedExecutable ?? Path.Combine(this.installRoot, "Bloons+.exe"));
         owner = Owner(appRoot);
+        this.launcher = launcher;
+        controllerReceipt = Path.Combine(this.dataRoot, "setup-handoff", owner + ".controller.json");
+        // A receipt is a discovery hint only. Process, executable, owner and port
+        // are still verified before sending a handoff or an authenticated command.
+        try {
+            var info = new FileInfo(controllerReceipt);
+            if (info.Exists && info.Length <= 8192) {
+                var receipt = serializer.Deserialize<Dictionary<string, object>>(File.ReadAllText(controllerReceipt));
+                object savedOwner, executable, savedPort;
+                if (receipt.TryGetValue("owner", out savedOwner) && savedOwner as string == owner
+                    && receipt.TryGetValue("executable", out executable) && String.Equals(executable as string, this.expectedExecutable, StringComparison.OrdinalIgnoreCase)
+                    && receipt.TryGetValue("port", out savedPort) && savedPort is int && (int)savedPort > 0 && (int)savedPort <= 65535) {
+                    this.port = (int)savedPort; savedController = true;
+                }
+            }
+        } catch { /* Invalid discovery hints never establish trust. */ }
         byte[] secret = new byte[32]; using (var random = RandomNumberGenerator.Create()) random.GetBytes(secret);
         key = BitConverter.ToString(secret).Replace("-", "").ToLowerInvariant();
     }
@@ -120,6 +139,7 @@ internal sealed class SetupControllerClient : IDisposable
         return snapshot;
     }
     private void LaunchController() {
+        if (launcher != null) { launcher(port); return; }
         if (!File.Exists(expectedExecutable) || !File.Exists(Path.Combine(appRoot, "server.js")))
             throw new FileNotFoundException("Installed setup controller is missing. Repair the local app first.");
         var start = new ProcessStartInfo(expectedExecutable, "\"" + Path.Combine(appRoot, "server.js") + "\"") {
@@ -130,25 +150,46 @@ internal sealed class SetupControllerClient : IDisposable
         start.EnvironmentVariables["PORT"] = port.ToString(System.Globalization.CultureInfo.InvariantCulture);
         using (var process = Process.Start(start)) { if (process == null) throw new InvalidOperationException("Setup controller did not start."); }
     }
+    private Dictionary<string, object> LaunchAndObserve(CancellationToken cancellation) {
+        LaunchController();
+        for (int attempt = 0; attempt < 40; attempt++) {
+            cancellation.ThrowIfCancellationRequested();
+            try { return Request("/api/setup/controller", null, false, cancellation); }
+            catch (WebException retry) { if (retry.Status != WebExceptionStatus.ConnectFailure) throw; }
+            if (cancellation.WaitHandle.WaitOne(500)) cancellation.ThrowIfCancellationRequested();
+        }
+        throw new InvalidOperationException("Setup controller did not become ready. Reopen setup to reconnect.");
+    }
+    private static int FreeLoopbackPort() {
+        var probe = new TcpListener(IPAddress.Loopback, 0);
+        try { probe.Start(); return ((IPEndPoint)probe.LocalEndpoint).Port; }
+        finally { probe.Stop(); }
+        // Another process can win the bind after this observation. VerifyIdentity
+        // refuses such a process; no handoff or setup command reaches it.
+    }
     public Task<Dictionary<string, object>> ConnectAsync(string operation, string isoPath, CancellationToken cancellation) {
         if (!new[] { "install", "update", "repair", "resume" }.Contains(operation)) throw new ArgumentException("Invalid setup operation.");
         return Task.Run(() => {
             Dictionary<string, object> identity = null;
             try { identity = Request("/api/setup/controller", null, false, cancellation); }
             catch (WebException error) {
-                // An occupied/unknown port is not permission to replace its owner.
-                if (error.Status != WebExceptionStatus.ConnectFailure || !PortIsFree()) throw;
-                LaunchController();
-                for (int attempt = 0; attempt < 40; attempt++) {
-                    cancellation.ThrowIfCancellationRequested();
-                    try { identity = Request("/api/setup/controller", null, false, cancellation); break; }
-                    catch (WebException retry) { if (retry.Status != WebExceptionStatus.ConnectFailure) throw; }
-                    if (cancellation.WaitHandle.WaitOne(500)) cancellation.ThrowIfCancellationRequested();
+                var response = error.Response as HttpWebResponse;
+                if (!savedController && response != null && response.StatusCode == HttpStatusCode.NotFound) {
+                    response.Dispose();
+                    // An older app can own the ordinary app port. Do not stop it,
+                    // send it secrets, replace it or reload its healthy replay.
+                    // Start our setup-only controller on a separate free port.
+                    port = FreeLoopbackPort();
+                    identity = LaunchAndObserve(cancellation);
+                } else {
+                    // An occupied/unknown port is not permission to replace its owner.
+                    if (error.Status != WebExceptionStatus.ConnectFailure || !PortIsFree()) throw;
+                    identity = LaunchAndObserve(cancellation);
                 }
-                if (identity == null) throw new InvalidOperationException("Setup controller did not become ready. Reopen setup to reconnect.");
             }
             VerifyIdentity(identity);
             object mode; setupOnly = identity.TryGetValue("setupOnly", out mode) && mode is bool && (bool)mode;
+            if (setupOnly) InstallSession.AtomicWrite(controllerReceipt, serializer.Serialize(new { owner, executable = expectedExecutable, port }));
             string handoff = Path.Combine(dataRoot, "setup-handoff", sessionId + ".json");
             InstallSession.AtomicWrite(handoff, serializer.Serialize(new {
                 protocolVersion = 1, sessionId, owner, operation, key,

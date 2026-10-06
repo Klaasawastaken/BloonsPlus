@@ -8,6 +8,60 @@ from native_installer_harness import compile_harness
 
 @unittest.skipUnless(os.name == 'nt', 'Windows native compiler')
 class InstallerSetupClientTests(unittest.TestCase):
+    def test_legacy_controller_404_uses_verified_private_port_and_reuses_it(self):
+        with tempfile.TemporaryDirectory() as folder:
+            binary = compile_harness(folder, 'LegacySetupChecks', r'''
+using System;
+using System.IO;
+using System.Net;
+using System.Net.Sockets;
+using System.Diagnostics;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Web.Script.Serialization;
+internal static class LegacySetupChecks {
+ static void Check(bool value,string why){if(!value)throw new Exception(why);}
+ static void Main(){Run().GetAwaiter().GetResult();}
+ static async Task Run(){
+  string root=Path.Combine(Path.GetTempPath(),"Bloons-legacy-"+Guid.NewGuid().ToString("N"));
+  string id=Guid.NewGuid().ToString("N"),owner=SetupControllerClient.Owner(Path.Combine(root,"resources","app"));
+  var legacy=new TcpListener(IPAddress.Loopback,0);legacy.Start();int original=((IPEndPoint)legacy.LocalEndpoint).Port;
+  TcpListener owned=null;Task ownedService=null;int launches=0,legacyGets=0,commands=0;bool secretSeen=false;
+  var oldService=Task.Run(()=>{while(true){TcpClient socket;try{socket=legacy.AcceptTcpClient();}catch{break;}
+   using(socket)using(var stream=socket.GetStream())using(var reader=new StreamReader(stream)){
+    Check(reader.ReadLine()=="GET /api/setup/controller HTTP/1.1","Legacy controller received a mutation");
+    string line;while(!String.IsNullOrEmpty(line=reader.ReadLine()))Check(!line.StartsWith("X-Bloons-Setup-Key",StringComparison.OrdinalIgnoreCase),"Legacy owner received secret");
+    legacyGets++;byte[] bytes=System.Text.Encoding.ASCII.GetBytes("HTTP/1.1 404 Not Found\r\nContent-Length: 0\r\nConnection: close\r\n\r\n");stream.Write(bytes,0,bytes.Length);
+   }
+  }});
+  Action<int> launch=port=>{launches++;Check(port!=original,"Legacy port replaced");owned=new TcpListener(IPAddress.Loopback,port);owned.Start();
+   ownedService=Task.Run(()=>{while(true){TcpClient socket;try{socket=owned.AcceptTcpClient();}catch{break;}
+    using(socket)using(var stream=socket.GetStream())using(var reader=new StreamReader(stream,System.Text.Encoding.ASCII,false,1024,true)){
+     string route=reader.ReadLine().Split(' ')[1],line;int length=0;
+     while(!String.IsNullOrEmpty(line=reader.ReadLine())){if(line.StartsWith("Content-Length:",StringComparison.OrdinalIgnoreCase))length=Int32.Parse(line.Split(':')[1]);if(line.StartsWith("X-Bloons-Setup-Key",StringComparison.OrdinalIgnoreCase))secretSeen=true;}
+     char[] body=new char[length];int count=0;while(count<length)count+=reader.Read(body,count,length-count);
+     object result=route=="/api/setup/controller"?(object)new{protocolVersion=1,owner,pid=Process.GetCurrentProcess().Id,setupOnly=true}:(object)new{protocolVersion=1,sessionId=id,sequence=1,phase="validating"};
+     if(route.EndsWith("command"))commands++;
+     byte[] bytes=System.Text.Encoding.UTF8.GetBytes(new JavaScriptSerializer().Serialize(result));
+     byte[] header=System.Text.Encoding.ASCII.GetBytes("HTTP/1.1 200 OK\r\nContent-Length: "+bytes.Length+"\r\nConnection: close\r\n\r\n");stream.Write(header,0,header.Length);stream.Write(bytes,0,bytes.Length);
+    }
+   }});
+  };
+  try{
+   string executable=Process.GetCurrentProcess().MainModule.FileName;
+   using(var client=new SetupControllerClient(root,root,id,original,executable,launch)){
+    await client.ConnectAsync("install","",CancellationToken.None);await client.CommandAsync(1,"start",CancellationToken.None);
+   }
+   using(var client=new SetupControllerClient(root,root,id,original,executable,launch))await client.ConnectAsync("resume","",CancellationToken.None);
+   Check(launches==1&&legacyGets==1&&commands==1&&secretSeen,"Private controller was duplicated or not authenticated");
+  }finally{legacy.Stop();if(owned!=null)owned.Stop();if(Directory.Exists(root))Directory.Delete(root,true);}
+  await oldService;if(ownedService!=null)await ownedService;
+ }
+}
+''')
+            run=subprocess.run([str(binary)],capture_output=True,text=True,timeout=30)
+            self.assertEqual(run.returncode,0,run.stdout+run.stderr)
+
     def test_environment_handoff_keeps_selected_operation(self):
         source=(Path(__file__).resolve().parents[1]/'installer/native/WindowsInstallerOperations.cs').read_text()
         self.assertIn('ConnectAsync(options.Operation,',source)

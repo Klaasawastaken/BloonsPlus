@@ -516,3 +516,11 @@ These changes do not certify route victories or clean-PC installer compatibility
 - Preserve source Auto Start's initial-on baseline and toggle sequence during conversion.
 - Read warm and violet hero-title fills alongside cyan; retain title verification instead of guessing hero identity.
 - Keep source logical-round/end-round conversions gated; original recordings are unchanged.
+## Preview 92 — Controller compatibility and community standards
+
+- Recover native setup from an older controller's HTTP 404 by using a separate verified setup-only port; persist discovery for Resume without stopping the old controller or its replay.
+- Preserve protocol, owner, executable and listening-process verification before authenticated handoff. Keep unknown setup ownership and replay safety checks.
+- Add contribution, conduct, security and support policies, issue forms and a PR checklist in `.github`.
+- Use the official PolyForm Noncommercial 1.0.0 text for BloonsPlus-owned material. Preserve third-party terms and required notices.
+- Verify the installer and installed executable contain the original seven-frame Bloons+ icon.
+- Keep the native installer design. The requested Opera-inspired styling applies to post-install configuration and remains a separate task.
