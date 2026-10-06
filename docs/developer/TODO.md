@@ -735,3 +735,7 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [x] Add draft absolute Auto Start parsing/serialization and source-derived consumed-step resume intent. Restore only matching, well-formed retry metadata through the real resume queue; discard saved coordinates. Seventeen controller/contract tests pass. Runtime grammar and public route admission remain gated until input ownership and resume-menu recovery are integrated.
 
 - Confirmed High Finance Alternate Bloons Rounds on 6 October: VICTORY_CONFIRMED at 08:08:17, round 80; authoritative VM HighFinance Hard/AlternateBloonsRounds=1049865. Never replay this earned medal. Preview 77 boundary worker is still confirmed live and waiting for run shutdown/update completion; its root payload remains reserved. Resume counter/control-contract source changes will be batched into a later installer.
+
+### Settings refinement — 6 October
+
+- [x] Keep Appearance, Game & VM, and Support as the main sections. Fold manual VM updates into App updates, clarify that updates originate on the main PC, and show setup/ISO controls only when applicable. Add theme-aware separators, keyboard focus styling and a mobile update layout. JavaScript syntax checked; no live replay interrupted. Installer packaging remains part of the next batch.

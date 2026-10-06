@@ -131,6 +131,7 @@
 
     <section id="settings" class="view hidden" aria-labelledby="settings-title">
       <h2 id="settings-title" class="sr-only">App settings</h2>
+      <div class="settings-intro"><p>Make it yours. Setup options appear when your game needs attention.</p></div>
       <div class="settings-layout">
         <div class="panel settings-panel settings-appearance">
           <div class="panel-title settings-section-heading"><span class="settings-section-icon" aria-hidden="true"><svg><use href="#icon-settings"/></svg></span><div><h3>Appearance</h3><p>Choose how Bloons+ looks.</p></div></div>
@@ -145,10 +146,11 @@
           <div id="vm-settings-status" class="vm-settings-status" role="status">Checking this PC and the VM…</div>
           <div id="vm-settings-progress" class="settings-progress" role="progressbar" aria-label="Game setup progress" aria-valuemin="0" aria-valuemax="100" hidden><span></span></div>
           <p id="vm-settings-progress-label" class="settings-progress-label" hidden></p>
-          <div class="form-row vm-settings-actions" id="vm-settings-actions" hidden><button class="primary-button" id="vm-settings-start" disabled>Set up VM</button><button class="quiet-button" id="vm-settings-update" disabled>Update VM app</button></div>
-          <details class="settings-subdetails" id="vm-settings-checks" hidden><summary>Setup details <span id="vm-settings-check-count"></span></summary><ol id="vm-settings-steps" class="setup-bar-steps"></ol></details>
-          <details class="settings-subdetails" id="vm-settings-advanced" hidden><summary>Advanced · Windows installation</summary><label class="field" id="vm-settings-iso-field"><span>Use your own Windows 11 ISO</span><input id="vm-settings-iso" type="text" placeholder="Full path to an existing ISO" aria-describedby="vm-settings-iso-hint"></label><p class="field-hint" id="vm-settings-iso-hint">Optional. Leave empty to download from Microsoft when creating a VM.</p></details>
-          <div class="settings-connection-footer"><button class="text-button settings-recheck" id="vm-settings-refresh">Refresh connection</button><span id="vm-settings-update-hint">Updates apply between replays.</span></div>
+          <div class="form-row vm-settings-actions" id="vm-settings-actions" hidden><button class="primary-button" id="vm-settings-start" disabled>Set up VM</button></div>
+          <details class="settings-subdetails" id="vm-settings-checks" hidden><summary>Connection details <span id="vm-settings-check-count"></span></summary><ol id="vm-settings-steps" class="setup-bar-steps"></ol></details>
+          <details class="settings-subdetails" id="vm-settings-maintenance" hidden><summary>App updates</summary><div class="settings-update-body"><p id="vm-settings-update-hint">Send the current Bloons+ build from this PC to the VM. Updates apply between replays.</p><button class="quiet-button" id="vm-settings-update" disabled>Update Bloons+ in VM</button></div></details>
+          <details class="settings-subdetails" id="vm-settings-advanced" hidden><summary>Use an existing Windows ISO</summary><label class="field" id="vm-settings-iso-field"><span>Windows 11 ISO path</span><input id="vm-settings-iso" type="text" placeholder="Full path to an existing ISO" aria-describedby="vm-settings-iso-hint"></label><p class="field-hint" id="vm-settings-iso-hint">Optional. Leave empty to download from Microsoft when creating a VM.</p></details>
+          <div class="settings-connection-footer"><button class="text-button settings-recheck" id="vm-settings-refresh">Check connection again</button></div>
         </div>
 
       </div>

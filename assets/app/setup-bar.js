@@ -53,7 +53,8 @@
       if ($('vm-settings-check-count')) $('vm-settings-check-count').textContent = `${checks.filter(step => step.done).length}/${checks.length} ready`;
       const hasVm = status.applicable && (checks.some(step => step.id === 'vm' && step.done) || status.vm?.state === 'online' || status.allDone);
       if (settingsUpdate) settingsUpdate.hidden = !hasVm;
-      if ($('vm-settings-actions')) $('vm-settings-actions').hidden = settingsStart.hidden && (!settingsUpdate || settingsUpdate.hidden);
+      if ($('vm-settings-maintenance')) $('vm-settings-maintenance').hidden = !hasVm;
+      if ($('vm-settings-actions')) $('vm-settings-actions').hidden = settingsStart.hidden;
       if ($('vm-settings-update-hint')) $('vm-settings-update-hint').hidden = !hasVm;
       if (settingsProgress && settingsProgressLabel) {
         const checks = status.steps || [];

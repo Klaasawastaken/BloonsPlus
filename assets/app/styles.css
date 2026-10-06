@@ -351,6 +351,7 @@ body.boss-view-active{background:radial-gradient(ellipse at 95% 0,color-mix(in s
 /* Settings: one layout, shared theme tokens, optional maintenance folded away. */
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 #settings .settings-intro{margin-bottom:20px}
+#settings .settings-intro p{margin:0;color:var(--muted);font-size:13px;line-height:1.7}
 #settings .settings-layout{display:grid;grid-template-columns:minmax(240px,.7fr) minmax(0,1.3fr);gap:18px;align-items:start}
 #settings .settings-layout>.panel{margin:0;min-width:0}
 #settings .settings-layout .theme-choices{grid-template-columns:1fr;gap:10px}
@@ -363,7 +364,13 @@ body.boss-view-active{background:radial-gradient(ellipse at 95% 0,color-mix(in s
 #settings .theme-choice{border-radius:12px}
 #settings .vm-settings-actions{margin-top:18px;gap:10px}
 #settings #vm-settings-actions[hidden]{display:none}
-#settings .settings-subdetails{margin-bottom:0}
+#settings .settings-subdetails[hidden]{display:none}
+#settings .settings-subdetails{border-top:1px solid var(--line);padding-top:8px;margin-top:12px;margin-bottom:0}
+#settings .settings-subdetails>summary{font-size:12px;font-weight:600;cursor:pointer}
+#settings .settings-subdetails>summary:focus-visible{outline:2px solid var(--accent);outline-offset:4px;border-radius:4px}
+.settings-update-body{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:10px 0 4px}
+.settings-update-body p{margin:0;max-width:350px;font-size:12px;color:var(--muted);line-height:1.7}
+.settings-update-body button{flex:none}
 #settings .settings-subdetails[open]>summary{color:var(--ink)}
 .settings-connection-footer{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-top:18px}
 .settings-connection-footer>span{font-size:11px;line-height:1.6;color:var(--muted)}
@@ -389,3 +396,4 @@ body.boss-view-active{background:radial-gradient(ellipse at 95% 0,color-mix(in s
 [data-theme="dark"] #settings #vm-settings-status.error{background:#422c2c;color:#ffc3b8;border-color:#795149}
 @media(max-width:850px){#settings .settings-layout{grid-template-columns:1fr}#settings .settings-layout .theme-choices{grid-template-columns:repeat(2,minmax(0,1fr))}.settings-help-row{flex-direction:column;gap:16px}#settings .settings-help-row .form-row{width:100%}}
 @media(max-width:550px){#settings .settings-help-row .form-row,#settings .settings-layout .theme-choices{grid-template-columns:1fr}}
+@media(max-width:550px){.settings-update-body{align-items:flex-start;flex-direction:column}}
