@@ -37,6 +37,7 @@ STEAM_SETUP_URL = 'https://cdn.cloudflare.steamstatic.com/client/installer/Steam
 STEAM_EXE = r'C:\Program Files (x86)\Steam\steam.exe'
 GUEST_APP = r'C:\Users\%s\AppData\Local\Programs\Bloons+\Bloons+.exe' % USER
 GUEST_INSTALL_RESULT = r'C:\Users\%s\AppData\Local\BloonsPlus\installer-result.txt' % USER
+GUEST_INSTALL_LOCK = GUEST_APP.rsplit('\\', 1)[0] + r'\.bloons-install.lock'
 BTD6_APP_ID = 960090
 
 
@@ -246,17 +247,68 @@ def run_on_vm_desktop(info, task, program, arguments=''):
     subprocess.run(ssh_command(info) + ['schtasks /run /tn %s' % task], check=True, capture_output=True)
 
 
-def wait_for_guest_install(info, timeout=2700):
+def guest_install_busy(info):
+    """Probe native installer ownership without enumerating or stopping processes."""
+    result = ssh(info, "$ErrorActionPreference='Stop'; $taskLock='%s'; "
+                 "if (!(Test-Path -LiteralPath $taskLock)) { 'FREE' } else { "
+                 "try { $taskHandle=[IO.File]::Open($taskLock,[IO.FileMode]::Open,[IO.FileAccess]::ReadWrite,[IO.FileShare]::None); "
+                 "$taskHandle.Dispose(); 'FREE' } catch [IO.IOException] { "
+                 "$taskCode=$_.Exception.HResult -band 65535; if ($taskCode -eq 32 -or $taskCode -eq 33) { 'BUSY' } else { throw } } }"
+                 % GUEST_INSTALL_LOCK).strip()
+    if result not in ('FREE', 'BUSY'):
+        raise RuntimeError('Could not establish VM installer ownership; setup was not started.')
+    return result == 'BUSY'
+
+
+def guest_installer_matches(info, source):
+    """A completed prior request can satisfy this update only for identical bytes."""
+    digest = hashlib.sha256()
+    with Path(source).open('rb') as stream:
+        for chunk in iter(lambda: stream.read(1024 * 1024), b''):
+            digest.update(chunk)
+    target = GUEST_APP.rsplit('\\', 1)[0] + r'\BloonsPlusSetup.exe'
+    result = ssh(info, "$ErrorActionPreference='Stop'; if (Test-Path -LiteralPath '%s') { "
+                 "(Get-FileHash -LiteralPath '%s' -Algorithm SHA256 -ErrorAction Stop).Hash } else { 'MISSING' }"
+                 % (target, target)).strip()
+    return result.lower() == digest.hexdigest()
+
+
+def supports_attempt_receipts(source):
+    # This native CLI marker is in the executable's metadata, before the ZIP.
+    # It is a compatibility check; upload integrity is verified separately.
+    with Path(source).open('rb') as stream:
+        return 'installer-result-'.encode('utf-16le') in stream.read(256 * 1024)
+
+
+def remove_guest_install_task(info, attempt):
+    if not re.fullmatch(r'[a-f0-9]{32}', attempt):
+        raise ValueError('Invalid installer attempt identifier')
+    try:
+        # Delete only this attempt's registration. schtasks /delete does not
+        # interrupt the program, including after an install wait timed out.
+        ssh(info, "& schtasks.exe /delete /tn 'BloonsPlusSetup-%s' /f; "
+            "if ($LASTEXITCODE -ne 0) { throw 'Could not remove setup task registration' }" % attempt)
+    except RuntimeError:
+        log('The setup task registration was retained; installer processes were not stopped.')
+
+
+def wait_for_guest_install(info, timeout=2700, attempt=None):
     """Do not report success just because Task Scheduler accepted the launch request."""
+    result_path = GUEST_INSTALL_RESULT
+    if attempt is not None:
+        if not re.fullmatch(r'[a-f0-9]{32}', attempt):
+            raise ValueError('Invalid installer attempt identifier')
+        result_path = GUEST_INSTALL_RESULT.replace('installer-result.txt', 'installer-result-%s.txt' % attempt)
     deadline = time.time() + timeout
     next_report = time.time() + 30
     while time.time() < deadline:
+        busy = guest_install_busy(info)
         result = ssh(info, "if (Test-Path '%s') { Get-Content -Raw '%s' } else { 'PENDING' }"
-                     % (GUEST_INSTALL_RESULT, GUEST_INSTALL_RESULT)).strip()
-        if result == 'OK':
+                     % (result_path, result_path)).strip()
+        if result == 'OK' and not busy:
             log('Bloons+ installer confirmed completion in the VM')
             return
-        if result.startswith('ERROR:'):
+        if result.startswith('ERROR:') and not busy:
             raise RuntimeError('Bloons+ installer failed in the VM: %s' % result)
         if time.time() >= next_report:
             log('waiting for Bloons+ installer in the VM (%s)' % result[:80])
@@ -346,6 +398,10 @@ def provision(client, args):
     name = status['name']
     log('VM %s online (%s MB RAM, %s cores, GPU mode %s)' % (name, status['ramMb'], status['cpuCores'], status['gpuMode']))
     info = wait_ssh(client, name)
+    waited_for_installer = guest_install_busy(info)
+    if waited_for_installer:
+        log('an existing Bloons+ installer owns the VM installation; waiting for it to finish')
+        wait_for_guest_install(info)
     desktop = ssh(info, '[Environment]::GetFolderPath(\'Desktop\')')
 
     if ssh(info, "Test-Path '%s'" % STEAM_EXE) != 'True':
@@ -356,24 +412,34 @@ def provision(client, args):
         ssh(info, 'Start-Process -Wait \'%s\\SteamSetup.exe\' -ArgumentList \'/S\'' % desktop, timeout=600)
 
     installed = ssh(info, "Test-Path '%s'" % GUEST_APP) == 'True'
-    if args.reinstall or not installed:
+    needs_install = not installed or args.reinstall
+    if installed and waited_for_installer and guest_installer_matches(info, args.installer):
+        needs_install = False
+        log('the existing installer completed this exact update; reusing the installation')
+    if needs_install:
+        if not supports_attempt_receipts(args.installer):
+            raise RuntimeError('This older installer does not support isolated VM setup results. Download the latest Bloons+ installer before updating the VM.')
         log('copying the Bloons+ installer into the VM (%d MB)' % (args.installer.stat().st_size // (1024 * 1024)))
         guest_installer = stage_guest_installer(info, args.installer)
     log('creating the BloonsPlusApp logon task in the VM')
     create_logon_task(info)
 
     run_on_vm_desktop(info, 'BloonsPlusSteam', STEAM_EXE)
-    if args.reinstall or not installed:
-        # The old Electron process keeps its executable locked during updates. No replay is
-        # active when the host requests a reinstall, so stop only Bloons+ before replacing it.
-        if args.reinstall and installed:
-            log('closing the previous Bloons+ app in the VM before updating its files')
-            ssh(info, "Get-Process -Name 'Bloons+' -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue; 'OK'")
-        ssh(info, "Remove-Item -LiteralPath '%s' -Force -ErrorAction SilentlyContinue; 'OK'" % GUEST_INSTALL_RESULT)
+    if needs_install:
+        # The native installer rechecks guest idleness before closing its owned
+        # controller. Do not stop it here: gameplay may have started since the
+        # host's earlier check, and a duplicate request may lose ownership.
+        # An attempt-specific receipt cannot be cleared by another host request
+        # or mistaken for an older installer result. The native lock still owns
+        # the global compatibility receipt.
+        attempt = uuid.uuid4().hex
         # The installer downloads Bloons+'s Python packages in the VM and then starts Bloons+.
         log('running the Bloons+ installer in the VM (it downloads its Python packages; this takes a while)')
-        run_on_vm_desktop(info, 'BloonsPlusSetup', guest_installer, '/silent')
-        wait_for_guest_install(info)
+        try:
+            run_on_vm_desktop(info, 'BloonsPlusSetup-' + attempt, guest_installer, '/silent /attempt:' + attempt)
+            wait_for_guest_install(info, attempt=attempt)
+        finally:
+            remove_guest_install_task(info, attempt)
         remove_staged_installer(info, guest_installer)
     else:
         subprocess.run(ssh_command(info) + ['schtasks /run /tn BloonsPlusApp'], capture_output=True)
@@ -401,6 +467,9 @@ def main(argv=None):
         open_display(client, name)
         log('Steam install prompt for Bloons TD 6 opened in the VM window.')
     elif args.action == 'launch-app':
+        if guest_install_busy(info):
+            log('waiting for the active VM installer before launching Bloons+')
+            wait_for_guest_install(info)
         # Never start a second copy, and never start Bloons+ while its installer is still writing files.
         # Do not pass the '+' name through Get-Process -Name: PowerShell treats
         # it as a wildcard pattern in some guest builds and the SSH wrapper then

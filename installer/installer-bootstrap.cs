@@ -65,10 +65,28 @@ internal sealed class InstallerForm : Form
     private readonly object logLock = new object();
     private readonly string logPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "BloonsPlus", "installer.log");
     private readonly string resultPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "BloonsPlus", "installer-result.txt");
+    private readonly string attemptResultPath = AttemptResultPath(
+        Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "BloonsPlus"),
+        Environment.GetCommandLineArgs().Where(arg => arg.StartsWith("/attempt:", StringComparison.OrdinalIgnoreCase))
+            .Select(arg => arg.Substring(9)).FirstOrDefault());
+    internal static string AttemptResultPath(string directory, string token)
+    {
+        if (token == null) return null;
+        Guid parsed;
+        if (!Guid.TryParseExact(token, "N", out parsed)) throw new ArgumentException("Invalid installer attempt identifier.");
+        return Path.Combine(directory, "installer-result-" + parsed.ToString("N") + ".txt");
+    }
+    private void WriteAttemptResult(string result)
+    {
+        if (attemptResultPath == null) return;
+        try { Directory.CreateDirectory(Path.GetDirectoryName(attemptResultPath)); File.WriteAllText(attemptResultPath, result); }
+        catch (Exception error) { Log("Could not write installer attempt result: " + error.Message); }
+    }
     private void WriteResult(string result)
     {
         try { Directory.CreateDirectory(Path.GetDirectoryName(resultPath)); File.WriteAllText(resultPath, result); }
         catch (Exception error) { Log("Could not write installer result: " + error.Message); }
+        WriteAttemptResult(result);
     }
     private void Log(string text)
     {
@@ -478,13 +496,31 @@ internal sealed class InstallerForm : Form
         } finally { foreach (Process process in owned) process.Dispose(); }
     }
 
+    internal static FileStream AcquireInstallLock(string root)
+    {
+        Directory.CreateDirectory(root);
+        try {
+            // Keep this file after release: deleting it could split ownership
+            // between two installers that opened different file instances.
+            return new FileStream(Path.Combine(root, ".bloons-install.lock"),
+                FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None);
+        } catch (IOException error) {
+            int code = error.HResult & 0xffff;
+            if (code == 32 || code == 33)
+                throw new InvalidOperationException("Another Bloons+ installer is working on this installation. Wait for it to finish, then retry.", error);
+            throw;
+        }
+    }
+
     private void Install()
     {
         string tempZip = Path.Combine(Path.GetTempPath(), "BloonsPlus-" + Guid.NewGuid().ToString("N") + ".zip");
         string backupRoot = Path.Combine(Path.GetTempPath(), "BloonsPlus-data-" + Guid.NewGuid().ToString("N"));
         bool installed = false;
+        FileStream installLock = null;
         try
         {
+            installLock = AcquireInstallLock(installRoot);
             WriteResult("RUNNING");
             CloseInstalledControllers();
             SetStatus("Reading embedded app package…", InstallerStage.Prepare);
@@ -571,7 +607,8 @@ internal sealed class InstallerForm : Form
         catch (Exception error)
         {
             Log(error.ToString());
-            WriteResult("ERROR: " + error.Message);
+            if (installLock != null) WriteResult("ERROR: " + error.Message);
+            else WriteAttemptResult("ERROR: " + error.Message);
             try { RestoreExistingData(backupRoot); }
             catch (Exception restoreError) { Log("Data backup retained at " + backupRoot + ": " + restoreError); }
             SetFailure("Installation failed: " + error.Message);
@@ -590,6 +627,7 @@ internal sealed class InstallerForm : Form
         }
         finally
         {
+            if (installLock != null) installLock.Dispose();
             try { if (File.Exists(tempZip)) File.Delete(tempZip); } catch { }
             if (installed) { try { if (Directory.Exists(backupRoot)) Directory.Delete(backupRoot, true); } catch { } }
             // Keep the backup after an interrupted update; the user may need it

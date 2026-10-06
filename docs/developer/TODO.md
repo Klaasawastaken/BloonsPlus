@@ -5,7 +5,7 @@ Updated **6 October 2026**. This is the readable, active task list. Technical no
 ## At a glance
 
 - **Current priority:** installer/setup, app polish, folders and the website alongside missing-medal gameplay.
-- **Sweep:** running in the VM. Dark Castle Military Monkeys Only and Underground CHIMPS were confirmed by victory and saved medals. The user restarted the sweep; Off the Coast Military Monkeys Only is the current replay. The previous Bloody Puddles interruption remains under investigation.
+- **Sweep:** running in the VM. Dark Castle Military Monkeys Only, Underground CHIMPS and Off the Coast Military Monkeys Only were confirmed by victory and saved medals. Cornfield Impoppable is the current replay. The previous Bloody Puddles interruption remains under investigation.
 - **Development alongside gameplay:** installer/setup polish, app polish, folder organization and website redesign. Check the sweep every five minutes and diagnose meaningful failures.
 - **Background work:** improve routes and placement from missing-medal gameplay evidence; retain failures and skip owned medals.
 - **Latest release:** Preview 89 is published with explicit VM setup states, validated step advancement and verified update reconnection. The healthy VM replay retains its existing runtime; this batch was not deployed mid-run. Live cash-recovery evidence remains open.
@@ -118,6 +118,7 @@ The sweep earns missing medals alongside development. Deploy changes together af
   - Installer now uses five named steps with measured percentages or a working indicator. Healthy unstamped Python environments pass version, dependency and runtime import probes before reuse. Offline progress/reuse checks pass; clean-machine repair evidence remains open.
   - Healthy environment reuse now happens before the 5 GB package-install space check. Repairs still check space before moving or rebuilding environments.
   - VM setup now reports explicit states and validates actions before advancing. Retry/failure/restart/sign-in and delayed update connection checks pass offline. Interrupted-process recovery and clean/interrupted setup acceptance remain open.
+  - The native installer now holds an exclusive installation lock before file changes or result receipts. VM requests have unique tasks and receipts; setup waits for an owner and compares installer hashes before reusing an identical completed update. Real Windows cross-process, duplicate-result and PowerShell lock checks pass. Unsupported older installers are refused before staging. Recovery of orphaned package processes remains open.
 - [ ] **I-04 — Check release packaging.** Installer, release notes and latest-download link. No separate `SHA256SUMS.txt` asset.
 - [ ] **I-05 — Add trusted code signing when available.** Unsigned installers may still trigger SmartScreen.
 - [ ] **I-06 — Meet production acceptance gates.** Complete the specification before publishing **v1.0.0**; previews do not establish production readiness.
