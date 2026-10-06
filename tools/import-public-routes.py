@@ -193,6 +193,19 @@ class Route:
         name = self.tower(source_name)
         state = self.towers[name]
         kind = state["type"]
+        if kind == "spike":
+            # Source bot: Normal -> Close -> Smart uses two forward presses.
+            # Higher tiers and positional targeting have different cycles.
+            if target.lower() == "smart" and 2 <= state["up"][2] <= 4:
+                current = state.get("spikeTarget", "normal")
+                if current == "normal":
+                    self.lines.extend([f"retarget {name}"] * 2)
+                    state["spikeTarget"] = "smart"
+                    return
+                if current == "smart":
+                    return
+            self.lossy.add(f"spike targeting '{target}' (needs a special cycle or click)")
+            return
         if kind in ("heli", "ace", "mortar", "dartling", "spike", "farm", "village", "engineer", "beasthandler"):
             self.lossy.add(f"{kind} targeting '{target}' (needs a special cycle or click)")
             return
@@ -1124,6 +1137,38 @@ def emit_speed_candidates():
     print(json.dumps({'speedCandidates': written, 'parserErrors': errors}, indent=2))
 
 
+def emit_spike_target_candidates():
+    """Keep faithful Smart targeting in new candidates; preserve recordings."""
+    written = []
+    for path in sorted(BTD6BOT_PLANS.glob('*.py')):
+        if path.name.startswith('_'):
+            continue
+        try:
+            route = convert_btd6bot(path)
+            lines = route.body()
+        except (Unsupported, KeyError, IndexError, ValueError):
+            continue
+        if route.lossy or not any(state.get('spikeTarget') == 'smart' for state in route.towers.values()):
+            continue
+        source = SOURCES[route.source]
+        name = f'{route.map}#{route.mode}#{W}x{H}#converted#source_{route.source}#spike-target-preserved.btd6'
+        meta = [f"source: {source['repo']} (license {source['license']}) commit {source['commit']}",
+                f'source file: {route.source_file}', f'generator: {GENERATOR}',
+                'Spike Factory Normal to Smart targeting preserved as two forward presses.',
+                'Recorded placements and upgrades retained. No original replaced; no local victory claimed.']
+        content = '\n'.join(header(meta) + lines) + '\n'
+        target = PT / name
+        if target.exists() and target.read_text(encoding='utf-8') != content:
+            raise RuntimeError(f'Refusing to overwrite changed Spike target candidate: {name}')
+        if not target.exists():
+            target.write_text(content, encoding='utf-8', newline='\n')
+        written.append(name)
+    errors = {name: error for name, error in validate(written).items() if error} if written else {}
+    if errors:
+        raise RuntimeError('Spike target candidate parser errors: ' + json.dumps(errors))
+    print(json.dumps({'spikeTargetCandidates': written, 'parserErrors': errors}, indent=2))
+
+
 def audit_legacy_timing():
     """Read-only inventory of legacy timing omissions; never launch or rewrite routes."""
     files = sorted(PT.glob('*.btd6'))
@@ -1156,6 +1201,8 @@ if __name__ == "__main__":
         emit_round_start_candidates()
     elif '--speed-candidates' in sys.argv:
         emit_speed_candidates()
+    elif '--spike-target-candidates' in sys.argv:
+        emit_spike_target_candidates()
     elif '--cursor-candidates' in sys.argv:
         emit_cursor_candidates()
     elif '--timing-candidates' in sys.argv:

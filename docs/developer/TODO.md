@@ -4,6 +4,10 @@ Updated 6 October 2026. Checkboxes require evidence, not merely code. Preserve o
 
 ## Current repair pass
 
+- [x] Rework Settings into connection, appearance and support sections; keep optional ISO/install details and resets collapsed, clarify retry setup, remove the unused AI Settings initializer. Preserve setup/update/reporting hooks and automatic profile detection. Browser layout reviewed; JS syntax checks pass.
+- [x] Preserve pinned BTD6bot Spike Factory Normal → Smart targeting for bottom tiers 2–4 using two forward presses. Other uncertain cycles remain excluded. Six separate candidates pass full parser and strict JS legality; original recordings unchanged. Coverage is 513/1,204, with 691 gaps and four maps without eligible routes. No new victories claimed.
+
+
 - [x] Preserve round-read freshness separately from a retained counter. Unreadable frames cannot refresh its timestamp; resumed checkpoints are not new observations. New failures use guest read/end timestamps to reject counters older than ten seconds for loss-stage classification, retaining the last readable number and timestamp as diagnostics. Legacy records retain their interpretation. Two runtime regressions, eight helper cases, loss/failure classification and four ledger checks pass. Live deployment pending.
 - [x] Give only Infernal Reverse/ABR Heli candidates one stable new attempt revision after the live-confirm fix. Keep failure history, unrelated exclusions, other Infernal modes and original CHIMPS unchanged; owned-medal admission still applies. Targeted hash regressions pass. No route win claimed.
 - Preview 54 updater completed after Infernal Reverse ended in defeat (last readable round 17; actual loss round not established while the counter was blocked). Guest confirmed the missing-medal sweep resumed and began Bloody Puddles Reverse.

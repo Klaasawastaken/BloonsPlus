@@ -1,0 +1,73 @@
+# source: https://github.com/j-miet/BTD6bot (license MIT (c) 2025 Jani Miettinen) commit 2d6dac0957a0d55d0af201bd497afbebf7f3e5c2
+# source file: btd6bot/plans/glacial_trailMediumStandard.py
+# generator: import-public-routes.py
+# Spike Factory Normal to Smart targeting preserved as two forward presses.
+# Recorded placements and upgrades retained. No original replaced; no local victory claimed.
+# generator: import-public-routes.py
+place engineer engineer0 at 317, 543
+place dart dart0 at 1373, 663
+round 6
+sell engineer0
+place sauda hero0 at 317, 543
+round 7
+sell dart0
+round 8
+place dart dart1 at 238, 546
+retarget dart1
+retarget dart1
+retarget dart1
+round 14
+place engineer engineer1 at 1373, 663
+upgrade engineer1 path 0
+upgrade engineer1 path 0
+upgrade dart1 path 1
+round 22
+place druid druid0 at 1178, 1031
+upgrade druid0 path 1
+round 23
+upgrade druid0 path 1
+round 24
+upgrade druid0 path 1
+round 25
+upgrade druid0 path 0
+round 31
+place mortar mortar0 at 346, 988
+retarget mortar0 to 455, 485
+round 32
+place spike spike0 at 1446, 742
+upgrade spike0 path 2
+upgrade spike0 path 2
+retarget spike0
+retarget spike0
+round 35
+upgrade spike0 path 2
+upgrade spike0 path 0
+upgrade spike0 path 0
+round 39
+upgrade engineer1 path 0
+upgrade engineer1 path 0
+upgrade engineer1 path 1
+upgrade engineer1 path 1
+round 42
+upgrade mortar0 path 2
+upgrade mortar0 path 2
+upgrade mortar0 path 2
+round 43
+upgrade mortar0 path 1
+upgrade mortar0 path 1
+upgrade dart1 path 0
+round 44
+upgrade dart1 path 0
+upgrade dart1 path 0
+upgrade dart1 path 0
+round 45
+upgrade dart1 path 1
+round 46
+upgrade spike0 path 2
+round 47
+place alchemist alchemist0 at 1365, 730
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+round 54
+upgrade dart1 path 0

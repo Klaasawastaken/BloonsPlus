@@ -105,22 +105,6 @@ function loadState() {
   catch { return { ...defaults }; }
 }
 function saveState() { localStorage.setItem(STORE_KEY, JSON.stringify(state)); render(); }
-function initExperimentalAiSettings() {
-  const chip = document.querySelector('#ai-status-chip');
-  const detail = document.querySelector('#ai-data-status');
-  if (!chip || !detail) return;
-  const refresh = async () => {
-    try {
-      const response = await fetch('/api/experimental-ai/status', { cache: 'no-store', signal: AbortSignal.timeout(4000) });
-      if (!response.ok) throw new Error('collector unavailable');
-      const data = await response.json();
-      chip.textContent = data.enabled ? 'LEARNING · READ ONLY' : 'WAITING';
-      detail.textContent = `${data.confirmedActionCount || 0} confirmed actions · ${data.observedEventCount || 0} gameplay observations · ${data.victories || 0} victories / ${data.defeats || 0} defeats · ${data.lastLearnedAt ? `updated ${new Date(data.lastLearnedAt).toLocaleTimeString()}` : 'waiting for gameplay'}`;
-    } catch { chip.textContent = 'WAITING'; detail.textContent = 'Passive collector connects when Bloons+ is running.'; }
-  };
-  refresh();
-  setInterval(() => { if (!document.hidden) refresh(); }, 5000);
-}
 function notify(message) {
   const toast = document.querySelector('#toast'); toast.textContent = message; toast.classList.add('show');
   clearTimeout(toastTimer); toastTimer = setTimeout(() => toast.classList.remove('show'), 2200);
@@ -146,7 +130,6 @@ function showView(view) {
   if (view === 'bosses') renderBossHub();
   if (view === 'logs') loadRouteFailures();
 }
-initExperimentalAiSettings();
 async function refreshBossEvent() {
   if (!document.querySelector('#boss-event-requirements')) return;
   try {

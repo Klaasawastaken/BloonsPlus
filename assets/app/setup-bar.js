@@ -32,7 +32,7 @@
       const next = status.next || {};
       $('vm-settings-title').textContent = status.applicable ? 'VM connection' : 'Game connection';
       $('vm-settings-description').textContent = status.applicable
-        ? 'Setup, repairs and updates in one place.'
+        ? 'Connect your game, finish setup or update Bloons+.'
         : 'VM setup is managed from your main PC.';
       settingsStatus.textContent = setupJob.error ? `Setup stopped: ${setupJob.error}`
         : setupJob.running ? (setupJob.activity || 'Setting up the VM…')
@@ -66,7 +66,7 @@
         return item;
       }));
       settingsStart.disabled = !status.applicable || status.allDone || !!setupJob.running || !next.button;
-      settingsStart.textContent = setupJob.running ? 'Working…' : next.button || (status.allDone ? 'Setup complete' : 'Restart required');
+      settingsStart.textContent = setupJob.running ? 'Working…' : setupJob.error && next.button ? 'Retry setup' : next.button || (status.allDone ? 'Setup complete' : 'Restart required');
       if (settingsUpdate) settingsUpdate.disabled = !status.applicable || !!setupJob.running || !(status.vm?.state === 'online' || status.allDone);
     }
     const show = status.applicable && !status.allDone && !hiddenByUser;
