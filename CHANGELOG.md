@@ -1,3 +1,10 @@
+## Preview 76 — Counter structure and Engineer targeting
+
+- Validate round counter structure and selected-mode totals in normal and fallback OCR reads.
+- Reject impossible/padded counters before they advance route actions.
+- Preserve source Engineer standard targeting and moved selectors during conversion.
+- Keep unrelated manual-round and Ace-centering omissions excluded; original recordings remain unchanged.
+
 ## Preview 75 — Relevant settings and manual-round safety
 
 - Hide VM update controls before installation and unusable setup buttons during reboot-only steps.

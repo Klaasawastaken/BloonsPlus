@@ -1,6 +1,6 @@
 import windowed_input  # patch game-relative screenshot/input before helper binds resolutions
 from helper import *
-from ocr import custom_ocr, cash_ocr, round_recovery_candidate
+from ocr import custom_ocr, cash_ocr, parse_round_digits, round_recovery_candidate
 import subprocess
 import os
 import hashlib
@@ -2940,9 +2940,13 @@ def main():
                     currentValues['money'] = cash_ocr(images[2], resolution=(screenshot.shape[1], screenshot.shape[0]))
                 except (TypeError, ValueError):
                     currentValues['money'] = -1
+                # Use the selected game mode, not the source recording's
+                # end round: a CHIMPS fallback can be playing Hard Standard.
+                modeValue = gamemodes.get(mapConfig.get('gamemode'), {}).get('value')
+                expectedRoundLimit = {1: 40, 2: 60, 3: 60, 4: 80, 5: 100}.get(modeValue)
                 try:
                     rawRound = custom_ocr(images[3])
-                    currentValues['round'] = int(rawRound.split('/')[0])
+                    currentValues['round'] = parse_round_digits(rawRound, expectedRoundLimit)
                 except (AttributeError, TypeError, ValueError):
                     currentValues['round'] = -1
                     rawRound = ''
@@ -2990,7 +2994,7 @@ def main():
                     # A slightly stricter white threshold recovers glyph edges on snowy
                     # maps. Accept it only if it also follows the known round sequence.
                     try:
-                        alternateRound = int(custom_ocr(images[3], white_threshold=230).split('/')[0])
+                        alternateRound = parse_round_digits(custom_ocr(images[3], white_threshold=230), expectedRoundLimit)
                         if anchorRound <= alternateRound <= anchorRound + 3:
                             currentValues['round'] = alternateRound
                             customPrint('DEBUG round OCR recovered at threshold 230: ' + str(alternateRound))

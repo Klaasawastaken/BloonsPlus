@@ -30,6 +30,27 @@ def cash_ocr(img, resolution=None):
                     for threshold in (230, 242)]
     return alternatives[0] if alternatives[0] >= 0 and alternatives[0] == alternatives[1] else -1
 
+def parse_round_digits(raw, expected_limit=None):
+    """Read a canonical counter without accepting another HUD total or padding."""
+    if not isinstance(raw, str) or not raw.isascii():
+        return -1
+    parts = raw.split('/')
+    if len(parts) not in (1, 2):
+        return -1
+    if any(not part.isdigit() or (len(part) > 1 and part.startswith('0')) for part in parts):
+        return -1
+    reading = int(parts[0])
+    if len(parts) == 2:
+        limit = int(parts[1])
+        if limit not in (40, 60, 80, 100) or (expected_limit is not None and limit != expected_limit):
+            return -1
+    else:
+        limit = expected_limit
+    if reading < 1 or (limit is not None and reading > limit):
+        return -1
+    return reading
+
+
 def round_recovery_candidate(raw, anchor, elapsed):
     """Allow delayed counter recovery only with a complete, bounded round HUD."""
     parts = raw.split('/')
