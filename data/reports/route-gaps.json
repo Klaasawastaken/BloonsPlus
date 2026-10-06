@@ -1,23 +1,23 @@
 {
   "summary": {
-    "generatedAt": "2026-10-06T01:56:11.700Z",
-    "totalGaps": 695,
-    "gapsWithRejectedCandidate": 21,
+    "generatedAt": "2026-10-06T04:21:42.495Z",
+    "totalGaps": 691,
+    "gapsWithRejectedCandidate": 20,
     "gapsWithDraftOnly": 0,
-    "gapsWithNoCandidateFound": 674,
+    "gapsWithNoCandidateFound": 671,
     "perMode": {
-      "easy": 7,
+      "easy": 6,
       "primary_only": 63,
       "deflation": 65,
-      "medium": 7,
+      "medium": 6,
       "military_only": 77,
       "reverse": 69,
       "apopalypse": 72,
-      "hard": 8,
+      "hard": 7,
       "magic_monkeys_only": 73,
       "double_hp_moabs": 72,
       "half_cash": 72,
-      "alternate_bloons_rounds": 66,
+      "alternate_bloons_rounds": 65,
       "impoppable": 22,
       "chimps": 22
     },
@@ -8259,26 +8259,6 @@
       "map": "party_parade",
       "mapName": "Party Parade",
       "category": "Advanced",
-      "mode": "easy",
-      "searched": [
-        "GitHub code/repo search for BTD6 bots and macros (btd6+bot, btd6+macro, btd6+autoplay, bloonstd6+automation, btd6+chimps+bot)",
-        "j-miet/BTD6bot (MIT) — plans/*.py, vendored in btd6bot/",
-        "piweiblen/BloonsPlayer (MIT) — src/data/tas/*.txt, vendored in route-library/public-sources/piweiblen-BloonsPlayer",
-        "ThuyTran735/BTD6-Everything-Macro (MIT) — Maps/**/*.ahk, vendored in route-library/public-sources/ThuyTran735-BTD6-Everything-Macro",
-        "Randy-Hodges/BTD6-Autoplay (MIT) — Autoplay/action_scripts/collection_scripts/*.py, vendored in route-library/public-sources/Randy-Hodges-BTD6-Autoplay",
-        "Griznah/btd6-auto (GPL-3.0) — btd6_auto/configs/maps/*.json: checked, almost every map file is a {\"placeholder\": true} stub with no coordinates",
-        "machasins/btd6bot — data/map_scripts/**/*.json: repo returned empty tree via the GitHub API at the time of the search",
-        "dawei7/BloonsTD6_BOT (MIT) — src/data/files/*.csv: only 2 maps (Tinkerton, In the Loop), both already covered",
-        "linus-jansson/btd6farmer (MIT) — gameplans/*/instructions.json: only Dark Castle and Infernal, both already covered"
-      ],
-      "rejectedCandidates": [],
-      "draftOnly": [],
-      "reason": "no candidate strategy with placement coordinates was found in any searched source for this map/mode"
-    },
-    {
-      "map": "party_parade",
-      "mapName": "Party Parade",
-      "category": "Advanced",
       "mode": "primary_only",
       "searched": [
         "GitHub code/repo search for BTD6 bots and macros (btd6+bot, btd6+macro, btd6+autoplay, bloonstd6+automation, btd6+chimps+bot)",
@@ -8300,26 +8280,6 @@
       "mapName": "Party Parade",
       "category": "Advanced",
       "mode": "deflation",
-      "searched": [
-        "GitHub code/repo search for BTD6 bots and macros (btd6+bot, btd6+macro, btd6+autoplay, bloonstd6+automation, btd6+chimps+bot)",
-        "j-miet/BTD6bot (MIT) — plans/*.py, vendored in btd6bot/",
-        "piweiblen/BloonsPlayer (MIT) — src/data/tas/*.txt, vendored in route-library/public-sources/piweiblen-BloonsPlayer",
-        "ThuyTran735/BTD6-Everything-Macro (MIT) — Maps/**/*.ahk, vendored in route-library/public-sources/ThuyTran735-BTD6-Everything-Macro",
-        "Randy-Hodges/BTD6-Autoplay (MIT) — Autoplay/action_scripts/collection_scripts/*.py, vendored in route-library/public-sources/Randy-Hodges-BTD6-Autoplay",
-        "Griznah/btd6-auto (GPL-3.0) — btd6_auto/configs/maps/*.json: checked, almost every map file is a {\"placeholder\": true} stub with no coordinates",
-        "machasins/btd6bot — data/map_scripts/**/*.json: repo returned empty tree via the GitHub API at the time of the search",
-        "dawei7/BloonsTD6_BOT (MIT) — src/data/files/*.csv: only 2 maps (Tinkerton, In the Loop), both already covered",
-        "linus-jansson/btd6farmer (MIT) — gameplans/*/instructions.json: only Dark Castle and Infernal, both already covered"
-      ],
-      "rejectedCandidates": [],
-      "draftOnly": [],
-      "reason": "no candidate strategy with placement coordinates was found in any searched source for this map/mode"
-    },
-    {
-      "map": "party_parade",
-      "mapName": "Party Parade",
-      "category": "Advanced",
-      "mode": "medium",
       "searched": [
         "GitHub code/repo search for BTD6 bots and macros (btd6+bot, btd6+macro, btd6+autoplay, bloonstd6+automation, btd6+chimps+bot)",
         "j-miet/BTD6bot (MIT) — plans/*.py, vendored in btd6bot/",
@@ -8399,26 +8359,6 @@
       "map": "party_parade",
       "mapName": "Party Parade",
       "category": "Advanced",
-      "mode": "hard",
-      "searched": [
-        "GitHub code/repo search for BTD6 bots and macros (btd6+bot, btd6+macro, btd6+autoplay, bloonstd6+automation, btd6+chimps+bot)",
-        "j-miet/BTD6bot (MIT) — plans/*.py, vendored in btd6bot/",
-        "piweiblen/BloonsPlayer (MIT) — src/data/tas/*.txt, vendored in route-library/public-sources/piweiblen-BloonsPlayer",
-        "ThuyTran735/BTD6-Everything-Macro (MIT) — Maps/**/*.ahk, vendored in route-library/public-sources/ThuyTran735-BTD6-Everything-Macro",
-        "Randy-Hodges/BTD6-Autoplay (MIT) — Autoplay/action_scripts/collection_scripts/*.py, vendored in route-library/public-sources/Randy-Hodges-BTD6-Autoplay",
-        "Griznah/btd6-auto (GPL-3.0) — btd6_auto/configs/maps/*.json: checked, almost every map file is a {\"placeholder\": true} stub with no coordinates",
-        "machasins/btd6bot — data/map_scripts/**/*.json: repo returned empty tree via the GitHub API at the time of the search",
-        "dawei7/BloonsTD6_BOT (MIT) — src/data/files/*.csv: only 2 maps (Tinkerton, In the Loop), both already covered",
-        "linus-jansson/btd6farmer (MIT) — gameplans/*/instructions.json: only Dark Castle and Infernal, both already covered"
-      ],
-      "rejectedCandidates": [],
-      "draftOnly": [],
-      "reason": "no candidate strategy with placement coordinates was found in any searched source for this map/mode"
-    },
-    {
-      "map": "party_parade",
-      "mapName": "Party Parade",
-      "category": "Advanced",
       "mode": "magic_monkeys_only",
       "searched": [
         "GitHub code/repo search for BTD6 bots and macros (btd6+bot, btd6+macro, btd6+autoplay, bloonstd6+automation, btd6+chimps+bot)",
@@ -8474,32 +8414,6 @@
       "rejectedCandidates": [],
       "draftOnly": [],
       "reason": "no candidate strategy with placement coordinates was found in any searched source for this map/mode"
-    },
-    {
-      "map": "party_parade",
-      "mapName": "Party Parade",
-      "category": "Advanced",
-      "mode": "alternate_bloons_rounds",
-      "searched": [
-        "GitHub code/repo search for BTD6 bots and macros (btd6+bot, btd6+macro, btd6+autoplay, bloonstd6+automation, btd6+chimps+bot)",
-        "j-miet/BTD6bot (MIT) — plans/*.py, vendored in btd6bot/",
-        "piweiblen/BloonsPlayer (MIT) — src/data/tas/*.txt, vendored in route-library/public-sources/piweiblen-BloonsPlayer",
-        "ThuyTran735/BTD6-Everything-Macro (MIT) — Maps/**/*.ahk, vendored in route-library/public-sources/ThuyTran735-BTD6-Everything-Macro",
-        "Randy-Hodges/BTD6-Autoplay (MIT) — Autoplay/action_scripts/collection_scripts/*.py, vendored in route-library/public-sources/Randy-Hodges-BTD6-Autoplay",
-        "Griznah/btd6-auto (GPL-3.0) — btd6_auto/configs/maps/*.json: checked, almost every map file is a {\"placeholder\": true} stub with no coordinates",
-        "machasins/btd6bot — data/map_scripts/**/*.json: repo returned empty tree via the GitHub API at the time of the search",
-        "dawei7/BloonsTD6_BOT (MIT) — src/data/files/*.csv: only 2 maps (Tinkerton, In the Loop), both already covered",
-        "linus-jansson/btd6farmer (MIT) — gameplans/*/instructions.json: only Dark Castle and Infernal, both already covered"
-      ],
-      "rejectedCandidates": [
-        {
-          "source": "btd6bot",
-          "sourceFile": "btd6bot/plans/party_paradeHardAlternate.py",
-          "reason": "written as an unverified #lossy draft for its own mode (drops spike targeting 'smart' (needs a special cycle or click)), not chimps/impoppable, so no easy/medium/hard cascade"
-        }
-      ],
-      "draftOnly": [],
-      "reason": "candidate strategy data exists in a searched source but could not be converted (see rejectedCandidates)"
     },
     {
       "map": "party_parade",

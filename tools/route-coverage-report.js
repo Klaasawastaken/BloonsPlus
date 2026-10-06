@@ -55,7 +55,8 @@ const pieces = [
 ].map(pattern => source.slice(source.search(pattern)).split('\n')[0]);
 const functions = [
   /^function parsePlaythroughFile\(/m, /^function listPlaythroughs\(/m, /^function routeHash\(/m,
-  /^function loadVerifiedRoutes\(/m, /^function routeRequirements\(/m, /^function getRecordedCombos\(/m,
+  /^function loadVerifiedRoutes\(/m, /^function routeRequirements\(/m,
+  /^function routeCandidatePriority\(/m, /^function compareRouteCandidates\(/m, /^function getRecordedCombos\(/m,
   /^const MODES_REQUIRING_VERIFIED_ROUTE = /m, /^function sweepCandidates\(/m,
 ].map(cut);
 const sandbox = { require: require('node:module').createRequire(path.join(ROOT, 'lib', 'automation.js')), __dirname: ROOT, PROJECT_ROOT: ROOT, fs, path, createHash, result: null };
