@@ -21,9 +21,11 @@ internal static class InventoryChecks {
   string root=Path.Combine(args[0],"app");Directory.CreateDirectory(root);
   string app=Path.Combine(root,"Bloons+.exe"),prefs=Path.Combine(root,"prefs.json");File.WriteAllText(app,"fixture");File.WriteAllText(prefs,"original");
   var serializer=new JavaScriptSerializer();
-  File.WriteAllText(Path.Combine(root,"bloons-package.json"),serializer.Serialize(new {protocolVersion=1,version="0.1.0",fingerprint=new string('a',64),files=new[]{new {path="Bloons+.exe",sha256=Hash(app)},new {path="prefs.json",sha256=Hash(prefs)}}}));
+  File.WriteAllText(Path.Combine(root,"bloons-package.json"),serializer.Serialize(new {protocolVersion=1,version="0.1.4-preview.99",fingerprint=new string('a',64),files=new[]{new {path="Bloons+.exe",sha256=Hash(app)},new {path="prefs.json",sha256=Hash(prefs)}}}));
   var observed=InstallerInventory.Inspect(root,new string('a',64));
   Check(observed.Exists&&observed.FilesHealthy&&!observed.DifferentBuild,"Observed installation missing");
+  var welcome=InstallerViewState.Welcome(observed.Version,observed.FilesHealthy,observed.DifferentBuild);
+  Check(welcome.Status.Contains("0.1.4-preview.99"),"Installed release version was not shown in the welcome view");
   Check(InstallerInventory.Inspect(root,new string('b',64)).DifferentBuild,"Different package not detected");
   File.WriteAllText(prefs,"user change");File.WriteAllText(Path.Combine(root,"save.json"),"never delete");
   Check(!InstallerInventory.Inspect(root,new string('a',64)).FilesHealthy,"Modified required file accepted");

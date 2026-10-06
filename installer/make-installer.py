@@ -7,10 +7,12 @@ App Sandbox, the Windows 11 ISO (Fido) and Steam (the in-app Setup bar, vm-setup
 """
 from __future__ import annotations
 
+import argparse
 import hashlib
 import io
 import json
 import os
+import re
 import runpy
 import shutil
 import subprocess
@@ -127,7 +129,21 @@ def optimize_pngs(folder: Path) -> None:
     print(f"PNG templates re-encoded losslessly: {saved / (1024**2):.1f} MiB saved", flush=True)
 
 
-def stage_app() -> None:
+def normalize_release_version(value: str | None) -> str | None:
+    if value is None:
+        return None
+    number = r'(?:0|[1-9][0-9]*)'
+    pattern = rf'v?({number}\.{number}\.{number}(?:-preview\.{number})?)'
+    match = re.fullmatch(pattern, value) if isinstance(value, str) and len(value) <= 64 else None
+    if not match:
+        raise ValueError('Invalid release version; use v1.0.0 or v0.1.4-preview.99')
+    return match.group(1)
+
+
+def stage_app(*, release_version: str | None = None) -> None:
+    # Validate before replacing staging or running build tools. The release
+    # identity is supplied by the build, never inferred from online metadata.
+    version = normalize_release_version(release_version)
     runpy.run_path(str(ROOT / 'installer/brand_tokens.py'))['generate']()
     if not ELECTRON.joinpath("electron.exe").is_file():
         raise SystemExit("Electron runtime not found at node_modules/electron/dist/electron.exe")
@@ -170,6 +186,19 @@ def stage_app() -> None:
             shutil.copy2(item, app / item.name)
         elif item.is_dir() and item.name not in SKIP_DIRS:
             copy_tree(item, app / item.name)
+
+    if version is not None:
+        package_path = app / 'package.json'
+        package = json.loads(package_path.read_text(encoding='utf-8'))
+        package['version'] = version
+        package_path.write_text(json.dumps(package, indent=2) + '\n', encoding='utf-8')
+        lock_path = app / 'package-lock.json'
+        if lock_path.is_file():
+            lock = json.loads(lock_path.read_text(encoding='utf-8'))
+            lock['version'] = version
+            if isinstance(lock.get('packages'), dict) and isinstance(lock['packages'].get(''), dict):
+                lock['packages']['']['version'] = version
+            lock_path.write_text(json.dumps(lock, indent=2) + '\n', encoding='utf-8')
 
     # Ship neutral account defaults; existing installations restore their own config.
     subprocess.run([sys.executable, str(ROOT / 'tools' / 'embed-exe-icon.py'),
@@ -287,9 +316,13 @@ def build_installer() -> None:
 
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='Build the BloonsPlus Windows installer.')
+    parser.add_argument('--release-version', type=normalize_release_version,
+                        help='Explicit release tag, e.g. v1.0.0. Without it, retain the development package version.')
+    options = parser.parse_args()
     DIST.mkdir(parents=True, exist_ok=True)
     subprocess.run([sys.executable, str(ROOT / "tools/check-publication.py")], check=True)
-    stage_app()
+    stage_app(release_version=options.release_version)
     zip_payload()
     subprocess.run([sys.executable, str(ROOT / "tools/check-publication.py"), "--payload", str(PACKAGE)], check=True)
     build_installer()

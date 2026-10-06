@@ -40,6 +40,19 @@ The output is `dist/BloonsPlusSetup.exe`. Publish installers as GitHub Release a
 than adding `dist` to Git. Installer builds depend on the local Python base installation,
 Electron runtime downloaded by npm, and the Windows .NET Framework C# compiler.
 
+For a release build, pass its exact planned tag explicitly:
+
+```powershell
+.\.venv\Scripts\python.exe installer/make-installer.py --release-version v0.1.4-preview.99
+```
+
+This stamps the staged app and native inventory with `0.1.4-preview.99`, leaving
+the development checkout's version unchanged. The installer and installed
+controller report that package identity, rather than the latest online release.
+Without the option, the builder retains the development package version. Invalid
+version input is rejected before replacing staging. Use the actual intended tag;
+the example does not publish a release or certify full 1.0 readiness.
+
 ## Current limitations
 
 Route availability does not guarantee a victory. Converted strategies, recovery placement,

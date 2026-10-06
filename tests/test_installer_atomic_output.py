@@ -1,4 +1,7 @@
 import importlib.util
+import json
+import subprocess
+import sys
 from pathlib import Path
 import tempfile
 import unittest
@@ -11,6 +14,95 @@ spec.loader.exec_module(builder)
 
 
 class InstallerAtomicOutputTests(unittest.TestCase):
+    def staged_release(self, version=None):
+        with tempfile.TemporaryDirectory() as folder:
+            base = Path(folder)
+            root, stage = base / 'source', base / 'stage'
+            electron, python = base / 'electron', base / 'python'
+            root.mkdir(); electron.mkdir(); python.mkdir()
+            (electron / 'electron.exe').write_bytes(b'fixture runtime')
+            (python / 'python.exe').write_bytes(b'fixture runtime')
+            package = {'name': 'bloons-plus', 'version': '0.1.0', 'main': 'electron-main.js',
+                       'dependencies': {'pngjs': '^7.0.0'}}
+            original = json.dumps(package).encode()
+            (root / 'package.json').write_bytes(original)
+            lock = {'name': 'bloons-plus', 'version': '0.1.0', 'lockfileVersion': 3,
+                    'packages': {'': package, 'node_modules/pngjs': {'version': '7.0.0'}}}
+            original_lock = json.dumps(lock).encode()
+            (root / 'package-lock.json').write_bytes(original_lock)
+            for relative in builder.REQUIRED_RUNTIME_FILES:
+                file = root / relative
+                file.parent.mkdir(parents=True, exist_ok=True)
+                file.write_text('fixture runtime')
+            for relative in ('tools/embed-exe-icon.py', 'tools/read-hero-selection.js', 'tools/verify-map-page.js'):
+                file = root / relative
+                file.parent.mkdir(parents=True, exist_ok=True)
+                file.write_text('fixture runtime')
+            (root / 'autobtd6').mkdir(exist_ok=True)
+            (root / 'autobtd6/userconfig.example.json').write_text('{}')
+            with patch.multiple(builder, ROOT=root, STAGE=stage, ELECTRON=electron, PYTHON_HOME=python), \
+                 patch.object(builder.runpy, 'run_path', return_value={'generate': lambda: None}), \
+                 patch.object(builder.subprocess, 'run'), \
+                 patch.object(builder, 'copy_node_modules'), patch.object(builder, 'optimize_pngs'):
+                if version is None:
+                    builder.stage_app()
+                else:
+                    builder.stage_app(release_version=version)
+                builder.write_inventory(stage)
+            staged = json.loads((stage / 'resources/app/package.json').read_text())
+            inventory = json.loads((stage / 'bloons-package.json').read_text())
+            self.assertEqual((root / 'package.json').read_bytes(), original, 'Build changed source version')
+            self.assertEqual((root / 'package-lock.json').read_bytes(), original_lock, 'Build changed source lock')
+            staged_lock = json.loads((stage / 'resources/app/package-lock.json').read_text())
+            self.assertEqual(staged_lock['version'], staged['version'], 'Staged lock label disagrees with app')
+            self.assertEqual(staged_lock['packages']['']['version'], staged['version'])
+            self.assertEqual(staged_lock['packages']['node_modules/pngjs'], {'version': '7.0.0'})
+            self.assertEqual({key: value for key, value in staged.items() if key != 'version'},
+                             {key: value for key, value in package.items() if key != 'version'})
+            import hashlib
+            entry = next(item for item in inventory['files'] if item['path'] == 'resources/app/package.json')
+            self.assertEqual(entry['sha256'], hashlib.sha256((stage / entry['path']).read_bytes()).hexdigest())
+            return staged, inventory
+
+    def test_explicit_release_matches_packaged_app_and_native_inventory(self):
+        for tag, expected in [('v0.1.4-preview.99', '0.1.4-preview.99'), ('v1.0.0', '1.0.0'),
+                              ('1.0.0', '1.0.0')]:
+            with self.subTest(tag=tag):
+                package, inventory = self.staged_release(tag)
+                self.assertEqual(package['version'], expected)
+                self.assertEqual(inventory['version'], expected)
+
+    def test_default_development_build_keeps_its_source_version(self):
+        package, inventory = self.staged_release()
+        self.assertEqual(package['version'], '0.1.0')
+        self.assertEqual(inventory['version'], '0.1.0')
+
+    def test_release_identity_changes_the_package_fingerprint(self):
+        _, first = self.staged_release('v0.1.4-preview.99')
+        _, second = self.staged_release('v0.1.5-preview.99')
+        self.assertNotEqual(first['fingerprint'], second['fingerprint'])
+
+    def test_invalid_cli_release_stops_before_building(self):
+        result = subprocess.run([sys.executable, str(ROOT / 'installer/make-installer.py'),
+                                 '--release-version', '../v1.0.0'], capture_output=True, text=True)
+        self.assertEqual(result.returncode, 2)
+        self.assertIn('--release-version', result.stderr)
+
+    def test_invalid_release_is_rejected_before_replacing_stage(self):
+        with tempfile.TemporaryDirectory() as folder:
+            stage = Path(folder) / 'stage'
+            stage.mkdir()
+            marker = stage / 'keep.txt'
+            marker.write_text('previous staged build')
+            with patch.object(builder, 'STAGE', stage):
+                for invalid in ['', '../v1.0.0', 'latest', 'v01.0.0', 'v1.0.0-preview.00',
+                                ' v1.0.0', 'v1.0.0 ', 'v1.0.0\n', 'v1.0.0-beta.1',
+                                'v' + '9' * 70 + '.0.0', 123]:
+                    with self.subTest(invalid=invalid):
+                        with self.assertRaisesRegex(ValueError, 'release|version'):
+                            builder.stage_app(release_version=invalid)
+                        self.assertEqual(marker.read_text(), 'previous staged build')
+
     def test_shared_setup_and_startup_assets_are_required(self):
         required = set(builder.REQUIRED_RUNTIME_FILES)
         self.assertTrue({'lib/setup-session.js','lib/setup-controller.js','assets/app/setup-client.js',

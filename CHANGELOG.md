@@ -1,3 +1,19 @@
+## Preview 99 package identity hotfix — 6 October 2026
+
+### Additions
+
+- Add explicit stable/preview release identity input to the installer builder and offline staging/native label checks.
+
+### Changes
+
+- Stamp staged app, lock metadata and inventory consistently; preserve source metadata and dependency versions.
+- Reject invalid build identities before replacing staging and retain development-build defaults.
+- Verify 378 Python tests and 62 JavaScript check files; full production acceptance remains open.
+
+### Removed
+
+- Remove fixed development-version labels from explicitly tagged packages.
+
 ## Preview 99 setup status hotfix — 6 October 2026
 
 ### Additions
