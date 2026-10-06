@@ -3719,8 +3719,17 @@ def main():
                                     customPrint('TOWER_TRACK ' + towerName + ' moved with its platform ' + str(oldPos)
                                                 + ' -> ' + str(newPos) + ' (' + str(inliers) + ' matched features)')
                         customPrint('DEBUG select tower at ' + str(action['pos']))
-                        select_tower(action['pos'], lambda: np.array(pyautogui.screenshot())[:, :, ::-1].copy(),
-                                     lambda point: pyautogui.click(point), time.sleep, customPrint)
+                        selectionReady = select_tower(action['pos'], lambda: np.array(pyautogui.screenshot())[:, :, ::-1].copy(),
+                                                      lambda point: pyautogui.click(point), time.sleep, customPrint)
+                        if selectionReady is False:
+                            mapConfig['steps'].insert(0, action)
+                            thisIterationAction = None
+                            if routeCheckpoint is not None:
+                                routeCheckpoint.update(status='ready', pendingAction=None,
+                                    nextStep=checkpointStepOffset(mapConfig['steps'], routeStepTotal))
+                                writeRouteCheckpoint(routeCheckpoint, mapConfig['steps'])
+                            customPrint('SELECTION_RECOVERY held placement still active; queued tower action for a fresh frame')
+                            continue
                         time.sleep(max(actionDelay, 0.35))
                         actionTmp = None
                         while action:

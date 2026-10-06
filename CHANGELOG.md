@@ -1,3 +1,9 @@
+## Preview 45 — Held shop placement recovery
+
+- Recognize ordinary shop-based placement when the nudge cancel button is absent.
+- Cancel held placement before selecting an existing tower.
+- Keep blocked tower actions queued until a fresh frame permits selection.
+
 ## Preview 44 — Checkpoint recovery validation
 
 - Refuse malformed unresolved-upgrade collections and action metadata cleanly.

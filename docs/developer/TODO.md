@@ -4,6 +4,10 @@ Updated 6 October 2026. Checkboxes require evidence, not merely code. Preserve o
 
 ## Current repair pass
 
+- Confirmed Flooded Valley Reverse at round 60: saved Medium/Reverse=1049545 and observed replay result victory. Never replay it. Preview 42 deployed at the boundary and the missing-medal sweep resumed on Infernal Hard.
+
+- [x] Diagnose Flooded Valley Reverse’s unselected Sniper upgrades from the live frame: placement-only close template=0.996, nudge cancel=0.400, shop cyan fraction=0.475. Recognize ordinary shop-based held placement and cancel it before selecting an existing tower. Persistent held state withholds the target click. Live deployment remains queued; screenshot private.
+
 - Refreshed offline coverage on 6 October: 509 eligible map/mode pairs, 695 gaps (21 with rejected candidates, 674 without a found candidate). Source Auto Start controls need observed setting ownership; time-based clicks alone cannot establish faithful manual-round conversion.
 
 - [x] Validate checkpoint unresolved-upgrade collections, action metadata and strict integer offsets before recovery. Reject duplicate recorded queue positions instead of repeating a placement/purchase. Malformed data now reaches the existing explicit resume-refusal handler. Manual Auto Start source plans remain unsupported pending observed setting control; do not relabel them faithful.

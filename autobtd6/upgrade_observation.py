@@ -1,4 +1,5 @@
 """Observe ordinary tower tier pips and retry only an unchanged, available upgrade."""
+from placement_observation import held_placement_visible
 import numpy as np
 import cv2
 from functools import lru_cache
@@ -115,6 +116,14 @@ def select_tower(position, capture, click, wait, report=lambda message: None):
     panel-close behavior and never open the pause menu.
     """
     frame = capture()
+    if held_placement_visible(frame):
+        report('SELECTION_RECOVERY cancelling held placement before tower selection at ' + str(position))
+        click((round(frame.shape[1] * 800 / 960), round(frame.shape[0] * 60 / 540)))
+        wait(1.0)
+        frame = capture()
+        if held_placement_visible(frame):
+            report('SELECTION_RECOVERY held placement remains; withholding target click')
+            return False
     if frame is not None and frame.ndim == 3:
         left, right = resolve_hud_panels(frame, False, False)
         scale = frame.shape[1] / 960
@@ -129,6 +138,7 @@ def select_tower(position, capture, click, wait, report=lambda message: None):
             click(centre)
             wait(0.35)
     click(position)
+    return True
 
 
 def observe_upgrade(path, capture, press, click, wait, reselect=None, expected_tiers=None):
