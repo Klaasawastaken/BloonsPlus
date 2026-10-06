@@ -279,3 +279,26 @@ viewport. This test does not certify physical DPI, screen readers, all themes or
 all requirement states. The older running host controller still reports its
 known legacy setup API mismatch; backend activation remains a separate boundary
 operation. The private screenshot is excluded from publication.
+
+## Startup under delayed APIs — 7 October
+
+`tests/test-startup-renderer.js` loads the actual application assets in separate
+hidden Chromium windows behind an isolated loopback fixture. Profile reads stay
+pending. The fixture permits only the fake setup-observation bootstrap; setup
+commands and gameplay requests fail the check. External requests are blocked.
+
+Four cases pass: Off on repeat launch, Full on first launch, software-rendered
+guest mode, and a controller timeout followed by explicit Retry. The latter
+three use Chromium's 4x CPU throttle. Navigation and the app shell are present
+while the profile request is pending. Off hides branding immediately; the guest
+selects reduced motion; the eight-second controller deadline exposes recovery
+and a subsequent ready response resolves it.
+
+The fixture initially stalled because it sent an Emulation command before
+initializing a renderer. It also needed an explicit last-window lifecycle and
+the actual setup-session observation contract. Those fixture defects were fixed;
+no application or replay code changed. The final run observed shell initialization
+at 105–481 ms and all four recovery assertions passed. Idle frame samples are
+diagnostic only and do not establish animation performance or physical 60 FPS.
+Clean-machine launch, weak physical hardware, Windows DPI and screen-reader
+acceptance remain open. The active missing-medal replay was not interrupted.

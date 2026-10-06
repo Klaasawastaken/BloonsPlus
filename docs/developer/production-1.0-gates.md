@@ -1,6 +1,6 @@
 # Production 1.0 acceptance
 
-Updated 6 October 2026. **Production 1.0 is not ready for publication.** This checklist separates implemented behavior, offline evidence and remaining acceptance work. The [active TODO](TODO.md) holds individual tasks; the [repair audit](route-repair-audit.md) holds incident evidence.
+Updated 7 October 2026. **Production 1.0 is not ready for publication.** This checklist separates implemented behavior, offline evidence and remaining acceptance work. The [active TODO](TODO.md) holds individual tasks; the [repair audit](route-repair-audit.md) holds incident evidence.
 
 ## Scope and standing rules
 
@@ -23,7 +23,7 @@ Updated 6 October 2026. **Production 1.0 is not ready for publication.** This ch
 | Failure evidence | Persistent route failures and screenshot/action context exist; retired tower uncertainties are separated | Audit older incidents and classifications; verify each required field and redaction at export boundaries | R-16–R-17 |
 | Profile and statistics | Fifteen host/guest profile groups were equal through the actual relay; achievement-source repair has endpoint/UI regressions | Decoder semantics, UI freshness, disconnect handling and MM/XP rate behavior need broader acceptance | P-01–P-05 |
 | Setup engine | Approved native redesign batches 1–5 implemented; actual published-package install and repair passed at a shorter isolated root, including pinned runtime imports, corrupted-file restoration and configuration preservation | Earlier acceptance attempts exposed a transient session-write failure and long-path failure. Those repairs remain open, alongside clean Windows, interruption, permissions and complete dependency recovery | I-01–I-11 |
-| App and configuration | Isolated real renderer checks cover dark requirements, dropdown keyboard behavior and post-install layout/motion | Physical keyboard/screen-reader, high DPI, weak hardware and first/repeat-launch acceptance remain open | A-01–A-08 |
+| App and configuration | Isolated real renderer checks cover dark requirements, dropdown keyboard behavior, post-install layout and actual startup with pending profile reads, 4x CPU throttle and controller timeout/retry | Physical keyboard/screen-reader, high DPI, weak hardware and complete clean first/repeat-launch acceptance remain open | A-01–A-08 |
 | Website | Real BTD6 art, rebuilt pages and README; responsive spot checks have an evidence record | Finish contrast, accessibility and artwork acceptance; retain the requested hero composition and community banner rules | W-01–W-04 |
 | Performance | Nonblocking waits, logical round clocks and lighter guest rendering implemented | Record navigation, loading, round-boundary, result and deployment timings; avoid claiming unmeasured throughput improvements | R-02, A-04, I-06 |
 | Publication | Preview artifacts checked for source identity, inventory hashes, icons and private-file exclusion | Repeat every check for the final artifact and confirm clean-machine gates before changing the release to 1.0 | I-04, release policy |
