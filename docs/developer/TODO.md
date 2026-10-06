@@ -4,11 +4,11 @@ Updated **6 October 2026**. This is the readable, active task list. Technical no
 
 ## At a glance
 
-- **Current priority:** installer/setup, app polish, folders and the website alongside missing-medal gameplay.
+- **Current priority:** the installer and first-launch redesign, app polish, folders and the website alongside missing-medal gameplay.
 - **Sweep:** running in the VM. Dark Castle Military Monkeys Only, Underground CHIMPS and Off the Coast Military Monkeys Only were confirmed by victory and saved medals. Cornfield Impoppable is the current replay. The previous Bloody Puddles interruption remains under investigation.
 - **Development alongside gameplay:** installer/setup polish, app polish, folder organization and website redesign. Check the sweep every five minutes and diagnose meaningful failures.
 - **Background work:** improve routes and placement from missing-medal gameplay evidence; retain failures and skip owned medals.
-- **Latest release:** Preview 89 is published with explicit VM setup states, validated step advancement and verified update reconnection. The healthy VM replay retains its existing runtime; this batch was not deployed mid-run. Live cash-recovery evidence remains open.
+- **Latest release:** Preview 90 is published with native installer ownership and isolated VM setup tasks/results. The healthy VM replay retains its existing runtime; this batch was not deployed mid-run. Live cash-recovery evidence remains open.
 
 ## Work order
 
@@ -26,11 +26,13 @@ Updated **6 October 2026**. This is the readable, active task list. Technical no
 
 ### Immediate queue
 
-1. **I-01 / I-03 / I-04 — Installer and release:** improve setup/repair clarity and publish verified batches.
-2. **A-01 / A-03 / A-04 — App and files:** polish controls, accessibility, scrolling and folder organization.
-3. **W-04 — Website:** finish responsive and accessibility checks for the refreshed pages.
-4. **R-02 / R-15 — Recovery:** investigate game progression while replay input is paused or stopped; a paused controller does not prove a paused game.
-5. **Background — R / S tasks:** check the missing-medal sweep every five minutes; diagnose failures and improve candidates without replaying owned medals.
+1. **I-07 — Inspect before redesigning:** map installer, app startup, privileges, real progress, concurrency and safe recovery.
+2. **I-08–I-11 / A-05–A-07 — Installer and first launch:** implement the simple install flow and branded startup in verified, recoverable batches.
+3. **I-01 / I-03 / I-04 — Acceptance and releases:** check clean and interrupted setup, repair and release packaging.
+4. **A-01 / A-03 / A-04 — App and files:** polish controls, accessibility, scrolling and folder organization.
+5. **W-04 — Website:** finish responsive and accessibility checks for the refreshed pages.
+6. **R-02 / R-15 — Recovery:** investigate game progression while replay input is paused or stopped; a paused controller does not prove a paused game.
+7. **Background — R / S tasks:** check the missing-medal sweep every five minutes; diagnose failures and improve candidates without replaying owned medals.
 
 The sweep earns missing medals alongside development. Deploy changes together after the current healthy replay finishes.
 
@@ -110,6 +112,8 @@ The sweep earns missing medals alongside development. Deploy changes together af
 
 ## 4. Installer and release
 
+### Acceptance and existing safeguards
+
 - [ ] **I-01 — Check a clean Windows setup.** No Python, Visual C++ runtime, App Sandbox or existing VM. Show progress and repair for each prerequisite.
 - [ ] **I-02 — Check the complete VM setup.** Steam sign-in, game install/launch, SSH, bridge connection and remote updates. Never store Steam credentials.
   - Current VM update now uses a unique application staging folder and verifies size/hash before launch. Installed successfully; clean-machine and interrupted-install checks remain open.
@@ -123,7 +127,23 @@ The sweep earns missing medals alongside development. Deploy changes together af
 - [ ] **I-05 — Add trusted code signing when available.** Unsigned installers may still trigger SmartScreen.
 - [ ] **I-06 — Meet production acceptance gates.** Complete the specification before publishing **v1.0.0**; previews do not establish production readiness.
 
-**Latest published:** [Preview 89](https://github.com/Klaasawastaken/BloonsPlus/releases/tag/v0.1.0-preview.89), installer 246,305,639 bytes. Verified 301 Python checks, ten setup-transport checks, 50 JavaScript check files and 29 packaged-source comparisons; publication guard reported zero findings. Dark Castle Military Monkeys Only and Underground CHIMPS were confirmed by victory and saved medals. Clean-machine installation and live recovery evidence remain open.
+**Latest published:** [Preview 90](https://github.com/Klaasawastaken/BloonsPlus/releases/tag/v0.1.0-preview.90), installer 246,311,732 bytes. Verified 314 Python checks, ten setup-transport checks, 50 JavaScript check files and 29 packaged-source comparisons; publication guard reported zero findings. Dark Castle Military Monkeys Only, Underground CHIMPS and Off the Coast Military Monkeys Only were confirmed by victory and saved medals. Clean-machine installation and live recovery evidence remain open.
+
+### Installer redesign — requested 6 October
+
+**Quality target:** the clarity and polish of a commercial Windows installer, with an original Bloons+ identity matching the website. Use official BTD6 art and crisp, proportional graphics. Do not copy Opera/GX assets, sounds or animation sequences.
+
+- [ ] **I-07 — Inspect before redesigning.** Read the current installer frontend/backend and application launch path. Map every dependency, VM, SSH and BTD6 stage; administrator requirements; measurable progress; safe concurrency; and interruption recovery. Record what loads before the dashboard is ready. Preserve working backend behavior.
+- [ ] **I-08 — Build a compact, simple install flow.** Welcome with one clear **Install BloonsPlus** action and secondary **Options**. Transition through preparing, installing and validated completion with **Launch BloonsPlus**. Hide advanced choices until requested; avoid a long Next/Next wizard. Offer useful options such as shortcuts and launch behavior, without exposing internal commands as normal controls.
+- [ ] **I-09 — Separate engine and presentation.** Keep installer state/operations, installer UI, app bootstrap, launch presentation and main UI distinct. Render real engine state. Each stage needs friendly status, technical details, progress behavior, bounded retry, cancellation and resume rules. Show measured stage/overall progress where meaningful and an indeterminate state where work cannot be measured. Never invent percentages, regress overall progress or declare completion before validation.
+- [ ] **I-10 — Add smart preflight and targeted repair.** Check Windows version/architecture, storage, virtualization/features, runtimes, existing installation/VM, SSH, network, permissions and incomplete setup. Reuse healthy components; verify changes before advancing. Resume from actual machine state instead of rebuilding resources. Recognize installed versions and expose Launch, Update and Repair, with Modify/Uninstall secondary. Preserve app data, Steam, game data, VM disks, settings and keys.
+- [ ] **I-11 — Polish recovery and diagnostics.** Use friendly error summaries with Try Again/Repair and expandable details; preserve original diagnostics and support redacted copy/export. Group required elevation with a clear reason. Treat restart required as a persisted state with explicit Now/Later choices and recovery after reboot. Use bounded backoff for transient downloads/VM/SSH failures, verify downloads and resume where safe. Keep heavy work off the UI thread.
+
+**Design and motion:** compact visual/functional areas, excellent typography, rounded surfaces, restrained gradients/glow, subtle shadows and brief state transitions. Respond to clicks immediately; never delay setup for an animation. Avoid constant particles, large spinners or an exaggerated RGB style.
+
+**State contract to audit:** idle, preflight, downloading, installing dependency, enabling feature, restart required, configuring/starting VM, configuring guest/SSH, deploying Bloons+, validating, finalizing, complete, recovering, failed and cancelled. Define retry, cancellation, resume and diagnostics for each rather than adding presentation-only labels.
+
+**Acceptance journey:** open installer → clear install action → automatic checks/setup → honest progress → validated success → launch → short original intro → ready dashboard. Human sign-in, permission and restart steps remain explicit when required. Clean-machine and interrupted-install evidence are still required by I-01–I-03.
 
 ## 5. App polish and files
 
@@ -132,6 +152,12 @@ The sweep earns missing medals alongside development. Deploy changes together af
 - [ ] **A-02 — Check the inline VM viewer.** Capture only while visible/focused, including browser cache restoration. Lifecycle checks exist; broader live performance remains open.
 - [ ] **A-03 — Finish accessibility checks.** Reduced motion and screen readers for Subscriptions, including price announcements.
 - [ ] **A-04 — Organize folders.** Preserve runtime paths and exclude private/generated files.
+
+### App startup and first launch — requested 6 October
+
+- [ ] **A-05 — Build an original branded intro.** Use the Bloons+ logo and restrained tower/map motifs, with a seamless transition into the actual dashboard. Target roughly 1–2 seconds on normal launch; an optional richer first launch may take 2–3 seconds. Load configuration, cached UI and lightweight connections concurrently. If readiness takes longer, show a real loading state; never freeze the final animation frame.
+- [ ] **A-06 — Keep launch fast and accessible.** Use small vector/native/GPU-friendly assets, not a large video or GIF. Preload required assets; avoid white flashes, window resizing, console windows, asset pop-in and a blank frame before the app. Support Full/Reduced/Off animation settings and reduced-motion preferences. Allow dismissal/recovery when startup fails. Keep sound off unless an appropriate original/licensed asset and user control exist.
+- [ ] **A-07 — Match installer, intro and app.** Share website colors, typography, logo treatment, radii, spacing and motion curves. Animate button feedback, state changes, errors and completion without stalling work. Check high DPI, weaker hardware, keyboard/screen-reader use and first versus repeat launches. A color change plus loading GIF does not complete this redesign.
 
 ## 6. Website redesign
 
