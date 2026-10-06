@@ -36,6 +36,10 @@ internal sealed class InstallerResult
     public string Error { get; internal set; }
 }
 
+internal sealed class InstallerRestartRequiredException : Exception {
+    public InstallerRestartRequiredException(string message) : base(message) {}
+}
+
 // Owns ordering and receipts. Constructing an engine performs no I/O.
 internal sealed class InstallerEngine
 {
@@ -43,6 +47,9 @@ internal sealed class InstallerEngine
     private readonly WindowsInstallerOperations operations;
     private readonly object logLock = new object();
     private InstallerProgress current = new InstallerProgress();
+    private InstallSession session;
+    public InstallerSnapshot CurrentSnapshot { get { return session == null ? null : session.Snapshot; } }
+    public event Action<InstallerSnapshot> SnapshotChanged;
     public event Action<InstallerProgress> ProgressChanged;
     public event Action<string> DetailAdded;
     public InstallerEngine(InstallerOptions options, WindowsInstallerOperations operations) {
@@ -55,6 +62,13 @@ internal sealed class InstallerEngine
     }
     private void PublishProgress(InstallerProgress state) {
         current = state; Log(state.Message);
+        if (session != null && !state.Failed) {
+            string phase = state.Stage == InstallerStage.Prepare ? "preflight" : state.Stage == InstallerStage.Files ? "deploying_bloonsplus"
+                : state.Stage == InstallerStage.Finish ? "finalizing" : state.Scope == "Download" ? "downloading" : "installing_dependency";
+            session.Observe(phase, state.Stage.ToString(), state.Message, state.Numerator, state.Denominator, state.Scope);
+            session.ObserveMilestone(state.Stage);
+            NotifySnapshot();
+        }
         var handler = ProgressChanged; if (handler != null) handler(state);
     }
     private void PublishDetail(string text) {
@@ -99,8 +113,10 @@ internal sealed class InstallerEngine
         try {
             // Keep this file after release: deleting it could split ownership
             // between two installers that opened different file instances.
-            return new FileStream(Path.Combine(root, ".bloons-install.lock"),
+            var ownership = new FileStream(Path.Combine(root, ".bloons-install.lock"),
                 FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None);
+            try { new OwnedProcess(root).RequireIdle(); return ownership; }
+            catch { ownership.Dispose(); throw; }
         } catch (IOException error) {
             int code = error.HResult & 0xffff;
             if (code == 32 || code == 33)
@@ -110,47 +126,82 @@ internal sealed class InstallerEngine
     }
 
     public Task<InstallerResult> RunAsync(CancellationToken cancellation) {
-        return Task.Run((Func<InstallerResult>)Run, cancellation);
+        return Task.Run(() => Run(cancellation), cancellation);
     }
-    private InstallerResult Run()
+    private void NotifySnapshot() { var handler = SnapshotChanged; if (handler != null) handler(CurrentSnapshot); }
+    private InstallerResult Run(CancellationToken cancellation)
     {
         string tempZip = Path.Combine(Path.GetTempPath(), "BloonsPlus-" + Guid.NewGuid().ToString("N") + ".zip");
         string backupRoot = Path.Combine(Path.GetTempPath(), "BloonsPlus-data-" + Guid.NewGuid().ToString("N"));
         bool installed = false;
+        bool filesStarted = false;
         FileStream installLock = null;
         try {
             installLock = AcquireInstallLock(options.InstallRoot);
+            operations.Cancellation = cancellation;
+            session = InstallSession.LoadOrCreate(options.InstallRoot, "install", !options.Silent && options.RequestedVmSetup);
+            if (session.Snapshot.Phase == "restart_required"
+                && (String.IsNullOrEmpty(session.Snapshot.RestartBootIdentity) || String.IsNullOrEmpty(OwnedProcess.CurrentBootIdentity)
+                    || session.Snapshot.RestartBootIdentity == OwnedProcess.CurrentBootIdentity))
+                throw new InstallerRestartRequiredException("Restart Windows before resuming setup. Required reboot has not been confirmed.");
+            session.Observe("preflight", "ownership", "Checking installation", null, null, null);
             WriteResult("RUNNING");
+            cancellation.ThrowIfCancellationRequested();
             operations.CloseInstalledControllers();
+            if (!String.IsNullOrEmpty(session.Snapshot.BackupPath)) {
+                string priorBackup = session.Snapshot.BackupPath;
+                session.RetainBackup(priorBackup); // Validate containment before touching a retained path.
+                operations.RestoreExistingData(priorBackup);
+            }
             SetStatus("Reading embedded app package…", InstallerStage.Prepare);
             operations.ReadEmbeddedPackage(tempZip);
+            cancellation.ThrowIfCancellationRequested();
+            session.RetainBackup(backupRoot);
             operations.BackupExistingData(backupRoot);
+            filesStarted = true;
             operations.InstallAppFiles(tempZip);
+            cancellation.ThrowIfCancellationRequested();
             operations.RestoreExistingData(backupRoot);
+            operations.KeepInstallerCopy(); // Guest ownership probes can read the current recovery observer even after a parent exit.
             SetStatus("Checking required runtime components…", InstallerStage.CppRuntime);
             operations.EnsureVisualCppRuntime();
+            cancellation.ThrowIfCancellationRequested();
             operations.ConfigurePython();
+            cancellation.ThrowIfCancellationRequested();
+            session.Observe("validating", "local_runtime", "App files and runtime verified", null, null, null);
+            session.MarkValidated(true, false);
             SetStatus("Creating the app shortcut…", InstallerStage.Finish);
             if (options.StartMenuShortcut) operations.CreateStartMenuShortcut();
-            operations.KeepInstallerCopy();
             operations.SaveSetupIntent();
             SetStatus(options.LaunchAfterInstall ? "Bloons+ is installed. Launching the app…" : "Bloons+ is installed.", InstallerStage.Finish, 100);
             if (options.LaunchAfterInstall) operations.LaunchApp();
             installed = true;
             WriteResult("OK");
+            if (!session.Snapshot.EnvironmentRequired) session.Complete();
+            NotifySnapshot();
             return new InstallerResult { LocalReady = true, Receipt = "OK", ExitCode = 0,
                 EnvironmentDeferred = !options.Silent && !options.RequestedVmSetup };
         } catch (Exception error) {
             Log(error.ToString());
-            if (installLock != null) WriteResult("ERROR: " + error.Message);
+            bool restart = error is InstallerRestartRequiredException;
+            string receipt = restart ? "RESTART_REQUIRED: " + error.Message : "ERROR: " + error.Message;
+            if (installLock != null) WriteResult(receipt);
             else WriteAttemptResult("ERROR: " + error.Message);
-            if (installLock != null) {
+            // Never restore files beneath a surviving package installer.
+            if (filesStarted && installLock != null && new OwnedProcess(options.InstallRoot).Observe() == "idle") {
                 try { operations.RestoreExistingData(backupRoot); }
                 catch (Exception restoreError) { Log("Data backup retained at " + backupRoot + ": " + restoreError); }
             }
             SetFailure("Installation failed: " + error.Message);
-            return new InstallerResult { LocalReady = false, Receipt = "ERROR: " + error.Message, Error = error.Message, ExitCode = 1 };
+            if (session != null) {
+                if (restart) session.RequireRestart(error.Message);
+                else session.Observe(error is OperationCanceledException ? "cancelled" : new OwnedProcess(options.InstallRoot).Observe() == "idle" ? "failed" : "recovering",
+                    "recovery", error.Message, null, null, null);
+                NotifySnapshot();
+            }
+            return new InstallerResult { LocalReady = false, Receipt = receipt, Error = error.Message, ExitCode = restart ? 3010 : 1, RestartRequired = restart };
         } finally {
+            operations.Dispose();
             if (installLock != null) installLock.Dispose();
             try { if (File.Exists(tempZip)) File.Delete(tempZip); } catch { }
             if (installed) { try { if (Directory.Exists(backupRoot)) Directory.Delete(backupRoot, true); } catch { } }

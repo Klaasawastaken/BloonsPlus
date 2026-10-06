@@ -5,12 +5,15 @@ import ctypes
 from ctypes import wintypes
 import importlib.util
 import os
+import json
+import shutil
 from pathlib import Path
 import subprocess
 import tempfile
 import unittest
 from unittest.mock import patch
 from types import SimpleNamespace
+from native_installer_harness import compile_harness
 
 spec = importlib.util.spec_from_file_location('setup_owned', Path(__file__).resolve().parents[1] / 'vm/setup-vm.py')
 setup = importlib.util.module_from_spec(spec)
@@ -18,6 +21,29 @@ spec.loader.exec_module(setup)
 
 
 class GuestInstallerOwnershipTests(unittest.TestCase):
+    @unittest.skipUnless(os.name == 'nt', 'Windows native observer')
+    def test_guest_probe_uses_real_native_dependency_receipt(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            observer = compile_harness(folder, 'ReceiptObserver', 'internal static class ReceiptObserver { static void Main() {} }')
+            shutil.copy2(observer, root / 'BloonsPlusSetup.exe')
+            lock = root / '.bloons-install.lock'
+            lock.write_bytes(b'')
+            journal = root / '.bloons-setup/owned-process.json'
+            journal.parent.mkdir()
+            def remote(info, command):
+                command = command.replace("catch { 'UNKNOWN' }", "catch { Write-Error $_; 'UNKNOWN' }")
+                result = subprocess.run(['powershell.exe', '-NoProfile', '-NonInteractive', '-EncodedCommand',
+                    base64.b64encode(command.encode('utf-16le')).decode()], capture_output=True, text=True, timeout=20)
+                self.assertEqual(result.returncode, 0, result.stderr)
+                return result.stdout.strip()
+            with patch.object(setup, 'GUEST_INSTALL_LOCK', str(lock)), patch.object(setup, 'ssh', side_effect=remote):
+                journal.write_text(json.dumps({'Executable': str(observer), 'TerminalObserved': True, 'ExitCode': 0}))
+                self.assertFalse(setup.guest_install_busy({}))
+                journal.write_text(json.dumps({'Executable': str(observer), 'TerminalObserved': False}))
+                with self.assertRaisesRegex(RuntimeError, 'ownership'):
+                    setup.guest_install_busy({})
+
     def test_attempt_receipt_is_unique_and_rejects_path_input(self):
         token = '0123456789abcdef0123456789abcdef'
         with patch.object(setup, 'guest_install_busy', return_value=False), patch.object(setup, 'ssh', return_value='OK') as remote:
@@ -89,6 +115,7 @@ class GuestInstallerOwnershipTests(unittest.TestCase):
                 self.assertIn('32', command)
                 self.assertIn('33', command)
                 self.assertNotIn('Get-Process', command)
+                self.assertIn('OwnedProcess', command, 'A released parent lock cannot hide surviving dependency work')
         with patch.object(setup, 'ssh', return_value='permission error'):
             with self.assertRaisesRegex(RuntimeError, 'ownership'):
                 setup.guest_install_busy({})
@@ -110,6 +137,12 @@ class GuestInstallerOwnershipTests(unittest.TestCase):
                 patch.object(setup, 'ssh', return_value='OK'):
             with self.assertRaisesRegex(RuntimeError, 'ownership unknown'):
                 setup.wait_for_guest_install({})
+
+    def test_restart_receipt_reports_action_after_owner_release(self):
+        with patch.object(setup, 'guest_install_busy', side_effect=[True, False]), \
+                patch.object(setup, 'ssh', return_value='RESTART_REQUIRED: dependency'), patch.object(setup.time, 'sleep'):
+            with self.assertRaisesRegex(RuntimeError, 'Restart Windows inside the VM'):
+                setup.wait_for_guest_install({}, timeout=30)
 
     def test_matching_installer_requires_content_hash(self):
         with tempfile.TemporaryDirectory() as folder:

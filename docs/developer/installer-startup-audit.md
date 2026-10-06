@@ -115,3 +115,13 @@ were changed.
 Orphaned package-child recovery remains open. Atomic builder publication also
 does not prove atomic replacement of installed application files. Keep both
 requirements in the implementation and interruption acceptance plan.
+
+## Approved native execution — batches 1–2, 6 October
+
+The independent C# engine, Windows operations and progress model compile without WinForms references. The complete production entry point also compiles (122,368-byte verification bootstrap; no payload was installed). All **31** focused installer, guest-ownership and release checks pass.
+
+Evidence includes a real parent-exit fixture, a live descendant after its direct parent exits, concurrent-installer refusal, PID identity mismatch, measured copy bytes, staged replacement interrupted before commit, retained prior content, stale-session rejection, cancellation boundaries, required reboot persistence and the real PowerShell-to-native ownership probe. Guest restart receipts now produce a concrete action instead of waiting to timeout.
+
+Private Python dependencies start directly in a Windows job using `PROC_THREAD_ATTRIBUTE_JOB_LIST`; a timeout closes observation handles without killing shared Windows installers. Unobservable orphan state remains blocked. A confirmed changed OS boot identity can release old work for fresh repair, without claiming it succeeded. This does not prove clean-machine setup, actual UAC/reboot acceptance, shared controller coordination or the redesigned view; those remain later plan tasks.
+
+Windows process-tree design reference: [Microsoft job objects](https://learn.microsoft.com/en-us/windows/win32/procthread/job-objects) and [creating a process directly in a job](https://devblogs.microsoft.com/oldnewthing/20230209-00/?p=107812). No privileges, SSH keys, active guest files or game data were changed.

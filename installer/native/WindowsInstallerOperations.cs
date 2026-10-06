@@ -10,27 +10,33 @@ using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Collections.Generic;
 using System.Web.Script.Serialization;
+using System.Threading;
 
 // Windows operations know paths and processes, never controls or window handles.
-internal class WindowsInstallerOperations
+internal class WindowsInstallerOperations : IDisposable
 {
     protected readonly InstallerOptions options;
     private string installRoot { get { return options.InstallRoot; } }
     private string logPath { get { return options.LogPath; } }
+    private readonly OwnedProcess ownedProcess;
+    internal CancellationToken Cancellation { get; set; }
     public event Action<InstallerProgress> ProgressChanged;
     public event Action<string> DetailAdded;
     public event Action<string> LogAdded;
     public WindowsInstallerOperations(InstallerOptions options) {
         if (options == null) throw new ArgumentNullException("options");
         this.options = options;
+        ownedProcess = new OwnedProcess(options.InstallRoot);
     }
-    protected void SetStatus(string text, InstallerStage stage, int? percent = null, string scope = null) {
+    protected void SetStatus(string text, InstallerStage stage, int? percent = null, string scope = null, long? numerator = null, long? denominator = null) {
         var state = new InstallerProgress { Message = text };
         state.Update(stage, percent, scope);
+        if (numerator.HasValue && denominator.HasValue) state.Measure(numerator.Value, denominator.Value);
         var handler = ProgressChanged; if (handler != null) handler(state);
     }
     protected void SetDetail(string text) { var handler = DetailAdded; if (handler != null) handler(text); }
     protected void Log(string text) { var handler = LogAdded; if (handler != null) handler(text); }
+    public void Dispose() { ownedProcess.Dispose(); }
     public virtual void ReadEmbeddedPackage(string tempZip) {
             using (FileStream installer = new FileStream(options.InstallerPath, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
@@ -50,6 +56,7 @@ internal class WindowsInstallerOperations
                     long remaining = zipLength;
                     while (remaining > 0)
                     {
+                        Cancellation.ThrowIfCancellationRequested();
                         int read = installer.Read(buffer, 0, (int)Math.Min(buffer.Length, remaining));
                         if (read <= 0) throw new EndOfStreamException("The embedded app package ended early.");
                         zipFile.Write(buffer, 0, read);
@@ -70,6 +77,7 @@ internal class WindowsInstallerOperations
                 byte[] buffer = new byte[1024 * 1024];
                 foreach (ZipArchiveEntry entry in archive.Entries)
                 {
+                    Cancellation.ThrowIfCancellationRequested();
                     string destination = SafeDestination(installRoot, entry.FullName);
                     if (entry.FullName.EndsWith("/", StringComparison.Ordinal) || entry.FullName.EndsWith("\\", StringComparison.Ordinal))
                     {
@@ -82,22 +90,33 @@ internal class WindowsInstallerOperations
                         continue;
                     }
                     Directory.CreateDirectory(Path.GetDirectoryName(destination));
-                    using (Stream input = entry.Open())
-                    using (FileStream output = new FileStream(destination, FileMode.Create, FileAccess.Write, FileShare.None))
-                    {
-                        int read;
-                        while ((read = input.Read(buffer, 0, buffer.Length)) > 0)
-                        {
-                            output.Write(buffer, 0, read);
-                            writtenBytes += read;
+                    string staged = destination + "." + Guid.NewGuid().ToString("N") + ".tmp";
+                    try {
+                        using (Stream input = entry.Open())
+                        using (FileStream output = new FileStream(staged, FileMode.CreateNew, FileAccess.Write, FileShare.None)) {
+                            int read;
+                            while ((read = input.Read(buffer, 0, buffer.Length)) > 0) {
+                                Cancellation.ThrowIfCancellationRequested();
+                                output.Write(buffer, 0, read);
+                                writtenBytes += read;
+                            }
+                            output.Flush(true);
                         }
+                        if (!SameAsArchiveEntry(entry, staged)) throw new InvalidDataException("An app file failed verification before replacement.");
+                        CommitStagedFile(staged, destination);
+                    } finally {
+                        if (File.Exists(staged)) File.Delete(staged);
                     }
                     if (writtenBytes % (64L * 1024 * 1024) < buffer.Length)
-                        SetStatus("Installing Bloons+ files… " + (writtenBytes / (1024 * 1024)).ToString("N0") + " MB", InstallerStage.Files, (int)(writtenBytes * 100 / totalBytes));
+                        SetStatus("Installing Bloons+ files… " + (writtenBytes / (1024 * 1024)).ToString("N0") + " MB", InstallerStage.Files, (int)(writtenBytes * 100 / totalBytes), "Copy", writtenBytes, totalBytes);
                 }
-                SetStatus("App files ready; reused " + reusedFiles + " unchanged files.", InstallerStage.Files, 100);
+                SetStatus("App files ready; reused " + reusedFiles + " unchanged files.", InstallerStage.Files, 100, "Copy", writtenBytes, totalBytes);
             }
 
+    }
+    protected virtual void CommitStagedFile(string staged, string destination) {
+        if (File.Exists(destination)) File.Replace(staged, destination, null);
+        else File.Move(staged, destination);
     }
     public virtual void LaunchApp() {
         Process.Start(new ProcessStartInfo(Path.Combine(installRoot, "Bloons+.exe")) { WorkingDirectory = installRoot, UseShellExecute = true });
@@ -296,7 +315,8 @@ internal class WindowsInstallerOperations
             return;
         }
         SetStatus("Downloading the Microsoft C++ runtime required by TensorFlow…", InstallerStage.CppRuntime);
-        string installer = Path.Combine(Path.GetTempPath(), "BloonsPlus-vc_redist.x64.exe");
+        string installer = Path.Combine(Path.GetTempPath(), "BloonsPlus-vc-redist-" + Guid.NewGuid().ToString("N") + ".exe");
+        bool runtimeStarted = false;
         try {
             // .NET Framework can otherwise negotiate legacy TLS on older Windows installs,
             // which makes Microsoft's current aka.ms endpoint fail before setup begins.
@@ -308,23 +328,33 @@ internal class WindowsInstallerOperations
             using (var source = response.GetResponseStream())
             using (var target = new FileStream(installer, FileMode.Create, FileAccess.Write, FileShare.None)) {
                 CopyRuntimeDownload(source, target, response.ContentLength, (received, total) => {
+                    Cancellation.ThrowIfCancellationRequested();
                     string amount = (received / 1048576.0).ToString("0.0") + " MB";
                     if (total > 0) amount += " of " + (total / 1048576.0).ToString("0.0") + " MB";
-                    SetStatus("Downloading Microsoft C++ runtime: " + amount, InstallerStage.CppRuntime, total > 0 ? (int?)(100 * received / total) : null, "Download");
+                    SetStatus("Downloading Microsoft C++ runtime: " + amount, InstallerStage.CppRuntime, total > 0 ? (int?)(100 * received / total) : null, "Download", total > 0 ? (long?)received : null, total > 0 ? (long?)total : null);
                 });
             }
             SetStatus("Installing the Microsoft C++ runtime (Windows may ask for permission)…", InstallerStage.CppRuntime);
             ProcessStartInfo start = new ProcessStartInfo(installer, "/install /quiet /norestart") {
                 UseShellExecute = true, Verb = "runas", WindowStyle = ProcessWindowStyle.Hidden
             };
+            ownedProcess.RecordIntent(installer, "microsoft_runtime");
             using (Process child = Process.Start(start)) {
+                runtimeStarted = true;
+                ownedProcess.Attach(child);
                 if (!child.WaitForExit(15 * 60 * 1000))
                     throw new TimeoutException("Microsoft C++ runtime setup has not finished after 15 minutes. It may still be running (process " + child.Id + "). Check Windows installation or permission dialogs before retrying; Bloons+ did not terminate it.");
                 if (child.ExitCode != 0 && child.ExitCode != 1638 && child.ExitCode != 3010)
+                {
+                    ownedProcess.RecordTerminal(child.ExitCode);
                     throw new InvalidOperationException("Microsoft C++ runtime setup exited with code " + child.ExitCode + ".");
+                }
+                ownedProcess.RecordTerminal(child.ExitCode);
+                if (child.ExitCode == 3010) throw new InstallerRestartRequiredException("Microsoft C++ runtime needs a Windows restart. Setup can resume afterward.");
             }
         }
         catch (System.ComponentModel.Win32Exception error) {
+            if (!runtimeStarted) ownedProcess.RecordTerminal(-1); // Start was declined, rather than a launched process becoming inaccessible.
             throw new InvalidOperationException("Microsoft C++ runtime installation was cancelled or blocked: " + error.Message);
         }
         finally { try { if (File.Exists(installer)) File.Delete(installer); } catch { } }
@@ -413,41 +443,23 @@ internal class WindowsInstallerOperations
 
     private void RunInstallerProcess(string executable, string arguments, string workingDirectory, string errorPrefix)
     {
-        ProcessStartInfo start = new ProcessStartInfo(executable, arguments);
-        start.WorkingDirectory = workingDirectory;
-        start.UseShellExecute = false;
-        start.CreateNoWindow = true;
-        start.RedirectStandardOutput = true;
-        start.RedirectStandardError = true;
-        Process child = new Process();
-        child.StartInfo = start;
         string lastOutput = "";
-        child.OutputDataReceived += delegate(object sender, DataReceivedEventArgs eventArgs)
-        {
-            if (!String.IsNullOrWhiteSpace(eventArgs.Data))
-            {
-                lastOutput = eventArgs.Data;
-                Log(eventArgs.Data);
-                if (eventArgs.Data.IndexOf("Downloading", StringComparison.OrdinalIgnoreCase) >= 0 || eventArgs.Data.IndexOf("Installing", StringComparison.OrdinalIgnoreCase) >= 0 || eventArgs.Data.IndexOf("Successfully installed", StringComparison.OrdinalIgnoreCase) >= 0)
-                    SetDetail(eventArgs.Data.Length > 80 ? eventArgs.Data.Substring(0, 77) + "…" : eventArgs.Data);
-            }
-        };
-        child.ErrorDataReceived += delegate(object sender, DataReceivedEventArgs eventArgs)
-        {
-            if (!String.IsNullOrWhiteSpace(eventArgs.Data)) { lastOutput = eventArgs.Data; Log(eventArgs.Data); }
-        };
-        child.Start();
-        child.BeginOutputReadLine();
-        child.BeginErrorReadLine();
-        if (!child.WaitForExit(45 * 60 * 1000)) {
-            try { child.Kill(); } catch { }
-            child.Dispose();
-            throw new TimeoutException(errorPrefix + ": no completion within 45 minutes. See " + logPath);
+        using (var child = ownedProcess.Start(executable, arguments, workingDirectory)) {
+            child.BeginRead(line => {
+                if (String.IsNullOrWhiteSpace(line)) return;
+                lastOutput = line; Log(line);
+                if (line.IndexOf("Downloading", StringComparison.OrdinalIgnoreCase) >= 0
+                    || line.IndexOf("Installing", StringComparison.OrdinalIgnoreCase) >= 0
+                    || line.IndexOf("Successfully installed", StringComparison.OrdinalIgnoreCase) >= 0)
+                    SetDetail(line.Length > 80 ? line.Substring(0, 77) + "…" : line);
+            }, line => { if (!String.IsNullOrWhiteSpace(line)) { lastOutput = line; Log(line); } });
+            if (!child.WaitForExit(45 * 60 * 1000))
+                throw new TimeoutException(errorPrefix + ": no completion within 45 minutes. Dependency work may still be running; setup must recover it before retrying. See " + logPath);
+            int exitCode = child.ExitCode;
+            ownedProcess.RecordTerminal(exitCode); // Requires the whole owned process tree to finish.
+            child.FinishReading();
+            if (exitCode != 0) throw new InvalidOperationException(errorPrefix + ": " + lastOutput);
         }
-        child.WaitForExit();
-        int exitCode = child.ExitCode;
-        child.Dispose();
-        if (exitCode != 0) throw new InvalidOperationException(errorPrefix + ": " + lastOutput);
     }
 
     // The Setup bar installs Bloons+ inside the VM from this copy (an installed PC has no dist/ folder).
@@ -456,7 +468,7 @@ internal class WindowsInstallerOperations
         string source = Path.GetFullPath(options.InstallerPath);
         string target = Path.Combine(installRoot, "BloonsPlusSetup.exe");
         if (String.Equals(source, Path.GetFullPath(target), StringComparison.OrdinalIgnoreCase)) return;
-        SetStatus("Keeping a copy of the installer for the VM setup…", InstallerStage.Finish);
+        SetStatus("Keeping the setup recovery components…", InstallerStage.Files, 100);
         if (!File.Exists(target) || HashFile(source) != HashFile(target)) File.Copy(source, target, true);
     }
 

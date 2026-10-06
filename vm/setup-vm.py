@@ -250,10 +250,20 @@ def run_on_vm_desktop(info, task, program, arguments=''):
 def guest_install_busy(info):
     """Probe native installer ownership without enumerating or stopping processes."""
     result = ssh(info, "$ErrorActionPreference='Stop'; $taskLock='%s'; "
-                 "if (!(Test-Path -LiteralPath $taskLock)) { 'FREE' } else { "
+                 "$taskFree=$true; if (Test-Path -LiteralPath $taskLock) { "
                  "try { $taskHandle=[IO.File]::Open($taskLock,[IO.FileMode]::Open,[IO.FileAccess]::ReadWrite,[IO.FileShare]::None); "
-                 "$taskHandle.Dispose(); 'FREE' } catch [IO.IOException] { "
-                 "$taskCode=$_.Exception.HResult -band 65535; if ($taskCode -eq 32 -or $taskCode -eq 33) { 'BUSY' } else { throw } } }"
+                 "$taskHandle.Dispose() } catch [IO.IOException] { "
+                 "$taskCode=$_.Exception.HResult -band 65535; if ($taskCode -eq 32 -or $taskCode -eq 33) { $taskFree=$false } else { throw } } }; "
+                 "if (!$taskFree) { 'BUSY' } else { "
+                 "$taskRoot=Split-Path -Parent $taskLock; $taskPending=Join-Path $taskRoot '.bloons-setup\\owned-process.json'; "
+                 "if (!(Test-Path -LiteralPath $taskPending)) { 'FREE' } else { try { "
+                 "$taskAssembly=[Reflection.Assembly]::LoadFile((Join-Path $taskRoot 'BloonsPlusSetup.exe')); "
+                 "$taskType=$taskAssembly.GetType('OwnedProcess'); "
+                 "$taskConstructor=$taskType.GetConstructor([type[]]@([string],[Func[string]])); "
+                 "$taskObserver=$taskConstructor.Invoke([object[]]@([string]$taskRoot,$null)); "
+                 "$taskState=$taskType.GetMethod('Observe').Invoke($taskObserver,[object[]]@()); "
+                 "if ($taskState -eq 'idle') { 'FREE' } elseif ($taskState -eq 'running') { 'BUSY' } else { 'UNKNOWN' } "
+                 "} catch { 'UNKNOWN' } } }"
                  % GUEST_INSTALL_LOCK).strip()
     if result not in ('FREE', 'BUSY'):
         raise RuntimeError('Could not establish VM installer ownership; setup was not started.')
@@ -310,6 +320,8 @@ def wait_for_guest_install(info, timeout=2700, attempt=None):
             return
         if result.startswith('ERROR:') and not busy:
             raise RuntimeError('Bloons+ installer failed in the VM: %s' % result)
+        if result.startswith('RESTART_REQUIRED:') and not busy:
+            raise RuntimeError('Restart Windows inside the VM, then resume Bloons+ setup: %s' % result)
         if time.time() >= next_report:
             log('waiting for Bloons+ installer in the VM (%s)' % result[:80])
             next_report = time.time() + 30

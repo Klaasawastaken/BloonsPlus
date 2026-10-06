@@ -8,6 +8,8 @@ internal sealed class InstallerProgress
     public string Message { get; internal set; }
     public InstallerStage Stage { get; private set; }
     public int? Percent { get; private set; }
+    public long? Numerator { get; private set; }
+    public long? Denominator { get; private set; }
     public string Scope { get; private set; }
     public bool Failed { get; private set; }
     public bool IsBusy { get { return !Failed && !Percent.HasValue; } }
@@ -27,6 +29,12 @@ internal sealed class InstallerProgress
         if ((int)stage < 1 || (int)stage > 5) throw new ArgumentOutOfRangeException("stage");
         if (percent.HasValue && (percent.Value < 0 || percent.Value > 100)) throw new ArgumentOutOfRangeException("percent");
         Stage = stage; Percent = percent; Scope = scope; Failed = false;
+        Numerator = percent; Denominator = percent.HasValue ? (long?)100 : null;
+    }
+    public void Measure(long numerator, long denominator) {
+        if (numerator < 0 || denominator <= 0 || numerator > denominator) throw new ArgumentOutOfRangeException("numerator");
+        Numerator = numerator; Denominator = denominator;
+        Percent = (int)(100.0 * numerator / denominator);
     }
     public void Fail() { Failed = true; }
 }

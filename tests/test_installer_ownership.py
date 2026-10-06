@@ -11,10 +11,10 @@ ROOT = Path(__file__).resolve().parents[1]
 class InstallerOwnershipTests(unittest.TestCase):
     def test_ownership_precedes_result_and_file_mutations(self):
         source = (ROOT / 'installer/native/InstallerEngine.cs').read_text(encoding='utf-8')
-        method = source[source.index('    private InstallerResult Run()'):]
+        method = source[source.index('    private InstallerResult Run('):]
         self.assertIn('AcquireInstallLock(options.InstallRoot)', method)
         self.assertLess(method.index('AcquireInstallLock(options.InstallRoot)'), method.index('WriteResult("RUNNING")'))
-        self.assertIn('if (installLock != null) WriteResult("ERROR: " + error.Message);', method,
+        self.assertIn('if (installLock != null) WriteResult(receipt);', method,
                       'A duplicate installer must not overwrite the owner receipt')
         self.assertIn('if (installLock != null) installLock.Dispose();', method)
         self.assertIn('else WriteAttemptResult("ERROR: " + error.Message);', method)

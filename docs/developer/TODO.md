@@ -5,8 +5,8 @@ Updated **6 October 2026**. This is the readable, active task list. Technical no
 ## At a glance
 
 - **Current priority:** the installer and first-launch redesign, app polish, folders and the website alongside missing-medal gameplay.
-- **Sweep:** running in the VM. Dark Castle Military Monkeys Only, Underground CHIMPS, Off the Coast Military Monkeys Only and Cornfield Impoppable were confirmed by victory and saved medals. Cornfield CHIMPS is now using another candidate after an early loss with placement warnings. The previous Bloody Puddles interruption remains under investigation.
-- **Installer batch 1:** approved plan execution started. Native operations and installation ownership are separated from WinForms; 25 isolated checks pass, and the complete production bootstrap compiles. Durable recovery and the compact UI are next.
+- **Sweep:** running in the VM. Dark Castle Military Monkeys Only, Underground CHIMPS, Off the Coast Military Monkeys Only and Cornfield Impoppable were confirmed by victory and saved medals. Cornfield CHIMPS was also confirmed by its saved medal and cleared candidate; the sweep has moved on to Sunset Gulch. The previous Bloody Puddles interruption remains under investigation.
+- **Installer batches 1–2:** native operations are separated from WinForms. Durable checkpoints, atomic file replacement, dependency process-tree ownership and required reboot recovery are implemented; 31 isolated checks pass and the complete production bootstrap compiles. Shared VM coordination and the compact UI are next. These sources have not replaced the healthy guest runtime.
 - **Development alongside gameplay:** installer/setup polish, app polish, folder organization and website redesign. Check the sweep every five minutes and diagnose meaningful failures.
 - **Background work:** improve routes and placement from missing-medal gameplay evidence; retain failures and skip owned medals.
 - **Latest release:** Preview 90 is published with native installer ownership and isolated VM setup tasks/results. The healthy VM replay retains its existing runtime; this batch was not deployed mid-run. Live cash-recovery evidence remains open.

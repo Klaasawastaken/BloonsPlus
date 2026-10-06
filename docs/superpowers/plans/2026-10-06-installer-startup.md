@@ -67,13 +67,13 @@
 - `OwnedProcess`: PID, creation time, executable identity and terminal observation; unknown process state is not completion.
 - `InstallerEngine.CurrentSnapshot` plus `SnapshotChanged`; keep Task 1 compatibility while consumers migrate.
 
-- [ ] Write failing assertions for stale commands, changed retry plan denominator, validation-before-complete and restart-later persistence.
-- [ ] Write an isolated child-process fixture: parent interruption must not allow a second installer to mutate while the recorded owned child remains alive. Cover PID reuse and inaccessible process state.
-- [ ] Run those tests and observe the required failures.
-- [ ] Implement legal phase transitions from the spec. Stage archive changes on the same volume, verify before replacement and persist recoverable boundaries.
-- [ ] Keep shared Windows installers alive on observation timeout. Persist outstanding work; never treat disposing a parent `Process` as proof its descendants stopped.
-- [ ] Add bounded retries for transient observations; cancellation stops scheduling and retains active ownership until a safe boundary.
-- [ ] Run session, ownership, download, runtime and builder suites; commit with exact interruption limitations.
+- [x] Write failing assertions for stale commands, changed retry plan denominator, validation-before-complete and restart-later persistence.
+- [x] Write an isolated child-process fixture: parent interruption must not allow a second installer to mutate while the recorded owned child remains alive. Cover PID reuse and inaccessible process state.
+- [x] Run those tests and observe the required failures.
+- [x] Implement legal phase transitions from the spec. Stage archive changes on the same volume, verify before replacement and persist recoverable boundaries.
+- [x] Keep shared Windows installers alive on observation timeout. Persist outstanding work; never treat disposing a parent `Process` as proof its descendants stopped.
+- [x] Add bounded retries for transient observations; cancellation stops scheduling and retains active ownership until a safe boundary.
+- [x] Run session, ownership, download, runtime and builder suites; commit with exact interruption limitations.
 
 ## Task 3 — Shared setup coordinator and setup-only controller
 
@@ -155,6 +155,6 @@
 
 ## Review and execution record
 
-Recommended execution is inline in this chat, using the existing workspace and keeping missing-medal gameplay in the background. The user approved the native installer scope and this plan, with inline execution, on 6 October. Task 1 is complete: 25 isolated checks pass and the full production source list compiles. Full environment and interruption acceptance remain open. Track task commits, red/green proof and rulings in this plan's ledger. A completed extraction or passing fixture does not complete the entire installer journey.
+Recommended execution is inline in this chat, using the existing workspace and keeping missing-medal gameplay in the background. The user approved the native installer scope and this plan, with inline execution, on 6 October. Tasks 1 and 2 are complete: 31 isolated installer/guest/release checks pass and the full production source list compiles. Task 2 covers atomic replacements, durable checkpoints, process-tree ownership, cancellation boundaries and required reboot receipts. Unknown orphan state remains blocked until an observed safe boundary or a confirmed OS reboot; completion is never inferred from it. Full environment and interruption acceptance remain open. Track task commits, red/green proof and rulings in this plan's ledger. A completed extraction or passing fixture does not complete the entire installer journey.
 
 Self-review: all twelve design sections map to these six tasks. The five Review Focus cases have explicit test owners in Tasks 2, 3 and 5. Task 1 preserves legacy installation behavior while separating its engine and Windows operations from presentation.

@@ -22,13 +22,14 @@ using System.Threading;
 internal sealed class FakeOperations : WindowsInstallerOperations {
     public readonly List<string> Calls = new List<string>();
     public bool FailPython;
+    public Action OnCpp;
     public FakeOperations(InstallerOptions options) : base(options) {}
     public override void CloseInstalledControllers() { Calls.Add("controllers"); }
     public override void ReadEmbeddedPackage(string path) { Calls.Add("package"); }
     public override void BackupExistingData(string path) { Calls.Add("backup"); }
     public override void InstallAppFiles(string path) { Calls.Add("files"); SetStatus("Files ready", InstallerStage.Files, 100); }
     public override void RestoreExistingData(string path) { Calls.Add("restore"); }
-    public override void EnsureVisualCppRuntime() { Calls.Add("cpp"); }
+    public override void EnsureVisualCppRuntime() { Calls.Add("cpp"); if (OnCpp != null) OnCpp(); }
     public override void ConfigurePython() {
         Calls.Add("python"); SetDetail("Dependency probe");
         if (FailPython) throw new IOException("probe failed");
@@ -52,7 +53,7 @@ internal static class EngineChecks {
             var result = engine.RunAsync(CancellationToken.None).GetAwaiter().GetResult();
             Check(result.LocalReady && result.ExitCode == 0 && result.Receipt == "OK", "Wrong success");
             Check(!result.EnvironmentReady && !result.EnvironmentDeferred, "Silent install invented VM readiness");
-            Check(String.Join(",", operations.Calls) == "controllers,package,backup,files,restore,cpp,python,shortcut,copy,intent,launch", "Operation order changed");
+            Check(String.Join(",", operations.Calls) == "controllers,package,backup,files,restore,copy,cpp,python,shortcut,intent,launch", "Recovery observer must be copied before dependencies start");
             Check(events.Count > 2 && events[0].Stage == InstallerStage.Prepare && events[events.Count-1].Percent == 100, "Missing window-free progress");
             Check(events[0].Percent == null, "Earlier event mutated");
             Check(details.Contains("Dependency probe"), "Missing detail event");
@@ -64,6 +65,23 @@ internal static class EngineChecks {
             Check(!result.LocalReady && result.ExitCode == 1 && result.Receipt == "ERROR: probe failed", "Failure swallowed");
             Check(!operations.Calls.Contains("launch") && operations.Calls[operations.Calls.Count-1] == "restore", "Failure launched app or skipped restore");
             Check(events[events.Count-1].Failed, "Failure not observable");
+            Check(engine.CurrentSnapshot.Phase == "failed", "Failure checkpoint missing");
+            var rebootOptions = new InstallerOptions(Path.Combine(root, "reboot"), root, "unused.exe", true, null);
+            operations = new FakeOperations(rebootOptions) { OnCpp = () => { throw new InstallerRestartRequiredException("Restart required"); } };
+            engine = new InstallerEngine(rebootOptions, operations);
+            result = engine.RunAsync(CancellationToken.None).GetAwaiter().GetResult();
+            Check(result.RestartRequired && result.ExitCode == 3010 && engine.CurrentSnapshot.Phase == "restart_required", "Reboot falsely completed or lost");
+            Check(!operations.Calls.Contains("python") && !operations.Calls.Contains("launch"), "Reboot continued mutation");
+            operations = new FakeOperations(rebootOptions); engine = new InstallerEngine(rebootOptions, operations);
+            result = engine.RunAsync(CancellationToken.None).GetAwaiter().GetResult();
+            Check(result.RestartRequired && operations.Calls.Count == 0, "Retry bypassed the required reboot");
+            var cancelOptions = new InstallerOptions(Path.Combine(root, "cancel-after-boundary"), root, "unused.exe", true, null);
+            var cancelAtBoundary = new CancellationTokenSource();
+            operations = new FakeOperations(cancelOptions) { OnCpp = cancelAtBoundary.Cancel };
+            engine = new InstallerEngine(cancelOptions, operations);
+            result = engine.RunAsync(cancelAtBoundary.Token).GetAwaiter().GetResult();
+            Check(!result.LocalReady && engine.CurrentSnapshot.Phase == "cancelled", "Cancellation not checkpointed");
+            Check(!operations.Calls.Contains("python") && !operations.Calls.Contains("launch"), "Cancellation scheduled another component");
             File.WriteAllText(options.ResultPath, "RUNNING");
             using (InstallerEngine.AcquireInstallLock(options.InstallRoot)) {
                 operations = new FakeOperations(options); engine = new InstallerEngine(options, operations);
