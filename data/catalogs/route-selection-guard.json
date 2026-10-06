@@ -1,4 +1,64 @@
 {
+  "another_brick#chimps#1920x1080#converted#source_btd6bot#lossy.btd6": {
+    "hash": "ba9fa4bae65d175cbed159e9528199248b83ba2006a5e6e17b614b5cc81ffdc7",
+    "reason": "source targeted special commands omitted"
+  },
+  "cargo#chimps#1920x1080#converted#source_btd6bot#lossy.btd6": {
+    "hash": "84610ab2e4015519fd3bacbdf23c0a5944549e9142050e755e1ff41b2e979b2b",
+    "reason": "source targeted special commands omitted"
+  },
+  "chutes#chimps#1920x1080#converted#source_btd6bot#lossy.btd6": {
+    "hash": "2532474b0d62cbfbf39c8e449a0f9a5f69bab4752453c6e42dc1eb1b6e71fd89",
+    "reason": "source targeted special commands omitted"
+  },
+  "cornfield#chimps#1920x1080#converted#source_btd6bot#lossy.btd6": {
+    "hash": "5b16a0b40e842653ecc7f41410b92d666f3c2b14e95c1f770e03311a50bc2b29",
+    "reason": "source targeted special commands omitted"
+  },
+  "covered_garden#chimps#1920x1080#converted#source_btd6bot#lossy.btd6": {
+    "hash": "934a663ef6f55d4c4dd5d279878202e9e155dd55002694e84783bcc5e747ec06",
+    "reason": "source targeted special commands omitted"
+  },
+  "erosion#chimps#1920x1080#converted#source_btd6bot#lossy.btd6": {
+    "hash": "6265bddcb88ff2bbb9e13af72c2c77230ba5de1f1c2f95112001c0d3a098d211",
+    "reason": "source targeted special commands omitted"
+  },
+  "flooded_valley#chimps#1920x1080#converted#source_btd6bot#lossy.btd6": {
+    "hash": "3e17dcb3d3cfb158e51bb84b3473e8cdc55a7b99be4e1b623a49281bc354d7f1",
+    "reason": "source targeted special commands omitted"
+  },
+  "high_finance#chimps#1920x1080#converted#source_btd6bot#lossy.btd6": {
+    "hash": "f96b3bb49bd8b2dd042df3bccbd87187ff3d1739a91149f66c6f36f425041423",
+    "reason": "source targeted special commands omitted"
+  },
+  "infernal#chimps#1920x1080#converted#source_btd6bot#lossy.btd6": {
+    "hash": "213cd30ade14e5f04deda6f90322f2f55c45a9d021cec722477362ebb8f2de1f",
+    "reason": "source targeted special commands omitted"
+  },
+  "infernal#easy#1920x1080#converted#source_btd6bot#lossy.btd6": {
+    "hash": "569dcec05c3425b430284238aa97f6ef52076ba814121245de03e313d3e817fd",
+    "reason": "source targeted special commands omitted"
+  },
+  "ouch#chimps#1920x1080#converted#source_btd6bot#lossy.btd6": {
+    "hash": "3d56abc2d40f75e58ece94047de54d077a0364f13d3acf74e80d6b6f27928fa7",
+    "reason": "source targeted special commands omitted"
+  },
+  "peninsula#chimps#1920x1080#converted#source_btd6bot#lossy.btd6": {
+    "hash": "870bbef12dfee39af656d1026a337a99a8ba92f2dbb7d23a19fe8d62e4166c3f",
+    "reason": "source targeted special commands omitted"
+  },
+  "polyphemus#chimps#1920x1080#converted#source_btd6bot#lossy.btd6": {
+    "hash": "4826a1202ee709e0e774847337603d1e4aed7adbb6d945f968f0a87dba1c8839",
+    "reason": "source targeted special commands omitted"
+  },
+  "quarry#chimps#1920x1080#converted#source_btd6bot#lossy.btd6": {
+    "hash": "cc9e722defda7bb6e639fbbd0caefbb2e91f88914da134a42c80daebffbc8997",
+    "reason": "source targeted special commands omitted"
+  },
+  "ravine#chimps#1920x1080#converted#source_btd6bot#lossy.btd6": {
+    "hash": "36431188e47b75d5ab27adb0fdcfa4c2ce5c0324fdbcfcd602a0d4e4e091b62e",
+    "reason": "source targeted special commands omitted"
+  },
   "sanctuary#easy#1920x1080#converted#source_btd6bot.btd6": {
     "hash": "4fd306580686db30d769261dd3e48e43cea94ef64f2744fb4e37b5f85b11df00",
     "reason": "source selection-position updates omitted"
@@ -10,5 +70,25 @@
   "sanctuary#medium#1920x1080#source_btd6bot#compat#from_hard.btd6": {
     "hash": "2b6939abeb6e3d704472eb5ab60de7167c47644174245abf1e10d823298ccee1",
     "reason": "source selection-position updates omitted"
+  },
+  "spillway#chimps#1920x1080#converted#source_btd6bot#lossy.btd6": {
+    "hash": "4f19464e69ce4305861a065c9c5f1f91795f6d92f81169491fe666ca5201e623",
+    "reason": "source targeted special commands omitted"
+  },
+  "sunken_columns#chimps#1920x1080#converted#source_btd6bot#lossy.btd6": {
+    "hash": "9b188e46dd69aaf8549406ca78547b69ae840eb3c2a499ea45be50e2c53d5349",
+    "reason": "source targeted special commands omitted"
+  },
+  "sunset_gulch#chimps#1920x1080#converted#source_btd6bot#lossy.btd6": {
+    "hash": "ea5294734428a2539d861c235fdf837031653b4482b6f087a4b57fa08119111a",
+    "reason": "source targeted special commands omitted"
+  },
+  "water_park#chimps#1920x1080#converted#source_btd6bot#lossy.btd6": {
+    "hash": "79adae14855bc6de4f4dfb7a4751cb60ae1e7305a7dd01b4aa711d7efe9e8e74",
+    "reason": "source targeted special commands omitted"
+  },
+  "workshop#chimps#1920x1080#converted#source_btd6bot#lossy.btd6": {
+    "hash": "f2cf64695e26834225bc8deba79360f2685a9fb928556238921351e40f5a1f8a",
+    "reason": "source targeted special commands omitted"
   }
 }

@@ -4,6 +4,8 @@ Updated 6 October 2026. Checkboxes require evidence, not merely code. Preserve o
 
 ## Current repair pass
 
+- [x] Extend pinned-source omission audit and exact-version exclusion to targeted specials. Guard 23 legacy copies with missing selectors/targets; retain all 14 newly preserved candidates. Actual inventory/hash checks and runtime selection guard checks pass. Offline eligibility remains 521/1,204; recordings and saved-clear evidence unchanged.
+
 - [x] Preserve BTD6bot targeted special-1 commands instead of omitting them: new special-to grammar, independent moved-tower selector, scaled recording round trip and key→target→click runtime helper. Emit 14 separate complete candidates including dedicated Sanctuary Medium; full parser reports no errors. Original recordings unchanged. Offline eligibility now 521/1,204; 683 gaps remain and no new victory is claimed. Second-special/manual-flow omissions remain excluded.
 
 - [x] Repair custom dropdown stale rows: include option values in refresh signatures and compare native node identity after replacement, even when labels/values match. Ignore detached-option clicks rather than setting selectedIndex to -1. Focused actual-function regression fails on old source and passes on repaired source; Settings action-state and syntax checks pass. Search/native events retained.

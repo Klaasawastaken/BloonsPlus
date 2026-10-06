@@ -29,7 +29,8 @@ def audit():
             verdict = dict(status='source-convertible' if not route.lossy else 'source-omissions',
                            omissions=sorted(route.lossy), requiredSelectionCommands=sum(
                                bool(re.match(r'^(upgrade|retarget|special|sell)\s.+ at \d+, \d+$', line))
-                               for line in route.body()))
+                               for line in route.body()), requiredTargetSpecialCommands=sum(
+                               bool(re.match(r'^special \w+ to \d+, \d+', line)) for line in route.body()))
         except importer.Unsupported as error:
             verdict = dict(status='source-unsupported', reason=str(error))
         sources[(slug, identity[1])] = dict(verdict, source=source.relative_to(ROOT).as_posix(),
@@ -48,9 +49,13 @@ def audit():
         verdict = sources.get((fields[0], source_mode), dict(status='source-unresolved'))
         selectors = sum(bool(re.match(r'^(upgrade|retarget|special|sell)\s.+ at \d+, \d+$', line))
                         for line in file.read_text(encoding='utf-8-sig').splitlines())
+        target_specials = sum(bool(re.match(r'^special \w+ to \d+, \d+', line))
+                              for line in file.read_text(encoding='utf-8-sig').splitlines())
         findings.append(dict(verdict, file=file.name, map=fields[0], targetMode=fields[1],
             sourceMode=source_mode, compatibilityCopy='compat' in flags,
             selectionCommands=selectors, missingSelectionCommands=selectors < verdict.get('requiredSelectionCommands', 0),
+            targetSpecialCommands=target_specials,
+            missingTargetSpecialCommands=target_specials < verdict.get('requiredTargetSpecialCommands', 0),
             routeHash=hashlib.sha256(file.read_bytes()).hexdigest()))
     return dict(scanned=len(findings), counts=dict(Counter(item['status'] for item in findings)),
         findings=findings,
@@ -60,8 +65,11 @@ def audit():
 if __name__ == '__main__':
     result = audit()
     if '--write-selection-guard' in sys.argv:
-        guard = {item['file']:dict(hash=item['routeHash'], reason='source selection-position updates omitted')
-                 for item in result['findings'] if item['missingSelectionCommands']}
+        guard = {item['file']:dict(hash=item['routeHash'], reason='; '.join(
+                    reason for missing, reason in (
+                        (item['missingSelectionCommands'], 'source selection-position updates omitted'),
+                        (item['missingTargetSpecialCommands'], 'source targeted special commands omitted')) if missing))
+                 for item in result['findings'] if item['missingSelectionCommands'] or item['missingTargetSpecialCommands']}
         target = ROOT / 'data/catalogs/route-selection-guard.json'
         target.write_text(json.dumps(guard, indent=2) + '\n', encoding='utf-8')
         print(json.dumps(dict(blockedSelectionCopies=len(guard))))
