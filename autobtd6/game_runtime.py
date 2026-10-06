@@ -135,6 +135,7 @@ class GameState:
         self.mode_restrictions = {'allowedTowerClasses': ALLOWED_CLASS_BY_MODE[self.mode]} if self.mode in ALLOWED_CLASS_BY_MODE else {}
         self.hero = map_config.get('hero')
         self.round = None
+        self.round_observed_at = None
         self.cash = None
         self.lives = None
         self.speed = None
@@ -184,11 +185,12 @@ class GameState:
     def observe(self, cash=None, round_number=None, screen=None):
         if isinstance(cash, int) and cash >= 0:
             self.cash = cash
-        if isinstance(round_number, int) and round_number >= 0:
+        if type(round_number) is int and round_number >= 0:
             self.round = round_number
+            self.round_observed_at = time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())
         if screen:
             self.screen = str(screen)
-        sample = {'cash': self.cash, 'round': self.round, 'screen': self.screen,
+        sample = {'cash': self.cash, 'round': self.round, 'roundObservedAt': self.round_observed_at, 'screen': self.screen,
                   'observedAt': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())}
         prior = self._last_observation or {}
         now = time.monotonic()
@@ -320,6 +322,7 @@ class GameState:
             'mode': self.mode,
             'modeRestrictions': deepcopy(self.mode_restrictions),
             'round': self.round,
+            'roundObservedAt': self.round_observed_at,
             'cash': self.cash,
             'lives': self.lives,
             'hero': self.hero,

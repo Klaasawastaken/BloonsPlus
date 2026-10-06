@@ -2165,7 +2165,8 @@ def main():
                             surplusUpgradeAttempts.add((str(tower), path, int(levels[path]) + 1))
         except (OSError, ValueError, TypeError):
             customPrint('DEBUG resume found no matching persisted tower/path ledger')
-        currentGameState.observe(round_number=resumeRound, screen=resumeScreen.name)
+        # A checkpoint counter is history, not a fresh screen reading.
+        currentGameState.observe(screen=resumeScreen.name)
         repeatedAbilities.restore(routeCheckpoint.get('repeatedAbilities', []), keybinds.get('abilities', {}))
         customPrint('TIMING_RECOVERY restored repeat ability slots=' + str(repeatedAbilities.snapshot()))
         observedRound = resumeRound

@@ -4,6 +4,10 @@ Updated 6 October 2026. Checkboxes require evidence, not merely code. Preserve o
 
 ## Current repair pass
 
+- [x] Preserve round-read freshness separately from a retained counter. Unreadable frames cannot refresh its timestamp; resumed checkpoints are not new observations. New failures use guest read/end timestamps to reject counters older than ten seconds for loss-stage classification, retaining the last readable number and timestamp as diagnostics. Legacy records retain their interpretation. Two runtime regressions, eight helper cases, loss/failure classification and four ledger checks pass. Live deployment pending.
+- [x] Give only Infernal Reverse/ABR Heli candidates one stable new attempt revision after the live-confirm fix. Keep failure history, unrelated exclusions, other Infernal modes and original CHIMPS unchanged; owned-medal admission still applies. Targeted hash regressions pass. No route win claimed.
+- Preview 54 updater completed after Infernal Reverse ended in defeat (last readable round 17; actual loss round not established while the counter was blocked). Guest confirmed the missing-medal sweep resumed and began Bloody Puddles Reverse.
+
 - [x] Correct Infernal’s displayed terrain guidance: include the narrow left/right edge strips for Heli/Farm footprints, reserve space before support, and require live legality. Source: https://bloons.fandom.com/wiki/Infernal . This does not authorize an unobserved placement or change original recordings.
 
 - [x] Reproduce stale confirmation-mode admission from an old private flag. Start each replay with mode unconfirmed, learn it only from the actual post-click check button, and stop persisting the setting. Preserve historical files without reading/deleting them. Three actual-block regressions pass (old flag ignored, live check clicked, absent check sends no input) plus eight nearby placement/HUD checks. Infernal recovery still needs a missing-medal run; do not mark its routes winning.

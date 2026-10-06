@@ -1,0 +1,18 @@
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const vm = require('node:vm');
+const source = fs.readFileSync(require.resolve('../lib/automation'), 'utf8');
+const start = source.indexOf('function failureRoundEvidence(');
+assert.notEqual(start, -1, 'Actual failure-round helper must exist');
+const code = source.slice(start, source.indexOf('function recordRouteFailure(', start));
+const evidence = (state, round, finalRound=60) => vm.runInNewContext(code+'\nfailureRoundEvidence(state, round, finalRound)', {state,round,finalRound});
+const base = {roundObservedAt:'2026-10-06T05:00:00Z', updatedAt:'2026-10-06T05:02:00Z'};
+assert.equal(evidence(base,17).lastRound,null,'A minutes-old read is not the defeat round');
+assert.equal(evidence(base,17).lastObservedRound,17);
+assert.equal(evidence({...base,updatedAt:'2026-10-06T05:00:05Z'},17).lastRound,17);
+assert.equal(evidence({...base,roundObservedAt:null},17).lastRound,null);
+assert.equal(evidence({...base,roundObservedAt:'bad'},17).lastRound,null);
+assert.equal(evidence({...base,roundObservedAt:'2026-10-06T05:03:00Z'},17).lastRound,null);
+assert.equal(evidence({},17).lastRound,17,'Legacy history retains its former interpretation');
+assert.equal(evidence({},779).lastRound,null,'Sanity rejection still applies');
+console.log('Failure rounds require fresh same-source reads when freshness metadata exists.');
