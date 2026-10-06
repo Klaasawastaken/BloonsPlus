@@ -10,6 +10,8 @@ Updated 6 October 2026. Checkboxes require evidence, not merely code. Preserve o
 
 - Preview 48 deployment completed at the Infernal ABR boundary and the guest confirmed the missing-medal sweep restarted. Infernal Reverse is now active; no ABR clear claimed.
 
+- Preview 50 published with exact packaged replay.py/automation.js/app.js source matches. Its boundary worker is live and waiting for Infernal Reverse; stop-after-replay is confirmed. Do not overwrite its reserved root payload while it waits. Heli recovery still needs live evidence; investigate tower-specific source placement hints as unverified hover candidates, not confirmed legal memory.
+
 - [x] Remove the separate live route-verification API mode, its one-attempt-per-map branch and UI status path. Completion automation now has one missing-medal sweep; historical files preserved. Actual API rejects legacy run types before runtime startup. Five existing offline sweep checks pass (saved-medal gate, alternatives, ordering, counts and delayed medal confirmation). Deployment pending; no validation game launched.
 
 - Confirmed Infernal Hard at round 80: replay logged VICTORY_CONFIRMED and authoritative VM save Hard/Standard=1049864. Never replay it. Preview 45 update worker completed at idle and confirmed the missing-medal sweep restarted.
