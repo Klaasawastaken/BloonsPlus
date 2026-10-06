@@ -668,6 +668,15 @@ that leaked in this account's frame or prove a replacement opening. A dedicated
 full video could not be fetched in this check; no unseen placement/timing data
 was copied or marked verified. Private failure evidence remains excluded.
 
+The final pending action explicitly required 2,160 cash for the 0-2-0 Village,
+against 1,920 available: a 240 shortfall. The route had already spent 3,670 on
+Heli 2-0-3 before placing that Village at round 27. This gives a concrete
+purchase-priority hypothesis: reserve early camo support before the costly
+Heli upgrade. Any separate candidate must also confirm that the intended
+lead-popping tower lies inside the Village's influence, including its radius
+upgrade if required. Reordering the budget alone does not prove coverage or
+victory; no replacement route was published from this audit.
+
 ### Firing Range source coverage clarification — 6 October
 
 The pinned source includes `firing_rangeHardChimps.py` with Rosalia, coordinates,
