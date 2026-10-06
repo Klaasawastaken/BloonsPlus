@@ -473,3 +473,5 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [x] Preserve BTD6bot move_cursor as a move-only command with normalized source coordinates, full route grammar, recording, canonical action and serialized replay execution. Reject malformed, boolean and outside-playfield source coordinates.
 - [x] Add one separate #Ouch Alternate Bloons Rounds cursor-preserved candidate. All 103 commands pass the complete Python parser and JS mode/legality validation. Original recordings unchanged; no victory claimed. Four offline cursor checks and 14 importer checks pass.
 - [ ] Deploy cursor support in the next batch after Preview 37; observe it only during missing-medal gameplay. Manual rounds, autostart, positional special actions and source Sniper path regression remain unresolved conversion cases.
+
+- Preview 38 published on 6 October from an isolated build directory, preserving the already queued Preview 37 installer. Packaged runtime files match source; publication guard reports no findings. Cursor support still awaits its own replay-boundary deployment.
