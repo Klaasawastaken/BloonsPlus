@@ -8,6 +8,91 @@ from native_installer_harness import compile_harness
 
 @unittest.skipUnless(os.name == 'nt', 'Windows native compiler')
 class InstallerViewTests(unittest.TestCase):
+    def test_native_accessible_status_and_progress_expose_current_observation(self):
+        """Read actual native accessibility objects and own-window name events."""
+        root = Path(__file__).resolve().parents[1]
+        with tempfile.TemporaryDirectory() as folder:
+            source = Path(folder) / 'ViewAccessibilityChecks.cs'
+            source.write_text(r'''
+using System;
+using System.IO;
+using System.Drawing;
+using System.Windows.Forms;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
+using System.Threading;
+internal sealed class AccessibilityOffscreenForm : Form {
+ protected override bool ShowWithoutActivation {get{return true;}}
+ protected override CreateParams CreateParams {get{var value=base.CreateParams;value.ExStyle|=0x08000000|0x80;return value;}}
+}
+internal static class ViewAccessibilityChecks {
+ delegate void WinEvent(IntPtr hook,uint type,IntPtr window,int obj,int child,uint thread,uint time);
+ [DllImport("user32.dll")] static extern IntPtr SetWinEventHook(uint min,uint max,IntPtr module,WinEvent callback,uint process,uint thread,uint flags);
+ [DllImport("user32.dll")] static extern bool UnhookWinEvent(IntPtr hook);
+ static void Check(bool value,string why) {if(!value)throw new Exception(why);}
+ static Control Find(Control parent,string name) {
+  if(parent.AccessibleName!=null&&parent.AccessibleName.StartsWith(name,StringComparison.Ordinal))return parent;
+  foreach(Control child in parent.Controls){var found=Find(child,name);if(found!=null)return found;}
+  return null;
+ }
+ static void Drain() {
+  var watch=Stopwatch.StartNew();
+  while(watch.ElapsedMilliseconds<100){Application.DoEvents();Thread.Sleep(5);}
+ }
+ [STAThread] static int Main(string[] args) {
+  try {Run(args);return 0;} catch(Exception error){Console.Error.WriteLine(error);return 1;}
+ }
+ static void Run(string[] args) {
+  Application.EnableVisualStyles();
+  foreach(bool dark in new[]{false,true}) {
+   using(var form=new AccessibilityOffscreenForm()) using(var view=new InstallerView(new InstallerOptions(Path.Combine(args[0],"app"),args[0],"unused.exe",false,null))) {
+    form.ShowInTaskbar=false;form.StartPosition=FormStartPosition.Manual;form.Location=new Point(-10000,-10000);
+    form.ClientSize=new Size(640,540);form.Controls.Add(view);view.Dock=DockStyle.Fill;view.ApplyTheme(dark);form.Show();form.PerformLayout();
+    Check(form.Bounds.Right<0,"Fixture became visible on desktop");
+    var status=Find(view,"Setup status");var progress=Find(view,"Current step progress");
+    Check(status!=null&&progress!=null,"Status/progress accessibility targets absent");
+    Check(status.AccessibilityObject.Name=="Setup status: Install BloonsPlus and connect your game in one guided setup.","Accessible welcome status hides its actual text");
+    int announcements=0;
+    WinEvent callback=delegate(IntPtr hook,uint type,IntPtr window,int obj,int child,uint thread,uint time){if(window==status.Handle&&obj==-4)announcements++;};
+    // Scope the read-only event listener to this fixture process. No global input.
+    var listener=SetWinEventHook(0x800c,0x800c,IntPtr.Zero,callback,(uint)Process.GetCurrentProcess().Id,0,0);
+    Check(listener!=IntPtr.Zero,"Own-process accessibility event listener unavailable");
+    try {
+     var snapshot=new InstallerSnapshot{Phase="downloading",Status="Downloading required components",StageNumerator=10,StageDenominator=100};
+     view.Render(snapshot);Drain();
+     Check(status.AccessibilityObject.Name=="Setup status: Downloading required components","Download status not exposed");
+     Check(announcements>0,"Changed status did not announce a native name event");
+     Check(progress.AccessibilityObject.Description=="Current step · 10%","Measured progress description absent");
+     int prior=announcements;
+     snapshot.StageNumerator=20;view.Render(snapshot);Drain();
+     Check(announcements==prior,"Progress-only observation repeated status announcement");
+     Check(progress.AccessibilityObject.Description=="Current step · 20%","Measured progress description stale");
+     snapshot.StageNumerator=snapshot.StageDenominator=null;snapshot.Indeterminate=true;view.Render(snapshot);Drain();
+     Check(progress.AccessibilityObject.Description=="Working · progress is not measurable for this step","Unknown work exposed a false measured percentage");
+     view.Render(new InstallerSnapshot{Phase="failed",Status="RuntimeError: user@127.0.0.1 permission denied",Error="Private fixture diagnostic"});Drain();
+     Check(status.AccessibilityObject.Name=="Setup status: A setup component needs attention. Open details, then retry.","Accessible failure does not match friendly visible status");
+     Check(announcements>prior,"Failure did not announce changed status");
+     view.Render(new InstallerSnapshot{Phase="complete",AppValidated=true,EnvironmentRequired=false});Drain();
+     Check(status.AccessibilityObject.Name=="Setup status: App installed — environment setup deferred.","Accessible completion invents environment readiness");
+    } finally {UnhookWinEvent(listener);GC.KeepAlive(callback);}
+   }
+  }
+ }
+}
+''', encoding='utf-8')
+            binary = Path(folder) / 'ViewAccessibilityChecks.exe'
+            compiler = Path(os.environ['WINDIR']) / 'Microsoft.NET/Framework64/v4.0.30319/csc.exe'
+            files = [*sorted((root / 'installer/native').glob('*.cs')),
+                     *sorted((root / 'installer/presentation').glob('*.cs')), source]
+            result = subprocess.run([str(compiler), '/nologo', '/target:exe', '/main:ViewAccessibilityChecks',
+                '/reference:System.Windows.Forms.dll', '/reference:System.Drawing.dll',
+                '/reference:Accessibility.dll', '/reference:System.IO.Compression.dll',
+                '/reference:Microsoft.CSharp.dll', '/reference:System.Web.Extensions.dll',
+                '/out:' + str(binary), *map(str, files)], capture_output=True, text=True)
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            result = subprocess.run([str(binary), folder], capture_output=True, text=True, timeout=30)
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
     def test_native_keyboard_traversal_skips_hidden_and_busy_controls(self):
         """Exercise WinForms selection, not declared TabIndex values or OS input."""
         root = Path(__file__).resolve().parents[1]

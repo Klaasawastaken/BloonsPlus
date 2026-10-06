@@ -89,6 +89,26 @@ screen-reader, Windows DPI or high-contrast acceptance.
 
 ## Next checks
 
+### Native accessibility follow-up — 7 October
+
+The actual status label's accessibility name previously returned only “Setup
+status”, hiding the visible installation or recovery text. The new regression
+failed on this behavior before the repair. The label now exposes its friendly
+current observation and sends an MSAA name-change event when that text changes.
+An own-process event listener verified those events in both themes and verified
+that progress-only observations do not repeat the status notification. Measured
+and unknown progress descriptions match the visible caption. Failure status uses
+the same friendly text as the view; completion still distinguishes environment
+defer from readiness. No test sends desktop input or captures another process's
+accessibility events.
+
+All four native view tests and the complete suite of 396 Python tests passed,
+alongside all 64 approved JavaScript check files. These prove the native control
+contract, not physical screen-reader speech, announcement priority, Windows DPI,
+or weak-hardware performance. Those production gates remain open.
+
+### Outstanding environment and recovery checks
+
 After the approved checkpoint repair, repeat these checks and add deterministic
 bounded-retry and persistent-error coverage before changing product code.
 Custom-path preflight also remains open: a successful shorter root does not

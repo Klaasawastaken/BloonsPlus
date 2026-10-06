@@ -5,8 +5,19 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Drawing.Drawing2D;
 
+internal sealed class InstallerStatusLabel : Label {
+    public void SetObservedStatus(string text) {
+        Text = text;
+        string name = "Setup status: " + text;
+        if (AccessibleName == name) return;
+        AccessibleName = name;
+        if (IsHandleCreated) AccessibilityNotifyClients(AccessibleEvents.NameChange, -1);
+    }
+}
+
 internal sealed class InstallerView : UserControl {
-    private readonly Label heading = new Label(), status = new Label(), caption = new Label();
+    private readonly Label heading = new Label(), caption = new Label();
+    private readonly InstallerStatusLabel status = new InstallerStatusLabel();
     private readonly Button primary = new Button(), secondary = new Button();
     private readonly LinkLabel optionsLink = new LinkLabel(), detailsLink = new LinkLabel();
     private readonly Panel body = new Panel();
@@ -116,10 +127,11 @@ internal sealed class InstallerView : UserControl {
     private void ApplyState() {
         if (state.ShowDetails) detailsPanel.Visible = true;
         detailsLink.Text = detailsPanel.Visible ? "Hide details" : "Show details";
-        heading.Text=state.Heading;status.Text=state.Status;primary.Text=state.PrimaryText??"Setting up…";primary.Enabled=!busy&&state.PrimaryEnabled;
+        heading.Text=state.Heading;status.SetObservedStatus(state.Status);primary.Text=state.PrimaryText??"Setting up…";primary.Enabled=!busy&&state.PrimaryEnabled;
         secondary.Text=state.SecondaryText;secondary.Enabled=state.SecondaryAction!=null;
         progress.Visible=caption.Visible=state.ShowProgress;progress.Style=state.Animate?ProgressBarStyle.Marquee:ProgressBarStyle.Continuous;
         progress.Value=state.StagePercent.GetValueOrDefault();caption.Text=state.StagePercent.HasValue?"Current step · "+state.StagePercent+"%":state.Animate?"Working · progress is not measurable for this step":"Completed work is retained";
+        progress.AccessibleDescription=caption.Text;
         optionsLink.Visible=!state.ShowProgress&&state.SecondaryAction!="options";
         detailsLink.Visible=(state.ShowProgress||recent.Count>0)&&state.SecondaryAction!="details";ResizeContent();
     }

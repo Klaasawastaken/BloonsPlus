@@ -1,3 +1,18 @@
+## Preview 99 installer accessibility hotfix — 7 October 2026
+
+### Additions
+
+- Add checks against actual WinForms accessibility objects and status-change events in the isolated native installer view.
+
+### Changes
+
+- Expose current friendly status and measured or unknown progress without repeating status announcements for progress-only updates.
+- Verify 396 Python tests and 64 JavaScript check files. Physical screen-reader and clean-machine acceptance remain open.
+
+### Removed
+
+- Remove the accessible status name that concealed the current installer observation.
+
 ## Preview 99 second special hotfix — 6 October 2026
 
 ### Additions
