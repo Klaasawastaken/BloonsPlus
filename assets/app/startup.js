@@ -6,6 +6,20 @@
   const key='bloondesk-save-v1';
   function preferences(){try{return JSON.parse(localStorage.getItem(key)||'{}');}catch{return {};}}
   function prepareTheme(){const saved=preferences();document.documentElement.dataset.theme=saved.theme==='dark'?'dark':'light';}
+  async function checkLocalService(fetcher=fetch) {
+    let response;
+    try { response=await fetcher('/api/setup/controller',{cache:'no-store',signal:AbortSignal.timeout(8000)}); }
+    catch { throw new Error('The local controller could not be reached. Retry when it is available.'); }
+    if(response.status===404)
+      throw new Error('The running controller does not provide the setup API (HTTP 404). Finish the current replay, then reopen Bloons+ to load the current controller.');
+    if(!response.ok)throw new Error(`The local controller returned HTTP ${response.status}. Open connection details and retry.`);
+    let identity;
+    try { identity=await response.json(); }
+    catch { throw new Error('The local controller returned an invalid response. Reopen Bloons+ or repair the app.'); }
+    if(identity?.protocolVersion!==1)
+      throw new Error('The local controller uses an incompatible setup protocol. Reopen Bloons+ to load the current controller.');
+    return true;
+  }
   function startIntro(options={},dependencies={}) {
     const schedule=dependencies.setTimeout||setTimeout, cancel=dependencies.clearTimeout||clearTimeout;
     const onChange=dependencies.onChange||(()=>{}), timers=new Set();
@@ -52,7 +66,7 @@
     const intro=startIntro({mode:saved.startupMode,firstLaunch,reducedMotion:matchMedia('(prefers-reduced-motion: reduce)').matches,
       softwareRendering:new URL(location.href).searchParams.get('softwareRendering')==='1',
       shellReady:()=>!!document.querySelector('main'),
-      serviceReady:async()=>{const response=await fetch('/api/setup/controller',{cache:'no-store',signal:AbortSignal.timeout(8000)});if(!response.ok)throw new Error('The local controller is unavailable.');return (await response.json()).protocolVersion===1;}
+      serviceReady:checkLocalService
     },{onChange:value=>{
       branding.hidden=!value.branding;branding.dataset.motion=value.mode;
       status.hidden=value.readiness==='ready';status.dataset.state=value.readiness;
@@ -67,5 +81,5 @@
     window.addEventListener('pagehide',()=>{intro.cleanup();document.removeEventListener('keydown',escape);},{once:true});
     function rootRedact(text){return globalThis.BloonsSupport?.redact(text)||text.replace(/(?:[a-z]:\\Users\\|\/home\/)[^\n]+/gi,'[user path removed]');}
   }
-  return {startIntro,prepareTheme,mount};
+  return {startIntro,prepareTheme,checkLocalService,mount};
 });

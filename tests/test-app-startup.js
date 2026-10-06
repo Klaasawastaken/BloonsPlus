@@ -1,5 +1,5 @@
 const assert = require('node:assert/strict');
-const {startIntro} = require('../assets/app/startup');
+const {startIntro,checkLocalService} = require('../assets/app/startup');
 const appSource=require('node:fs').readFileSync('assets/app/app.js','utf8');
 assert.ok(appSource.indexOf('let automationStatusLoading = false;') < appSource.indexOf('\nrender();'),'First render called automation status before its guard was initialized');
 function fixture(options = {}) {
@@ -12,6 +12,18 @@ function fixture(options = {}) {
 }
 const flush = async()=>{for(let i=0;i<10;i++)await Promise.resolve();};
 (async()=>{
+  const calls=[];
+  assert.equal(await checkLocalService(async(url,options)=>{
+    calls.push({url,options});return {ok:true,status:200,json:async()=>({protocolVersion:1})};
+  }),true);
+  assert.equal(calls[0].url,'/api/setup/controller');
+  assert.equal(calls[0].options.cache,'no-store');
+  assert.ok(calls[0].options.signal,'Readiness request must retain its timeout');
+  await assert.rejects(checkLocalService(async()=>({ok:false,status:404})),/setup API.*Finish the current replay/i);
+  await assert.rejects(checkLocalService(async()=>({ok:false,status:503})),/HTTP 503/);
+  await assert.rejects(checkLocalService(async()=>({ok:true,status:200,json:async()=>({protocolVersion:2})})),/incompatible/i);
+  await assert.rejects(checkLocalService(async()=>({ok:true,status:200,json:async()=>{throw new SyntaxError('Not found');}})),/invalid response/i);
+  await assert.rejects(checkLocalService(async()=>{throw new TypeError('Failed to fetch');}),/could not be reached/i);
   const full=fixture();assert.equal(full.initialized(),true,'Shell was delayed behind branding');
   await flush();assert.equal(full.states.at(-1).readiness,'ready');
   assert.ok([...full.timers.values()].some(timer=>timer.ms>=1000&&timer.ms<=2000));

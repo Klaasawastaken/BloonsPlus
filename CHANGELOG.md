@@ -1,3 +1,11 @@
+## Preview 95 — 6 October 2026
+
+- Preserve positional moved-tower selectors and keyword upgrade/target arguments in BTD6bot route imports.
+- Reject unknown, duplicate, excess and partial coordinate arguments before changing selection state; leave existing recordings intact.
+- Distinguish a missing setup API, HTTP failure, incompatible protocol, malformed response and unreachable controller in startup details.
+- Explain that an older running controller should be reopened after the healthy replay finishes. Do not report that a working VM is offline or bypass setup ownership checks.
+- Refresh the readable V1.0 checklist and release evidence. Clean-machine, UAC/reboot, physical accessibility and live recovery acceptance remain open.
+
 ## Preview 94 — 6 October 2026
 
 - Fix false “older installer” rejection in VM provisioning after adding the app icon.
