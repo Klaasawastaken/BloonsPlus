@@ -13,7 +13,7 @@ const root = path.resolve(__dirname, '..');
   const backendRequire = Module.createRequire(path.join(root, 'lib', 'automation.js'));
   old.require = backendRequire;
   const source = fs.readFileSync(path.join(root, 'lib', 'automation.js'), 'utf8')
-    .replace(/^const PROJECT_ROOT = .*?;\r?\n/, '')
+    .replace(/^const PROJECT_ROOT = .*?;\r?\n/m, '')
     .replace(/PROJECT_ROOT/g, '__dirname');
   old._compile(source, old.filename);
   const expected = await old.exports.getAvailableCombos();

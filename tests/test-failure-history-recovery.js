@@ -1,7 +1,7 @@
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const vm = require('node:vm');
-const source = fs.readFileSync(require.resolve('../lib/automation'), 'utf8');
+const source = fs.readFileSync(require.resolve('../lib/automation'), 'utf8').replace(/\r\n/g, '\n');
 const start = source.indexOf('function loadFailureHistory(');
 const end = source.indexOf('\n}\n', start) + 2;
 function load(readFileSync, copyFileSync = () => {}) {
