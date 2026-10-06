@@ -17,10 +17,16 @@ class InstallerAtomicOutputTests(unittest.TestCase):
             (source / '.superpowers/sdd/plan').mkdir(parents=True)
             (source / '.superpowers/sdd/plan/progress.md').write_text('private scratch')
             (source / 'app.js').write_text('public source')
+            (source / 'setup-handoff').mkdir()
+            (source / 'setup-handoff/session.json').write_text('private authentication key')
+            (source / 'setup-sessions').mkdir()
+            (source / 'setup-sessions/session.json').write_text('private checkpoint')
             target = Path(folder) / 'target'
             builder.copy_tree(source, target)
             self.assertTrue((target / 'app.js').exists())
             self.assertFalse((target / '.superpowers').exists())
+            self.assertFalse((target / 'setup-handoff').exists())
+            self.assertFalse((target / 'setup-sessions').exists())
 
     def run_build(self, failure=None):
         with tempfile.TemporaryDirectory() as folder:

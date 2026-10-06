@@ -77,5 +77,12 @@ const flush = async () => { for (let i = 0; i < 30; i++) await Promise.resolve()
   assert.equal(waiting.running, false);
   assert.equal(waiting.error, null, 'Steam sign-in is a user step, not failure');
   assert.equal(signIn.actions(), 1);
+  const blocked = harness();
+  await assert.rejects(vm.runInContext('runSetup({beforeStep:async()=>{throw new Error("Replay ownership unknown");}})', blocked.context),/ownership unknown/);
+  assert.equal(blocked.actions(),0,'Each mutation must await its fresh ownership boundary');
+  const cancelled = harness();
+  await vm.runInContext('runSetup({shouldCancel:()=>true})', cancelled.context);
+  assert.equal(cancelled.actions(),0,'Cancellation stops scheduling before a step starts');
+  assert.equal(vm.runInContext('publicJob().state',cancelled.context),'cancelled');
   console.log('Setup phase, validation boundary, failure and retry checks passed');
 })().catch(error => { console.error(error); process.exitCode = 1; });

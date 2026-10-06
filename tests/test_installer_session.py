@@ -41,7 +41,7 @@ internal static class SessionChecks {
             try { resumed.RetainBackup(Path.Combine(root, "outside")); throw new Exception("Foreign cleanup path accepted"); }
             catch (ArgumentException) {}
             resumed.ObserveMilestone(InstallerStage.Python);
-            Check(resumed.Snapshot.CompletedWeight == 50, "Verified stage milestones missing");
+            Check(resumed.Snapshot.CompletedWeight == 30, "Full setup must reserve environment and finalization work");
             Check(resumed.TryCommand(identity, resumed.Snapshot.Sequence, "resume"), "Resume rejected");
             resumed.Observe("validating", "runtime", "Verifying", null, null, null);
             resumed.MarkValidated(true, false);

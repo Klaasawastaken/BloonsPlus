@@ -81,6 +81,8 @@ autobtd6/viewer-request.json
 
 # Private community bot: never publish or package.
 /private/
+setup-handoff/
+setup-sessions/
 
 # Local route archives and generated conversions
 /autobtd6/playthroughs_prerescale_archive/

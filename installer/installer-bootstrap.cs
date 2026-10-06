@@ -30,6 +30,8 @@ internal sealed class InstallerForm : Form
     private int busyOffset;
     private bool requestedVmSetup = true;
     private string requestedIsoPath = "";
+    private InstallerEngine activeEngine;
+    private bool environmentPending;
     private readonly bool silent = Environment.GetCommandLineArgs().Any(arg => String.Equals(arg, "/silent", StringComparison.OrdinalIgnoreCase));
     private readonly string installRoot = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Programs", "Bloons+");
     private readonly string dataRoot = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "BloonsPlus");
@@ -310,14 +312,28 @@ internal sealed class InstallerForm : Form
         var options = new InstallerOptions(installRoot, dataRoot, Application.ExecutablePath, silent, attemptToken) {
             RequestedVmSetup = requestedVmSetup, RequestedIsoPath = requestedIsoPath
         };
-        var engine = new InstallerEngine(options, new WindowsInstallerOperations(options));
-        engine.ProgressChanged += delegate(InstallerProgress state) {
+        if (!environmentPending) {
+        activeEngine = new InstallerEngine(options, new WindowsInstallerOperations(options));
+        activeEngine.ProgressChanged += delegate(InstallerProgress state) {
             if (state.Failed) SetFailure(state.Message);
             else SetStatus(state.Message, state.Stage, state.Percent, state.Scope);
         };
-        engine.DetailAdded += SetDetail;
-        var result = engine.RunAsync(System.Threading.CancellationToken.None).GetAwaiter().GetResult();
+        activeEngine.DetailAdded += SetDetail;
+        }
+        var result = (environmentPending ? activeEngine.ResumeEnvironmentAsync(System.Threading.CancellationToken.None)
+            : activeEngine.RunAsync(System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
         if (result.LocalReady) {
+            if (!silent && requestedVmSetup && !result.EnvironmentReady) {
+                environmentPending = true;
+                if (!IsDisposed) BeginInvoke((Action)delegate {
+                    progressTimer.Stop();
+                    status.Text = activeEngine.CurrentSnapshot.Status;
+                    installButton.Text = result.RestartRequired ? "Continue after restart" : "Continue setup";
+                    installButton.Enabled = true;
+                    progressCaption.Text = "App installed · environment setup needs attention";
+                });
+                return;
+            }
             Task.Delay(1800).ContinueWith(delegate { if (!IsDisposed) BeginInvoke((Action)Close); });
             return;
         }

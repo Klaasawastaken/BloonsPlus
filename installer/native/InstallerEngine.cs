@@ -34,6 +34,7 @@ internal sealed class InstallerResult
     public int ExitCode { get; internal set; }
     public string Receipt { get; internal set; }
     public string Error { get; internal set; }
+    public string HumanAction { get; internal set; }
 }
 
 internal sealed class InstallerRestartRequiredException : Exception {
@@ -59,6 +60,7 @@ internal sealed class InstallerEngine
         operations.ProgressChanged += PublishProgress;
         operations.DetailAdded += PublishDetail;
         operations.LogAdded += Log;
+        operations.EnvironmentChanged += ObserveEnvironment;
     }
     private void PublishProgress(InstallerProgress state) {
         current = state; Log(state.Message);
@@ -129,6 +131,50 @@ internal sealed class InstallerEngine
         return Task.Run(() => Run(cancellation), cancellation);
     }
     private void NotifySnapshot() { var handler = SnapshotChanged; if (handler != null) handler(CurrentSnapshot); }
+    private void ObserveEnvironment(System.Collections.Generic.Dictionary<string, object> value) {
+        object field;
+        string phase = value.TryGetValue("phase", out field) ? field as string : null;
+        string status = value.TryGetValue("status", out field) ? field as string : "Checking environment";
+        string step = value.TryGetValue("step", out field) ? field as string : null;
+        if (phase == "complete") phase = "validating";
+        session.Observe(phase, step, status, null, null, null);
+        session.SetHumanAction(value.TryGetValue("humanAction", out field) ? field as string : null);
+        if (value.TryGetValue("completedWeight", out field)) session.ObserveEnvironmentWeight(Convert.ToInt32(field));
+        if (phase == "restart_required") session.RequireRestart(status);
+        NotifySnapshot();
+        var progress = new InstallerProgress { Message = status }; progress.Update(InstallerStage.Finish, null);
+        var handler = ProgressChanged; if (handler != null) handler(progress);
+    }
+    private InstallerResult FinishEnvironment() {
+        var environment = operations.ConfigureEnvironment(session.Snapshot.SessionId);
+        if (!environment.Ready) {
+            session.Observe(environment.RestartRequired ? "restart_required" : "validating", "environment", environment.Status, null, null, null);
+            session.SetHumanAction(environment.HumanAction);
+            NotifySnapshot();
+            return new InstallerResult { LocalReady = true, Receipt = "APP_READY", HumanAction = environment.HumanAction,
+                RestartRequired = environment.RestartRequired, ExitCode = environment.RestartRequired ? 3010 : 0 };
+        }
+        session.Observe("validating", "environment", "Environment readiness verified", null, null, null);
+        session.MarkValidated(true, true); session.Complete();
+        if (options.LaunchAfterInstall) operations.LaunchApp();
+        WriteResult("OK"); NotifySnapshot();
+        return new InstallerResult { LocalReady = true, EnvironmentReady = true, Receipt = "OK", ExitCode = 0 };
+    }
+    public Task<InstallerResult> ResumeEnvironmentAsync(CancellationToken cancellation) {
+        return Task.Run(() => {
+            if (session == null || !session.Snapshot.AppValidated || !session.Snapshot.EnvironmentRequired)
+                throw new InvalidOperationException("Validated local installation is required before environment resume.");
+            using (AcquireInstallLock(options.InstallRoot)) {
+                operations.Cancellation = cancellation;
+                try { return FinishEnvironment(); }
+                catch (Exception error) {
+                    Log(error.ToString()); session.Observe("recovering", "environment", "Setup connection needs attention. Reconnect and continue.", null, null, null);
+                    session.SetHumanAction("retry"); NotifySnapshot();
+                    return new InstallerResult { LocalReady = true, Receipt = "APP_READY", Error = error.Message, HumanAction = "retry" };
+                }
+            }
+        }, cancellation);
+    }
     private InstallerResult Run(CancellationToken cancellation)
     {
         string tempZip = Path.Combine(Path.GetTempPath(), "BloonsPlus-" + Guid.NewGuid().ToString("N") + ".zip");
@@ -173,6 +219,12 @@ internal sealed class InstallerEngine
             SetStatus("Creating the app shortcut…", InstallerStage.Finish);
             if (options.StartMenuShortcut) operations.CreateStartMenuShortcut();
             operations.SaveSetupIntent();
+            if (session.Snapshot.EnvironmentRequired) {
+                installed = true;
+                var environment = FinishEnvironment();
+                WriteResult(environment.Receipt);
+                return environment;
+            }
             SetStatus(options.LaunchAfterInstall ? "Bloons+ is installed. Launching the app…" : "Bloons+ is installed.", InstallerStage.Finish, 100);
             if (options.LaunchAfterInstall) operations.LaunchApp();
             installed = true;
@@ -199,7 +251,7 @@ internal sealed class InstallerEngine
                     "recovery", error.Message, null, null, null);
                 NotifySnapshot();
             }
-            return new InstallerResult { LocalReady = false, Receipt = receipt, Error = error.Message, ExitCode = restart ? 3010 : 1, RestartRequired = restart };
+            return new InstallerResult { LocalReady = installed, Receipt = receipt, Error = error.Message, ExitCode = restart ? 3010 : 1, RestartRequired = restart, HumanAction = installed ? "retry" : null };
         } finally {
             operations.Dispose();
             if (installLock != null) installLock.Dispose();

@@ -82,10 +82,17 @@ internal sealed class InstallSession
             || !Guid.TryParseExact(name.Substring(16), "N", out identity)) throw new ArgumentException("Invalid setup backup path.");
         lock (stateLock) { state.BackupPath = canonical; SaveCheckpoint(); }
     }
+    public void SetHumanAction(string action) {
+        lock (stateLock) { state.HumanAction = action; SaveCheckpoint(); }
+    }
     public void ObserveMilestone(InstallerStage stage) {
         int[] weights = { 0, 5, 30, 15, 45, 5 };
         int completed = 0; for (int index = 1; index < (int)stage; index++) completed += weights[index];
-        lock (stateLock) { state.CompletedWeight = completed; SaveCheckpoint(); }
+        lock (stateLock) { state.CompletedWeight = state.EnvironmentRequired ? completed * 60 / 100 : completed; SaveCheckpoint(); }
+    }
+    public void ObserveEnvironmentWeight(int completed) {
+        if (completed < 0 || completed > 100) throw new ArgumentOutOfRangeException("completed");
+        lock (stateLock) { state.CompletedWeight = 60 + completed * 35 / 100; SaveCheckpoint(); }
     }
     public void MarkValidated(bool app, bool environment)
     {

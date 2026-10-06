@@ -22,6 +22,7 @@ using System.Threading;
 internal sealed class FakeOperations : WindowsInstallerOperations {
     public readonly List<string> Calls = new List<string>();
     public bool FailPython;
+    public bool EnvironmentReady = true;
     public Action OnCpp;
     public FakeOperations(InstallerOptions options) : base(options) {}
     public override void CloseInstalledControllers() { Calls.Add("controllers"); }
@@ -38,6 +39,10 @@ internal sealed class FakeOperations : WindowsInstallerOperations {
     public override void KeepInstallerCopy() { Calls.Add("copy"); }
     public override void SaveSetupIntent() { Calls.Add("intent"); }
     public override void LaunchApp() { Calls.Add("launch"); }
+    public override SetupEnvironmentResult ConfigureEnvironment(string id) {
+        Calls.Add("environment");
+        return new SetupEnvironmentResult { Ready = EnvironmentReady, HumanAction = EnvironmentReady ? null : "steam_sign_in", Status = EnvironmentReady ? "Environment ready" : "Sign in to Steam in the VM" };
+    }
 }
 internal static class EngineChecks {
     static void Check(bool value, string message) { if (!value) throw new Exception(message); }
@@ -58,6 +63,16 @@ internal static class EngineChecks {
             Check(events[0].Percent == null, "Earlier event mutated");
             Check(details.Contains("Dependency probe"), "Missing detail event");
             Check(File.ReadAllText(options.ResultPath) == "OK" && File.ReadAllText(options.AttemptResultPath) == "OK", "Wrong receipts");
+            var fullOptions = new InstallerOptions(Path.Combine(root,"full"),root,"unused.exe",false,null);
+            var fullOperations = new FakeOperations(fullOptions) { EnvironmentReady = false };
+            var fullEngine = new InstallerEngine(fullOptions,fullOperations);
+            var pending = fullEngine.RunAsync(CancellationToken.None).GetAwaiter().GetResult();
+            Check(pending.LocalReady && !pending.EnvironmentReady && pending.HumanAction == "steam_sign_in", "Human action invented environment readiness");
+            Check(!fullOperations.Calls.Contains("launch"), "Dashboard launched before environment acceptance");
+            fullOperations.EnvironmentReady = true;
+            var resumed = fullEngine.ResumeEnvironmentAsync(CancellationToken.None).GetAwaiter().GetResult();
+            Check(resumed.EnvironmentReady && fullEngine.CurrentSnapshot.Phase == "complete", "Fresh environment acceptance missing");
+            Check(fullOperations.Calls.FindAll(x=>x=="files").Count == 1, "Resume reinstalled validated local files");
             operations = new FakeOperations(options) { FailPython = true };
             engine = new InstallerEngine(options, operations);
             engine.ProgressChanged += events.Add;

@@ -125,3 +125,13 @@ Evidence includes a real parent-exit fixture, a live descendant after its direct
 Private Python dependencies start directly in a Windows job using `PROC_THREAD_ATTRIBUTE_JOB_LIST`; a timeout closes observation handles without killing shared Windows installers. Unobservable orphan state remains blocked. A confirmed changed OS boot identity can release old work for fresh repair, without claiming it succeeded. This does not prove clean-machine setup, actual UAC/reboot acceptance, shared controller coordination or the redesigned view; those remain later plan tasks.
 
 Windows process-tree design reference: [Microsoft job objects](https://learn.microsoft.com/en-us/windows/win32/procthread/job-objects) and [creating a process directly in a job](https://devblogs.microsoft.com/oldnewthing/20230209-00/?p=107812). No privileges, SSH keys, active guest files or game data were changed.
+
+## Shared setup coordination — batch 3, 6 October
+
+The native installer now connects to the same observed VM operations through a scoped loopback session. Protocol, application owner digest, actual listening-port PID and executable identity are checked before reuse. Header authentication uses a contained private handoff; the app renderer can attach using a same-origin HttpOnly cookie. Neither credential appears in snapshots or packaged files.
+
+Start, retry, resume and cancellation are serialized. Every deployment boundary rechecks guest ownership; an unavailable bridge can use a bounded read-only SSH process/native-journal probe. No key, ACL or task privilege changes are made. Reopened sessions retain outstanding work instead of resetting it to idle. Unknown work stays blocked until an authoritative observation or a confirmed changed host boot identity permits fresh checks. In particular, lost same-boot host ownership remains a recovery action, not permission to spawn another provisioner.
+
+Setup-only startup suppresses gameplay timers and dashboard creation. Steam sign-in stays in Steam. The native flow keeps a local-ready result separate from environment readiness, reserves work for environment checks/finalization, and resumes the environment without copying validated local files again. Its small existing presentation remains transitional until batch 4.
+
+Evidence: **32** installer/guest/release Python tests, **10** separate SSH transport tests and **seven** Node suites pass. The complete bootstrap compiles to **145,920 bytes**. Fake services and isolated process fixtures prove these contracts; no active host/guest service was reloaded and no full installation was performed. Actual clean Windows setup, real elevation/reboot, native DPI/accessibility and full first-launch acceptance remain open.

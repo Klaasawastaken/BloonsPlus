@@ -92,12 +92,12 @@
 - Native `SetupControllerClient`: launch/reuse a compatible owned controller, authenticate protocol/session, observe or submit commands asynchronously.
 - Setup-only flag suppresses pending replay dispatch and automatic gameplay resume; it opens no dashboard and starts no competing port owner.
 
-- [ ] Write failing tests for a wrong protocol/owner on the port, invalid session key, stale retry, duplicate Start and controller-mode suppression of gameplay timers.
-- [ ] Test active and unknown replay states: deployment waits; Cancel stops only the requested update.
-- [ ] Implement the coordinator over current VM operations; do not duplicate VM creation, SSH provisioning or Steam logic.
-- [ ] Persist restart/action checkpoints and re-probe on Resume; expose Steam sign-in/2FA as a human action inside Steam.
-- [ ] Test explicit defer versus complete environment validation, delayed bridge and parent reopen. No guessed readiness from old timestamps.
-- [ ] Run all setup/bridge tests and native coordinator client tests with isolated fake services; commit.
+- [x] Write failing tests for a wrong protocol/owner on the port, invalid session key, stale retry, duplicate Start and controller-mode suppression of gameplay timers.
+- [x] Test active and unknown replay states: deployment waits; Cancel stops only the requested update.
+- [x] Implement the coordinator over current VM operations; do not duplicate VM creation, SSH provisioning or Steam logic.
+- [x] Persist restart/action checkpoints and re-probe on Resume; expose Steam sign-in/2FA as a human action inside Steam.
+- [x] Test explicit defer versus complete environment validation, delayed bridge and parent reopen. No guessed readiness from old timestamps.
+- [x] Run all setup/bridge tests and native coordinator client tests with isolated fake services; commit.
 
 ## Task 4 — Compact native presentation and installed actions
 

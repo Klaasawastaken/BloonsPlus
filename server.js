@@ -11,6 +11,7 @@ const { failureResponseView } = require('./lib/failure-view');
 const engineLock = require('./lib/engine-lock');
 const root = __dirname;
 const port = Number(process.env.PORT || 4173);
+const setupOnly = process.env.BLOONS_SETUP_ONLY === '1';
 const calibrationFile = path.join(root, 'data', 'config', 'calibration.json');
 const routeLibrary = path.join(root, 'route-library');
 fs.mkdirSync(routeLibrary, { recursive: true });
@@ -22,8 +23,26 @@ let gameRunning = false;
 // sweep was still running in the guest.
 let lastVmFarmStatus = null;
 let lastVmFarmStatusAt = 0;
-const { vmFetch, vmPost, vmFetchBuffer } = require('./lib/vm-bridge');
+const { vmFetch, vmPost, vmFetchBuffer, vmReplayState } = require('./lib/vm-bridge');
 const vmSetup = require('./lib/vm-setup');
+const { createSetupController } = require('./lib/setup-controller');
+const setupController = createSetupController({ root, port, setupOnly,
+  dataRoot: path.join(process.env.LOCALAPPDATA || root, 'BloonsPlus'),
+  dependencies: {
+    getStatus: fresh => vmSetup.getStatus(fresh),
+    getBootIdentity: () => vmSetup.hostBootIdentity(),
+    getReplayStatus: async status => {
+      if (automation.getStatus().running) return { running:true };
+      if (!status.vm || status.vm.state !== 'online') return { running:false };
+      return vmReplayState();
+    },
+    start: options => vmSetup.start(options),
+    cancel: () => vmSetup.cancel(),
+    openVm: () => vmSetup.ensureVmDisplay(),
+    restart: () => vmSetup.restartHost(),
+    release: () => { if (setupOnly) server.close(() => process.exit(0)); },
+  },
+});
 const { readSteamAchievements } = require('./lib/steam-progress');
 const { readLocalProgress } = require('./lib/btd6-save-progress');
 const { readActiveBossEvent } = require('./lib/boss-events');
@@ -118,9 +137,15 @@ function readBody(req) {
   });
 }
 
-http.createServer((req, res) => {
+const server = http.createServer((req, res) => {
   const requestUrl = new URL(req.url, `http://${req.headers.host}`);
   const pathname = decodeURIComponent(requestUrl.pathname);
+  if (pathname === '/api/setup/controller' || pathname.startsWith('/api/setup/session'))
+    return setupController.handle(req, res, pathname);
+  if (setupOnly) {
+    res.writeHead(503, { 'Content-Type':'application/json' });
+    return res.end(JSON.stringify({error:'Controller is running in setup-only mode'}));
+  }
   if (pathname === '/api/boss-event') {
     if (req.method !== 'GET') { res.writeHead(405); return res.end(); }
     readActiveBossEvent().then(result => {
@@ -657,6 +682,7 @@ http.createServer((req, res) => {
   });
 }).listen(port, '127.0.0.1', () => {
   console.log(`BTD6 Companion ready at http://127.0.0.1:${port}`);
+  if (setupOnly) return;
   // Passive strategy collection runs while the game is active. It reads only the
   // automation's observed game-state ledger; it never captures extra screenshots,
   // sends input, or modifies BTD6 files.

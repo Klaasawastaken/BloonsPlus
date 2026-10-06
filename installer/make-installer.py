@@ -32,7 +32,7 @@ PYTHON_HOME = Path(next((line.split("=", 1)[1].strip() for line in PYVENV_CONFIG
 # The bundled app currently uses AutoBTD6. These two vendored engines are retained in
 # the workspace for later work, but their source and documentation do not belong in the
 # current installer payload (the V2/V3 tabs were removed from the product UI).
-SKIP_DIRS = {".git", ".superpowers", ".bloons-setup", "__pycache__", ".cache", ".pytest_cache", ".mypy_cache", ".claude", ".codex", ".agents", "btd6autoplay", "btd6bot", "failure-shots", "public-sources", "obsolete-conversions", "unsupported-conversions", "copied-drafts", "copied-btd6bot-aliases", "broken-guide-routes", "tools", "private", "tests"}
+SKIP_DIRS = {".git", ".superpowers", ".bloons-setup", "setup-handoff", "setup-sessions", "__pycache__", ".cache", ".pytest_cache", ".mypy_cache", ".claude", ".codex", ".agents", "btd6autoplay", "btd6bot", "failure-shots", "public-sources", "obsolete-conversions", "unsupported-conversions", "copied-drafts", "copied-btd6bot-aliases", "broken-guide-routes", "tools", "private", "tests"}
 PERSONAL_FILES = {"game-observations.json", "automation-progress.json", "game-state.json", "last-hero.json", "upgrade-memory.json", "route-checkpoint.json", "Profile.Save", "playthrough_stats.json", "experimental-ai-data.json", "route-failures.json", "route-verification.json", "route-strengthen-queue.json", "pending-automation.json", "live-frame.jpg", "live-frame.jpg.tmp", "viewer-request.json", "host.json", "pause.flag", "exit_after_game.flag"}
 SKIP_SUFFIXES = {".pyc", ".pyo", ".log", ".tmp"}
 # Base-Python parts never used at runtime: Tk GUI, IDLE, turtle demos, C headers/import libraries (every

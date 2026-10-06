@@ -5,6 +5,7 @@ const ICON_PATH = path.join(__dirname, 'bloonsplus.ico');
 
 const port = Number(process.env.PORT || 4173);
 const url = `http://127.0.0.1:${port}`;
+const setupOnly = process.env.BLOONS_SETUP_ONLY === '1';
 
 // The App Sandbox VM shares one GPU passthrough device between BTD6 (a full 3D game) and
 // Electron's own GPU process. Under contention (both starting around the same time on a fresh
@@ -66,8 +67,8 @@ app.whenReady().then(() => {
   // Windows groups/labels the taskbar entry by this id; without it Electron falls back to the
   // executable path, which can pick up a generic icon instead of the one set on the window.
   if (process.platform === 'win32') app.setAppUserModelId('com.bloonsplus.app');
-  createWindow();
-  app.on('activate', () => { if (BrowserWindow.getAllWindows().length === 0) createWindow(); });
+  if (!setupOnly) createWindow();
+  app.on('activate', () => { if (!setupOnly && BrowserWindow.getAllWindows().length === 0) createWindow(); });
 });
 
 app.on('window-all-closed', () => { if (process.platform !== 'darwin') app.quit(); });

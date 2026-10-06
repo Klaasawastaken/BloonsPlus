@@ -23,6 +23,7 @@ internal class WindowsInstallerOperations : IDisposable
     public event Action<InstallerProgress> ProgressChanged;
     public event Action<string> DetailAdded;
     public event Action<string> LogAdded;
+    public event Action<Dictionary<string, object>> EnvironmentChanged;
     public WindowsInstallerOperations(InstallerOptions options) {
         if (options == null) throw new ArgumentNullException("options");
         this.options = options;
@@ -37,6 +38,30 @@ internal class WindowsInstallerOperations : IDisposable
     protected void SetDetail(string text) { var handler = DetailAdded; if (handler != null) handler(text); }
     protected void Log(string text) { var handler = LogAdded; if (handler != null) handler(text); }
     public void Dispose() { ownedProcess.Dispose(); }
+    public virtual SetupEnvironmentResult ConfigureEnvironment(string sessionId) {
+        using (var controller = new SetupControllerClient(installRoot, options.DataRoot, sessionId)) {
+            var snapshot = controller.ConnectAsync("install", options.RequestedIsoPath, Cancellation).GetAwaiter().GetResult();
+            string phase = snapshot.ContainsKey("phase") ? snapshot["phase"] as string : null;
+            if (phase == "idle" || phase == "failed" || phase == "cancelled" || phase == "validating")
+                snapshot = controller.CommandAsync(Convert.ToInt64(snapshot["sequence"]), phase == "idle" ? "start" : "resume", Cancellation).GetAwaiter().GetResult();
+            DateTime deadline = DateTime.UtcNow.AddHours(2);
+            while (true) {
+                Cancellation.ThrowIfCancellationRequested();
+                var handler = EnvironmentChanged; if (handler != null) handler(snapshot);
+                var result = SetupEnvironmentResult.FromSnapshot(snapshot);
+                if (result.Ready) { controller.ReleaseAsync(Cancellation).GetAwaiter().GetResult(); return result; }
+                if (!String.IsNullOrEmpty(result.HumanAction) && result.HumanAction != "wait_replay") return result;
+                if (DateTime.UtcNow >= deadline) return new SetupEnvironmentResult { HumanAction = "retry", Status = "Setup is still being observed. Reopen setup to reconnect; existing work remains running." };
+                if (Cancellation.WaitHandle.WaitOne(1500)) {
+                    // Cancel scheduling through the coordinator, never kill a shared
+                    // dependency or a healthy replay to dismiss the installer.
+                    try { controller.CommandAsync(Convert.ToInt64(snapshot["sequence"]), "cancel", CancellationToken.None).GetAwaiter().GetResult(); } catch { }
+                    Cancellation.ThrowIfCancellationRequested();
+                }
+                snapshot = controller.ObserveAsync(Cancellation).GetAwaiter().GetResult();
+            }
+        }
+    }
     public virtual void ReadEmbeddedPackage(string tempZip) {
             using (FileStream installer = new FileStream(options.InstallerPath, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
