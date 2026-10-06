@@ -487,3 +487,5 @@ Start only after the current repair work is complete, as requested on 5 October.
 ### Signed Monkey Money rate — 6 October
 
 - [x] Reproduce spending being clamped to zero in MM/hour. Preserve signed saved-balance changes, reject negative saved totals, and avoid negative-zero display. Label the statistic Net MM/hr with a spending/sampling explanation; document it in the account-progress wiki. Existing freshness, clock/source isolation and veteran-counter regressions pass alongside the new spending checks. Live sampling remains a separate check; no invented gross farming income is reported.
+
+- Preview 40 published on 6 October from a separate build directory; the queued Preview 39 VM installer remains untouched. Packaged UI/replay matches source and publication guard reports no findings. Two authoritative VM save reads 59.788 seconds apart showed unchanged totals, consistent with zero XP/hr and Net MM/hr. Nonzero live gains and spending remain unverified.
