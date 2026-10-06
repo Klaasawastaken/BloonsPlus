@@ -839,7 +839,11 @@ def findHeroCard(hero):
     resolution = tuple(pyautogui.size())
     height = resolution[1]
     slots = sorted({tuple(pos) for pos in imageAreas['click']['hero_positions'].values()
-                    if 70 < pos[1] < height - 55}, key=lambda pos: (pos[1], pos[0]))
+                    # The live picker has three columns in the left quarter. Older
+                    # Geraldo/Corvus entries point into the hero detail panel;
+                    # those clicks do not select a card and repeat stale OCR.
+                    if 0 < pos[0] < resolution[0] / 4 and 70 < pos[1] < height - 55},
+                   key=lambda pos: (pos[1], pos[0]))
     if not slots:
         return {}
     def top():

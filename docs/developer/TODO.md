@@ -4,6 +4,8 @@ Updated 6 October 2026. Checkboxes require evidence, not merely code. Preserve o
 
 ## Current repair pass
 
+- [x] Restrict hero-picker search to the live three-column card region. Old Geraldo/Corvus positions fell into the detail panel and repeated unchanged titles. Keep cached layout hints advisory and live title/Selected verification required; no new hero selection claimed from this source edit.
+
 - [x] Simplify Settings maintenance: separate ordinary appearance/connection controls from installation details and the advanced preference/queue reset. Keep automatic game-profile detection out of manual settings. Disable stale setup/update actions for HTTP failures as well as network failures, and recheck controller availability after failed updates. JavaScript syntax and diff checks pass; visual review pending.
 
 - [x] Add same-map, same-tower route coordinates as unverified placement hints after local search fails. Normalize/deduplicate source coordinates, reject malformed maps/resolutions and out-of-bounds points, require positive live preview, preserve occupancy/range checks, and exclude CHIMPS/dynamic maps from this fallback. Actual search probes pass without game input. Infernal Heli hints include (103,600), (102,571) and opposite-bank (1565,553); none newly claimed legal.
