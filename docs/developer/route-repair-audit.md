@@ -701,3 +701,10 @@ Chutes' alternating lanes and central statue obstacles are recorded in the
 mechanics catalog, but they do not establish why that particular placement
 failed. Review legal footprints and the live frame before proposing a separate
 candidate; do not apply blind coordinate changes or infer victory from survival.
+
+The replay subsequently reached `VICTORY_CONFIRMED` at round 60, and its saved
+Medium/Standard medal changed from 768 to 1,049,544. Stop-after-replay ended the
+controller before the next attempt, allowing the batched installer update.
+This account now skips Chutes Medium permanently. The incident still warrants
+placement review for other missing modes; this clear does not prove the original
+CHIMPS strategy or its reused placement succeeds in every mode.
