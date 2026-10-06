@@ -62,10 +62,15 @@ class InstallerAtomicOutputTests(unittest.TestCase):
             payload = dist / 'payload.zip'
             payload.write_bytes(b'payload')
             bootstrap = dist / 'BloonsPlusSetup.bootstrap.exe'
-            bootstrap.write_bytes(b'stub')
+            bootstrap.write_bytes(b'stub' + 'installer-result-'.encode('utf-16le'))
+            if failure == 'capability':
+                bootstrap.write_bytes(b'old-stub')
             with patch.object(builder, 'DIST', dist), patch.object(builder, 'OUTPUT', output), \
                  patch.object(builder, 'PACKAGE', payload), patch.object(builder.subprocess, 'run') as compile_call:
-                if failure == 'copy':
+                if failure == 'capability':
+                    with self.assertRaisesRegex(ValueError, 'capability'):
+                        builder.build_installer()
+                elif failure == 'copy':
                     with patch.object(builder.shutil, 'copyfileobj', side_effect=OSError('disk full')):
                         with self.assertRaises(OSError):
                             builder.build_installer()
@@ -78,7 +83,7 @@ class InstallerAtomicOutputTests(unittest.TestCase):
             if failure:
                 self.assertEqual(output.read_bytes(), b'previous-good-installer')
             else:
-                self.assertEqual(output.read_bytes(), b'stubpayloadBLPZIP01' + (7).to_bytes(8, 'little', signed=True))
+                self.assertEqual(output.read_bytes(), b'stub' + 'installer-result-'.encode('utf-16le') + b'payloadBLPZIP01' + (7).to_bytes(8, 'little', signed=True))
                 command = compile_call.call_args.args[0]
                 self.assertTrue(any('presentation' in value and value.endswith('InstallerView.cs') for value in command))
                 self.assertTrue(any(value.startswith('/resource:') and 'BloonsPlus.Engineer' in value for value in command))
@@ -92,6 +97,9 @@ class InstallerAtomicOutputTests(unittest.TestCase):
 
     def test_success_publishes_complete_footer_and_payload(self):
         self.run_build()
+
+    def test_incompatible_native_stub_preserves_previous_installer(self):
+        self.run_build('capability')
 
 
 if __name__ == '__main__':

@@ -284,10 +284,34 @@ def guest_installer_matches(info, source):
 
 
 def supports_attempt_receipts(source):
-    # This native CLI marker is in the executable's metadata, before the ZIP.
-    # It is a compatibility check; upload integrity is verified separately.
+    # Resources (including the app icon) can put CLR strings beyond 256 KiB.
+    # Scan the bounded native stub, never strings inside its appended app ZIP.
+    # This is a compatibility check; upload integrity is verified separately.
+    marker = 'installer-result-'.encode('utf-16le')
     with Path(source).open('rb') as stream:
-        return 'installer-result-'.encode('utf-16le') in stream.read(256 * 1024)
+        size = stream.seek(0, os.SEEK_END)
+        native_size = size
+        if size >= 16:
+            stream.seek(-16, os.SEEK_END)
+            footer = stream.read(16)
+            if footer[:8] == b'BLPZIP01':
+                payload_size = int.from_bytes(footer[8:], 'little', signed=True)
+                if payload_size <= 0 or payload_size >= size - 16:
+                    return False
+                native_size = size - 16 - payload_size
+        stream.seek(0)
+        remaining = min(native_size, 16 * 1024 * 1024)
+        overlap = b''
+        while remaining:
+            chunk = stream.read(min(remaining, 64 * 1024))
+            if not chunk:
+                break
+            combined = overlap + chunk
+            if marker in combined:
+                return True
+            overlap = combined[-(len(marker) - 1):]
+            remaining -= len(chunk)
+        return False
 
 
 def remove_guest_install_task(info, attempt):

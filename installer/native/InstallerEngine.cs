@@ -173,6 +173,8 @@ internal sealed class InstallerEngine
         }
         if (phase == "restart_required") session.RequireRestart(status);
         session.Observe(phase, step, status, numerator, denominator, scope);
+        string error = SetupEnvironmentResult.SnapshotError(value);
+        if (!String.IsNullOrEmpty(error)) session.SetError(error);
         session.SetHumanAction(value.TryGetValue("humanAction", out field) ? field as string : null);
         if (value.TryGetValue("completedWeight", out field)) session.ObserveEnvironmentWeight(Convert.ToInt32(field));
         NotifySnapshot();
@@ -184,11 +186,15 @@ internal sealed class InstallerEngine
         var environment = operations.ConfigureEnvironment(session.Snapshot.SessionId);
         if (!environment.Ready) {
             if (environment.RestartRequired) session.RequireRestart(environment.Status);
-            else session.Observe("validating", "environment", environment.Status, null, null, null);
+            else session.Observe(environment.Failed ? "failed" : "validating", environment.Step ?? "environment", environment.Status, null, null, null);
+            if (!String.IsNullOrEmpty(environment.Error)) {
+                session.SetError(environment.Error);
+                PublishDetail(environment.Error);
+            }
             session.SetHumanAction(environment.HumanAction);
             NotifySnapshot();
             return new InstallerResult { LocalReady = true, Receipt = "APP_READY", HumanAction = environment.HumanAction,
-                RestartRequired = environment.RestartRequired, ExitCode = environment.RestartRequired ? 3010 : 0 };
+                Error = environment.Error, RestartRequired = environment.RestartRequired, ExitCode = environment.RestartRequired ? 3010 : environment.Failed ? 1 : 0 };
         }
         session.Observe("validating", "environment", "Environment readiness verified", null, null, null);
         session.MarkValidated(true, true); session.Complete();

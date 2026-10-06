@@ -23,6 +23,7 @@ internal sealed class FakeOperations : WindowsInstallerOperations {
     public readonly List<string> Calls = new List<string>();
     public bool FailPython;
     public bool EnvironmentReady = true;
+    public bool EnvironmentFailed;
     public Action OnCpp;
     public FakeOperations(InstallerOptions options) : base(options) {}
     public override string GetBootIdentity() { return "fixture-boot"; }
@@ -43,6 +44,10 @@ internal sealed class FakeOperations : WindowsInstallerOperations {
     public override void LaunchApp() { Calls.Add("launch"); }
     public override SetupEnvironmentResult ConfigureEnvironment(string id) {
         Calls.Add("environment");
+        if (EnvironmentFailed) return SetupEnvironmentResult.FromSnapshot(new Dictionary<string,object> {
+            {"phase","failed"},{"step","provision"},{"status","Setup needs attention"},{"humanAction","retry"},
+            {"error",new Dictionary<string,object>{{"component","provision"},{"message","Fixture isolated receipt failure"}}}
+        });
         return new SetupEnvironmentResult { Ready = EnvironmentReady, HumanAction = EnvironmentReady ? null : "steam_sign_in", Status = EnvironmentReady ? "Environment ready" : "Sign in to Steam in the VM" };
     }
 }
@@ -85,6 +90,14 @@ internal static class EngineChecks {
             var resumed = fullEngine.ResumeEnvironmentAsync(CancellationToken.None).GetAwaiter().GetResult();
             Check(resumed.EnvironmentReady && fullEngine.CurrentSnapshot.Phase == "complete", "Fresh environment acceptance missing");
             Check(fullOperations.Calls.FindAll(x=>x=="files").Count == 1, "Resume reinstalled validated local files");
+            var brokenOptions = new InstallerOptions(Path.Combine(root,"broken-vm"),root,"unused.exe",false,null);
+            var brokenEngine = new InstallerEngine(brokenOptions,new FakeOperations(brokenOptions){EnvironmentFailed=true});
+            var brokenDetails = new List<string>();brokenEngine.DetailAdded += brokenDetails.Add;
+            var brokenResult = brokenEngine.RunAsync(CancellationToken.None).GetAwaiter().GetResult();
+            Check(brokenEngine.CurrentSnapshot.Phase=="failed", "VM failure became a generic validating checkpoint");
+            Check(brokenResult.Error.Contains("isolated receipt failure"), "Structured VM error was discarded");
+            Check(brokenDetails.Exists(line=>line.Contains("isolated receipt failure")), "VM error missing from installer details");
+            Check(File.ReadAllText(brokenOptions.LogPath).Contains("isolated receipt failure"), "VM error missing from installer log");
             operations = new FakeOperations(options) { FailPython = true };
             engine = new InstallerEngine(options, operations);
             engine.ProgressChanged += events.Add;

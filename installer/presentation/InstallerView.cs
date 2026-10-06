@@ -18,6 +18,8 @@ internal sealed class InstallerView : UserControl {
     private InstallerViewState state = InstallerViewState.Welcome();
     private bool optionsExpanded;
     private bool busy;
+    private string lastSnapshotError;
+    private string lastDetail;
     private readonly Button uninstall = QuietButton("Uninstall app files…");
     private readonly Button modify = QuietButton("Apply options");
     private Color gradientTop, gradientBottom;
@@ -97,12 +99,23 @@ internal sealed class InstallerView : UserControl {
     private void Emit(string command) {var handler=CommandRequested;if(command!=null&&handler!=null)handler(command);}
     public void ToggleOptions() {optionsExpanded=!optionsExpanded;optionsPanel.Visible=optionsExpanded;optionsLink.Text=optionsExpanded?"Hide options":"Options";ResizeContent();}
     public void ToggleDetails() {detailsPanel.Visible=!detailsPanel.Visible;detailsLink.Text=detailsPanel.Visible?"Hide details":"Show details";ResizeContent();}
-    public void Render(InstallerSnapshot snapshot) {state=InstallerViewState.FromSnapshot(snapshot);ApplyState();}
+    public void Render(InstallerSnapshot snapshot) {
+        string error = snapshot == null ? null : snapshot.Error;
+        if (!String.IsNullOrWhiteSpace(error) && error != lastSnapshotError) AddDetail(error);
+        lastSnapshotError = error;
+        state=InstallerViewState.FromSnapshot(snapshot);ApplyState();
+    }
     public void Welcome(string version,bool healthy,bool newer) {state=InstallerViewState.Welcome(version,healthy,newer);uninstall.Visible=modify.Visible=version!=null;ApplyState();}
     public void SetBusy(bool value) {busy=value;optionsPanel.Enabled=!busy;primary.Enabled=!busy&&state.PrimaryEnabled;}
-    public void AddDetail(string line) {recent.Enqueue(line.Length>4096?line.Substring(0,4096):line);while(recent.Count>100)recent.Dequeue();details.Text=String.Join(Environment.NewLine,recent.ToArray());}
+    public void AddDetail(string line) {
+        if (String.IsNullOrWhiteSpace(line) || line == lastDetail) return;
+        lastDetail = line;
+        recent.Enqueue(line.Length>4096?line.Substring(0,4096):line);while(recent.Count>100)recent.Dequeue();details.Text=String.Join(Environment.NewLine,recent.ToArray());
+    }
     public string SharedDetails() {return InstallerDiagnostics.Redact(String.Join(Environment.NewLine,recent.ToArray()));}
     private void ApplyState() {
+        if (state.ShowDetails) detailsPanel.Visible = true;
+        detailsLink.Text = detailsPanel.Visible ? "Hide details" : "Show details";
         heading.Text=state.Heading;status.Text=state.Status;primary.Text=state.PrimaryText??"Setting up…";primary.Enabled=!busy&&state.PrimaryEnabled;
         secondary.Text=state.SecondaryText;secondary.Enabled=state.SecondaryAction!=null;
         progress.Visible=caption.Visible=state.ShowProgress;progress.Style=state.Animate?ProgressBarStyle.Marquee:ProgressBarStyle.Continuous;

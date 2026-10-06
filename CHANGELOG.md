@@ -1,3 +1,10 @@
+## Preview 94 — 6 October 2026
+
+- Fix false “older installer” rejection in VM provisioning after adding the app icon.
+- Scan bounded native capability metadata before the appended package and enforce the check before publishing a new installer artifact.
+- Preserve structured VM component errors in the native checkpoint, log and visible details; retain the failed phase for recovery.
+- Keep active replays untouched when applying the host setup compatibility repair.
+
 ## Preview 93 — Post-install configuration
 
 - Add a branded, compact post-install welcome with three observed stages, proportional official artwork and expandable checks/options.

@@ -275,6 +275,9 @@ def build_installer() -> None:
             installer.write(payload_length.to_bytes(8, "little", signed=True))
             installer.flush()
             os.fsync(installer.fileno())
+        capabilities = runpy.run_path(str(ROOT / 'vm/setup-vm.py'))['supports_attempt_receipts']
+        if not capabilities(temporary):
+            raise ValueError('Native installer lacks isolated VM result capability; previous installer retained')
         os.replace(temporary, OUTPUT)
     finally:
         temporary.unlink(missing_ok=True)

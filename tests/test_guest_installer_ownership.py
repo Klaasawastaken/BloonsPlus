@@ -63,6 +63,27 @@ class GuestInstallerOwnershipTests(unittest.TestCase):
             source.write_bytes(b'MZ' + 'installer-result-'.encode('utf-16le'))
             self.assertTrue(setup.supports_attempt_receipts(source))
 
+    def test_attempt_marker_after_icon_resources_and_outside_payload(self):
+        marker = 'installer-result-'.encode('utf-16le')
+        with tempfile.TemporaryDirectory() as folder:
+            source = Path(folder) / 'setup.exe'
+            native = b'MZ' + b'\0' * 396747 + marker
+            payload = b'PKfixture-payload'
+            footer = b'BLPZIP01' + len(payload).to_bytes(8, 'little')
+            source.write_bytes(native + payload + footer)
+            self.assertTrue(setup.supports_attempt_receipts(source), 'Large icon must not hide native capabilities')
+            payload = b'PK' + marker
+            source.write_bytes(b'MZlegacy' + payload + b'BLPZIP01' + len(payload).to_bytes(8, 'little'))
+            self.assertFalse(setup.supports_attempt_receipts(source), 'Payload strings cannot supply native capability')
+            source.write_bytes(b'MZ' + b'\0' * (65536 - 10) + marker)
+            self.assertTrue(setup.supports_attempt_receipts(source), 'Capability marker can cross a read boundary')
+
+    def test_current_packaged_installer_supports_attempt_receipts(self):
+        source = Path(__file__).resolve().parents[1] / 'dist/BloonsPlusSetup.exe'
+        if not source.is_file():
+            self.skipTest('Installer not built in this checkout')
+        self.assertTrue(setup.supports_attempt_receipts(source), 'The real distributable must provision its own VM')
+
     def test_task_cleanup_targets_only_this_attempt(self):
         token = 'a' * 32
         with patch.object(setup, 'ssh') as remote:

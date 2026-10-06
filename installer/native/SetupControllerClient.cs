@@ -232,6 +232,21 @@ internal sealed class SetupEnvironmentResult {
     public string HumanAction { get; set; }
     public string Status { get; set; }
     public bool RestartRequired { get; set; }
+    public bool Failed { get; set; }
+    public string Error { get; set; }
+    public string Step { get; set; }
+    internal static string SnapshotError(Dictionary<string, object> snapshot) {
+        object value, message, component;
+        if (!snapshot.TryGetValue("error", out value) || value == null) return null;
+        var structured = value as Dictionary<string, object>;
+        string text = value as string;
+        if (structured != null && structured.TryGetValue("message", out message)) {
+            text = message as string;
+            if (!String.IsNullOrWhiteSpace(text) && structured.TryGetValue("component", out component) && component is string)
+                text = (string)component + ": " + text;
+        }
+        return String.IsNullOrWhiteSpace(text) ? null : text.Substring(0, Math.Min(text.Length, 4096));
+    }
     internal static SetupEnvironmentResult FromSnapshot(Dictionary<string, object> snapshot) {
         object value;
         string phase = snapshot.TryGetValue("phase", out value) ? value as string : null;
@@ -240,7 +255,9 @@ internal sealed class SetupEnvironmentResult {
             Ready = phase == "complete" && validated,
             Status = snapshot.TryGetValue("status", out value) ? value as string : "Setup status is unavailable",
             HumanAction = snapshot.TryGetValue("humanAction", out value) ? value as string : null,
-            RestartRequired = phase == "restart_required"
+            RestartRequired = phase == "restart_required",
+            Failed = phase == "failed", Error = SnapshotError(snapshot),
+            Step = snapshot.TryGetValue("step", out value) ? value as string : "environment"
         };
     }
 }

@@ -96,6 +96,9 @@ internal sealed class InstallSession
     public void SetHumanAction(string action) {
         lock (stateLock) { state.HumanAction = action; SaveCheckpoint(); }
     }
+    public void SetError(string error) {
+        lock (stateLock) { state.Error = error; SaveCheckpoint(); }
+    }
     public void ObserveMilestone(InstallerStage stage) {
         int[] weights = { 0, 5, 30, 15, 45, 5 };
         int completed = 0; for (int index = 1; index < (int)stage; index++) completed += weights[index];

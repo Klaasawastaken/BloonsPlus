@@ -39,6 +39,11 @@ internal static class ViewRenderChecks {
     view.ToggleOptions();Check(view.OptionsExpanded,"Options cannot be opened");
     view.LaunchChecked=false;
     view.Render(new InstallerSnapshot {Phase="failed",Status="user@127.0.0.1: Permission denied"});
+    var failedSnapshot=new InstallerSnapshot {Phase="failed",Status="Setup needs attention",Error="provision: Fixture capability failure"};
+    view.Render(failedSnapshot);
+    string failedDetails=view.SharedDetails();
+    Check(failedDetails.Contains("Fixture capability failure"),"Failed snapshot left diagnostics empty");
+    view.Render(failedSnapshot);Check(view.SharedDetails()==failedDetails,"Polling duplicated identical diagnostics");
     Check(!view.LaunchChecked,"Retry reset options");
     view.SetBusy(true);view.Render(new InstallerSnapshot{Phase="complete",AppValidated=true});
     Check(!view.PrimaryButton.Enabled,"Progress refresh re-enabled an active command");view.SetBusy(false);

@@ -5,11 +5,11 @@ Updated **6 October 2026**. This is the readable, active task list. Technical no
 ## At a glance
 
 - **Current priority:** the installer and first-launch redesign, app polish, folders and the website alongside missing-medal gameplay.
-- **Sweep:** running in the VM. Latest confirmed clears: Sunken Columns Reverse, Spice Islands Hard Standard and Spice Islands Alternate Bloons Rounds and Impoppable, each with victory and saved-medal evidence. Sunken Columns Alternate Bloons Rounds lost at round 27; the persistent failure remains open. Earlier confirmed clears remain in saved progress and are skipped.
+- **Sweep:** running in the VM. Latest confirmed clears: Sunken Columns Reverse, Spice Islands Hard Standard and Spice Islands Alternate Bloons Rounds and Impoppable and CHIMPS, each with victory and saved-medal evidence. Sunken Columns Alternate Bloons Rounds lost at round 27; the persistent failure remains open. Earlier confirmed clears remain in saved progress and are skipped.
 - **Installer batches 1–5:** native separation, durable recovery, shared setup coordination and compact native presentation are implemented. Batch 4 passes 39 focused Python checks and seven Node suites; the complete native bootstrap compiles. The shared first-launch controls and Full/Reduced/Off intro are implemented and checked in an isolated actual renderer. Clean-machine and physical accessibility acceptance remain open. These sources have not replaced the healthy guest runtime.
 - **Development alongside gameplay:** installer/setup polish, app polish, folder organization and website redesign. Check the sweep every five minutes and diagnose meaningful failures.
 - **Background work:** improve routes and placement from missing-medal gameplay evidence; retain failures and skip owned medals.
-- **Latest release:** [Preview 93](https://github.com/Klaasawastaken/BloonsPlus/releases/tag/v0.1.0-preview.93) is published with the post-install configuration redesign and Skip intro button removal. It includes the legacy-controller HTTP 404 fix and community standards. The healthy VM replay retains its existing runtime; this batch was not deployed mid-run. Live cash-recovery evidence remains open.
+- **Latest installer repair:** Preview 94 fixes the current installer being rejected as too old during VM provisioning and exposes the actual setup component error. Packaging and regression checks pass; publication is in progress. The host setup helper was repaired without restarting healthy VM gameplay. Clean-machine setup and live cash-recovery evidence remain open.
 
 ## Work order
 
