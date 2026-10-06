@@ -1,0 +1,432 @@
+# source: https://github.com/j-miet/BTD6bot (license MIT (c) 2025 Jani Miettinen) commit 2d6dac0957a0d55d0af201bd497afbebf7f3e5c2
+# source file: btd6bot/plans/covered_gardenHardChimps.py
+# Logical source-loop order, Auto Start, forward inputs and end_round delays/skip flags preserved.
+# Play inputs require observed transitions; timing includes controller observation latency.
+# Offline-converted candidate; no local victory claimed. Original recordings preserved.
+# generator: import-public-routes.py
+autostart on
+source round 6
+autostart off
+place engineer engineer0 at 667, 332
+place dart dart0 at 593, 446
+play twice
+wait 10 seconds
+play once
+wait 0.2 seconds
+source round 7 after play
+wait 12 seconds
+play once
+wait 0.2 seconds
+source round 8 after play
+wait 11 seconds
+play once
+wait 0.2 seconds
+source round 9 after play
+wait 10 seconds
+play once
+wait 0.2 seconds
+source round 10 after play
+upgrade engineer0 path 0
+wait 20 seconds
+play once
+wait 0.2 seconds
+source round 11 after play
+wait 10 seconds
+play once
+wait 0.2 seconds
+source round 12 after play
+wait 10 seconds
+play once
+wait 0.2 seconds
+source round 13 after play
+place psi hero0 at 133, 662
+retarget hero0
+retarget hero0
+retarget hero0
+wait 6 seconds
+play once
+wait 0.2 seconds
+source round 14 after play
+wait 13 seconds
+play once
+wait 0.2 seconds
+source round 15 after play
+wait 12 seconds
+play once
+wait 0.2 seconds
+source round 16 after play
+wait 9 seconds
+play once
+wait 0.2 seconds
+source round 17 after play
+wait 5 seconds
+play once
+wait 0.2 seconds
+source round 18 after play
+wait 13 seconds
+play once
+wait 0.2 seconds
+source round 19 after play
+place heli heli0 at 107, 566
+special heli0 to 553, 730
+wait 2 seconds
+play once
+wait 0.2 seconds
+source round 20 after play
+wait 4 seconds
+play once
+wait 0.2 seconds
+source round 21 after play
+wait 8 seconds
+play once
+wait 0.2 seconds
+source round 22 after play
+wait 5 seconds
+play once
+wait 0.2 seconds
+source round 23 after play
+upgrade heli0 path 0
+wait 4 seconds
+play once
+wait 0.2 seconds
+source round 24 after play
+wait 6 seconds
+play once
+wait 0.2 seconds
+source round 25 after play
+upgrade heli0 path 0
+wait 10 seconds
+play once
+wait 0.2 seconds
+source round 26 after play
+wait 7 seconds
+play once
+wait 0.2 seconds
+source round 27 after play
+place sniper sniper0 at 119, 812
+upgrade sniper0 path 0
+retarget sniper0
+retarget sniper0
+retarget sniper0
+wait 12 seconds
+play once
+wait 0.2 seconds
+source round 28 after play
+wait 5 seconds
+play once
+wait 0.2 seconds
+source round 29 after play
+wait 7 seconds
+play once
+wait 0.2 seconds
+source round 30 after play
+wait 6 seconds
+play once
+wait 0.2 seconds
+source round 31 after play
+wait 6 seconds
+play once
+wait 0.2 seconds
+source round 32 after play
+upgrade heli0 path 0
+wait 12 seconds
+play once
+wait 0.2 seconds
+source round 33 after play
+wait 10 seconds
+play once
+wait 0.2 seconds
+source round 34 after play
+wait 14 seconds
+play once
+wait 0.2 seconds
+source round 35 after play
+place village village0 at 113, 450
+upgrade village0 path 1
+wait 13 seconds
+play once
+wait 0.2 seconds
+source round 36 after play
+upgrade village0 path 1
+wait 2 seconds
+play once
+wait 0.2 seconds
+source round 37 after play
+wait 17 seconds
+play once
+wait 0.2 seconds
+source round 38 after play
+place heli heli1 at 117, 318
+wait 12 seconds
+play once
+wait 0.2 seconds
+source round 39 after play
+upgrade heli1 path 0
+upgrade heli1 path 0
+upgrade heli1 path 2
+upgrade heli1 path 2
+wait 5 seconds
+play once
+wait 0.2 seconds
+source round 40 after play
+wait 6 seconds
+play once
+wait 0.2 seconds
+source round 41 after play
+wait 17 seconds
+play once
+wait 0.2 seconds
+source round 42 after play
+wait 5 seconds
+play once
+wait 0.2 seconds
+source round 43 after play
+upgrade heli1 path 2
+upgrade heli0 path 2
+upgrade heli0 path 2
+wait 5 seconds
+play once
+wait 0.2 seconds
+source round 44 after play
+wait 10 seconds
+play once
+wait 0.2 seconds
+source round 45 after play
+wait 19 seconds
+play once
+wait 0.2 seconds
+source round 46 after play
+wait 5 seconds
+play once
+wait 0.2 seconds
+source round 47 after play
+wait 10 seconds
+play once
+wait 0.2 seconds
+source round 48 after play
+upgrade heli1 path 2
+wait 4 seconds
+play once
+wait 0.2 seconds
+source round 49 after play
+wait 18 seconds
+play once
+wait 0.2 seconds
+source round 50 after play
+wait 13 seconds
+play once
+wait 0.2 seconds
+source round 51 after play
+wait 10 seconds
+play once
+wait 0.2 seconds
+source round 52 after play
+wait 12 seconds
+play once
+wait 0.2 seconds
+source round 53 after play
+wait 15 seconds
+play once
+wait 0.2 seconds
+source round 54 after play
+wait 10 seconds
+play once
+wait 0.2 seconds
+source round 55 after play
+wait 14 seconds
+play once
+wait 0.2 seconds
+source round 56 after play
+wait 10 seconds
+play once
+wait 0.2 seconds
+source round 57 after play
+wait 11 seconds
+play once
+wait 0.2 seconds
+source round 58 after play
+upgrade heli0 path 0
+wait 9 seconds
+play once
+wait 0.2 seconds
+source round 59 after play
+upgrade village0 path 0
+upgrade village0 path 0
+wait 10 seconds
+play once
+wait 0.2 seconds
+source round 60 after play
+wait 6 seconds
+play once
+wait 0.2 seconds
+source round 61 after play
+wait 9 seconds
+play once
+wait 0.2 seconds
+source round 62 after play
+wait 18 seconds
+play once
+wait 0.2 seconds
+source round 63 after play
+wait 16 seconds
+play once
+wait 0.2 seconds
+source round 64 after play
+wait 7 seconds
+play once
+wait 0.2 seconds
+source round 65 after play
+wait 27 seconds
+play once
+wait 0.2 seconds
+source round 66 after play
+wait 11 seconds
+play once
+wait 0.2 seconds
+source round 67 after play
+wait 12 seconds
+play once
+wait 0.2 seconds
+source round 68 after play
+wait 8 seconds
+play once
+wait 0.2 seconds
+source round 69 after play
+wait 16 seconds
+play once
+wait 0.2 seconds
+source round 70 after play
+wait 17 seconds
+play once
+wait 0.2 seconds
+source round 71 after play
+wait 8 seconds
+play once
+wait 0.2 seconds
+source round 72 after play
+wait 11 seconds
+play once
+wait 0.2 seconds
+source round 73 after play
+wait 13 seconds
+play once
+wait 0.2 seconds
+source round 74 after play
+wait 30 seconds
+play once
+wait 0.2 seconds
+source round 75 after play
+wait 17 seconds
+play once
+wait 0.2 seconds
+source round 76 after play
+wait 4 seconds
+play once
+wait 0.2 seconds
+source round 77 after play
+wait 23 seconds
+play once
+wait 0.2 seconds
+source round 78 after play
+wait 32 seconds
+play once
+wait 0.2 seconds
+source round 79 after play
+wait 30 seconds
+play once
+wait 0.2 seconds
+source round 80 after play
+wait 22 seconds
+play once
+wait 0.2 seconds
+source round 81 after play
+upgrade heli0 path 0
+wait 5 seconds
+play once
+wait 0.2 seconds
+source round 82 after play
+wait 18 seconds
+play once
+wait 0.2 seconds
+source round 83 after play
+upgrade village0 path 1
+wait 13 seconds
+play once
+wait 0.2 seconds
+source round 84 after play
+wait 12 seconds
+play once
+wait 0.2 seconds
+source round 85 after play
+wait 13 seconds
+play once
+wait 0.2 seconds
+source round 86 after play
+wait 12 seconds
+play once
+wait 0.2 seconds
+source round 87 after play
+wait 13 seconds
+play once
+wait 0.2 seconds
+source round 88 after play
+wait 13 seconds
+play once
+wait 0.2 seconds
+source round 89 after play
+wait 14 seconds
+play once
+wait 0.2 seconds
+source round 90 after play
+wait 7 seconds
+play once
+wait 0.2 seconds
+source round 91 after play
+wait 14 seconds
+play once
+wait 0.2 seconds
+source round 92 after play
+wait 21 seconds
+play once
+wait 0.2 seconds
+source round 93 after play
+wait 15 seconds
+play once
+wait 0.2 seconds
+source round 94 after play
+upgrade heli1 path 2
+wait 8 seconds
+play once
+wait 0.2 seconds
+source round 95 after play
+wait 22 seconds
+play once
+wait 0.2 seconds
+source round 96 after play
+upgrade sniper0 path 0
+upgrade sniper0 path 0
+upgrade sniper0 path 0
+upgrade sniper0 path 1
+upgrade sniper0 path 1
+wait 11 seconds
+play once
+wait 0.2 seconds
+source round 97 after play
+wait 12 seconds
+play once
+wait 0.2 seconds
+source round 98 after play
+place ninja ninja0 at 437, 442
+upgrade ninja0 path 2
+upgrade ninja0 path 2
+upgrade ninja0 path 2
+upgrade ninja0 path 2
+wait 12 seconds
+play once
+wait 0.2 seconds
+source round 99 after play
+wait 8 seconds
+play once
+wait 0.2 seconds
+source round 100 after play
+autostart on

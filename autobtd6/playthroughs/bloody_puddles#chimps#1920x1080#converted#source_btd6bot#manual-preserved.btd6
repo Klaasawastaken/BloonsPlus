@@ -1,0 +1,524 @@
+# source: https://github.com/j-miet/BTD6bot (license MIT (c) 2025 Jani Miettinen) commit 2d6dac0957a0d55d0af201bd497afbebf7f3e5c2
+# source file: btd6bot/plans/bloody_puddlesHardChimps.py
+# Logical source-loop order, Auto Start, forward inputs and end_round delays/skip flags preserved.
+# Play inputs require observed transitions; timing includes controller observation latency.
+# Offline-converted candidate; no local victory claimed. Original recordings preserved.
+# generator: import-public-routes.py
+autostart on
+source round 6
+autostart off
+place sub sub0 at 1007, 933
+place dart dart0 at 351, 687
+retarget dart0
+play twice
+wait 10 seconds
+play once
+wait 0.2 seconds
+source round 7 after play
+place dart dart1 at 399, 507
+retarget dart1
+retarget dart1
+retarget dart1
+retarget dart0
+retarget dart0
+retarget dart0
+wait 12 seconds
+play once
+wait 0.2 seconds
+source round 8 after play
+place sub sub1 at 1197, 193
+play once
+wait 0.2 seconds
+source round 9 after play
+wait 9 seconds
+play once
+wait 0.2 seconds
+source round 10 after play
+wait 10 seconds
+play once
+wait 0.2 seconds
+place sniper sniper0 at 701, 195
+play once
+wait 0.2 seconds
+wait 7 seconds
+play once
+wait 0.2 seconds
+source round 11 after play
+place dart dart2 at 925, 567
+wait 5 seconds
+retarget sniper0
+retarget sniper0
+retarget sniper0
+play once
+wait 0.2 seconds
+source round 12 after play
+wait 9 seconds
+play once
+wait 0.2 seconds
+source round 13 after play
+place sniper sniper1 at 701, 138
+retarget sniper1
+retarget sniper1
+retarget sniper1
+wait 8 seconds
+play once
+wait 0.2 seconds
+source round 14 after play
+wait 12 seconds
+place sniper sniper2 at 311, 29
+retarget sniper2 at 248, 65
+retarget sniper2 at 248, 65
+retarget sniper2 at 248, 65
+play once
+wait 0.2 seconds
+source round 15 after play
+upgrade sub1 path 0
+wait 9 seconds
+play once
+wait 0.2 seconds
+source round 16 after play
+wait 8 seconds
+retarget sniper1
+play once
+wait 0.2 seconds
+source round 17 after play
+upgrade sub1 path 0
+wait 4 seconds
+retarget sniper1
+retarget sniper1
+retarget sniper1
+play once
+wait 0.2 seconds
+source round 18 after play
+upgrade sub1 path 2
+play once
+wait 0.2 seconds
+source round 19 after play
+wait 8 seconds
+play once
+wait 0.2 seconds
+source round 20 after play
+place dart dart3 at 1306, 865
+place dart dart4 at 1254, 573
+play once
+wait 0.2 seconds
+source round 21 after play
+upgrade sniper0 path 0
+play once
+wait 0.2 seconds
+source round 22 after play
+place dart dart5 at 692, 753
+retarget dart5
+retarget dart5
+retarget dart5
+retarget dart2
+retarget dart2
+retarget dart2
+retarget sniper1
+play once
+wait 0.2 seconds
+source round 23 after play
+upgrade sniper1 path 1
+wait 4 seconds
+play once
+wait 0.2 seconds
+source round 24 after play
+retarget sniper1
+retarget sniper1
+retarget sniper1
+wait 5 seconds
+play once
+wait 0.2 seconds
+source round 25 after play
+wait 10 seconds
+play once
+wait 0.2 seconds
+source round 26 after play
+wait 7 seconds
+play once
+wait 0.2 seconds
+source round 27 after play
+upgrade sub1 path 2
+wait 7 seconds
+play once
+wait 0.2 seconds
+source round 28 after play
+place gwendolin hero0 at 716, 255
+play once
+wait 0.2 seconds
+source round 29 after play
+wait 7 seconds
+play once
+wait 0.2 seconds
+source round 30 after play
+wait 7 seconds
+play once
+wait 0.2 seconds
+source round 31 after play
+ability 1 after 2.5 seconds
+wait 6 seconds
+play once
+wait 0.2 seconds
+source round 32 after play
+upgrade dart3 path 2
+upgrade dart3 path 2
+wait 9 seconds
+play once
+wait 0.2 seconds
+source round 33 after play
+place wizard wizard0 at 532, 447
+upgrade wizard0 path 0
+upgrade wizard0 path 0
+wait 7 seconds
+play once
+wait 0.2 seconds
+source round 34 after play
+upgrade wizard0 path 0
+wait 3 seconds
+play once
+wait 0.2 seconds
+source round 35 after play
+upgrade wizard0 path 2
+upgrade wizard0 path 2
+wait 7 seconds
+retarget sub1
+retarget sub1
+play once
+wait 0.2 seconds
+source round 36 after play
+wait 9 seconds
+retarget sub1
+retarget sub1
+upgrade sub1 path 2
+upgrade sniper2 path 0 at 248, 65
+play once
+wait 0.2 seconds
+source round 37 after play
+wait 17 seconds
+play once
+wait 0.2 seconds
+source round 38 after play
+special hero0 to 599, 400
+wait 12 seconds
+play once
+wait 0.2 seconds
+source round 39 after play
+wait 8 seconds
+place alchemist alchemist0 at 1172, 251
+place glue glue0 at 516, 385
+upgrade glue0 path 0
+upgrade glue0 path 1
+place glue glue1 at 467, 528
+upgrade glue1 path 0
+upgrade glue1 path 1
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+play once
+wait 0.2 seconds
+source round 40 after play
+ability 1
+wait 5 seconds
+play once
+wait 0.2 seconds
+source round 41 after play
+place village village0 at 612, 220
+upgrade village0 path 2
+upgrade village0 path 2
+upgrade sniper1 path 1
+upgrade sniper1 path 2
+retarget sniper1
+play once
+wait 0.2 seconds
+source round 42 after play
+autostart on
+upgrade sniper1 path 2
+round 43
+source round 43
+round 44
+source round 44
+special hero0 to 773, 221
+upgrade sniper1 path 1
+place alchemist alchemist1 at 704, 82
+round 45
+source round 45
+upgrade alchemist1 path 0
+upgrade alchemist1 path 0
+upgrade alchemist1 path 0
+upgrade alchemist1 path 2
+round 46
+source round 46
+upgrade sniper0 path 2
+upgrade sniper0 path 2
+round 47
+source round 47
+round 48
+source round 48
+upgrade sniper0 path 2
+upgrade sniper0 path 0
+round 49
+source round 49
+upgrade village0 path 0
+upgrade village0 path 0
+round 50
+source round 50
+round 51
+source round 51
+round 52
+source round 52
+upgrade sniper1 path 1
+retarget glue0
+retarget glue0
+retarget glue0
+retarget glue1
+retarget glue1
+retarget glue1
+round 53
+source round 53
+round 54
+source round 54
+round 55
+source round 55
+round 56
+source round 56
+round 57
+source round 57
+round 58
+source round 58
+round 59
+source round 59
+round 60
+source round 60
+ability 2 after 3.75 seconds
+round 61
+source round 61
+upgrade sniper1 path 1
+round 62
+source round 62
+round 63
+source round 63
+upgrade sniper0 path 2
+round 64
+source round 64
+retarget sniper0
+round 65
+source round 65
+click map at 896, 697
+click map at 1008, 775
+wait 1 seconds
+click map at 722, 449
+click map at 818, 583
+place village village1 at 755, 335
+round 66
+source round 66
+upgrade village1 path 2
+upgrade village1 path 2
+place sniper sniper3 at 822, 139
+round 67
+source round 67
+upgrade sniper3 path 1
+upgrade sniper3 path 1
+round 68
+source round 68
+upgrade sniper3 path 0
+upgrade sniper3 path 0
+round 69
+source round 69
+upgrade sniper3 path 0
+retarget sniper3
+retarget sniper3
+retarget sniper3
+round 70
+source round 70
+round 71
+source round 71
+round 72
+source round 72
+round 73
+source round 73
+upgrade sniper3 path 0
+place alchemist alchemist2 at 832, 83
+round 74
+source round 74
+upgrade alchemist2 path 0
+upgrade alchemist2 path 0
+upgrade alchemist2 path 0
+upgrade alchemist2 path 2
+place sniper sniper4 at 832, 195
+round 75
+source round 75
+upgrade sniper4 path 2
+upgrade sniper4 path 2
+upgrade sniper4 path 1
+upgrade sniper4 path 1
+round 76
+source round 76
+round 77
+source round 77
+upgrade sniper4 path 1
+place alchemist alchemist3 at 894, 211
+upgrade alchemist3 path 0
+upgrade alchemist3 path 0
+upgrade alchemist3 path 0
+upgrade alchemist3 path 1
+upgrade alchemist3 path 1
+round 78
+source round 78
+round 79
+source round 79
+round 80
+source round 80
+round 81
+source round 81
+upgrade sniper0 path 2
+place sniper sniper5 at 878, 267
+round 82
+source round 82
+upgrade sniper5 path 1
+upgrade sniper5 path 1
+upgrade sniper5 path 1
+upgrade sniper5 path 2
+upgrade sniper5 path 2
+upgrade alchemist3 path 0
+round 83
+source round 83
+place sniper sniper6 at 825, 387
+upgrade sniper6 path 1
+upgrade sniper6 path 1
+upgrade sniper6 path 1
+upgrade sniper6 path 2
+upgrade sniper6 path 2
+place alchemist alchemist4 at 771, 418
+round 84
+source round 84
+upgrade alchemist4 path 0
+upgrade alchemist4 path 0
+upgrade alchemist4 path 0
+upgrade alchemist4 path 1
+upgrade alchemist4 path 1
+place glue glue2 at 582, 295
+place ice ice0 at 668, 299
+place tack tack0 at 622, 340
+round 85
+source round 85
+place tack tack1 at 648, 392
+place sniper sniper7 at 706, 417
+upgrade sniper7 path 1
+upgrade sniper7 path 1
+upgrade sniper7 path 1
+upgrade sniper7 path 2
+upgrade sniper7 path 2
+upgrade alchemist4 path 0
+round 86
+source round 86
+retarget glue2
+retarget glue2
+retarget glue2
+upgrade glue2 path 2
+upgrade glue2 path 2
+upgrade glue2 path 1
+upgrade glue2 path 1
+round 87
+source round 87
+upgrade glue2 path 2
+round 88
+source round 88
+upgrade glue2 path 2
+round 89
+source round 89
+upgrade village1 path 1
+upgrade village1 path 1
+round 90
+source round 90
+round 91
+source round 91
+place boomerang boomerang0 at 519, 195
+retarget boomerang0
+retarget boomerang0
+retarget boomerang0
+upgrade boomerang0 path 2
+upgrade boomerang0 path 2
+upgrade boomerang0 path 2
+upgrade boomerang0 path 2
+upgrade boomerang0 path 0
+upgrade boomerang0 path 0
+round 92
+source round 92
+place boomerang boomerang1 at 429, 297
+retarget boomerang1
+retarget boomerang1
+retarget boomerang1
+upgrade boomerang1 path 2
+upgrade boomerang1 path 2
+upgrade boomerang1 path 2
+upgrade boomerang1 path 0
+upgrade boomerang1 path 0
+round 93
+source round 93
+ability 2 after 2.5 seconds
+upgrade boomerang1 path 2
+round 94
+source round 94
+upgrade ice0 path 0
+upgrade ice0 path 0
+upgrade ice0 path 0
+upgrade ice0 path 0
+upgrade ice0 path 1
+round 95
+source round 95
+upgrade village0 path 0
+ability 2 after 12 seconds
+round 96
+source round 96
+place glue glue3 at 1095, 697
+retarget glue3
+retarget glue3
+retarget glue3
+upgrade glue3 path 2
+upgrade glue3 path 2
+upgrade glue3 path 2
+upgrade glue3 path 1
+upgrade glue3 path 1
+place boomerang boomerang2 at 403, 235
+retarget boomerang2
+retarget boomerang2
+retarget boomerang2
+upgrade boomerang2 path 2
+upgrade boomerang2 path 2
+upgrade boomerang2 path 2
+upgrade boomerang2 path 2
+upgrade boomerang2 path 0
+upgrade boomerang2 path 0
+round 97
+source round 97
+upgrade tack0 path 0
+upgrade tack0 path 0
+upgrade tack0 path 2
+upgrade tack0 path 2
+upgrade tack0 path 2
+upgrade tack0 path 2
+upgrade tack1 path 0
+upgrade tack1 path 0
+upgrade tack1 path 2
+upgrade tack1 path 2
+round 98
+source round 98
+upgrade tack1 path 2
+upgrade tack1 path 2
+place ninja ninja0 at 461, 419
+upgrade ninja0 path 0
+upgrade ninja0 path 2
+upgrade ninja0 path 2
+upgrade ninja0 path 2
+upgrade ninja0 path 2
+round 99
+source round 99
+place alchemist alchemist5 at 645, 457
+round 100
+source round 100
+upgrade alchemist5 path 0
+upgrade alchemist5 path 0
+upgrade alchemist5 path 0
+upgrade alchemist5 path 1
+upgrade alchemist5 path 1
+ability 2 after 7.5 seconds

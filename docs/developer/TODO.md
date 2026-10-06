@@ -29,13 +29,13 @@ Updated **6 October 2026**. This is the active task list. Detailed implementatio
 
 ### Manual controls and route import
 
-- [ ] Finish faithful `end_round` / `forward` conversion, including implicit first-round Play, logical branch order and skip-round-check consumption by empty iterations.
-- [ ] Integrate manual controls with parser, controller and resumable checkpoints before admitting dependent plans. Keep incomplete conversions excluded.
+- [x] Preserve source `end_round` / `forward` commands, implicit first-round Play, logical branch order and skip-round-check consumption by empty iterations. Fifteen loop/import checks pass; eight separate candidates pass the full Python parser and JS legality checks.
+- [ ] Observe the integrated manual controls and resumable checkpoints during missing-medal gameplay. Keep plans with remaining omissions excluded; new candidates are not claimed winning.
 - [ ] Add faithful paid hero-level purchases before restoring candidates that omitted them.
 - [ ] Audit legacy `source_btd6bot` / compatibility recordings against pinned source. Timing-only omission labels are not evidence of equivalent behavior.
 - [ ] Finish remaining dependent conversion cases: repeat-ability schedules, moved selectors, positional specials and Ace centering where required. Preserve already-supported commands.
 
-**Already implemented:** nonblocking waits, cursor and targeted-special commands, absolute Auto Start support, observed single/double Play receipts, logical round clocks and chronological source-loop traversal. Full manual-plan conversion is still unfinished.
+**Already implemented:** nonblocking waits, cursor and targeted-special commands, absolute Auto Start support, observed single/double Play receipts, logical round clocks and chronological source-loop traversal. Manual flow is now converted; some plans still need other commands and live outcome evidence.
 
 ### Hero, placement and upgrades
 
@@ -66,7 +66,7 @@ Updated **6 October 2026**. This is the active task list. Detailed implementatio
 - [ ] Confirm Expert-to-Beginner ordering, shuffled within categories, without repeating excluded candidates.
 - [ ] Regenerate coverage and audit architecture before extending the production overhaul. Eligibility is not victory evidence.
 
-**Last recorded offline coverage:** 516 of 1,204 map/mode pairs eligible; 688 gaps and five maps without eligible routes. These figures need refreshing as conversion support changes.
+**Last recorded offline coverage:** 532 of 1,204 map/mode pairs eligible; 672 gaps and three maps without eligible routes. Eligibility does not establish winning strategies or account prerequisites.
 
 ## 3. Progress, activity and host/VM connection
 
@@ -77,7 +77,7 @@ Updated **6 October 2026**. This is the active task list. Detailed implementatio
 - [ ] Confirm activity ages, elapsed run time and victory/defeat counters across host/guest reloads. Count clears only after save confirmation.
 - [ ] Keep full redacted logs and group failures by actionable cause, even when stale game-state files remain.
 - [ ] Confirm host/guest synchronization after updates and restarts; expose the actual failed connection/setup step.
-- [ ] Deploy Preview 81 at a confirmed safe boundary, then resume missing medals. Preview 80 deployment completed; its old pending requests are historical.
+- [x] Deploy Preview 81 while the guest is idle, then resume missing medals. Setup confirms installation; host and guest both report the sweep running. The worker's initial two-second resume check was too early; later authoritative checks confirmed success without starting another sweep.
 
 ## 4. Installer, updates and production release
 

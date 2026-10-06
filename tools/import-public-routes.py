@@ -118,6 +118,9 @@ class Route:
         self.last_round = None
         self.source_autostart = True
         self.source_autostart_initialized = False
+        self.source_flow_active = False
+        self.source_called_forward = False
+        self.source_skip_roundcheck = False
 
     def point(self, x, y):
         x, y = int(round(x)), int(round(y))
@@ -412,7 +415,16 @@ def convert_btd6bot_loop(route, loop, begin, end):
                 raise Unsupported('nonstandard round branch fallback')
         chains.append(chain)
 
+    # Only manual-flow plans need every logical iteration, including empty ones.
+    # Ordinary imports retain their existing compact HUD-wait representation.
+    manual = any(isinstance(node, ast.Call) and isinstance(node.func, ast.Name)
+                 and node.func.id in BTD6BOT_FLOW_CONTROLS for node in ast.walk(loop))
+    route.source_flow_active = manual
+    if manual:
+        route.lines.append('autostart on')  # Rounds.start restores this baseline.
+        route.source_autostart_initialized = True
     route.source_loop_trace = []
+    route.source_round_trace = []
     current = begin - 1
     visits = set()
     while current < end:
@@ -421,13 +433,29 @@ def convert_btd6bot_loop(route, loop, begin, end):
         if entry in visits:
             raise Unsupported('round reassignment creates a repeated logical round')
         visits.add(entry)
+        if manual:
+            if entry == begin:
+                if route.mode == 'apopalypse':
+                    btd6bot_statement(route, ast.parse('forward(1)').body[0])
+                route.lines.append(f'source round {entry}')
+                route.source_round_trace.append((entry, 'initial'))
+            else:
+                # end_round does NOT set called_forward in the pinned source.
+                if not route.source_called_forward:
+                    btd6bot_statement(route, ast.parse('forward()').body[0])
+                skip = route.source_skip_roundcheck
+                route.source_skip_roundcheck = False
+                if not skip:
+                    route.round(entry)
+                route.lines.append(f'source round {entry}' + (' after play' if skip else ''))
+                route.source_round_trace.append((entry, 'after-play' if skip else 'hud'))
         marked = False
         for chain in chains:
             body = next((body for target, body in chain if target == current), None)
             if body is None:
                 continue
             route.source_loop_trace.append((entry, current))
-            if not marked and entry != begin:
+            if not manual and not marked and entry != begin:
                 route.round(entry)
             marked = True
             for stmt in body:
@@ -439,6 +467,7 @@ def convert_btd6bot_loop(route, loop, begin, end):
                     current = target
                 else:
                     btd6bot_statement(route, stmt)
+    route.source_flow_active = False
 
 
 def btd6bot_statement(route, stmt):
@@ -494,6 +523,26 @@ def btd6bot_statement(route, stmt):
                 route.source_autostart_initialized = True
             route.source_autostart = not route.source_autostart
             route.lines.append('autostart on' if route.source_autostart else 'autostart off')
+        elif action in ('forward', 'end_round') and route.source_flow_active:
+            parameter = 'speed' if action == 'forward' else 'time_limit'
+            if (len(args) > 1 or any(key != parameter for key in kwargs)
+                    or args and kwargs):
+                raise Unsupported(f'{action} requires at most one {parameter}')
+            value = literal(args[0]) if args else literal(kwargs[parameter]) if kwargs else (2 if action == 'forward' else 0)
+            if action == 'forward':
+                if type(value) is not int or value not in (1, 2):
+                    raise Unsupported('forward speed must be exactly 1 or 2')
+                route.lines.append('play once' if value == 1 else 'play twice')
+                # forward(1)'s post-input sleep is explicit. forward(2)'s
+                # inter-input delay belongs to the observed two-Play controller.
+                if value == 1:
+                    route.wait(0.2)
+                route.source_called_forward = True
+            else:
+                route.wait(value)  # Reject bool, nonfinite and negative delays.
+                route.lines.append('play once')
+                route.wait(0.2)
+                route.source_skip_roundcheck = True
         elif action in BTD6BOT_FLOW_CONTROLS:
             # Manual round control can wait for end-of-round cash or alter
             # ability timing. Cursor movement can aim a tower. Neither is a no-op.
@@ -1039,8 +1088,8 @@ for name in json.load(sys.stdin):
     else:
         text = open(path, encoding='utf-8').read()
         body = [l for l in text.splitlines() if l.strip() and not l.startswith('#')]
-        expected = sum(1 for l in body if re.match(r'^(place|upgrade|retarget|special|sell|remove|click|ability|repeat|stop|round|cash|wait|speed|start|change|move) ', l))
-        actual = sum(1 for s in config['steps'] if s['action'] in ('place', 'upgrade', 'retarget', 'special', 'sell', 'remove', 'ability', 'repeat_ability', 'stop_ability', 'await_round', 'await_cash', 'await_delay', 'speed', 'speed_toggle', 'start_round', 'move_cursor')
+        expected = sum(1 for l in body if re.match(r'^(place|upgrade|retarget|special|sell|remove|click|ability|repeat|stop|round|cash|wait|speed|start|change|move|autostart|source|play) ', l))
+        actual = sum(1 for s in config['steps'] if s['action'] in ('place', 'upgrade', 'retarget', 'special', 'sell', 'remove', 'ability', 'repeat_ability', 'stop_ability', 'await_round', 'await_cash', 'await_delay', 'speed', 'speed_toggle', 'start_round', 'move_cursor', 'set_autostart', 'source_round', 'play_once', 'play_twice')
                      or (s['action'] == 'click' and s.get('name') == 'map'))
         if expected != actual or expected != len(body):
             errors.append(f'{len(body)} lines, {expected} recognised, {actual} parsed')
@@ -1069,6 +1118,41 @@ def validate(files):
     if proc.returncode != 0:
         raise SystemExit(f"validator failed: {proc.stderr[-2000:]}")
     return json.loads(proc.stdout.strip().splitlines()[-1])
+
+
+def emit_manual_candidates():
+    """Add complete logical-loop adaptations; keep all existing recordings."""
+    written, skipped = [], []
+    for path in sorted(BTD6BOT_PLANS.glob('*.py')):
+        try:
+            route = convert_btd6bot(path)
+            if not route.source_round_trace:
+                continue
+            lines = route.body()
+        except (Unsupported, KeyError, IndexError, ValueError) as error:
+            skipped.append({'sourceFile': path.name, 'reason': str(error)})
+            continue
+        if route.lossy:
+            skipped.append({'sourceFile': path.name, 'reason': '; '.join(sorted(route.lossy))})
+            continue
+        source = SOURCES[route.source]
+        name = f'{route.map}#{route.mode}#{W}x{H}#converted#source_{route.source}#manual-preserved.btd6'
+        target = PT / name
+        meta = [f"source: {source['repo']} (license {source['license']}) commit {source['commit']}",
+                f'source file: {route.source_file}',
+                'Logical source-loop order, Auto Start, forward inputs and end_round delays/skip flags preserved.',
+                'Play inputs require observed transitions; timing includes controller observation latency.',
+                'Offline-converted candidate; no local victory claimed. Original recordings preserved.']
+        content = '\n'.join(header(meta) + lines) + '\n'
+        if target.exists() and target.read_text(encoding='utf-8') != content:
+            raise RuntimeError(f'Refusing to overwrite changed manual candidate: {name}')
+        if not target.exists():
+            target.write_text(content, encoding='utf-8', newline='\n')
+        written.append(name)
+    errors = {name: error for name, error in validate(written).items() if error} if written else {}
+    if errors:
+        raise RuntimeError('Manual candidate parser errors: ' + json.dumps(errors))
+    print(json.dumps({'manualCandidates': written, 'skipped': skipped, 'parserErrors': errors}, indent=2))
 
 
 def emit_timing_candidates():
@@ -1355,6 +1439,8 @@ def audit_legacy_timing():
 if __name__ == "__main__":
     if '--audit-timing' in sys.argv:
         print(json.dumps(audit_legacy_timing(), indent=2))
+    elif '--manual-candidates' in sys.argv:
+        emit_manual_candidates()
     elif '--special-target-candidates' in sys.argv:
         emit_special_target_candidates()
     elif '--ability-candidates' in sys.argv:

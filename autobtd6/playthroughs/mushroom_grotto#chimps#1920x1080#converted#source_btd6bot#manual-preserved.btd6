@@ -1,0 +1,327 @@
+# source: https://github.com/j-miet/BTD6bot (license MIT (c) 2025 Jani Miettinen) commit 2d6dac0957a0d55d0af201bd497afbebf7f3e5c2
+# source file: btd6bot/plans/mushroom_grottoHardChimps.py
+# Logical source-loop order, Auto Start, forward inputs and end_round delays/skip flags preserved.
+# Play inputs require observed transitions; timing includes controller observation latency.
+# Offline-converted candidate; no local victory claimed. Original recordings preserved.
+# generator: import-public-routes.py
+autostart on
+source round 6
+place mermonkey mermonkey0 at 765, 344
+place mermonkey mermonkey1 at 953, 773
+play twice
+round 7
+source round 7
+round 8
+source round 8
+place dart dart0 at 760, 653
+round 9
+source round 9
+place dart dart1 at 958, 463
+round 10
+source round 10
+round 11
+source round 11
+round 12
+source round 12
+place obyn_greenfoot hero0 at 888, 471
+round 13
+source round 13
+place druid druid0 at 957, 647
+round 14
+source round 14
+round 15
+source round 15
+place druid druid1 at 765, 591
+round 16
+source round 16
+round 17
+source round 17
+round 18
+source round 18
+upgrade dart0 path 2
+upgrade dart0 path 2
+round 19
+source round 19
+upgrade dart0 path 2
+round 20
+source round 20
+upgrade dart0 path 1
+upgrade dart0 path 1
+round 21
+source round 21
+place druid druid2 at 767, 525
+round 22
+source round 22
+round 23
+source round 23
+upgrade druid1 path 0
+round 24
+source round 24
+round 25
+source round 25
+round 26
+source round 26
+round 27
+source round 27
+round 28
+source round 28
+play once
+wait 0.2 seconds
+click map at 355, 823
+wait 0.25 seconds
+click map at 943, 653
+wait 0.25 seconds
+click map at 355, 271
+wait 0.25 seconds
+click map at 943, 655
+wait 0.25 seconds
+click map at 1355, 301
+wait 0.25 seconds
+click map at 937, 639
+wait 0.25 seconds
+click map at 1395, 861
+wait 0.25 seconds
+click map at 941, 653
+wait 0.25 seconds
+click map at 873, 557
+wait 0.25 seconds
+click map at 987, 581
+play once
+wait 0.2 seconds
+round 29
+source round 29
+round 30
+source round 30
+round 31
+source round 31
+round 32
+source round 32
+upgrade dart0 path 2
+round 33
+source round 33
+round 34
+source round 34
+round 35
+source round 35
+place village village0 at 851, 635
+round 36
+source round 36
+upgrade village0 path 2
+upgrade village0 path 2
+upgrade druid1 path 0
+upgrade druid1 path 2
+round 37
+source round 37
+round 38
+source round 38
+round 39
+source round 39
+place druid druid3 at 953, 581
+upgrade druid1 path 0
+upgrade druid1 path 2
+round 40
+source round 40
+round 41
+source round 41
+upgrade druid1 path 0
+round 42
+source round 42
+round 43
+source round 43
+round 44
+source round 44
+round 45
+source round 45
+upgrade druid0 path 2
+upgrade druid0 path 2
+upgrade druid0 path 2
+upgrade druid0 path 2
+upgrade druid0 path 1
+round 46
+source round 46
+round 47
+source round 47
+round 48
+source round 48
+upgrade druid2 path 2
+upgrade druid2 path 2
+upgrade druid2 path 2
+upgrade druid2 path 2
+upgrade druid2 path 1
+round 49
+source round 49
+upgrade village0 path 0
+upgrade village0 path 0
+upgrade druid3 path 2
+upgrade druid3 path 2
+upgrade druid3 path 2
+upgrade druid3 path 2
+upgrade druid3 path 1
+round 50
+source round 50
+place alchemist alchemist0 at 636, 535
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+round 51
+source round 51
+upgrade alchemist0 path 0
+upgrade alchemist0 path 1
+upgrade alchemist0 path 1
+round 52
+source round 52
+round 53
+source round 53
+place alchemist alchemist1 at 1084, 585
+upgrade alchemist1 path 0
+upgrade alchemist1 path 0
+upgrade alchemist1 path 0
+round 54
+source round 54
+round 55
+source round 55
+upgrade alchemist1 path 0
+upgrade alchemist1 path 1
+upgrade alchemist1 path 1
+round 56
+source round 56
+round 57
+source round 57
+round 58
+source round 58
+round 59
+source round 59
+round 60
+source round 60
+round 61
+source round 61
+round 62
+source round 62
+round 63
+source round 63
+round 64
+source round 64
+round 65
+source round 65
+round 66
+source round 66
+round 67
+source round 67
+round 68
+source round 68
+round 69
+source round 69
+round 70
+source round 70
+round 71
+source round 71
+round 72
+source round 72
+round 73
+source round 73
+round 74
+source round 74
+round 75
+source round 75
+round 76
+source round 76
+round 77
+source round 77
+round 78
+source round 78
+round 79
+source round 79
+round 80
+source round 80
+round 81
+source round 81
+round 82
+source round 82
+round 83
+source round 83
+round 84
+source round 84
+upgrade druid1 path 0
+round 85
+source round 85
+round 86
+source round 86
+round 87
+source round 87
+round 88
+source round 88
+place sniper sniper0 at 859, 797
+retarget sniper0
+retarget sniper0
+retarget sniper0
+upgrade sniper0 path 2
+upgrade sniper0 path 2
+upgrade sniper0 path 2
+upgrade sniper0 path 2
+upgrade sniper0 path 0
+upgrade sniper0 path 0
+round 89
+source round 89
+round 90
+source round 90
+round 91
+source round 91
+round 92
+source round 92
+upgrade sniper0 path 2
+round 93
+source round 93
+round 94
+source round 94
+round 95
+source round 95
+place sniper sniper1 at 757, 792
+retarget sniper1
+retarget sniper1
+retarget sniper1
+upgrade sniper1 path 2
+upgrade sniper1 path 2
+upgrade sniper1 path 2
+upgrade sniper1 path 2
+upgrade sniper1 path 0
+upgrade sniper1 path 0
+round 96
+source round 96
+place sniper sniper2 at 847, 857
+retarget sniper2
+retarget sniper2
+retarget sniper2
+upgrade sniper2 path 2
+upgrade sniper2 path 2
+upgrade sniper2 path 2
+upgrade sniper2 path 2
+upgrade sniper2 path 0
+upgrade sniper2 path 0
+round 97
+source round 97
+place sniper sniper3 at 937, 844
+retarget sniper3
+retarget sniper3
+retarget sniper3
+upgrade sniper3 path 2
+upgrade sniper3 path 2
+upgrade sniper3 path 2
+upgrade sniper3 path 2
+upgrade sniper3 path 0
+upgrade sniper3 path 0
+round 98
+source round 98
+place sniper sniper4 at 687, 782
+retarget sniper4
+retarget sniper4
+retarget sniper4
+upgrade sniper4 path 2
+upgrade sniper4 path 2
+upgrade sniper4 path 2
+upgrade sniper4 path 2
+upgrade sniper4 path 0
+upgrade sniper4 path 0
+round 99
+source round 99
+round 100
+source round 100

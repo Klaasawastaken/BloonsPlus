@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-06T05:28:02.759Z",
+  "generatedAt": "2026-10-06T07:29:27.319Z",
   "modes": [
     "easy",
     "primary_only",
@@ -20,25 +20,25 @@
   "summary": {
     "maps": 86,
     "mapModePairs": 1204,
-    "covered": 516,
-    "missing": 688,
+    "covered": 532,
+    "missing": 672,
     "mapsFullyCovered": 1,
-    "mapsWithNoRoute": 5,
+    "mapsWithNoRoute": 3,
     "coveredPerMode": {
-      "easy": 79,
+      "easy": 81,
       "primary_only": 23,
       "deflation": 21,
-      "medium": 79,
+      "medium": 81,
       "military_only": 9,
       "reverse": 17,
       "apopalypse": 14,
-      "hard": 78,
+      "hard": 80,
       "magic_monkeys_only": 13,
       "double_hp_moabs": 14,
       "half_cash": 14,
       "alternate_bloons_rounds": 21,
-      "impoppable": 67,
-      "chimps": 67
+      "impoppable": 72,
+      "chimps": 72
     }
   },
   "maps": {
@@ -1490,20 +1490,30 @@
       "slug": "covered_garden",
       "inMapsJson": true,
       "modes": {
-        "easy": "missing",
+        "easy": [
+          "covered_garden#chimps#1920x1080#converted#source_btd6bot#manual-preserved.btd6 (CHIMPS reuse)"
+        ],
         "primary_only": "missing",
         "deflation": "missing",
-        "medium": "missing",
+        "medium": [
+          "covered_garden#chimps#1920x1080#converted#source_btd6bot#manual-preserved.btd6 (CHIMPS reuse)"
+        ],
         "military_only": "missing",
         "reverse": "missing",
         "apopalypse": "missing",
-        "hard": "missing",
+        "hard": [
+          "covered_garden#chimps#1920x1080#converted#source_btd6bot#manual-preserved.btd6 (CHIMPS reuse)"
+        ],
         "magic_monkeys_only": "missing",
         "double_hp_moabs": "missing",
         "half_cash": "missing",
         "alternate_bloons_rounds": "missing",
-        "impoppable": "missing",
-        "chimps": "missing"
+        "impoppable": [
+          "covered_garden#chimps#1920x1080#converted#source_btd6bot#manual-preserved.btd6 (CHIMPS reuse)"
+        ],
+        "chimps": [
+          "covered_garden#chimps#1920x1080#converted#source_btd6bot#manual-preserved.btd6"
+        ]
       }
     },
     "quarry": {
@@ -2190,28 +2200,33 @@
       "inMapsJson": true,
       "modes": {
         "easy": [
-          "mushroom_grotto#chimps#1920x1080#converted#source_btd6bot.btd6 (CHIMPS reuse)"
+          "mushroom_grotto#chimps#1920x1080#converted#source_btd6bot.btd6 (CHIMPS reuse)",
+          "mushroom_grotto#chimps#1920x1080#converted#source_btd6bot#manual-preserved.btd6 (CHIMPS reuse)"
         ],
         "primary_only": "missing",
         "deflation": "missing",
         "medium": [
-          "mushroom_grotto#chimps#1920x1080#converted#source_btd6bot.btd6 (CHIMPS reuse)"
+          "mushroom_grotto#chimps#1920x1080#converted#source_btd6bot.btd6 (CHIMPS reuse)",
+          "mushroom_grotto#chimps#1920x1080#converted#source_btd6bot#manual-preserved.btd6 (CHIMPS reuse)"
         ],
         "military_only": "missing",
         "reverse": "missing",
         "apopalypse": "missing",
         "hard": [
-          "mushroom_grotto#chimps#1920x1080#converted#source_btd6bot.btd6 (CHIMPS reuse)"
+          "mushroom_grotto#chimps#1920x1080#converted#source_btd6bot.btd6 (CHIMPS reuse)",
+          "mushroom_grotto#chimps#1920x1080#converted#source_btd6bot#manual-preserved.btd6 (CHIMPS reuse)"
         ],
         "magic_monkeys_only": "missing",
         "double_hp_moabs": "missing",
         "half_cash": "missing",
         "alternate_bloons_rounds": "missing",
         "impoppable": [
-          "mushroom_grotto#chimps#1920x1080#converted#source_btd6bot.btd6 (CHIMPS reuse)"
+          "mushroom_grotto#chimps#1920x1080#converted#source_btd6bot.btd6 (CHIMPS reuse)",
+          "mushroom_grotto#chimps#1920x1080#converted#source_btd6bot#manual-preserved.btd6 (CHIMPS reuse)"
         ],
         "chimps": [
-          "mushroom_grotto#chimps#1920x1080#converted#source_btd6bot.btd6"
+          "mushroom_grotto#chimps#1920x1080#converted#source_btd6bot.btd6",
+          "mushroom_grotto#chimps#1920x1080#converted#source_btd6bot#manual-preserved.btd6"
         ]
       }
     },
@@ -2448,20 +2463,30 @@
       "slug": "midnight_mansion",
       "inMapsJson": true,
       "modes": {
-        "easy": "missing",
+        "easy": [
+          "midnight_mansion#chimps#1920x1080#converted#source_btd6bot#manual-preserved.btd6 (CHIMPS reuse)"
+        ],
         "primary_only": "missing",
         "deflation": "missing",
-        "medium": "missing",
+        "medium": [
+          "midnight_mansion#chimps#1920x1080#converted#source_btd6bot#manual-preserved.btd6 (CHIMPS reuse)"
+        ],
         "military_only": "missing",
         "reverse": "missing",
         "apopalypse": "missing",
-        "hard": "missing",
+        "hard": [
+          "midnight_mansion#chimps#1920x1080#converted#source_btd6bot#manual-preserved.btd6 (CHIMPS reuse)"
+        ],
         "magic_monkeys_only": "missing",
         "double_hp_moabs": "missing",
         "half_cash": "missing",
         "alternate_bloons_rounds": "missing",
-        "impoppable": "missing",
-        "chimps": "missing"
+        "impoppable": [
+          "midnight_mansion#chimps#1920x1080#converted#source_btd6bot#manual-preserved.btd6 (CHIMPS reuse)"
+        ],
+        "chimps": [
+          "midnight_mansion#chimps#1920x1080#converted#source_btd6bot#manual-preserved.btd6"
+        ]
       }
     },
     "sunken_columns": {
@@ -3037,6 +3062,7 @@
         "easy": [
           "tricky_tracks#easy#1920x1080#converted#source_btd6bot.btd6",
           "tricky_tracks#chimps#1920x1080#converted#source_btd6bot.btd6 (CHIMPS reuse)",
+          "tricky_tracks#chimps#1920x1080#converted#source_btd6bot#manual-preserved.btd6 (CHIMPS reuse)",
           "tricky_tracks#hard#1920x1080#converted#source_btd6bot#selection-preserved.btd6"
         ],
         "primary_only": [
@@ -3045,6 +3071,7 @@
         "deflation": "missing",
         "medium": [
           "tricky_tracks#chimps#1920x1080#converted#source_btd6bot.btd6 (CHIMPS reuse)",
+          "tricky_tracks#chimps#1920x1080#converted#source_btd6bot#manual-preserved.btd6 (CHIMPS reuse)",
           "tricky_tracks#hard#1920x1080#converted#source_btd6bot#selection-preserved.btd6"
         ],
         "military_only": "missing",
@@ -3052,7 +3079,8 @@
         "apopalypse": "missing",
         "hard": [
           "tricky_tracks#hard#1920x1080#converted#source_btd6bot#selection-preserved.btd6",
-          "tricky_tracks#chimps#1920x1080#converted#source_btd6bot.btd6 (CHIMPS reuse)"
+          "tricky_tracks#chimps#1920x1080#converted#source_btd6bot.btd6 (CHIMPS reuse)",
+          "tricky_tracks#chimps#1920x1080#converted#source_btd6bot#manual-preserved.btd6 (CHIMPS reuse)"
         ],
         "magic_monkeys_only": "missing",
         "double_hp_moabs": "missing",
@@ -3061,10 +3089,12 @@
         "impoppable": [
           "tricky_tracks#impoppable#1920x1080#converted#source_everythingmacro.btd6",
           "tricky_tracks#impoppable#1920x1080#converted#source_everythingmacro#timing-preserved.btd6",
-          "tricky_tracks#chimps#1920x1080#converted#source_btd6bot.btd6 (CHIMPS reuse)"
+          "tricky_tracks#chimps#1920x1080#converted#source_btd6bot.btd6 (CHIMPS reuse)",
+          "tricky_tracks#chimps#1920x1080#converted#source_btd6bot#manual-preserved.btd6 (CHIMPS reuse)"
         ],
         "chimps": [
-          "tricky_tracks#chimps#1920x1080#converted#source_btd6bot.btd6"
+          "tricky_tracks#chimps#1920x1080#converted#source_btd6bot.btd6",
+          "tricky_tracks#chimps#1920x1080#converted#source_btd6bot#manual-preserved.btd6"
         ]
       }
     },
@@ -3221,6 +3251,7 @@
         "easy": [
           "flooded_valley#easy#1920x1080#converted#source_bloonsplayer.btd6",
           "flooded_valley#easy#1920x1080#converted#source_btd6bot.btd6",
+          "flooded_valley#chimps#1920x1080#converted#source_btd6bot#manual-preserved.btd6 (CHIMPS reuse)",
           "flooded_valley#hard#2560x1440#noMK.btd6",
           "flooded_valley#hard#1920x1080#converted#source_randyhodges.btd6",
           "flooded_valley#hard#1920x1080#converted#source_randyhodges#observed-start.btd6"
@@ -3230,6 +3261,7 @@
           "flooded_valley#deflation#2560x1440#converted#source_hard.btd6"
         ],
         "medium": [
+          "flooded_valley#chimps#1920x1080#converted#source_btd6bot#manual-preserved.btd6 (CHIMPS reuse)",
           "flooded_valley#hard#2560x1440#noMK.btd6",
           "flooded_valley#hard#1920x1080#converted#source_randyhodges.btd6",
           "flooded_valley#hard#1920x1080#converted#source_randyhodges#observed-start.btd6"
@@ -3244,7 +3276,8 @@
         "hard": [
           "flooded_valley#hard#2560x1440#noMK.btd6",
           "flooded_valley#hard#1920x1080#converted#source_randyhodges.btd6",
-          "flooded_valley#hard#1920x1080#converted#source_randyhodges#observed-start.btd6"
+          "flooded_valley#hard#1920x1080#converted#source_randyhodges#observed-start.btd6",
+          "flooded_valley#chimps#1920x1080#converted#source_btd6bot#manual-preserved.btd6 (CHIMPS reuse)"
         ],
         "magic_monkeys_only": "missing",
         "double_hp_moabs": [
@@ -3256,8 +3289,12 @@
         "alternate_bloons_rounds": [
           "flooded_valley#alternate_bloons_rounds#2560x1440#converted#source_hard.btd6"
         ],
-        "impoppable": "missing",
-        "chimps": "missing"
+        "impoppable": [
+          "flooded_valley#chimps#1920x1080#converted#source_btd6bot#manual-preserved.btd6 (CHIMPS reuse)"
+        ],
+        "chimps": [
+          "flooded_valley#chimps#1920x1080#converted#source_btd6bot#manual-preserved.btd6"
+        ]
       }
     },
     "infernal": {
@@ -3325,6 +3362,7 @@
         "easy": [
           "bloody_puddles#easy#1920x1080#converted#source_bloonsplayer.btd6",
           "bloody_puddles#easy#1920x1080#converted#source_btd6bot.btd6",
+          "bloody_puddles#chimps#1920x1080#converted#source_btd6bot#manual-preserved.btd6 (CHIMPS reuse)",
           "bloody_puddles#hard#2560x1440#noMK#RNG.btd6",
           "bloody_puddles#hard#1920x1080#converted#source_randyhodges.btd6",
           "bloody_puddles#hard#1920x1080#converted#source_randyhodges#observed-start.btd6"
@@ -3335,6 +3373,7 @@
         ],
         "medium": [
           "bloody_puddles#medium#2560x1440#noMK#RNG#compat#from_hard.btd6",
+          "bloody_puddles#chimps#1920x1080#converted#source_btd6bot#manual-preserved.btd6 (CHIMPS reuse)",
           "bloody_puddles#hard#1920x1080#converted#source_randyhodges.btd6",
           "bloody_puddles#hard#1920x1080#converted#source_randyhodges#observed-start.btd6"
         ],
@@ -3348,7 +3387,8 @@
         "hard": [
           "bloody_puddles#hard#2560x1440#noMK#RNG.btd6",
           "bloody_puddles#hard#1920x1080#converted#source_randyhodges.btd6",
-          "bloody_puddles#hard#1920x1080#converted#source_randyhodges#observed-start.btd6"
+          "bloody_puddles#hard#1920x1080#converted#source_randyhodges#observed-start.btd6",
+          "bloody_puddles#chimps#1920x1080#converted#source_btd6bot#manual-preserved.btd6 (CHIMPS reuse)"
         ],
         "magic_monkeys_only": "missing",
         "double_hp_moabs": [
@@ -3360,8 +3400,12 @@
         "alternate_bloons_rounds": [
           "bloody_puddles#alternate_bloons_rounds#2560x1440#converted#source_hard.btd6"
         ],
-        "impoppable": "missing",
-        "chimps": "missing"
+        "impoppable": [
+          "bloody_puddles#chimps#1920x1080#converted#source_btd6bot#manual-preserved.btd6 (CHIMPS reuse)"
+        ],
+        "chimps": [
+          "bloody_puddles#chimps#1920x1080#converted#source_btd6bot#manual-preserved.btd6"
+        ]
       }
     },
     "workshop": {
@@ -3482,6 +3526,7 @@
           "dark_castle#deflation#1920x1080#converted#source_bloonsplayer.btd6",
           "dark_castle#deflation#1920x1080#converted#source_bloonsplayer#observed-start.btd6",
           "dark_castle#deflation#1920x1080#converted#source_btd6bot.btd6",
+          "dark_castle#deflation#1920x1080#converted#source_btd6bot#manual-preserved.btd6",
           "dark_castle#deflation#1920x1080#converted#source_everythingmacro.btd6",
           "dark_castle#deflation#1920x1080#converted#source_everythingmacro#timing-preserved.btd6"
         ],
@@ -3568,6 +3613,7 @@
         "easy": [
           "ouch#easy#1920x1080#converted#source_bloonsplayer.btd6",
           "ouch#easy#1920x1080#converted#source_btd6bot.btd6",
+          "ouch#chimps#1920x1080#converted#source_btd6bot#manual-preserved.btd6 (CHIMPS reuse)",
           "ouch#hard#2560x1440.btd6",
           "ouch#hard#1920x1080#converted#source_bloonsplayer#observed-start.btd6",
           "ouch#hard#1920x1080#converted#source_randyhodges.btd6",
@@ -3576,6 +3622,7 @@
         "primary_only": "missing",
         "deflation": "missing",
         "medium": [
+          "ouch#chimps#1920x1080#converted#source_btd6bot#manual-preserved.btd6 (CHIMPS reuse)",
           "ouch#hard#2560x1440.btd6",
           "ouch#hard#1920x1080#converted#source_bloonsplayer#observed-start.btd6",
           "ouch#hard#1920x1080#converted#source_randyhodges.btd6",
@@ -3588,7 +3635,8 @@
           "ouch#hard#2560x1440.btd6",
           "ouch#hard#1920x1080#converted#source_bloonsplayer#observed-start.btd6",
           "ouch#hard#1920x1080#converted#source_randyhodges.btd6",
-          "ouch#hard#1920x1080#converted#source_randyhodges#observed-start.btd6"
+          "ouch#hard#1920x1080#converted#source_randyhodges#observed-start.btd6",
+          "ouch#chimps#1920x1080#converted#source_btd6bot#manual-preserved.btd6 (CHIMPS reuse)"
         ],
         "magic_monkeys_only": "missing",
         "double_hp_moabs": "missing",
@@ -3597,8 +3645,12 @@
           "ouch#alternate_bloons_rounds#1920x1080#converted#source_btd6bot.btd6",
           "ouch#alternate_bloons_rounds#1920x1080#converted#source_btd6bot#cursor-preserved.btd6"
         ],
-        "impoppable": "missing",
-        "chimps": "missing"
+        "impoppable": [
+          "ouch#chimps#1920x1080#converted#source_btd6bot#manual-preserved.btd6 (CHIMPS reuse)"
+        ],
+        "chimps": [
+          "ouch#chimps#1920x1080#converted#source_btd6bot#manual-preserved.btd6"
+        ]
       }
     }
   }

@@ -28,13 +28,16 @@ class SourceAutoStart(unittest.TestCase):
             self.assertTrue(route.source_autostart)
             self.assertFalse(route.source_autostart_initialized)
 
-    def test_pinned_sanctuary_remains_gated_on_manual_round_controls(self):
+    def test_pinned_sanctuary_manual_flow_preserved_other_omissions_remain(self):
         route=converter.convert_btd6bot(ROOT/'btd6bot/btd6bot/plans/sanctuaryHardChimps.py')
         self.assertEqual(route.lines[0],'autostart on')
         self.assertIn('autostart off',route.lines)
         self.assertNotIn('change_autostart() control omitted',route.lossy)
-        self.assertIn('end_round() control omitted',route.lossy)
-        self.assertIn('forward() control omitted',route.lossy)
+        self.assertNotIn('end_round() control omitted',route.lossy)
+        self.assertNotIn('forward() control omitted',route.lossy)
+        self.assertIn('play once',route.lines)
+        self.assertIn('play twice',route.lines)
+        self.assertEqual(route.lossy,{"spike targeting 'automatic' (needs a special cycle or click)"})
 
     def test_routes_without_toggles_gain_no_setting_commands(self):
         route=converter.Route('btd6bot','fixture','logs','hard')

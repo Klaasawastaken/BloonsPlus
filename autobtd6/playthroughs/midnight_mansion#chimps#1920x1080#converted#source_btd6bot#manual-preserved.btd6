@@ -1,0 +1,299 @@
+# source: https://github.com/j-miet/BTD6bot (license MIT (c) 2025 Jani Miettinen) commit 2d6dac0957a0d55d0af201bd497afbebf7f3e5c2
+# source file: btd6bot/plans/midnight_mansionHardChimps.py
+# Logical source-loop order, Auto Start, forward inputs and end_round delays/skip flags preserved.
+# Play inputs require observed transitions; timing includes controller observation latency.
+# Offline-converted candidate; no local victory claimed. Original recordings preserved.
+# generator: import-public-routes.py
+autostart on
+source round 6
+place dart dart0 at 1373, 269
+place dart dart1 at 291, 275
+place dart dart2 at 295, 331
+play twice
+round 7
+source round 7
+round 8
+source round 8
+place dart dart3 at 1371, 325
+round 9
+source round 9
+round 10
+source round 10
+place ezili hero0 at 1225, 191
+retarget hero0
+retarget hero0
+retarget hero0
+round 11
+source round 11
+round 12
+source round 12
+round 13
+source round 13
+click map at 375, 143
+click map at 462, 261
+wait 1 seconds
+place sniper sniper0 at 375, 143
+round 14
+source round 14
+round 15
+source round 15
+place sniper sniper1 at 307, 143
+retarget sniper1
+retarget sniper1
+retarget sniper1
+round 16
+source round 16
+place sniper sniper2 at 343, 93
+retarget sniper2
+retarget sniper2
+retarget sniper2
+round 17
+source round 17
+round 18
+source round 18
+upgrade sniper1 path 0
+round 19
+source round 19
+round 20
+source round 20
+round 21
+source round 21
+place wizard wizard0 at 1293, 273
+upgrade wizard0 path 1
+round 22
+source round 22
+round 23
+source round 23
+upgrade wizard0 path 1
+round 24
+source round 24
+round 25
+source round 25
+ability 1 after 6 seconds
+round 26
+source round 26
+round 27
+source round 27
+upgrade sniper0 path 1
+upgrade sniper0 path 1
+upgrade sniper0 path 2
+round 28
+source round 28
+upgrade sniper0 path 2
+round 29
+source round 29
+round 30
+source round 30
+round 31
+source round 31
+round 32
+source round 32
+round 33
+source round 33
+round 34
+source round 34
+upgrade sniper0 path 1
+round 35
+source round 35
+round 36
+source round 36
+round 37
+source round 37
+upgrade wizard0 path 1
+upgrade wizard0 path 2
+upgrade wizard0 path 2
+round 38
+source round 38
+round 39
+source round 39
+place alchemist alchemist0 at 573, 199
+autostart off
+wait 13 seconds
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+autostart on
+play once
+wait 0.2 seconds
+source round 40 after play
+round 41
+source round 41
+click map at 1317, 125
+click map at 1433, 261
+round 42
+source round 42
+place village village0 at 1317, 125
+upgrade village0 path 2
+upgrade village0 path 2
+round 43
+source round 43
+place wizard wizard1 at 1217, 269
+upgrade wizard1 path 1
+upgrade wizard1 path 1
+round 44
+source round 44
+upgrade wizard1 path 2
+upgrade wizard1 path 2
+round 45
+source round 45
+upgrade wizard1 path 2
+round 46
+source round 46
+upgrade wizard1 path 2
+round 47
+source round 47
+round 48
+source round 48
+round 49
+source round 49
+round 50
+source round 50
+round 51
+source round 51
+round 52
+source round 52
+round 53
+source round 53
+round 54
+source round 54
+round 55
+source round 55
+round 56
+source round 56
+round 57
+source round 57
+round 58
+source round 58
+round 59
+source round 59
+round 60
+source round 60
+upgrade wizard1 path 2
+ability 3 after 3 seconds
+round 61
+source round 61
+upgrade village0 path 0
+upgrade village0 path 0
+round 62
+source round 62
+round 63
+source round 63
+place druid druid0 at 1143, 281
+upgrade druid0 path 0
+upgrade druid0 path 1
+upgrade druid0 path 1
+upgrade druid0 path 1
+round 64
+source round 64
+round 65
+source round 65
+upgrade druid0 path 1
+round 66
+source round 66
+round 67
+source round 67
+round 68
+source round 68
+round 69
+source round 69
+round 70
+source round 70
+round 71
+source round 71
+round 72
+source round 72
+round 73
+source round 73
+round 74
+source round 74
+round 75
+source round 75
+round 76
+source round 76
+round 77
+source round 77
+round 78
+source round 78
+round 79
+source round 79
+round 80
+source round 80
+ability 3 after 2 seconds
+round 81
+source round 81
+upgrade druid0 path 1
+place glue glue0 at 1155, 199
+retarget glue0
+retarget glue0
+retarget glue0
+upgrade glue0 path 1
+upgrade glue0 path 1
+round 82
+source round 82
+round 83
+source round 83
+upgrade glue0 path 2
+upgrade glue0 path 2
+upgrade glue0 path 2
+upgrade glue0 path 2
+round 84
+source round 84
+place ninja ninja0 at 1081, 195
+upgrade ninja0 path 0
+upgrade ninja0 path 2
+upgrade ninja0 path 2
+upgrade ninja0 path 2
+round 85
+source round 85
+ability 3 after 5.5 seconds
+round 86
+source round 86
+round 87
+source round 87
+upgrade ninja0 path 2
+ability 3 after 3.5 seconds
+round 88
+source round 88
+round 89
+source round 89
+round 90
+source round 90
+round 91
+source round 91
+round 92
+source round 92
+ability 3 after 6.5 seconds
+round 93
+source round 93
+round 94
+source round 94
+ability 3 after 3 seconds
+round 95
+source round 95
+round 96
+source round 96
+ability 3 after 11 seconds
+round 97
+source round 97
+upgrade ninja0 path 2
+place ninja ninja1 at 1113, 142
+upgrade ninja1 path 1
+upgrade ninja1 path 1
+upgrade ninja1 path 1
+round 98
+source round 98
+ability 3 after 6 seconds
+upgrade ninja1 path 1
+place ice ice0 at 1179, 143
+upgrade ice0 path 1
+upgrade ice0 path 0
+upgrade ice0 path 0
+upgrade ice0 path 0
+round 99
+source round 99
+upgrade ice0 path 0
+ability 4 after 2 seconds
+upgrade village0 path 0
+round 100
+source round 100
+ability 3 after 8 seconds
