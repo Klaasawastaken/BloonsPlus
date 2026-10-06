@@ -11,7 +11,7 @@ Updated **6 October 2026**. This is the readable, active task list. Technical no
 - **Development alongside gameplay:** installer/setup polish, app polish, folder organization and website redesign. Check the sweep every five minutes and diagnose meaningful failures.
 - **Background work:** improve routes and placement from missing-medal gameplay evidence; retain failures and skip owned medals.
 - **Latest installer repair:** [Preview 94](https://github.com/Klaasawastaken/BloonsPlus/releases/tag/v0.1.0-preview.94) is published and fixes the current installer being rejected as too old during VM provisioning. It exposes the actual setup component error. Packaging, uploaded size/digest and regression checks pass. The host setup helper was repaired without restarting healthy VM gameplay. Clean-machine setup and live cash-recovery evidence remain open.
-- **Latest release:** [Preview 97](https://github.com/Klaasawastaken/BloonsPlus/releases/tag/v0.1.0-preview.97) persists app-file recovery across process exits, keeps committed packages after cleanup interruption and blocks mixed-package startup. Its installer and uploaded asset are verified; healthy gameplay was not restarted.
+- **Latest release:** [Preview 98](https://github.com/Klaasawastaken/BloonsPlus/releases/tag/v0.1.0-preview.98) captures exact hero-picker failure frames, fixes disabled dropdown selections and limits opening retries to evidenced placement/OCR failures. All 126 packaged runtime comparisons, 1,689 inventory hashes, both executable icons and uploaded installer size/digest are verified. Healthy gameplay was not restarted; guest deployment awaits a safe replay boundary.
 
 ## Work order
 
@@ -31,7 +31,7 @@ Updated **6 October 2026**. This is the readable, active task list. Technical no
 
 1. **I-07 complete — Approved redesign:** the [source audit](installer-startup-audit.md), [design](../superpowers/specs/2026-10-06-installer-startup-design.md) and [inline implementation plan](../superpowers/plans/2026-10-06-installer-startup.md) are approved. Batches 1–5 and post-install presentation are implemented and checked offline; Preview 95 includes the follow-up VM provisioning and startup diagnostics repairs.
 2. **I-08–I-11 / A-05–A-07 — Installer and first launch:** compact native flow, durable recovery, shared coordination and the intro are implemented. Finish actual clean-machine and physical accessibility acceptance; deploy only at a safe replay boundary.
-3. **I-01 / I-03 — Acceptance:** check clean and interrupted setup and repair. I-04 packaging is checked through Preview 97; repeat its checks for each later release.
+3. **I-01 / I-03 — Acceptance:** check clean and interrupted setup and repair. I-04 packaging is checked through Preview 98; repeat its checks for each later release.
 4. **A-01 / A-03 / A-04 — App and files:** polish controls, accessibility, scrolling and folder organization.
 5. **W-04 — Website:** finish responsive and accessibility checks for the refreshed pages.
 6. **R-02 / R-15 — Recovery:** investigate game progression while replay input is paused or stopped; a paused controller does not prove a paused game.
