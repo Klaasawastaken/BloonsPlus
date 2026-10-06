@@ -1,3 +1,10 @@
+## Preview 77 — Pause evidence and simpler Settings
+
+- Require full pause-menu labels before replay recovery sends Esc.
+- Read Auto Start from its actual lime rail and cyan knob; leave ambiguous switch states unknown.
+- Remove the queue-clearing preference reset and refresh setup status on Settings visits.
+- Keep manual-round route support in development; no unsupported route admission or original recording edits.
+
 ## Preview 76 — Counter structure and Engineer targeting
 
 - Validate round counter structure and selected-mode totals in normal and fallback OCR reads.

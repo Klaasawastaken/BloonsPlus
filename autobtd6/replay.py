@@ -17,6 +17,7 @@ from placement_hints import route_placement_hints
 from route_timing import delay_ready, round_offset_ready, ability_ready, issue_ability, upgrade_ready, RepeatedAbilities, round_start_ready
 from purchase_pacing import affordable_upgrade_batch, purchase_pacing_ready
 from targeted_special import perform_targeted_special
+from autostart_observation import observe_autostart
 from map_availability import predicted_thaw_round
 from resume_recovery import restore_upgrade_steps, probe_owned_upgrade, resumable_round_start
 
@@ -2789,10 +2790,14 @@ def main():
                 # single false match followed by Esc creates the pause/nudge
                 # loop and prevents placement. Require two consecutive frames.
                 if lastScreen == Screen.INGAME_PAUSED:
-                    if logStats:
-                        lastPlaythroughStats['time'].append(('stop', time.time()))
-                    if windowed_input.is_game_foreground():
-                        customPrint('DEBUG confirmed paused twice; resuming with Esc')
+                    pauseObservation = observe_autostart(screenshot, comparisonImages['screens']['ingame_paused'])
+                    if pauseObservation.get('pauseConfirmed') is not True:
+                        customPrint('PAUSE_RECOVERY withheld Esc; full pause labels unconfirmed ' + str(pauseObservation))
+                        time.sleep(0.35)
+                    elif windowed_input.is_game_foreground():
+                        if logStats:
+                            lastPlaythroughStats['time'].append(('stop', time.time()))
+                        customPrint('PAUSE_RECOVERY confirmed pause labels; Auto Start=' + str(pauseObservation.get('enabled', 'unknown')) + '; resuming with Esc')
                         sendKey('{Esc}')
                 else:
                     customPrint('DEBUG pause screen unconfirmed; waiting for next frame')

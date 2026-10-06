@@ -711,3 +711,10 @@ Start only after the current repair work is complete, as requested on 5 October.
 
 - [x] Remove the redundant preferences/queue reset, its confirmation dialog, handlers and unused styles. Theme selection already saves automatically; queued runs are retained. Keep Appearance, Game & VM, and Help & support as the Settings sections.
 - [x] Refresh setup status on every Settings visit through the existing single-request guard. Hide setup/update/advanced controls until their availability is known. Focused setup state checks and JavaScript syntax checks pass; the refreshed local Settings page shows the removed control is absent.
+
+
+### Pause evidence and manual-round foundation — 6 October
+
+- [x] Correct Auto Start's lime-rail detector using measured BGR ranges from both existing pause calibrations. Decode known on/off separately from full pause-menu confirmation; unknown switch states provide no toggle coordinate.
+- [x] Strengthen the actual double-frame pause recovery branch with heading/label evidence before Esc. Seven offline regressions pass, including the real branch withholding input on absent menu evidence. Original recordings are unchanged.
+- [ ] Finish manual-round parser, controller, checkpoint and importer support. Confirm switch changes from fresh observations before admitting plans with `change_autostart`/`end_round`; synthetic off artwork is not live gameplay proof.
