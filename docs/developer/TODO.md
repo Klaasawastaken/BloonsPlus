@@ -428,3 +428,10 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [x] Close the round-start pending-checkpoint window with strict action/index/speed validation; current source bindings still replace saved bindings. Eleven focused resume checks and six round-start checks pass.
 
 - Cubism Magic Monkeys Only earned: VICTORY_CONFIRMED at round 80 (02:28:02), controller clear confirmation, and authoritative VM save Cubism.difficult.Hard.modes.MagicOnly=1049871. Never replay this owned medal. Preview 34 published and its boundary updater is live; deployment remains pending until Double HP MOABs ends.
+
+## Tower and upgrade control prerequisites (2026-10-06)
+
+- [x] Trace the unbound-path fallback in applyGameHotkeys: nonempty saved tower controls retained default path keys when a saved path was missing or unsupported.
+- [x] Replace that fallback with None, preserving defaults only for absent/empty saved sections. Gate required placement/hero/path controls using the replay key whitelist; unused paths do not block.
+- [x] Seven focused Python control checks and JS readiness checks pass; no recording or game/save file changed.
+- [ ] Publish Preview 35 and deploy after a healthy replay boundary. The active Cubism Double HP MOABs replay remains untouched.

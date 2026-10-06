@@ -1,3 +1,9 @@
+## Preview 35 — Required tower and upgrade controls
+
+- Check saved placement keys for required towers and heroes before starting a route.
+- Check only the upgrade paths needed by each candidate, with explicit readiness reasons.
+- Remove guessed default upgrade keys when the save marks a path unbound or unsupported.
+
 ## Preview 34 — Observe recorded round starts
 
 - Add observed startup commands with input ownership, pre-input checkpoints and fresh-binding resume.

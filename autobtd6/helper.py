@@ -1615,9 +1615,7 @@ def applyGameHotkeys(raw):
         for saveName, towerType in _SAVE_TOWER_NAMES.items():
             keybinds['monkeys'][towerType] = key(monkeys, saveName)
         for index in range(3):
-            bound = key(monkeys, 'Upgrade Path ' + str(index + 1))
-            if bound is not None:
-                keybinds['path'][str(index)] = bound
+            keybinds['path'][str(index)] = key(monkeys, 'Upgrade Path ' + str(index + 1))
         keybinds['others']['retarget'] = key(monkeys, 'ChangeTargeting')
         keybinds['others']['special'] = key(monkeys, 'TowerSpecial')
     if gameplay:

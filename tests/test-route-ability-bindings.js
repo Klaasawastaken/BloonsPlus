@@ -45,3 +45,27 @@ const controlMissing = rank({ PlayFastForward: { path: '' } }, [], true).find(en
 assert.equal(controlMissing.profileReadiness.missingControlBindings, 1);
 assert.match(controlMissing.profileReadiness.controlIssues[0], /Play\/Fast Forward/);
 assert.equal(rank({ PlayFastForward: { path: '<Keyboard>/Space' } }, [], true)[0].profileReadiness.missing, 0);
+
+// Only upgrade paths actually required by the candidate affect readiness.
+function rankPaths(monkeys, towers, hero = null) {
+  const fn = vm.runInNewContext(rankSource + ';rankCandidatesForProfile', {
+    readLocalProgress: () => ({ available: true, gameHotkeys: { monkeys: monkeys && Object.keys(monkeys).length ? { NinjaMonkey: { path: '<Keyboard>/n' }, ...monkeys } : monkeys } }),
+    fs: { readFileSync: () => '{}' }, path, PROJECT_ROOT: '.',
+  });
+  return fn([{ requirements: { towers, hero } }])[0].profileReadiness;
+}
+for (const binding of ['', '<Keyboard>/Escape', '<Mouse>/leftButton']) {
+  const readiness = rankPaths({ 'Upgrade Path 1': { path: binding } }, { ninja: [1, 0, 0] });
+  assert.equal(readiness.missingControlBindings, 1);
+  assert.match(readiness.controlIssues[0], /Upgrade Path 1/);
+}
+assert.equal(rankPaths({ 'Upgrade Path 1': { path: '<Keyboard>/1' } }, { ninja: [2, 0, 0] }).missingControlBindings, 0);
+assert.equal(rankPaths({ 'Upgrade Path 1': { path: '' } }, { ninja: [0, 0, 0] }).missingControlBindings, 0);
+assert.equal(rankPaths({}, { ninja: [5, 5, 5] }).missingControlBindings, 0, 'absent section retains legacy defaults');
+
+assert.equal(rankPaths({ NinjaMonkey: { path: '' } }, { ninja: [0, 0, 0] }).missingControlBindings, 1);
+assert.equal(rankPaths({ NinjaMonkey: { path: '<Mouse>/leftButton' } }, { ninja: [0, 0, 0] }).missingControlBindings, 1);
+const heroBlocked = rankPaths({ Heroes: { path: '' } }, {}, 'sauda');
+assert.equal(heroBlocked.missingControlBindings, 1);
+assert.match(heroBlocked.controlIssues[0], /Hero placement/);
+assert.equal(rankPaths({ Heroes: { path: '<Keyboard>/u' } }, {}, 'sauda').missingControlBindings, 0);

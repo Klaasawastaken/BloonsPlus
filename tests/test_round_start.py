@@ -78,6 +78,28 @@ class RoundStartTests(unittest.TestCase):
         state.record_issued_action(dict(action='start_round', speed='fast', playStateConfirmed=True))
         self.assertEqual(state.events[-1]['status'], 'play-state-confirmed')
 
+    def test_saved_unbound_upgrade_path_does_not_keep_default(self):
+        source = (ROOT / 'autobtd6/helper.py').read_text()
+        tree = ast.parse(source)
+        names = {'_UNITY_SCANCODES', '_UNITY_NAMED', '_UNITY_MODIFIERS', '_SAVE_TOWER_NAMES'}
+        selected = [node for node in tree.body if
+                    isinstance(node, ast.Assign) and any(isinstance(t, ast.Name) and t.id in names for t in node.targets)
+                    or isinstance(node, ast.FunctionDef) and node.name in ('unityBindingToKey', 'applyGameHotkeys')]
+        ctx = dict(json=json, keybinds={'monkeys': {}, 'path': {'0': '1', '1': '2', '2': '3'},
+                                     'others': {'play': 'Space'}, 'abilities': {}})
+        exec(compile(ast.Module(body=selected, type_ignores=[]), '<bindings>', 'exec'), ctx)
+        apply = ctx['applyGameHotkeys']
+        apply(json.dumps({'monkeys': {'NinjaMonkey': {'path': '<Keyboard>/n'},
+                                      'Upgrade Path 1': {'path': ''},
+                                      'Upgrade Path 2': {'path': '<Keyboard>/2'},
+                                      'Upgrade Path 3': {'path': '<Mouse>/leftButton'}}}))
+        self.assertIsNone(ctx['keybinds']['path']['0'])
+        self.assertEqual(ctx['keybinds']['path']['1'], 3)
+        self.assertIsNone(ctx['keybinds']['path']['2'])
+        ctx['keybinds']['path']['0'] = 'legacy'
+        apply(json.dumps({'monkeys': {}}))
+        self.assertEqual(ctx['keybinds']['path']['0'], 'legacy')
+
     def test_actual_replay_gate_and_automatic_input_ownership(self):
         source = (ROOT / 'autobtd6/replay.py').read_text()
         a = source.index('                roundStartInputIssued = False')
