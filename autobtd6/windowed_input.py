@@ -137,7 +137,8 @@ def game_client():
                         _cached_hwnd = None
                     else:
                         return point.x, point.y, width, height
-                last_error = 'BTD6 window is minimized'
+                else:
+                    last_error = 'BTD6 window is minimized'
             else:
                 last_error = 'Could not read BTD6 client area'
             _cached_hwnd = None

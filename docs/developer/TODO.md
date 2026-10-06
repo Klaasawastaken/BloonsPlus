@@ -4,6 +4,8 @@ Updated 6 October 2026. Checkboxes require evidence, not merely code. Preserve o
 
 ## Current repair pass
 
+- [x] Reproduce client-geometry error masking: 304x201 and 320x180 windows incorrectly ended as minimized. Preserve transition/not-ready reasons and dimensions; reserve minimized for a zero-area/iconic client. Four actual-function geometry checks pass. No live capture failure or complete installer recovery claim.
+
 - Confirmed Bloody Puddles Alternate Bloons Rounds at round 80 (6 October 04:58:22): replay VICTORY_CONFIRMED, controller clear confirmation and authoritative VM save Hard/AlternateBloonsRounds=1049865. Never replay the earned medal. Preview 51 updater then completed at guest idle and confirmed the missing-medal sweep restarted.
 
 - [x] Validate resumed tower/history ledgers before atomic replacement: malformed objects, entries, tiers, positions or history must not crash later optional purchases or partially replace state. Copy only matching run/map/mode data. Four corruption/copy tests and eleven resume checks pass; a read-only current VM snapshot with eighteen towers is accepted. No actual interrupted-run recovery claim.
