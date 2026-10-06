@@ -404,6 +404,9 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [x] Retain the Glacial Trail Easy candidate body with a review header/lossy filename. Mark its stale installed name lossy because installer updates preserve recordings. Original CHIMPS recordings unchanged.
 - [x] Updated audit: 83 source files, 15 affected (14 lossy, one rejected), including six unregistered wait operations. Eleven importer, four audit, eight repeated-ability and ability-binding checks pass. Two complete repeating-ability candidates remain; no recordings regenerated or gameplay launched for validation.
 - [x] Preview 33 published; packaged controller matches reviewed source and publication guard reports no findings.
-- [ ] Deploy Preview 33 at the Cubism Primary Only terminal boundary. Stop-after confirmed at round 38; updater waits for explicit idle, installs, then resumes missing medals. Review intended Glacial Trail freezing/timing before restoring a complete candidate.
+- [x] Preview 33 update completed at the Cubism Primary Only terminal boundary; explicit guest idle preceded installation and authoritative guest confirms the resumed missing-medal sweep. No healthy run interrupted.
+- [ ] Review intended Glacial Trail freezing/timing before restoring a complete candidate.
 
 - Refreshed offline coverage after the source review: 86 catalog maps, 509 of 1,204 map/mode pairs covered, 695 gaps and five maps with no route. These are route-catalog counts, not victory proof. Remaining coverage is substantial; V1.0 is not complete.
+
+- Cubism Primary Only earned: VICTORY_CONFIRMED at round 40 (02:09:55); authoritative VM save Cubism.difficult.Easy.modes.PrimaryOnly=1049225. Never replay this owned medal. Preview 33 updater finished and confirmed resumed sweep at 02:11.
