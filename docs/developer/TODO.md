@@ -8,7 +8,7 @@ Updated **6 October 2026**. This is the readable, active task list. Technical no
 - **Sweep:** running in the VM. Dark Castle Military Monkeys Only was confirmed by victory and the saved medal; Underground CHIMPS is the current missing-medal replay. The previous Bloody Puddles interruption remains under investigation.
 - **Development alongside gameplay:** installer/setup polish, app polish, folder organization and website redesign. Check the sweep every five minutes and diagnose meaningful failures.
 - **Background work:** improve routes and placement from missing-medal gameplay evidence; retain failures and skip owned medals.
-- **Latest release:** Preview 87 is published with clearer installer stages, healthy Python reuse and less background card rendering. The VM retains Preview 86's round-boundary fix. Live cash-recovery evidence remains open.
+- **Latest release:** Preview 88 is published with correct developer VM installer selection and healthy Python reuse before package-install disk-space checks. The VM retains Preview 86's round-boundary fix. Live cash-recovery evidence remains open.
 
 ## Work order
 
@@ -91,7 +91,7 @@ The sweep earns missing medals alongside development. Deploy changes together af
 - [ ] **S-07 — Check map ordering.** Expert to Beginner, shuffled within categories, without repeating excluded candidates.
 - [ ] **S-08 — Refresh coverage and architecture audit.** Complete before extending the production overhaul. Eligibility is not victory evidence.
 
-**Last recorded offline coverage:** 526 of 1,204 map/mode pairs eligible; 678 gaps and three maps without eligible routes. Manual source schedules now require the target's starting round unless an exact-content target win exists. Eligibility does not establish winning strategies or account prerequisites.
+**Offline coverage refreshed 6 October:** 526 of 1,204 map/mode pairs eligible; 678 gaps and three maps without eligible routes. Manual source schedules now require the target's starting round unless an exact-content target win exists. Eligibility does not establish winning strategies or account prerequisites.
 
 ## 3. Progress and VM connection
 
@@ -121,7 +121,7 @@ The sweep earns missing medals alongside development. Deploy changes together af
 - [ ] **I-05 — Add trusted code signing when available.** Unsigned installers may still trigger SmartScreen.
 - [ ] **I-06 — Meet production acceptance gates.** Complete the specification before publishing **v1.0.0**; previews do not establish production readiness.
 
-**Latest published:** [Preview 87](https://github.com/Klaasawastaken/BloonsPlus/releases/tag/v0.1.0-preview.87), installer 246,300,076 bytes. Verified 297 Python checks, ten setup-transport checks, 48 JavaScript check files and 28 packaged-source comparisons; publication guard reported zero findings. Dark Castle Military Monkeys Only was confirmed by victory and its saved medal; the sweep moved on to Underground CHIMPS. Clean-machine installation and live recovery evidence remain open.
+**Latest published:** [Preview 88](https://github.com/Klaasawastaken/BloonsPlus/releases/tag/v0.1.0-preview.88), installer 246,302,496 bytes. Verified 301 Python checks, ten setup-transport checks, 49 JavaScript check files and 29 packaged-source comparisons; publication guard reported zero findings. Dark Castle Military Monkeys Only was confirmed by victory and its saved medal; the sweep moved on to Underground CHIMPS. Clean-machine installation and live recovery evidence remain open.
 
 ## 5. App polish and files
 
