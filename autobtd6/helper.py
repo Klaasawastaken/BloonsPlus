@@ -228,6 +228,7 @@ def writeBTD6InstructionsFile(
     fp = open(filename, "w")
 
     for action in thisConfig["steps"]:
+        selectionSuffix = (" at " + tupleToStr(action['pos']) if 'selectionPos' in action else "")
         if action["action"] == "place":
             fp.write(
                 "place "
@@ -254,6 +255,7 @@ def writeBTD6InstructionsFile(
                     if "discount" in action
                     else ""
                 )
+                + selectionSuffix
                 + "\n"
             )
         elif action["action"] == "retarget":
@@ -261,12 +263,13 @@ def writeBTD6InstructionsFile(
                 "retarget "
                 + action["name"]
                 + (" to " + tupleToStr(action["to"]) if "to" in action else "")
+                + selectionSuffix
                 + "\n"
             )
         elif action["action"] == "special":
-            fp.write("special " + action["name"] + "\n")
+            fp.write("special " + action["name"] + selectionSuffix + "\n")
         elif action["action"] == "sell":
-            fp.write("sell " + action["name"] + "\n")
+            fp.write("sell " + action["name"] + selectionSuffix + "\n")
         elif action["action"] == "remove":
             cost = ""
             while True:
@@ -456,6 +459,11 @@ def parseBTD6InstructionsFile(
                 "cost": 0,
             })
             continue
+        selectionPos = None
+        selectionMatch = re.fullmatch(r'((?:upgrade|retarget|special|sell)\s.+) at (\d+), (\d+)', line)
+        if selectionMatch:
+            line = selectionMatch.group(1)
+            selectionPos = (int(selectionMatch.group(2)), int(selectionMatch.group(3)))
         matches = re.search(
             r"^(?P<action>place|upgrade|retarget|special|sell|remove|round|speed|cash) ?(?P<type>[a-z_]+)? (?P<name>\w+)(?: (?:(?:at|to) (?P<x>\d+), (?P<y>\d+))?(?:path (?P<path>[0-2]))?)?(?: for (?P<price>\d+|\?\?\?))?(?: with (?P<discount>\d{1,2}|100)% discount)?$",
             line,
@@ -742,6 +750,11 @@ def parseBTD6InstructionsFile(
 
 
         if len(newSteps):
+            if selectionPos is not None:
+                for step in newSteps:
+                    if step['action'] in ('upgrade', 'retarget', 'special', 'sell'):
+                        step['pos'] = selectionPos
+                        step['selectionPos'] = selectionPos
             newMapConfig["steps"] += newSteps
 
     newMapConfig["monkeys"] = monkeys

@@ -646,3 +646,12 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [ ] Deploy at a replay boundary and check the current VM still resolves its profile. No Steam/game files or account preferences are modified; no identifiers are included in public notes.
 
 - Confirmed Glacial Trail Hard on 6 October: VICTORY_CONFIRMED at 06:14:20, round 80, controller clear confirmed and authoritative VM Hard/Standard=1049864. The dedicated Hard plan earned the medal after the CHIMPS fallback had lost at round 23. Never replay this earned medal. Preview 61 boundary deployment started after the completed run; Preview 64 remains isolated until that worker releases the reserved payload.
+
+
+### Moving tower selection and compact Settings — 6 October
+
+- [x] Preserve explicit BTD6bot selection-coordinate updates on upgrade, targeting, special and sell commands. Keep placement coordinates separate and preserve the selector across later commands. Three separate candidates pass the full parser; original recordings are unchanged.
+- [x] Block three audited Sanctuary copies that omit source selection updates, scoped to exact content hashes and without deleting prior failures. Exclude round-3/6 Sanctuary and Geared openings from round-1 reuse unless that exact target mode has a confirmed local win. Sanctuary Medium remains an honest route gap.
+- [x] Rework Settings into compact Appearance, Game connection and Help sections. Keep automatic profile detection out of manual preferences; hide optional Windows installation controls when unnecessary and collapse reset/checklist details. Remove conflicting layout overrides.
+- [x] Retain failed setup/update requests through status refreshes and reject concurrent duplicate setup actions. Focused offline checks pass; the actual dark-theme Settings view is visually reviewed.
+- [ ] Deploy at the next completed replay boundary. New selection candidates remain unverified in gameplay; never replay the already earned Tricky Tracks Hard medal to test one.

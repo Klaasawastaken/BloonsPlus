@@ -237,6 +237,8 @@ class GameState:
             observation = action.get('upgradeObservation', {})
             if observation.get('status') == 'confirmed':
                 tower['upgrades'] = list(observation['after'])
+                if action.get('selectionPos') is not None:
+                    tower['position'] = list(action['pos'])
             else:
                 tower['upgrades'][path] = min(5, tower['upgrades'][path] + 1)
         event = {

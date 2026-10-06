@@ -2,6 +2,8 @@
 import hashlib
 import importlib.util
 import json
+import re
+import sys
 from collections import Counter
 from pathlib import Path
 
@@ -25,7 +27,9 @@ def audit():
         try:
             route = importer.convert_btd6bot(source)
             verdict = dict(status='source-convertible' if not route.lossy else 'source-omissions',
-                           omissions=sorted(route.lossy))
+                           omissions=sorted(route.lossy), requiredSelectionCommands=sum(
+                               bool(re.match(r'^(upgrade|retarget|special|sell)\s.+ at \d+, \d+$', line))
+                               for line in route.body()))
         except importer.Unsupported as error:
             verdict = dict(status='source-unsupported', reason=str(error))
         sources[(slug, identity[1])] = dict(verdict, source=source.relative_to(ROOT).as_posix(),
@@ -42,8 +46,11 @@ def audit():
         elif 'fromImpoppable' in flags:
             source_mode = 'impoppable'
         verdict = sources.get((fields[0], source_mode), dict(status='source-unresolved'))
+        selectors = sum(bool(re.match(r'^(upgrade|retarget|special|sell)\s.+ at \d+, \d+$', line))
+                        for line in file.read_text(encoding='utf-8-sig').splitlines())
         findings.append(dict(verdict, file=file.name, map=fields[0], targetMode=fields[1],
             sourceMode=source_mode, compatibilityCopy='compat' in flags,
+            selectionCommands=selectors, missingSelectionCommands=selectors < verdict.get('requiredSelectionCommands', 0),
             routeHash=hashlib.sha256(file.read_bytes()).hexdigest()))
     return dict(scanned=len(findings), counts=dict(Counter(item['status'] for item in findings)),
         findings=findings,
@@ -51,4 +58,12 @@ def audit():
 
 
 if __name__ == '__main__':
-    print(json.dumps(audit(), indent=2))
+    result = audit()
+    if '--write-selection-guard' in sys.argv:
+        guard = {item['file']:dict(hash=item['routeHash'], reason='source selection-position updates omitted')
+                 for item in result['findings'] if item['missingSelectionCommands']}
+        target = ROOT / 'data/catalogs/route-selection-guard.json'
+        target.write_text(json.dumps(guard, indent=2) + '\n', encoding='utf-8')
+        print(json.dumps(dict(blockedSelectionCopies=len(guard))))
+    else:
+        print(json.dumps(result, indent=2))

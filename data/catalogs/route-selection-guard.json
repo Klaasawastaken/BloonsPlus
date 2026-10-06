@@ -1,0 +1,14 @@
+{
+  "sanctuary#easy#1920x1080#converted#source_btd6bot.btd6": {
+    "hash": "4fd306580686db30d769261dd3e48e43cea94ef64f2744fb4e37b5f85b11df00",
+    "reason": "source selection-position updates omitted"
+  },
+  "sanctuary#hard#1920x1080#converted#source_btd6bot.btd6": {
+    "hash": "86d6707ab1f0e128537007c208d0902ffcffc61dc61a2eb85c338e26daa09ebf",
+    "reason": "source selection-position updates omitted"
+  },
+  "sanctuary#medium#1920x1080#source_btd6bot#compat#from_hard.btd6": {
+    "hash": "2b6939abeb6e3d704472eb5ab60de7167c47644174245abf1e10d823298ccee1",
+    "reason": "source selection-position updates omitted"
+  }
+}

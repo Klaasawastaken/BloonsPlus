@@ -16,7 +16,7 @@
   try { hiddenByUser = sessionStorage.getItem('setupBarHidden') === '1'; } catch { /* storage blocked */ }
   let firstRunSeen = false;
   try { firstRunSeen = localStorage.getItem('bloonsSetupPrepageSeen') === '1'; } catch { /* storage blocked */ }
-  let timer = null, last = null;
+  let timer = null, last = null, pollPending = false, actionPending = false, actionError = '';
   const downloadHelp = document.createElement('a');
   downloadHelp.href = 'https://www.microsoft.com/software-download/windows11';
   downloadHelp.target = '_blank'; downloadHelp.rel = 'noopener noreferrer';
@@ -34,12 +34,12 @@
       $('vm-settings-description').textContent = status.applicable
         ? 'Connect your game, finish setup or update Bloons+.'
         : 'VM setup is managed from your main PC.';
-      settingsStatus.textContent = setupJob.error ? `Setup stopped: ${setupJob.error}`
+      settingsStatus.textContent = actionError || (setupJob.error ? `Setup stopped: ${setupJob.error}`
         : setupJob.running ? (setupJob.activity || 'Setting up the VM…')
         : status.allDone ? 'Ready: VM connected, Steam signed in, and BTD6 installed.'
-        : next.message || status.reason || 'Checking setup…';
-      settingsStatus.classList.toggle('error', !!setupJob.error);
-      settingsChip.textContent = !status.applicable ? 'LOCAL' : setupJob.running ? 'WORKING' : setupJob.error ? 'NEEDS ATTENTION' : status.allDone ? 'READY' : 'ACTION NEEDED';
+        : next.message || status.reason || 'Checking setup…');
+      settingsStatus.classList.toggle('error', !!setupJob.error || !!actionError);
+      settingsChip.textContent = actionError ? 'NEEDS ATTENTION' : !status.applicable ? 'LOCAL' : setupJob.running ? 'WORKING' : setupJob.error ? 'NEEDS ATTENTION' : status.allDone ? 'READY' : 'ACTION NEEDED';
       settingsStart.hidden = !status.applicable || status.allDone;
       const advanced = $('vm-settings-advanced');
       const needsIso = status.applicable && !(status.steps || []).some(step => step.id === 'vm' && step.done) && !(status.steps || []).some(step => step.id === 'iso' && step.done);
@@ -68,9 +68,9 @@
         item.textContent = `${step.done ? '✓' : '○'} ${step.title} · ${step.detail || 'Pending'}`;
         return item;
       }));
-      settingsStart.disabled = !status.applicable || status.allDone || !!setupJob.running || !next.button;
+      settingsStart.disabled = actionPending || !status.applicable || status.allDone || !!setupJob.running || !next.button;
       settingsStart.textContent = setupJob.running ? 'Working…' : setupJob.error && next.button ? 'Retry setup' : next.button || (status.allDone ? 'Setup complete' : 'Restart required');
-      if (settingsUpdate) settingsUpdate.disabled = !status.applicable || !!setupJob.running || !(status.vm?.state === 'online' || status.allDone);
+      if (settingsUpdate) settingsUpdate.disabled = actionPending || !status.applicable || !!setupJob.running || !(status.vm?.state === 'online' || status.allDone);
     }
     const show = status.applicable && !status.allDone && !hiddenByUser;
     bar.hidden = !show;
@@ -95,7 +95,7 @@
     }));
     button.hidden = !next.button;
     button.textContent = job.running ? 'Working…' : job.error ? 'Retry this step' : next.button || '';
-    button.disabled = !!job.running;
+    button.disabled = actionPending || !!job.running;
     isoInput.hidden = !(next.isoInput && !job.running);
     downloadHelp.hidden = isoInput.hidden;
     isoInput.placeholder = 'Or paste the path to an existing Windows 11 ISO';
@@ -115,6 +115,8 @@
   }
 
   async function poll() {
+    if (pollPending) return;
+    pollPending = true;
     clearTimeout(timer);
     try {
       const response = await fetch('/api/setup/status', { cache: 'no-store', signal: AbortSignal.timeout(12000) });
@@ -122,8 +124,8 @@
       render(await response.json());
     } catch {
       if (settingsStatus) {
-        settingsStatus.textContent = 'Waiting for the Bloons+ controller to reconnect…';
-        settingsStatus.classList.remove('error');
+        settingsStatus.textContent = actionError || 'Waiting for the Bloons+ controller to reconnect…';
+        settingsStatus.classList.toggle('error', !!actionError);
       }
       if ($('vm-settings-check-count')) $('vm-settings-check-count').textContent = 'Last known state';
       if (settingsProgress) settingsProgress.hidden = true;
@@ -135,11 +137,14 @@
       button.disabled = true;
     }
     // Fast while setup works, slower otherwise; keep checking after completion so the bar returns if the VM stops.
+    pollPending = false;
     const delay = last?.job?.running ? 2000 : last && (last.allDone || !last.applicable) ? 30000 : 5000;
     timer = setTimeout(poll, delay);
   }
 
   button.addEventListener('click', async () => {
+    if (actionPending) return;
+    actionPending = true; actionError = '';
     firstRunSeen = true;
     bar.classList.remove('setup-prepage');
     try { localStorage.setItem('bloonsSetupPrepageSeen', '1'); } catch { /* storage blocked */ }
@@ -151,8 +156,10 @@
       });
       if (!response.ok) throw new Error((await response.json().catch(() => ({}))).error || `HTTP ${response.status}`);
     } catch (error) {
+      actionError = `Could not start setup: ${error.message}`;
       activity.hidden = false; activity.textContent = `Could not start setup: ${error.message}`; activity.classList.add('error');
     }
+    actionPending = false;
     poll();
   });
 
@@ -163,19 +170,25 @@
   });
 
   settingsStart?.addEventListener('click', async () => {
+    if (actionPending) return;
+    actionPending = true; actionError = '';
     settingsStart.disabled = true;
     try {
       const response = await fetch('/api/setup/start', { method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(!$('vm-settings-iso-field')?.hidden && settingsIso.value.trim() ? { isoPath: settingsIso.value.trim() } : {}) });
       if (!response.ok) throw new Error((await response.json().catch(() => ({}))).error || `HTTP ${response.status}`);
     } catch (error) {
-      settingsStatus.textContent = `Could not start setup: ${error.message}`;
+      actionError = `Could not start setup: ${error.message}`;
+      settingsStatus.textContent = actionError;
       settingsStatus.classList.add('error');
     }
+    actionPending = false;
     poll();
   });
   settingsRefresh?.addEventListener('click', poll);
   settingsUpdate?.addEventListener('click', async () => {
+    if (actionPending) return;
+    actionPending = true; actionError = '';
     settingsUpdate.disabled = true;
     if (settingsStatus) { settingsStatus.textContent = 'Sending the latest Bloons+ build to the VM…'; settingsStatus.classList.remove('error'); }
     try {
@@ -183,13 +196,14 @@
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || `Update failed (${response.status})`);
       if (settingsStatus) settingsStatus.textContent = 'VM update started. This page will show its progress.';
-      await poll();
     } catch (error) {
+      actionError = `Could not update VM: ${error.message}`;
       if (settingsStatus) { settingsStatus.textContent = error.message; settingsStatus.classList.add('error'); }
       // A failed update may also mean the controller disconnected. Recheck
       // availability before enabling another update request.
-      await poll();
     }
+    actionPending = false;
+    await poll();
   });
 
   poll();

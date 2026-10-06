@@ -165,7 +165,7 @@ class Route:
         if up[path] > 5 or sum(v > 0 for v in up) > 2 or sum(v > 2 for v in up) > 1:
             raise Unsupported(f"invalid crosspath {up} on {name}")
         state["up"] = up
-        self.lines.append(f"upgrade {name} path {path}")
+        self.lines.append(f"upgrade {name} path {path}" + self.selection_suffix(name))
 
     def upgrade_to(self, source_name, target):
         """Upgrade to an absolute crosspath, buying top, middle then bottom tiers (source order)."""
@@ -184,9 +184,22 @@ class Route:
         name = self.tower(source_name)
         for i in range(times):
             if to and i == times - 1:
-                self.lines.append(f"retarget {name} to {to[0]}, {to[1]}")
+                self.lines.append(f"retarget {name} to {to[0]}, {to[1]}" + self.selection_suffix(name))
             else:
-                self.lines.append(f"retarget {name}")
+                self.lines.append(f"retarget {name}" + self.selection_suffix(name))
+
+    def selection_suffix(self, name):
+        point = self.towers[name].get('selectionPos')
+        return f' at {point[0]}, {point[1]}' if point is not None else ''
+
+    def update_selection(self, source_name, point):
+        if point is None:
+            return  # Source cpos=None keeps the previously selected coordinate.
+        if (not isinstance(point, (tuple, list)) or len(point) != 2
+                or any(type(value) not in (int, float) or not 0 <= value < 1 for value in point)):
+            raise Unsupported('cpos needs two normalized coordinates in [0, 1)')
+        name = self.tower(source_name)
+        self.towers[name]['selectionPos'] = self.point(point[0] * W, point[1] * H)
 
     def set_target(self, source_name, target):
         """Standard First/Last/Close/Strong cycle; AutoBTD6 retarget = one Tab (forward)."""
@@ -199,7 +212,7 @@ class Route:
             if target.lower() == "smart" and 2 <= state["up"][2] <= 4:
                 current = state.get("spikeTarget", "normal")
                 if current == "normal":
-                    self.lines.extend([f"retarget {name}"] * 2)
+                    self.lines.extend([f"retarget {name}" + self.selection_suffix(name)] * 2)
                     state["spikeTarget"] = "smart"
                     return
                 if current == "smart":
@@ -219,14 +232,15 @@ class Route:
         steps = (TARGETS.index(target) - state["target"]) % 4
         state["target"] = TARGETS.index(target)
         for _ in range(steps):
-            self.lines.append(f"retarget {name}")
+            self.lines.append(f"retarget {name}" + self.selection_suffix(name))
 
     def special(self, source_name):
-        self.lines.append(f"special {self.tower(source_name)}")
+        name = self.tower(source_name)
+        self.lines.append(f"special {name}" + self.selection_suffix(name))
 
     def sell(self, source_name):
         name = self.tower(source_name)
-        self.lines.append(f"sell {name}")
+        self.lines.append(f"sell {name}" + self.selection_suffix(name))
         del self.alias[source_name]
 
     def round(self, number):
@@ -390,7 +404,9 @@ def btd6bot_statement(route, stmt):
     owner, action = call_parts(stmt.value)
     args, kwargs = stmt.value.args, {k.arg: k.value for k in stmt.value.keywords}
     if "cpos" in kwargs:
-        raise Unsupported("tower moved after placement (cpos): AutoBTD6 clicks fixed positions")
+        if owner is None or action not in ('upgrade', 'target', 'special', 'sell'):
+            raise Unsupported('cpos requires a supported tower command')
+        route.update_selection(owner, literal(kwargs.pop('cpos')))
     if owner is None:
         if action == "wait":
             timer = literal(args[0]) if args else literal(kwargs['timer']) if 'timer' in kwargs else 0
@@ -1169,6 +1185,39 @@ def emit_spike_target_candidates():
     print(json.dumps({'spikeTargetCandidates': written, 'parserErrors': errors}, indent=2))
 
 
+def emit_selection_candidates():
+    """Keep source cpos selection updates in separate complete candidates."""
+    written = []
+    for source in sorted((ROOT / 'btd6bot/btd6bot/plans').glob('*.py')):
+        try:
+            route = convert_btd6bot(source)
+        except Unsupported:
+            continue
+        lines = route.body()
+        selectors = [line for line in lines if re.match(r'^(upgrade|retarget|special|sell)\s.+ at \d+, \d+$', line)]
+        if route.lossy or not selectors:
+            continue
+        name = f'{route.map}#{route.mode}#{W}x{H}#converted#source_{route.source}#selection-preserved.btd6'
+        info = SOURCES[route.source]
+        content = '\n'.join(header([
+            f"source: {info['repo']} (license {info['license']}) commit {info['commit']}",
+            'source file: ' + route.source_file,
+            'generator: ' + GENERATOR,
+            'Source selection-position updates and their persistence preserved. No gameplay commands omitted.',
+            'Candidate is unverified until victory and saved medal are confirmed.',
+        ]) + lines) + '\n'
+        target = PT / name
+        if target.exists() and target.read_text(encoding='utf-8') != content:
+            raise RuntimeError('Refusing to overwrite changed selection candidate: ' + name)
+        if not target.exists():
+            target.write_text(content, encoding='utf-8', newline='\n')
+        written.append(name)
+    errors = {name:error for name,error in validate(written).items() if error} if written else {}
+    if errors:
+        raise RuntimeError('Selection candidate parser errors: ' + json.dumps(errors))
+    print(json.dumps({'selectionCandidates':written,'parserErrors':errors}, indent=2))
+
+
 def audit_legacy_timing():
     """Read-only inventory of legacy timing omissions; never launch or rewrite routes."""
     files = sorted(PT.glob('*.btd6'))
@@ -1203,6 +1252,8 @@ if __name__ == "__main__":
         emit_speed_candidates()
     elif '--spike-target-candidates' in sys.argv:
         emit_spike_target_candidates()
+    elif '--selection-candidates' in sys.argv:
+        emit_selection_candidates()
     elif '--cursor-candidates' in sys.argv:
         emit_cursor_candidates()
     elif '--timing-candidates' in sys.argv:

@@ -130,9 +130,16 @@
 
 
     <section id="settings" class="view hidden" aria-labelledby="settings-title">
-      <div class="page-intro settings-intro"><div><h2 id="settings-title" class="sr-only">Settings preferences</h2><p>Your look, game connection and support — in one place.</p></div></div>
+      <div class="page-intro settings-intro"><div><h2 id="settings-title" class="sr-only">Settings preferences</h2><p>Make it yours. Keep your game connected.</p></div></div>
       <div class="settings-layout">
-        <div class="panel vm-settings-panel"><span class="settings-section-label">PLAY &amp; CONNECT</span>
+        <div class="panel settings-panel settings-appearance">
+          <div class="panel-title"><div><h3>Appearance</h3><p>Saved automatically on this device.</p></div></div>
+          <fieldset id="theme-setting" class="theme-choices"><legend class="sr-only">Choose your theme</legend>
+            <label class="theme-choice"><input type="radio" name="app-theme" value="light"><span class="theme-preview theme-preview-light" aria-hidden="true"><i></i><i></i><i></i></span><span class="theme-choice-label"><b>Light</b><small>Bright surfaces</small></span></label>
+            <label class="theme-choice"><input type="radio" name="app-theme" value="dark"><span class="theme-preview theme-preview-dark" aria-hidden="true"><i></i><i></i><i></i></span><span class="theme-choice-label"><b>Dark</b><small>Muted surfaces</small></span></label>
+          </fieldset>
+        </div>
+        <div class="panel vm-settings-panel">
           <div class="panel-title"><div><h3 id="vm-settings-title">VM connection</h3><p id="vm-settings-description">Setup, repairs and updates in one place.</p></div><span class="status-chip" id="vm-settings-chip">CHECKING</span></div>
           <div id="vm-settings-status" class="vm-settings-status" role="status">Checking this PC and the VM…</div>
           <div id="vm-settings-progress" class="settings-progress" role="progressbar" aria-label="Game setup progress" aria-valuemin="0" aria-valuemax="100" hidden><span></span></div>
@@ -142,15 +149,9 @@
           <details class="settings-subdetails" id="vm-settings-advanced"><summary>Advanced · Windows installation</summary><label class="field" id="vm-settings-iso-field"><span>Use your own Windows 11 ISO</span><input id="vm-settings-iso" type="text" placeholder="Full path to an existing ISO" aria-describedby="vm-settings-iso-hint"></label><p class="field-hint" id="vm-settings-iso-hint">Optional. Leave empty to download from Microsoft when creating a VM.</p></details>
           <div class="settings-connection-footer"><button class="text-button settings-recheck" id="vm-settings-refresh">Check connection</button><span id="vm-settings-update-hint">Update from your main PC between replays.</span></div>
         </div>
-        <div class="panel settings-panel settings-appearance">
-          <div class="panel-title"><div><h3>Appearance</h3><p>Choose a look. Changes save automatically.</p></div></div>
-          <fieldset id="theme-setting" class="theme-choices"><legend class="sr-only">Choose your theme</legend>
-            <label class="theme-choice"><input type="radio" name="app-theme" value="light"><span class="theme-preview theme-preview-light" aria-hidden="true"><i></i><i></i><i></i></span><span class="theme-choice-label"><b>Light</b><small>Bright surfaces</small></span></label>
-            <label class="theme-choice"><input type="radio" name="app-theme" value="dark"><span class="theme-preview theme-preview-dark" aria-hidden="true"><i></i><i></i><i></i></span><span class="theme-choice-label"><b>Dark</b><small>Muted surfaces</small></span></label>
-          </fieldset>
-        </div>
+
       </div>
-      <div class="panel settings-maintenance"><div class="settings-help-row"><div><h3>Help &amp; support</h3><p>Review a failed run or report a problem with a redacted log.</p></div><div class="form-row"><button class="quiet-button settings-support-link" data-go="logs"><b>Run logs</b><small>See what happened during a replay</small><span aria-hidden="true">↗</span></button><button class="quiet-button settings-support-link" id="settings-report-issue"><b>Report an issue</b><small>Review and share a redacted log</small><span aria-hidden="true">↗</span></button></div></div><details class="settings-subdetails settings-danger-zone"><summary>Advanced · reset app preferences</summary><div class="settings-reset-row"><div><b>Reset preferences &amp; queue</b><p>Clears this app’s preferences and queued runs. Your BTD6 saves and earned medals are kept.</p></div><button class="danger-button" id="delete-save">Reset preferences &amp; queue</button></div></details></div>
+      <div class="panel settings-maintenance"><div class="settings-help-row"><div><h3>Help &amp; support</h3><p>Review a failed run or report a problem with a redacted log.</p></div><div class="form-row"><button class="quiet-button settings-support-link" data-go="logs"><b>Run logs</b><small>See what happened during a replay</small><span aria-hidden="true">↗</span></button><button class="quiet-button settings-support-link" id="settings-report-issue"><b>Report an issue</b><small>Review and share a redacted log</small><span aria-hidden="true">↗</span></button></div></div><details class="settings-subdetails settings-danger-zone"><summary>Reset app preferences</summary><div class="settings-reset-row"><div><b>Reset preferences &amp; queue</b><p>Clears this app’s preferences and queued runs. Your BTD6 saves and earned medals are kept.</p></div><button class="danger-button" id="delete-save">Reset preferences &amp; queue</button></div></details></div>
     </section>
     <footer><span>Bloons+ <i>•</i> Prototype 0.1</span><span>Progress stays on this device</span></footer>
   </main>

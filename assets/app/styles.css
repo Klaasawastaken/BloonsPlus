@@ -348,49 +348,21 @@ body.boss-view-active{background:radial-gradient(ellipse at 95% 0,color-mix(in s
 .app-select-option:disabled>span:first-child{opacity:.65}
 @media(max-width:550px){#settings .theme-choices{grid-template-columns:1fr}#settings .theme-preview{width:70px;height:48px}#settings .settings-details>summary{padding:18px}}
 
-/* Preferences: clear everyday controls, quieter maintenance actions. */
-.settings-layout{display:grid;grid-template-columns:minmax(240px,.8fr) minmax(0,1.2fr);gap:20px;align-items:stretch}
-.settings-intro{align-items:center;gap:18px}.settings-intro>button{flex-shrink:0}
-.settings-connection-footer{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-top:18px}.settings-connection-footer>span{font-size:11px;line-height:1.6;color:var(--muted)}
-#settings .settings-connection-footer .settings-recheck{margin:0}
-#settings .settings-maintenance{box-shadow:none;background:var(--control-bg);border-color:var(--line)}
-@media(max-width:550px){.settings-intro{align-items:flex-start;flex-direction:column}}
+/* Settings: one layout, shared theme tokens, optional maintenance folded away. */
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-#settings .settings-layout>.panel{margin-top:0;margin-bottom:20px;min-width:0}
-#settings .settings-layout .theme-choices{grid-template-columns:1fr}
-#settings .settings-recheck{margin-top:18px;font-size:12px;color:var(--muted)}
-#settings .settings-maintenance .settings-reset-row{margin-top:20px;padding-top:20px;border-top:1px solid var(--line)}
-.settings-help-row{display:flex;align-items:center;justify-content:space-between;gap:24px}.settings-help-row p{color:var(--muted);font-size:12px;line-height:1.6;margin:6px 0 0}.settings-help-row button{flex-shrink:0}
-@media(max-width:550px){.settings-help-row,.settings-reset-row{flex-direction:column;align-items:flex-start;gap:14px}}
-#settings .vm-settings-actions{margin-top:18px}
-#settings .settings-subdetails{margin-bottom:0}
-@media(max-width:850px){.settings-layout{grid-template-columns:1fr}#settings .settings-layout .theme-choices{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:550px){#settings .settings-layout .theme-choices{grid-template-columns:1fr}}
-
-/* Keep destructive maintenance separate from ordinary preferences. */
-#settings .settings-danger-zone{margin-top:22px}
-#settings .settings-danger-zone>summary{color:var(--muted);font-size:12px}
-#settings .settings-danger-zone .settings-reset-row{border-top:0;margin-top:0;padding-top:14px}
-#settings .settings-maintenance .settings-help-row{padding-top:0}
-#settings .settings-help-row h3{margin:0;font-size:16px}
-#settings .settings-help-row .form-row{flex-shrink:0;flex-wrap:wrap;gap:10px}
+#settings .settings-intro{margin-bottom:20px}
+#settings .settings-layout{display:grid;grid-template-columns:minmax(240px,.7fr) minmax(0,1.3fr);gap:18px;align-items:start}
+#settings .settings-layout>.panel{margin:0;min-width:0}
+#settings .settings-layout .theme-choices{grid-template-columns:1fr;gap:10px}
+#settings .settings-appearance{padding:24px}
+#settings .theme-choice{border-radius:12px}
+#settings .vm-settings-actions{margin-top:18px;gap:10px}
 #settings #vm-settings-actions[hidden]{display:none}
+#settings .settings-subdetails{margin-bottom:0}
 #settings .settings-subdetails[open]>summary{color:var(--ink)}
-
-/* Error surfaces must outrank the normal Settings status card in both themes. */
-#settings .settings-layout{display:grid;grid-template-columns:minmax(0,1fr);gap:18px}
-#settings .settings-layout>.panel{margin:0}
-#settings .vm-settings-panel{order:-1}
-.settings-section-label{display:block;color:var(--muted);font-size:10px;font-weight:700;letter-spacing:.14em;margin-bottom:16px}
-#settings .settings-layout .theme-choices{grid-template-columns:repeat(2,minmax(0,1fr));max-width:560px}
-#settings .settings-maintenance{margin-top:18px}
-#settings .settings-help-row{align-items:flex-start;flex-direction:column;gap:18px}
-#settings .settings-help-row .form-row{width:100%;display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
-#settings .settings-support-link{display:grid;grid-template-columns:1fr auto;gap:5px 14px;text-align:left;padding:16px;background:var(--surface);border:1px solid var(--line);min-width:0;white-space:normal}
-#settings .settings-support-link b{font-size:13px;color:var(--ink)}
-#settings .settings-support-link small{grid-row:2;font-size:11px;font-weight:400;line-height:1.5;color:var(--muted)}
-#settings .settings-support-link>span{grid-column:2;grid-row:1 / 3;align-self:center;color:var(--muted)}
-#settings .settings-support-link:hover{border-color:var(--accent);background:var(--control-hover)}
+.settings-connection-footer{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-top:18px}
+.settings-connection-footer>span{font-size:11px;line-height:1.6;color:var(--muted)}
+#settings .settings-recheck{margin:0;font-size:12px;color:var(--muted)}
 #vm-settings-checks>summary{display:flex;justify-content:space-between;align-items:center;gap:16px}
 #vm-settings-check-count{font-size:11px;font-weight:400;color:var(--muted)}
 #settings #vm-settings-steps{grid-template-columns:1fr;gap:0;margin-bottom:0}
@@ -398,7 +370,20 @@ body.boss-view-active{background:radial-gradient(ellipse at 95% 0,color-mix(in s
 #settings #vm-settings-steps li:last-child{border-bottom:0}
 #settings #vm-settings-steps .done{color:var(--ink)}
 #settings #vm-settings-steps .current{color:var(--accent);font-weight:600}
-#settings .settings-layout>.settings-appearance{padding-top:22px;padding-bottom:22px}
-@media(max-width:550px){#settings .settings-help-row .form-row,#settings .settings-layout .theme-choices{grid-template-columns:1fr}}
+#settings .settings-maintenance{margin-top:18px;box-shadow:none;background:var(--control-bg);border-color:var(--line)}
+.settings-help-row{display:flex;align-items:flex-start;justify-content:space-between;gap:24px}
+.settings-help-row h3{margin:0;font-size:16px}
+.settings-help-row p{color:var(--muted);font-size:12px;line-height:1.6;margin:6px 0 0}
+#settings .settings-help-row .form-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+#settings .settings-support-link{display:grid;grid-template-columns:1fr auto;gap:5px 14px;text-align:left;padding:14px;background:var(--surface);border:1px solid var(--line);min-width:0;white-space:normal}
+#settings .settings-support-link b{font-size:13px;color:var(--ink)}
+#settings .settings-support-link small{grid-row:2;font-size:11px;font-weight:400;line-height:1.5;color:var(--muted)}
+#settings .settings-support-link>span{grid-column:2;grid-row:1 / 3;align-self:center;color:var(--muted)}
+#settings .settings-support-link:hover{border-color:var(--accent);background:var(--control-hover)}
+#settings .settings-danger-zone{margin-top:22px}
+#settings .settings-danger-zone>summary{color:var(--muted);font-size:12px}
+#settings .settings-danger-zone .settings-reset-row{border-top:0;margin-top:0;padding-top:14px}
 #settings #vm-settings-status.error{background:#fff2f2;color:#a32e2e;border-color:#e7b9b3}
 [data-theme="dark"] #settings #vm-settings-status.error{background:#422c2c;color:#ffc3b8;border-color:#795149}
+@media(max-width:850px){#settings .settings-layout{grid-template-columns:1fr}#settings .settings-layout .theme-choices{grid-template-columns:repeat(2,minmax(0,1fr))}.settings-help-row{flex-direction:column;gap:16px}#settings .settings-help-row .form-row{width:100%}}
+@media(max-width:550px){#settings .settings-help-row .form-row,#settings .settings-layout .theme-choices{grid-template-columns:1fr}}

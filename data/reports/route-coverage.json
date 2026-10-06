@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-06T04:21:42.444Z",
+  "generatedAt": "2026-10-06T04:39:25.639Z",
   "modes": [
     "easy",
     "primary_only",
@@ -20,15 +20,15 @@
   "summary": {
     "maps": 86,
     "mapModePairs": 1204,
-    "covered": 513,
-    "missing": 691,
+    "covered": 512,
+    "missing": 692,
     "mapsFullyCovered": 1,
     "mapsWithNoRoute": 4,
     "coveredPerMode": {
       "easy": 80,
       "primary_only": 23,
       "deflation": 21,
-      "medium": 80,
+      "medium": 79,
       "military_only": 9,
       "reverse": 17,
       "apopalypse": 14,
@@ -2992,19 +2992,22 @@
       "modes": {
         "easy": [
           "tricky_tracks#easy#1920x1080#converted#source_btd6bot.btd6",
-          "tricky_tracks#chimps#1920x1080#converted#source_btd6bot.btd6 (CHIMPS reuse)"
+          "tricky_tracks#chimps#1920x1080#converted#source_btd6bot.btd6 (CHIMPS reuse)",
+          "tricky_tracks#hard#1920x1080#converted#source_btd6bot#selection-preserved.btd6"
         ],
         "primary_only": [
           "tricky_tracks#primary_only#1920x1080#converted#source_btd6bot.btd6"
         ],
         "deflation": "missing",
         "medium": [
-          "tricky_tracks#chimps#1920x1080#converted#source_btd6bot.btd6 (CHIMPS reuse)"
+          "tricky_tracks#chimps#1920x1080#converted#source_btd6bot.btd6 (CHIMPS reuse)",
+          "tricky_tracks#hard#1920x1080#converted#source_btd6bot#selection-preserved.btd6"
         ],
         "military_only": "missing",
         "reverse": "missing",
         "apopalypse": "missing",
         "hard": [
+          "tricky_tracks#hard#1920x1080#converted#source_btd6bot#selection-preserved.btd6",
           "tricky_tracks#chimps#1920x1080#converted#source_btd6bot.btd6 (CHIMPS reuse)"
         ],
         "magic_monkeys_only": "missing",
@@ -3100,22 +3103,18 @@
       "modes": {
         "easy": [
           "sanctuary#easy#1920x1080#converted#source_bloonsplayer.btd6",
-          "sanctuary#easy#1920x1080#converted#source_btd6bot.btd6",
-          "sanctuary#hard#1920x1080#converted#source_btd6bot.btd6"
+          "sanctuary#easy#1920x1080#converted#source_btd6bot#selection-preserved.btd6"
         ],
         "primary_only": "missing",
         "deflation": [
           "sanctuary#deflation#2560x1440#noMK#noLL.btd6"
         ],
-        "medium": [
-          "sanctuary#medium#1920x1080#source_btd6bot#compat#from_hard.btd6",
-          "sanctuary#hard#1920x1080#converted#source_btd6bot.btd6"
-        ],
+        "medium": "missing",
         "military_only": "missing",
         "reverse": "missing",
         "apopalypse": "missing",
         "hard": [
-          "sanctuary#hard#1920x1080#converted#source_btd6bot.btd6"
+          "sanctuary#hard#1920x1080#converted#source_btd6bot#selection-preserved.btd6"
         ],
         "magic_monkeys_only": "missing",
         "double_hp_moabs": "missing",

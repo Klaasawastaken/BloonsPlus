@@ -1,0 +1,42 @@
+# source: https://github.com/j-miet/BTD6bot (license MIT (c) 2025 Jani Miettinen) commit 2d6dac0957a0d55d0af201bd497afbebf7f3e5c2
+# source file: btd6bot/plans/sanctuaryEasyStandard.py
+# generator: import-public-routes.py
+# Source selection-position updates and their persistence preserved. No gameplay commands omitted.
+# Candidate is unverified until victory and saved medal are confirmed.
+# generator: import-public-routes.py
+place sniper sniper0 at 1183, 826
+place sniper sniper1 at 1249, 856
+retarget sniper1
+retarget sniper1
+retarget sniper1
+round 3
+place sniper sniper2 at 1453, 1007
+round 6
+place druid druid0 at 447, 477
+round 10
+upgrade druid0 path 1 at 251, 311
+round 12
+upgrade druid0 path 1 at 261, 323
+upgrade druid0 path 1 at 261, 323
+round 13
+upgrade druid0 path 0 at 311, 415
+retarget druid0 at 311, 415
+retarget druid0 at 311, 415
+retarget druid0 at 311, 415
+round 16
+upgrade sniper0 path 1 at 1389, 885
+upgrade sniper0 path 1 at 1389, 885
+round 19
+upgrade sniper0 path 2 at 1261, 845
+upgrade sniper0 path 2 at 1261, 845
+round 27
+upgrade sniper0 path 2 at 1463, 919
+round 34
+upgrade sniper0 path 2 at 1383, 891
+round 38
+upgrade sniper1 path 0 at 1463, 929
+upgrade sniper1 path 2 at 1463, 929
+upgrade sniper1 path 2 at 1463, 929
+upgrade sniper1 path 2 at 1463, 929
+round 39
+upgrade sniper1 path 0 at 1541, 967
