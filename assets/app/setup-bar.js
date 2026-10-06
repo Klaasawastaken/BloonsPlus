@@ -189,6 +189,9 @@
     poll();
   });
   settingsRefresh?.addEventListener('click', poll);
+  // Navigation uses the same guarded poll as manual refresh: no second job or
+  // stale 30-second connection state when the user opens Settings.
+  document.addEventListener('bloons-settings-open', poll);
   settingsUpdate?.addEventListener('click', async () => {
     if (actionPending) return;
     actionPending = true; actionError = '';

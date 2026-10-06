@@ -705,3 +705,9 @@ Start only after the current repair work is complete, as requested on 5 October.
 
 
 - Preview 70 published and its packaged runtime/four new candidates match source; the developer-only importer remains intentionally outside the installer. Captured live Silas picker frame also reads exact silas/Select through the new reader, with no extra gameplay input. Preview 69 worker terminated successfully after deployment/resume. Preview 70's worker is now live at the next replay boundary; its root payload is reserved until terminal.
+
+
+### Settings cleanup — 6 October
+
+- [x] Remove the redundant preferences/queue reset, its confirmation dialog, handlers and unused styles. Theme selection already saves automatically; queued runs are retained. Keep Appearance, Game & VM, and Help & support as the Settings sections.
+- [x] Refresh setup status on every Settings visit through the existing single-request guard. Hide setup/update/advanced controls until their availability is known. Focused setup state checks and JavaScript syntax checks pass; the refreshed local Settings page shows the removed control is absent.

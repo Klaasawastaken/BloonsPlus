@@ -13,13 +13,15 @@ class Element {
   const elements = new Map();
   const get = id => { if (!elements.has(id)) elements.set(id, new Element()); return elements.get(id); };
   const status = { applicable: true, allDone: true, vm: { state: 'online' }, steps: [{ id: 'vm', done: true, title: 'VM' }], job: {} };
-  let updateCount = 0, pendingUpdate;
+  let updateCount = 0, pendingUpdate, statusReads = 0;
+  const documentListeners = {};
   const context = {
-    document: { getElementById: get, createElement: () => new Element() },
+    document: { getElementById: get, createElement: () => new Element(), addEventListener: (name, fn) => { documentListeners[name] = fn; } },
     sessionStorage: { getItem() {}, setItem() {} }, localStorage: { getItem() {}, setItem() {} },
     setTimeout: () => 1, clearTimeout() {}, AbortSignal,
     fetch: async (url, options) => {
       if (options?.method === 'POST') { updateCount++; if (pendingUpdate) await pendingUpdate; return { ok: false, status: 503, json: async () => ({ error: 'Bridge unavailable' }) }; }
+      statusReads++;
       return { ok: true, json: async () => status };
     },
   };
@@ -27,6 +29,9 @@ class Element {
   const flush = async () => { for (let i = 0; i < 8; i++) await Promise.resolve(); };
   await flush();
   assert.match(get('vm-settings-status').textContent, /Ready:/);
+  const readsBeforeOpen = statusReads;
+  await documentListeners['bloons-settings-open']();
+  assert.equal(statusReads, readsBeforeOpen + 1, 'opening Settings fetches fresh setup state');
   await get('vm-settings-update').listeners.click();
   assert.match(get('vm-settings-status').textContent, /Could not update VM: Bridge unavailable/);
   await get('vm-settings-refresh').listeners.click();

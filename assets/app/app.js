@@ -129,6 +129,7 @@ function showView(view) {
   if (view === 'towers') refreshLocalSaveProgress();
   if (view === 'bosses') renderBossHub();
   if (view === 'logs') loadRouteFailures();
+  if (view === 'settings') document.dispatchEvent(new Event('bloons-settings-open'));
 }
 async function refreshBossEvent() {
   if (!document.querySelector('#boss-event-requirements')) return;
@@ -1011,13 +1012,6 @@ async function refreshConnection(manual = false) {
 document.querySelector('#refresh-connection').addEventListener('click', () => refreshConnection(true));
 refreshConnection();
 setInterval(() => { if (!document.hidden) refreshConnection(); }, 15000);
-document.querySelector('#delete-save').addEventListener('click', () => {
-  document.querySelector('#confirm-dialog').showModal();
-});
-document.querySelector('#confirm-dialog').addEventListener('close', event => {
-  if (event.target.returnValue !== 'reset') return;
-  state = structuredClone(defaults); saveState(); notify('App preferences reset.');
-});
 document.addEventListener('keydown', event => {
   if (event.key === 'Escape' && !event.defaultPrevented && !document.querySelector('dialog[open]')) showView('overview');
 });
