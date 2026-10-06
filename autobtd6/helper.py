@@ -316,6 +316,8 @@ def writeBTD6InstructionsFile(
             fp.write("start round " + action['speed'] + "\n")
         elif action["action"] == "speed_toggle":
             fp.write("change speed\n")
+        elif action["action"] == "source_round":
+            fp.write("source round " + str(action["round"]) + (" after play" if action.get("afterPlay") else "") + "\n")
         elif action["action"] == "play_once":
             fp.write("play once\n")
         elif action["action"] == "await_round":
@@ -409,6 +411,11 @@ def parseBTD6InstructionsFile(
         autoStart = parse_autostart_command(line)
         if autoStart is not None:
             newMapConfig['steps'].append(autoStart)
+            continue
+        sourceRound = re.fullmatch(r"source round ([1-9]\d*)( after play)?", line)
+        if sourceRound:
+            newMapConfig['steps'].append({'action': 'source_round', 'round': int(sourceRound.group(1)),
+                                         'afterPlay': bool(sourceRound.group(2)), 'cost': 0})
             continue
         cursorMove = re.fullmatch(r"move cursor to (?P<x>\d+), (?P<y>\d+)", line)
         if cursorMove:
@@ -773,6 +780,11 @@ def parseBTD6InstructionsFile(
             newMapConfig["steps"] += newSteps
 
     newMapConfig["monkeys"] = monkeys
+    newMapConfig["sourceRoundTiming"] = any(step.get("action") == "source_round" for step in newMapConfig["steps"])
+    if newMapConfig["sourceRoundTiming"]:
+        for step in newMapConfig["steps"]:
+            if step.get("action") == "ability":
+                step["sourceTiming"] = True
     from purchase_pacing import pacing_allowed
     newMapConfig['purchasePacingAllowed'] = pacing_allowed(newMapConfig['steps'])
     return newMapConfig

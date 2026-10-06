@@ -21,6 +21,7 @@ from targeted_special import perform_targeted_special
 from autostart_observation import observe_autostart
 from autostart_control import pending_autostart_step, drive_autostart, resume_autostart_intent
 from play_once import play_once_ready
+from source_round import drive_source_round, restore_source_round_context, source_round_anchor
 from map_availability import predicted_thaw_round
 from resume_recovery import restore_upgrade_steps, probe_owned_upgrade, resumable_round_start
 
@@ -1450,6 +1451,7 @@ def main():
                 return 2
             try:
                 mapConfig['resumeAutostartCheck'] = resume_autostart_intent(mapConfig['steps'], routeCheckpoint)
+                mapConfig.update(restore_source_round_context(mapConfig['steps'], routeCheckpoint))
                 mapConfig['steps'] = restore_upgrade_steps(mapConfig['steps'], routeCheckpoint)
                 mapConfig['roundStartCompleted'] = routeCheckpoint.get('roundStartCompleted') is True
             except ValueError as error:
@@ -2832,6 +2834,20 @@ def main():
                 lastScreen, lastState = screen, state
                 time.sleep(1.0)
                 continue
+            # Source logical clocks own a frame but never replace the observed HUD round.
+            if (mapConfig['steps'] and mapConfig['steps'][0].get('action') == 'source_round'
+                    and autoInputFree and autoRoundKnown and screen == Screen.INGAME
+                    and windowed_input.is_game_foreground()):
+                def persistSourceRound():
+                    if routeCheckpoint is None:
+                        return True
+                    routeCheckpoint.update(status='ready', pendingAction=None,
+                                           nextStep=checkpointStepOffset(mapConfig['steps'], routeStepTotal))
+                    return writeRouteCheckpoint(routeCheckpoint, mapConfig['steps'])
+                drive_source_round(mapConfig, routeCheckpoint, time.time(), persistSourceRound, customPrint)
+                lastScreen, lastState = screen, state
+                time.sleep(1.0)
+                continue
             if screen == Screen.INGAME_PAUSED:
                 # Tiny template patches can classify a live frame as paused. A
                 # single false match followed by Esc creates the pause/nudge
@@ -3549,11 +3565,11 @@ def main():
                 nextStepAction = nextStep.get('action') if nextStep else None
                 nextStepDelayReady = (delay_ready(nextStep, time.time())
                                       and round_offset_ready(nextStep, time.time(), observedRound, observedRoundStartedAt)
-                                      and ability_ready(nextStep, time.time(), observedRoundStartedAt)
+                                      and ability_ready(nextStep, time.time(), source_round_anchor(mapConfig, observedRoundStartedAt))
                                       and upgrade_ready(nextStep, currentValues.get('round')))
                 # Auto Start is handled by the input-owning menu controller,
                 # never the generic zero-cost action path.
-                if nextStepAction == 'set_autostart':
+                if nextStepAction in ('set_autostart', 'source_round'):
                     nextStepDelayReady = False
                 roundStartInputIssued = False
                 if nextStepAction in ('play_once', 'start_round', 'speed_toggle') and nextStepDelayReady:
@@ -4013,6 +4029,11 @@ def main():
                             fast = False
                     elif action['action'] in ('play_once', 'start_round', 'speed_toggle'):
                         action['playStateConfirmed'] = True
+                        if action['action'] == 'play_once':
+                            mapConfig['sourcePlay'] = {'index': action['routeStepIndex'],
+                                                       'sentAt': action['playOncePending']['sentAt']}
+                            if routeCheckpoint is not None:
+                                routeCheckpoint['sourcePlay'] = dict(mapConfig['sourcePlay'])
                         fast = action['speed'] == 'fast'
                         if action['action'] in ('start_round','play_once'):
                             mapConfig['roundStartCompleted'] = True
@@ -4062,7 +4083,7 @@ def main():
                 # fresh frame confirm it before automatic Play/Fast Forward input.
                 if (not skippingIteration and not placementRetryPending and not startupRoundStartPending and not roundStartInputIssued
                     and not (routeActionExecuted or heldPlacement or playToggleIssued)
-                    and nextStepAction not in ('play_once', 'set_autostart', 'start_round', 'speed_toggle')
+                    and nextStepAction not in ('source_round', 'play_once', 'set_autostart', 'start_round', 'speed_toggle')
                     and (mapConfig.get('autostartEnabled') is not False or not mapConfig['steps'])
                     and ((not doAllStepsBeforeStart and mapConfig['gamemode'] != 'deflation'
                           and (waitingForLaterRound or getNextCostingAction(mapConfig['steps'])['cost'] > min(currentValues['money'], lastIterationBalance - lastIterationCost)))

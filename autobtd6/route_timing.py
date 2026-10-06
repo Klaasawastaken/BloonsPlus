@@ -98,7 +98,8 @@ def ability_ready(step, now, round_started_at):
     """Hold ability input in the main loop without blocking screen observation.
 
     Pin the first observed deadline so a later round transition cannot extend
-    the wait. With no known round anchor, preserve legacy immediate execution.
+    the wait. With no known round anchor, preserve legacy immediate execution except for
+    source-timed actions, which must wait for their logical clock.
     """
     if not step or step.get('action') != 'ability':
         return True
@@ -113,7 +114,7 @@ def ability_ready(step, now, round_started_at):
     if 'abilityDeadline' not in step:
         anchor = round_started_at
         if type(anchor) not in (int, float) or not math.isfinite(anchor):
-            return True
+            return step.get('sourceTiming') is not True
         step['abilityDeadline'] = anchor + seconds
     deadline = step['abilityDeadline']
     if type(deadline) not in (int, float) or not math.isfinite(deadline):

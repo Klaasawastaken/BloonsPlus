@@ -759,3 +759,9 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [x] Reproduce erased yellow hero lettering using an existing Admiral Brickell capture. Separate warm/violet masks return a candidate accepted by the actual hero matcher; color-mask JS check passes. Live Gwendolin/Psi selection remains unproven.
 - [x] Package and publish Preview 79: installer 245290466 bytes, no publication-guard findings, twelve packaged-source comparisons pass.
 - [ ] Deploy Preview 79 between completed replays. Worker session 7688 is confirmed running; Underground Impoppable continues with stop-after enabled. Full source logical-round/end-round conversion remains open; no recordings have been emitted or changed.
+
+
+### Source logical-round clock — 6 October
+
+- [x] Add canonical source round markers, separate logical ability anchors and serialized runtime frame ownership. Confirmed single-Play receipts anchor after-play markers to the source 0.2-second timing; missing/reused evidence retains the marker. No HUD round or live terrain state is fabricated. Checkpoint failures roll back queue/context; resume rejects stale or mismatched consumed-command clocks. Eight focused tests and 104 combined timing/resume/control checks pass. Existing Auto Start integration assertion now covers both frame-owned controls; the importer test no longer incorrectly calls the already-supported Auto Start toggle lossy.
+- [ ] Finish pinned-source end_round/forward(2) timing and actual logical branch/skip semantics before emitting manual plans. Manual omissions remain excluded; no original recordings modified and no gameplay launched for validation.

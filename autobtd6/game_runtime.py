@@ -10,7 +10,7 @@ import time
 
 
 SUPPORTED_ACTIONS = {
-    'play_once', 'set_autostart', 'place', 'upgrade', 'sell', 'retarget', 'special', 'remove',
+    'source_round', 'play_once', 'set_autostart', 'place', 'upgrade', 'sell', 'retarget', 'special', 'remove',
     'click', 'move_cursor', 'press', 'ability', 'repeat_ability', 'stop_ability', 'speed', 'speed_toggle', 'start_round', 'await_round', 'await_cash', 'await_delay',
 }
 POSITION_ACTIONS = {'place', 'upgrade', 'sell', 'retarget', 'special', 'remove', 'click', 'move_cursor'}
@@ -31,6 +31,9 @@ def normalize_action(step):
         raise ValueError('unsupported action: ' + str(action_type))
     action = deepcopy(step)
     action['kind'] = action_type
+    if action_type == 'source_round':
+        if type(action.get('round')) is not int or action['round'] < 1 or type(action.get('afterPlay', False)) is not bool:
+            raise ValueError('source_round needs a positive logical round and boolean afterPlay')
     if action_type == 'set_autostart' and type(action.get('enabled')) is not bool:
         raise ValueError('Auto Start action must select an absolute boolean state')
     if action_type == 'await_delay':
