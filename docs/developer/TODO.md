@@ -745,3 +745,7 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [x] Connect actual parser/writer and replay branches to observed Auto Start ownership. Preserve purchase confirmation, defer ordinary controls, and retain commands on save failure. Resume consumed intent outside the recorded queue and close only confirmed foreground pause menus before playfield validation. 91 focused Python checks and two JavaScript admission checks pass; no validation-only gameplay launched.
 - [x] Package and publish Preview 78. Publication guard reports no findings, and nine changed runtime/UI files match the packaged payload exactly.
 - [ ] Deploy at the current replay boundary. Worker session 56390 is confirmed running; Underground ABR continues with stop-after enabled. Source end-round conversion remains unfinished; omitted manual plans remain excluded.
+
+### Source Auto Start conversion
+
+- [x] Preserve pinned BTD6bot initial-on setup and each no-argument Auto Start toggle as explicit absolute commands. Reject unsupported arguments without partial output. Four offline checks pass, including the actual Sanctuary CHIMPS source remaining gated on its omitted forward/end-round commands. No recordings emitted or changed; this source-only continuation follows Preview 78 and will join the next complete conversion batch.

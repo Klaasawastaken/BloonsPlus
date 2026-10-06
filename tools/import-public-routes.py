@@ -116,6 +116,8 @@ class Route:
         self.alias = {}            # source name -> our name
         self.counts = {}
         self.last_round = None
+        self.source_autostart = True
+        self.source_autostart_initialized = False
 
     def point(self, x, y):
         x, y = int(round(x)), int(round(y))
@@ -426,6 +428,17 @@ def btd6bot_statement(route, stmt):
                 raise Unsupported('move_cursor needs normalized coordinates in [0, 1)')
             x, y = route.point(x * W, y * H)
             route.lines.append(f'move cursor to {x}, {y}')
+        elif action == 'change_autostart':
+            if args or kwargs:
+                raise Unsupported('change_autostart accepts no arguments')
+            # The pinned source runner restores Auto Start on before a plan.
+            # Preserve that baseline explicitly; a user's prior setting or a
+            # previous route must not invert the source's first toggle.
+            if not route.source_autostart_initialized:
+                route.lines.insert(0, 'autostart on')
+                route.source_autostart_initialized = True
+            route.source_autostart = not route.source_autostart
+            route.lines.append('autostart on' if route.source_autostart else 'autostart off')
         elif action in BTD6BOT_FLOW_CONTROLS:
             # Manual round control can wait for end-of-round cash or alter
             # ability timing. Cursor movement can aim a tower. Neither is a no-op.
