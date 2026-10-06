@@ -4,7 +4,7 @@ Updated 6 October 2026. Checkboxes require evidence, not merely code. Preserve o
 
 ## Current repair pass
 
-- Preview 67 is published and pushed. Its existing boundary updater is live, waiting on Peninsula Hard; stop-after is confirmed. Root dist payload remains reserved for Preview 67 until that worker terminates. Compact Settings is visually checked in both themes.
+- Preview 67 boundary updater completed after Peninsula Hard victory and saved medal confirmation. Guest confirmed the missing-medal sweep resumed. Preview 69 is now published; its new updater is live at the next healthy boundary, with stop-after confirmed and the root payload reserved for that worker. Compact Settings is visually checked in both themes.
 
 - Preview 66 boundary updater completed after Sanctuary Medium returned to the menu with no result, then confirmed the missing-medal sweep resumed. Guest setup reports VM update installed. Pacing is deployed; live winning-route evidence remains pending. Legacy Sanctuary moving-position copies still require correction/exclusion based on the source audit.
 
@@ -656,7 +656,7 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [x] Block three audited Sanctuary copies that omit source selection updates, scoped to exact content hashes and without deleting prior failures. Exclude round-3/6 Sanctuary and Geared openings from round-1 reuse unless that exact target mode has a confirmed local win. Sanctuary Medium remains an honest route gap.
 - [x] Rework Settings into compact Appearance, Game connection and Help sections. Keep automatic profile detection out of manual preferences; hide optional Windows installation controls when unnecessary and collapse reset/checklist details. Remove conflicting layout overrides.
 - [x] Retain failed setup/update requests through status refreshes and reject concurrent duplicate setup actions. Focused offline checks pass; the actual dark-theme Settings view is visually reviewed.
-- [ ] Deploy at the next completed replay boundary. New selection candidates remain unverified in gameplay; never replay the already earned Tricky Tracks Hard medal to test one.
+- [x] Preview 67 deployed at the completed Peninsula Hard boundary and the missing-medal sweep resumed. New selection candidates remain unverified in gameplay; never replay the already earned Tricky Tracks Hard medal to test one.
 
 
 ### Hero picker title crop — 6 October
@@ -672,3 +672,6 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [x] Reproduce the exact Obyn not-found log being labelled insufficient-data. Recognize it as navigation failure without treating successful visual discovery messages as failures.
 - [x] Keep a pre-game hero-selection failure retryable in the actual sweep branch, record its evidence and move to the next map before saving a route attempt. A recorded INGAME/INGAME_PAUSED or GOTO_INGAME transition, or observed defeat, prevents this exception. Actual-branch fixtures and medal admission tests pass.
 - [ ] Deploy at a healthy boundary after the existing Preview 67 worker terminates. Preserve all prior failures and earned medals; no blanket attempt resets.
+
+
+- Confirmed Peninsula Hard Standard on 6 October: VICTORY_CONFIRMED at 06:56:56, round 80; controller clear confirmation and authoritative VM Hard/Standard=1049864. Never replay this earned medal. Preview 67 boundary worker terminated successfully after deployment/resume. Preview 69's separate worker is waiting at the next replay boundary; no healthy replay was interrupted.
