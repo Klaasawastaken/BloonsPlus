@@ -4095,7 +4095,11 @@ def main():
                                 pyautogui.click()
                             time.sleep(smallActionDelay)
                             actionTmp = action
-                            if len(mapConfig['steps']) and 'name' in mapConfig['steps'][0] and mapConfig['steps'][0]['name'] == action['name'] and (mapConfig['steps'][0]['action'] == 'retarget' or mapConfig['steps'][0]['action'] == 'special' or mapConfig['steps'][0]['action'] == 'click'):
+                            if (len(mapConfig['steps']) and mapConfig['steps'][0].get('name') == action['name']
+                                    and mapConfig['steps'][0]['action'] in ('retarget', 'special', 'click')
+                                    and (mapConfig['steps'][0]['action'] == 'click'
+                                         or (mapConfig['steps'][0].get('key') is not None
+                                             and mapConfig['steps'][0].get('pos') == action['pos']))):
                                 action = mapConfig['steps'].pop(0)
                                 customPrint('+' + action['action'])
                             else:

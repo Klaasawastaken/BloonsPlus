@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-06T07:58:16.803Z",
+  "generatedAt": "2026-10-06T18:45:45.925Z",
   "modes": [
     "easy",
     "primary_only",
@@ -20,10 +20,10 @@
   "summary": {
     "maps": 86,
     "mapModePairs": 1204,
-    "covered": 526,
-    "missing": 678,
+    "covered": 530,
+    "missing": 674,
     "mapsFullyCovered": 1,
-    "mapsWithNoRoute": 3,
+    "mapsWithNoRoute": 1,
     "coveredPerMode": {
       "easy": 79,
       "primary_only": 23,
@@ -37,8 +37,8 @@
       "double_hp_moabs": 14,
       "half_cash": 14,
       "alternate_bloons_rounds": 21,
-      "impoppable": 72,
-      "chimps": 72
+      "impoppable": 74,
+      "chimps": 74
     }
   },
   "maps": {
@@ -2345,8 +2345,12 @@
         "double_hp_moabs": "missing",
         "half_cash": "missing",
         "alternate_bloons_rounds": "missing",
-        "impoppable": "missing",
-        "chimps": "missing"
+        "impoppable": [
+          "last_resort#chimps#1920x1080#converted#source_btd6bot#spike-cycle-preserved.btd6 (CHIMPS reuse)"
+        ],
+        "chimps": [
+          "last_resort#chimps#1920x1080#converted#source_btd6bot#spike-cycle-preserved.btd6"
+        ]
       }
     },
     "castle_revenge": {
@@ -2444,8 +2448,12 @@
         "double_hp_moabs": "missing",
         "half_cash": "missing",
         "alternate_bloons_rounds": "missing",
-        "impoppable": "missing",
-        "chimps": "missing"
+        "impoppable": [
+          "erosion#chimps#1920x1080#converted#source_btd6bot#spike-cycle-preserved.btd6 (CHIMPS reuse)"
+        ],
+        "chimps": [
+          "erosion#chimps#1920x1080#converted#source_btd6bot#spike-cycle-preserved.btd6"
+        ]
       }
     },
     "midnight_mansion": {

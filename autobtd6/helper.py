@@ -263,6 +263,7 @@ def writeBTD6InstructionsFile(
             fp.write(
                 "retarget "
                 + action["name"]
+                + (" reverse" if action.get("reverse") else "")
                 + (" to " + tupleToStr(action["to"]) if "to" in action else "")
                 + selectionSuffix
                 + "\n"
@@ -486,6 +487,9 @@ def parseBTD6InstructionsFile(
         if selectionMatch:
             line = selectionMatch.group(1)
             selectionPos = (int(selectionMatch.group(2)), int(selectionMatch.group(3)))
+        reverseTarget = re.fullmatch(r'retarget \w+ reverse', line) is not None
+        if reverseTarget:
+            line = line.removesuffix(' reverse')
         matches = re.search(
             r"^(?P<action>place|upgrade|retarget|special|sell|remove|round|speed|cash) ?(?P<type>[a-z_]+)? (?P<name>\w+)(?: (?:(?:at|to) (?P<x>\d+), (?P<y>\d+))?(?:path (?P<path>[0-2]))?)?(?: for (?P<price>\d+|\?\?\?))?(?: with (?P<discount>\d{1,2}|100)% discount)?$",
             line,
@@ -686,10 +690,12 @@ def parseBTD6InstructionsFile(
             newStep = {
                 "action": "retarget",
                 "name": matches.group("name"),
-                "key": keybinds["others"]["retarget"],
+                "key": keybinds["others"].get("retarget_reverse") if reverseTarget else keybinds["others"]["retarget"],
                 "pos": monkeys[matches.group("name")]["pos"],
                 "cost": 0,
             }
+            if reverseTarget:
+                newStep['reverse'] = True
             if matches.group("x"):
                 newStep["to"] = (int(matches.group("x")), int(matches.group("y")))
             elif monkeys[matches.group("name")]["type"] == "mortar":
@@ -1685,6 +1691,7 @@ def applyGameHotkeys(raw):
         for index in range(3):
             keybinds['path'][str(index)] = key(monkeys, 'Upgrade Path ' + str(index + 1))
         keybinds['others']['retarget'] = key(monkeys, 'ChangeTargeting')
+        keybinds['others']['retarget_reverse'] = key(monkeys, 'ReverseChangeTargeting')
         keybinds['others']['special'] = key(monkeys, 'TowerSpecial')
     if gameplay:
         keybinds['others']['sell'] = key(gameplay, 'Sell')

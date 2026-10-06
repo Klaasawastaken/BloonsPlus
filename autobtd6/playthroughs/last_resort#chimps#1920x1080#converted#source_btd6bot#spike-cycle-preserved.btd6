@@ -1,0 +1,356 @@
+# source: https://github.com/j-miet/BTD6bot (license MIT (c) 2025 Jani Miettinen) commit 2d6dac0957a0d55d0af201bd497afbebf7f3e5c2
+# source file: btd6bot/plans/last_resortHardChimps.py
+# generator: import-public-routes.py
+# Spike Factory targeting preserved through Tier 5, with source reverse inputs and Set clicks.
+# Recorded placements and upgrades retained. No original replaced; no local victory claimed.
+# generator: import-public-routes.py
+autostart on
+source round 6
+autostart off
+place dart dart0 at 1393, 55
+place engineer engineer0 at 1047, 53
+play twice
+retarget engineer0
+retarget engineer0
+retarget engineer0
+wait 10 seconds
+play once
+wait 0.2 seconds
+source round 7 after play
+wait 12 seconds
+play once
+wait 0.2 seconds
+source round 8 after play
+place sniper sniper0 at 678, 53
+retarget sniper0
+retarget sniper0
+retarget sniper0
+wait 11 seconds
+play once
+wait 0.2 seconds
+source round 9 after play
+retarget engineer0
+wait 10 seconds
+play once
+wait 0.2 seconds
+source round 10 after play
+upgrade engineer0 path 0
+wait 6 seconds
+play once
+wait 0.2 seconds
+source round 11 after play
+wait 8 seconds
+play once
+wait 0.2 seconds
+source round 12 after play
+wait 10 seconds
+play once
+wait 0.2 seconds
+source round 13 after play
+wait 13 seconds
+play once
+wait 0.2 seconds
+source round 14 after play
+wait 12 seconds
+play once
+wait 0.2 seconds
+source round 15 after play
+place adora hero0 at 971, 51
+autostart on
+round 16
+source round 16
+round 17
+source round 17
+round 18
+source round 18
+round 19
+source round 19
+place spike spike0 at 1319, 37
+round 20
+source round 20
+round 21
+source round 21
+place druid druid0 at 283, 52
+retarget druid0 at 255, 64
+retarget druid0 at 255, 64
+retarget druid0 at 255, 64
+round 22
+source round 22
+upgrade druid0 path 1 at 255, 64
+round 23
+source round 23
+round 24
+source round 24
+round 25
+source round 25
+upgrade druid0 path 1 at 255, 64
+round 26
+source round 26
+round 27
+source round 27
+upgrade druid0 path 1 at 255, 64
+upgrade druid0 path 0 at 255, 64
+round 28
+source round 28
+round 29
+source round 29
+round 30
+source round 30
+round 31
+source round 31
+round 32
+source round 32
+place village village0 at 1217, 53
+upgrade village0 path 2
+upgrade spike0 path 2
+upgrade spike0 path 2
+retarget spike0
+retarget spike0
+round 33
+source round 33
+round 34
+source round 34
+upgrade village0 path 2
+round 35
+source round 35
+upgrade spike0 path 0
+upgrade spike0 path 0
+round 36
+source round 36
+ability 1
+round 37
+source round 37
+upgrade spike0 path 0
+round 38
+source round 38
+place druid druid1 at 1121, 36
+upgrade druid1 path 0
+upgrade druid1 path 0
+round 39
+source round 39
+upgrade druid1 path 0
+retarget spike0 reverse
+round 40
+source round 40
+round 41
+source round 41
+ability 2 at 1393, 78
+wait 1 seconds
+place alchemist alchemist0 at 1395, 54
+upgrade alchemist0 path 0 at 1390, 81
+upgrade alchemist0 path 0 at 1390, 81
+upgrade alchemist0 path 0 at 1390, 81
+round 42
+source round 42
+round 43
+source round 43
+upgrade village0 path 0
+upgrade village0 path 0
+round 44
+source round 44
+round 45
+source round 45
+round 46
+source round 46
+round 47
+source round 47
+round 48
+source round 48
+round 49
+source round 49
+upgrade spike0 path 0
+upgrade engineer0 path 0
+upgrade engineer0 path 0
+upgrade engineer0 path 1
+upgrade engineer0 path 1
+upgrade engineer0 path 0
+round 50
+source round 50
+round 51
+source round 51
+round 52
+source round 52
+upgrade druid1 path 0
+upgrade druid1 path 2
+upgrade druid1 path 2
+round 53
+source round 53
+upgrade alchemist0 path 1 at 1390, 81
+upgrade alchemist0 path 1 at 1390, 81
+round 54
+source round 54
+round 55
+source round 55
+round 56
+source round 56
+round 57
+source round 57
+round 58
+source round 58
+round 59
+source round 59
+round 60
+source round 60
+round 61
+source round 61
+round 62
+source round 62
+round 63
+source round 63
+round 64
+source round 64
+round 65
+source round 65
+round 66
+source round 66
+round 67
+source round 67
+round 68
+source round 68
+round 69
+source round 69
+round 70
+source round 70
+round 71
+source round 71
+round 72
+source round 72
+round 73
+source round 73
+round 74
+source round 74
+upgrade engineer0 path 0
+round 75
+source round 75
+round 76
+source round 76
+round 77
+source round 77
+round 78
+source round 78
+round 79
+source round 79
+round 80
+source round 80
+round 81
+source round 81
+round 82
+source round 82
+round 83
+source round 83
+round 84
+source round 84
+ability 2 at 1324, 53
+place spike spike1 at 1320, 45
+upgrade spike1 path 2
+upgrade spike1 path 2
+upgrade spike1 path 2
+upgrade spike1 path 2
+upgrade spike1 path 2
+upgrade spike1 path 0
+upgrade spike1 path 0
+retarget spike1
+retarget spike1
+round 85
+source round 85
+place village village1 at 585, 54
+upgrade village1 path 2 at 584, 68
+upgrade village1 path 2 at 584, 68
+round 86
+source round 86
+place druid druid2 at 751, 53
+upgrade druid2 path 0
+upgrade druid2 path 0
+upgrade druid2 path 0
+upgrade druid2 path 2
+upgrade druid2 path 2
+round 87
+source round 87
+round 88
+source round 88
+upgrade druid2 path 0
+place glue glue0 at 493, 53
+retarget glue0 at 499, 80
+retarget glue0 at 499, 80
+retarget glue0 at 499, 80
+upgrade glue0 path 2 at 499, 80
+upgrade glue0 path 2 at 499, 80
+round 89
+source round 89
+upgrade glue0 path 2 at 499, 80
+upgrade glue0 path 1 at 499, 80
+round 90
+source round 90
+round 91
+source round 91
+place alchemist alchemist1 at 429, 45
+retarget alchemist1 at 411, 89
+retarget alchemist1 at 411, 89
+retarget alchemist1 at 411, 89
+upgrade alchemist1 path 1 at 411, 89
+upgrade alchemist1 path 1 at 411, 89
+upgrade alchemist1 path 1 at 411, 89
+upgrade alchemist1 path 0 at 411, 89
+round 92
+source round 92
+upgrade village1 path 0 at 584, 68
+upgrade village1 path 0 at 584, 68
+upgrade glue0 path 1 at 499, 80
+round 93
+source round 93
+upgrade sniper0 path 0
+upgrade sniper0 path 0
+upgrade sniper0 path 0
+upgrade sniper0 path 2
+upgrade sniper0 path 2
+round 94
+source round 94
+upgrade sniper0 path 0
+retarget sniper0
+retarget sniper0
+round 95
+source round 95
+place druid druid3 at 699, 212
+upgrade druid3 path 0
+upgrade druid3 path 0
+upgrade druid3 path 0
+upgrade druid3 path 2
+upgrade druid3 path 2
+round 96
+source round 96
+upgrade druid3 path 0
+place druid druid4 at 623, 210
+upgrade druid4 path 0
+upgrade druid4 path 0
+upgrade druid4 path 0
+upgrade druid4 path 2
+upgrade druid4 path 2
+round 97
+source round 97
+upgrade druid4 path 0
+round 98
+source round 98
+ability 2 after 9 seconds at 253, 48
+ability 1
+ability 3
+ability 2 after 13.5 seconds at 419, 84
+place druid druid5 at 547, 210
+upgrade druid5 path 0
+upgrade druid5 path 0
+upgrade druid5 path 0
+upgrade druid5 path 2
+upgrade druid5 path 2
+upgrade druid5 path 0
+round 99
+source round 99
+retarget sniper0
+retarget sniper0
+place alchemist alchemist2 at 888, 54
+upgrade alchemist2 path 1
+upgrade alchemist2 path 1
+upgrade alchemist2 path 1
+round 100
+source round 100
+ability 2 after 5 seconds at 474, 73
+ability 3
+ability 1

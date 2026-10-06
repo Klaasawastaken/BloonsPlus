@@ -107,7 +107,8 @@ class SourceRoundLoopTests(unittest.TestCase):
         self.assertNotIn('end_round() control omitted', route.lossy)
         self.assertEqual(route.source_round_trace[0], (6, 'initial'))
         self.assertEqual(route.source_round_trace[1], (7, 'after-play'))
-        self.assertIn("spike targeting 'automatic' (needs a special cycle or click)", route.lossy)
+        self.assertFalse(route.lossy)
+        self.assertTrue(any(state.get('spikeTarget') == 'automatic' for state in route.towers.values()))
 
     def test_manual_skip_is_consumed_by_empty_iteration(self):
         route = self.convert('''
@@ -189,7 +190,9 @@ class SourceRoundLoopTests(unittest.TestCase):
             with patch.object(converter, 'PT', output), patch.object(converter, 'validate', return_value={}), redirect_stdout(io.StringIO()):
                 converter.emit_manual_candidates()
                 before = {p.name: p.read_bytes() for p in output.glob('*.btd6')}
-                self.assertEqual(len(before), 9)
+                self.assertEqual(len(before), 13)
+                for name in ('last_resort', 'erosion', 'sanctuary', 'sunset_gulch'):
+                    self.assertTrue(any(file.startswith(name+'#') for file in before),name)
                 converter.emit_manual_candidates()
                 self.assertEqual(before, {p.name: p.read_bytes() for p in output.glob('*.btd6')})
                 self.assertEqual(original.read_bytes(), b'original CHIMPS recording\n')

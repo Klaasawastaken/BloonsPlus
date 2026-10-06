@@ -1,0 +1,328 @@
+# source: https://github.com/j-miet/BTD6bot (license MIT (c) 2025 Jani Miettinen) commit 2d6dac0957a0d55d0af201bd497afbebf7f3e5c2
+# source file: btd6bot/plans/erosionHardChimps.py
+# generator: import-public-routes.py
+# Spike Factory targeting preserved through Tier 5, with source reverse inputs and Set clicks.
+# Recorded placements and upgrades retained. No original replaced; no local victory claimed.
+# generator: import-public-routes.py
+autostart on
+source round 6
+place sub sub0 at 418, 881
+place dart dart0 at 367, 600
+play twice
+upgrade dart0 path 2
+round 7
+source round 7
+round 8
+source round 8
+upgrade sub0 path 2
+round 9
+source round 9
+round 10
+source round 10
+round 11
+source round 11
+round 12
+source round 12
+round 13
+source round 13
+upgrade sub0 path 2
+round 14
+source round 14
+round 15
+source round 15
+round 16
+source round 16
+round 17
+source round 17
+round 18
+source round 18
+place psi hero0 at 1247, 58
+upgrade sub0 path 0
+round 19
+source round 19
+round 20
+source round 20
+round 21
+source round 21
+upgrade sub0 path 0
+round 22
+source round 22
+round 23
+source round 23
+round 24
+source round 24
+round 25
+source round 25
+place sniper sniper0 at 1469, 108
+round 26
+source round 26
+place sniper sniper1 at 1357, 52
+round 27
+source round 27
+place sniper sniper2 at 1585, 188
+upgrade sniper2 path 0
+retarget sniper2
+retarget sniper2
+retarget sniper2
+round 28
+source round 28
+upgrade sniper1 path 1
+upgrade sniper1 path 1
+round 29
+source round 29
+round 30
+source round 30
+upgrade sniper1 path 2
+round 31
+source round 31
+upgrade sniper1 path 2
+round 32
+source round 32
+round 33
+source round 33
+round 34
+source round 34
+round 35
+source round 35
+upgrade sniper1 path 2
+retarget hero0
+retarget hero0
+retarget hero0
+round 36
+source round 36
+place ninja ninja0 at 331, 277
+round 37
+source round 37
+round 38
+source round 38
+round 39
+source round 39
+upgrade sniper1 path 2
+round 40
+source round 40
+round 41
+source round 41
+place alchemist alchemist0 at 1419, 70
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+round 42
+source round 42
+round 43
+source round 43
+upgrade alchemist0 path 1
+upgrade alchemist0 path 1
+round 44
+source round 44
+round 45
+source round 45
+upgrade sniper0 path 1
+upgrade sniper0 path 1
+upgrade sniper0 path 1
+upgrade sniper0 path 2
+upgrade sniper0 path 2
+round 46
+source round 46
+round 47
+source round 47
+place village village0 at 1563, 110
+upgrade village0 path 0
+upgrade village0 path 0
+round 48
+source round 48
+round 49
+source round 49
+upgrade sniper0 path 1
+round 50
+source round 50
+round 51
+source round 51
+round 52
+source round 52
+round 53
+source round 53
+round 54
+source round 54
+round 55
+source round 55
+round 56
+source round 56
+round 57
+source round 57
+upgrade sniper0 path 1
+round 58
+source round 58
+round 59
+source round 59
+upgrade alchemist0 path 0
+round 60
+source round 60
+round 61
+source round 61
+round 62
+source round 62
+upgrade sniper2 path 0
+upgrade sniper2 path 0
+upgrade sniper2 path 1
+upgrade sniper2 path 1
+round 63
+source round 63
+round 64
+source round 64
+round 65
+source round 65
+place spike spike0 at 1591, 312
+upgrade spike0 path 0
+upgrade spike0 path 0
+upgrade spike0 path 2
+upgrade spike0 path 2
+upgrade spike0 path 2
+retarget spike0 reverse
+retarget spike0 reverse
+special spike0 to 1523, 500
+round 66
+source round 66
+upgrade spike0 path 2
+round 67
+source round 67
+round 68
+source round 68
+round 69
+source round 69
+round 70
+source round 70
+round 71
+source round 71
+round 72
+source round 72
+round 73
+source round 73
+round 74
+source round 74
+round 75
+source round 75
+round 76
+source round 76
+round 77
+source round 77
+round 78
+source round 78
+round 79
+source round 79
+upgrade spike0 path 2
+autostart off
+wait 8 seconds
+play once
+wait 0.2 seconds
+source round 80 after play
+wait 18 seconds
+play once
+wait 0.2 seconds
+source round 81 after play
+wait 23 seconds
+play once
+wait 0.2 seconds
+source round 82 after play
+place alchemist alchemist1 at 1607, 244
+upgrade alchemist1 path 0
+upgrade alchemist1 path 0
+upgrade alchemist1 path 0
+upgrade alchemist1 path 0
+upgrade alchemist1 path 1
+upgrade alchemist1 path 1
+wait 22 seconds
+play once
+wait 0.2 seconds
+source round 83 after play
+upgrade sniper2 path 0
+wait 17 seconds
+play once
+wait 0.2 seconds
+source round 84 after play
+wait 21 seconds
+play once
+wait 0.2 seconds
+source round 85 after play
+wait 22 seconds
+play once
+wait 0.2 seconds
+source round 86 after play
+wait 18 seconds
+play once
+wait 0.2 seconds
+source round 87 after play
+wait 25 seconds
+play once
+wait 0.2 seconds
+source round 88 after play
+special spike0 to 1637, 446
+wait 27 seconds
+play once
+wait 0.2 seconds
+source round 89 after play
+wait 24 seconds
+play once
+wait 0.2 seconds
+source round 90 after play
+wait 10 seconds
+play once
+wait 0.2 seconds
+source round 91 after play
+wait 19 seconds
+play once
+wait 0.2 seconds
+source round 92 after play
+wait 30 seconds
+play once
+wait 0.2 seconds
+source round 93 after play
+wait 19 seconds
+play once
+wait 0.2 seconds
+source round 94 after play
+ability 1 after 4 seconds
+ability 2 after 7 seconds
+upgrade sniper2 path 0
+place glue glue0 at 1365, 122
+upgrade glue0 path 2
+upgrade glue0 path 2
+upgrade glue0 path 2
+upgrade glue0 path 1
+retarget glue0
+retarget glue0
+retarget glue0
+wait 5 seconds
+play once
+wait 0.2 seconds
+source round 95 after play
+wait 24 seconds
+play once
+wait 0.2 seconds
+source round 96 after play
+ability 1 after 4 seconds
+ability 2 after 7 seconds
+wait 20 seconds
+play once
+wait 0.2 seconds
+source round 97 after play
+wait 18 seconds
+play once
+wait 0.2 seconds
+source round 98 after play
+upgrade sniper1 path 2
+ability 1 after 8 seconds
+ability 2 after 11 seconds
+upgrade glue0 path 2
+upgrade glue0 path 1
+upgrade village0 path 1
+upgrade village0 path 1
+wait 13 seconds
+play once
+wait 0.2 seconds
+source round 99 after play
+ability 1 after 3 seconds
+wait 7 seconds
+play once
+wait 0.2 seconds
+source round 100 after play
+autostart on

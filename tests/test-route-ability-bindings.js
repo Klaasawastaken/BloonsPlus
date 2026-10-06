@@ -17,6 +17,22 @@ for (const line of ['move cursor to -20, 30', 'move cursor to 20, 30 click', 'mo
 const req = requirements('ability 10 at 20, 30\nrepeat ability 3\nability 3 after 1 seconds\nstop ability 4\nstop all abilities\n# ability 1', {}, {});
 assert.deepEqual(Array.from(req.abilities), [3, 10]);
 assert.deepEqual(Array.from(requirements('stop ability 1', {}, {}).abilities), []);
+assert.deepEqual(Array.from(requirements('retarget spike0 reverse at 20, 30\nretarget spike0\nspecial spike0 to 100, 200\n# special spike0', {}, {}).monkeyControls),
+  ['ReverseChangeTargeting', 'ChangeTargeting', 'TowerSpecial']);
+function rankControls(monkeys, controls) {
+  const fn = vm.runInNewContext(rankSource + ';rankCandidatesForProfile', {
+    saveUpgradeNames, readLocalProgress: () => ({available:true,gameHotkeys:{monkeys}}),
+    fs:{readFileSync:()=>'{}'}, path, PROJECT_ROOT:'.',
+  });
+  return fn([{requirements:{towers:{},monkeyControls:controls}}])[0].profileReadiness;
+}
+for (const monkeys of [undefined,{}, {ReverseChangeTargeting:{path:''}}, {ReverseChangeTargeting:{path:'<Mouse>/leftButton'}}]) {
+  assert.equal(rankControls(monkeys,['ReverseChangeTargeting']).missingControlBindings,1,
+    'Reverse targeting always needs an explicit saved keyboard binding');
+}
+assert.equal(rankControls({ReverseChangeTargeting:{path:'<Keyboard>/tab',modifierKey:1}},['ReverseChangeTargeting']).missing,0);
+assert.equal(rankControls({ChangeTargeting:{path:'<Keyboard>/tab'}},['TowerSpecial']).missingControlBindings,1);
+assert.equal(rankControls({},['ChangeTargeting','TowerSpecial']).missing,0,'Absent section preserves legacy forward/special defaults');
 function rank(gameplay, abilities = [3, 10], roundStart = false) {
   const profile = { available: true, gameHotkeys: { gameplay } };
   const fn = vm.runInNewContext(rankSource + ';rankCandidatesForProfile', {

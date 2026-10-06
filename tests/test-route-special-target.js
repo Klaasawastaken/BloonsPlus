@@ -6,3 +6,5 @@ assert.deepEqual(validateRoute(text, 'hard', catalog), []);
 assert.ok(validateRoute(text.replace('600, 700', '600'), 'hard', catalog).length);
 assert.ok(validateRoute('special missing to 600, 700\n', 'hard', catalog).length);
 console.log('Targeted special route grammar checks passed');
+assert.deepEqual(validateRoute('place dartling gun at 100, 200\nretarget gun reverse at 300, 400\n', 'hard', catalog), []);
+assert.ok(validateRoute('place dartling gun at 100, 200\nretarget gun reverse to 600, 700\n', 'hard', catalog).length);

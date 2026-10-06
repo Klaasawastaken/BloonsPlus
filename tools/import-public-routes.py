@@ -185,13 +185,13 @@ class Route:
             for _ in range(target[path] - current[path]):
                 self.upgrade(source_name, path)
 
-    def retarget(self, source_name, times=1, to=None):
+    def retarget(self, source_name, times=1, to=None, reverse=False):
         name = self.tower(source_name)
         for i in range(times):
             if to and i == times - 1:
                 self.lines.append(f"retarget {name} to {to[0]}, {to[1]}" + self.selection_suffix(name))
             else:
-                self.lines.append(f"retarget {name}" + self.selection_suffix(name))
+                self.lines.append(f"retarget {name}" + (' reverse' if reverse else '') + self.selection_suffix(name))
 
     def selection_suffix(self, name):
         point = self.towers[name].get('selectionPos')
@@ -206,24 +206,34 @@ class Route:
         name = self.tower(source_name)
         self.towers[name]['selectionPos'] = self.point(point[0] * W, point[1] * H)
 
-    def set_target(self, source_name, target):
+    def set_target(self, source_name, target, to=None):
         """Standard First/Last/Close/Strong cycle; AutoBTD6 retarget = one Tab (forward)."""
         name = self.tower(source_name)
         state = self.towers[name]
         kind = state["type"]
         if kind == "spike":
-            # Source bot: Normal -> Close -> Smart uses two forward presses.
-            # Higher tiers and positional targeting have different cycles.
-            if target.lower() in ('close', 'smart') and 2 <= state["up"][2] <= 4:
-                current = state.get("spikeTarget", "normal")
-                desired = target.lower()
-                forward = {'normal': 0, 'close': 1, 'smart': 2}
-                if current in forward and forward[desired] >= forward[current]:
-                    self.lines.extend([f"retarget {name}" + self.selection_suffix(name)]
-                                      * (forward[desired] - forward[current]))
-                    state["spikeTarget"] = desired
+            # Pinned BTD6bot uses this five-state cycle for x-x-2 through
+            # x-x-5. Preserve its shortest forward/reverse input sequence.
+            cycle = ('normal', 'close', 'smart', 'set', 'automatic')
+            current = state.get('spikeTarget', 'normal')
+            desired = target.lower()
+            if desired in cycle and current in cycle and 2 <= state['up'][2] <= 5:
+                if to is not None and (desired != 'set' or current in ('smart', 'automatic')):
+                    # Source concatenates two strings in its Set click guard.
+                    # Do not invent a click for those ambiguous calls.
+                    self.lossy.add(f"ambiguous pinned Spike positional targeting '{target}' from {current}")
                     return
+                delta = (cycle.index(desired) - cycle.index(current)) % len(cycle)
+                reverse = delta > 2
+                self.retarget(source_name, len(cycle)-delta if reverse else delta, reverse=reverse)
+                if to is not None and current in ('normal', 'close'):
+                    self.special(source_name, to)
+                state['spikeTarget'] = desired
+                return
             self.lossy.add(f"spike targeting '{target}' (needs a special cycle or click)")
+            return
+        if to is not None:
+            self.lossy.add(f"positional targeting '{target}'")
             return
         # Engineer uses the ordinary First/Last/Close/Strong cycle in the
         # pinned source. Foam/trap placement uses separate special commands.
@@ -610,7 +620,10 @@ def btd6bot_statement(route, stmt):
     elif action == "target":
         target = literal(args[0])
         if len(args) > 1 or "x" in kwargs:
-            route.lossy.add(f"positional targeting '{target}'")
+            x, y = literal(kwargs['x']), literal(kwargs['y'])
+            if any(type(value) not in (int, float) or not 0 <= value < 1 for value in (x, y)):
+                raise Unsupported('target needs normalized coordinates in [0, 1)')
+            route.set_target(owner, target, to=route.point(x * W, y * H))
         else:
             route.set_target(owner, target)
     elif action == "special":
@@ -1350,27 +1363,32 @@ def emit_speed_candidates():
 
 
 def emit_spike_target_candidates(target_mode='smart'):
-    """Keep supported forward Spike targeting in new candidates; preserve recordings."""
-    if target_mode not in ('smart', 'close'):
+    """Keep source Spike targeting in separate candidates; preserve recordings."""
+    if target_mode not in ('smart', 'close', 'cycle'):
         raise Unsupported('unsupported Spike target candidate mode')
     written = []
     for path in sorted(BTD6BOT_PLANS.glob('*.py')):
         if path.name.startswith('_'):
+            continue
+        if target_mode == 'cycle' and path.name not in ('last_resortHardChimps.py', 'erosionHardChimps.py'):
             continue
         try:
             route = convert_btd6bot(path)
             lines = route.body()
         except (Unsupported, KeyError, IndexError, ValueError):
             continue
-        if route.lossy or not any(state.get('spikeTarget') == target_mode for state in route.towers.values()):
+        if route.lossy or not any(state.get('spikeTarget') in (
+                ('normal', 'close', 'smart', 'set', 'automatic') if target_mode == 'cycle' else (target_mode,))
+                for state in route.towers.values()):
             continue
         source = SOURCES[route.source]
-        suffix = 'spike-target-preserved' if target_mode == 'smart' else 'spike-close-preserved'
+        suffix = {'smart':'spike-target-preserved', 'close':'spike-close-preserved', 'cycle':'spike-cycle-preserved'}[target_mode]
         name = f'{route.map}#{route.mode}#{W}x{H}#converted#source_{route.source}#{suffix}.btd6'
         meta = [f"source: {source['repo']} (license {source['license']}) commit {source['commit']}",
                 f'source file: {route.source_file}', f'generator: {GENERATOR}',
-                ('Spike Factory Normal to Smart targeting preserved as two forward presses.' if target_mode == 'smart'
-                 else 'Spike Factory Normal to Close targeting preserved as one forward press.'),
+                ({'smart':'Spike Factory Normal to Smart targeting preserved as two forward presses.',
+                  'close':'Spike Factory Normal to Close targeting preserved as one forward press.',
+                  'cycle':'Spike Factory targeting preserved through Tier 5, with source reverse inputs and Set clicks.'}[target_mode]),
                 'Recorded placements and upgrades retained. No original replaced; no local victory claimed.']
         content = '\n'.join(header(meta) + lines) + '\n'
         target = PT / name
@@ -1488,6 +1506,8 @@ if __name__ == "__main__":
         emit_speed_candidates()
     elif '--spike-close-candidates' in sys.argv:
         emit_spike_target_candidates('close')
+    elif '--spike-cycle-candidates' in sys.argv:
+        emit_spike_target_candidates('cycle')
     elif '--spike-target-candidates' in sys.argv:
         emit_spike_target_candidates()
     elif '--selection-candidates' in sys.argv:

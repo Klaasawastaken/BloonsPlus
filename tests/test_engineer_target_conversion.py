@@ -43,7 +43,10 @@ class EngineerTargetTests(unittest.TestCase):
         for name in ('last_resortHardChimps.py', 'muddy_puddlesHardChimps.py',
                      'peninsulaHardChimps.py', 'sanctuaryHardChimps.py'):
             route = module.convert_btd6bot(module.BTD6BOT_PLANS / name)
-            self.assertTrue(route.lossy, name)
+            if name in ('muddy_puddlesHardChimps.py','peninsulaHardChimps.py'):
+                self.assertIn('center()',route.lossy,name)
+            else:
+                self.assertFalse(route.lossy,name)
             self.assertFalse(any('engineer targeting' in item for item in route.lossy), name)
             self.assertTrue(any(line.startswith('retarget engineer') for line in route.lines), name)
 

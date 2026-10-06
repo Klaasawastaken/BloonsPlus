@@ -548,3 +548,36 @@ The read-only profile's Hard/Standard value is 1,049,864, above the earned bit
 threshold, and the controller recorded the clear. It then continued to Balance
 Magic Monkeys Only without a restart. The renewed offline coverage audit still
 finds 526 eligible pairs out of 1,204 across 86 maps; 678 route gaps remain.
+
+### Spike Factory source targeting — 6 October
+
+The pinned BTD6bot targeting implementation uses Normal, Close, Smart, Set and
+Automatic through bottom-path Tier 5. The old importer only accepted forward
+Normal/Close/Smart transitions through Tier 4. It dropped Last Resort's reverse
+Smart-to-Close change and Tier 5 Smart command, and Erosion's positional Set.
+
+The importer now preserves the source's shortest forward/reverse sequence.
+Reverse commands use the read-only profile's `ReverseChangeTargeting` binding;
+missing or unsupported bindings block prerequisites rather than inventing a key.
+Positional Set retains a separate tower selector and special-1 target click.
+The pinned source has a concatenated-string typo in its Set guard. Smart and
+Automatic positional Set calls remain lossy instead of receiving invented clicks.
+
+Replay batching now leaves unbound retarget/special steps for the normal guarded
+dispatch, and reselects a changed source coordinate on a fresh action. Recording,
+scaling and resume retain reverse intent and the current saved key. Twelve focused
+checks, the complete 362-check Python suite, ten setup-transport checks and all 61
+JavaScript check files pass; the unrelated unpublished ABR draft is excluded.
+A scoped read-only review found no actionable issue.
+
+Separate Last Resort and Erosion CHIMPS candidates pass the complete Python
+parser and JavaScript legality audit. No original recording was replaced. Offline
+eligibility rises to 530/1,204 pairs; 674 gaps and Firing Range remain. These counts
+do not prove victories, exact live targeting or account prerequisites. Deployment
+is queued with the next release batch after the current replay finishes.
+
+During this work, Balance Magic Monkeys Only's expanded tower shop covered the
+round HUD while cash continued to rise. The controller reported the last valid
+round, 36, while current round OCR returned -1. A private screenshot and log
+excerpt preserve the evidence. End-of-actions HUD recovery requires further
+investigation; no victory is inferred from income or a stale round.
