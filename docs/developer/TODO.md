@@ -396,7 +396,7 @@ Start only after the current repair work is complete, as requested on 5 October.
 
 - [x] Read pinned BloonsPlayer implementation including argument parsing, opening autostart preference, Space toggles and pause-setting controls. Add read-only inventory with source line numbers, conversion status and remaining omissions; three focused parser/semantics checks pass.
 - [x] Audit 83 source scripts: 12 affected, 11 lossy conversions and one rejected race. Six have only a round-start omission. Preserve all recordings and keep these incomplete conversions excluded.
-- [ ] Implement observed round-start control with input ownership and checkpoint acknowledgement before restoring the six candidates. Explicit autostart and relative speed controls require further work; do not treat an automatic Space press as equivalent.
+- [x] Implement observed round-start control with input ownership and checkpoint acknowledgement before restoring the six candidates. Explicit autostart and relative speed controls require further work; do not treat an automatic Space press as equivalent.
 
 ## Inferred source wait correction (2026-10-06)
 
@@ -423,6 +423,8 @@ Start only after the current repair work is complete, as requested on 5 October.
 ## Settings refinement (2026-10-06)
 
 - [x] Group appearance and game connection into responsive cards; shorten labels, move connection refresh below installation details, and consolidate reset under Advanced. Keep existing setup, update, theme and reset element IDs and handlers.
-- [ ] Review the rendered settings at desktop/mobile widths and both themes before claiming visual verification.
+- [x] Inspect Settings at desktop width in Light and Dark and at 390px in Light. Responsive cards and controls fit; actual screen-reader speech remains unverified.
 
 - [x] Close the round-start pending-checkpoint window with strict action/index/speed validation; current source bindings still replace saved bindings. Eleven focused resume checks and six round-start checks pass.
+
+- Cubism Magic Monkeys Only earned: VICTORY_CONFIRMED at round 80 (02:28:02), controller clear confirmation, and authoritative VM save Cubism.difficult.Hard.modes.MagicOnly=1049871. Never replay this owned medal. Preview 34 published and its boundary updater is live; deployment remains pending until Double HP MOABs ends.
