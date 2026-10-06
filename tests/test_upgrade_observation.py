@@ -7,7 +7,7 @@ import numpy as np
 import cv2
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'autobtd6'))
-from upgrade_observation import read_upgrade_panel, observe_upgrade, PIP_ROWS, resolve_hud_panels, cash_hud_shifted
+from upgrade_observation import read_upgrade_panel, observe_upgrade, PIP_ROWS, resolve_hud_panels, cash_hud_shifted, verify_tower_placement
 from game_runtime import GameState
 
 
@@ -24,6 +24,35 @@ def panel(tiers, side='right', available=True):
 
 
 class UpgradeObservation(unittest.TestCase):
+    def test_ambiguous_placement_requires_fresh_base_panel(self):
+        blank = np.zeros((540,960,3),np.uint8)
+        for result_frame,expected in ((panel([0,0,0]),True),(blank,False),(panel([1,0,0]),False)):
+            frames=iter([blank,result_frame]);calls=[]
+            confirmed,details=verify_tower_placement((100,200),lambda:next(frames),calls.append,lambda s:None)
+            self.assertEqual(confirmed,expected)
+            self.assertEqual(calls,[(100,200)])
+
+    def test_existing_panel_cannot_confirm_a_failed_placement(self):
+        calls=[]
+        confirmed,details=verify_tower_placement((100,200),lambda:panel([0,0,0]),calls.append,lambda s:None)
+        self.assertFalse(confirmed)
+        self.assertEqual(details['reason'],'previous-panel-not-cleared')
+        self.assertEqual(calls,[(480,270),(480,270)])
+
+    def test_cleared_old_panel_then_new_base_panel_confirms(self):
+        blank=np.zeros((540,960,3),np.uint8);calls=[]
+        frames=iter([panel([2,0,0]),blank,panel([0,0,0])])
+        confirmed,_=verify_tower_placement((100,200),lambda:next(frames),calls.append,lambda s:None)
+        self.assertTrue(confirmed)
+        self.assertEqual(calls,[(480,270),(480,270),(100,200)])
+
+    def test_unknown_or_held_frame_sends_no_selection(self):
+        calls=[]
+        self.assertFalse(verify_tower_placement((100,200),lambda:None,calls.append,lambda s:None)[0])
+        with patch('upgrade_observation.held_placement_visible',return_value=True):
+            self.assertFalse(verify_tower_placement((100,200),lambda:panel([0,0,0]),calls.append,lambda s:None)[0])
+        self.assertEqual(calls,[])
+
     def test_wrong_heli_panel_reselected_before_purchase(self):
         frames = iter([panel([5, 0, 2]), panel([2, 0, 4]), panel([2, 0, 5])])
         calls = []

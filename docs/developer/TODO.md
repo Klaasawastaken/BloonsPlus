@@ -585,3 +585,9 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [ ] Observe reduced picker searches during missing-medal gameplay after deployment. Current source OCR aliases and 1440p calibration still require live coverage.
 
 - Preview 41 published on 6 October from a separate build directory. Packaged hero runtime matches source; private last-hero.json is excluded. The existing Preview 39 boundary updater remains live, waiting on Flooded Valley ABR (observed round 64, 12 lives); no clear or defeat is yet claimed for that replay. Hero hint and net-rate deployment remain pending a later batch.
+
+### Positive evidence for ambiguous placements — 6 October
+
+- [x] Require a newly selected 0-0-0 upgrade panel before confirming ordinary towers from visual changes when free placement or income masks cash. Clear an old panel first; send no purchase input. Missing or unchanged panels remain unverified and do not teach terrain refusals or trigger blind duplicate free placements. Heroes retain their separate observer.
+- [x] Offline observations cover stale panels, fresh base panels, upgraded existing towers, missing frames and held placements. This proves panel observation behavior, not tower identity or a winning Infernal strategy.
+- [ ] Deploy this observer at a healthy replay boundary after Preview 58. Continue only missing-medal gameplay; retain the Infernal ABR round-24 defeat in persistent failures.

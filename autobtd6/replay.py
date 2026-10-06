@@ -11,7 +11,7 @@ import time
 from copy import deepcopy
 from game_runtime import GameState, normalize_action
 from upgrade_rules import can_upgrade_in_roster, read_upgrade_caps
-from upgrade_observation import observe_upgrade, resolve_hud_panels, select_tower
+from upgrade_observation import observe_upgrade, resolve_hud_panels, select_tower, verify_tower_placement
 from placement_observation import held_placement_visible
 from placement_hints import route_placement_hints
 from route_timing import delay_ready, round_offset_ready, ability_ready, issue_ability, upgrade_ready, RepeatedAbilities, round_start_ready
@@ -3230,6 +3230,28 @@ def main():
                     customPrint('DEBUG no-cash placement visual check tower=' + str(lastIterationAction.get('name'))
                                 + ' confirmed=' + str(placementConfirmed) + ' details=' + str(visualStats))
                     if placementConfirmed:
+                        if lastIterationAction.get('type') != 'hero':
+                            placementConfirmed, panelProbe = verify_tower_placement(lastIterationAction['pos'],
+                                lambda: np.array(pyautogui.screenshot())[:, :, ::-1].copy(),
+                                pyautogui.click, time.sleep)
+                            visualStats = {**visualStats, 'panelProbe': panelProbe}
+                            customPrint('PLACEMENT_PANEL_PROBE tower=' + str(lastIterationAction.get('name'))
+                                        + ' ' + str(panelProbe))
+                            if not placementConfirmed and panelProbe.get('status') != 'held':
+                                # A panel may be unavailable on frozen/moving maps. Lack of
+                                # proof is not proof of an empty tile; never duplicate a
+                                # possibly free tower or teach this tile as illegal.
+                                customPrint('WARNING placement remains unverified tower='
+                                            + str(lastIterationAction.get('name'))
+                                            + '; no blind duplicate placement or terrain refusal recorded')
+                                if currentGameState is not None:
+                                    currentGameState.mark_action_uncertain(lastIterationAction,
+                                        lastIterationBalance, currentValues['money'])
+                                    saveGameState(currentGameState)
+                                lastIterationAction = None
+                                pendingPlacementProbe = None
+                                continue
+                    if placementConfirmed:
                         if currentGameState is not None:
                             currentGameState.confirm_purchase(lastIterationAction, mapConfig,
                                                              lastIterationBalance, currentValues['money'])
@@ -3328,6 +3350,13 @@ def main():
                     # it from the screen instead.
                     probe = pendingPlacementProbe if pendingPlacementProbe and pendingPlacementProbe.get('name') == lastIterationAction.get('name') else None
                     placedVisually, visualStats = placementVisualCheck(probe, screenshot)
+                    if placedVisually and lastIterationAction.get('type') != 'hero':
+                        placedVisually, panelProbe = verify_tower_placement(lastIterationAction['pos'],
+                            lambda: np.array(pyautogui.screenshot())[:, :, ::-1].copy(),
+                            pyautogui.click, time.sleep)
+                        visualStats = {**visualStats, 'panelProbe': panelProbe}
+                        customPrint('PLACEMENT_PANEL_PROBE tower=' + str(lastIterationAction.get('name'))
+                                    + ' ' + str(panelProbe))
                     if placedVisually and currentGameState is not None:
                         currentGameState.confirm_purchase(lastIterationAction, mapConfig,
                                                          lastIterationBalance + lastIterationCost, currentValues['money'])

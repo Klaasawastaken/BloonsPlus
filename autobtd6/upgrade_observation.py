@@ -141,6 +141,42 @@ def select_tower(position, capture, click, wait, report=lambda message: None):
     return True
 
 
+def verify_tower_placement(position, capture, click, wait):
+    """Observe a newly selected base tower after ambiguous placement cash.
+
+    Never buy, press a hotkey, or reuse an already open panel as evidence.
+    Hero panels have different controls and are outside this observer's scope.
+    """
+    frame = capture()
+    if frame is None or frame.ndim != 3:
+        return False, {'status': 'unknown', 'reason': 'missing-frame'}
+    if held_placement_visible(frame):
+        return False, {'status': 'held'}
+    left, right = resolve_hud_panels(frame, False, False)
+    if left or right:
+        centre = (frame.shape[1] // 2, frame.shape[0] // 2)
+        click(centre)
+        wait(.15)
+        click(centre)
+        wait(.35)
+        frame = capture()
+        if frame is None or frame.ndim != 3:
+            return False, {'status': 'unknown', 'reason': 'missing-frame'}
+        if held_placement_visible(frame) or any(resolve_hud_panels(frame, False, False)):
+            return False, {'status': 'unknown', 'reason': 'previous-panel-not-cleared'}
+    click(position)
+    wait(1.0)
+    frame = capture()
+    if held_placement_visible(frame):
+        return False, {'status': 'held'}
+    panel = read_upgrade_panel(frame)
+    if panel is None:
+        return False, {'status': 'unselected'}
+    if panel['tiers'] != [0, 0, 0]:
+        return False, {'status': 'unexpected', 'tiers': panel['tiers']}
+    return True, {'status': 'confirmed', 'tiers': panel['tiers'], 'side': panel['side']}
+
+
 def observe_upgrade(path, capture, press, click, wait, reselect=None, expected_tiers=None):
     """Prefer a visible available button; allow one retry supported by unchanged pips.
 
