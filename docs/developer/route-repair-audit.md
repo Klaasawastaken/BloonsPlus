@@ -685,3 +685,19 @@ marks the second special as lossy. Earlier gap wording about no candidate does
 not describe this current source. Exact `TowerSpecial2` binding, hero movement
 and its positional click must be preserved before a separate complete candidate
 can be eligible. No source plan was launched or original recording rewritten.
+
+### Chutes Medium opening observation — 6 October
+
+The missing-medal replay could not confirm its third Dart at the recorded point
+after thirteen attempts. Cash remained unchanged and the held-placement observer
+identified a pending placement. The placement recovery logged the problem,
+skipped zero dependent actions and continued the existing game. Other tower and
+hero placements succeeded, and later upgrades have panel-tier confirmation.
+
+This is a placement incident, not confirmed defeat evidence. A later private
+frame shows round 49/60, 150 lives and an owned 2-3-0 Desperado panel. The
+original CHIMPS recording and its placement coordinates remain unchanged.
+Chutes' alternating lanes and central statue obstacles are recorded in the
+mechanics catalog, but they do not establish why that particular placement
+failed. Review legal footprints and the live frame before proposing a separate
+candidate; do not apply blind coordinate changes or infer victory from survival.
