@@ -611,3 +611,10 @@ Start only after the current repair work is complete, as requested on 5 October.
 
 - Persisted gameplay defeat at round 23 (2026-10-06T12:56:00.629Z), using the separate spike-target-preserved CHIMPS conversion as a Hard fallback. Druid 0-1-0 was panel-confirmed at round 22; its next upgrade was unselected shortly before DEFEAT. Hero was placed at round 3, unlike the source CHIMPS start. These observations warrant a freeze/timing audit; they do not establish freezing as the sole cause or justify blind changes to original CHIMPS recordings.
 - Preview 60 applied after that replay ended; guest confirmed the resumed missing-medal sweep. Preview 61 is published and its boundary worker is live. Full failure evidence remains private under dist.
+
+### Dedicated route priority — 6 October
+
+- [x] Correct candidate ordering that placed recorded/converted CHIMPS reuse ahead of converted target-mode plans. Keep exact target-mode local wins first; otherwise prefer dedicated recordings, dedicated conversions and dedicated guides before CHIMPS/Hard fallbacks.
+- [x] Glacial Trail Hard source plan preserves temporary Engineer/Dart opening and Sauda placement at round 6. The failed CHIMPS fallback placed Sauda at round 3. Do not claim this ordering change alone proves the round-23 loss is fixed; source placement timing is mechanically significant, but the unselected Druid upgrade still needs observation.
+- [x] Focused ordering, fallback and authoritative medal gates pass. Actual available-combos enumeration now lists the dedicated Glacial Trail Hard route first. Original recordings and route hashes are unchanged; failed candidates remain persistently recorded.
+- [ ] Deploy with the next boundary batch; continue only missing-medal gameplay. No validation-only games or earned-medal reruns.
