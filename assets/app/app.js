@@ -14,6 +14,7 @@ let towerUpgradeCatalog = {};
 let latestGameState = null;
 let latestRunLog = '';
 let latestAutomationStatus = null;
+let automationStatusLoading = false;
 let profileRateSamples = [];
 let profileRates = { monkeyMoneyPerHour: null, xpPerHour: null };
 let profileRateSource = null;
@@ -88,7 +89,7 @@ function keepRunLog(status) {
   try { localStorage.setItem('bloonsRunLog', JSON.stringify(accumulatedRunLog)); } catch { /* storage full */ }
   return accumulatedRunLog.lines;
 }
-const defaults = { queue: [], completedMaps: [], achievements: [], completed: [], towerChecks: {}, achievementProgress: {}, theme: 'light' };
+const defaults = { queue: [], completedMaps: [], achievements: [], completed: [], towerChecks: {}, achievementProgress: {}, theme: 'light', startupMode:'full' };
 let state = loadState();
 document.documentElement.dataset.theme = state.theme === 'dark' ? 'dark' : 'light';
 let toastTimer;
@@ -758,6 +759,8 @@ function render() {
   }
   setText('#local-save-read', local?.readAt ? `Last save read ${new Date(local.readAt).toLocaleTimeString()}` : 'Last save read —');
   document.querySelectorAll('#theme-setting input[name="app-theme"]').forEach(input => { input.checked = input.value === state.theme; });
+  const introChoice=document.querySelector('#startup-mode');
+  if(introChoice)introChoice.value=['full','reduced','off'].includes(state.startupMode)?state.startupMode:'full';
   window.refreshSelectControls?.();
   const player = detectedProgress.player;
   // Profile.Save is rewritten by BTD6 continuously; the menu-screen scan only refreshes when
@@ -1010,6 +1013,9 @@ document.querySelector('#theme-setting')?.addEventListener('change', event => {
   notify(`${state.theme === 'dark' ? 'Dark' : 'Light'} mode enabled.`);
 });
 let connectionPending = false;
+document.querySelector('#startup-mode')?.addEventListener('change',event=>{
+  state.startupMode=['full','reduced','off'].includes(event.target.value)?event.target.value:'full';saveState();
+});
 async function refreshConnection(manual = false) {
   if (connectionPending) return;
   connectionPending = true;
@@ -1158,7 +1164,6 @@ function renderAutomationStatus(status) {
     sweepDetail.textContent = `${state} · Expert → Beginner · map ${sweep.mapIndex || 0}/${sweep.mapsTotal || 0}${location ? ` · ${location}` : ''} · ${sweep.counts?.confirmed || 0} clears this pass · ${sweep.counts?.incompleteMaps || 0} maps left incomplete${sweep.reason ? ` · ${sweep.reason.replace(/-/g, ' ')}` : ''}`;
   }
 }
-let automationStatusLoading = false;
 async function loadAutomationStatus() {
   if (automationStatusLoading) return;
   automationStatusLoading = true;

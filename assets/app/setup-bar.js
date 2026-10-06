@@ -1,5 +1,5 @@
 // Setup bar: shows the first-run VM setup at the top of the app until every step is done.
-// Polls /api/setup/status (vm-setup.js) and drives /api/setup/start. Self-contained on purpose:
+// Read-only component checks supplement the shared authenticated setup session.
 // Shares the same detected setup state with the Settings game environment panel.
 (() => {
   const bar = document.getElementById('setup-bar');
@@ -17,6 +17,34 @@
   let firstRunSeen = false;
   try { firstRunSeen = localStorage.getItem('bloonsSetupPrepageSeen') === '1'; } catch { /* storage blocked */ }
   let timer = null, last = null, pollPending = false, actionPending = false, actionError = '';
+  const sessionClient = globalThis.BloonsSetupClient.createClient({fetch});
+  function recoveryControls(status) {
+    const snapshot=status.coordinator, restart=snapshot?.phase==='restart_required';
+    const diagnostic=snapshot?.error?.message || actionError || status.job?.error || '';
+    const redacted=globalThis.BloonsSupport?.redact(diagnostic) || String(diagnostic).replace(/[a-z]:\\Users\\[^\r\n]+/gi,'[user path removed]');
+    for(const prefix of ['setup-bar','vm-settings']) {
+      const visibility={pause:!!snapshot && !!(snapshot.queued || snapshot.operationOutstanding),
+        'restart-now':restart,'restart-later':restart && !snapshot.restartDeferred,
+        'open-vm':!!snapshot && status.applicable && (snapshot.humanAction==='steam_sign_in' || status.vm?.state==='online')};
+      for(const [action,visible] of Object.entries(visibility)) {
+        const control=$(`${prefix}-${action}`);if(!control)continue;
+        control.hidden=!visible;control.disabled=actionPending;
+      }
+      if($(`${prefix}-details`))$(`${prefix}-details`).hidden=!redacted;
+      if($(`${prefix}-diagnostic`))$(`${prefix}-diagnostic`).textContent=redacted.slice(-16384);
+    }
+  }
+  function coordinated(status, snapshot) {
+    if(!snapshot || !status.applicable)return status;
+    const waiting=!!snapshot.humanAction;
+    const running=snapshot.operationOutstanding||snapshot.queued||(!waiting&&!['idle','complete','failed','cancelled'].includes(snapshot.phase));
+    const commandText=snapshot.phase==='idle'?'Continue setup':snapshot.humanAction==='steam_sign_in'?'Check again':'Continue setup';
+    return {...status,coordinator:snapshot,allDone:status.allDone&&snapshot.phase==='complete',
+      next:{...(status.next||{}),message:snapshot.status,button:snapshot.phase==='complete'||snapshot.phase==='restart_required'||running?null:commandText},
+      job:{...status.job,running,activity:snapshot.status,error:snapshot.error?'A setup component needs attention. Review details, then retry.':null,
+        state:snapshot.phase==='failed'?'failed':snapshot.phase==='restart_required'?'restart-required':status.job?.state,
+        numerator:snapshot.numerator,denominator:snapshot.denominator,indeterminate:snapshot.indeterminate}};
+  }
   const downloadHelp = document.createElement('a');
   downloadHelp.href = 'https://www.microsoft.com/software-download/windows11';
   downloadHelp.target = '_blank'; downloadHelp.rel = 'noopener noreferrer';
@@ -38,6 +66,7 @@
 
   function render(status) {
     last = status;
+    recoveryControls(status);
     const setupJob = status.job || {};
     if (settingsStatus) {
       const next = status.next || {};
@@ -71,7 +100,7 @@
         const checks = status.steps || [];
         const completed = checks.filter(step => step.done).length;
         const partial = Number.isFinite(setupJob.progress) ? Math.max(0, Math.min(1, setupJob.progress)) : 0;
-        const percent = checks.length ? Math.min(100, Math.round((completed + partial) / checks.length * 100)) : 0;
+        const percent = status.coordinator ? status.coordinator.completedWeight : checks.length ? Math.min(100, Math.round((completed + partial) / checks.length * 100)) : 0;
         settingsProgress.hidden = settingsProgressLabel.hidden = !setupJob.running || !checks.length;
         settingsProgress.setAttribute('aria-valuenow', String(percent));
         settingsProgress.querySelector('span').style.width = `${percent}%`;
@@ -93,7 +122,8 @@
     }
     const show = status.applicable && !status.allDone && !hiddenByUser;
     bar.hidden = !show;
-    bar.classList.toggle('setup-prepage', show && !firstRunSeen);
+    // Setup remains inline so an absent VM never blocks app navigation.
+    bar.classList.toggle('setup-first-launch', show && !firstRunSeen);
     if (status.allDone && !firstRunSeen) {
       firstRunSeen = true;
       try { localStorage.setItem('bloonsSetupPrepageSeen', '1'); } catch { /* storage blocked */ }
@@ -128,7 +158,7 @@
     const stepFraction = stepCount ? doneCount / stepCount : 0;
     const fraction = typeof job.progress === 'number' ? Math.min(1, (doneCount + job.progress) / Math.max(1, stepCount)) : stepFraction;
     progress.hidden = !stepCount;
-    progressFill.style.width = `${Math.round(fraction * 100)}%`;
+    progressFill.style.width = `${status.coordinator ? status.coordinator.completedWeight : Math.round(fraction * 100)}%`;
     const message = job.error ? job.error : job.running ? '' : job.activity;
     activity.hidden = !message;
     activity.textContent = message || '';
@@ -142,7 +172,9 @@
     try {
       const response = await fetch('/api/setup/status', { cache: 'no-store', signal: AbortSignal.timeout(12000) });
       if (!response.ok) throw new Error(`Connection check failed (${response.status})`);
-      render(await response.json());
+      const status=await response.json();
+      if(!actionPending && status.applicable)await sessionClient.observe();
+      render(coordinated(status,sessionClient.snapshot()));
     } catch {
       if (settingsStatus) {
         settingsStatus.textContent = actionError || 'Waiting for the Bloons+ controller to reconnect…';
@@ -156,6 +188,8 @@
       if (settingsStart) settingsStart.disabled = true;
       if (settingsUpdate) settingsUpdate.disabled = true;
       button.disabled = true;
+      for(const prefix of ['setup-bar','vm-settings'])for(const action of ['pause','restart-now','restart-later','open-vm'])
+        if($(`${prefix}-${action}`))$(`${prefix}-${action}`).disabled=true;
     }
     // Fast while setup works, slower otherwise; keep checking after completion so the bar returns if the VM stops.
     pollPending = false;
@@ -171,11 +205,7 @@
     try { localStorage.setItem('bloonsSetupPrepageSeen', '1'); } catch { /* storage blocked */ }
     button.disabled = true;
     try {
-      const response = await fetch('/api/setup/start', {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(isoInput.hidden || !isoInput.value.trim() ? {} : { isoPath: isoInput.value.trim() }),
-      });
-      if (!response.ok) throw new Error((await response.json().catch(() => ({}))).error || `HTTP ${response.status}`);
+      await sessionClient.begin({isoPath:isoInput.hidden?'':isoInput.value.trim()});
     } catch (error) {
       actionError = `Could not start setup: ${error.message}`;
       activity.hidden = false; activity.textContent = `Could not start setup: ${error.message}`; activity.classList.add('error');
@@ -195,9 +225,7 @@
     actionPending = true; actionError = '';
     settingsStart.disabled = true;
     try {
-      const response = await fetch('/api/setup/start', { method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(!$('vm-settings-iso-field')?.hidden && settingsIso.value.trim() ? { isoPath: settingsIso.value.trim() } : {}) });
-      if (!response.ok) throw new Error((await response.json().catch(() => ({}))).error || `HTTP ${response.status}`);
+      await sessionClient.begin({isoPath:$('vm-settings-iso-field')?.hidden?'':settingsIso.value.trim()});
     } catch (error) {
       actionError = `Could not start setup: ${error.message}`;
       settingsStatus.textContent = actionError;
@@ -207,6 +235,15 @@
     poll();
   });
   settingsRefresh?.addEventListener('click', poll);
+  for(const prefix of ['setup-bar','vm-settings'])for(const [suffix,action] of Object.entries({pause:'cancel','restart-now':'restart_now','restart-later':'restart_later','open-vm':'open_vm'})) {
+    $(`${prefix}-${suffix}`)?.addEventListener('click',async()=>{
+      if(actionPending)return;
+      if(action==='restart_now' && !globalThis.confirm('Restart this Windows PC now? Save your work before continuing.'))return;
+      actionPending=true;actionError='';if(last)render(last);
+      try{await sessionClient.command(action);}catch(error){actionError=`Setup action could not finish: ${error.message}`;}
+      finally{actionPending=false;await poll();}
+    });
+  }
   // Navigation uses the same guarded poll as manual refresh: no second job or
   // stale 30-second connection state when the user opens Settings.
   document.addEventListener('bloons-settings-open', poll);
@@ -216,9 +253,7 @@
     settingsUpdate.disabled = true;
     if (settingsStatus) { settingsStatus.textContent = 'Sending the latest Bloons+ build to the VM…'; settingsStatus.classList.remove('error'); }
     try {
-      const response = await fetch('/api/setup/update', { method: 'POST' });
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.error || `Update failed (${response.status})`);
+      await sessionClient.begin({operation:'update'});
       if (settingsStatus) settingsStatus.textContent = 'VM update started. This page will show its progress.';
     } catch (error) {
       actionError = `Could not update VM: ${error.message}`;

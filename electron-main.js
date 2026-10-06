@@ -1,10 +1,11 @@
-const { app, BrowserWindow, shell } = require('electron');
+const { app, BrowserWindow, shell, nativeTheme } = require('electron');
 const path = require('node:path');
 const fs = require('node:fs');
 const ICON_PATH = path.join(__dirname, 'bloonsplus.ico');
 
 const port = Number(process.env.PORT || 4173);
-const url = `http://127.0.0.1:${port}`;
+const softwareRendering = fs.existsSync('C:\\Windows\\AppSandbox\\appsandbox-agent.exe') || process.env.BLOONS_SOFTWARE_RENDERING === '1';
+const url = `http://127.0.0.1:${port}/${softwareRendering ? '?softwareRendering=1' : ''}`;
 const setupOnly = process.env.BLOONS_SETUP_ONLY === '1';
 
 // The App Sandbox VM shares one GPU passthrough device between BTD6 (a full 3D game) and
@@ -15,7 +16,7 @@ const setupOnly = process.env.BLOONS_SETUP_ONLY === '1';
 // need for it.
 // The guest needs software rendering for GPU passthrough stability. The host
 // should retain Chromium's compositor for smooth scrolling and video previews.
-if (fs.existsSync('C:\\Windows\\AppSandbox\\appsandbox-agent.exe') || process.env.BLOONS_SOFTWARE_RENDERING === '1') {
+if (softwareRendering) {
   app.disableHardwareAcceleration();
 }
 app.commandLine.appendSwitch('no-sandbox');
@@ -31,8 +32,15 @@ app.on('child-process-gone', (_event, details) => logCrash('child-process-gone',
 require('./server.js'); // starts the local server as a side effect
 
 function loadWithRetry(win, attempt = 0) {
+  if (win.isDestroyed()) return;
   win.loadURL(url).catch(() => {
-    if (attempt >= 20) return;
+    if (win.isDestroyed()) return;
+    if (attempt >= 20) {
+      const background=nativeTheme.shouldUseDarkColors?'#11192b':'#f5f7fc';
+      const text=nativeTheme.shouldUseDarkColors?'#eef2fb':'#1e2a52';
+      const recovery=`<!doctype html><html><meta charset="utf-8"><title>Bloons+ connection</title><body style="margin:0;background:${background};color:${text};font:16px system-ui;display:grid;place-items:center;height:100vh"><main style="max-width:480px;padding:36px"><h1>Bloons+</h1><p>The local controller did not start. Your VM and replay have not been stopped.</p><p>Reopen the app or retry when the controller is ready.</p><a style="color:${text}" href="${url}">Retry connection</a></main></body></html>`;
+      win.loadURL('data:text/html;charset=utf-8,'+encodeURIComponent(recovery)).catch(error=>logCrash('startup-recovery',error.message));return;
+    }
     setTimeout(() => loadWithRetry(win, attempt + 1), 200);
   });
 }
@@ -45,7 +53,7 @@ function createWindow() {
     minHeight: 680,
     title: 'Bloons+',
     autoHideMenuBar: true,
-    backgroundColor: '#f5f6f1',
+    backgroundColor: nativeTheme.shouldUseDarkColors ? '#11192b' : '#f5f7fc',
     icon: ICON_PATH,
   });
   win.webContents.setWindowOpenHandler(({ url: target }) => {
@@ -54,6 +62,11 @@ function createWindow() {
       if (external.protocol === 'https:') shell.openExternal(external.href).catch(error => logCrash('external-link', error.message));
     } catch { /* Reject malformed or non-web links. */ }
     return { action: 'deny' };
+  });
+  win.webContents.on('will-navigate',(event,target)=>{
+    if (win.webContents.getURL().startsWith('data:text/html') && target===url) {
+      event.preventDefault();loadWithRetry(win);
+    }
   });
   if (process.platform === 'win32') win.setAppDetails({
     appId: 'com.bloonsplus.app',

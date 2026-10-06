@@ -123,7 +123,7 @@
 ## Task 5 — First-launch setup and original startup intro
 
 **Files:**
-- Modify `assets/app/setup-bar.js`, `assets/app/app.js`, `assets/app/index.html`, app CSS and `electron-main.js`.
+- Modify `assets/app/setup-bar.js`, `assets/app/app.js`, `index.html`, app CSS and `electron-main.js`.
 - Create `assets/app/startup.js` and `assets/app/startup.css` for presentation only.
 - Add `tests/test-app-startup.js` and shared first-launch setup contract tests.
 
@@ -133,12 +133,12 @@
 - Preferences use existing storage: Full/Reduced/Off. Off imposes no timer; Escape/Skip dismisses branding only.
 - Setup renderer consumes the same Task 3 snapshots and commands, rather than recreating setup state.
 
-- [ ] Write failing tests for immediate shell initialization during intro, disabled/reduced launch, delayed service and absent VM.
-- [ ] Test a persistent service failure: transition to Retry/details, not a frozen final animation or unlimited retries.
-- [ ] Implement 1–2 second normal and optional 2–3 second first intro with preloaded small assets; no video/GIF/audio/dependency.
-- [ ] Use one stable themed window; preserve host acceleration and guest software rendering. Avoid a white/blank flash, visible console or resize.
-- [ ] Verify keyboard dismissal, focus/announcements, settings persistence and lighter guest rendering; inspect real first/repeat app launches without touching the running guest.
-- [ ] Run startup, setup, viewer lifecycle and app-render suites; commit.
+- [x] Write failing tests for immediate shell initialization during intro, disabled/reduced launch, delayed service and absent VM.
+- [x] Test a persistent service failure: transition to Retry/details, not a frozen final animation or unlimited retries.
+- [x] Implement 1–2 second normal and optional 2–3 second first intro with preloaded small assets; no video/GIF/audio/dependency.
+- [x] Use one stable themed window; preserve host acceleration and guest software rendering. Avoid a white/blank flash, visible console or resize.
+- [x] Verify model timing and keyboard dismissal, settings persistence, lighter guest rendering and first/repeat actual renderer launches in a hidden isolated Electron window. Physical focus/screen-reader and full clean launch acceptance remain Task 6.
+- [x] Run startup, setup, viewer lifecycle and app-render suites; commit.
 
 ## Task 6 — End-to-end acceptance, packaging and release
 

@@ -19,14 +19,19 @@ class Element {
     document: { getElementById: get, createElement: () => new Element(), addEventListener: (name, fn) => { documentListeners[name] = fn; } },
     sessionStorage: { getItem() {}, setItem() {} }, localStorage: { getItem() {}, setItem() {} },
     setTimeout: () => 1, clearTimeout() {}, AbortSignal,
+    BloonsSetupClient: require('../assets/app/setup-client'),
     fetch: async (url, options) => {
-      if (options?.method === 'POST') { updateCount++; if (pendingUpdate) await pendingUpdate; return { ok: false, status: 503, json: async () => ({ error: 'Bridge unavailable' }) }; }
+      if (options?.method === 'POST' && JSON.parse(options.body).operation === 'update') { updateCount++; if (pendingUpdate) await pendingUpdate; return { ok: false, status: 503, json: async () => ({ error: 'Bridge unavailable' }) }; }
+      if(url.startsWith('/api/setup/session'))return {ok:true,json:async()=>({protocolVersion:1,sessionId:'a'.repeat(32),sequence:0,
+        phase:status.allDone?'complete':status.job.running?'validating':status.job.error?'failed':status.next?.button?'idle':'restart_required',
+        humanAction:!status.next?.button&&!status.allDone?'restart':null,operationOutstanding:!!status.job.running,
+        status:status.next?.message||'Checking setup',error:status.job.error?{message:status.job.error}:null,completedWeight:status.allDone?100:0})};
       statusReads++;
       return { ok: true, json: async () => status };
     },
   };
   vm.runInNewContext(fs.readFileSync('assets/app/setup-bar.js', 'utf8'), context);
-  const flush = async () => { for (let i = 0; i < 8; i++) await Promise.resolve(); };
+  const flush = async () => { for (let i = 0; i < 40; i++) await Promise.resolve(); };
   await flush();
   assert.match(get('vm-settings-status').textContent, /Ready:/);
   status.allDone = false;
@@ -82,5 +87,34 @@ class Element {
   const html = fs.readFileSync('index.html', 'utf8');
   assert.ok(html.indexOf('settings-appearance') < html.indexOf('panel vm-settings-panel'));
   assert.equal((html.match(/id="vm-settings-update"/g) || []).length, 1);
+  assert.ok(html.indexOf('assets/app/setup-client.js') < html.indexOf('assets/app/setup-bar.js'), 'shared client loads before its renderer');
+  for(const prefix of ['setup-bar','vm-settings'])for(const action of ['pause','restart-now','restart-later','open-vm'])
+    assert.ok(html.includes(`id="${prefix}-${action}"`),`Missing human setup action ${prefix}-${action}`);
+  assert.ok(!fs.readFileSync('assets/app/setup-bar.js','utf8').includes("classList.toggle('setup-prepage'"),'Missing VM setup must not hide navigation behind a full-page intro');
+  const actions=[];
+  let snapshot={protocolVersion:1,sessionId:'a'.repeat(32),sequence:0,phase:'restart_required',humanAction:'restart',status:'Restart Windows to continue',completedWeight:8};
+  status.applicable=true;status.allDone=false;status.vm={state:'online'};status.job={running:false};
+  context.confirm=()=>false;
+  context.fetch=async(url,options)=>{
+    if(url==='/api/setup/status')return {ok:true,json:async()=>status};
+    if(url.endsWith('/command')){
+      const body=JSON.parse(options.body);assert.equal(body.sequence,snapshot.sequence);actions.push(body.action);
+      if(body.action==='restart_later')snapshot.restartDeferred=true;
+      if(body.action==='cancel'){snapshot.queued=false;snapshot.phase='cancelled';snapshot.humanAction='resume';}
+    }
+    snapshot.sequence++;
+    return {ok:true,json:async()=>structuredClone(snapshot)};
+  };
+  vm.runInNewContext(fs.readFileSync('assets/app/setup-bar.js','utf8'),context);await flush();
+  await get('vm-settings-start').listeners.click();await flush();
+  assert.equal(get('vm-settings-restart-now').hidden,false);
+  await get('vm-settings-restart-now').listeners.click();assert.equal(actions.length,0,'Declining restart submitted a command');
+  await get('vm-settings-restart-later').listeners.click();assert.deepEqual(actions,['restart_later']);
+  assert.equal(get('vm-settings-restart-later').hidden,true,'Deferred restart choice did not persist in the shared view');
+  snapshot={...snapshot,phase:'recovering',humanAction:'wait_replay',queued:true,status:'Waiting for replay'};
+  await get('vm-settings-refresh').listeners.click();
+  assert.equal(get('vm-settings-pause').hidden,false);
+  await get('vm-settings-pause').listeners.click();assert.equal(actions.at(-1),'cancel');
+  assert.equal(get('vm-settings-pause').hidden,true,'Pause retained queued work');
   console.log('Settings action failure, refresh and duplicate-job checks passed');
 })().catch(error => { console.error(error); process.exitCode = 1; });

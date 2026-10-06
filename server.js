@@ -36,7 +36,7 @@ const setupController = createSetupController({ root, port, setupOnly,
       if (!status.vm || status.vm.state !== 'online') return { running:false };
       return vmReplayState();
     },
-    start: options => vmSetup.start(options),
+    start: options => options.operation === 'update' ? vmSetup.updateGuest() : vmSetup.start(options),
     cancel: () => vmSetup.cancel(),
     openVm: () => vmSetup.ensureVmDisplay(),
     restart: () => vmSetup.restartHost(),

@@ -34,6 +34,7 @@ async function start(f) {
   await assert.rejects(fresh.session.command({sessionId: 'c'.repeat(32), sequence: 0, action: 'start'}), /stale/i);
   await assert.rejects(fresh.session.command({sessionId, sequence: -1, action: 'start'}), /stale/i);
   await start(fresh); assert.equal(fresh.starts(), 1);
+  assert.throws(()=>fresh.session.configure({isoPath:'changed.iso'}),/active/,'Active setup options changed under its owner');
   await assert.rejects(fresh.session.command({sessionId, sequence: fresh.session.snapshot().sequence, action: 'start'}), /already|active/i);
   assert.equal(fresh.starts(), 1);
   for (const replay of [{running: true}, null, {}, {running: 'false'}]) {
@@ -49,6 +50,30 @@ async function start(f) {
   assert.equal(cancel.starts(), 0, 'Cancel must not leave a queued mutation');
   const ready = fixture(); ready.status({applicable:true, allDone:true, steps:[{id:'connected',done:true},{id:'steam',done:true}],job:{running:false}});
   await start(ready); assert.equal(ready.starts(), 0); assert.equal(ready.session.snapshot().phase, 'complete');
+  let updates=0;
+  const update=createSetupSession({sessionId,owner,operation:'update',options:{}},{
+    getStatus:async()=>({applicable:true,allDone:true,steps:[{id:'connected',done:true},{id:'steam',done:true}],job:{running:false}}),
+    getReplayStatus:async()=>({running:false}),start:async options=>{assert.equal(options.operation,'update');updates++;}
+  });
+  await update.command({sessionId,sequence:update.snapshot().sequence,action:'start'});
+  assert.equal(updates,1,'A ready environment skipped an explicit app update');
+  let updateState='waiting-replay';
+  const waitingUpdate=createSetupSession({sessionId,owner,operation:'update',options:{}},{
+    getStatus:async()=>({applicable:true,allDone:true,steps:[{id:'connected',done:true},{id:'steam',done:true}],job:{running:false,state:updateState}}),
+    getReplayStatus:async()=>({running:false}),start:async()=>{}
+  });
+  await waitingUpdate.command({sessionId,sequence:0,action:'start'});await waitingUpdate.observe();
+  assert.notEqual(waitingUpdate.snapshot().phase,'complete','An update waiting on replay was declared complete');
+  assert.equal(waitingUpdate.snapshot().queued,true);
+  const throwsOnStart=fixture({start:async()=>{throw new Error('Operator did not launch');}});
+  await start(throwsOnStart);
+  assert.equal(throwsOnStart.session.snapshot().operationOutstanding,false,'A rejected launch retained an owner');
+  const failedOwner=fixture();await start(failedOwner);
+  failedOwner.status({applicable:true,allDone:false,steps:[{id:'iso',done:false}],job:{running:false,error:'download failed'}});
+  await failedOwner.session.observe();
+  assert.equal(failedOwner.session.snapshot().operationOutstanding,false,'Known terminal failure kept a phantom owner');
+  failedOwner.session.configure({isoPath:'replacement.iso'});
+  assert.equal(failedOwner.session.options().isoPath,'replacement.iso');
   const unknown = fixture(); unknown.status({allDone: true});
   await start(unknown); assert.notEqual(unknown.session.snapshot().phase, 'complete', 'Incomplete observation is not readiness');
   assert.equal(unknown.starts(), 0);
@@ -68,6 +93,12 @@ async function start(f) {
   });
   await recovered.observe();
   assert.equal(recovered.snapshot().humanAction,'wait_setup','A reopened observer must not treat a lost setup owner as idle');
+  const readyWithLostOwner=createSetupSession({sessionId,owner,operation:'install',options:{},checkpoint},{
+    getStatus:async()=>({applicable:true,allDone:true,steps:[{id:'connected',done:true},{id:'steam',done:true}],job:{running:false}}),
+    getReplayStatus:async()=>({running:false}),start:async()=>{}
+  });
+  await readyWithLostOwner.observe();
+  assert.equal(readyWithLostOwner.snapshot().humanAction,'wait_setup','Ready files concealed an unobserved setup owner');
   const slow = fixture({getStatus:async()=>{await new Promise(resolve=>setTimeout(resolve,5));return {applicable:true,allDone:false,next:{id:'provision'},steps:[{id:'provision',done:false}],job:{running:false}};}});
   const first = start(slow);
   await assert.rejects(start(slow),/active/i); await first;

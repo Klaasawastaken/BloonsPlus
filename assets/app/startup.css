@@ -1,0 +1,20 @@
+.startup-branding{position:fixed;inset:0;z-index:1000;display:grid;place-items:center;background:var(--brand-background);color:var(--brand-text);pointer-events:none}
+.startup-branding[hidden]{display:none}
+.startup-mark{text-align:center;animation:startup-arrive .5s cubic-bezier(.2,.75,.3,1) both}
+.startup-mark img{width:88px;height:88px;object-fit:contain;filter:drop-shadow(0 10px 22px #3e5acf20)}
+.startup-mark strong{display:block;font:800 30px Manrope,system-ui,sans-serif;margin:18px 0 7px}
+.startup-mark p{color:var(--brand-muted);font-size:14px}
+.startup-skip{position:absolute;right:26px;top:22px;pointer-events:auto;border:1px solid var(--brand-border);border-radius:12px;background:var(--brand-surface);color:var(--brand-text);padding:10px 16px}
+.startup-skip:focus-visible{outline:3px solid var(--brand-primary);outline-offset:3px}
+.startup-branding[data-motion="reduced"] .startup-mark{animation:none}
+.startup-service-status{margin:0 0 20px;padding:14px 18px;border:1px solid var(--brand-border);border-radius:16px;background:var(--brand-soft);color:var(--brand-text);display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.startup-service-status[hidden]{display:none}
+.startup-service-status details{width:100%;font-size:12px;color:var(--brand-muted)}
+.startup-service-status pre{white-space:pre-wrap;overflow-wrap:anywhere}
+@keyframes startup-arrive{from{opacity:0;transform:translateY(10px) scale(.97)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.startup-mark{animation:none}}
+/* First-launch environment setup shares the normal page, never a navigation gate. */
+.setup-first-launch .setup-welcome{display:flex}
+.setup-recovery-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+.setup-recovery-actions [hidden]{display:none}
+#setup-bar-diagnostic,#vm-settings-diagnostic{white-space:pre-wrap;overflow-wrap:anywhere;max-height:180px;overflow:auto;font:12px/1.6 monospace;color:var(--ink)}
