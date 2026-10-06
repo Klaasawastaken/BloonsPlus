@@ -1047,7 +1047,9 @@ document.querySelector('#confirm-dialog').addEventListener('close', event => {
   if (event.target.returnValue !== 'reset') return;
   state = structuredClone(defaults); saveState(); notify('App preferences reset.');
 });
-document.addEventListener('keydown', event => { if (event.key === 'Escape' && !document.querySelector('#confirm-dialog').open) showView('overview'); });
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape' && !event.defaultPrevented && !document.querySelector('dialog[open]')) showView('overview');
+});
 render();
 try {
   const lastView = localStorage.getItem('bloonsplus-last-view');
@@ -1137,10 +1139,11 @@ function renderAutomationStatus(status) {
   if (pauseButton) { pauseButton.disabled = !status.running; pauseButton.textContent = status.paused ? 'Resume' : 'Pause'; }
   const resumeButton = document.querySelector('#farm-resume');
   if (resumeButton) resumeButton.disabled = status.checkpoint?.status !== 'ready' || status.running || !!status.busyWith;
-  for (const id of ['farm-xp', 'farm-mm', 'farm-max-towers', 'farm-achievements', 'farm-blackborder', 'farm-file']) {
+  for (const id of ['farm-xp', 'farm-mm', 'farm-max-towers', 'farm-achievements', 'farm-blackborder']) {
     const button = document.querySelector(`#${id}`);
     if (button) button.disabled = status.runtime?.available === false || status.running || !!status.busyWith;
   }
+  syncSelectedRunButton();
   const logLines = keepRunLog(status);
   latestRunLog = logLines.join('\n');
   const compactLog = logLines.slice(-120).join('\n') || 'No run output yet.';
@@ -1361,18 +1364,30 @@ function renderVariationOptions() {
   if ([...select.options].some(option => option.value === previous)) select.value = previous;
   renderSpecificMapRequirements();
 }
+function syncSelectedRunButton() {
+  const button = document.querySelector('#farm-file');
+  if (!button) return;
+  const map = document.querySelector('#playthrough-map-select')?.value;
+  const mode = document.querySelector('#playthrough-variation-select')?.value;
+  const status = latestAutomationStatus;
+  button.disabled = !comboData[map]?.[mode]?.length || !status || status.statusUnavailable
+    || status.statusStale || status.runtime?.available === false || status.running || !!status.busyWith
+    || mapObservationFor(map)?.medals?.[mode] === true;
+}
 function renderSpecificMapRequirements() {
   const box = document.querySelector('#specific-map-requirements');
   if (!box) return;
   const map = document.querySelector('#playthrough-map-select')?.value || '';
   const mode = document.querySelector('#playthrough-variation-select')?.value || '';
   const route = comboData[map]?.[mode]?.[0];
-  const medal = detectedProgress?.maps?.[map]?.medals?.[mode] === true;
+  const observation = mapObservationFor(map);
+  const medal = observation.medals?.[mode] === true;
+  const medalKnown = Object.keys(observation.medals || {}).length > 0;
   const checks = [
     ['Route available', !!route, route ? (route.localWinVerified ? 'Verified route' : 'Recorded route') : 'No compatible route'],
     ['Map selected', !!map, map ? 'Ready' : 'Select a map'],
     ['Variation selected', !!mode, mode ? 'Ready' : 'Choose a variation'],
-    ['Medal state read', detectedProgress?.maps?.[map]?.medals != null, medal ? 'Already completed' : 'Not completed'],
+    ['Medal state read', medalKnown, !medalKnown ? 'Waiting for game save' : medal ? 'Already completed' : 'Not completed'],
   ];
   const rows = checks.map(([label, ok, detail]) => { const row=document.createElement('div'); row.className='requirement-item'; const mark=document.createElement('i'); mark.className=`requirement-mark ${ok?'valid':'invalid'}`; mark.textContent=ok?'✓':'×'; const span=document.createElement('span'); span.textContent=label; const b=document.createElement('b'); b.textContent=detail; row.append(mark,span,b); return row; });
   if (map) {
@@ -1400,6 +1415,7 @@ function renderSpecificMapRequirements() {
     }
   }
   box.replaceChildren(...rows);
+  syncSelectedRunButton();
   renderTowerRequirements();
 }
 const titleCase = slug => slug.split('_').map(word => word[0].toUpperCase() + word.slice(1)).join(' ');

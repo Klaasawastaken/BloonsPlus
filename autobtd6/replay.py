@@ -1859,6 +1859,12 @@ def main():
         height, width = frame.shape[:2]
         x, y = (int(probe['pos'][0]), int(probe['pos'][1]))
         radius = max(30, int(width * 0.021))
+        # A clipped crop shifts its measured centre away from the tower point.
+        # Edge decorations/animation then look like a placed tower (Infernal x=13).
+        # Cashless confirmation requires a complete region around the target;
+        # a clipped region provides no evidence that the intended tower exists.
+        if x - radius < 0 or x + radius > width or y - radius < 0 or y + radius > height:
+            return False, {'reason': 'clipped-placement-region'}
         left, right = max(0, x - radius), min(width, x + radius)
         top, bottom = max(0, y - radius), min(height, y + radius)
         before = probe.get('before')

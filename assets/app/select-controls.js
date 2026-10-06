@@ -28,7 +28,7 @@
   }
 
   function signature(select) {
-    return JSON.stringify(Array.from(select.options, option => [option.textContent, option.selected, option.disabled, option.hidden, option.parentElement.disabled, option.parentElement.hidden]));
+    return JSON.stringify(Array.from(select.options, option => [option.textContent, option.selected, option.disabled, option.hidden, option.parentElement.disabled, option.parentElement.hidden, option.parentElement.label]));
   }
 
   function options(control, query = '') {
@@ -175,6 +175,13 @@
       if (event.key === 'Escape') { event.preventDefault(); close(true); return; }
       if (event.key === 'Tab') { close(); button.focus(); return; }
       const rows = Array.from(list.querySelectorAll('[role="option"]:not(:disabled)'));
+      if (event.key === 'Enter' && document.activeElement === menu.querySelector('input')) {
+        event.preventDefault();
+        // Search owns focus, so native button activation cannot select a row.
+        // Use the same click handler to preserve native input/change events.
+        (rows.find(row => row.getAttribute('aria-selected') === 'true') || rows[0])?.click();
+        return;
+      }
       if (!rows.length) return;
       const index = rows.indexOf(document.activeElement);
       let next;

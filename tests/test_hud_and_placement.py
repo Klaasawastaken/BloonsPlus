@@ -14,6 +14,19 @@ def functions(file, names, namespace):
     return namespace
 
 class Regressions(unittest.TestCase):
+    def test_clipped_screen_change_is_not_placement_evidence(self):
+        tree = ast.parse((ROOT / 'autobtd6/replay.py').read_text(encoding='utf-8'))
+        function = next(node for node in ast.walk(tree)
+                        if isinstance(node, ast.FunctionDef) and node.name == 'placementVisualCheck')
+        env = {'np': np, 'cv2': cv2}
+        exec(compile(ast.Module(body=[function], type_ignores=[]), '<placement-probe>', 'exec'), env)
+        frame = np.full((1080,1920,3),255,dtype=np.uint8)
+        for x,y,expected in ((13,600,False),(100,600,True),(1907,600,False),(100,13,False)):
+            radius=max(30,int(1920*.021))
+            crop=frame[max(0,y-radius):min(1080,y+radius),max(0,x-radius):min(1920,x+radius)]
+            result,_=env['placementVisualCheck']({'pos':(x,y),'before':np.zeros_like(crop)},frame)
+            self.assertEqual(result,expected,(x,y))
+
     def test_support_repositioning_requires_experiment_and_safe_mode(self):
         tree = ast.parse((ROOT / 'autobtd6/replay.py').read_text(encoding='utf-8'))
         guard = next(node for node in ast.walk(tree) if isinstance(node, ast.If)

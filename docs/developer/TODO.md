@@ -4,6 +4,13 @@ Updated 6 October 2026. Checkboxes require evidence, not merely code. Preserve o
 
 ## Current repair pass
 
+- [x] Reproduce Infernal ABR false visual placement acceptance at x=13: screen-edge crop clipping shifts the measured centre and accepts animation/decorations. Require a complete visual probe region for no-cash confirmation. The actual-function regression fails before the fix and passes after; six HUD/placement, three held-placement and three confirmation-mode checks pass. This does not prove the Heli strategy winning. Its defeat remains persisted; do not reset route attempts blindly.
+
+
+- Confirmed Bloody Puddles Reverse at round 60 (6 October 05:31:56): replay VICTORY_CONFIRMED, controller clear confirmation and authoritative VM save Medium/Reverse=1049549. Never replay the earned medal. Preview 56 boundary update completed and its worker confirmed the missing-medal sweep resumed on Infernal ABR.
+- [x] Reproduce map-search Enter doing nothing in the browser. Activate the selected visible enabled row or first match through its existing click handler; preserve native input/change events. Include optgroup labels in refresh signatures. Run selected starts disabled and remains disabled for absent routes, stale controller status, owned medals or an active job. Unknown medal evidence is now labelled Waiting for game save instead of Not completed. Also prevent the global Escape shortcut from navigating away after a dropdown consumes it, or while a dialog is open. Browser verification confirms Enter selects the map and Escape closes the menu without leaving Automation. Fix the run chooser’s medal lookup to use exact normalized save/display aliases, matching Maps. Existing alias and medal-gate checks pass.
+
+
 - [x] Rework Settings into connection, appearance and support sections; keep optional ISO/install details and resets collapsed, clarify retry setup, remove the unused AI Settings initializer. Preserve setup/update/reporting hooks and automatic profile detection. Browser layout reviewed; JS syntax checks pass.
 - [x] Preserve pinned BTD6bot Spike Factory Normal → Smart targeting for bottom tiers 2–4 using two forward presses. Other uncertain cycles remain excluded. Six separate candidates pass full parser and strict JS legality; original recordings unchanged. Coverage is 513/1,204, with 691 gaps and four maps without eligible routes. No new victories claimed.
 
