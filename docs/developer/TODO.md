@@ -131,7 +131,7 @@ The sweep earns missing medals alongside development. Deploy changes together af
   - Healthy environment reuse now happens before the 5 GB package-install space check. Repairs still check space before moving or rebuilding environments.
   - VM setup now reports explicit states and validates actions before advancing. Retry/failure/restart/sign-in and delayed update connection checks pass offline. Interrupted-process recovery and clean/interrupted setup acceptance remain open.
   - The native installer now holds an exclusive installation lock before file changes or result receipts. VM requests have unique tasks and receipts; setup waits for an owner and compares installer hashes before reusing an identical completed update. Real Windows cross-process, duplicate-result and PowerShell lock checks pass. Unsupported older installers are refused before staging. Recovery of orphaned package processes remains open.
-- [x] **I-04 — Check release packaging.** Preview 96 installer, notes and uploaded size/digest were checked. One installer asset; no separate `SHA256SUMS.txt` asset. The deployed website link was checked through Preview 95 and must be refreshed for Preview 96. Repeat this gate for each later release.
+- [x] **I-04 — Check release packaging.** Preview 96 installer, notes, uploaded size/digest and the live HTTPS latest-download link were checked. One installer asset; no separate `SHA256SUMS.txt` asset. Repeat this gate for each later release.
 - [ ] **I-05 — Add trusted code signing when available.** Unsigned installers may still trigger SmartScreen.
 - [ ] **I-06 — Meet production acceptance gates.** Complete the specification before publishing **v1.0.0**; previews do not establish production readiness.
 
