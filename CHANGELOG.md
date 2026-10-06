@@ -1,3 +1,9 @@
+## Preview 41 — Verified hero-picker hints
+
+- Remember visually confirmed card locations as resolution/layout-scoped hints.
+- Verify hinted cards live and fall back to the full search on mismatch.
+- Reject corrupt cache shapes and atomically save local selection memory.
+
 ## Preview 40 — Honest net Monkey Money rates
 
 - Preserve negative balance changes instead of clamping spending to zero.

@@ -243,19 +243,17 @@ def updateUpgradeMemory(action, mapConfig, runId, cashBefore, cashAfter, roundNu
                 except OSError: pass
 
 def readLastHero():
-    try:
-        with open(LAST_HERO_FILE, encoding='utf-8') as fp:
-            value = json.load(fp).get('hero')
-            return value if isinstance(value, str) else None
-    except (OSError, ValueError):
-        return None
+    from hero_picker_memory import read_memory
+    value = read_memory(LAST_HERO_FILE).get('hero')
+    return value if isinstance(value, str) else None
 
-def saveLastHero(hero):
+
+def saveLastHero(hero, pickerHint=None):
+    from hero_picker_memory import save_selection
     try:
-        with open(LAST_HERO_FILE, 'w', encoding='utf-8') as fp:
-            json.dump({'hero': hero, 'updatedAt': time.time()}, fp)
-    except OSError:
-        pass
+        save_selection(LAST_HERO_FILE, hero, time.time(), pickerHint)
+    except OSError as error:
+        customPrint('WARNING hero selection memory not saved: ' + str(error))
 
 _recognizeScreen = recognizeScreen
 
@@ -851,30 +849,51 @@ def heroAlreadySelected(hero, state):
 
 
 def findHeroCard(hero):
-    """Find a hero by its displayed title when a game update shifts portrait order."""
-    height = pyautogui.size()[1]
+    """Try a verified layout hint, then search by the live displayed hero title."""
+    from hero_picker_memory import read_memory, lookup_hint
+    resolution = tuple(pyautogui.size())
+    height = resolution[1]
     slots = sorted({tuple(pos) for pos in imageAreas['click']['hero_positions'].values()
                     if 70 < pos[1] < height - 55}, key=lambda pos: (pos[1], pos[0]))
     if not slots:
         return {}
-    pyautogui.moveTo(slots[0][0], height // 2)
-    pyautogui.scroll(20)
-    sendKey('{WheelUp 20}')
-    time.sleep(menuChangeDelay)
-    for page in range(5):
-        for slot in slots:
-            pyautogui.click(slot)
-            time.sleep(0.18)
-            candidate = heroSelectionState()
-            if heroAlreadySelected(hero, {**candidate, 'button': 'selected'}):
-                customPrint('DEBUG hero ' + hero + ' found visually on page ' + str(page) + ' at ' + str(slot))
-                return candidate
+    def top():
         pyautogui.moveTo(slots[0][0], height // 2)
-        # PyAutoGUI's wheel event is not consistently delivered through the VM
-        # input bridge. Send the same wheel movement through AutoHotkey too.
+        pyautogui.scroll(20)
+        sendKey('{WheelUp 20}')
+        time.sleep(menuChangeDelay)
+    def nextPage():
+        pyautogui.moveTo(slots[0][0], height // 2)
         pyautogui.scroll(-4)
         sendKey('{WheelDown 6}')
         time.sleep(menuChangeDelay)
+    def readCard(page, slot):
+        pyautogui.click(slot)
+        time.sleep(0.18)
+        candidate = heroSelectionState()
+        if heroAlreadySelected(hero, {**candidate, 'button': 'selected'}):
+            candidate['pickerHint'] = {'page': page, 'position': list(slot),
+                'resolution': list(resolution), 'slots': [list(point) for point in slots]}
+            return candidate
+        return None
+    top()
+    hint = lookup_hint(read_memory(LAST_HERO_FILE), hero, resolution, slots)
+    if hint:
+        for _ in range(hint['page']):
+            nextPage()
+        candidate = readCard(hint['page'], tuple(hint['position']))
+        if candidate is not None:
+            customPrint('HERO_PICKER layout hint verified live for ' + hero)
+            return candidate
+        customPrint('HERO_PICKER layout hint mismatched; searching live cards for ' + hero)
+        top()
+    for page in range(5):
+        for slot in slots:
+            candidate = readCard(page, slot)
+            if candidate is not None:
+                customPrint('DEBUG hero ' + hero + ' found visually on page ' + str(page) + ' at ' + str(slot))
+                return candidate
+        nextPage()
     return {}
 
 
@@ -2629,7 +2648,7 @@ def main():
                         sys.exit(2)
                 customPrint("goal SELECT_HERO " + mapConfig['hero'] + " fullfilled!")
                 lastHeroSelected = mapConfig['hero']
-                saveLastHero(mapConfig['hero'])
+                saveLastHero(mapConfig['hero'], heroState.get('pickerHint'))
                 state = State.UNDEFINED
             elif screen == Screen.UNKNOWN:
                 pass

@@ -489,3 +489,9 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [x] Reproduce spending being clamped to zero in MM/hour. Preserve signed saved-balance changes, reject negative saved totals, and avoid negative-zero display. Label the statistic Net MM/hr with a spending/sampling explanation; document it in the account-progress wiki. Existing freshness, clock/source isolation and veteran-counter regressions pass alongside the new spending checks. Live sampling remains a separate check; no invented gross farming income is reported.
 
 - Preview 40 published on 6 October from a separate build directory; the queued Preview 39 VM installer remains untouched. Packaged UI/replay matches source and publication guard reports no findings. Two authoritative VM save reads 59.788 seconds apart showed unchanged totals, consistent with zero XP/hr and Net MM/hr. Nonzero live gains and spending remain unverified.
+
+### Advisory hero-picker layout memory — 6 October
+
+- [x] Keep visually discovered page/card positions in the existing private last-hero.json after selection confirmation. Scope hints to exact resolution and slot geometry; require live title verification before reuse and fall back to a reset/full search on mismatch. Selection/ownership checks remain live.
+- [x] Treat malformed non-object hero memory as empty and atomically replace the local hint file. No game saves or new public profile data are written. Five offline tests cover corrupt caches, changed layouts, invalid hints, confirmed persistence and wrong-hint fallback.
+- [ ] Observe reduced picker searches during missing-medal gameplay after deployment. Current source OCR aliases and 1440p calibration still require live coverage.
