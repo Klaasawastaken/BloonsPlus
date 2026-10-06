@@ -2146,11 +2146,7 @@ def main():
         try:
             with open(GAME_STATE_FILE, encoding='utf-8') as stateFile:
                 savedState = json.load(stateFile)
-            if (savedState.get('runId') == upgradeRunId and savedState.get('map') == mapConfig.get('map')
-                    and savedState.get('mode') == mapConfig.get('gamemode')):
-                currentGameState.towers = savedState.get('towers', {})
-                currentGameState.events = savedState.get('events', [])
-                currentGameState.observations = savedState.get('observations', [])[-2160:]
+            if currentGameState.restore_ledger(savedState):
                 customPrint('DEBUG resume restored tower/path ledger towers=' + str(len(currentGameState.towers)))
                 for event in currentGameState.events:
                     if event.get('type') == 'upgrade' and event.get('status') == 'cash-ambiguous':

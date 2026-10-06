@@ -149,6 +149,38 @@ class GameState:
         self.started_at = time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())
         self.updated_at = self.started_at
 
+    def restore_ledger(self, snapshot):
+        """Restore this run's confirmed ledger atomically, without issuing input."""
+        if not isinstance(snapshot, dict):
+            raise ValueError('Resume ledger must be an object')
+        if (snapshot.get('runId') != self.run_id or snapshot.get('map') != self.map
+                or snapshot.get('mode') != self.mode):
+            return False
+        roster = snapshot.get('towers', {})
+        events = snapshot.get('events', [])
+        observations = snapshot.get('observations', [])
+        if not isinstance(roster, dict):
+            raise ValueError('Resume tower ledger must be an object')
+        for name, tower in roster.items():
+            if not isinstance(name, str) or not name or not isinstance(tower, dict):
+                raise ValueError('Invalid resume tower entry')
+            tiers, position = tower.get('upgrades'), tower.get('position')
+            if (not isinstance(tower.get('type'), str) or not tower['type']
+                    or not isinstance(tiers, (list, tuple)) or len(tiers) != 3
+                    or any(type(tier) is not int or not 0 <= tier <= 5 for tier in tiers)
+                    or sum(tier > 0 for tier in tiers) > 2 or sum(tier > 2 for tier in tiers) > 1
+                    or not isinstance(position, (list, tuple)) or len(position) != 2
+                    or any(type(value) is not int or value < 0 for value in position)):
+                raise ValueError('Invalid resume tower tiers or position')
+        for collection in (events, observations):
+            if not isinstance(collection, list) or any(not isinstance(item, dict) for item in collection):
+                raise ValueError('Invalid resume ledger history')
+        # Validate everything first. A damaged history must not leave a partially
+        # replaced tower ledger that later authorizes an optional purchase.
+        restored = deepcopy((roster, events, observations[-2160:]))
+        self.towers, self.events, self.observations = restored
+        return True
+
     def observe(self, cash=None, round_number=None, screen=None):
         if isinstance(cash, int) and cash >= 0:
             self.cash = cash
