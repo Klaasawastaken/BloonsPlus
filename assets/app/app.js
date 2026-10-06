@@ -1512,7 +1512,7 @@ function renderTowerRequirements() {
     const row = document.createElement('div'); row.className = 'tower-requirement-card';
     const title = document.createElement('div'); title.className = 'tower-requirement-title';
     const name = document.createElement('b'); name.textContent = display;
-    const note = document.createElement('small'); note.textContent = `Required build · ${tiers.join(' / ')}`;
+    const note = document.createElement('small'); note.textContent = `Required path tiers · ${tiers.join(' / ')}`;
     title.append(towerThumb(display), name, note);
     const paths = document.createElement('div'); paths.className = 'requirement-paths';
     for (let pathIndex = 0; pathIndex < 3; pathIndex++) {

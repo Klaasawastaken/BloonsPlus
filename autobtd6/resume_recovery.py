@@ -4,9 +4,32 @@ from math import isfinite
 from upgrade_observation import read_upgrade_panel
 
 
+def resumable_round_start(checkpoint):
+    """Admit an observed round control, never an ambiguous pending purchase."""
+    if (not isinstance(checkpoint, dict) or checkpoint.get('status') != 'pending'
+            or checkpoint.get('pendingAction') != 'start_round'):
+        return False
+    remaining = checkpoint.get('remainingSteps')
+    offset = checkpoint.get('nextStep')
+    if (type(offset) is not int or offset < 0 or not isinstance(remaining, list)
+            or not remaining or not isinstance(remaining[0], dict)):
+        return False
+    step = remaining[0]
+    return (step.get('action') == 'start_round' and step.get('speed') in ('fast', 'slow')
+            and type(step.get('routeStepIndex')) is int
+            and step['routeStepIndex'] == offset)
+
+
 def restore_action(source, saved):
     """Keep current parsed inputs/economy, retaining only recovery state."""
     step = deepcopy(source)
+    if source.get('action') == 'start_round' and saved.get('speed') == source.get('speed'):
+        pending = saved.get('roundStartPending')
+        if pending is not None:
+            if (not isinstance(pending, dict) or pending.get('from') not in ('paused', 'fast', 'slow')
+                    or type(pending.get('sentAt')) not in (int, float) or not isfinite(pending['sentAt'])):
+                raise ValueError('invalid checkpoint round start')
+            step['roundStartPending'] = {'from': pending['from'], 'sentAt': pending['sentAt']}
     if source.get('action') == 'await_delay' and saved.get('seconds') == source.get('seconds'):
         deadline = saved.get('delayDeadline')
         if deadline is not None:

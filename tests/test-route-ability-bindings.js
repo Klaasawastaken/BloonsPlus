@@ -9,12 +9,12 @@ const requirements = vm.runInNewContext(reqSource + ';routeRequirements');
 const req = requirements('ability 10 at 20, 30\nrepeat ability 3\nability 3 after 1 seconds\nstop ability 4\nstop all abilities\n# ability 1', {}, {});
 assert.deepEqual(Array.from(req.abilities), [3, 10]);
 assert.deepEqual(Array.from(requirements('stop ability 1', {}, {}).abilities), []);
-function rank(gameplay, abilities = [3, 10]) {
+function rank(gameplay, abilities = [3, 10], roundStart = false) {
   const profile = { available: true, gameHotkeys: { gameplay } };
   const fn = vm.runInNewContext(rankSource + ';rankCandidatesForProfile', {
     readLocalProgress: () => profile, fs: { readFileSync: () => '{}' }, path, PROJECT_ROOT: '.',
   });
-  return fn([{ requirements: { towers: {}, abilities } }, { requirements: { towers: {} } }]);
+  return fn([{ requirements: { towers: {}, abilities, roundStart } }, { requirements: { towers: {} } }]);
 }
 for (const binding of ['<Keyboard>/3', '<Keyboard>/F3', '<Keyboard>/PageDown', '<Keyboard>/Numpad3']) {
   const entries = rank({ 'Activated Ability 3': { path: binding }, 'Activated Ability 10': { path: '<Keyboard>/0' } });
@@ -39,3 +39,9 @@ const parse = vm.runInNewContext(parseSource + ';parsePlaythroughFile');
 assert.ok(parse('glacial_trail#easy#1920x1080#converted#source_bloonsplayer#ability-preserved.btd6').flags.includes('lossy'), 'stale installed inferred-wait candidate remains a draft');
 assert.ok(parse('glacial_trail#easy#1920x1080#converted#source_bloonsplayer#ability-preserved#lossy.btd6').flags.includes('lossy'));
 assert.ok(!parse('glacial_trail#chimps#1920x1080.btd6').flags.includes('lossy'), 'original recordings retain their flags');
+
+assert.equal(requirements('start round slow', {}, {}).roundStart, true);
+const controlMissing = rank({ PlayFastForward: { path: '' } }, [], true).find(entry => entry.requirements.roundStart);
+assert.equal(controlMissing.profileReadiness.missingControlBindings, 1);
+assert.match(controlMissing.profileReadiness.controlIssues[0], /Play\/Fast Forward/);
+assert.equal(rank({ PlayFastForward: { path: '<Keyboard>/Space' } }, [], true)[0].profileReadiness.missing, 0);

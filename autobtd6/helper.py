@@ -304,6 +304,8 @@ def writeBTD6InstructionsFile(
             fp.write(("stop all abilities" if action.get("slot") is None else "stop ability " + str(action["slot"])) + "\n")
         elif action["action"] == "await_delay":
             fp.write("wait " + str(action["seconds"]) + " seconds\n")
+        elif action["action"] == "start_round":
+            fp.write("start round " + action['speed'] + "\n")
         elif action["action"] == "await_round":
             line = "round " + str(action["round"])
             if 'secondsAfterRound' in action:
@@ -392,6 +394,11 @@ def parseBTD6InstructionsFile(
         newMapConfig["extrainstructions"] = 1
 
     for line in configLines:
+        startRound = re.fullmatch(r"start round (fast|slow)", line)
+        if startRound:
+            newMapConfig['steps'].append({'action': 'start_round', 'speed': startRound.group(1),
+                                         'key': keybinds['others'].get('round_start', keybinds['others']['play']), 'cost': 0})
+            continue
         roundOffset = re.fullmatch(r"round ([1-9]\d*) after (\d+(?:\.\d+)?) seconds", line)
         if roundOffset:
             newMapConfig['steps'].append({'action': 'await_round', 'round': int(roundOffset.group(1)),
@@ -1616,6 +1623,7 @@ def applyGameHotkeys(raw):
     if gameplay:
         keybinds['others']['sell'] = key(gameplay, 'Sell')
         play = key(gameplay, 'PlayFastForward')
+        keybinds['others']['round_start'] = play
         if play is not None:
             keybinds['others']['play'] = play
         keybinds['abilities'] = {slot: key(gameplay, 'Activated Ability ' + str(slot)) for slot in range(1, 13)}

@@ -2,6 +2,57 @@
 import math
 
 
+def round_start_ready(step, now, play_state, input_free, press, persist=lambda: True, report=lambda message: None):
+    """Start at an observed speed, awaiting a later frame before consuming input.
+
+    The frame must be confidently classified by the caller. Unknown or busy
+    input never authorizes a key. Persist before input, so resume observes the
+    actual state instead of blindly replaying a toggle.
+    """
+    if not step or step.get('action') != 'start_round':
+        return True, False
+    target = step.get('speed')
+    if target not in ('fast', 'slow'):
+        raise ValueError('round start must select fast or slow')
+    if type(now) not in (int, float) or not math.isfinite(now):
+        raise ValueError('round start clock must be finite')
+    if not input_free or play_state not in ('paused', 'fast', 'slow'):
+        return False, False
+    pending = step.get('roundStartPending')
+    if pending is not None:
+        if not isinstance(pending, dict) or pending.get('from') not in ('paused', 'fast', 'slow'):
+            raise ValueError('invalid pending round start')
+        sent = pending.get('sentAt')
+        if type(sent) not in (int, float) or not math.isfinite(sent):
+            raise ValueError('invalid round start deadline')
+        # A guest clock change must not freeze a saved control indefinitely.
+        if sent > now:
+            pending['sentAt'] = now
+            persist()
+            return False, False
+        if now - sent < 1:
+            return False, False
+    if play_state == target:
+        return True, False
+    if pending and play_state == pending['from'] and now - pending['sentAt'] < 2:
+        return False, False
+    if step.get('key') is None:
+        report('ROUND_CONTROL required Play/Fast Forward key is unbound; awaiting corrected controls')
+        return False, False
+    previous = pending
+    step['roundStartPending'] = {'from': play_state, 'sentAt': now}
+    if persist() is not True:
+        if previous is None:
+            step.pop('roundStartPending', None)
+        else:
+            step['roundStartPending'] = previous
+        report('ROUND_CONTROL checkpoint not saved; withholding input')
+        return False, False
+    press(step['key'])
+    report('ROUND_CONTROL input issued from=' + play_state + ' requested=' + target)
+    return False, True
+
+
 def delay_ready(step, now):
     if not step or step.get('action') != 'await_delay':
         return True

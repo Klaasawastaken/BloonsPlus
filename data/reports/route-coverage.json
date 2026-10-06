@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-06T00:09:55.238Z",
+  "generatedAt": "2026-10-06T00:20:19.080Z",
   "modes": [
     "easy",
     "primary_only",
@@ -1503,20 +1503,23 @@
       "modes": {
         "easy": [
           "quarry#chimps#1920x1080.btd6 (CHIMPS reuse)",
-          "quarry#chimps#1920x1080#converted#source_bloonsplayer.btd6 (CHIMPS reuse)"
+          "quarry#chimps#1920x1080#converted#source_bloonsplayer.btd6 (CHIMPS reuse)",
+          "quarry#chimps#1920x1080#converted#source_bloonsplayer#observed-start.btd6 (CHIMPS reuse)"
         ],
         "primary_only": "missing",
         "deflation": "missing",
         "medium": [
           "quarry#chimps#1920x1080.btd6 (CHIMPS reuse)",
-          "quarry#chimps#1920x1080#converted#source_bloonsplayer.btd6 (CHIMPS reuse)"
+          "quarry#chimps#1920x1080#converted#source_bloonsplayer.btd6 (CHIMPS reuse)",
+          "quarry#chimps#1920x1080#converted#source_bloonsplayer#observed-start.btd6 (CHIMPS reuse)"
         ],
         "military_only": "missing",
         "reverse": "missing",
         "apopalypse": "missing",
         "hard": [
           "quarry#chimps#1920x1080.btd6 (CHIMPS reuse)",
-          "quarry#chimps#1920x1080#converted#source_bloonsplayer.btd6 (CHIMPS reuse)"
+          "quarry#chimps#1920x1080#converted#source_bloonsplayer.btd6 (CHIMPS reuse)",
+          "quarry#chimps#1920x1080#converted#source_bloonsplayer#observed-start.btd6 (CHIMPS reuse)"
         ],
         "magic_monkeys_only": [
           "quarry#magic_monkeys_only#2560x1440#noMK#noLL.btd6"
@@ -1526,11 +1529,13 @@
         "alternate_bloons_rounds": "missing",
         "impoppable": [
           "quarry#chimps#1920x1080.btd6 (CHIMPS reuse)",
-          "quarry#chimps#1920x1080#converted#source_bloonsplayer.btd6 (CHIMPS reuse)"
+          "quarry#chimps#1920x1080#converted#source_bloonsplayer.btd6 (CHIMPS reuse)",
+          "quarry#chimps#1920x1080#converted#source_bloonsplayer#observed-start.btd6 (CHIMPS reuse)"
         ],
         "chimps": [
           "quarry#chimps#1920x1080.btd6",
-          "quarry#chimps#1920x1080#converted#source_bloonsplayer.btd6"
+          "quarry#chimps#1920x1080#converted#source_bloonsplayer.btd6",
+          "quarry#chimps#1920x1080#converted#source_bloonsplayer#observed-start.btd6"
         ]
       }
     },
@@ -1611,12 +1616,14 @@
       "modes": {
         "easy": [
           "balance#chimps#1920x1080#converted#source_bloonsplayer.btd6 (CHIMPS reuse)",
+          "balance#chimps#1920x1080#converted#source_bloonsplayer#observed-start.btd6 (CHIMPS reuse)",
           "balance#chimps#1920x1080#converted#source_btd6bot.btd6 (CHIMPS reuse)"
         ],
         "primary_only": "missing",
         "deflation": "missing",
         "medium": [
           "balance#chimps#1920x1080#converted#source_bloonsplayer.btd6 (CHIMPS reuse)",
+          "balance#chimps#1920x1080#converted#source_bloonsplayer#observed-start.btd6 (CHIMPS reuse)",
           "balance#chimps#1920x1080#converted#source_btd6bot.btd6 (CHIMPS reuse)"
         ],
         "military_only": "missing",
@@ -1624,6 +1631,7 @@
         "apopalypse": "missing",
         "hard": [
           "balance#chimps#1920x1080#converted#source_bloonsplayer.btd6 (CHIMPS reuse)",
+          "balance#chimps#1920x1080#converted#source_bloonsplayer#observed-start.btd6 (CHIMPS reuse)",
           "balance#chimps#1920x1080#converted#source_btd6bot.btd6 (CHIMPS reuse)"
         ],
         "magic_monkeys_only": [
@@ -1634,10 +1642,12 @@
         "alternate_bloons_rounds": "missing",
         "impoppable": [
           "balance#chimps#1920x1080#converted#source_bloonsplayer.btd6 (CHIMPS reuse)",
+          "balance#chimps#1920x1080#converted#source_bloonsplayer#observed-start.btd6 (CHIMPS reuse)",
           "balance#chimps#1920x1080#converted#source_btd6bot.btd6 (CHIMPS reuse)"
         ],
         "chimps": [
           "balance#chimps#1920x1080#converted#source_bloonsplayer.btd6",
+          "balance#chimps#1920x1080#converted#source_bloonsplayer#observed-start.btd6",
           "balance#chimps#1920x1080#converted#source_btd6bot.btd6"
         ]
       }
@@ -3104,6 +3114,7 @@
       "modes": {
         "easy": [
           "ravine#hard#2560x1440.btd6",
+          "ravine#hard#1920x1080#converted#source_bloonsplayer#observed-start.btd6",
           "ravine#hard#1920x1080#converted#source_randyhodges.btd6",
           "ravine#easy#1920x1080#converted#source_bloonsplayer.btd6"
         ],
@@ -3113,6 +3124,7 @@
         ],
         "medium": [
           "ravine#hard#2560x1440.btd6",
+          "ravine#hard#1920x1080#converted#source_bloonsplayer#observed-start.btd6",
           "ravine#hard#1920x1080#converted#source_randyhodges.btd6"
         ],
         "military_only": "missing",
@@ -3120,6 +3132,7 @@
         "apopalypse": "missing",
         "hard": [
           "ravine#hard#2560x1440.btd6",
+          "ravine#hard#1920x1080#converted#source_bloonsplayer#observed-start.btd6",
           "ravine#hard#1920x1080#converted#source_randyhodges.btd6"
         ],
         "magic_monkeys_only": "missing",
@@ -3274,20 +3287,23 @@
         "easy": [
           "workshop#hard#2560x1440.btd6",
           "workshop#hard#1920x1080#converted#source_bloonsplayer.btd6",
+          "workshop#hard#1920x1080#converted#source_bloonsplayer#observed-start.btd6",
           "workshop#easy#1920x1080#converted#source_bloonsplayer.btd6"
         ],
         "primary_only": "missing",
         "deflation": "missing",
         "medium": [
           "workshop#hard#2560x1440.btd6",
-          "workshop#hard#1920x1080#converted#source_bloonsplayer.btd6"
+          "workshop#hard#1920x1080#converted#source_bloonsplayer.btd6",
+          "workshop#hard#1920x1080#converted#source_bloonsplayer#observed-start.btd6"
         ],
         "military_only": "missing",
         "reverse": "missing",
         "apopalypse": "missing",
         "hard": [
           "workshop#hard#2560x1440.btd6",
-          "workshop#hard#1920x1080#converted#source_bloonsplayer.btd6"
+          "workshop#hard#1920x1080#converted#source_bloonsplayer.btd6",
+          "workshop#hard#1920x1080#converted#source_bloonsplayer#observed-start.btd6"
         ],
         "magic_monkeys_only": "missing",
         "double_hp_moabs": "missing",
@@ -3362,6 +3378,7 @@
         ],
         "deflation": [
           "dark_castle#deflation#1920x1080#converted#source_bloonsplayer.btd6",
+          "dark_castle#deflation#1920x1080#converted#source_bloonsplayer#observed-start.btd6",
           "dark_castle#deflation#1920x1080#converted#source_btd6bot.btd6",
           "dark_castle#deflation#1920x1080#converted#source_everythingmacro.btd6",
           "dark_castle#deflation#1920x1080#converted#source_everythingmacro#timing-preserved.btd6"
@@ -3439,6 +3456,7 @@
       "modes": {
         "easy": [
           "ouch#hard#2560x1440.btd6",
+          "ouch#hard#1920x1080#converted#source_bloonsplayer#observed-start.btd6",
           "ouch#hard#1920x1080#converted#source_randyhodges.btd6",
           "ouch#easy#1920x1080#converted#source_bloonsplayer.btd6",
           "ouch#easy#1920x1080#converted#source_btd6bot.btd6"
@@ -3447,6 +3465,7 @@
         "deflation": "missing",
         "medium": [
           "ouch#hard#2560x1440.btd6",
+          "ouch#hard#1920x1080#converted#source_bloonsplayer#observed-start.btd6",
           "ouch#hard#1920x1080#converted#source_randyhodges.btd6"
         ],
         "military_only": "missing",
@@ -3454,6 +3473,7 @@
         "apopalypse": "missing",
         "hard": [
           "ouch#hard#2560x1440.btd6",
+          "ouch#hard#1920x1080#converted#source_bloonsplayer#observed-start.btd6",
           "ouch#hard#1920x1080#converted#source_randyhodges.btd6"
         ],
         "magic_monkeys_only": "missing",

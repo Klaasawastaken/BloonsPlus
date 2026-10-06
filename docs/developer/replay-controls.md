@@ -69,3 +69,13 @@ The 6 October audit found 12 affected files among 83 source scripts: 11 convert 
 ### Unregistered source waits
 
 A follow-up audit found six nonzero `wait` commands across Glacial Trail Easy/Hard and Infernal Hard. The pinned runner registers `TAS_delay` but has no `wait` handler. Seconds waits are an interpretation of those scripts, not demonstrated source equivalence; the importer retains the interpreted command in a review draft. The Glacial Trail Easy ability candidate is now labelled lossy, and the old installed filename is treated as a draft too. The audit now identifies 15 affected scripts (14 lossy, one rejected). Restoring these strategies requires reviewing their intended timing and map mechanics. Source-supported `delay` still converts faithfully.
+
+## Observed startup commands
+
+`start round fast` and `start round slow` request a playing speed using the detected Play/Fast Forward binding. The replay observes its button state before input, waits for a later confirmation frame and preserves pending intent in checkpoints. An uncertain frame, occupied input or failed checkpoint write sends no key. A retry requires a known state plus spacing; it does not replay missed inputs in a burst. Resume keeps the current key binding and validated pending state.
+
+Automatic round control is withheld while the initial recorded start remains pending. Once confirmed, normal observation and victory/defeat handling continue. The action ledger marks a startup as play-state-confirmed only after that observation, not merely after a key was sent.
+
+`tools/import-public-routes.py --round-start-candidates` writes new `#observed-start` source adaptations, refusing changed-file overwrites. They normalize startup intent to observed speed; they do not claim literal upstream double-Space timing equivalence. They keep source tower placements/upgrades and must not replace original CHIMPS recordings. Repeated explicit starts, autostart toggles, source-relative speed changes and inferred waits remain review cases.
+
+Offline checks: `.venv/Scripts/python.exe -X utf8 tests/test_round_start.py`. Live observations must come from missing-medal gameplay, never route-validation-only runs.

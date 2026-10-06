@@ -1,0 +1,61 @@
+# source: https://github.com/piweiblen/BloonsPlayer (license MIT (c) 2021 piweiblen) commit 17d624879c5ad777e82594da34450e66b2d60756
+# source file: tas/CHIMPS/balance CHIMPS (sauda).txt
+# generator: import-public-routes.py
+# Startup intent adapted to observed play/speed confirmation, not literal double-Space timing.
+# Recorded tower positions/upgrades retained. No original recording replaced; no local victory claimed.
+# generator: import-public-routes.py
+place sauda hero0 at 704, 537
+start round fast
+place tack tack0 at 837, 563
+upgrade tack0 path 0
+upgrade tack0 path 0
+upgrade tack0 path 2
+upgrade tack0 path 2
+upgrade tack0 path 0
+upgrade tack0 path 0
+place alchemist alchemist0 at 844, 380
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+upgrade alchemist0 path 2
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+place village village0 at 988, 553
+upgrade village0 path 0
+upgrade village0 path 0
+upgrade village0 path 1
+upgrade village0 path 1
+upgrade village0 path 0
+place mortar mortar0 at 1453, 993
+retarget mortar0 to 835, 539
+upgrade mortar0 path 0
+upgrade mortar0 path 0
+upgrade mortar0 path 1
+upgrade mortar0 path 1
+upgrade mortar0 path 0
+upgrade mortar0 path 0
+place village village1 at 1496, 885
+upgrade village1 path 0
+upgrade village1 path 0
+upgrade village1 path 1
+upgrade village1 path 1
+upgrade tack0 path 0
+upgrade village0 path 0
+upgrade mortar0 path 0
+place glue glue0 at 978, 394
+retarget glue0
+retarget glue0
+retarget glue0
+upgrade glue0 path 2
+upgrade glue0 path 2
+upgrade glue0 path 1
+upgrade glue0 path 1
+upgrade glue0 path 2
+upgrade glue0 path 2
+place wizard wizard0 at 695, 384
+upgrade wizard0 path 2
+upgrade wizard0 path 2
+upgrade wizard0 path 1
+upgrade wizard0 path 1
+upgrade wizard0 path 2
+upgrade wizard0 path 2
+upgrade wizard0 path 2

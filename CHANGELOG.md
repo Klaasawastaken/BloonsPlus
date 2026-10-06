@@ -1,3 +1,12 @@
+## Preview 34 — Observe recorded round starts
+
+- Add observed startup commands with input ownership, pre-input checkpoints and fresh-binding resume.
+- Keep automatic round input from competing with pending startup; confirm speed before advancing.
+- Add six source-position startup adaptations and check their required play binding.
+
+- Admit narrowly validated pending round-start checkpoints on resume, keeping pending purchases refused.
+- Simplify Settings cards and clarify required path tiers.
+
 ## Preview 33 — Review inferred source waits
 
 - Preserve supported BloonsPlayer delays while flagging unregistered wait interpretations.

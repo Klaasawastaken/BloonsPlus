@@ -11,7 +11,7 @@ import time
 
 SUPPORTED_ACTIONS = {
     'place', 'upgrade', 'sell', 'retarget', 'special', 'remove',
-    'click', 'press', 'ability', 'repeat_ability', 'stop_ability', 'speed', 'await_round', 'await_cash', 'await_delay',
+    'click', 'press', 'ability', 'repeat_ability', 'stop_ability', 'speed', 'start_round', 'await_round', 'await_cash', 'await_delay',
 }
 POSITION_ACTIONS = {'place', 'upgrade', 'sell', 'retarget', 'special', 'remove', 'click'}
 TOWER_ACTIONS = {'place', 'upgrade', 'sell', 'retarget', 'special'}
@@ -82,7 +82,7 @@ def normalize_action(step):
         raise ValueError('await_round needs a positive round number')
     if action_type == 'await_cash' and (not isinstance(action.get('cash'), int) or action['cash'] < 0):
         raise ValueError('await_cash needs a non-negative cash amount')
-    if action_type == 'speed' and action.get('speed') not in {'fast', 'slow'}:
+    if action_type in ('speed', 'start_round') and action.get('speed') not in {'fast', 'slow'}:
         raise ValueError('speed action must select fast or slow')
     return action
 
@@ -238,6 +238,10 @@ class GameState:
         self.updated_at = event['confirmedAt']
 
     def record_issued_action(self, action):
+        play_confirmed = action['action'] == 'start_round' and action.get('playStateConfirmed') is True
+        if play_confirmed:
+            self.speed = action['speed']
+            self.speed_status = 'play-state-confirmed'
         event = {
             'type': action['action'],
             'status': 'satisfied' if action['action'] in {'await_round', 'await_cash'} else 'issued-unverified',
@@ -247,6 +251,8 @@ class GameState:
             'position': list(action['pos']) if action.get('pos') is not None else None,
             'issuedAt': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()),
         }
+        if play_confirmed:
+            event.update(status='play-state-confirmed', speed=action['speed'])
         if action['action'] in {'ability', 'repeat_ability', 'stop_ability'}:
             event['slot'] = action.get('slot')
             event['repeated'] = action.get('repeated') is True

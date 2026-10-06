@@ -29,7 +29,6 @@
       "mode": "chimps",
       "conversion": "lossy",
       "remainingOmissions": [
-        "BloonsPlayer start round control omitted",
         "BloonsPlayer toggle autostart control omitted"
       ]
     },
@@ -45,10 +44,8 @@
       ],
       "map": "balance",
       "mode": "chimps",
-      "conversion": "lossy",
-      "remainingOmissions": [
-        "BloonsPlayer start round control omitted"
-      ]
+      "conversion": "complete",
+      "remainingOmissions": []
     },
     {
       "sourceFile": "route-library/public-sources/piweiblen-BloonsPlayer/tas/CHIMPS/dark castle CHIMPS (obyn).txt",
@@ -64,7 +61,6 @@
       "mode": "chimps",
       "conversion": "lossy",
       "remainingOmissions": [
-        "BloonsPlayer start round control omitted",
         "mouse sweeps (banana/cash collection)"
       ]
     },
@@ -80,10 +76,8 @@
       ],
       "map": "quarry",
       "mode": "chimps",
-      "conversion": "lossy",
-      "remainingOmissions": [
-        "BloonsPlayer start round control omitted"
-      ]
+      "conversion": "complete",
+      "remainingOmissions": []
     },
     {
       "sourceFile": "route-library/public-sources/piweiblen-BloonsPlayer/tas/CHIMPS/workshop CHIMPS (sauda).txt",
@@ -112,7 +106,6 @@
       "conversion": "lossy",
       "remainingOmissions": [
         "BloonsPlayer change speed control omitted",
-        "BloonsPlayer start round control omitted",
         "obstacle removal without a known price"
       ]
     },
@@ -128,10 +121,8 @@
       ],
       "map": "dark_castle",
       "mode": "deflation",
-      "conversion": "lossy",
-      "remainingOmissions": [
-        "BloonsPlayer start round control omitted"
-      ]
+      "conversion": "complete",
+      "remainingOmissions": []
     },
     {
       "sourceFile": "route-library/public-sources/piweiblen-BloonsPlayer/tas/general/glacial easy.txt",
@@ -239,10 +230,8 @@
       ],
       "map": "ouch",
       "mode": "hard",
-      "conversion": "lossy",
-      "remainingOmissions": [
-        "BloonsPlayer start round control omitted"
-      ]
+      "conversion": "complete",
+      "remainingOmissions": []
     },
     {
       "sourceFile": "route-library/public-sources/piweiblen-BloonsPlayer/tas/general/quad hard.txt",
@@ -270,8 +259,7 @@
       "mode": "hard",
       "conversion": "lossy",
       "remainingOmissions": [
-        "BloonsPlayer change speed control omitted",
-        "BloonsPlayer start round control omitted"
+        "BloonsPlayer change speed control omitted"
       ]
     },
     {
@@ -286,10 +274,8 @@
       ],
       "map": "ravine",
       "mode": "hard",
-      "conversion": "lossy",
-      "remainingOmissions": [
-        "BloonsPlayer start round control omitted"
-      ]
+      "conversion": "complete",
+      "remainingOmissions": []
     },
     {
       "sourceFile": "route-library/public-sources/piweiblen-BloonsPlayer/tas/general/workshop hard.txt",
@@ -303,10 +289,8 @@
       ],
       "map": "workshop",
       "mode": "hard",
-      "conversion": "lossy",
-      "remainingOmissions": [
-        "BloonsPlayer start round control omitted"
-      ]
+      "conversion": "complete",
+      "remainingOmissions": []
     },
     {
       "sourceFile": "route-library/public-sources/piweiblen-BloonsPlayer/tas/races/race example.txt",

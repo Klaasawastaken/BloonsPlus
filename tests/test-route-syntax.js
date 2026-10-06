@@ -17,3 +17,6 @@ console.log('Strict route syntax checks passed.');
 
 assert.deepEqual(validateRoute('round 20 after 5.5 seconds', 'hard', catalog), []);
 for (const bad of ['round 0 after 2 seconds', 'round 20 after -1 seconds', 'round 20 after NaN seconds']) assert.ok(validateRoute(bad, 'hard', catalog).length);
+
+for (const command of ['start round fast', 'start round slow']) assert.deepEqual(validateRoute(command, 'hard', catalog), []);
+for (const command of ['start round', 'start round turbo']) assert.ok(validateRoute(command, 'hard', catalog).length);

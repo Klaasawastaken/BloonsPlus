@@ -410,3 +410,19 @@ Start only after the current repair work is complete, as requested on 5 October.
 - Refreshed offline coverage after the source review: 86 catalog maps, 509 of 1,204 map/mode pairs covered, 695 gaps and five maps with no route. These are route-catalog counts, not victory proof. Remaining coverage is substantial; V1.0 is not complete.
 
 - Cubism Primary Only earned: VICTORY_CONFIRMED at round 40 (02:09:55); authoritative VM save Cubism.difficult.Easy.modes.PrimaryOnly=1049225. Never replay this owned medal. Preview 33 updater finished and confirmed resumed sweep at 02:11.
+
+## Observed startup control (2026-10-06)
+
+- [x] Add start round fast/slow parser, recorder, action contract and legality support. Gate on confident play-state observation; persist intent before input, avoid competing automatic controls, and consume only after requested speed is observed.
+- [x] Restore validated pending metadata with fresh source bindings; reject malformed deadlines and rebase a future clock without issuing input. Hold on failed checkpoint writes. Required Play/Fast Forward bindings are checked before launch.
+- [x] Six offline state/input/recording/integration checks, 18 timing checks, eight repeat checks and 12 importer checks pass. Adjacent JS syntax/knowledge/binding gates pass. The captured-source startup behavior is adapted to observation rather than claimed literal timing equivalence.
+- [x] Create six separately named observed-start candidates using source placements/upgrades: Balance CHIMPS, Quarry CHIMPS, Dark Castle Deflation, #Ouch Hard, Ravine Hard and Workshop Hard. Python parser and strict JS legality pass for all six. No original recording overwritten, no validation-only gameplay and no new candidate victory claim.
+- [ ] Publish Preview 34 and deploy the batch after the active healthy replay finishes. Observe the new control only when the sweep naturally selects a missing medal.
+- [ ] Explicit autostart settings, relative speed changes, multiple manual round starts and paid hero levels remain incomplete. Coverage remains 509/1,204 pairs (695 gaps); additional candidates improve alternatives but do not prove wins or resolve all coverage.
+
+## Settings refinement (2026-10-06)
+
+- [x] Group appearance and game connection into responsive cards; shorten labels, move connection refresh below installation details, and consolidate reset under Advanced. Keep existing setup, update, theme and reset element IDs and handlers.
+- [ ] Review the rendered settings at desktop/mobile widths and both themes before claiming visual verification.
+
+- [x] Close the round-start pending-checkpoint window with strict action/index/speed validation; current source bindings still replace saved bindings. Eleven focused resume checks and six round-start checks pass.

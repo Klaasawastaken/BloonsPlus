@@ -1,0 +1,113 @@
+# source: https://github.com/piweiblen/BloonsPlayer (license MIT (c) 2021 piweiblen) commit 17d624879c5ad777e82594da34450e66b2d60756
+# source file: tas/general/ouch hard.txt
+# generator: import-public-routes.py
+# Startup intent adapted to observed play/speed confirmation, not literal double-Space timing.
+# Recorded tower positions/upgrades retained. No original recording replaced; no local victory claimed.
+# generator: import-public-routes.py
+repeat ability 1
+repeat ability 2
+place dart dart0 at 1132, 320
+place sub sub0 at 715, 601
+start round fast
+place dart dart1 at 1135, 670
+place quincy hero0 at 547, 547
+upgrade sub0 path 0
+upgrade sub0 path 0
+upgrade sub0 path 2
+place sniper sniper0 at 550, 441
+wait 0.2 seconds
+retarget sniper0
+retarget sniper0
+retarget sniper0
+upgrade sub0 path 2
+upgrade sniper0 path 0
+upgrade sniper0 path 2
+upgrade sniper0 path 2
+place sub sub1 at 722, 531
+upgrade sub1 path 0
+upgrade sub1 path 0
+upgrade sub1 path 2
+upgrade sub1 path 2
+upgrade dart0 path 2
+upgrade dart0 path 2
+place alchemist alchemist0 at 678, 661
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+upgrade dart0 path 2
+upgrade alchemist0 path 0
+upgrade alchemist0 path 2
+upgrade sub0 path 2
+sell dart1
+place dart dart2 at 675, 132
+place dart dart3 at 1139, 776
+upgrade dart3 path 2
+upgrade dart3 path 2
+upgrade sub0 path 2
+upgrade sub1 path 2
+upgrade sub1 path 2
+place farm farm0 at 130, 861
+upgrade farm0 path 1
+upgrade farm0 path 1
+upgrade farm0 path 2
+upgrade farm0 path 2
+upgrade farm0 path 2
+place farm farm1 at 310, 864
+upgrade farm1 path 1
+upgrade farm1 path 1
+upgrade farm1 path 2
+upgrade farm1 path 2
+upgrade farm1 path 2
+place village village0 at 521, 641
+upgrade village0 path 0
+upgrade village0 path 0
+place village village1 at 387, 646
+place buccaneer buccaneer0 at 794, 581
+upgrade buccaneer0 path 1
+upgrade buccaneer0 path 1
+upgrade buccaneer0 path 0
+upgrade buccaneer0 path 0
+upgrade buccaneer0 path 0
+upgrade buccaneer0 path 0
+upgrade village0 path 1
+upgrade village0 path 1
+round 62
+sell farm0
+sell farm1
+sell dart0
+sell dart3
+sell dart2
+sell sniper0
+sell sub0
+sell sub1
+upgrade buccaneer0 path 0
+place ice ice0 at 547, 430
+upgrade ice0 path 1
+upgrade ice0 path 1
+upgrade ice0 path 2
+upgrade ice0 path 2
+upgrade ice0 path 2
+retarget ice0
+retarget ice0
+retarget ice0
+round 65
+sell ice0
+place sniper sniper1 at 550, 441
+upgrade sniper1 path 1
+upgrade sniper1 path 1
+upgrade sniper1 path 2
+upgrade sniper1 path 2
+upgrade sniper1 path 2
+upgrade sniper1 path 2
+place sniper sniper2 at 710, 488
+wait 0.2 seconds
+retarget sniper2
+retarget sniper2
+retarget sniper2
+upgrade sniper2 path 2
+upgrade sniper2 path 2
+upgrade sniper2 path 0
+upgrade sniper2 path 0
+upgrade sniper2 path 0
+upgrade sniper2 path 0
+upgrade sniper1 path 2

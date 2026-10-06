@@ -13,9 +13,9 @@ from game_runtime import GameState, normalize_action
 from upgrade_rules import can_upgrade_path
 from upgrade_observation import observe_upgrade, resolve_hud_panels, select_tower
 from placement_observation import held_placement_visible
-from route_timing import delay_ready, round_offset_ready, ability_ready, issue_ability, upgrade_ready, RepeatedAbilities
+from route_timing import delay_ready, round_offset_ready, ability_ready, issue_ability, upgrade_ready, RepeatedAbilities, round_start_ready
 from map_availability import predicted_thaw_round
-from resume_recovery import restore_upgrade_steps, probe_owned_upgrade
+from resume_recovery import restore_upgrade_steps, probe_owned_upgrade, resumable_round_start
 
 LAST_HERO_FILE = 'last-hero.json'
 UPGRADE_MEMORY_FILE = 'upgrade-memory.json'
@@ -1412,7 +1412,8 @@ def main():
             logStats = False
             routeCheckpoint = readRouteCheckpoint()
             digest = hashlib.sha256(open(filename, 'rb').read()).hexdigest()
-            if (not routeCheckpoint or routeCheckpoint.get('status') != 'ready'
+            if (not routeCheckpoint or (routeCheckpoint.get('status') != 'ready'
+                                       and not resumable_round_start(routeCheckpoint))
                 or routeCheckpoint.get('routeHash') != digest
                 or routeCheckpoint.get('gamemode') != mapConfig['gamemode']
                 or routeCheckpoint.get('map') != mapConfig['map']):
@@ -1424,6 +1425,7 @@ def main():
                 return 2
             try:
                 mapConfig['steps'] = restore_upgrade_steps(mapConfig['steps'], routeCheckpoint)
+                mapConfig['roundStartCompleted'] = routeCheckpoint.get('roundStartCompleted') is True
             except ValueError as error:
                 customPrint('resume refused: ' + str(error))
                 return 2
@@ -3382,6 +3384,25 @@ def main():
                                       and round_offset_ready(nextStep, time.time(), observedRound, observedRoundStartedAt)
                                       and ability_ready(nextStep, time.time(), observedRoundStartedAt)
                                       and upgrade_ready(nextStep, currentValues.get('round')))
+                roundStartInputIssued = False
+                if nextStepAction == 'start_round' and nextStepDelayReady:
+                    startState, startDiff = None, None
+                    for startName, startValue in (('game_playing_fast', 'fast'), ('game_playing_slow', 'slow'), ('game_paused', 'paused')):
+                        diff = cv2.matchTemplate(cutImage(screenshot, imageAreas['compare']['game_state']),
+                                                cutImage(comparisonImages['game_state'][startName], imageAreas['compare']['game_state']),
+                                                cv2.TM_SQDIFF_NORMED)[0][0]
+                        if startDiff is None or diff < startDiff:
+                            startState, startDiff = startValue, diff
+                    def persistRoundStart():
+                        if routeCheckpoint is None:
+                            return True
+                        routeCheckpoint.update(status='ready', pendingAction=None)
+                        return writeRouteCheckpoint(routeCheckpoint, mapConfig['steps'])
+                    nextStepDelayReady, roundStartInputIssued = round_start_ready(
+                        nextStep, time.time(), startState if startDiff < 0.05 else None,
+                        not (skippingIteration or heldPlacement or routeActionExecuted), sendKey, persistRoundStart, customPrint)
+                    routeActionExecuted = routeActionExecuted or roundStartInputIssued
+                    playToggleIssued = playToggleIssued or roundStartInputIssued
                 if nextStep and 'secondsAfterRound' in nextStep and observedRound is not None and observedRound > nextStep.get('round', observedRound):
                     customPrint('TIMING_RECOVERY overdue round offset target=' + str(nextStep['round']) + ' observed=' + str(observedRound) + '; executing remaining planned action')
                 nextStepCost = int(nextStep.get('cost', 0) or 0) if nextStep else 0
@@ -3782,6 +3803,13 @@ def main():
                             fast = True
                         elif action['speed'] == 'slow':
                             fast = False
+                    elif action['action'] == 'start_round':
+                        action['playStateConfirmed'] = True
+                        fast = action['speed'] == 'fast'
+                        mapConfig['roundStartCompleted'] = True
+                        if routeCheckpoint is not None:
+                            routeCheckpoint['roundStartCompleted'] = True
+                        customPrint('ROUND_CONTROL confirmed playing speed=' + action['speed'])
                     elif action['action'] == 'await_delay':
                         customPrint('DEBUG route wait completed seconds=' + str(action['seconds']))
                     elif action['action'] == 'await_cash':
@@ -3819,7 +3847,9 @@ def main():
                 placementRetryPending = ((len(mapConfig['steps']) > 0 and mapConfig['steps'][0].get('action') == 'place'
                                           and mapConfig['steps'][0].get('placeAttempts', 0) > 0)
                                          or (thisIterationAction is not None and thisIterationAction.get('action') == 'place'))
-                if (not skippingIteration and not placementRetryPending
+                startupRoundStartPending = (not mapConfig.get('roundStartCompleted', False)
+                                            and any(step.get('action') == 'start_round' for step in mapConfig['steps']))
+                if (not skippingIteration and not placementRetryPending and not startupRoundStartPending and not roundStartInputIssued
                     and ((not doAllStepsBeforeStart and mapConfig['gamemode'] != 'deflation'
                           and (waitingForLaterRound or getNextCostingAction(mapConfig['steps'])['cost'] > min(currentValues['money'], lastIterationBalance - lastIterationCost)))
                          or len(mapConfig['steps']) == 0)):

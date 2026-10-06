@@ -544,6 +544,10 @@ def convert_bloonsplayer(path):
                         route.lossy.add('BloonsPlayer wait has no pinned source handler; seconds interpretation requires strategy review')
             else:
                 route.lossy.add("BloonsPlayer " + command + " " + amount + " control omitted")
+        elif low in ('start round', 'start round slow'):
+            if any(line.startswith('start round ') for line in route.lines):
+                route.lossy.add('multiple explicit round starts require manual-round coordination')
+            route.lines.append('start round ' + ('slow' if low.endswith(' slow') else 'fast'))
         elif low in ("change speed", "toggle autostart") or low.startswith("start round"):
             route.lossy.add("BloonsPlayer " + low + " control omitted")
         elif m := re.fullmatch(r"(use|repeat|stop) ability\s+([0-9])", low):
@@ -910,8 +914,8 @@ for name in json.load(sys.stdin):
     else:
         text = open(path, encoding='utf-8').read()
         body = [l for l in text.splitlines() if l.strip() and not l.startswith('#')]
-        expected = sum(1 for l in body if re.match(r'^(place|upgrade|retarget|special|sell|remove|click|ability|repeat|stop|round|cash|wait|speed) ', l))
-        actual = sum(1 for s in config['steps'] if s['action'] in ('place', 'upgrade', 'retarget', 'special', 'sell', 'remove', 'ability', 'repeat_ability', 'stop_ability', 'await_round', 'await_cash', 'await_delay', 'speed')
+        expected = sum(1 for l in body if re.match(r'^(place|upgrade|retarget|special|sell|remove|click|ability|repeat|stop|round|cash|wait|speed|start) ', l))
+        actual = sum(1 for s in config['steps'] if s['action'] in ('place', 'upgrade', 'retarget', 'special', 'sell', 'remove', 'ability', 'repeat_ability', 'stop_ability', 'await_round', 'await_cash', 'await_delay', 'speed', 'start_round')
                      or (s['action'] == 'click' and s.get('name') == 'map'))
         if expected != actual or expected != len(body):
             errors.append(f'{len(body)} lines, {expected} recognised, {actual} parsed')
@@ -1005,6 +1009,36 @@ def emit_ability_candidates():
     print(json.dumps({'abilityCandidates': written, 'parserErrors': errors}, indent=2))
 
 
+def emit_round_start_candidates():
+    """Separate startup-intent adaptations; no original recording is replaced."""
+    written = []
+    for path in sorted((PUB / 'piweiblen-BloonsPlayer').rglob('*.txt')):
+        try:
+            route = convert_bloonsplayer(path)
+            lines = route.body()
+        except (Unsupported, KeyError, IndexError, ValueError):
+            continue
+        if route.lossy or sum(line.startswith('start round ') for line in lines) != 1:
+            continue
+        source = SOURCES[route.source]
+        name = f'{route.map}#{route.mode}#{W}x{H}#converted#source_{route.source}#observed-start.btd6'
+        target = PT / name
+        meta = [f"source: {source['repo']} (license {source['license']}) commit {source['commit']}",
+                f'source file: {route.source_file}', f'generator: {GENERATOR}',
+                'Startup intent adapted to observed play/speed confirmation, not literal double-Space timing.',
+                'Recorded tower positions/upgrades retained. No original recording replaced; no local victory claimed.']
+        content = '\n'.join(header(meta) + lines) + '\n'
+        if target.exists() and target.read_text(encoding='utf-8') != content:
+            raise RuntimeError(f'Refusing to overwrite changed startup candidate: {name}')
+        if not target.exists():
+            target.write_text(content, encoding='utf-8', newline='\n')
+        written.append(name)
+    errors = {name: error for name, error in validate(written).items() if error} if written else {}
+    if errors:
+        raise RuntimeError('Startup candidate parser errors: ' + json.dumps(errors))
+    print(json.dumps({'startupCandidates': written, 'parserErrors': errors}, indent=2))
+
+
 def audit_legacy_timing():
     """Read-only inventory of legacy timing omissions; never launch or rewrite routes."""
     files = sorted(PT.glob('*.btd6'))
@@ -1033,6 +1067,8 @@ if __name__ == "__main__":
         print(json.dumps(audit_legacy_timing(), indent=2))
     elif '--ability-candidates' in sys.argv:
         emit_ability_candidates()
+    elif '--round-start-candidates' in sys.argv:
+        emit_round_start_candidates()
     elif '--timing-candidates' in sys.argv:
         emit_timing_candidates()
     else:

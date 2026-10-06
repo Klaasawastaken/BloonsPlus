@@ -4,10 +4,30 @@ import unittest
 from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'autobtd6'))
-from resume_recovery import restore_upgrade_steps, probe_owned_upgrade
+from resume_recovery import restore_upgrade_steps, probe_owned_upgrade, resumable_round_start
 
 
 class ResumeRecovery(unittest.TestCase):
+    def test_pending_round_start_is_resumable_without_admitting_purchases(self):
+        from copy import deepcopy
+        checkpoint = dict(status='pending', pendingAction='start_round', nextStep=2,
+                          remainingSteps=[dict(action='start_round', speed='fast',
+                                               routeStepIndex=2, key='stale')])
+        self.assertTrue(resumable_round_start(checkpoint))
+        source = [dict(action='await_round', round=1, routeStepIndex=i) for i in range(2)]
+        source.append(dict(action='start_round', speed='fast', routeStepIndex=2, key='fresh'))
+        self.assertEqual(restore_upgrade_steps(source, checkpoint)[0]['key'], 'fresh')
+        for field, value in [('pendingAction', 'upgrade'), ('nextStep', True),
+                             ('nextStep', -1), ('remainingSteps', []), ('status', 'ready')]:
+            invalid = deepcopy(checkpoint)
+            invalid[field] = value
+            self.assertFalse(resumable_round_start(invalid))
+        for field, value in [('action', 'upgrade'), ('speed', 'turbo'),
+                             ('routeStepIndex', 3), ('routeStepIndex', True)]:
+            invalid = deepcopy(checkpoint)
+            invalid['remainingSteps'][0][field] = value
+            self.assertFalse(resumable_round_start(invalid))
+
     def test_pending_targets_rejoin_in_route_order_without_duplicate(self):
         steps = [dict(action='place', name='dart0', routeStepIndex=0),
                  dict(action='upgrade', name='dart0', path=0, key='current-key',

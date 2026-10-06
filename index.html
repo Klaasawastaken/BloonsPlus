@@ -130,15 +130,26 @@
 
 
     <section id="settings" class="view hidden">
-      <p class="settings-intro">Make Bloons+ yours and manage your game connection.</p>
-      <div class="panel settings-panel settings-appearance"><div class="panel-title"><div><h3>Appearance</h3><p>Applies immediately and stays saved on this PC.</p></div></div>
-        <fieldset id="theme-setting" class="theme-choices"><legend>Choose your theme</legend>
-          <label class="theme-choice"><input type="radio" name="app-theme" value="light"><span class="theme-preview theme-preview-light" aria-hidden="true"><i></i><i></i><i></i></span><span class="theme-choice-label"><b>Light</b><small>Bright, clear surfaces</small></span></label>
-          <label class="theme-choice"><input type="radio" name="app-theme" value="dark"><span class="theme-preview theme-preview-dark" aria-hidden="true"><i></i><i></i><i></i></span><span class="theme-choice-label"><b>Dark</b><small>Comfortable after hours</small></span></label>
-        </fieldset>
+      <p class="settings-intro">Your appearance and game connection, in one place.</p>
+      <div class="settings-layout">
+        <div class="panel settings-panel settings-appearance">
+          <div class="panel-title"><div><span class="settings-eyebrow">PERSONALIZE</span><h3>Appearance</h3><p>Choose a theme. Changes are saved automatically.</p></div></div>
+          <fieldset id="theme-setting" class="theme-choices"><legend class="sr-only">Choose your theme</legend>
+            <label class="theme-choice"><input type="radio" name="app-theme" value="light"><span class="theme-preview theme-preview-light" aria-hidden="true"><i></i><i></i><i></i></span><span class="theme-choice-label"><b>Light</b><small>Bright surfaces</small></span></label>
+            <label class="theme-choice"><input type="radio" name="app-theme" value="dark"><span class="theme-preview theme-preview-dark" aria-hidden="true"><i></i><i></i><i></i></span><span class="theme-choice-label"><b>Dark</b><small>Muted surfaces</small></span></label>
+          </fieldset>
+        </div>
+        <div class="panel vm-settings-panel">
+          <div class="panel-title"><div><span class="settings-eyebrow">PLAY ENVIRONMENT</span><h3>Game connection</h3><p>Connect your VM and keep Bloons+ up to date.</p></div><span class="status-chip" id="vm-settings-chip">CHECKING</span></div>
+          <div id="vm-settings-status" class="vm-settings-status" role="status">Checking this PC and the VM…</div>
+          <div id="vm-settings-progress" class="settings-progress" role="progressbar" aria-label="Game setup progress" aria-valuemin="0" aria-valuemax="100" hidden><span></span></div>
+          <p id="vm-settings-progress-label" class="settings-progress-label" hidden></p>
+          <div class="form-row vm-settings-actions"><button class="primary-button" id="vm-settings-start">Set up VM</button><button class="quiet-button" id="vm-settings-update">Update VM app</button></div>
+          <details class="settings-subdetails" id="vm-settings-advanced"><summary>Installation details</summary><ol id="vm-settings-steps" class="setup-bar-steps"></ol><label class="field" id="vm-settings-iso-field"><span>Windows 11 ISO (optional)</span><input id="vm-settings-iso" type="text" placeholder="Use an existing ISO, or leave empty"></label><p class="field-hint" id="vm-settings-iso-hint">Leave empty to download from Microsoft when creating a VM.</p></details>
+          <button class="text-button settings-recheck" id="vm-settings-refresh">Refresh connection status</button>
+        </div>
       </div>
-      <div class="panel vm-settings-panel"><div class="panel-title"><div><h3>Game connection</h3><p>Set up your VM or send it the latest app update.</p></div><span class="status-chip" id="vm-settings-chip">CHECKING</span></div><div id="vm-settings-status" class="vm-settings-status" role="status">Checking this PC and the VM…</div><div id="vm-settings-progress" class="settings-progress" role="progressbar" aria-label="Game setup progress" aria-valuemin="0" aria-valuemax="100" hidden><span></span></div><p id="vm-settings-progress-label" class="settings-progress-label" hidden></p><details class="settings-subdetails" id="vm-settings-advanced"><summary>Advanced setup &amp; installation checks</summary><ol id="vm-settings-steps" class="setup-bar-steps"></ol><label class="field" id="vm-settings-iso-field"><span>WINDOWS 11 ISO PATH</span><input id="vm-settings-iso" type="text" placeholder="Leave empty to download from Microsoft"></label><p class="field-hint" id="vm-settings-iso-hint">Optional. Use an existing ISO when creating a VM, or leave empty to download it.</p></details><div class="form-row vm-settings-actions"><button class="primary-button" id="vm-settings-start">Set up / repair VM</button><button class="quiet-button" id="vm-settings-update">Update Bloons+ in VM</button><button class="quiet-button" id="vm-settings-refresh">Check again</button></div></div>
-      <details class="panel settings-details settings-maintenance"><summary><span><b>Reset preferences</b><small>Restore the default appearance and clear the app queue.</small></span><span class="settings-expand" aria-hidden="true">+</span></summary><div class="settings-details-body"><div class="settings-reset-row"><div><b>Reset this app</b><p>Your BTD6 saves, unlocks and earned medals are kept.</p></div><button class="danger-button" id="delete-save">Reset preferences</button></div></div></details>
+      <details class="panel settings-details settings-maintenance"><summary><span><b>Advanced</b><small>Reset app preferences and your queue.</small></span><span class="settings-expand" aria-hidden="true">+</span></summary><div class="settings-details-body"><div class="settings-reset-row"><div><b>Reset preferences</b><p>Your BTD6 saves, unlocks and earned medals are kept.</p></div><button class="danger-button" id="delete-save">Reset preferences</button></div></div></details>
     </section>
     <footer><span>Bloons+ <i>•</i> Prototype 0.1</span><span>Progress stays on this device</span></footer>
   </main>
