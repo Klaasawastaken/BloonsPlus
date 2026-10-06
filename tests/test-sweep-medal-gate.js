@@ -30,10 +30,12 @@ console.log('Authoritative sweep medal checks passed.');
 const ui = fs.readFileSync('assets/app/app.js', 'utf8').replace(/\r\n/g, '\n');
 const uiStart = ui.indexOf('function medalsFromLocalRecord(');
 const uiFn = ui.slice(uiStart, ui.indexOf('\nfunction renderMaps()', uiStart));
+const browser = {};
+vm.runInNewContext(fs.readFileSync('data/catalogs/medal-progress.js','utf8'),browser);
 for (const modes of [{Clicks:2,SuperChimps:1050185}, {SuperChimps:1050185,Clicks:2}]) {
   const record = {difficult:{Hard:{modes}}};
   assert.equal(medalsFromMapRecord(record).chimps, false, 'SuperChimps cannot grant the ordinary CHIMPS medal');
-  assert.equal(vm.runInNewContext(uiFn + '\nmedalsFromLocalRecord(record).chimps', {record}), false);
+  assert.equal(vm.runInNewContext(uiFn + '\nmedalsFromLocalRecord(record).chimps', {record, BloonsMedals:browser.BloonsMedals}), false);
 }
 for (const difficult of [
   {Hard:{modes:{Clicks:1050185,SuperChimps:2}}, Medium:{modes:{Clicks:2}}},
@@ -41,11 +43,11 @@ for (const difficult of [
 ]) {
   const record = {difficult};
   assert.equal(medalsFromMapRecord(record).chimps, true, 'Only Hard supplies the CHIMPS medal');
-  assert.equal(vm.runInNewContext(uiFn + '\nmedalsFromLocalRecord(record).chimps', {record}), true);
+  assert.equal(vm.runInNewContext(uiFn + '\nmedalsFromLocalRecord(record).chimps', {record, BloonsMedals:browser.BloonsMedals}), true);
 }
 for (const value of [0, 784, 1049864, true, false, null, '1049864', -1, 0.5, {}]) {
   const record = {difficult:{Hard:{modes:{Standard:value}}}};
-  const actual = vm.runInNewContext(uiFn + '\nmedalsFromLocalRecord(record).hard', {record});
+  const actual = vm.runInNewContext(uiFn + '\nmedalsFromLocalRecord(record).hard', {record, BloonsMedals:browser.BloonsMedals});
   assert.equal(actual, medalsFromMapRecord(record).hard, 'UI and sweep must agree on unknown values');
 }
 async function checkUnknownMode(available) {

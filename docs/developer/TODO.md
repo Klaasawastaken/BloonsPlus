@@ -620,3 +620,9 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [ ] Deploy with the next boundary batch; continue only missing-medal gameplay. No validation-only games or earned-medal reruns.
 
 - Dedicated Glacial Trail Hard replay subsequently reached round 34; Druid tiers 0-1-0, 0-2-0 and 0-3-0 were live panel-confirmed, passing the earlier round-23 failure point. This is progress evidence, not a claimed clear. Preview 62 is published; Preview 61's boundary worker still owns the reserved root payload, so Preview 62 remains isolated pending that deployment.
+
+### Shared medal decoding — 6 October
+
+- [x] Consolidate duplicated browser/server medal rules into one browser-safe data/catalogs/medal-progress.js contract. Preserve public Node export and UI wrapper, exact difficulty/mode mapping, Clicks vs SuperChimps, empirical completion threshold and null unknown values. No schema or saved-data change.
+- [x] Run the same authoritative admission/alias tests before and after extraction. Shared-decoder coverage checks all 14 supported modes across 14 value schemas, browser/server parity and unchanged input records. Script-load order is checked before app initialization.
+- [ ] Deploy with the next boundary batch. This removes one source of UI/sweep divergence; it does not prove every save field or route is correct.

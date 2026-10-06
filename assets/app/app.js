@@ -323,43 +323,7 @@ const mapObservationFor = name => {
   return entries.reduce((result, [,entry]) => ({...result, ...entry, medals: {...result.medals, ...entry.medals}}), {});
 };
 function medalsFromLocalRecord(record) {
-  // Once a map has a Profile.Save record, show the full medal grid from that
-  // authoritative snapshot. Absent modes on that map are explicitly false;
-  // this prevents an old OCR result from continuing to claim a medal.
-  const medals = Object.fromEntries(['easy', 'primary_only', 'deflation', 'medium', 'military_only', 'reverse',
-    'apopalypse', 'hard', 'magic_monkeys_only', 'double_hp_moabs', 'half_cash',
-    'alternate_bloons_rounds', 'impoppable', 'chimps'].map(key => [key, false]));
-  // CHIMPS is stored under the internal mode ID 'Clicks', confirmed from the
-  // Moon Landing victory/save and the generated BTD-Mod-Helper GameModeType enum.
-  // 'SuperChimps' must not override it. Mirrored in medalsFromMapRecord()
-  // (Node side, used by the automation sweep) — fix both if either needs to change again.
-  const modeNames = { PrimaryOnly: 'primary_only', Deflation: 'deflation', MilitaryOnly: 'military_only',
-    Apopalypse: 'apopalypse', Reverse: 'reverse', MagicOnly: 'magic_monkeys_only', DoubleMoabHealth: 'double_hp_moabs',
-    HalfCash: 'half_cash', AlternateBloonsRounds: 'alternate_bloons_rounds', Impoppable: 'impoppable', Clicks: 'chimps' };
-  // Profile.Save packs each mode's value as either a small counter (an in-progress or
-  // failed attempt: elapsed time, round reached, etc. — 1/2 are explicit non-medal
-  // placeholders) or, once the medal is actually earned, a much larger number with the
-  // 0x100000 bit set. Checked against every value in a real save (173 Standard entries
-  // alone): every one falls cleanly below 1,200 or above 1,049,000 — no ambiguous middle
-  // ground — and cross-checking against this app's own sweep-confirmed wins agreed on
-  // every sample. The previous `value > 2` threshold treated ANY in-progress counter
-  // above 2 as a completed medal, which is what caused Mesa's Hard (576) and other maps'
-  // in-progress attempts to show as falsely earned.
-  const MEDAL_VALUE_THRESHOLD = 0x100000;
-  for (const [difficulty, data] of Object.entries(record?.difficult || {})) {
-    for (const [mode, value] of Object.entries(data?.modes || {})) {
-      const key = mode === 'Standard' ? difficulty.toLowerCase() : modeNames[mode];
-      if (!key || !(key in medals)) continue;
-      const expectedDifficulty = ['easy', 'primary_only', 'deflation'].includes(key) ? 'easy'
-        : ['medium', 'military_only', 'reverse', 'apopalypse'].includes(key) ? 'medium' : 'hard';
-      if (difficulty.toLowerCase() !== expectedDifficulty) continue;
-      medals[key] = typeof value === 'boolean' ? value
-        : Number.isSafeInteger(value) && value >= 0 ? value >= MEDAL_VALUE_THRESHOLD
-          : value && typeof value === 'object' && typeof value.completed === 'boolean' ? value.completed
-            : null; // Do not convert malformed saved values into unearned medals.
-    }
-  }
-  return medals;
+  return BloonsMedals.medalsFromMapRecord(record);
 }
 function renderMaps() {
   const grid = document.querySelector('#maps-grid'); if (!grid) return;
