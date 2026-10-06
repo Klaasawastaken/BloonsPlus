@@ -597,3 +597,5 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [x] Reproduce an older visual scan overwriting explicit missing CHIMPS/Impoppable medals from a fresh save when map keys differ in case or alias spelling. This is a synthetic regression, not a claim about the current account's Skulltweak medals.
 - [x] Merge scan records first and authoritative save records last; order save records by localSaveReadAt. Invalid timestamps cannot give a scan priority over a save. Preserve exact alias normalization and missing/unknown distinctions.
 - [x] Focused browser-helper regressions, map-save alias checks, sweep medal admission and JS syntax pass. Original recordings and game saves are unchanged.
+
+- Confirmed Infernal Reverse on 6 October: replay reached VICTORY at 05:50:25 and the controller logged clear confirmed; the authoritative VM save subsequently returned Medium/Reverse=1049545. Never replay this earned medal. Preview 58 deployed at that boundary and the guest confirmed the missing-medal sweep resumed. Preview 60 is queued for its next replay boundary.
