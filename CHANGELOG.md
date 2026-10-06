@@ -1,3 +1,19 @@
+## Preview 99 Steam readiness hotfix — 6 October 2026
+
+### Additions
+
+- Add nine offline guest Steam handoff and freshness checks.
+
+### Changes
+
+- Read the existing guest detector before and after provisioning; retain official Steam actions only for observed missing requirements.
+- Reopen stopped Steam from fresh evidence, preserve unavailable status and avoid distracting healthy existing installations.
+- Verify all 387 Python tests and 62 JavaScript check files; broader production acceptance remains open.
+
+### Removed
+
+- Remove unconditional BTD6 install prompts and misleading sign-in instructions after VM app updates.
+
 ## Preview 99 package identity hotfix — 6 October 2026
 
 ### Additions

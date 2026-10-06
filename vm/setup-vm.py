@@ -427,6 +427,19 @@ def steam_install_prompt(info):
     run_on_vm_desktop(info, 'BloonsPlusSteamInstall', STEAM_EXE, 'steam://install/%d' % BTD6_APP_ID)
 
 
+def guest_steam_state(info):
+    """Read the existing guest detector; unavailable state is not a missing game."""
+    try:
+        raw = ssh(info, "try { Invoke-RestMethod 'http://127.0.0.1:4173/api/setup/guest' -TimeoutSec 3 | ConvertTo-Json -Compress } catch { 'UNKNOWN' }", timeout=15)
+        value = json.loads(raw)
+        fields = ('steamInstalled', 'steamRunning', 'steamSignedIn', 'btd6Installed')
+        if isinstance(value, dict) and all(type(value.get(field)) is bool for field in fields):
+            return {field: value[field] for field in fields}
+    except (RuntimeError, subprocess.TimeoutExpired, ValueError, TypeError):
+        pass
+    return None
+
+
 def provision(client, args):
     if not args.installer.is_file():
         sys.exit('Bloons+ installer not found: %s' % args.installer)
@@ -461,7 +474,9 @@ def provision(client, args):
     log('creating the BloonsPlusApp logon task in the VM')
     create_logon_task(info)
 
-    run_on_vm_desktop(info, 'BloonsPlusSteam', STEAM_EXE)
+    before_steam = guest_steam_state(info)
+    if not before_steam or not before_steam['steamRunning']:
+        run_on_vm_desktop(info, 'BloonsPlusSteam', STEAM_EXE)
     if needs_install:
         # The native installer rechecks guest idleness before closing its owned
         # controller. Do not stop it here: gameplay may have started since the
@@ -480,11 +495,23 @@ def provision(client, args):
         remove_staged_installer(info, guest_installer)
     else:
         subprocess.run(ssh_command(info) + ['schtasks /run /tn BloonsPlusApp'], capture_output=True)
-    log('opening the official Steam install prompt for Bloons TD 6 (AppID %d)' % BTD6_APP_ID)
-    steam_install_prompt(info)
+    after_steam = guest_steam_state(info)
+    if after_steam and not after_steam['steamRunning']:
+        run_on_vm_desktop(info, 'BloonsPlusSteam', STEAM_EXE)
+    if after_steam is None:
+        log('Steam/game readiness is not available yet. The setup panel will check again; use the VM Steam window if sign-in is needed.')
+    elif not after_steam['btd6Installed']:
+        log('opening the official Steam install prompt for Bloons TD 6 (AppID %d)' % BTD6_APP_ID)
+        steam_install_prompt(info)
+        if not after_steam['steamSignedIn']:
+            log('Sign in to Steam and enter any 2FA code in its VM window to install Bloons TD 6.')
+        else:
+            log('Install Bloons TD 6 through Steam in the VM window.')
+    elif not after_steam['steamSignedIn']:
+        log('Bloons TD 6 is already installed; sign in to Steam in the VM window if needed.')
+    else:
+        log('Steam is signed in and Bloons TD 6 is already installed.')
     open_display(client, name)
-    log('Steam is ready for sign-in. Enter your Steam login and any 2FA code in the Steam window in the VM.')
-    log('After sign-in Steam installs Bloons TD 6 (run it fullscreen at 1920x1080).')
 
 
 def main(argv=None):
