@@ -6,6 +6,8 @@ Updated 6 October 2026. Checkboxes require evidence, not merely code. Preserve o
 
 - Confirmed Infernal Hard at round 80: replay logged VICTORY_CONFIRMED and authoritative VM save Hard/Standard=1049864. Never replay it. Preview 45 update worker completed at idle and confirmed the missing-medal sweep restarted.
 
+- Preview 48 published. Exact packaged helper.py, automation.js and app.js match source. Boundary deployment worker is waiting while Infernal Alternate Bloons Rounds earns its missing medal; stop-after-replay is confirmed. Deployment is pending, not yet claimed.
+
 - [x] Remove obsolete achievement sweep implementation and API run type, which ignored owned medals. Preserve historical progress data; automation status now displays the current job's victory/defeat counters instead of the obsolete recording count. Missing-medal sweep remains the supported completion loop.
 
 - [x] Reproduce malformed saved modifiers crashing replay startup and unknown modifiers silently becoming bare upgrade keys. Reject unsupported modifier/device combinations in both replay decoding and route readiness; malformed binding entries no longer crash decoding. Supported keyboard scan codes and Shift/Alt/Ctrl preserved. Offline checks only; deployment pending at a replay boundary.
