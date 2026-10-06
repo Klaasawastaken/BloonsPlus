@@ -14,13 +14,45 @@ spec.loader.exec_module(module)
 
 
 class TimingConversionTests(unittest.TestCase):
-    def test_randy_start_is_flow_control_and_finish_is_source_noop(self):
+    def test_randy_start_is_observed_fast_intent_and_finish_is_source_noop(self):
         with tempfile.TemporaryDirectory() as folder:
             path = Path(folder) / 'logs_script.py'
             path.write_text("script = [Action('start', action='start', cost=0), Action('finish', action='finish', cost=0)]", encoding='utf-8')
             route = module.convert_randyhodges(path)
-        self.assertIn('explicit start game / speed control', route.lossy)
+        self.assertFalse(route.lossy)
+        self.assertEqual(route.lines, ['start round fast'])
         self.assertEqual(route.harmless, {'finish (automatic source handler sends no input)'})
+
+    def test_randy_click_keeps_source_position_and_repeated_starts_remain_lossy(self):
+        with tempfile.TemporaryDirectory() as folder:
+            path = Path(folder) / 'logs_script.py'
+            path.write_text("script = [Action('click', position=(835, 697)), Action('start'), Action('start')]", encoding='utf-8')
+            route = module.convert_randyhodges(path)
+        self.assertEqual(route.lines, ['click map at 835, 697', 'start round fast', 'start round fast'])
+        self.assertIn('multiple explicit round starts require manual-round coordination', route.lossy)
+
+    def test_randy_start_candidates_preserve_originals_and_refuse_changed_candidates(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            public = root / 'public' / 'Randy-Hodges-BTD6-Autoplay' / 'collection_scripts'
+            public.mkdir(parents=True)
+            public.joinpath('logs_script.py').write_text("script = [Action('place', name='dart', action='dart', position=(500, 500)), Action('start'), Action('finish')]", encoding='utf-8')
+            output = root / 'output'
+            output.mkdir()
+            original = output / 'logs#chimps#1920x1080.btd6'
+            original.write_bytes(b'original recording')
+            with patch.object(module, 'PUB', root / 'public'), patch.object(module, 'PT', output), patch.object(module, 'validate', return_value={}), redirect_stdout(io.StringIO()):
+                module.emit_round_start_candidates()
+                before = {p.name: p.read_bytes() for p in output.iterdir()}
+                module.emit_round_start_candidates()
+                self.assertEqual(before, {p.name: p.read_bytes() for p in output.iterdir()})
+                candidate = next(output.glob('*#source_randyhodges#observed-start.btd6'))
+                self.assertIn('start round fast', candidate.read_text(encoding='utf-8'))
+                candidate.write_bytes(b'user edit')
+                with self.assertRaisesRegex(RuntimeError, 'Refusing to overwrite changed startup candidate'):
+                    module.emit_round_start_candidates()
+                self.assertEqual(candidate.read_bytes(), b'user edit')
+                self.assertEqual(original.read_bytes(), b'original recording')
 
     def test_full_import_preserves_repaired_generator_recording(self):
         with tempfile.TemporaryDirectory() as folder:

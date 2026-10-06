@@ -678,15 +678,25 @@ def convert_randyhodges(path):
         elif kind == "target":
             route.set_target(name, action)
         elif kind == "start":
-            # Pinned autoplayV2.start_game sends Space twice (start + speed).
-            # Automatic cash-driven startup is not an explicit equivalent.
-            route.lossy.add("explicit start game / speed control")
+            # Pinned automatic handler sends Space twice: start, then fast.
+            # Use the observed/checkpointed startup intent rather than blindly
+            # duplicating inputs. Manual moving-map handlers are excluded above.
+            if any(line.startswith('start round ') for line in route.lines):
+                route.lossy.add('multiple explicit round starts require manual-round coordination')
+            route.lines.append('start round fast')
         elif kind == "finish":
             # Collection runner selects automatic mode except Sanctuary, which
             # is rejected above. Its ordinary finish handler sends no input.
             route.harmless.add("finish (automatic source handler sends no input)")
         elif kind == "click":
-            route.lossy.add("map clicks (gimmicks/obstacles)")
+            # The pinned ordinary handler moves to action.position and clicks
+            # once. Keep that operation; do not invent an obstacle price.
+            if 'position' not in kw:
+                raise Unsupported('map click without coordinates')
+            position = literal(kw['position'])
+            if not isinstance(position, (list, tuple)) or len(position) != 2:
+                raise Unsupported('map click needs exactly x and y')
+            route.click(*position)
         else:
             raise Unsupported(f"unknown action {kind}")
     return route
@@ -1055,9 +1065,11 @@ def emit_ability_candidates():
 def emit_round_start_candidates():
     """Separate startup-intent adaptations; no original recording is replaced."""
     written = []
-    for path in sorted((PUB / 'piweiblen-BloonsPlayer').rglob('*.txt')):
+    plans = [(path, convert_bloonsplayer) for path in sorted((PUB / 'piweiblen-BloonsPlayer').rglob('*.txt'))]
+    plans += [(path, convert_randyhodges) for path in sorted((PUB / 'Randy-Hodges-BTD6-Autoplay').rglob('*_script.py'))]
+    for path, convert in plans:
         try:
-            route = convert_bloonsplayer(path)
+            route = convert(path)
             lines = route.body()
         except (Unsupported, KeyError, IndexError, ValueError):
             continue

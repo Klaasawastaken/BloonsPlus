@@ -1,0 +1,48 @@
+# source: https://github.com/Randy-Hodges/BTD6-Autoplay (license MIT (c) 2021 Randy-Hodges) commit 7c36862ffec1d64bb95ddabecf20c73cb54046fd
+# source file: collection_scripts/infernal_script.py
+# generator: import-public-routes.py
+# Startup intent adapted to observed play/speed confirmation, not literal double-Space timing.
+# Recorded tower positions/upgrades retained. No original recording replaced; no local victory claimed.
+# generator: import-public-routes.py
+place dart dart0 at 835, 387
+place boomerang boomerang0 at 835, 697
+upgrade boomerang0 path 2
+upgrade boomerang0 path 1
+start round fast
+upgrade boomerang0 path 1
+upgrade dart0 path 2
+upgrade dart0 path 2
+upgrade dart0 path 1
+place psi hero0 at 1595, 682
+upgrade dart0 path 1
+upgrade dart0 path 2
+upgrade boomerang0 path 1
+retarget hero0
+retarget hero0
+retarget hero0
+upgrade boomerang0 path 2
+place heli heli0 at 102, 571
+upgrade heli0 path 0
+upgrade heli0 path 0
+upgrade heli0 path 1
+upgrade heli0 path 1
+upgrade heli0 path 0
+upgrade dart0 path 2
+place alchemist alchemist0 at 85, 475
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+upgrade heli0 path 0
+upgrade alchemist0 path 0
+upgrade alchemist0 path 1
+upgrade alchemist0 path 1
+place sniper sniper0 at 477, 231
+upgrade sniper0 path 0
+retarget sniper0
+retarget sniper0
+retarget sniper0
+upgrade sniper0 path 0
+upgrade sniper0 path 0
+upgrade sniper0 path 0
+upgrade sniper0 path 2
+upgrade sniper0 path 2

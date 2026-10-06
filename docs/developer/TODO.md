@@ -4,6 +4,8 @@ Updated 6 October 2026. Checkboxes require evidence, not merely code. Preserve o
 
 ## Current repair pass
 
+- [x] Review pinned Randy-Hodges ordinary runner: start_game sends two Space presses, click sends one position click, ordinary finish sends no input, Sanctuary uses a separate manual handler. Preserve startup as observed fast intent and map clicks as exact commands; reject moving-map/manual cases. Add eight separate Hard startup candidates and one Quad BloonsPlayer startup alternative. Full Python parser and strict JS legality pass; importer repeat/overwrite preservation checks pass. Coverage remains 509/1,204; no new wins claimed.
+
 - [x] Restrict hero-picker search to the live three-column card region. Old Geraldo/Corvus positions fell into the detail panel and repeated unchanged titles. Keep cached layout hints advisory and live title/Selected verification required; no new hero selection claimed from this source edit.
 
 - [x] Simplify Settings maintenance: separate ordinary appearance/connection controls from installation details and the advanced preference/queue reset. Keep automatic game-profile detection out of manual settings. Disable stale setup/update actions for HTTP failures as well as network failures, and recheck controller availability after failed updates. JavaScript syntax and diff checks pass; visual review pending.
