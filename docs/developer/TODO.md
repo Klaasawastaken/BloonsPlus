@@ -10,6 +10,7 @@ Updated **6 October 2026**. This is the readable, active task list. Technical no
 - **Development alongside gameplay:** installer/setup polish, app polish, folder organization and website redesign. Check the sweep every five minutes and diagnose meaningful failures.
 - **Background work:** improve routes and placement from missing-medal gameplay evidence; retain failures and skip owned medals.
 - **Latest installer repair:** [Preview 94](https://github.com/Klaasawastaken/BloonsPlus/releases/tag/v0.1.0-preview.94) is published and fixes the current installer being rejected as too old during VM provisioning. It exposes the actual setup component error. Packaging, uploaded size/digest and regression checks pass. The host setup helper was repaired without restarting healthy VM gameplay. Clean-machine setup and live cash-recovery evidence remain open.
+- **Latest release:** [Preview 95](https://github.com/Klaasawastaken/BloonsPlus/releases/tag/v0.1.0-preview.95) adds precise startup connection diagnostics and the developer route-import argument repair. Its installer and uploaded asset are verified; healthy gameplay was not restarted.
 
 ## Work order
 
@@ -27,9 +28,9 @@ Updated **6 October 2026**. This is the readable, active task list. Technical no
 
 ### Immediate queue
 
-1. **I-07 complete — Approved redesign:** the [source audit](installer-startup-audit.md), [design](../superpowers/specs/2026-10-06-installer-startup-design.md) and [inline implementation plan](../superpowers/plans/2026-10-06-installer-startup.md) are approved. Batches 1–5 and post-install presentation are implemented and checked offline; Preview 94 includes the follow-up VM provisioning repair.
+1. **I-07 complete — Approved redesign:** the [source audit](installer-startup-audit.md), [design](../superpowers/specs/2026-10-06-installer-startup-design.md) and [inline implementation plan](../superpowers/plans/2026-10-06-installer-startup.md) are approved. Batches 1–5 and post-install presentation are implemented and checked offline; Preview 95 includes the follow-up VM provisioning and startup diagnostics repairs.
 2. **I-08–I-11 / A-05–A-07 — Installer and first launch:** compact native flow, durable recovery, shared coordination and the intro are implemented. Finish actual clean-machine and physical accessibility acceptance; deploy only at a safe replay boundary.
-3. **I-01 / I-03 — Acceptance:** check clean and interrupted setup and repair. I-04 packaging is complete for Preview 94; repeat its checks for each later release.
+3. **I-01 / I-03 — Acceptance:** check clean and interrupted setup and repair. I-04 packaging is checked through Preview 95; repeat its checks for each later release.
 4. **A-01 / A-03 / A-04 — App and files:** polish controls, accessibility, scrolling and folder organization.
 5. **W-04 — Website:** finish responsive and accessibility checks for the refreshed pages.
 6. **R-02 / R-15 — Recovery:** investigate game progression while replay input is paused or stopped; a paused controller does not prove a paused game.
@@ -129,11 +130,11 @@ The sweep earns missing medals alongside development. Deploy changes together af
   - Healthy environment reuse now happens before the 5 GB package-install space check. Repairs still check space before moving or rebuilding environments.
   - VM setup now reports explicit states and validates actions before advancing. Retry/failure/restart/sign-in and delayed update connection checks pass offline. Interrupted-process recovery and clean/interrupted setup acceptance remain open.
   - The native installer now holds an exclusive installation lock before file changes or result receipts. VM requests have unique tasks and receipts; setup waits for an owner and compares installer hashes before reusing an identical completed update. Real Windows cross-process, duplicate-result and PowerShell lock checks pass. Unsupported older installers are refused before staging. Recovery of orphaned package processes remains open.
-- [x] **I-04 — Check release packaging.** Preview 94 installer, release notes and the deployed latest-download link were checked. One installer asset; no separate `SHA256SUMS.txt` asset. Repeat this gate for each later release.
+- [x] **I-04 — Check release packaging.** Preview 95 installer, notes and uploaded size/digest were checked. One installer asset; no separate `SHA256SUMS.txt` asset. The deployed latest-download link was checked for Preview 94 and needs its follow-up after the Preview 95 metadata deployment. Repeat this gate for each later release.
 - [ ] **I-05 — Add trusted code signing when available.** Unsigned installers may still trigger SmartScreen.
 - [ ] **I-06 — Meet production acceptance gates.** Complete the specification before publishing **v1.0.0**; previews do not establish production readiness.
 
-**Latest published:** [Preview 94](https://github.com/Klaasawastaken/BloonsPlus/releases/tag/v0.1.0-preview.94), installer 246,836,142 bytes (235.4 MiB). Verified 336 Python checks, ten setup-transport checks, 56 existing JavaScript check files, 126 packaged-source comparisons and all 1,683 inventory hashes; source and payload publication guards reported zero findings. Uploaded size and digest match; both executables retain the seven original app-icon frames. The deployed HTTPS Download page resolves its installer and notes to Preview 94. The 18 focused installer compatibility, engine and actual offscreen-view checks also pass after publication. Clean-machine installation and live recovery evidence remain open. [Release notes](../releases/preview-94.md).
+**Latest published:** [Preview 95](https://github.com/Klaasawastaken/BloonsPlus/releases/tag/v0.1.0-preview.95), installer 246,840,323 bytes (235.4 MiB). Verified 339 Python checks, ten setup-transport checks, all 57 current JavaScript check files (including one unpublished route draft check), 126 packaged-source comparisons and all 1,684 inventory hashes; source and payload publication guards reported zero findings. Uploaded size and digest match; both executables retain the seven original app-icon frames. The unpublished ABR route repair is excluded from the artifact. Clean-machine installation and live recovery evidence remain open. [Release notes](../releases/preview-95.md).
 
 ### Installer redesign — requested 6 October
 

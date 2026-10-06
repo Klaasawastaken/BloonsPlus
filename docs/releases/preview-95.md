@@ -37,3 +37,9 @@ This remains an unsigned preview. Clean Windows installation, complete VM setup,
 UAC/reboot recovery, physical accessibility and remaining gameplay evidence are
 still required before v1.0.0. Install over the existing app and let a healthy
 replay finish before applying a guest update.
+
+The published installer is 246,840,323 bytes. All 126 packaged runtime source
+comparisons and 1,684 inventory hashes match; both EXEs retain all seven original
+app-icon frames. Source and payload guards report zero findings. All 57 current
+JavaScript check files pass, including one unpublished route draft check; that
+draft is excluded from the artifact. Ten isolated SSH transport checks also pass.
