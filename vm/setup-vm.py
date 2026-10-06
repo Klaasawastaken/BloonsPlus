@@ -25,6 +25,7 @@ import sys
 import tempfile
 import time
 import urllib.request
+import uuid
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -168,6 +169,45 @@ def scp(info, source, target):
         raise RuntimeError('VM file copy failed: %s' % (detail or 'scp exited with code %s' % result.returncode))
 
 
+def stage_guest_installer(info, source):
+    """Upload into a fresh application-owned folder and verify before execution."""
+    source = Path(source)
+    digest = hashlib.sha256()
+    with source.open('rb') as stream:
+        for chunk in iter(lambda: stream.read(1024 * 1024), b''):
+            digest.update(chunk)
+    size = source.stat().st_size
+    directory = ssh(info, "$taskStaging = Join-Path $env:LOCALAPPDATA 'BloonsPlus\\updates\\%s'; "
+                    "[IO.Directory]::CreateDirectory($taskStaging) | Out-Null; $taskStaging" % uuid.uuid4().hex)
+    if not directory:
+        raise RuntimeError('Could not create the VM update staging folder')
+    target = directory.rstrip('\\/') + r'\BloonsPlusSetup.exe'
+    scp(info, source, target.replace('\\', '/'))
+    literal = target.replace("'", "''")
+    verification = ssh(info, "$ErrorActionPreference='Stop'; $taskFile=Get-Item -LiteralPath '%s' -ErrorAction Stop; "
+                       "$taskHash=Get-FileHash -LiteralPath '%s' -Algorithm SHA256 -ErrorAction Stop; "
+                       "@{size=$taskFile.Length; sha256=$taskHash.Hash} | ConvertTo-Json -Compress" % (literal, literal), timeout=120)
+    try:
+        receipt = json.loads(verification)
+        verified = receipt.get('size') == size and str(receipt.get('sha256', '')).lower() == digest.hexdigest()
+    except (ValueError, AttributeError):
+        verified = False
+    if not verified:
+        raise RuntimeError('VM installer verification failed; the uploaded file was not launched. Retry setup to copy it again.')
+    log('VM installer upload verified (%d MB)' % (size // (1024 * 1024)))
+    return target
+
+
+def remove_staged_installer(info, target):
+    # Remove only this attempt's file and empty directory; never recurse through updates.
+    literal = target.replace("'", "''")
+    try:
+        ssh(info, "$ErrorActionPreference='Stop'; Remove-Item -LiteralPath '%s' -Force -ErrorAction Stop; "
+            "Remove-Item -LiteralPath (Split-Path -Parent '%s') -ErrorAction Stop; 'OK'" % (literal, literal))
+    except RuntimeError:
+        log('Installation completed; the staged installer is still in use and was retained.')
+
+
 def run_on_vm_desktop(info, task, program, arguments=''):
     # SSH sessions have no desktop; a one-off interactive task starts GUI programs in the signed-in session.
     # The guest's SSH shell is cmd.exe: the program path is wrapped in escaped double quotes.
@@ -289,7 +329,7 @@ def provision(client, args):
     installed = ssh(info, "Test-Path '%s'" % GUEST_APP) == 'True'
     if args.reinstall or not installed:
         log('copying the Bloons+ installer into the VM (%d MB)' % (args.installer.stat().st_size // (1024 * 1024)))
-        scp(info, args.installer, desktop.replace('\\', '/') + '/BloonsPlusSetup.exe')
+        guest_installer = stage_guest_installer(info, args.installer)
     log('creating the BloonsPlusApp logon task in the VM')
     create_logon_task(info)
 
@@ -303,8 +343,9 @@ def provision(client, args):
         ssh(info, "Remove-Item -LiteralPath '%s' -Force -ErrorAction SilentlyContinue; 'OK'" % GUEST_INSTALL_RESULT)
         # The installer downloads Bloons+'s Python packages in the VM and then starts Bloons+.
         log('running the Bloons+ installer in the VM (it downloads its Python packages; this takes a while)')
-        run_on_vm_desktop(info, 'BloonsPlusSetup', desktop + r'\BloonsPlusSetup.exe', '/silent')
+        run_on_vm_desktop(info, 'BloonsPlusSetup', guest_installer, '/silent')
         wait_for_guest_install(info)
+        remove_staged_installer(info, guest_installer)
     else:
         subprocess.run(ssh_command(info) + ['schtasks /run /tn BloonsPlusApp'], capture_output=True)
     log('opening the official Steam install prompt for Bloons TD 6 (AppID %d)' % BTD6_APP_ID)

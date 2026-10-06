@@ -3,6 +3,9 @@ import base64
 import importlib.util
 from pathlib import Path
 import subprocess
+import hashlib
+import json
+import tempfile
 import unittest
 from unittest.mock import patch
 from types import SimpleNamespace
@@ -15,6 +18,41 @@ INFO = {'port': 12345, 'user': 'user', 'keyDeployed': True, 'sshState': 4}
 
 
 class SetupTransportTests(unittest.TestCase):
+    def stage(self, response):
+        temporary = tempfile.TemporaryDirectory()
+        self.addCleanup(temporary.cleanup)
+        source = Path(temporary.name) / 'BloonsPlusSetup.exe'
+        source.write_bytes(b'MZinstaller-test')
+        return source, patch.object(setup, 'ssh', side_effect=[r'C:\Users\user\AppData\Local\BloonsPlus\updates\unique', response])
+
+    def test_update_uses_private_staging_and_checks_bytes(self):
+        payload = b'MZinstaller-test'
+        source, ssh = self.stage(json.dumps({'size': len(payload), 'sha256': hashlib.sha256(payload).hexdigest().upper()}))
+        with ssh as remote, patch.object(setup, 'scp') as copy:
+            result = setup.stage_guest_installer(INFO, source)
+        self.assertEqual(result, r'C:\Users\user\AppData\Local\BloonsPlus\updates\unique\BloonsPlusSetup.exe')
+        self.assertNotIn('Desktop', copy.call_args.args[2])
+        self.assertIn('updates', copy.call_args.args[2])
+        self.assertIn('Get-FileHash', remote.call_args.args[1])
+        self.assertIn('-ErrorAction Stop', remote.call_args.args[1])
+
+    def test_corrupted_or_incomplete_upload_cannot_launch(self):
+        for response in ('{}', 'not JSON', json.dumps({'size': 1, 'sha256': 'wrong'})):
+            with self.subTest(response=response):
+                source, ssh = self.stage(response)
+                with ssh, patch.object(setup, 'scp'), patch.object(setup, 'run_on_vm_desktop') as launch:
+                    with self.assertRaisesRegex(RuntimeError, 'verify|verification'):
+                        setup.stage_guest_installer(INFO, source)
+                launch.assert_not_called()
+
+    def test_upload_failure_is_not_retried_or_launched(self):
+        source, ssh = self.stage('{}')
+        with ssh as remote, patch.object(setup, 'scp', side_effect=RuntimeError('dest open: Failure')) as copy:
+            with self.assertRaisesRegex(RuntimeError, 'dest open'):
+                setup.stage_guest_installer(INFO, source)
+        self.assertEqual(copy.call_count, 1)
+        self.assertEqual(remote.call_count, 1)
+
     def test_powershell_quoted_paths_survive(self):
         command = '$p = "C:\\Folder with spaces\\a.txt"; Get-Content -LiteralPath $p; "OK"'
         with patch.object(setup.subprocess, 'run', return_value=SimpleNamespace(returncode=0, stdout='OK\n', stderr='')) as run:

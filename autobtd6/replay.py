@@ -25,6 +25,7 @@ from play_sequence import play_sequence_ready
 from source_round import drive_source_round, restore_source_round_context, source_round_anchor
 from map_availability import predicted_thaw_round
 from resume_recovery import restore_upgrade_steps, probe_owned_upgrade, resumable_round_start
+from manual_cash_recovery import drive_manual_cash_recovery, restore_manual_cash_recovery
 
 LAST_HERO_FILE = 'last-hero.json'
 UPGRADE_MEMORY_FILE = 'upgrade-memory.json'
@@ -1480,6 +1481,10 @@ def main():
                 mapConfig['resumeAutostartCheck'] = resume_autostart_intent(mapConfig['steps'], routeCheckpoint)
                 mapConfig.update(restore_source_round_context(mapConfig['steps'], routeCheckpoint))
                 mapConfig['steps'] = restore_upgrade_steps(mapConfig['steps'], routeCheckpoint)
+                recovery = restore_manual_cash_recovery(routeCheckpoint.get('manualCashRecovery'),
+                    mapConfig['steps'][0] if mapConfig['steps'] else None)
+                if recovery is not None:
+                    mapConfig['manualCashRecovery'] = recovery
                 mapConfig['roundStartCompleted'] = routeCheckpoint.get('roundStartCompleted') is True
             except ValueError as error:
                 customPrint('resume refused: ' + str(error))
@@ -3571,7 +3576,9 @@ def main():
                         customPrint('detected money: ' + str(currentValues['money']) + ', required: ' + str(mapConfig['steps'][0]['cost']) + '          ', end = '', rewriteLine=True)
 
                 nextStep = mapConfig['steps'][0] if len(mapConfig['steps']) else None
+                resumeProbeRan = False
                 if nextStep and upgrade_ready(nextStep, currentValues.get('round')) and nextStep.pop('resumeUpgradeProbe', False):
+                    resumeProbeRan = True
                     # Check ownership before the cash gate: an already bought tier
                     # must not wait for enough cash to buy that tier a second time.
                     pyautogui.click(button='right')
@@ -3597,6 +3604,36 @@ def main():
                         lastIterationBalance = currentValues['money']
                         continue
                 nextStepAction = nextStep.get('action') if nextStep else None
+                # A source skip-round clock can outrun the HUD after different
+                # round durations. Only an evidenced manual cash deadlock may
+                # start bounded income rounds; the intended purchase stays queued.
+                if mapConfig.get('sourceRoundTiming') and mapConfig.get('autostartEnabled') is False:
+                    recoveryState, recoveryDiff = None, None
+                    for recoveryName, recoveryValue in (('game_playing_fast', 'fast'), ('game_playing_slow', 'slow'), ('game_paused', 'paused')):
+                        diff = cv2.matchTemplate(cutImage(screenshot, imageAreas['compare']['game_state']),
+                            cutImage(comparisonImages['game_state'][recoveryName], imageAreas['compare']['game_state']),
+                            cv2.TM_SQDIFF_NORMED)[0][0]
+                        if recoveryDiff is None or diff < recoveryDiff:
+                            recoveryState, recoveryDiff = recoveryValue, diff
+                    def persistManualRecovery():
+                        if routeCheckpoint is None:
+                            return False  # Never send supplemental input without a durable receipt.
+                        old = deepcopy(routeCheckpoint.get('manualCashRecovery'))
+                        routeCheckpoint['manualCashRecovery'] = deepcopy(mapConfig.get('manualCashRecovery'))
+                        if writeRouteCheckpoint(routeCheckpoint, mapConfig['steps']):
+                            return True
+                        routeCheckpoint['manualCashRecovery'] = old
+                        return False
+                    if drive_manual_cash_recovery(mapConfig, time.time(),
+                            recoveryState if recoveryDiff < 0.05 else None, currentValues.get('round'),
+                            currentValues.get('money'), windowed_input.is_game_foreground()
+                            and not (skippingIteration or heldPlacement or routeActionExecuted or playToggleIssued or resumeProbeRan
+                                     or (nextStep and nextStep.get('resumeUpgradeProbe'))),
+                            keybinds['others'].get('play'), sendKey, persistManualRecovery, customPrint):
+                        lastIterationBalance = currentValues.get('money', -1)
+                        lastIterationCost = 0
+                        time.sleep(1.0)
+                        continue
                 nextStepDelayReady = (delay_ready(nextStep, time.time())
                                       and round_offset_ready(nextStep, time.time(), observedRound, observedRoundStartedAt)
                                       and ability_ready(nextStep, time.time(), source_round_anchor(mapConfig, observedRoundStartedAt))

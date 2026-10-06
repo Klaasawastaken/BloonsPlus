@@ -49,14 +49,26 @@ class PlayOnceTests(unittest.TestCase):
             self.assertIsNone(step['speed'])
             self.assertTrue(any('round boundary' in message for message in messages))
 
-    def test_running_receipt_rejects_pause_without_round_boundary_and_survives_resume(self):
+    def test_running_receipt_rejects_regressed_round_and_survives_resume(self):
         step=self.step();play_once_ready(step,10,'fast',13,True,lambda key:None)
         restored=restore_action(self.step(),json.loads(json.dumps(step)))
-        for round_ in (12,13):
-            self.assertEqual(play_once_ready(restored,11,'paused',round_,True,self.fail),(False,False))
+        self.assertEqual(play_once_ready(restored,11,'paused',12,True,self.fail),(False,False))
         self.assertEqual(play_once_ready(restored,12,'paused',14,False,self.fail),(False,False))
         self.assertEqual(play_once_ready(restored,12,None,14,True,self.fail),(False,False))
         self.assertEqual(play_once_ready(restored,12,'paused',14,True,self.fail),(True,False))
+
+    def test_completed_round_retains_same_hud_number(self):
+        # Bloody Puddles: a running-origin receipt at 14 waits forever once
+        # round 14 ends, because BTD6 keeps 14/100 on the paused HUD.
+        for origin in ('slow', 'fast'):
+            step=self.step(); calls=[]; messages=[]
+            play_once_ready(step,10,origin,14,True,calls.append)
+            restored=restore_action(self.step(),json.loads(json.dumps(step)))
+            self.assertEqual(play_once_ready(restored,10.5,'paused',14,True,self.fail),(False,False))
+            self.assertEqual(play_once_ready(restored,11,'paused',14,True,self.fail,report=messages.append),(True,False))
+            self.assertEqual(calls,['F8'])
+            self.assertIsNone(restored['speed'])
+            self.assertTrue(any('completed round boundary' in m for m in messages))
 
     def test_unknown_busy_unreadable_or_unbound_withholds_input(self):
         for state,round_,free in ((None,6,True),('slow',None,True),('paused',True,True),('slow',6,False)):

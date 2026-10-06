@@ -4,33 +4,33 @@ Updated **6 October 2026**. This is the readable, active task list. Technical no
 
 ## At a glance
 
-- **Current priority:** finish command and upgrade reliability while missing-medal gameplay continues.
-- **Recovered run:** Bloody Puddles Impoppable resumed at round 14 and progressed past round 20. No victory or medal claimed yet.
-- **Next development:** improve missing-medal routes and live progress.
-- **Later:** installer checks, app polish and website redesign.
-- **Latest release:** Preview 84. Its Play-receipt recovery is confirmed in the VM. The next batch fixes provisional map fingerprints and future-dated viewer caches.
+- **Current priority:** installer/setup, app polish, folders and the website alongside missing-medal gameplay.
+- **Sweep:** running in the VM again. The previous stopped Bloody Puddles game showed defeat at round 40 after updating; recovery refused the stale round-34 checkpoint. The cause of that game progression remains under investigation. No new victory or medal claimed yet.
+- **Development alongside gameplay:** installer/setup polish, app polish, folder organization and website redesign. Check the sweep every five minutes and diagnose meaningful failures.
+- **Background work:** improve routes and placement from missing-medal gameplay evidence; retain failures and skip owned medals.
+- **Latest release:** Preview 85 is published; Preview 86 is built and installed in the VM. Its verified transfer and bounded cash recovery are ready for publication. Live cash-recovery evidence remains open.
 
 ## Work order
 
 | Order | Area | Main outcome |
 | --- | --- | --- |
-| **1 — Current focus** | [Replay reliability](#1-replay-reliability) | Reliable placement, upgrades, round reads and recovery |
-| **2 — Next** | [Routes and medals](#2-routes-and-medals) | Better candidates for missing medals; failed routes cannot block the sweep |
-| **3 — Next** | [Progress and VM connection](#3-progress-and-vm-connection) | Accurate live progress, counters and connection status |
-| **4 — Then** | [Installer and release](#4-installer-and-release) | Clear setup, repair and production acceptance checks |
-| **5 — Later** | [App polish and files](#5-app-polish-and-files) | Smoother app, accessible controls and organized folders |
-| **6 — Deferred** | [Website redesign](#6-website-redesign) | Clearer pages with varied official BTD6 artwork |
+| **1 — Recovery, then background** | [Replay reliability](#1-replay-reliability) | Restore the current run; diagnose evidenced failures between development tasks |
+| **2 — Background** | [Routes and medals](#2-routes-and-medals) | Better candidates for missing medals; check the sweep every five minutes |
+| **3 — Alongside gameplay** | [Installer and release](#4-installer-and-release) | Clear setup, repair and production acceptance checks |
+| **4 — Alongside gameplay** | [App polish and files](#5-app-polish-and-files) | Smoother app, accessible controls and organized folders |
+| **5 — Alongside gameplay** | [Website redesign](#6-website-redesign) | Clearer pages with varied official BTD6 artwork |
+| **6 — Alongside gameplay** | [Progress and VM connection](#3-progress-and-vm-connection) | Accurate live progress, counters and connection status |
 | **7 — Experimental** | [AI, bosses and Pro](#7-ai-bosses-and-pro) | Separate development after core reliability |
 
 **How to read this list:** unchecked tasks remain open, including tasks awaiting live evidence. Checked tasks have recorded completion evidence. Task IDs stay stable when priorities change. A shipped fix does not prove every route wins.
 
 ### Immediate queue
 
-1. **R-01 / R-04 — Route commands:** finish missing commands and audit incomplete imports.
-2. **R-08 / R-09 — Tower upgrades:** resolve upgrades from the selected tower's actual path/tier state.
-3. **R-12 / R-13 — Cash and rounds:** strengthen HUD reading using recorded failure evidence.
-4. **S-01 / S-02 — Missing routes:** improve eligible candidates for medals still missing.
-5. **R-02 — Resume recovery:** check broader recovery during missing-medal runs; deploy the new fingerprint fix after the current healthy replay finishes.
+1. **I-01 / I-03 / I-04 — Installer and release:** improve setup/repair clarity and publish verified batches.
+2. **A-01 / A-03 / A-04 — App and files:** polish controls, accessibility, scrolling and folder organization.
+3. **W-04 — Website:** finish responsive and accessibility checks for the refreshed pages.
+4. **R-02 / R-15 — Recovery:** investigate game progression while replay input is paused or stopped; a paused controller does not prove a paused game.
+5. **Background — R / S tasks:** check the missing-medal sweep every five minutes; diagnose failures and improve candidates without replaying owned medals.
 
 The sweep earns missing medals alongside development. Deploy changes together after the current healthy replay finishes.
 
@@ -112,12 +112,13 @@ The sweep earns missing medals alongside development. Deploy changes together af
 
 - [ ] **I-01 — Check a clean Windows setup.** No Python, Visual C++ runtime, App Sandbox or existing VM. Show progress and repair for each prerequisite.
 - [ ] **I-02 — Check the complete VM setup.** Steam sign-in, game install/launch, SSH, bridge connection and remote updates. Never store Steam credentials.
+  - Current VM update now uses a unique application staging folder and verifies size/hash before launch. Installed successfully; clean-machine and interrupted-install checks remain open.
 - [ ] **I-03 — Check partial-install repair.** Reuse healthy components without changing Steam or game data.
 - [ ] **I-04 — Check release packaging.** Installer, release notes and latest-download link. No separate `SHA256SUMS.txt` asset.
 - [ ] **I-05 — Add trusted code signing when available.** Unsigned installers may still trigger SmartScreen.
 - [ ] **I-06 — Meet production acceptance gates.** Complete the specification before publishing **v1.0.0**; previews do not establish production readiness.
 
-**Latest published:** [Preview 84](https://github.com/Klaasawastaken/BloonsPlus/releases/tag/v0.1.0-preview.84), installer 245,321,804 bytes. The release passed 282 Python checks, focused JS checks and 24 packaged-source comparisons; publication guard reported zero findings. The Play-receipt fix is installed and recovered the existing round-14 receipt after a guarded repair of application recovery state. This does not establish clean-machine installation or winning routes.
+**Latest published:** [Preview 85](https://github.com/Klaasawastaken/BloonsPlus/releases/tag/v0.1.0-preview.85), installer 245,324,928 bytes. The release passed 287 Python checks, focused JS checks and 25 packaged-source comparisons; publication guard reported zero findings. VM deployment is pending the installer-transfer repair. This does not establish clean-machine installation or winning routes.
 
 ## 5. App polish and files
 
@@ -128,11 +129,11 @@ The sweep earns missing medals alongside development. Deploy changes together af
 
 ## 6. Website redesign
 
-Requested **6 October**. Start after current replay/control work and VM recovery are stable.
+Requested **6 October**. Work alongside background missing-medal gameplay after recovering the current stalled controller.
 
-- [ ] **W-01 — Vary character artwork.** Different official monkeys on About us and Contributors; keep Engineer Monkey on the Wiki.
-- [ ] **W-02 — Rebuild Features.** Present actual Bloons+ capabilities with clear groups and varied official BTD6 art.
-- [ ] **W-03 — Streamline Home.** Reduce clutter and strengthen the BTD6 theme.
+- [x] **W-01 — Vary character artwork.** Four hero portraits (Quincy, Sauda, Benjamin and Gwendolin) and seven additional tower types distributed across pages; Engineer remains on the Wiki. README banner uses Wizard, Quincy, Alchemist and Sauda.
+- [x] **W-02 — Rebuild Features.** Four practical workflow groups and a compact progress section, using varied official monkeys. Desktop/dark/narrow browser checks pass without broken images or horizontal overflow.
+- [x] **W-03 — Streamline Home.** Three feature cards, clearer copy and corrected installation link. Retain the requested app-preview hero and floating card.
 - [ ] **W-04 — Check artwork and layout.** Preserve proportions, attribution, responsiveness and accessibility. No AI-generated images.
 
 ## 7. AI, bosses and Pro

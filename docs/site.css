@@ -119,3 +119,79 @@ img[src*="/game/"]:not([src$="monkeymeadow.png"]){object-fit:contain;height:auto
 .plan-matrix thead th{text-transform:none;letter-spacing:normal;color:var(--ink)}.plan-matrix .plan-state{text-transform:uppercase;letter-spacing:1.4px}.official-feature-art img.official-tower{width:auto;height:220px;max-height:none;max-width:43%}
 @media(max-width:550px){.official-feature-art img.official-tower{height:175px}}
 .comparison-scroll{position:relative}.plan-matrix caption.sr-only{left:0;top:0}
+
+/* Product pages: fewer sections, distinct official monkeys, readable in both themes. */
+.capability-hero {
+  display: grid;
+  grid-template-columns: 1.1fr .9fr;
+  align-items: center;
+  gap: 50px;
+  padding-block: 85px 65px;
+}
+.capability-hero h1 { font-size: clamp(48px, 6vw, 78px); margin-top: 18px; }
+.capability-hero .lead { max-width: 540px; }
+.capability-caption { color: var(--muted); font-size: 11px; margin-top: 25px; }
+.capability-art {
+  position: relative;
+  min-height: 365px;
+  border-radius: 40px;
+  isolation: isolate;
+  background: radial-gradient(ellipse at center, var(--mint), transparent 70%);
+}
+.art-orbit { position: absolute; inset: 8% 12%; border: 1px dashed var(--line); border-radius: 50%; }
+.capability-art img { position: absolute; width: 44%; height: auto; object-fit: contain; bottom: 60px; }
+.capability-wizard { left: 1%; }
+.capability-super { right: 1%; }
+.art-tag { position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); white-space: nowrap; font-size: 12px; color: var(--muted); }
+.capabilities { display: grid; grid-template-columns: .75fr 1.25fr; gap: 75px; padding-block: 45px 70px; scroll-margin-top: 100px; }
+.capability-heading { align-self: start; position: sticky; top: 115px; }
+.capability-heading h2 { font-size: clamp(30px, 3.8vw, 46px); margin: 20px 0; }
+.capability-heading p { font-size: 14px; max-width: 33ch; }
+.capability-heading .text-link { display: inline-block; margin-top: 24px; }
+.capability-list { display: grid; gap: 18px; }
+.capability-row { display: grid; grid-template-columns: 95px 1fr; align-items: start; gap: 25px; padding: 30px; border: 1px solid var(--line); background: var(--surface); border-radius: 24px; }
+.capability-row:nth-child(even) { background: var(--mint); }
+.capability-row > img { width: 90px; height: auto; max-height: 130px; object-fit: contain; margin-top: 15px; }
+.capability-row .eyebrow { font-size: 9px; }
+.capability-row h3 { font-size: 25px; margin: 16px 0 10px; }
+.capability-row p { font-size: 13px; line-height: 1.8; }
+.capability-row .text-link { display: inline-block; font-size: 12px; margin-top: 15px; }
+.capability-progress { display: grid; grid-template-columns: .8fr 1.2fr; gap: 50px; padding-block: 40px; border-top: 1px solid var(--line); }
+.capability-progress h2 { font-size: clamp(30px, 3.5vw, 42px); margin: 18px 0; }
+.capability-progress > div > p { max-width: 33ch; font-size: 14px; }
+.progress-feature-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px 35px; }
+.progress-feature-grid article { padding-block: 15px; }
+.progress-feature-grid h3 { font-size: 18px; margin-bottom: 10px; }
+.progress-feature-grid p { font-size: 12px; line-height: 1.8; }
+.home-capabilities { padding-block: 65px; }
+.home-capability-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
+.home-capability-grid article { border: 1px solid var(--line); border-radius: 24px; background: var(--surface); padding: 28px; }
+.home-capability-grid img { display: block; width: 90px; height: auto; max-height: 120px; object-fit: contain; margin-bottom: 25px; }
+.home-capability-grid h3 { font-size: 23px; margin-bottom: 12px; }
+.home-capability-grid p { font-size: 13px; line-height: 1.8; }
+@media (max-width: 900px) {
+  .capability-hero { gap: 25px; }
+  .capabilities { gap: 35px; grid-template-columns: .7fr 1.3fr; }
+  .capability-row { padding: 24px; grid-template-columns: 70px 1fr; gap: 18px; }
+  .capability-row > img { width: 65px; }
+  .capability-progress { gap: 25px; }
+}
+@media (max-width: 700px) {
+  .capability-hero { grid-template-columns: 1fr; gap: 20px; padding-block: 50px 25px; }
+  .capability-art { width: min(400px, 100%); min-height: 320px; justify-self: center; }
+  .capabilities, .capability-progress { grid-template-columns: 1fr; gap: 25px; }
+  .capability-heading { position: static; }
+  .capability-heading h2 br { display: none; }
+  .capability-heading p { max-width: 60ch; }
+  .home-capability-grid { grid-template-columns: 1fr; gap: 15px; }
+  .home-capability-grid article { display: grid; grid-template-columns: 70px 1fr; column-gap: 18px; }
+  .home-capability-grid img { width: 65px; margin: 0; grid-row: span 2; }
+  .home-capability-grid h3 { font-size: 20px; }
+  .capability-row h3 { font-size: 22px; }
+  .capability-progress { padding-block: 30px; }
+}
+@media (max-width: 420px) {
+  .capability-row { grid-template-columns: 50px 1fr; padding: 20px 16px; gap: 14px; }
+  .capability-row > img { width: 48px; }
+  .progress-feature-grid { grid-template-columns: 1fr; gap: 10px; }
+}

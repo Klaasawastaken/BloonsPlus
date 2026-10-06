@@ -1,3 +1,13 @@
+## Preview 86 — Manual round recovery and character artwork
+
+- Confirm a completed manual round when the paused HUD retains the same round number; do not repeat an issued Play input.
+- Add bounded paused-income recovery while preserving queued purchases and saved Play receipts.
+- Stage VM installers in unique app folders and verify size and SHA-256 before launch.
+- Rebuild Features and simplify Home while retaining its app-preview hero and floating card.
+- Add four BTD6 heroes and seven more monkey types; keep Ninja Monkey consistent in Discord banners and Engineer on the wiki.
+- Refresh the README banner with existing game artwork and preserve natural character proportions.
+- Verification: 295 replay checks, 10 VM setup checks, site behavior/layout checks and 27 exact payload comparisons. Publication guard reports zero findings. Live recovery and clean-machine acceptance remain open.
+
 ## Preview 77 — Pause evidence and simpler Settings
 
 - Require full pause-menu labels before replay recovery sends Esc.

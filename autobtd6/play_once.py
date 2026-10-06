@@ -24,9 +24,10 @@ def play_once_ready(step, now, play_state, observed_round, input_free, press,
     A pending receipt is never blindly replayed after a process restart. A
     paused-origin command may already have finished a short round before the
     next frame, so a fresh higher round also confirms that transition. Running
-    origins require the opposite speed or a completed round boundary. A round
-    may end before the next capture; a higher, paused round confirms that
-    boundary without inventing a speed or sending another key. Mere ongoing
+    origins require the opposite speed or a completed round boundary. BTD6
+    retains the completed round number until the next round starts, so a
+    running-origin receipt can finish paused on the same round. This consumes
+    the issued speed command without starting another round. Mere ongoing
     round progression is insufficient.
     """
     if step.get('action') != 'play_once':
@@ -47,7 +48,9 @@ def play_once_ready(step, now, play_state, observed_round, input_free, press,
         if now-pending['sentAt'] < 1:
             return False,False
         origin=pending['from']
-        round_boundary=play_state=='paused' and observed_round>pending['round']
+        round_boundary=(play_state=='paused' and
+                        (observed_round>pending['round'] or
+                         origin in ('slow','fast') and observed_round==pending['round']))
         confirmed=(play_state==('fast' if origin=='slow' else 'slow') if origin!='paused'
                    else play_state in ('fast','slow') or observed_round>pending['round'])
         if confirmed or round_boundary:
