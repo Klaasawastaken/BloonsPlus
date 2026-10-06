@@ -40,7 +40,9 @@
         : next.message || status.reason || 'Checking setup…');
       settingsStatus.classList.toggle('error', !!setupJob.error || !!actionError);
       settingsChip.textContent = actionError ? 'NEEDS ATTENTION' : !status.applicable ? 'LOCAL' : setupJob.running ? 'WORKING' : setupJob.error ? 'NEEDS ATTENTION' : status.allDone ? 'READY' : 'ACTION NEEDED';
-      settingsStart.hidden = !status.applicable || status.allDone;
+      // Keep settings focused on actions this installation can actually use.
+      // Reboot-only states already explain the next step in the status message.
+      settingsStart.hidden = !status.applicable || status.allDone || (!next.button && !setupJob.running);
       const advanced = $('vm-settings-advanced');
       const needsIso = status.applicable && !(status.steps || []).some(step => step.id === 'vm' && step.done) && !(status.steps || []).some(step => step.id === 'iso' && step.done);
       if ($('vm-settings-iso-field')) $('vm-settings-iso-field').hidden = !needsIso;
@@ -49,9 +51,10 @@
       const checks = status.steps || [];
       if ($('vm-settings-checks')) $('vm-settings-checks').hidden = !status.applicable || !checks.length;
       if ($('vm-settings-check-count')) $('vm-settings-check-count').textContent = `${checks.filter(step => step.done).length}/${checks.length} ready`;
-      if (settingsUpdate) settingsUpdate.hidden = !status.applicable;
-      if ($('vm-settings-actions')) $('vm-settings-actions').hidden = !status.applicable;
-      if ($('vm-settings-update-hint')) $('vm-settings-update-hint').hidden = !status.applicable;
+      const hasVm = status.applicable && (checks.some(step => step.id === 'vm' && step.done) || status.vm?.state === 'online' || status.allDone);
+      if (settingsUpdate) settingsUpdate.hidden = !hasVm;
+      if ($('vm-settings-actions')) $('vm-settings-actions').hidden = settingsStart.hidden && (!settingsUpdate || settingsUpdate.hidden);
+      if ($('vm-settings-update-hint')) $('vm-settings-update-hint').hidden = !hasVm;
       if (settingsProgress && settingsProgressLabel) {
         const checks = status.steps || [];
         const completed = checks.filter(step => step.done).length;

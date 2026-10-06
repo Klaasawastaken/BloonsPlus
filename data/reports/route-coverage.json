@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-06T05:23:12.807Z",
+  "generatedAt": "2026-10-06T05:28:02.759Z",
   "modes": [
     "easy",
     "primary_only",
@@ -20,25 +20,25 @@
   "summary": {
     "maps": 86,
     "mapModePairs": 1204,
-    "covered": 521,
-    "missing": 683,
+    "covered": 516,
+    "missing": 688,
     "mapsFullyCovered": 1,
-    "mapsWithNoRoute": 4,
+    "mapsWithNoRoute": 5,
     "coveredPerMode": {
-      "easy": 80,
+      "easy": 79,
       "primary_only": 23,
       "deflation": 21,
-      "medium": 80,
+      "medium": 79,
       "military_only": 9,
       "reverse": 17,
       "apopalypse": 14,
-      "hard": 79,
+      "hard": 78,
       "magic_monkeys_only": 13,
       "double_hp_moabs": 14,
       "half_cash": 14,
       "alternate_bloons_rounds": 21,
-      "impoppable": 68,
-      "chimps": 68
+      "impoppable": 67,
+      "chimps": 67
     }
   },
   "maps": {
@@ -2448,30 +2448,20 @@
       "slug": "midnight_mansion",
       "inMapsJson": true,
       "modes": {
-        "easy": [
-          "midnight_mansion#chimps#1920x1080#converted#source_btd6bot.btd6 (CHIMPS reuse)"
-        ],
+        "easy": "missing",
         "primary_only": "missing",
         "deflation": "missing",
-        "medium": [
-          "midnight_mansion#chimps#1920x1080#converted#source_btd6bot.btd6 (CHIMPS reuse)"
-        ],
+        "medium": "missing",
         "military_only": "missing",
         "reverse": "missing",
         "apopalypse": "missing",
-        "hard": [
-          "midnight_mansion#chimps#1920x1080#converted#source_btd6bot.btd6 (CHIMPS reuse)"
-        ],
+        "hard": "missing",
         "magic_monkeys_only": "missing",
         "double_hp_moabs": "missing",
         "half_cash": "missing",
         "alternate_bloons_rounds": "missing",
-        "impoppable": [
-          "midnight_mansion#chimps#1920x1080#converted#source_btd6bot.btd6 (CHIMPS reuse)"
-        ],
-        "chimps": [
-          "midnight_mansion#chimps#1920x1080#converted#source_btd6bot.btd6"
-        ]
+        "impoppable": "missing",
+        "chimps": "missing"
       }
     },
     "sunken_columns": {

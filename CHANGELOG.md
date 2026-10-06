@@ -1,3 +1,10 @@
+## Preview 75 — Relevant settings and manual-round safety
+
+- Hide VM update controls before installation and unusable setup buttons during reboot-only steps.
+- Preserve setup retries, advanced ISO override and support actions.
+- Reject legacy conversions declaring omitted autostart/end-round controls; original recordings remain unchanged.
+- Offline eligibility: 516/1,204 targets, 688 gaps. No new winning-route claim.
+
 ## Preview 51 — Same-tower placement fallback
 
 - Read route coordinates as unverified hints for the same map and tower.

@@ -4,6 +4,9 @@ Updated 6 October 2026. Checkboxes require evidence, not merely code. Preserve o
 
 ## Current repair pass
 
+- [x] Settings only shows VM updates after a VM exists; reboot-only steps show instructions without an unusable button. Creation still exposes optional ISO override; guest hides host-only actions. Actual render state regressions and dark-theme browser review pass.
+- [x] Reject explicit conversion headers declaring omitted manual-round controls, including the unflagged Midnight Mansion CHIMPS copy. Seven declarations checked; original recordings unchanged. Current offline eligibility is 516/1,204, with 688 gaps and five maps without eligible routes. Manual control support remains unfinished; no victory claimed.
+
 - Confirmed Peninsula Reverse at round 60 (6 October 07:24:17): replay VICTORY_CONFIRMED on VICTORY_SUMMARY, controller clear confirmation and authoritative VM save Medium/Reverse=1049545. Never replay this earned medal. Preview 71 boundary worker completed and confirmed the missing-medal sweep resumed. Preview 72–74 changes are batched for the next replay boundary.
 
 - [x] Extend pinned-source omission audit and exact-version exclusion to targeted specials. Guard 23 legacy copies with missing selectors/targets; retain all 14 newly preserved candidates. Actual inventory/hash checks and runtime selection guard checks pass. Offline eligibility remains 521/1,204; recordings and saved-clear evidence unchanged.
