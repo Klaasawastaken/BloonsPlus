@@ -205,6 +205,8 @@ internal sealed class InstallerEngine
     public Task<InstallerResult> ResumeEnvironmentAsync(CancellationToken cancellation) {
         return Task.Run(() => {
             using (AcquireInstallLock(options.InstallRoot)) {
+            if (AppFileTransaction.Pending(options.InstallRoot))
+                throw new InvalidOperationException("Repair the local app-file transaction before resuming environment setup.");
             operations.Cancellation = cancellation;
             if (session == null) {
                 session = InstallSession.LoadOrCreate(options.InstallRoot, "resume", options.RequestedVmSetup, operations.GetBootIdentity);
@@ -245,6 +247,7 @@ internal sealed class InstallerEngine
             WriteResult("RUNNING");
             cancellation.ThrowIfCancellationRequested();
             operations.CloseInstalledControllers();
+            operations.RecoverAppFiles();
             if (!String.IsNullOrEmpty(session.Snapshot.BackupPath)) {
                 string priorBackup = session.Snapshot.BackupPath;
                 session.RetainBackup(priorBackup); // Validate containment before touching a retained path.
@@ -292,7 +295,7 @@ internal sealed class InstallerEngine
             if (installLock != null) WriteResult(receipt);
             else WriteAttemptResult("ERROR: " + error.Message);
             // Never restore files beneath a surviving package installer.
-            if (filesStarted && installLock != null && new OwnedProcess(options.InstallRoot).Observe() == "idle") {
+            if (filesStarted && installLock != null && !AppFileTransaction.Pending(options.InstallRoot) && new OwnedProcess(options.InstallRoot).Observe() == "idle") {
                 try { operations.RestoreExistingData(backupRoot); }
                 catch (Exception restoreError) { Log("Data backup retained at " + backupRoot + ": " + restoreError); }
             }

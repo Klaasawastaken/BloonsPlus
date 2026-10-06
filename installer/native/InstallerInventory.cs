@@ -60,6 +60,7 @@ internal sealed class InstallerInventory {
     }
     public static InstallerInventory Inspect(string root,string expectedFingerprint) {
         var observed=new InstallerInventory {Exists=File.Exists(Path.Combine(root,"Bloons+.exe"))||File.Exists(Path.Combine(root,"bloons-package.json"))};
+        if(AppFileTransaction.Pending(root)){observed.Exists=true;return observed;}
         try {
             var manifest=Read(root);if(manifest==null)return observed;
             observed.Version=manifest.version;
@@ -70,6 +71,7 @@ internal sealed class InstallerInventory {
         return observed;
     }
     public static int RemoveUnchangedFiles(string root) {
+        if(AppFileTransaction.Pending(root))throw new IOException("App-file recovery is pending. Repair the local app before uninstalling.");
         var manifest=Read(root);if(manifest==null)throw new InvalidDataException("No trusted file inventory exists. Repair the local app before uninstalling.");
         // Validate every path before the first deletion. Modified and unlisted files stay.
         foreach(var entry in manifest.files)Destination(root,entry.path);

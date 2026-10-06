@@ -1,4 +1,4 @@
-const { app, BrowserWindow, shell, nativeTheme } = require('electron');
+const { app, BrowserWindow, shell, nativeTheme, dialog } = require('electron');
 const path = require('node:path');
 const fs = require('node:fs');
 const ICON_PATH = path.join(__dirname, 'bloonsplus.ico');
@@ -7,6 +7,8 @@ const port = Number(process.env.PORT || 4173);
 const softwareRendering = fs.existsSync('C:\\Windows\\AppSandbox\\appsandbox-agent.exe') || process.env.BLOONS_SOFTWARE_RENDERING === '1';
 const url = `http://127.0.0.1:${port}/${softwareRendering ? '?softwareRendering=1' : ''}`;
 const setupOnly = process.env.BLOONS_SETUP_ONLY === '1';
+const fileJournal = path.resolve(__dirname, '..', '..', '.bloons-setup', 'app-file-transaction.json');
+const fileRecoveryPending = app.isPackaged && (fs.existsSync(fileJournal) || fs.existsSync(fileJournal + '.next'));
 
 // The App Sandbox VM shares one GPU passthrough device between BTD6 (a full 3D game) and
 // Electron's own GPU process. Under contention (both starting around the same time on a fresh
@@ -29,7 +31,9 @@ process.on('uncaughtException', error => logCrash('uncaughtException', error.sta
 app.on('render-process-gone', (_event, _wc, details) => logCrash('render-process-gone', JSON.stringify(details)));
 app.on('child-process-gone', (_event, details) => logCrash('child-process-gone', JSON.stringify(details)));
 
-require('./server.js'); // starts the local server as a side effect
+// A package interrupted between file replacements must be recovered by the
+// installation owner before loading a possibly mixed controller version.
+if (!fileRecoveryPending) require('./server.js'); // starts the local server as a side effect
 
 function loadWithRetry(win, attempt = 0) {
   if (win.isDestroyed()) return;
@@ -77,6 +81,12 @@ function createWindow() {
 }
 
 app.whenReady().then(() => {
+  if (fileRecoveryPending) {
+    if (!setupOnly) dialog.showErrorBox('Bloons+ setup needs recovery',
+      'App file installation was interrupted. Reopen the Bloons+ installer and choose Continue setup or Repair before opening the app. Your saved progress is retained.');
+    app.exit(1);
+    return;
+  }
   // Windows groups/labels the taskbar entry by this id; without it Electron falls back to the
   // executable path, which can pick up a generic icon instead of the one set on the window.
   if (process.platform === 'win32') app.setAppUserModelId('com.bloonsplus.app');

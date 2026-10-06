@@ -200,3 +200,33 @@ isolated fixtures; no installed app, healthy guest replay or game/save file was
 changed. Abrupt process termination/power-loss recovery still needs a persistent
 package transaction. Retained copies are not automatically replayed on retry.
 Clean-machine and physical acceptance remain open.
+
+## Persistent package recovery — 6 October
+
+A real child-process exit after replacement reproduced a mixed package that the
+next installer could not recover. Setup now flushes a private journal before
+staging and persists the complete prepared package intent before any replacement.
+Verified old copies and staged files live in one contained directory on the
+installation volume. Recovery runs under installation ownership before retained
+data restoration or the next package preflight.
+
+Preparing recovery removes owned staging without changing app files. Prepared
+recovery restores prior hashes in reverse order and removes introduced files.
+Committed recovery only finishes cleanup, keeping the new package. The journal
+is removed last. Outside edits, missing or changed recovery copies and unsafe
+paths retain the journal and data for repair. A final hash pass prevents silent
+outside changes from being reported as a committed package. A pending journal
+blocks healthy inventory, uninstall, runtime readiness and packaged app startup.
+
+RED-to-GREEN fixtures cover process exits after each of three replacements,
+pending inventory/startup guards, unknown journal artifacts and a silent outside
+edit after the last replacement. Additional checks cover preparing exits,
+committed cleanup interrupted by a real file lock, repeated recovery, conflict
+resolution, oversized/unsafe journals and real directory junctions. Complete
+verification: 346 Python checks, ten SSH checks and 58 JavaScript check files.
+
+These are isolated filesystem/process fixtures. They do not prove physical
+power-loss durability or clean-machine Windows/UAC/reboot/accessibility
+acceptance. No healthy gameplay or game/save file was changed. Prior Preview 96
+temporary copies without a journal are not automatically adopted as trusted
+transaction data.

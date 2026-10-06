@@ -94,6 +94,7 @@ internal class WindowsInstallerOperations : IDisposable
 
     }
     public virtual void InstallAppFiles(string tempZip) {
+            RecoverAppFiles();
             SetStatus("Preparing Bloons+ files…", InstallerStage.Files, 0);
             using (FileStream package = new FileStream(tempZip, FileMode.Open, FileAccess.Read, FileShare.Read))
             using (ZipArchive archive = new ZipArchive(package, ZipArchiveMode.Read))
@@ -103,7 +104,7 @@ internal class WindowsInstallerOperations : IDisposable
                 var directories = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
                 foreach (ZipArchiveEntry entry in archive.Entries) {
                     Cancellation.ThrowIfCancellationRequested();
-                    string destination = SafeDestination(installRoot, entry.FullName);
+                    string destination = AppFileTransaction.Destination(installRoot, entry.FullName);
                     if (IsArchiveDirectory(entry)) directories.Add(destination.TrimEnd(Path.DirectorySeparatorChar));
                     else if (!files.Add(destination)) throw new InvalidDataException("Installer archive contains duplicate app files.");
                 }
@@ -125,12 +126,12 @@ internal class WindowsInstallerOperations : IDisposable
                 int reusedFiles = 0;
                 byte[] buffer = new byte[1024 * 1024];
                 var prepared = new List<PreparedAppFile>();
-                bool retainBackups = false;
+                var transaction = AppFileTransaction.Begin(installRoot);
                 try {
                     foreach (ZipArchiveEntry entry in archive.Entries)
                     {
                         Cancellation.ThrowIfCancellationRequested();
-                        string destination = SafeDestination(installRoot, entry.FullName);
+                        string destination = AppFileTransaction.Destination(installRoot, entry.FullName);
                         if (IsArchiveDirectory(entry)) continue;
                         if (SameAsArchiveEntry(entry, destination)) {
                             writtenBytes += entry.Length;
@@ -138,8 +139,7 @@ internal class WindowsInstallerOperations : IDisposable
                             reusedFiles++;
                             continue;
                         }
-                        Directory.CreateDirectory(Path.GetDirectoryName(destination));
-                        string staged = destination + "." + Guid.NewGuid().ToString("N") + ".tmp";
+                        string staged = transaction.StagedPath(prepared.Count);
                         var file = new PreparedAppFile { Staged = staged, Destination = destination,
                             BeforeHash = File.Exists(destination) ? HashFile(destination) : null, Length = entry.Length };
                         prepared.Add(file);
@@ -156,8 +156,9 @@ internal class WindowsInstallerOperations : IDisposable
                         if (!SameAsArchiveEntry(entry, staged)) throw new InvalidDataException("An app file failed verification before replacement.");
                         file.AfterHash = HashFile(staged);
                         if (file.BeforeHash != null) {
-                            file.Backup = staged + ".backup.tmp";
+                            file.Backup = transaction.BackupPath(prepared.Count - 1);
                             File.Copy(destination, file.Backup, false);
+                            using (var backup = new FileStream(file.Backup, FileMode.Open, FileAccess.Write, FileShare.None)) backup.Flush(true);
                             if (HashFile(file.Backup) != file.BeforeHash)
                                 throw new IOException("An installed app file changed while its recovery copy was prepared. Retry setup.");
                         }
@@ -165,39 +166,33 @@ internal class WindowsInstallerOperations : IDisposable
                             SetStatus("Preparing Bloons+ files… " + (writtenBytes / (1024 * 1024)).ToString("N0") + " MB", InstallerStage.Files, null, "Prepare and apply", writtenBytes, workBytes);
                     }
                     Cancellation.ThrowIfCancellationRequested();
+                    transaction.Prepare(prepared.Select(file => new AppFileTransaction.Entry {
+                        path = file.Destination.Substring(root.Length + 1), before = file.BeforeHash, after = file.AfterHash
+                    }).ToArray());
                     long appliedBytes = reusedBytes;
                     SetStatus("Applying verified Bloons+ files…", InstallerStage.Files, null, "Prepare and apply", writtenBytes + appliedBytes, workBytes);
                     foreach (string directory in directories) Directory.CreateDirectory(directory);
                     foreach (var file in prepared) {
                         Cancellation.ThrowIfCancellationRequested();
+                        AppFileTransaction.Destination(installRoot, file.Destination.Substring(root.Length + 1));
                         string current = File.Exists(file.Destination) ? HashFile(file.Destination) : null;
                         if (current != file.BeforeHash)
                             throw new IOException("An installed app file changed during setup. Retry after closing the app.");
-                        file.Attempted = true;
+                        Directory.CreateDirectory(Path.GetDirectoryName(file.Destination));
                         CommitStagedFile(file.Staged, file.Destination);
                         appliedBytes += file.Length;
                         if (appliedBytes % (64L * 1024 * 1024) < buffer.Length)
                             SetStatus("Applying verified Bloons+ files…", InstallerStage.Files, null, "Prepare and apply", writtenBytes + appliedBytes, workBytes);
                     }
                     Cancellation.ThrowIfCancellationRequested();
+                    transaction.Complete();
                     SetStatus("App files ready; reused " + reusedFiles + " unchanged files.", InstallerStage.Files, 100, "Copy", writtenBytes, totalBytes);
                 } catch (Exception originalError) {
-                    var rollbackErrors = new List<Exception>();
-                    foreach (var file in prepared.AsEnumerable().Reverse().Where(file => file.Attempted)) {
-                        try { RestorePreparedFile(file); }
-                        catch (Exception rollbackError) { rollbackErrors.Add(rollbackError); }
-                    }
-                    if (rollbackErrors.Count > 0) {
-                        retainBackups = true;
-                        rollbackErrors.Insert(0, originalError);
-                        throw new IOException("App file recovery could not finish. Recovery copies were retained; close the app and retry setup.", new AggregateException(rollbackErrors));
+                    try { RecoverAppFiles(); }
+                    catch (Exception recoveryError) {
+                        throw new IOException("App file recovery could not finish. Recovery copies were retained; close the app and retry setup.", new AggregateException(originalError, recoveryError));
                     }
                     throw;
-                } finally {
-                    foreach (var file in prepared) {
-                        if (File.Exists(file.Staged)) File.Delete(file.Staged);
-                        if (!retainBackups && file.Backup != null && File.Exists(file.Backup)) File.Delete(file.Backup);
-                    }
                 }
             }
 
@@ -208,30 +203,18 @@ internal class WindowsInstallerOperations : IDisposable
     private sealed class PreparedAppFile {
         public string Staged, Destination, Backup, BeforeHash, AfterHash;
         public long Length;
-        public bool Attempted;
     }
-    private static void RestorePreparedFile(PreparedAppFile file) {
-        string current = File.Exists(file.Destination) ? HashFile(file.Destination) : null;
-        if (current == file.BeforeHash) return;
-        if (current != file.AfterHash && current != null)
-            throw new IOException("An app file changed outside setup; its recovery copy was retained.");
-        if (file.BeforeHash == null) {
-            if (File.Exists(file.Destination)) File.Delete(file.Destination);
-            return;
-        }
-        if (file.Backup == null || !File.Exists(file.Backup) || HashFile(file.Backup) != file.BeforeHash)
-            throw new IOException("An app recovery copy could not be verified.");
-        if (File.Exists(file.Destination)) File.Replace(file.Backup, file.Destination, null);
-        else File.Move(file.Backup, file.Destination);
-    }
+    public virtual void RecoverAppFiles() { AppFileTransaction.Recover(installRoot); }
     protected virtual void CommitStagedFile(string staged, string destination) {
         if (File.Exists(destination)) File.Replace(staged, destination, null);
         else File.Move(staged, destination);
     }
     public virtual void LaunchApp() {
+        if (AppFileTransaction.Pending(installRoot)) throw new IOException("App-file recovery is pending. Continue setup to repair the local installation before launching.");
         Process.Start(new ProcessStartInfo(Path.Combine(installRoot, "Bloons+.exe")) { WorkingDirectory = installRoot, UseShellExecute = true });
     }
     public virtual bool ProbeInstalledRuntime() {
+        if (AppFileTransaction.Pending(installRoot)) return false;
         string app=Path.Combine(installRoot,"resources","app");
         string python=Path.Combine(app,".venv","Scripts","python.exe");
         return File.Exists(python)&&File.Exists(Path.Combine(app,"server.js"))&&File.Exists(Path.Combine(app,"electron-main.js"))

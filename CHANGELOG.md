@@ -1,3 +1,21 @@
+## Preview 97 — 6 October 2026
+
+### Additions
+
+- Add persistent package journals and recovery after installer process exits.
+- Block packaged controller startup until interrupted app files are repaired.
+
+### Changes
+
+- Recover before retained-data restoration; preserve outside edits and resume partial rollback safely.
+- Keep committed packages through cleanup interruptions; verify final hashes and reject unsafe recovery paths and linked destinations.
+- Set milestone 100 to the full v1.0.0 release and standardize future notes to Additions, Changes and Removed.
+- Verify 346 Python checks, ten SSH checks and 58 JavaScript files; retain physical power-loss and clean-machine production gates.
+
+### Removed
+
+- Replace the in-memory-only rollback and untracked sibling temporary files with persistent recovery.
+
 ## Preview 95 — 6 October 2026
 
 - Preserve positional moved-tower selectors and keyword upgrade/target arguments in BTD6bot route imports.

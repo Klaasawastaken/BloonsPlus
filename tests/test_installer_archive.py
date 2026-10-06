@@ -18,8 +18,9 @@ internal sealed class LaterCommitFailure : WindowsInstallerOperations {
     private int commits;
     private readonly CancellationTokenSource cancellation;
     private readonly bool outsideChange;
-    public LaterCommitFailure(InstallerOptions options, CancellationTokenSource cancellation, bool outsideChange) : base(options) {
-        this.cancellation = cancellation; this.outsideChange = outsideChange;
+    private readonly bool silentChange;
+    public LaterCommitFailure(InstallerOptions options, CancellationTokenSource cancellation, bool outsideChange, bool silentChange) : base(options) {
+        this.cancellation = cancellation; this.outsideChange = outsideChange; this.silentChange = silentChange;
     }
     protected override void CommitStagedFile(string staged, string destination) {
         commits++;
@@ -27,14 +28,14 @@ internal sealed class LaterCommitFailure : WindowsInstallerOperations {
         if (cancellation != null) cancellation.Cancel();
         else if (commits == 2) {
             if (outsideChange) File.WriteAllText(destination, "outside edit");
-            throw new IOException("Failure after the second replacement");
+            if (!silentChange) throw new IOException("Failure after the second replacement");
         }
     }
 }
 internal static class PackageRollbackChecks {
     static void Check(bool value, string why) { if (!value) throw new Exception(why); }
     static void Main(string[] args) {
-        foreach (string scenario in new[] {"existing", "new", "cancel", "outside"}) {
+        foreach (string scenario in new[] {"existing", "new", "cancel", "outside", "silent-change"}) {
             string root = Path.Combine(args[0], scenario); Directory.CreateDirectory(root);
             string first = Path.Combine(root, "first.txt"), second = Path.Combine(root, "second.txt");
             if (scenario != "new") File.WriteAllText(first, "prior first");
@@ -46,7 +47,8 @@ internal static class PackageRollbackChecks {
                 using (var writer = new StreamWriter(archive.CreateEntry("second.txt").Open())) writer.Write("new second");
             }
             var cancellation = scenario == "cancel" ? new CancellationTokenSource() : null;
-            using (var operations = new LaterCommitFailure(new InstallerOptions(root, root, "unused.exe", true, null), cancellation, scenario == "outside")) {
+            bool changed = scenario == "outside" || scenario == "silent-change";
+            using (var operations = new LaterCommitFailure(new InstallerOptions(root, root, "unused.exe", true, null), cancellation, changed, scenario == "silent-change")) {
                 if (cancellation != null) operations.Cancellation = cancellation.Token;
                 bool stopped = false;
                 try { operations.InstallAppFiles(zip); }
@@ -54,11 +56,24 @@ internal static class PackageRollbackChecks {
                 catch (OperationCanceledException) { stopped = true; }
                 Check(stopped, scenario + ": injected interruption was ignored");
                 Check(scenario == "new" ? !File.Exists(first) : File.ReadAllText(first) == "prior first", scenario + ": first replacement was not rolled back");
-                Check(File.ReadAllText(second) == (scenario == "outside" ? "outside edit" : "prior second"), scenario + ": second replacement or outside edit was not preserved");
-                var backups = Directory.GetFiles(root, "*.backup.tmp", SearchOption.AllDirectories);
-                Check(backups.Length == (scenario == "outside" ? 1 : 0), scenario + ": recovery copies were not retained or cleaned correctly");
-                if (scenario == "outside") Check(File.ReadAllText(backups[0]) == "prior second", "Outside edit lost the verified recovery copy");
-                else Check(Directory.GetFiles(root, "*.tmp", SearchOption.AllDirectories).Length == 0, scenario + ": staging remains after successful rollback");
+                Check(File.ReadAllText(second) == (changed ? "outside edit" : "prior second"), scenario + ": second replacement or outside edit was not preserved");
+                var backups = Directory.GetFiles(Path.Combine(root, ".bloons-setup"), "*.old", SearchOption.AllDirectories);
+                Check(backups.Length == (changed ? 1 : 0), scenario + ": recovery copies were not retained or cleaned correctly");
+                if (changed) {
+                    Check(File.ReadAllText(backups[0]) == "prior second", "Outside edit lost the verified recovery copy");
+                    Check(AppFileTransaction.Pending(root), "Unresolved outside edit lost its recovery journal");
+                    // The operator keeps the outside edit in a separate file,
+                    // then restores the verified prior file before retrying.
+                    File.WriteAllText(Path.Combine(root, "outside-kept.txt"), File.ReadAllText(second));
+                    File.Copy(backups[0], second, true);
+                    operations.RecoverAppFiles(); operations.RecoverAppFiles();
+                    Check(!AppFileTransaction.Pending(root), "Resolved conflict did not finish recovery");
+                    Check(File.ReadAllText(Path.Combine(root, "outside-kept.txt")) == "outside edit", "Recovery changed saved outside data");
+                }
+                else {
+                    Check(Directory.GetFiles(root, "*.new", SearchOption.AllDirectories).Length == 0, scenario + ": staging remains after successful rollback");
+                    Check(!AppFileTransaction.Pending(root), scenario + ": successful rollback left a pending journal");
+                }
             }
         }
     }

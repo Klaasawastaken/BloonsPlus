@@ -28,6 +28,7 @@ internal sealed class FakeOperations : WindowsInstallerOperations {
     public FakeOperations(InstallerOptions options) : base(options) {}
     public override string GetBootIdentity() { return "fixture-boot"; }
     public override void CloseInstalledControllers() { Calls.Add("controllers"); }
+    public override void RecoverAppFiles() { Calls.Add("recovery"); }
     public override void ReadEmbeddedPackage(string path) { Calls.Add("package"); }
     public override void BackupExistingData(string path) { Calls.Add("backup"); }
     public override void InstallAppFiles(string path) { Calls.Add("files"); SetStatus("Files ready", InstallerStage.Files, 100); }
@@ -65,7 +66,7 @@ internal static class EngineChecks {
             var result = engine.RunAsync(CancellationToken.None).GetAwaiter().GetResult();
             Check(result.LocalReady && result.ExitCode == 0 && result.Receipt == "OK", "Wrong success");
             Check(!result.EnvironmentReady && !result.EnvironmentDeferred, "Silent install invented VM readiness");
-            Check(String.Join(",", operations.Calls) == "controllers,package,backup,files,restore,copy,cpp,python,shortcut,intent,launch", "Recovery observer must be copied before dependencies start");
+            Check(String.Join(",", operations.Calls) == "controllers,recovery,package,backup,files,restore,copy,cpp,python,shortcut,intent,launch", "File recovery must precede backup/restore; observer must precede dependencies");
             Check(events.Count > 2 && events[0].Stage == InstallerStage.Prepare && events[events.Count-1].Percent == 100, "Missing window-free progress");
             Check(events[0].Percent == null, "Earlier event mutated");
             Check(details.Contains("Dependency probe"), "Missing detail event");
@@ -76,6 +77,14 @@ internal static class EngineChecks {
             var pending = fullEngine.RunAsync(CancellationToken.None).GetAwaiter().GetResult();
             Check(pending.LocalReady && !pending.EnvironmentReady && pending.HumanAction == "steam_sign_in", "Human action invented environment readiness");
             Check(!fullOperations.Calls.Contains("launch"), "Dashboard launched before environment acceptance");
+            string pendingJournal = Path.Combine(fullOptions.InstallRoot, ".bloons-setup", "app-file-transaction.json");
+            File.WriteAllText(pendingJournal, "unfinished files");
+            bool refusedResume = false;
+            try { fullEngine.ResumeEnvironmentAsync(CancellationToken.None).GetAwaiter().GetResult(); }
+            catch (InvalidOperationException) { refusedResume = true; }
+            Check(refusedResume && fullOperations.Calls.FindAll(x=>x=="environment").Count == 1,
+                "Cached local readiness bypassed pending file recovery");
+            File.Delete(pendingJournal);
             typeof(InstallerEngine).GetMethod("ObserveEnvironment",System.Reflection.BindingFlags.NonPublic|System.Reflection.BindingFlags.Instance).Invoke(fullEngine,new object[]{new Dictionary<string,object>{
                 {"phase","downloading"},{"status","Downloading Windows"},{"step","iso"},{"numerator",42L},{"denominator",100L},{"scope","Download"}
             }});
