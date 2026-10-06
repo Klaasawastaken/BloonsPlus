@@ -4,6 +4,8 @@ Updated 6 October 2026. Checkboxes require evidence, not merely code. Preserve o
 
 ## Current repair pass
 
+- Preview 76 published with the counter-structure repair and source Engineer targeting. Packaged OCR/replay/Settings/validator match source and payload privacy guard reports zero findings. Preview 74 boundary worker still owns the root update payload while High Finance Hard remains active (last observed round 64, 100 lives); Preview 75–76 are isolated for a later safe batch. No new medal claimed.
+
 - [x] Reproduce the primary reader accepting 82/80 and its fallback accepting a wrong total 79/100 on an 80-round mode. Share canonical counter validation in both paths, bounded by the selected mode rather than source recording. Four actual-statement/14-mode regressions plus six HUD and two freshness checks pass. Live deployment remains pending a healthy boundary; no defeat is claimed fixed solely by offline proof.
 
 - [x] Preserve ordinary Engineer First/Last/Close/Strong targeting in the faithful importer. Pinned BTD6bot uses its normal four-state handler for Engineer; foam/trap placement remains a separate targeted-special operation. Four regressions cover all 16 transitions, moved selectors, unknown/positional targets and four actual plans. Those plans still require manual controls or Ace centering and remain excluded; no routes rewritten or new victory claimed.
