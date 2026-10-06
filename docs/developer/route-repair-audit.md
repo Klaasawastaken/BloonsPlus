@@ -708,3 +708,26 @@ controller before the next attempt, allowing the batched installer update.
 This account now skips Chutes Medium permanently. The incident still warrants
 placement review for other missing modes; this clear does not prove the original
 CHIMPS strategy or its reused placement succeeds in every mode.
+
+### Chutes fixed-terrain retry classification — 6 October
+
+A read-only retrieval of the saved failed Dart screenshot shows a red, illegal
+placement ghost at the recorded `(832, 620)` point on the track intersection.
+This supplies positive placement-refusal evidence rather than relying on cash
+alone. The account frame remains private and is excluded from publication.
+
+The launcher interpreted Chutes' `phase-aware-route-required` catalog status as
+changing placement terrain. That flag made the replay use the same coordinate
+for every retry. Chutes alternates its active bloon lane; its tower surfaces do
+not move. The approved correction uses `multi-lane-required`, retaining the
+alternating-lane and statue instructions while restoring the existing bounded,
+visually checked nearby placement retries. No recording coordinates were edited.
+
+An offline regression executes the production filename parser and replay launch
+policy for ordinary and boss-shaped filenames. It failed with the previous
+classification and passes with the correction. Ten other catalog-driven map
+guards and Geared/Sanctuary movement flags remain intact. The full 387 Python
+checks and 63 JavaScript check files pass; two isolated Electron checks needed
+sandbox escalation. A scoped independent review found no material issue.
+Successful live Dart placement at a nearby point remains unverified. Deployment
+waits for the current healthy Chutes Hard replay to finish.

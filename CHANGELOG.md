@@ -1,3 +1,18 @@
+## Preview 99 Chutes placement hotfix — 6 October 2026
+
+### Additions
+
+- Add a production launch-policy regression for fixed Chutes terrain, other guarded maps and moving platforms.
+
+### Changes
+
+- Restore bounded visual placement retries on Chutes without changing recordings or alternating-lane coverage.
+- Verify 387 Python checks and 63 JavaScript check files; live placement success and full production acceptance remain open.
+
+### Removed
+
+- Remove Chutes' incorrect changing-terrain classification.
+
 ## Preview 99 Steam readiness hotfix — 6 October 2026
 
 ### Additions
