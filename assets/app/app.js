@@ -1177,14 +1177,13 @@ function renderAutomationStatus(status) {
   // primary Automation status current even if one of its optional widgets fails.
   try { renderRunConsole(status); } catch (error) { console.warn('Run overview rendering failed:', error); }
   const sweepDetail = document.querySelector('#sweep-progress');
-  const verifying = status.type === 'verify-routes';
-  const sweep = verifying ? status.progress?.routeVerification : status.progress?.blackBorderSweep;
+  const sweep = status.progress?.blackBorderSweep;
   if (sweepDetail && sweep) {
-    const active = status.running && (status.type === 'black-border-sweep' || verifying);
+    const active = status.running && status.type === 'black-border-sweep';
     const state = active ? (status.stopping ? 'Stopping' : 'Running')
       : sweep.status === 'running' ? 'Interrupted · ready to resume' : sweep.status === 'complete' ? 'Pass finished' : 'Saved sweep';
     const location = [sweep.currentMap?.replace(/_/g, ' '), sweep.gamemode?.replace(/_/g, ' ')].filter(Boolean).join(' / ');
-    sweepDetail.textContent = `${verifying ? 'Route check · ' : ''}${state} · Expert → Beginner · map ${sweep.mapIndex || 0}/${sweep.mapsTotal || 0}${location ? ` · ${location}` : ''} · ${sweep.counts?.confirmed || 0} clears this pass · ${sweep.counts?.incompleteMaps || 0} maps left incomplete${sweep.reason ? ` · ${sweep.reason.replace(/-/g, ' ')}` : ''}`;
+    sweepDetail.textContent = `${state} · Expert → Beginner · map ${sweep.mapIndex || 0}/${sweep.mapsTotal || 0}${location ? ` · ${location}` : ''} · ${sweep.counts?.confirmed || 0} clears this pass · ${sweep.counts?.incompleteMaps || 0} maps left incomplete${sweep.reason ? ` · ${sweep.reason.replace(/-/g, ' ')}` : ''}`;
   }
 }
 let automationStatusLoading = false;

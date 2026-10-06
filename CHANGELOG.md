@@ -1,3 +1,9 @@
+## Preview 49 — One medal-completion workflow
+
+- Remove the separate live route-verification run type and one-attempt-per-map branch.
+- Keep the missing-medal sweep working through remaining eligible modes.
+- Simplify the UI sweep status to match the completion workflow.
+
 ## Preview 48 — Replay binding validation and medal-first cleanup
 
 - Reject unsupported saved modifiers instead of sending the bare upgrade key.
