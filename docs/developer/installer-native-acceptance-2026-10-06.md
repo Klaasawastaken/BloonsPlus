@@ -76,6 +76,17 @@ opt-in; it cannot be inferred from Windows 11 alone.
 - Keep private harness paths, logs and generated environments out of public
   source and installers. Only this account-free evidence summary is published.
 
+## Native keyboard follow-up
+
+The actual WinForms view passed forward and reverse selection at welcome, expanded
+Options, busy download, expanded details and failed setup in both themes. The
+checks use native `SelectNextControl`, verify wrapping and accessible names/roles,
+and exclude hidden or disabled controls. During active work, Pause setup and
+details remain reachable. The windows stay offscreen and receive no global
+keyboard input. The full Python suite passed **395 tests** after adding this
+coverage. This establishes the native control contract, not physical keyboard,
+screen-reader, Windows DPI or high-contrast acceptance.
+
 ## Next checks
 
 After the approved checkpoint repair, repeat these checks and add deterministic

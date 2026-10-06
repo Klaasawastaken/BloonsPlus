@@ -8,6 +8,93 @@ from native_installer_harness import compile_harness
 
 @unittest.skipUnless(os.name == 'nt', 'Windows native compiler')
 class InstallerViewTests(unittest.TestCase):
+    def test_native_keyboard_traversal_skips_hidden_and_busy_controls(self):
+        """Exercise WinForms selection, not declared TabIndex values or OS input."""
+        root = Path(__file__).resolve().parents[1]
+        with tempfile.TemporaryDirectory() as folder:
+            source = Path(folder) / 'ViewKeyboardChecks.cs'
+            source.write_text(r'''
+using System;
+using System.IO;
+using System.Drawing;
+using System.Windows.Forms;
+using System.Collections.Generic;
+internal sealed class KeyboardOffscreenForm : Form {
+ protected override bool ShowWithoutActivation {get{return true;}}
+ protected override CreateParams CreateParams {get{var value=base.CreateParams;value.ExStyle|=0x08000000|0x80;return value;}}
+}
+internal static class ViewKeyboardChecks {
+ static void Check(bool value,string why) {if(!value)throw new Exception(why);}
+ static string Name(Control control) {return control.AccessibleName??control.Text;}
+ static Control Selected(ContainerControl parent) {
+  Control selected=parent.ActiveControl;
+  while(selected is ContainerControl && ((ContainerControl)selected).ActiveControl!=null)
+   selected=((ContainerControl)selected).ActiveControl;
+  return selected;
+ }
+ static List<Control> Traversal(InstallerView view,bool forward) {
+  var result=new List<Control>();Control current=null;
+  while((current=view.GetNextControl(current,forward))!=null) {
+   if(current.CanSelect&&current.TabStop)result.Add(current);
+   Check(result.Count<50,"Keyboard traversal did not terminate");
+  }
+  return result;
+ }
+ static void CheckSequence(Form form,InstallerView view,params string[] expected) {
+  foreach(bool forward in new[]{true,false}) {
+   var controls=Traversal(view,forward);
+   Check(controls.Count==expected.Length,"Unexpected focusable control count: "+controls.Count);
+   Control previous=null;
+   for(int index=0;index<controls.Count;index++) {
+    Check(Name(controls[index])==expected[forward?index:expected.Length-index-1],"Wrong keyboard order: "+Name(controls[index]));
+    Check(form.SelectNextControl(previous,forward,true,true,false),"Native selection refused a reachable control");
+    Check(Selected(form)==controls[index],"Native selection disagrees with declared traversal");
+    Check(!String.IsNullOrWhiteSpace(controls[index].AccessibilityObject.Name),"Focusable control has no accessible name");
+    Check(controls[index].AccessibilityObject.Role!=AccessibleRole.None,"Focusable control has no accessible role");
+    previous=controls[index];
+   }
+   Check(form.SelectNextControl(previous,forward,true,true,true),"Keyboard wrap failed");
+   Check(Selected(form)==controls[0],"Keyboard wrap selected a hidden or disabled control");
+  }
+ }
+ [STAThread] static void Main(string[] args) {
+  Application.EnableVisualStyles();
+  foreach(bool dark in new[]{false,true}) {
+   using(var form=new KeyboardOffscreenForm()) using(var view=new InstallerView(new InstallerOptions(Path.Combine(args[0],"app"),args[0],"unused.exe",false,null))) {
+    form.ShowInTaskbar=false;form.StartPosition=FormStartPosition.Manual;form.Location=new Point(-10000,-10000);
+    form.ClientSize=new Size(640,540);form.Controls.Add(view);view.Dock=DockStyle.Fill;view.ApplyTheme(dark);form.Show();form.PerformLayout();
+    Check(form.Bounds.Right<0,"Fixture became visible on the desktop");
+    CheckSequence(form,view,"Install BloonsPlus","Options");
+    view.ToggleOptions();
+    CheckSequence(form,view,"Installation folder","Change folder…","Desktop shortcut","Start menu shortcut",
+     "Launch when setup completes","Set up the VM and game environment","Use an existing Windows 11 ISO…","Install BloonsPlus","Options");
+    view.ToggleOptions();
+    view.Render(new InstallerSnapshot{Phase="downloading",Status="Downloading components"});view.SetBusy(true);
+    CheckSequence(form,view,"Show details","Pause setup");
+    view.ToggleDetails();
+    CheckSequence(form,view,"Hide details","Recent setup details","Copy redacted details","Export…","Pause setup");
+    view.Render(new InstallerSnapshot{Phase="failed",Status="Setup needs attention",Error="Fixture failure"});view.SetBusy(false);
+    CheckSequence(form,view,"Recent setup details","Copy redacted details","Export…","Continue setup","Show details");
+    view.Render(new InstallerSnapshot{Phase="complete",AppValidated=true,EnvironmentRequired=true,EnvironmentValidated=true});
+    Check(Traversal(view,true).Exists(control=>control==view.PrimaryButton),"Validated Launch is unreachable");
+   }
+  }
+ }
+}
+''', encoding='utf-8')
+            binary = Path(folder) / 'ViewKeyboardChecks.exe'
+            compiler = Path(os.environ['WINDIR']) / 'Microsoft.NET/Framework64/v4.0.30319/csc.exe'
+            files = [*sorted((root / 'installer/native').glob('*.cs')),
+                     *sorted((root / 'installer/presentation').glob('*.cs')), source]
+            result = subprocess.run([str(compiler), '/nologo', '/target:exe', '/main:ViewKeyboardChecks',
+                '/reference:System.Windows.Forms.dll', '/reference:System.Drawing.dll',
+                '/reference:Accessibility.dll', '/reference:System.IO.Compression.dll',
+                '/reference:Microsoft.CSharp.dll', '/reference:System.Web.Extensions.dll',
+                '/out:' + str(binary), *map(str, files)], capture_output=True, text=True)
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            result = subprocess.run([str(binary), folder], capture_output=True, text=True, timeout=30)
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
     def test_real_native_controls_render_offscreen_in_both_themes(self):
         root=Path(__file__).resolve().parents[1]
         with tempfile.TemporaryDirectory() as folder:
