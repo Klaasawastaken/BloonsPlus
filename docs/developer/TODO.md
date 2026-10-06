@@ -465,3 +465,5 @@ Start only after the current repair work is complete, as requested on 5 October.
 
 - [x] Finish Settings cleanup with a labelled page, distinct Appearance / Connection / Maintenance sections, a direct diagnostics link and main-PC update guidance. Keep setup actions and optional ISO details; automatic profile detection remains in diagnostics. No manual hero/XP/medal configuration added.
 - Confirmed Tricky Tracks Medium on 6 October at 03:12:53: victory at round 60 and authoritative Medium/Standard=1049544. Preview 36 installed at the replay boundary; guest confirmed the missing-medal sweep resumed. Never replay this earned medal.
+
+- Preview 37 published on 6 October with observed speed controls and Settings cleanup. Installer payload matches the current Settings and replay source byte-for-byte; publication guard reports no findings. VM deployment is queued for the next replay boundary.
