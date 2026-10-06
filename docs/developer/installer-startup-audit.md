@@ -90,3 +90,28 @@ The proposed order is engine/state and recovery contracts, compact installer flo
 - First/repeat launches with each animation setting and reduced motion; no console, flash, expensive asset pop-in or dependency on remote VM readiness.
 
 The source audit completes TODO I-07. I-01–I-03, I-08–I-11 and A-05–A-07 remain open.
+
+## Focused baseline checks
+
+All 23 checks below passed on 6 October against the existing installer behavior.
+They establish a baseline for the approved native architecture, not completion
+of the redesign.
+
+| Test file | Checks | Evidence scope |
+| --- | ---: | --- |
+| `tests/test_installer_ownership.py` | 2 | Native Windows cross-process exclusion, release, target isolation and duplicate receipt behavior. |
+| `tests/test_installer_progress.py` | 3 | Healthy runtime reuse before repair/storage mutation and named progress/error states. |
+| `tests/test_installer_controller_guard.py` | 1 | Compiled native controller ownership and runtime/payload guard behavior. |
+| `tests/test_guest_installer_ownership.py` | 11 | Mocked guest staging, task/result isolation, waits and hash reuse, plus actual Windows file-lock semantics in temporary storage. |
+| `tests/test_installer_atomic_output.py` | 3 | Builder preserves the last good artifact on copy/publish failures and publishes its footer correctly. |
+| `tests/test_release_installer.py` | 3 | Published preview selection, invalid/incomplete metadata rejection and avoiding unnecessary artifact lookup. |
+
+Tests use isolated fixtures and mocked setup operations. Their guest-install
+messages are fixture output, not evidence that the running VM was updated.
+Native harnesses compile and exercise the specified behavior; they do not run a
+full installation. No game input, existing VM deployment or security settings
+were changed.
+
+Orphaned package-child recovery remains open. Atomic builder publication also
+does not prove atomic replacement of installed application files. Keep both
+requirements in the implementation and interruption acceptance plan.

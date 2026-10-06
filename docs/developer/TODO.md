@@ -5,7 +5,7 @@ Updated **6 October 2026**. This is the readable, active task list. Technical no
 ## At a glance
 
 - **Current priority:** the installer and first-launch redesign, app polish, folders and the website alongside missing-medal gameplay.
-- **Sweep:** running in the VM. Dark Castle Military Monkeys Only, Underground CHIMPS and Off the Coast Military Monkeys Only were confirmed by victory and saved medals. Cornfield Impoppable is the current replay. The previous Bloody Puddles interruption remains under investigation.
+- **Sweep:** running in the VM. Dark Castle Military Monkeys Only, Underground CHIMPS, Off the Coast Military Monkeys Only and Cornfield Impoppable were confirmed by victory and saved medals. Cornfield CHIMPS is now using another candidate after an early loss with placement warnings. The previous Bloody Puddles interruption remains under investigation.
 - **Development alongside gameplay:** installer/setup polish, app polish, folder organization and website redesign. Check the sweep every five minutes and diagnose meaningful failures.
 - **Background work:** improve routes and placement from missing-medal gameplay evidence; retain failures and skip owned medals.
 - **Latest release:** Preview 90 is published with native installer ownership and isolated VM setup tasks/results. The healthy VM replay retains its existing runtime; this batch was not deployed mid-run. Live cash-recovery evidence remains open.
@@ -138,6 +138,8 @@ The sweep earns missing medals alongside development. Deploy changes together af
 
 - [x] **I-07 — Inspect before redesigning.** Read the current installer frontend/backend and application launch path. Map every dependency, VM, SSH and BTD6 stage; administrator requirements; measurable progress; safe concurrency; and interruption recovery. Record what loads before the dashboard is ready. Preserve working backend behavior.
   - [Source audit](installer-startup-audit.md) records the two-phase installation journey, current ownership boundaries, actual progress sources, UAC/restart behavior, safe concurrency and startup readiness gaps. Clean-machine and interrupted-install acceptance remain open; no product behavior changed in this audit.
+  - **Approved architecture:** retain native C#, separate setup operations from presentation, reuse the existing JavaScript/Python VM operators and implement the short intro in the existing app renderer. Add no installer runtime. The [written contract](../superpowers/specs/2026-10-06-installer-startup-design.md) maps the requested installer/startup experience to these boundaries; its review precedes the implementation plan.
+  - **Baseline verified:** 23 focused installer/release checks passed on 6 October. These cover native duplicate ownership, receipt isolation, runtime reuse, progress states, controller guards, mocked guest deployment, atomic builder output and release selection. They do not prove clean-machine installation or recovery of surviving package children; see the [test evidence](installer-startup-audit.md#focused-baseline-checks).
 - [ ] **I-08 — Build a compact, simple install flow.** Welcome with one clear **Install BloonsPlus** action and secondary **Options**. Transition through preparing, installing and validated completion with **Launch BloonsPlus**. Hide advanced choices until requested; avoid a long Next/Next wizard. Offer useful options such as shortcuts and launch behavior, without exposing internal commands as normal controls.
 - [ ] **I-09 — Separate engine and presentation.** Keep installer state/operations, installer UI, app bootstrap, launch presentation and main UI distinct. Render real engine state. Each stage needs friendly status, technical details, progress behavior, bounded retry, cancellation and resume rules. Show measured stage/overall progress where meaningful and an indeterminate state where work cannot be measured. Never invent percentages, regress overall progress or declare completion before validation.
 - [ ] **I-10 — Add smart preflight and targeted repair.** Check Windows version/architecture, storage, virtualization/features, runtimes, existing installation/VM, SSH, network, permissions and incomplete setup. Reuse healthy components; verify changes before advancing. Resume from actual machine state instead of rebuilding resources. Recognize installed versions and expose Launch, Update and Repair, with Modify/Uninstall secondary. Preserve app data, Steam, game data, VM disks, settings and keys.
@@ -171,7 +173,7 @@ Requested **6 October**. Work alongside background missing-medal gameplay after 
 - [x] **W-02 — Rebuild Features.** Four practical workflow groups and a compact progress section, using varied official monkeys. Desktop/dark/narrow browser checks pass without broken images or horizontal overflow.
 - [x] **W-03 — Streamline Home.** Three feature cards, clearer copy and corrected installation link. Retain the requested app-preview hero and floating card.
 - [ ] **W-04 — Check artwork and layout.** Preserve proportions, attribution, responsiveness and accessibility. No AI-generated images.
-  - [Browser/source evidence](website-acceptance-2026-10-06.md): 18 phone/tablet page checks, menu keyboard behavior, Wiki search/highlighting, annual pricing and all 26 HTML files' local targets passed. Light secondary-text contrast needs repair; broader keyboard, screen-reader, motion and deployed-site checks remain open.
+  - [Browser/source evidence](website-acceptance-2026-10-06.md): 18 phone/tablet page checks, menu keyboard behavior, Wiki search/highlighting, annual pricing and all 26 HTML files' local targets passed. Deployed HTTPS pages and the Preview 90 download target were also checked. Light secondary-text contrast needs repair; broader keyboard, screen-reader and motion checks remain open.
 
 ## 7. AI, bosses and Pro
 
@@ -197,6 +199,7 @@ Start after core reliability. These are future work, not completed features.
 - [x] Preview 82's waiting deployment stopped before installation so the schedule fix could join Preview 83. The healthy replay continued.
 - [x] High Finance Reverse earned on 6 October: victory at round 60 plus authoritative saved medal. Never repeat the owned medal.
 - [x] Underground CHIMPS earned on 6 October: victory plus authoritative saved medal. Never repeat the owned medal.
+- [x] Cornfield Impoppable earned on 6 October: victory plus authoritative saved Hard/Impoppable medal. Never repeat the owned medal. The subsequent CHIMPS loss remains a separate failure; it does not invalidate this clear.
 - [x] Preview 84 recovered the stalled Bloody Puddles Play receipt without restarting the map or sending an extra Play input. The run continues toward its missing Impoppable medal.
 
 For exact checks, release history, confirmed medals and limitations, see the [evidence archive](history/roadmap-2026-10-06.md). Archive checkboxes and deployment notes are historical; use this list to choose the next task.

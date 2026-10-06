@@ -388,6 +388,19 @@ with the source game's version. Investigate blocked placement and dependency
 recovery before changing the transform. Private coordinate results stay outside
 the public repository.
 
+### Later outcome and separate CHIMPS failure
+
+Another candidate subsequently produced an Impoppable victory on Cornfield.
+An independent read of the VM's Profile.Save confirmed the earned
+Hard/Impoppable medal. The missing-medal sweep moved on; that owned medal must
+never be rerun for validation.
+
+The first subsequent CHIMPS attempt lost at round 14. Its logs retain Hero and
+Tack placement failure frames and search diagnostics at the converted opening
+points. Those warnings alone do not establish the final cause or legal replacement
+coordinates. The persistent failure remains actionable, and the sweep continued
+with another candidate. Original CHIMPS recordings remain unchanged.
+
 ## Repeat-ability implementation audit — 6 October
 
 Repeat/stop-ability support already spans the BloonsPlayer importer, route parser,

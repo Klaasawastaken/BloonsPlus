@@ -24,6 +24,24 @@ Desktop screenshots of Home and Subscriptions and phone screenshots of Features,
 Getting started in both themes, and Subscriptions were inspected. This visual
 sample does not establish complete desktop coverage or all interactive states.
 
+## Deployed-site spot checks
+
+The browser reached the clean HTTPS [production domain](https://www.bloonsplus.com/)
+and the Features, About, Wiki, Contributors, Subscriptions and Download pages on
+6 October. The refreshed Home hero and Features layout are deployed. The primary
+categories checked identify their own navigation item.
+
+Loaded artwork includes Wizard and Quincy on Features, Sauda on About, Benjamin
+on Contributors and Gwendolin on Subscriptions. Character images use
+`object-fit: contain`; initial offscreen lazy images were rechecked after loading
+rather than treated as broken downloads. This is a sample, not a complete artwork
+or accessibility audit of the deployed site.
+
+The deployed [Download page](https://www.bloonsplus.com/download/) resolves its
+installer and release-notes links to Preview 90. Its displayed 234.9 MB size
+matches the local release metadata of 246,311,732 bytes. The installer was not
+downloaded or executed for this website check.
+
 ## Open readability defect
 
 The rendered light theme uses `--muted: #708177` for secondary text, including
@@ -49,7 +67,7 @@ prove every text/background combination passes.
 - Observe real reduced-motion changes; the current focused reading-progress test
   covers its mocked contract only.
 - Inspect lower-page lazy artwork and README/banner composition at relevant sizes.
-- Verify deployed pages after publication; local preview evidence does not prove
-  GitHub Pages or custom-domain behavior.
+- Complete deployed-page interaction and accessibility coverage; the HTTPS,
+  artwork, navigation and latest-download spot checks above are only a sample.
 
 W-04 remains open until the outstanding checks and defects are resolved.
