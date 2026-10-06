@@ -45,7 +45,10 @@
       const needsIso = status.applicable && !(status.steps || []).some(step => step.id === 'vm' && step.done) && !(status.steps || []).some(step => step.id === 'iso' && step.done);
       if ($('vm-settings-iso-field')) $('vm-settings-iso-field').hidden = !needsIso;
       if ($('vm-settings-iso-hint')) $('vm-settings-iso-hint').hidden = !needsIso;
-      if (advanced) advanced.hidden = !status.applicable;
+      if (advanced) advanced.hidden = !needsIso;
+      const checks = status.steps || [];
+      if ($('vm-settings-checks')) $('vm-settings-checks').hidden = !status.applicable || !checks.length;
+      if ($('vm-settings-check-count')) $('vm-settings-check-count').textContent = `${checks.filter(step => step.done).length}/${checks.length} ready`;
       if (settingsUpdate) settingsUpdate.hidden = !status.applicable;
       if ($('vm-settings-actions')) $('vm-settings-actions').hidden = !status.applicable;
       if ($('vm-settings-update-hint')) $('vm-settings-update-hint').hidden = !status.applicable;
@@ -118,7 +121,13 @@
       if (!response.ok) throw new Error(`Connection check failed (${response.status})`);
       render(await response.json());
     } catch {
-      if (settingsStatus) settingsStatus.textContent = 'Waiting for the Bloons+ controller to reconnect…';
+      if (settingsStatus) {
+        settingsStatus.textContent = 'Waiting for the Bloons+ controller to reconnect…';
+        settingsStatus.classList.remove('error');
+      }
+      if ($('vm-settings-check-count')) $('vm-settings-check-count').textContent = 'Last known state';
+      if (settingsProgress) settingsProgress.hidden = true;
+      if (settingsProgressLabel) settingsProgressLabel.hidden = true;
       if (settingsChip) settingsChip.textContent = 'RECONNECTING';
       // Stale setup state must not leave install/update actions available.
       if (settingsStart) settingsStart.disabled = true;

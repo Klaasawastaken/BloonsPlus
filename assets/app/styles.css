@@ -378,7 +378,7 @@ body.boss-view-active{background:radial-gradient(ellipse at 95% 0,color-mix(in s
 #settings .settings-subdetails[open]>summary{color:var(--ink)}
 
 /* Error surfaces must outrank the normal Settings status card in both themes. */
-#settings .settings-layout{display:flex;flex-direction:column;gap:18px}
+#settings .settings-layout{display:grid;grid-template-columns:minmax(0,1fr);gap:18px}
 #settings .settings-layout>.panel{margin:0}
 #settings .vm-settings-panel{order:-1}
 .settings-section-label{display:block;color:var(--muted);font-size:10px;font-weight:700;letter-spacing:.14em;margin-bottom:16px}
@@ -391,6 +391,14 @@ body.boss-view-active{background:radial-gradient(ellipse at 95% 0,color-mix(in s
 #settings .settings-support-link small{grid-row:2;font-size:11px;font-weight:400;line-height:1.5;color:var(--muted)}
 #settings .settings-support-link>span{grid-column:2;grid-row:1 / 3;align-self:center;color:var(--muted)}
 #settings .settings-support-link:hover{border-color:var(--accent);background:var(--control-hover)}
+#vm-settings-checks>summary{display:flex;justify-content:space-between;align-items:center;gap:16px}
+#vm-settings-check-count{font-size:11px;font-weight:400;color:var(--muted)}
+#settings #vm-settings-steps{grid-template-columns:1fr;gap:0;margin-bottom:0}
+#settings #vm-settings-steps li{border:0;border-radius:0;border-bottom:1px solid var(--line);padding:12px 0;background:transparent;line-height:1.6;overflow-wrap:anywhere}
+#settings #vm-settings-steps li:last-child{border-bottom:0}
+#settings #vm-settings-steps .done{color:var(--ink)}
+#settings #vm-settings-steps .current{color:var(--accent);font-weight:600}
+#settings .settings-layout>.settings-appearance{padding-top:22px;padding-bottom:22px}
 @media(max-width:550px){#settings .settings-help-row .form-row,#settings .settings-layout .theme-choices{grid-template-columns:1fr}}
 #settings #vm-settings-status.error{background:#fff2f2;color:#a32e2e;border-color:#e7b9b3}
 [data-theme="dark"] #settings #vm-settings-status.error{background:#422c2c;color:#ffc3b8;border-color:#795149}

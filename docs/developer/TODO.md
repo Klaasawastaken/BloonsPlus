@@ -4,6 +4,8 @@ Updated 6 October 2026. Checkboxes require evidence, not merely code. Preserve o
 
 ## Current repair pass
 
+- [x] Simplify Settings connection checklist into compact rows with a ready count; expose Windows ISO override only while installation needs it. Remove repeated Appearance/Support labels, preserve reset confirmation and support actions. Clear stale setup progress and error styling when the controller reconnects. JS syntax and diff checks pass; visual review and packaged deployment pending.
+
 - [x] Reproduce Infernal ABR false visual placement acceptance at x=13: screen-edge crop clipping shifts the measured centre and accepts animation/decorations. Require a complete visual probe region for no-cash confirmation. The actual-function regression fails before the fix and passes after; six HUD/placement, three held-placement and three confirmation-mode checks pass. This does not prove the Heli strategy winning. Its defeat remains persisted; do not reset route attempts blindly.
 
 
