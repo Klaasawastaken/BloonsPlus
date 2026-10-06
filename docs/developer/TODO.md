@@ -2,6 +2,14 @@
 
 Updated **6 October 2026**. This is the readable, active task list. Technical notes, past failures and release evidence are preserved in the [history archive](history/roadmap-2026-10-06.md).
 
+## At a glance
+
+- **Current priority:** finish command and upgrade reliability while missing-medal gameplay continues.
+- **Recovered run:** Bloody Puddles Impoppable resumed at round 14 and progressed past round 20. No victory or medal claimed yet.
+- **Next development:** improve missing-medal routes and live progress.
+- **Later:** installer checks, app polish and website redesign.
+- **Latest release:** Preview 84. Its Play-receipt recovery is confirmed in the VM. The next batch fixes provisional map fingerprints and future-dated viewer caches.
+
 ## Work order
 
 | Order | Area | Main outcome |
@@ -18,10 +26,11 @@ Updated **6 October 2026**. This is the readable, active task list. Technical no
 
 ### Immediate queue
 
-1. **R-01 / R-04:** finish missing route commands and audit incomplete imports.
-2. **R-08 / R-09:** resolve upgrades from the selected tower's actual path/tier state.
-3. **R-12 / R-13:** strengthen cash and round reading using recorded failure evidence.
-4. **S-01 / S-02:** improve eligible candidates for medals still missing.
+1. **R-01 / R-04 — Route commands:** finish missing commands and audit incomplete imports.
+2. **R-08 / R-09 — Tower upgrades:** resolve upgrades from the selected tower's actual path/tier state.
+3. **R-12 / R-13 — Cash and rounds:** strengthen HUD reading using recorded failure evidence.
+4. **S-01 / S-02 — Missing routes:** improve eligible candidates for medals still missing.
+5. **R-02 — Resume recovery:** check broader recovery during missing-medal runs; deploy the new fingerprint fix after the current healthy replay finishes.
 
 The sweep earns missing medals alongside development. Deploy changes together after the current healthy replay finishes.
 
@@ -108,7 +117,7 @@ The sweep earns missing medals alongside development. Deploy changes together af
 - [ ] **I-05 — Add trusted code signing when available.** Unsigned installers may still trigger SmartScreen.
 - [ ] **I-06 — Meet production acceptance gates.** Complete the specification before publishing **v1.0.0**; previews do not establish production readiness.
 
-**Latest published:** [Preview 83](https://github.com/Klaasawastaken/BloonsPlus/releases/tag/v0.1.0-preview.83), installer 245,319,496 bytes. The manual-flow batch passed 134 focused Python checks, candidate-selection/coverage regressions and 24 packaged-source comparisons; publication guard reported zero findings. This does not establish clean-machine installation or winning routes.
+**Latest published:** [Preview 84](https://github.com/Klaasawastaken/BloonsPlus/releases/tag/v0.1.0-preview.84), installer 245,321,804 bytes. The release passed 282 Python checks, focused JS checks and 24 packaged-source comparisons; publication guard reported zero findings. The Play-receipt fix is installed and recovered the existing round-14 receipt after a guarded repair of application recovery state. This does not establish clean-machine installation or winning routes.
 
 ## 5. App polish and files
 
@@ -149,5 +158,6 @@ Start after core reliability. These are future work, not completed features.
 - [x] Preview 83 deployed between replays, including eight separate manual-flow candidates and the schedule-reuse guard.
 - [x] Preview 82's waiting deployment stopped before installation so the schedule fix could join Preview 83. The healthy replay continued.
 - [x] High Finance Reverse earned on 6 October: victory at round 60 plus authoritative saved medal. Never repeat the owned medal.
+- [x] Preview 84 recovered the stalled Bloody Puddles Play receipt without restarting the map or sending an extra Play input. The run continues toward its missing Impoppable medal.
 
 For exact checks, release history, confirmed medals and limitations, see the [evidence archive](history/roadmap-2026-10-06.md). Archive checkboxes and deployment notes are historical; use this list to choose the next task.

@@ -144,6 +144,32 @@ def sceneMatches(saved, current):
                    if len(before) == 3 and sum(abs(int(a) - int(b)) for a, b in zip(before, after)) < 85)
     return matching >= int(len(current) * 0.60)
 
+
+def refreshConfirmedMapScene(checkpoint, image, gameState, persist):
+    """Replace an initial overlay fingerprint only after an evidenced placement.
+
+    The caller supplies a fresh foreground in-game frame. Do this once for the
+    same run; do not gradually adapt the identity guard to a different scene.
+    Older checkpoints keep their original fingerprint and need explicit repair.
+    """
+    if (not isinstance(checkpoint, dict) or checkpoint.get('mapSceneConfirmed') is not False
+            or gameState is None or not gameState.towers
+            or checkpoint.get('runId') != gameState.run_id
+            or checkpoint.get('map') != gameState.map
+            or checkpoint.get('gamemode') != gameState.mode):
+        return False
+    previous = deepcopy(checkpoint['mapScene'])
+    checkpoint['mapScene'] = mapSceneSignature(image)
+    checkpoint['mapSceneConfirmed'] = True
+    try:
+        saved = persist() is True
+    except Exception:
+        saved = False
+    if not saved:
+        checkpoint['mapScene'] = previous
+        checkpoint['mapSceneConfirmed'] = False
+    return saved
+
 _game_state_lock = threading.Lock()
 
 
@@ -2168,7 +2194,8 @@ def main():
         if resumeScreen != Screen.INGAME:
             customPrint('resume refused: BTD6 is not on the in-game screen (' + resumeScreen.name + ')')
             return 2
-        if not sceneMatches(routeCheckpoint.get('mapScene'), mapSceneSignature(resumeImage)):
+        if (routeCheckpoint.get('mapSceneConfirmed') is False
+                or not sceneMatches(routeCheckpoint.get('mapScene'), mapSceneSignature(resumeImage))):
             customPrint('resume refused: current playfield does not match the saved map scene')
             return 2
         try:
@@ -2231,6 +2258,11 @@ def main():
 
         publishViewerFrame(screenshot)
         screen = recognizeScreen(screenshot, comparisonImages)
+
+        if state == State.INGAME and screen == Screen.INGAME and windowed_input.is_game_foreground():
+            if refreshConfirmedMapScene(routeCheckpoint, screenshot, currentGameState,
+                                        lambda: writeRouteCheckpoint(routeCheckpoint)):
+                customPrint('CHECKPOINT map scene confirmed after evidenced placement; initial overlay fingerprint replaced')
 
         customPrint('DEBUG loop screen=' + screen.name + ' state=' + state.name +
                     ' image=' + str(screenshot.shape[1]) + 'x' + str(screenshot.shape[0]) +
@@ -2623,6 +2655,7 @@ def main():
                         'map': mapConfig['map'], 'gamemode': mapConfig['gamemode'],
                         'nextStep': 0, 'totalSteps': routeStepTotal, 'round': None,
                         'runId': upgradeRunId, 'mapScene': mapSceneSignature(screenshot),
+                        'mapSceneConfirmed': False,
                         'parentJob': os.environ.get('BLOONS_PARENT_JOB'),
                     }
                     writeRouteCheckpoint(routeCheckpoint, mapConfig['steps'])
