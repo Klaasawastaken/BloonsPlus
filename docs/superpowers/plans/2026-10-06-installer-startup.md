@@ -146,10 +146,10 @@
 - Update installer/startup audit, TODO, changelog and release notes with evidence and remaining limitations.
 - Update installer builder/publication guards only where new sources/assets require packaging changes.
 
-- [ ] Exercise isolated native clean/update/repair/interruption fixtures, preserving app data and recording failures by component.
+- [x] Exercise isolated native clean/update/repair/interruption fixtures, preserving app data and recording failures by component. Final branch: 332 Python checks, ten SSH transport checks and 56 JavaScript check files pass; six final-review recovery defects have regression coverage.
 - [ ] Use a separate clean supported Windows environment for actual no-dependency setup; record UAC decline, reboot later/resume, Steam sign-in/2FA and delayed bridge. Do not repurpose the active gameplay VM.
 - [ ] Finish keyboard/screen-reader, DPI/text-scale, theme and weak-hardware acceptance across installer, first launch and intro settings.
-- [ ] Verify packaged sources match this batch, footer/receipts/ownership remain compatible and publication guards exclude private artifacts.
+- [x] Verify packaged sources match this batch, footer/receipts/ownership remain compatible and publication guards exclude private artifacts. Final rebuilt EXE: 246,809,855 bytes; 125 runtime sources and all 1,669 inventory hashes match. Source and payload privacy guards report zero findings.
 - [ ] Publish a preview only after its completed batch is verified. Keep v1.0 blocked until the full production gates pass; docs or mocks alone cannot satisfy them.
 - [ ] Deploy approved runtime changes only after the current healthy replay ends; resume missing medals and independently confirm new clears from saved medals.
 
