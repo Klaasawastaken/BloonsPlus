@@ -359,5 +359,12 @@ exact application frames. Staged app/lock/inventory and native embedded package
 resource versions agree. Source dependency metadata is unchanged, and publication
 guards report zero findings.
 The pending ABR draft is retained only in the worktree; packaging uses its committed
-version. Public download metadata remains on the previous release until publication
-is independently confirmed. Native progress changes do not reload the healthy guest.
+version. During preparation, public download metadata retained the previous release
+until publication was independently confirmed. Native progress changes do not reload
+the healthy guest.
+
+The single installer asset is now published under `v0.1.11-preview.99`; GitHub's
+uploaded size/state and digest match the archived build. Download fallback metadata
+and the local Preview 99 selector were updated only after that confirmation. The
+previous v0.1.10 archive is retained. These publication checks do not close the
+remaining production acceptance gates.
