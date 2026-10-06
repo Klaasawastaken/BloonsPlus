@@ -129,6 +129,7 @@ The sweep earns missing medals alongside development. Deploy changes together af
 
 - [ ] **P-06 — Keep complete redacted logs.** Group failures by cause, including when stale game-state files remain.
 - [ ] **P-07 — Check host/VM synchronization.** Cover updates and restarts; show the actual failed connection or setup step.
+  - Live read-only check after the v0.1.4 update confirms the host uses the VM and matches all fifteen present profile groups: rank/XP/veteran counters, Monkey Money, heroes, knowledge, tower XP/unlocks/upgrades, medals and boss medals. No account values or paths were published. This proves API relay equality at that observation, not every bit's meaning, renderer freshness or disconnected/restart recovery.
 
 ## 4. Installer and release
 
@@ -146,7 +147,7 @@ The sweep earns missing medals alongside development. Deploy changes together af
   - Healthy environment reuse now happens before the 5 GB package-install space check. Repairs still check space before moving or rebuilding environments.
   - VM setup now reports explicit states and validates actions before advancing. Retry/failure/restart/sign-in and delayed update connection checks pass offline. Interrupted-process recovery and clean/interrupted setup acceptance remain open.
   - The native installer now holds an exclusive installation lock before file changes or result receipts. VM requests have unique tasks and receipts; setup waits for an owner and compares installer hashes before reusing an identical completed update. Real Windows cross-process, duplicate-result and PowerShell lock checks pass. Unsupported older installers are refused before staging. Recovery of orphaned package processes remains open.
-- [x] **I-04 — Check release packaging.** Preview 99 package identity hotfix installer, three-section notes and uploaded size/digest were checked. The deployed release-selection script matches source and selects the v0.1.4-preview.99 installer and notes using the real public release response. Staged app/lock/inventory versions and the embedded native inventory agree. One installer asset; no separate `SHA256SUMS.txt` asset. Repeat this gate for each later release.
+- [x] **I-04 — Check release packaging.** Preview 99 Steam readiness hotfix installer, three-section notes and uploaded size/digest were checked. The deployed release-selection script matches source and selects the v0.1.5-preview.99 installer and notes using the real public release response. Staged app/lock/inventory versions and the embedded native inventory agree. One installer asset; no separate `SHA256SUMS.txt` asset. Repeat this gate for each later release.
 - [ ] **I-05 — Add trusted code signing when available.** Unsigned installers may still trigger SmartScreen.
 - [ ] **I-06 — Meet production acceptance gates for milestone 100.** Complete the specification before publishing **v1.0.0**, the full release replacing Preview 100. Use Previews 97–99 for preparation; previews do not establish production readiness.
   - Both local installer selectors now accept production tags such as `v1.0.0`, use the documented stable artifact directory and reject truncated named installers instead of downgrading. Both regressions passed RED to GREEN; 354 Python tests and 60 JavaScript check files passed. Included in the installed HUD hotfix; this does not establish production readiness.
