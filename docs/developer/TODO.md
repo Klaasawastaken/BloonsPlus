@@ -599,3 +599,10 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [x] Focused browser-helper regressions, map-save alias checks, sweep medal admission and JS syntax pass. Original recordings and game saves are unchanged.
 
 - Confirmed Infernal Reverse on 6 October: replay reached VICTORY at 05:50:25 and the controller logged clear confirmed; the authoritative VM save subsequently returned Medium/Reverse=1049545. Never replay this earned medal. Preview 58 deployed at that boundary and the guest confirmed the missing-medal sweep resumed. Preview 60 is queued for its next replay boundary.
+
+### Lightweight failure-log browsing — 6 October
+
+- [x] Separate the failure index from full run evidence. The logs page requests a compact response without per-run fullLog, log, action, screenshot or observation arrays; the default diagnostics endpoint retains full evidence for explicit downloads.
+- [x] Forward compact requests through the VM bridge and project responses from older guests too. Download fetches complete recent-run logs on demand with a longer bridge timeout; errors do not silently export the index as if it were full evidence.
+- [x] Offline checks prove summary fields/counts remain, full-export contents remain unchanged, stored evidence is not mutated, and the synthetic large-log response shrinks by more than 50x. Live transfer/render measurement remains pending deployment.
+- Measured against the live VM history: 614 total failures, 150 recent entries, 23,821,866-byte full response versus 89,893-byte compact projection (~265x smaller). Full logs remained present in the original response. This is a real data-volume measurement; browser rendering performance still awaits deployment.

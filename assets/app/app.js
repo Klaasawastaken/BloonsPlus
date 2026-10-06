@@ -1226,11 +1226,20 @@ document.querySelector('#download-run-log')?.addEventListener('click', () => {
   setTimeout(() => URL.revokeObjectURL(link.href), 1000);
 });
 let latestRouteFailuresLog = '';
+function formatRouteFailures(failures, includeFullLog = false) {
+  return failures.slice().sort((a,b) => Number(b.actionable) - Number(a.actionable)).map(f => {
+    const summary = `${f.at} | ${f.map} | ${f.gamemode} | ${f.route} | [${f.category || 'uncategorized'}] `
+      + `round ${f.lastRound ?? '?'}/${f.finalRound ?? '?'} | lives ${f.livesLeft ?? '?'} | ${f.reason || 'unknown reason'}`;
+    const full = includeFullLog && Array.isArray(f.fullLog) && f.fullLog.length
+      ? `\n  --- full run log (${f.fullLog.length} lines) ---\n` + f.fullLog.map(line => `  ${line}`).join('\n') + '\n' : '';
+    return summary + full;
+  }).join('\n');
+}
 async function loadRouteFailures() {
   const pre = document.querySelector('#route-failures-log');
   const detail = document.querySelector('#route-failures-detail');
   try {
-    const response = await fetch('/api/route-failures', { cache: 'no-store', signal: AbortSignal.timeout(12000) });
+    const response = await fetch('/api/route-failures?view=ui', { cache: 'no-store', signal: AbortSignal.timeout(12000) });
     const body = await response.json().catch(() => null);
     const failures = body?.failures || [];
     if (!body?.available) {
@@ -1244,15 +1253,7 @@ async function loadRouteFailures() {
     // the entries that are actually actionable tonight.
     const ordered = failures.slice().sort((a, b) => Number(b.actionable) - Number(a.actionable));
     const actionableCount = ordered.filter(f => f.actionable).length;
-    // Each failure's full unfiltered run log (fullLog) is appended under its summary line so the
-    // downloaded/copied text is a complete per-night post-mortem, not just a one-line index.
-    latestRouteFailuresLog = ordered.map(f => {
-      const summary = `${f.at} | ${f.map} | ${f.gamemode} | ${f.route} | [${f.category || 'uncategorized'}] `
-        + `round ${f.lastRound ?? '?'}/${f.finalRound ?? '?'} | lives ${f.livesLeft ?? '?'} | ${f.reason || 'unknown reason'}`;
-      const full = (f.fullLog && f.fullLog.length) ? `\n  --- full run log (${f.fullLog.length} lines) ---\n`
-        + f.fullLog.map(line => `  ${line}`).join('\n') + '\n' : '';
-      return summary + full;
-    }).join('\n');
+    latestRouteFailuresLog = formatRouteFailures(ordered);
     pre.textContent = latestRouteFailuresLog || 'No route failures recorded yet.';
     const categoryCounts = failures.reduce((counts, failure) => {
       const category = failure.category || 'uncategorized';
@@ -1265,13 +1266,22 @@ async function loadRouteFailures() {
       + `(${actionableCount} actionable). ${breakdown || 'No categories yet.'}`;
   } catch { pre.textContent = 'Could not reach the automation connector.'; detail.textContent = ''; }
 }
-document.querySelector('#download-route-failures')?.addEventListener('click', () => {
-  const blob = new Blob([latestRouteFailuresLog || 'No route failures recorded yet.'], { type: 'text/plain' });
-  const link = document.createElement('a');
-  link.href = URL.createObjectURL(blob);
-  link.download = `bloons-plus-route-failures-${new Date().toISOString().replace(/[:.]/g, '-')}.log`;
-  link.click();
-  setTimeout(() => URL.revokeObjectURL(link.href), 1000);
+document.querySelector('#download-route-failures')?.addEventListener('click', async event => {
+  const button = event.currentTarget;
+  button.disabled = true;
+  try {
+    const response = await fetch('/api/route-failures', {cache:'no-store', signal:AbortSignal.timeout(60000)});
+    const body = await response.json();
+    if (!response.ok || !body?.available) throw new Error(body?.reason || 'VM logs are unavailable');
+    const text = formatRouteFailures(body.failures || [], true);
+    const blob = new Blob([text || 'No route failures recorded yet.'], { type: 'text/plain' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = `bloons-plus-route-failures-${new Date().toISOString().replace(/[:.]/g, '-')}.log`;
+    link.click();
+    setTimeout(() => URL.revokeObjectURL(link.href), 1000);
+  } catch { notify('Could not download full logs. Check the VM connection and try again.'); }
+  finally { button.disabled = false; }
 });
 document.querySelector('#farm-file').addEventListener('click', () => {
   const mapSlug = document.querySelector('#playthrough-map-select').value;

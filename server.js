@@ -7,6 +7,7 @@ const { getLiveScreen } = require('./lib/live-screen');
 const { runScan } = require('./lib/scanner');
 const automation = require('./lib/automation');
 const { uiFarmStatus } = require('./lib/status-view');
+const { failureResponseView } = require('./lib/failure-view');
 const engineLock = require('./lib/engine-lock');
 const root = __dirname;
 const port = Number(process.env.PORT || 4173);
@@ -224,6 +225,7 @@ http.createServer((req, res) => {
   }
   if (pathname === '/api/route-failures') {
     if (req.method !== 'GET') { res.writeHead(405); return res.end(); }
+    const compact = new URL(req.url, 'http://localhost').searchParams.get('view') === 'ui';
     const readLocalFailures = () => {
       let failures = [];
       try { failures = JSON.parse(fs.readFileSync(path.join(root, 'route-failures.json'), 'utf8')); } catch { /* none yet */ }
@@ -262,17 +264,17 @@ http.createServer((req, res) => {
     };
     if (vmSetup.isGuest()) {
       res.writeHead(200, { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' });
-      res.end(JSON.stringify({ available: true, sourceTransport: 'vm', ...readLocalFailures() }));
+      res.end(JSON.stringify(failureResponseView({ available: true, sourceTransport: 'vm', ...readLocalFailures() }, compact)));
       return;
     }
     // Route failures only happen where the replay actually runs, inside the VM. The host's own
     // route-failures.json (if any exists from earlier local testing) is never a substitute.
-    vmFetch('/api/route-failures').then(vmData => {
+    vmFetch('/api/route-failures' + (compact ? '?view=ui' : ''), compact ? 5000 : 45000).then(vmData => {
       let result = null;
       if (vmData) { try { result = JSON.parse(vmData); } catch { /* report unavailable below */ } }
       if (result?.available) {
         res.writeHead(200, { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' });
-        return res.end(JSON.stringify({ ...result, sourceTransport: 'vm' }));
+        return res.end(JSON.stringify(failureResponseView({ ...result, sourceTransport: 'vm' }, compact)));
       }
       res.writeHead(503, { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' });
       res.end(JSON.stringify({ available: false, sourceTransport: 'vm', failures: [], reason: 'VM is unavailable or has not recorded any route failures yet' }));
