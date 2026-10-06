@@ -37,8 +37,10 @@ function observeProfileRates(profile) {
   const oldest = profileRateSamples.find(sample => at - sample.at >= 30_000);
   if (!oldest) return;
   const hours = (at - oldest.at) / 3_600_000;
-  if (Number.isFinite(current.monkeyMoney) && Number.isFinite(oldest.monkeyMoney))
-    profileRates.monkeyMoneyPerHour = Math.max(0, (current.monkeyMoney - oldest.monkeyMoney) / hours);
+  // This is a net balance rate: spending must remain visible, not become zero.
+  if (Number.isFinite(current.monkeyMoney) && current.monkeyMoney >= 0
+      && Number.isFinite(oldest.monkeyMoney) && oldest.monkeyMoney >= 0)
+    profileRates.monkeyMoneyPerHour = (current.monkeyMoney - oldest.monkeyMoney) / hours;
   const xpField = Number.isFinite(current.veteranXp) && Number.isFinite(current.veteranRank) && current.veteranRank > 0
     ? 'veteranXp' : 'xp';
   // Ordinary save XP is cumulative: a rank-up must not reset the rate window.
@@ -797,7 +799,7 @@ function render() {
   if (xpBar) xpBar.style.width = xpProgress?.capped ? '100%' : xpProgress ? `${Math.min(100, xpProgress.xp / xpProgress.nextLevelXp * 100)}%` : '0%';
   setText('#player-xp', xpProgress?.capped ? 'Level cap reached · veteran progression' : xpProgress
     ? `${Math.ceil(xpProgress.remaining).toLocaleString()} XP to next level` : 'XP not verified');
-  const formatRate = value => Number.isFinite(value) && value >= 0 ? `${Math.round(value).toLocaleString()}` : '—';
+  const formatRate = value => Number.isFinite(value) ? `${(Math.round(value) || 0).toLocaleString()}` : '—';
   const formatTime = hours => {
     if (!Number.isFinite(hours) || hours <= 0) return '—';
     if (hours < 1) return `${Math.max(1, Math.round(hours * 60))}m`;

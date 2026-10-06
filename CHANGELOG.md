@@ -1,3 +1,9 @@
+## Preview 40 — Honest net Monkey Money rates
+
+- Preserve negative balance changes instead of clamping spending to zero.
+- Label Net MM/hr and explain the sampling/spending behavior in the app and wiki.
+- Reject invalid negative save balances and suppress negative-zero display.
+
 ## Preview 39 — Serialize automatic play input
 
 - Hold automatic Play/Fast Forward when the current screenshot predates an issued route action.

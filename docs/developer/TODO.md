@@ -483,3 +483,7 @@ Start only after the current repair work is complete, as requested on 5 October.
 - Preview 37 installer completed at the replay boundary and the guest confirmed the resumed missing-medal sweep. Cursor support and the new input gate are queued together for the next batch.
 
 - Preview 39 published on 6 October; its installer packages both cursor support and automatic input ownership. Packaged runtime matches source byte-for-byte. Boundary updater is live, waiting on the active replay with stop-after confirmed; no healthy run was interrupted. Guest deployment remains pending until that job completes.
+
+### Signed Monkey Money rate — 6 October
+
+- [x] Reproduce spending being clamped to zero in MM/hour. Preserve signed saved-balance changes, reject negative saved totals, and avoid negative-zero display. Label the statistic Net MM/hr with a spending/sampling explanation; document it in the account-progress wiki. Existing freshness, clock/source isolation and veteran-counter regressions pass alongside the new spending checks. Live sampling remains a separate check; no invented gross farming income is reported.
