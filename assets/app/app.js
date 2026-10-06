@@ -324,10 +324,7 @@ function mapThumb(name, category) {
   thumb.append(img);
   return thumb;
 }
-const mapProgressKey = name => {
-  const key = String(name).toLowerCase().replace(/[^a-z0-9]/g, '');
-  return ({towncentre:'towncenter', threeminesaround:'threeminesround'})[key] || key;
-};
+const mapProgressKey = BloonsMapNames.normalize;
 const mapObservationFor = name => {
   const entries = Object.entries(detectedProgress.maps || {}).filter(([key]) => mapProgressKey(key) === mapProgressKey(name));
   entries.sort((a,b) => Date.parse(a[1].updatedAt || a[1].scannedAt || 0) - Date.parse(b[1].updatedAt || b[1].scannedAt || 0));
@@ -1310,7 +1307,7 @@ document.querySelector('#automation-pause')?.addEventListener('click', async () 
 });
 let comboData = {};
 // Use the catalog's tile order within each category, including new maps inserted at the front.
-const normalizeMapName = s => s.toLowerCase().replace(/[^a-z0-9]/g, '');
+const normalizeMapName = BloonsMapNames.normalize;
 const CATEGORY_ORDER = Object.keys(mapCatalog);
 const categoryBySlug = {};
 mapChoices.forEach(({ name, category }) => { categoryBySlug[normalizeMapName(name)] = category; });

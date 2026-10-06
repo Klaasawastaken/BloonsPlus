@@ -2,11 +2,12 @@
 import sys
 from pathlib import Path
 import unittest
+from unittest.mock import patch
 import numpy as np
 import cv2
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'autobtd6'))
-from upgrade_observation import read_upgrade_panel, observe_upgrade, PIP_ROWS, resolve_hud_panels
+from upgrade_observation import read_upgrade_panel, observe_upgrade, PIP_ROWS, resolve_hud_panels, cash_hud_shifted
 from game_runtime import GameState
 
 
@@ -63,6 +64,14 @@ class UpgradeObservation(unittest.TestCase):
             frame[10:10+h, x:x+w] = symbol
             for size in ((1920, 1080), (2560, 1440)):
                 self.assertEqual(resolve_hud_panels(cv2.resize(frame, size), not expected, False)[0], expected)
+
+    def test_currency_anchor_allows_soft_match_only_with_strong_separation(self):
+        frame = np.zeros((540, 960, 3), np.uint8)
+        for scores, expected in [((.14, .80), True), ((.80, .14), False),
+                                 ((.50, .80), None), ((.14, .77), None)]:
+            with patch('upgrade_observation.cv2.minMaxLoc',
+                       side_effect=[(0, score, (0,0), (0,0)) for score in scores]):
+                self.assertIs(cash_hud_shifted(frame), expected)
 
     def test_dimmed_unused_pips_on_maxed_crosspath(self):
         # Native Heli 2-0-3 panel: unused top-path pips change BGR colour

@@ -177,6 +177,11 @@
 
 # Changelog
 
+## Preview 36
+
+- Repair shifted Sauda cash HUD detection, share exact map-save aliases, ignore obsolete OCR map IDs in sweep pools and restore readable log symbols. Focused offline checks pass; live validation is limited to missing-medal runs.
+
+
 - Replace generated promotional art with official BTD6 tower/map compositions and preserve character proportions. Rebuild Subscriptions and Contributors, change Wiki artwork, and contain the mobile comparison table without page overflow. Keep planned billing and Pro status explicit.
 
 ## Website and README refresh — 5 October 2026

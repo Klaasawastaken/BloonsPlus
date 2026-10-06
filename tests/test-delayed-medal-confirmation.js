@@ -1,7 +1,7 @@
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const vm = require('node:vm');
-const source = fs.readFileSync(require.resolve('../lib/automation'), 'utf8');
+const source = fs.readFileSync(require.resolve('../lib/automation'), 'utf8').replace(/\r\n/g, '\n');
 function extract(name) {
   const start = source.indexOf(`function ${name}(`);
   assert.notEqual(start, -1, `Missing production function ${name}`);

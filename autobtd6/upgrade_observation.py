@@ -84,7 +84,11 @@ def cash_hud_shifted(frame):
     scores = [float(cv2.minMaxLoc(cv2.matchTemplate(hud[5:36, x:x+24], template,
                     cv2.TM_CCOEFF_NORMED))[1]) for x in (168, 362)]
     winner = int(np.argmax(scores))
-    if scores[winner] >= .82 and scores[winner] - scores[1-winner] >= .25:
+    # Native HUD downsampling and alternate hero skins change the glyph's
+    # background. A recorded Sauda panel scored .80 here and .14 at the normal
+    # HUD location; .82 rejected it and let cash read the shifted life counter.
+    # Require stronger separation when accepting this slightly softer match.
+    if scores[winner] >= .78 and scores[winner] - scores[1-winner] >= .35:
         return winner == 1
     return None
 
