@@ -1,3 +1,19 @@
+## Preview 99 HUD hotfix — 6 October 2026
+
+### Additions
+
+- Add eight offline finished-route HUD and input ownership checks.
+
+### Changes
+
+- Recover an observed blocking overlay after route actions finish, using fresh frames and existing safe clicks.
+- Capture again before the second click; preserve pending controls and reject stale-frame automatic input.
+- Verify all 373 Python tests and the private observed failure fixture. Live recovery remains unverified.
+
+### Removed
+
+- Remove the next-action dependency that prevented completed routes from reaching HUD recovery.
+
 ## Preview 99 hotfix — 6 October 2026
 
 ### Additions

@@ -108,6 +108,41 @@ def resolve_hud_panels(frame, left_guess, right_guess):
     return left_guess, right_guess  # Heroes use a different panel without path pips.
 
 
+def recover_finished_route_hud(capture, click, wait, input_ready, report=lambda message: None):
+    """Clear an observed orphan overlay only after route inputs have finished.
+
+    Return whether input was issued, not whether the HUD has recovered. The
+    input-owning loop must read the resulting screen on its next iteration.
+    """
+    if not input_ready(None):
+        return False
+    wait(1.0)
+    frame = capture()
+    if frame is None or frame.ndim != 3 or frame.shape[2] < 3 or not input_ready(frame):
+        return False
+    if held_placement_visible(frame):
+        report('HUD_RECOVERY cancelling observed leftover placement after final route action')
+        click((round(frame.shape[1] * 800 / 960), round(frame.shape[0] * 60 / 540)))
+        wait(1.0)
+        return True
+    left, right = resolve_hud_panels(frame, False, False)
+    if not (left or right):
+        report('HUD_RECOVERY no blocking overlay confirmed; withholding recovery clicks')
+        return False
+    centre = (frame.shape[1] // 2, frame.shape[0] // 2)
+    report('HUD_RECOVERY closing observed tower panel after final route action')
+    click(centre)
+    wait(.2)
+    # The first click can reveal a result screen. Never authorize the second
+    # click using the earlier INGAME pixels, even during this short wait.
+    next_frame = capture()
+    if (next_frame is not None and next_frame.ndim == 3 and next_frame.shape[2] >= 3
+            and input_ready(next_frame)):
+        click(centre)
+        wait(1.0)
+    return True
+
+
 def select_tower(position, capture, click, wait, report=lambda message: None):
     """Clear a covering panel before selecting a world position.
 

@@ -82,6 +82,7 @@ The sweep earns missing medals alongside development. Deploy changes together af
 
 - [ ] **R-12 — Improve cash reading.** Cover native 1080p/1440p, both panel sides and Double Cash. Reject sell prices and implausible readings.
 - [ ] **R-13 — Improve round reading.** Cover panels, speed changes, effects and scaling. Bound stalled `await_round` actions.
+  - The approved finished-route repair reaches HUD recovery after the action queue empties. Fresh captures, positively observed overlays, pending-input ownership and result-screen checks govern recovery; issued input blocks stale-frame automatic Play/abilities. Eight focused checks and all 373 Python tests pass. Packaging and safe deployment are next; live prevention and broader HUD coverage remain open.
 - [ ] **R-14 — Continue until a real result.** Keep viable games running after route actions end. Individual clears worked; broader evidence remains open.
 - [ ] **R-15 — Bound recovery attempts.** Cover placement, upgrades, navigation and stalled rounds. Preserve exact intent; avoid blind purchase retries.
 - [ ] **R-16 — Save useful failure evidence.** Include frame, action, target, selected tower/hero, cash, round and freshness. Redact shared logs.

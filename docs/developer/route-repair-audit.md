@@ -622,3 +622,27 @@ A future repair must preserve pending placement and ability targeting intent,
 use fresh overlay evidence, and keep ordinary completed-route gameplay running
 until a real result. No additional centre-click behavior or round estimate was
 introduced during the hotfix deployment.
+
+
+### Approved finished-route HUD repair — 6 October
+
+The approved bounded repair extends the existing unreadable-HUD branch only
+when route actions are finished. The existing cash/pending-round behavior stays
+in place. Recovery waits one second, captures a new frame, checks INGAME/focus/
+pause/input ownership and requires the existing held-placement or panel observer
+to positively identify a blocker. Unknown layouts receive no recovery clicks.
+Pending route work and the immediately preceding action defer this recovery.
+
+An observed orphan placement uses its close control; a confirmed panel receives
+the requested two centre clicks. A second capture authorizes the second click
+so a result screen cannot be clicked using older INGAME pixels. Issued recovery
+input closes the iteration's automatic Play and repeated-ability gate. No round
+is manufactured, no route is restarted and no victory is inferred.
+
+The actual empty-queue recognition gate first failed offline. Eight focused
+checks and the complete 373-check Python suite now pass. Review caught the
+second-click stale-frame hazard; its new changed/missing-frame regression failed
+before repair and passes afterward. A scoped re-review found no actionable issue.
+The private Balance Magic frame cancels the orphan placement without a world
+click in an injected-input fixture. Deployment is deferred until a healthy
+replay finishes; future missing-medal gameplay must supply live outcome evidence.

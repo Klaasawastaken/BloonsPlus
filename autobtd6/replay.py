@@ -12,7 +12,7 @@ import time
 from copy import deepcopy
 from game_runtime import GameState, normalize_action
 from upgrade_rules import can_upgrade_in_roster, read_upgrade_caps
-from upgrade_observation import observe_upgrade, resolve_hud_panels, select_tower, verify_tower_placement
+from upgrade_observation import observe_upgrade, resolve_hud_panels, select_tower, verify_tower_placement, recover_finished_route_hud
 from placement_observation import held_placement_visible
 from placement_hints import route_placement_hints
 from route_timing import delay_ready, round_offset_ready, ability_ready, issue_ability, upgrade_ready, RepeatedAbilities, round_start_ready
@@ -3729,6 +3729,8 @@ def main():
                 nextStepCost = int(nextStep.get('cost', 0) or 0) if nextStep else 0
                 cashRequiredForNext = bool(nextStep and (nextStepCost > 0 or nextStepAction in ('await_cash', 'sell')))
                 roundRequiredForNext = bool(nextStep and nextStepAction == 'await_round')
+                finishedRouteHudMissing = not mapConfig['steps'] and (
+                    currentValues['money'] == -1 or currentValues['round'] == -1)
 
                 # Panel confirmation takes real time. Do not let an untimed,
                 # affordable upgrade batch lose several game rounds at 3x speed.
@@ -3771,7 +3773,8 @@ def main():
                 if mode == Mode.VALIDATE_PLAYTHROUGHS and len(mapConfig['steps']) and (mapConfig['steps'][0]['action'] == 'await_round' or  mapConfig['steps'][0]['action'] == 'speed'):
                     mapConfig['steps'].pop(0)
                 elif ((currentValues['money'] == -1 and cashRequiredForNext)
-                      or (currentValues['round'] == -1 and roundRequiredForNext)):
+                      or (currentValues['round'] == -1 and roundRequiredForNext)
+                      or finishedRouteHudMissing):
                     recognitionErrorSignature = (currentValues['money'], currentValues['round'])
                     if recognitionErrorSignature != lastCashErrorLogged or time.time() - lastCashErrorLoggedAt > 1:
                         customPrint('recognition error. money: ' + str(currentValues['money']) + ', round: ' + str(currentValues['round']))
@@ -3788,7 +3791,7 @@ def main():
                         unreadableRoundFrames += 1
                     if (unreadableCashFrames >= 6 or unreadableRoundFrames >= 20) and time.time() - lastPanelCloseAt > 3:
                         centre = (screenshot.shape[1] // 2, screenshot.shape[0] // 2)
-                        customPrint('WARNING cash/round unreadable for ' + str(unreadableCashFrames) + '/' + str(unreadableRoundFrames) + ' frames; closing any open tower panel (two clicks at screen centre ' + str(centre) + ')')
+                        customPrint('WARNING cash/round unreadable for ' + str(unreadableCashFrames) + '/' + str(unreadableRoundFrames) + ' frames; checking HUD recovery')
                         unreadableRecoveries += 1
                         if unreadableRecoveries == 1:
                             try:
@@ -3803,13 +3806,27 @@ def main():
                         # that pauses the game can create a false stuck state and cost lives while
                         # the runner waits for the HUD to return. Cancel a held tower ghost first,
                         # then use the same safe centre clicks on every recovery attempt.
-                        customPrint('DEBUG HUD recovery ' + str(unreadableRecoveries) +
-                                    ': cancelling ghost and clicking centre twice (no pause key)')
-                        pyautogui.click(button='right')
-                        time.sleep(0.2)
-                        for _ in range(2):
-                            pyautogui.click(centre)
+                        if finishedRouteHudMissing:
+                            def finishedHudInputReady(frame):
+                                return (not mapConfig['steps'] and lastIterationAction is None
+                                        and not (skippingIteration or routeActionExecuted or playToggleIssued or resumeProbeRan)
+                                        and not os.path.exists(PAUSE_FILE) and windowed_input.is_game_foreground()
+                                        and (frame is None or recognizeScreen(frame, comparisonImages) == Screen.INGAME))
+                            if recover_finished_route_hud(
+                                    capture=lambda: np.array(pyautogui.screenshot())[:, :, ::-1].copy(),
+                                    click=pyautogui.click, wait=time.sleep,
+                                    input_ready=finishedHudInputReady, report=customPrint):
+                                # Recovery changed the screen; this iteration's older
+                                # frame cannot authorize Play or a repeated ability.
+                                routeActionExecuted = skippingIteration = True
+                        else:
+                            customPrint('DEBUG HUD recovery ' + str(unreadableRecoveries) +
+                                        ': cancelling ghost and clicking centre twice (no pause key)')
+                            pyautogui.click(button='right')
                             time.sleep(0.2)
+                            for _ in range(2):
+                                pyautogui.click(centre)
+                                time.sleep(0.2)
                         lastPanelCloseAt = time.time()
                 elif (mode != Mode.VALIDATE_COSTS and currentValues['money'] >= 0
                       and lastIterationBalance - lastIterationCost > currentValues['money']):
