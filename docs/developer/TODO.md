@@ -436,7 +436,7 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [x] Trace the unbound-path fallback in applyGameHotkeys: nonempty saved tower controls retained default path keys when a saved path was missing or unsupported.
 - [x] Replace that fallback with None, preserving defaults only for absent/empty saved sections. Gate required placement/hero/path controls using the replay key whitelist; unused paths do not block.
 - [x] Seven focused Python control checks and JS readiness checks pass; no recording or game/save file changed.
-- [ ] Publish Preview 35 and deploy after a healthy replay boundary. The active Cubism Double HP MOABs replay remains untouched.
+- [x] Publish Preview 35 and deploy after a healthy replay boundary. The active Cubism Double HP MOABs replay remains untouched.
 
 - Preview 34 reached the terminal Cubism Double HP MOABs boundary at 02:46:17. Guest idle was confirmed before the updater began; source/API reconciliation continues after controller replacement. No healthy replay interrupted.
 
@@ -445,3 +445,5 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [x] Investigate Preview 34 immediate pass end: read-only candidate ranking found false missing Cold Snap and Bionic Boomerang names despite Metal Freeze and Bionc Boomerang in Profile.Save. UI already had scoped aliases; sweep did not.
 - [x] Share one save-upgrade resolver between UI and backend, including qualified Buccaneer names. Actual Quad ABR and Infernal Hard candidates now rank missing=0/unknown=0 against the same save. Genuine missing tiers still block; no attempt history or game/save file changed.
 - [x] Log missing upgrade names/path/tiers and mark incomplete passes distinctly from complete. Offline checks cover stopped, incomplete, unknown medal records and complete endings.
+
+- Preview 35 published and guest update completed while idle on 6 October. Missing-medal sweep restarted on Quad Alternate Bloons Rounds with zero missing/unknown upgrade prerequisites; this confirms route selection now passes, not a victory. Existing saved medals and failure history remain intact.
