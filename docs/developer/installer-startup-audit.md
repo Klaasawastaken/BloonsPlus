@@ -302,3 +302,32 @@ at 105–481 ms and all four recovery assertions passed. Idle frame samples are
 diagnostic only and do not establish animation performance or physical 60 FPS.
 Clean-machine launch, weak physical hardware, Windows DPI and screen-reader
 acceptance remain open. The active missing-medal replay was not interrupted.
+
+## Native/coordinator recovery contract — 7 October
+
+`tests/test_installer_protocol_integration.py` connects the compiled production
+`SetupControllerClient` to the actual Node setup controller and session modules
+through a private loopback listener. Native port, process and executable ownership
+checks remain enabled. Only environment observations and operators are faked;
+the fixture imports no VM or game operator and writes only inside its temporary
+installation root.
+
+The joint check covers waiting for a healthy replay, exactly one start after an
+idle observation, measured download bytes, cancellation while work remains active,
+resume after a terminal observation, native-client reconnect without duplicate
+work, removal of stale byte progress, Restart Later persistence and release only
+after fresh validated readiness. A separate negative check removes the replay
+guard from an isolated source copy; native acceptance rejects it before continuing.
+The production files are unchanged.
+
+Both checks pass. The first negative-fixture attempt let an unhandled native
+exception invoke Windows error handling; it timed out. The harness now catches
+and reports assertion failures explicitly. This fixture repair changes no product
+behavior. These checks close a cross-language protocol evidence gap, but do not
+prove actual dependency installation, VM provisioning, UAC decline, physical reboot
+recovery or clean-machine readiness. Those production gates remain open.
+
+The complete Python suite subsequently passed 399 tests. Existing JavaScript
+controller, session, setup-phase and source-selection-guard checks also passed;
+the publication guard found no private-file findings. No installer binary or
+runtime changed in this acceptance batch.

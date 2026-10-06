@@ -859,3 +859,36 @@ The repeated second-special approval was reconciled with the installed
 implementation rather than producing another candidate. Fresh offline checks
 passed all ten targeted-special Python tests and the JavaScript binding and
 direct-start suites. Live Firing Range behavior remains unverified.
+
+## Legacy BTD6bot admission audit — 7 October 2026
+
+The read-only source audit compared 184 existing BTD6bot-labelled recordings
+against their pinned source conversions. Of these, 177 have currently convertible
+source and seven retain source omissions. Three recordings lack required moved
+selectors and 26 lack required positional special commands; these groups overlap.
+In total, 30 recordings have at least one of those findings.
+
+A separate read-only invocation of the production catalog admission functions
+found all 30 affected files excluded and none admitted. The invocation used the
+actual route bodies, hashes, selection guard, legality rules and local verification
+records. Requirement display construction was stubbed because this audit checks
+catalog admission, not account unlocks or queue selection. No map-position sync,
+gameplay operator or file writer was exposed to that invocation.
+
+The seven omitted-command drafts comprise Ancient Portal's Dartling targeting,
+five Ace-centering plans (Bloonarius Prime, Muddy Puddles, Peninsula, Rake and
+Spice Islands), and Ravine's unavailable Spike Close transition. Existing
+recordings remain unchanged. These results show that the known incomplete copies
+are not current candidates; they do not establish exact command equivalence for
+the other 177 recordings or certify any strategy victory. R-01 and R-04 remain
+open for exact command comparison and unsupported dialects.
+
+## Cubism Half Cash — 7 October 2026
+
+The active missing-medal run progressed from round 61 through round 80 while
+installer acceptance continued. It reported `VICTORY_CONFIRMED` for Cubism Half
+Cash, followed by `clear confirmed`. A separate read-only VM profile request
+decoded Cubism's Half Cash medal as owned through the production save decoder.
+The sweep recorded two victories and zero defeats in this job, then automatically
+navigated toward Skulltweak. No restart, deployment or manual gameplay input was
+needed. Cubism Half Cash must remain skipped for this account.
