@@ -83,7 +83,54 @@ prove every text/background combination passes.
 
 ## Remaining acceptance
 
+### Keyboard, motion and accessible price follow-up — 7 October
+
+Actual production HTML, CSS and JavaScript were loaded behind an isolated static
+server in hidden Chromium windows. External requests were blocked. Nine main
+pages were checked at verified 1,280 px and 390 px CSS viewports, for 18 page
+observations. Chromium focus emulation let keyboard input reach only those own
+windows, without changing the user's foreground window.
+The fixture uses the documented [DevTools Emulation API](https://chromedevtools.github.io/devtools-protocol/tot/Emulation/)
+for focus, viewport and media preferences; these are simulated browser conditions.
+
+- First Tab exposes the skip link, and Enter followed by Tab bypasses the header.
+- Each page exposes one main landmark and no unnamed button in Chromium's
+  accessibility tree.
+- Changing the reduced-motion preference removes motion readiness, hides the
+  reading indicator and leaves no running document animation in these checks.
+- The mobile menu opens with Enter, lets Tab enter its links, and closes with
+  Escape while updating its expanded state.
+- On Subscriptions, keyboard selection changes Monthly to Annual and back.
+  The annual price and period appear together inside the same atomic, polite
+  live region in the actual accessibility tree. This proves the exposed
+  announcement contract, not speech from a physical screen reader.
+
+**New focus defect:** Escape closes the mobile navigation while a link has
+focus, but focus falls back to the page body. A narrower repair would return
+focus to the menu button for that keyboard dismissal. Its approval is pending
+alongside the existing light secondary-text repair. Menu closing alone is not
+claimed as complete focus-restoration acceptance.
+
+The fixture first rejected evidence from an unfocused hidden window and a
+390 px window whose real CSS viewport was wider. Explicit Chromium focus and
+viewport emulation resolved those fixture issues before these observations
+were accepted. No production website behavior changed in this audit. The
+checks do not cover every Wiki article, every interactive state, physical
+screen-reader speech, text zoom or all text/background contrast combinations.
+
+### Latest release — 7 October
+
+A fresh background browser tab reached the deployed HTTPS Download page. Its
+installer link, release-notes link and rendered version all identify
+**v0.1.10-preview.99**. The displayed **235.5 MB** matches the binary formatting
+of the published 246,907,811-byte asset. No desktop horizontal overflow was
+observed. The temporary tab was closed without downloading or executing the
+installer. This is the latest download evidence; prior observations above are
+historical.
+
 - Repair and recheck the evidenced secondary-text contrast issue.
+- Return keyboard focus when Escape dismisses the mobile navigation, then check
+  its reverse traversal and subsequent Tab destination.
 - Measure other text, controls and focus indicators on actual rendered surfaces.
 - Complete keyboard traversal, focus restoration and skip-link checks across
   articles and longer pages, including zoom and text scaling.
