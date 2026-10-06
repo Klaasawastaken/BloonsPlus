@@ -26,14 +26,15 @@ def restore_source_round_context(original, checkpoint):
             continue
         if not isinstance(saved, dict):
             raise ValueError('invalid source-round checkpoint context')
+        actions = ('play_once', 'play_twice') if action == 'play_once' else ('source_round',)
         index = saved.get('index')
         clock = 'startedAt' if action == 'source_round' else 'sentAt'
         if (type(index) is not int or not 0 <= index < offset
                 or not isinstance(original[index], dict)
-                or original[index].get('action') != action or not valid_time(saved.get(clock))):
+                or original[index].get('action') not in actions or not valid_time(saved.get(clock))):
             raise ValueError('source-round context does not match consumed route')
         latest = next((i for i in range(offset - 1, -1, -1)
-                       if isinstance(original[i], dict) and original[i].get('action') == action), None)
+                       if isinstance(original[i], dict) and original[i].get('action') in actions), None)
         if latest != index:
             raise ValueError('source-round context is stale')
         clean = {'index': index, clock: saved[clock]}

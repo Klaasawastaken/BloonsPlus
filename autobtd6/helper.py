@@ -318,6 +318,8 @@ def writeBTD6InstructionsFile(
             fp.write("change speed\n")
         elif action["action"] == "source_round":
             fp.write("source round " + str(action["round"]) + (" after play" if action.get("afterPlay") else "") + "\n")
+        elif action["action"] == "play_twice":
+            fp.write("play twice\n")
         elif action["action"] == "play_once":
             fp.write("play once\n")
         elif action["action"] == "await_round":
@@ -426,8 +428,8 @@ def parseBTD6InstructionsFile(
             newMapConfig['steps'].append({'action': 'speed_toggle',
                 'key': keybinds['others'].get('round_start', keybinds['others']['play']), 'cost': 0})
             continue
-        if line == 'play once':
-            newMapConfig['steps'].append({'action': 'play_once',
+        if line in ('play once', 'play twice'):
+            newMapConfig['steps'].append({'action': 'play_once' if line == 'play once' else 'play_twice',
                 'key': keybinds['others'].get('round_start', keybinds['others']['play']), 'cost': 0})
             continue
         startRound = re.fullmatch(r"start round (fast|slow)", line)

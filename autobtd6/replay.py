@@ -21,6 +21,7 @@ from targeted_special import perform_targeted_special
 from autostart_observation import observe_autostart
 from autostart_control import pending_autostart_step, drive_autostart, resume_autostart_intent
 from play_once import play_once_ready
+from play_sequence import play_sequence_ready
 from source_round import drive_source_round, restore_source_round_context, source_round_anchor
 from map_availability import predicted_thaw_round
 from resume_recovery import restore_upgrade_steps, probe_owned_upgrade, resumable_round_start
@@ -3572,7 +3573,7 @@ def main():
                 if nextStepAction in ('set_autostart', 'source_round'):
                     nextStepDelayReady = False
                 roundStartInputIssued = False
-                if nextStepAction in ('play_once', 'start_round', 'speed_toggle') and nextStepDelayReady:
+                if nextStepAction in ('play_once', 'play_twice', 'start_round', 'speed_toggle') and nextStepDelayReady:
                     startState, startDiff = None, None
                     for startName, startValue in (('game_playing_fast', 'fast'), ('game_playing_slow', 'slow'), ('game_paused', 'paused')):
                         diff = cv2.matchTemplate(cutImage(screenshot, imageAreas['compare']['game_state']),
@@ -3585,7 +3586,27 @@ def main():
                             return True
                         routeCheckpoint.update(status='ready', pendingAction=None)
                         return writeRouteCheckpoint(routeCheckpoint, mapConfig['steps'])
-                    if nextStepAction == 'play_once':
+                    if nextStepAction == 'play_twice':
+                        def observeSequenceState():
+                            if not windowed_input.is_game_foreground():
+                                return {'foreground': False}
+                            fresh = np.array(pyautogui.screenshot())[:, :, ::-1].copy()
+                            if recognizeScreen(fresh, comparisonImages) != Screen.INGAME:
+                                return {'foreground': True, 'state': None}
+                            candidates = []
+                            for name, value in (('game_playing_fast', 'fast'), ('game_playing_slow', 'slow'), ('game_paused', 'paused')):
+                                diff = cv2.matchTemplate(cutImage(fresh, imageAreas['compare']['game_state']),
+                                                        cutImage(comparisonImages['game_state'][name], imageAreas['compare']['game_state']),
+                                                        cv2.TM_SQDIFF_NORMED)[0][0]
+                                candidates.append((float(diff), value))
+                            diff, value = min(candidates)
+                            return {'foreground': windowed_input.is_game_foreground(),
+                                    'state': value if diff < 0.05 else None, 'round': currentValues.get('round')}
+                        nextStepDelayReady, roundStartInputIssued = play_sequence_ready(
+                            nextStep, time.time(), startState if startDiff < 0.05 else None,
+                            currentValues.get('round'), not (skippingIteration or heldPlacement or routeActionExecuted),
+                            sendKey, persistRoundStart, customPrint, observeSequenceState, time.sleep, time.time)
+                    elif nextStepAction == 'play_once':
                         nextStepDelayReady, roundStartInputIssued = play_once_ready(
                             nextStep, time.time(), startState if startDiff < 0.05 else None,
                             currentValues.get('round'),
@@ -4027,15 +4048,16 @@ def main():
                             fast = True
                         elif action['speed'] == 'slow':
                             fast = False
-                    elif action['action'] in ('play_once', 'start_round', 'speed_toggle'):
+                    elif action['action'] in ('play_once', 'play_twice', 'start_round', 'speed_toggle'):
                         action['playStateConfirmed'] = True
-                        if action['action'] == 'play_once':
+                        if action['action'] in ('play_once', 'play_twice'):
+                            receipt = action['playOncePending'] if action['action'] == 'play_once' else action['sequencePending']
                             mapConfig['sourcePlay'] = {'index': action['routeStepIndex'],
-                                                       'sentAt': action['playOncePending']['sentAt']}
+                                                       'sentAt': receipt['sentAt']}
                             if routeCheckpoint is not None:
                                 routeCheckpoint['sourcePlay'] = dict(mapConfig['sourcePlay'])
                         fast = action['speed'] == 'fast'
-                        if action['action'] in ('start_round','play_once'):
+                        if action['action'] in ('start_round','play_once','play_twice'):
                             mapConfig['roundStartCompleted'] = True
                             if routeCheckpoint is not None:
                                 routeCheckpoint['roundStartCompleted'] = True
@@ -4078,12 +4100,12 @@ def main():
                                           and mapConfig['steps'][0].get('placeAttempts', 0) > 0)
                                          or (thisIterationAction is not None and thisIterationAction.get('action') == 'place'))
                 startupRoundStartPending = (not mapConfig.get('roundStartCompleted', False)
-                                            and any(step.get('action') in ('start_round','play_once') for step in mapConfig['steps']))
+                                            and any(step.get('action') in ('start_round','play_once','play_twice') for step in mapConfig['steps']))
                 # This screenshot predates the action just issued above. Let a
                 # fresh frame confirm it before automatic Play/Fast Forward input.
                 if (not skippingIteration and not placementRetryPending and not startupRoundStartPending and not roundStartInputIssued
                     and not (routeActionExecuted or heldPlacement or playToggleIssued)
-                    and nextStepAction not in ('source_round', 'play_once', 'set_autostart', 'start_round', 'speed_toggle')
+                    and nextStepAction not in ('source_round', 'play_once', 'play_twice', 'set_autostart', 'start_round', 'speed_toggle')
                     and (mapConfig.get('autostartEnabled') is not False or not mapConfig['steps'])
                     and ((not doAllStepsBeforeStart and mapConfig['gamemode'] != 'deflation'
                           and (waitingForLaterRound or getNextCostingAction(mapConfig['steps'])['cost'] > min(currentValues['money'], lastIterationBalance - lastIterationCost)))

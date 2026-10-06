@@ -4,12 +4,13 @@ from math import isfinite
 from upgrade_observation import read_upgrade_panel
 from autostart_control import restore_autostart_pending
 from play_once import restore_play_once
+from play_sequence import restore_play_sequence
 
 
 def resumable_round_start(checkpoint):
     """Admit an observed round control, never an ambiguous pending purchase."""
     if (not isinstance(checkpoint, dict) or checkpoint.get('status') != 'pending'
-            or checkpoint.get('pendingAction') not in ('play_once', 'start_round', 'speed_toggle')):
+            or checkpoint.get('pendingAction') not in ('play_once', 'play_twice', 'start_round', 'speed_toggle')):
         return False
     remaining = checkpoint.get('remainingSteps')
     offset = checkpoint.get('nextStep')
@@ -17,6 +18,13 @@ def resumable_round_start(checkpoint):
             or not remaining or not isinstance(remaining[0], dict)):
         return False
     step = remaining[0]
+    if step.get('action') == checkpoint['pendingAction'] == 'play_twice':
+        try:
+            restore_play_sequence(step, step)
+        except ValueError:
+            return False
+        return (isinstance(step.get('sequencePending'), dict)
+                and type(step.get('routeStepIndex')) is int and step['routeStepIndex'] == offset)
     if step.get('action') == checkpoint['pendingAction'] == 'play_once':
         try:
             restore_play_once(step,step)
@@ -39,6 +47,8 @@ def resumable_round_start(checkpoint):
 def restore_action(source, saved):
     """Keep current parsed inputs/economy, retaining only recovery state."""
     step = restore_autostart_pending(source, saved) if source.get('action') == 'set_autostart' else deepcopy(source)
+    if source.get('action') == 'play_twice':
+        step = restore_play_sequence(source, saved)
     if source.get('action') == 'play_once':
         step = restore_play_once(source,saved)
     if source.get('action') == 'speed_toggle':

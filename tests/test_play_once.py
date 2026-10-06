@@ -91,7 +91,7 @@ class PlayOnceTests(unittest.TestCase):
         source=(ROOT/'autobtd6/replay.py').read_text(encoding='utf-8')
         tree=ast.parse(source)
         branch=next(node for node in ast.walk(tree) if isinstance(node,ast.If)
-                    and isinstance(node.test,ast.BoolOp) and ast.unparse(node.test).startswith("nextStepAction in ('play_once', 'start_round', 'speed_toggle')"))
+                    and isinstance(node.test,ast.BoolOp) and ast.unparse(node.test).startswith("nextStepAction in ('play_once', 'play_twice', 'start_round', 'speed_toggle')"))
         code=compile(ast.fix_missing_locations(ast.Module(body=[branch],type_ignores=[])),'<actual-play-input>','exec')
         sent=[]; step=self.step()
         env=dict(nextStepAction='play_once',nextStepDelayReady=True,nextStep=step,

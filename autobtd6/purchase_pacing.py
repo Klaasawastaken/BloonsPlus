@@ -4,7 +4,7 @@ import math
 
 def pacing_allowed(steps):
     # Explicit source timing owns game speed. Never reinterpret it implicitly.
-    controls = {'source_round', 'play_once', 'set_autostart', 'speed', 'speed_toggle', 'start_round', 'await_delay', 'repeat_ability'}
+    controls = {'source_round', 'play_once', 'play_twice', 'set_autostart', 'speed', 'speed_toggle', 'start_round', 'await_delay', 'repeat_ability'}
     return not any(step.get('action') in controls or 'secondsAfterRound' in step
                    or step.get('timer', 0) for step in steps)
 

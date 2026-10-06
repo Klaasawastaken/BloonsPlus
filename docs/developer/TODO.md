@@ -775,3 +775,10 @@ Start only after the current repair work is complete, as requested on 5 October.
 - Confirmed Underground Impoppable at 09:02:07 on 6 October: VICTORY_CONFIRMED on VICTORY_SUMMARY plus controller clear confirmation; authoritative VM save Underground/Hard/Impoppable=1050185. Never repeat this earned medal. Preview 79 worker session 7688 completed successfully and confirmed the missing-medal sweep resumed.
 
 - [ ] Apply Preview 80 at a completed replay boundary: worker session 51509 launched and confirmed waiting; host setup was authoritatively idle before replacing the root payload. Root dist payload now belongs to this worker until terminal. Current gameplay left running, stop-after requested. Combined logical-loop/timing/resume/control suite: 111 passing checks.
+
+
+### Observed two-Play controller — 6 October
+
+- [x] Add canonical play twice grammar, parser/writer/ledger integration, pending receipt admission and resume rebind. Two inputs are separated by a 0.2-second minimum and a fresh foreground in-game speed observation; confirm the first transition before sending the second, then require a later final-speed transition. Retain ambiguous receipts instead of retrying either key. Save failures roll back unsent intent. Source logical clocks can restore the latest completed single or double Play receipt. Eight focused checks cover native callback wiring, phase resumes, failed saves, focus/menu loss and parser/ledger state. No incomplete manual plans admitted; no original recordings modified or validation-only gameplay launched.
+- Preview 80 boundary worker session 51509 completed and confirmed the missing-medal sweep resumed. Root payload is now released by this terminal worker. Next release should remain isolated until a safe replay boundary is requested.
+- [ ] Preserve source end_round and forward commands through the logical loop, including skip_roundcheck consumed by an empty logical iteration and source first-round implicit forward behavior. Minimum input spacing does not prove live command timing/strategy success; retain manual-plan exclusions until conversion is complete.
