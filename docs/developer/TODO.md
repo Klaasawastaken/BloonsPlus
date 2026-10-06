@@ -4,6 +4,8 @@ Updated 6 October 2026. Checkboxes require evidence, not merely code. Preserve o
 
 ## Current repair pass
 
+- Confirmed Bloody Puddles Alternate Bloons Rounds at round 80 (6 October 04:58:22): replay VICTORY_CONFIRMED, controller clear confirmation and authoritative VM save Hard/AlternateBloonsRounds=1049865. Never replay the earned medal. Preview 51 updater then completed at guest idle and confirmed the missing-medal sweep restarted.
+
 - [x] Validate resumed tower/history ledgers before atomic replacement: malformed objects, entries, tiers, positions or history must not crash later optional purchases or partially replace state. Copy only matching run/map/mode data. Four corruption/copy tests and eleven resume checks pass; a read-only current VM snapshot with eighteen towers is accepted. No actual interrupted-run recovery claim.
 
 - [x] Reproduce missing exact tier intent in surplus upgrades: the actual planner returned no expectedUpgradeTiers. Copy the selected candidate’s target tiers into its action, independent of later roster entries/mutations. Existing observation and checkpoint machinery now receives exact intent for safe selection/retry/resume. Two intent, twenty observation and five checkpoint checks pass. Use path_index consistently in surplus logs. No live wrong-tier purchase or subsequent victory claimed from these offline checks.
