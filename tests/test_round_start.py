@@ -125,7 +125,7 @@ class RoundStartTests(unittest.TestCase):
         gate = next(node.test for node in ast.walk(tree) if isinstance(node, ast.If) and 'startupRoundStartPending' in ast.unparse(node.test))
         expression = compile(ast.Expression(gate), '<gate>', 'eval')
         values = dict(skippingIteration=False, placementRetryPending=False, startupRoundStartPending=True,
-                      nextStepAction=None,
+                      nextStepAction=None, routeActionExecuted=False, heldPlacement=False, playToggleIssued=False,
                       roundStartInputIssued=False, doAllStepsBeforeStart=False, mapConfig={'gamemode':'easy','steps':[step]},
                       waitingForLaterRound=True)
         self.assertFalse(eval(expression, values))
@@ -133,6 +133,10 @@ class RoundStartTests(unittest.TestCase):
         self.assertFalse(eval(expression, values))
         values['roundStartInputIssued'] = False
         self.assertTrue(eval(expression, values))
+        for busy in ('routeActionExecuted', 'heldPlacement', 'playToggleIssued'):
+            values[busy] = True
+            self.assertFalse(eval(expression, values), busy + ' owns the current frame; automatic input must wait')
+            values[busy] = False
         for control in ('start_round', 'speed_toggle'):
             values['nextStepAction'] = control
             self.assertFalse(eval(expression, values), 'Unconfirmed control owns Play/Fast Forward input')

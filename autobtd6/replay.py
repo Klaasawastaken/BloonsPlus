@@ -3853,7 +3853,10 @@ def main():
                                          or (thisIterationAction is not None and thisIterationAction.get('action') == 'place'))
                 startupRoundStartPending = (not mapConfig.get('roundStartCompleted', False)
                                             and any(step.get('action') == 'start_round' for step in mapConfig['steps']))
+                # This screenshot predates the action just issued above. Let a
+                # fresh frame confirm it before automatic Play/Fast Forward input.
                 if (not skippingIteration and not placementRetryPending and not startupRoundStartPending and not roundStartInputIssued
+                    and not (routeActionExecuted or heldPlacement or playToggleIssued)
                     and nextStepAction not in ('start_round', 'speed_toggle')
                     and ((not doAllStepsBeforeStart and mapConfig['gamemode'] != 'deflation'
                           and (waitingForLaterRound or getNextCostingAction(mapConfig['steps'])['cost'] > min(currentValues['money'], lastIterationBalance - lastIterationCost)))

@@ -1,3 +1,9 @@
+## Preview 39 — Serialize automatic play input
+
+- Hold automatic Play/Fast Forward when the current screenshot predates an issued route action.
+- Respect held placements and already-issued play input before toggling again.
+- Preserve normal idle-frame controls and original recordings.
+
 ## Preview 38 — Preserve explicit cursor targets
 
 - Add move-only route targets to parser, recorder, action ledger and replay.
