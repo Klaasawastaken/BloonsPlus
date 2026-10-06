@@ -62,7 +62,7 @@
       if(!value.branding)try{localStorage.setItem('bloonsStartupSeen','1');}catch{}
     }});
     const escape=event=>{if(event.key==='Escape')intro.dismiss();};
-    document.addEventListener('keydown',escape);document.getElementById('startup-skip').addEventListener('click',intro.dismiss);
+    document.addEventListener('keydown',escape);
     document.getElementById('startup-retry').addEventListener('click',intro.retry);
     window.addEventListener('pagehide',()=>{intro.cleanup();document.removeEventListener('keydown',escape);},{once:true});
     function rootRedact(text){return globalThis.BloonsSupport?.redact(text)||text.replace(/(?:[a-z]:\\Users\\|\/home\/)[^\n]+/gi,'[user path removed]');}

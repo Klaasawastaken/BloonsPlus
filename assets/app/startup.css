@@ -4,8 +4,6 @@
 .startup-mark img{width:88px;height:88px;object-fit:contain;filter:drop-shadow(0 10px 22px #3e5acf20)}
 .startup-mark strong{display:block;font:800 30px Manrope,system-ui,sans-serif;margin:18px 0 7px}
 .startup-mark p{color:var(--brand-muted);font-size:14px}
-.startup-skip{position:absolute;right:26px;top:22px;pointer-events:auto;border:1px solid var(--brand-border);border-radius:12px;background:var(--brand-surface);color:var(--brand-text);padding:10px 16px}
-.startup-skip:focus-visible{outline:3px solid var(--brand-primary);outline-offset:3px}
 .startup-branding[data-motion="reduced"] .startup-mark{animation:none}
 .startup-service-status{margin:0 0 20px;padding:14px 18px;border:1px solid var(--brand-border);border-radius:16px;background:var(--brand-soft);color:var(--brand-text);display:flex;align-items:center;gap:16px;flex-wrap:wrap}
 .startup-service-status[hidden]{display:none}

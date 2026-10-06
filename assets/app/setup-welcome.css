@@ -1,0 +1,50 @@
+/* Post-install configuration. Native installer presentation stays independent. */
+#setup-bar{position:relative;isolation:isolate;max-width:1120px;padding:30px;border:1px solid var(--brand-border);border-radius:28px;background:var(--brand-soft);color:var(--brand-text);box-shadow:0 18px 48px #1525430b;backdrop-filter:none}
+#setup-bar[hidden],#setup-bar [hidden]{display:none}
+.setup-hero{display:flex;align-items:center;justify-content:space-between;gap:24px;min-height:196px}
+.setup-hero-copy{max-width:620px}
+.setup-kicker{font:700 10px/1.5 Manrope,system-ui,sans-serif;letter-spacing:1.8px;color:var(--brand-primary)}
+.setup-hero h2{margin:10px 0 14px;font:800 clamp(28px,3vw,40px)/1.12 Manrope,system-ui,sans-serif;letter-spacing:-1.3px;color:var(--brand-text)}
+.setup-hero p{margin:0;max-width:490px;color:var(--brand-muted);font-size:14px;line-height:1.7}
+.setup-hero-art{width:clamp(135px,18vw,205px);height:205px;object-fit:contain;flex:none}
+#setup-bar .setup-stages{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;list-style:none;padding:0;margin:24px 0 16px}
+.setup-stages li{display:flex;align-items:center;gap:12px;padding:16px 14px;border:1px solid var(--brand-border);border-radius:16px;background:var(--brand-surface);min-width:0}
+.setup-stage-number{display:grid;place-items:center;flex:none;width:30px;height:30px;border-radius:10px;background:var(--brand-soft);color:var(--brand-muted);font-weight:800}
+.setup-stages strong{display:block;font-size:12px;line-height:1.5;color:var(--brand-text)}
+.setup-stages small{display:block;font-size:11px;line-height:1.5;color:var(--brand-muted);margin-top:3px}
+.setup-stages .current{border-color:var(--brand-primary)}
+.setup-stages .current .setup-stage-number{background:var(--brand-primary);color:white}
+.setup-stages .done .setup-stage-number{background:#dcefe0;color:#326642}
+.setup-stages .failed{border-color:#b75c68}
+.setup-stages .failed small{color:#b14055}
+.setup-stages .restart-required small{color:#8c6331}
+#setup-bar .setup-action-card{background:var(--brand-surface);padding:22px;border:1px solid var(--brand-border);border-radius:20px}
+#setup-bar .setup-bar-head{align-items:center;gap:16px}
+#setup-bar .setup-bar-head>div:first-child{flex:1;min-width:220px}
+#setup-bar .setup-bar-head b{color:var(--brand-text);font-size:14px;line-height:1.65;max-width:560px}
+#setup-bar .setup-bar-eyebrow{color:var(--brand-muted);letter-spacing:1.2px}
+#setup-bar .setup-bar-actions button{height:auto;min-height:42px;border-color:var(--brand-border);padding:10px 18px}
+#setup-bar .setup-bar-actions .primary-button{border-color:transparent}
+#setup-bar .setup-bar-progress{height:5px;background:var(--brand-soft);margin-top:18px}
+#setup-bar .setup-checks,#setup-bar .setup-options{padding-top:14px;margin-top:16px;border-top:1px solid var(--brand-border);font-size:12px;color:var(--brand-muted)}
+#setup-bar .setup-checks summary{display:flex;justify-content:space-between;align-items:center;gap:12px;cursor:pointer;list-style:none;padding:4px 0}
+#setup-bar .setup-checks summary span:first-child::before{content:'+';display:inline-block;width:18px;color:var(--brand-text);font-weight:700}
+#setup-bar .setup-checks[open] summary span:first-child::before{content:'−'}
+#setup-bar summary:focus-visible,#setup-bar input:focus-visible{outline:2px solid var(--brand-primary);outline-offset:4px;border-radius:4px}
+#setup-bar .setup-bar-steps{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:14px 0 0}
+#setup-bar .setup-bar-steps li{border-radius:10px;font-size:11px;padding:10px;color:var(--brand-muted);background:var(--brand-soft);border-color:var(--brand-border)}
+#setup-bar .setup-options label{display:block;margin:14px 0 8px;color:var(--brand-text)}
+#setup-bar .setup-options label span{margin-left:8px;color:var(--brand-muted)}
+#setup-bar .setup-options input{display:block;width:100%;min-height:42px;border:1px solid var(--brand-border);border-radius:10px;padding:10px 12px;background:var(--brand-soft);color:var(--brand-text);font:inherit}
+#setup-bar .setup-options a{display:inline-block;margin-top:12px;font-size:11px}
+#setup-bar .setup-options p{line-height:1.6;font-size:11px}
+#setup-bar .setup-footnote{margin:16px 0 0;color:var(--brand-muted);font-size:11px;line-height:1.6;text-align:center}
+[data-theme="dark"] .setup-kicker{color:var(--brand-accent)}
+[data-theme="dark"] .setup-stages .failed small{color:#f2a5b0}
+[data-theme="dark"] .setup-stages .restart-required small{color:#e9c393}
+.setup-first-launch .setup-hero-copy{animation:setup-welcome-arrive .45s cubic-bezier(.2,.75,.3,1) both}
+.setup-first-launch .setup-hero-art{animation:setup-welcome-arrive .55s .08s cubic-bezier(.2,.75,.3,1) both}
+@keyframes setup-welcome-arrive{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:1000px){#setup-bar .setup-stages{gap:8px}.setup-stages li{padding:12px 10px;gap:8px}.setup-stages strong{font-size:11px}}
+@media(max-width:720px){#setup-bar{padding:20px;border-radius:22px}.setup-hero{min-height:0;gap:12px}.setup-hero h2{font-size:28px}.setup-hero-art{width:110px;height:155px}.setup-hero p{font-size:12px}#setup-bar .setup-stages{grid-template-columns:1fr}.setup-stages strong{font-size:12px}#setup-bar .setup-action-card{padding:16px}#setup-bar .setup-bar-head>div:first-child{min-width:0;flex-basis:100%}#setup-bar .setup-bar-actions{width:100%}#setup-bar .setup-bar-steps{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){.setup-first-launch .setup-hero-copy,.setup-first-launch .setup-hero-art{animation:none}#setup-bar .setup-bar-progress span{transition:none}}

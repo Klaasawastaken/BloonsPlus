@@ -1,3 +1,17 @@
+## Preview 93 — Post-install configuration
+
+- Add a branded, compact post-install welcome with three observed stages, proportional official artwork and expandable checks/options.
+- Preserve existing shared setup commands, restart confirmation and recovery. Navigation remains available while setup is incomplete.
+- Remove the Skip intro button; preserve automatic dismissal and startup preferences.
+- Verify actual light/dark/compact renders, reduced motion and progress semantics. Isolated timing supports the animation target; physical hardware acceptance remains open.
+
+## Preview 92 — Legacy controller compatibility and community standards
+
+- Recover native setup from an older controller's HTTP 404 using a separate authenticated, ownership-verified setup listener.
+- Reconnect Resume to the same verified controller without replacing an older active listener.
+- Add contributor/support/security policies, issue forms, a PR checklist and the official PolyForm Noncommercial 1.0.0 first-party license.
+- Verify both EXEs contain all seven app-icon frames. Retain third-party terms.
+
 ## Preview 91 — Native setup and app startup
 
 ### A clearer install and first launch

@@ -11,12 +11,12 @@
   <link rel="stylesheet" href="assets/app/startup.css">
   <script src="assets/app/startup.js"></script>
   <link rel="stylesheet" href="assets/app/styles.css">
+  <link rel="stylesheet" href="assets/app/setup-welcome.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap">
 </head>
 <body>
   <section class="startup-branding" id="startup-branding" hidden aria-label="BloonsPlus startup">
     <div class="startup-mark"><img src="assets/logo.svg" alt=""><strong>Bloons+</strong><p>Your next run. Less busywork.</p></div>
-    <button class="startup-skip" id="startup-skip" type="button">Skip intro</button>
   </section>
   <svg class="icon-defs" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
     <symbol id="icon-overview" viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="5" rx="2"/><rect x="13" y="10" width="8" height="11" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/></symbol>
@@ -64,14 +64,22 @@
       <details><summary>Connection details</summary><pre id="startup-service-details"></pre></details>
     </section>
     <!-- Setup bar: first-run VM setup; setup-bar.js shows it until every step is done. -->
-    <section id="setup-bar" class="setup-bar" hidden aria-live="polite">
-      <div class="setup-welcome"><span class="setup-welcome-mark">B+</span><span><strong>Welcome to Bloons+</strong><small>One guided setup connects the desktop app to BTD6 in its own VM. Already installed components are reused.</small></span></div>
-      <div class="setup-bar-head"><div><div class="setup-bar-eyebrow">SETUP</div><b id="setup-bar-next">Checking your PC…</b></div><div class="setup-bar-actions"><input id="setup-bar-iso" type="text" placeholder="Path to a Windows 11 .iso (optional)" hidden><button class="primary-button" id="setup-bar-button" hidden>Set up</button><button class="quiet-button" id="setup-bar-hide" title="Hide until Bloons+ restarts">Hide</button></div></div>
-      <div class="setup-bar-progress" id="setup-bar-progress" hidden><span></span></div>
-      <ol class="setup-bar-steps" id="setup-bar-steps"></ol>
-      <p class="setup-bar-activity" id="setup-bar-activity" hidden></p>
-      <div class="setup-recovery-actions"><button class="quiet-button" id="setup-bar-pause" hidden>Pause setup</button><button class="primary-button" id="setup-bar-restart-now" hidden>Restart Windows now</button><button class="quiet-button" id="setup-bar-restart-later" hidden>Later</button><button class="quiet-button" id="setup-bar-open-vm" hidden>Open VM</button></div>
-      <details class="settings-subdetails" id="setup-bar-details" hidden><summary>Setup details</summary><pre id="setup-bar-diagnostic"></pre></details>
+    <section id="setup-bar" class="setup-bar" hidden aria-labelledby="setup-welcome-title">
+      <div class="setup-hero">
+        <div class="setup-hero-copy"><span class="setup-kicker">LET’S GET YOU PLAYING</span><h2 id="setup-welcome-title">A little setup.<br>A lot more Bloons.</h2><p>Connect BTD6 to your own game VM. We check what’s ready and pick up from there.</p></div>
+        <img class="setup-hero-art" src="tower-icons/engineer-monkey.png" alt="" width="220" height="220" decoding="async">
+      </div>
+      <ol class="setup-stages" id="setup-bar-stages" aria-label="Configuration stages"></ol>
+      <div class="setup-action-card">
+        <div class="setup-bar-head"><div><div class="setup-bar-eyebrow">YOUR NEXT STEP</div><b id="setup-bar-next" role="status">Checking your PC…</b></div><div class="setup-bar-actions"><button class="primary-button" id="setup-bar-button" hidden>Set up</button><button class="quiet-button" id="setup-bar-hide" title="Hide until Bloons+ restarts">Do this later</button></div></div>
+        <div class="setup-bar-progress" id="setup-bar-progress" role="progressbar" aria-label="Environment setup" aria-valuemin="0" aria-valuemax="100" hidden><span></span></div>
+        <p class="setup-bar-activity" id="setup-bar-activity" hidden></p>
+        <div class="setup-recovery-actions"><button class="quiet-button" id="setup-bar-pause" hidden>Pause setup</button><button class="primary-button" id="setup-bar-restart-now" hidden>Restart Windows now</button><button class="quiet-button" id="setup-bar-restart-later" hidden>Later</button><button class="quiet-button" id="setup-bar-open-vm" hidden>Open VM</button></div>
+        <details class="setup-options" id="setup-bar-options" hidden><summary>Use an existing Windows image</summary><label for="setup-bar-iso">Windows 11 ISO path <span>Optional</span></label><input id="setup-bar-iso" type="text" placeholder="Path to a Windows 11 .iso" hidden><p>Leave this empty to let setup find or download the required image.</p></details>
+        <details class="setup-checks"><summary><span>Component checks</span><span id="setup-bar-check-count">Checking…</span></summary><ol class="setup-bar-steps" id="setup-bar-steps"></ol></details>
+        <details class="settings-subdetails" id="setup-bar-details" hidden><summary>Setup details</summary><pre id="setup-bar-diagnostic"></pre></details>
+      </div>
+      <p class="setup-footnote">Your completed steps are saved. Sign in to Steam inside the VM when asked.</p>
     </section>
     <header><div><h1 id="page-title">Overview</h1></div><div class="header-right"><span class="local-pill"><i></i> Saved on this device</span><button class="avatar" data-go="settings" aria-label="Open settings"><svg><use href="#icon-settings"/></svg></button></div></header>
     <section id="overview" class="view">

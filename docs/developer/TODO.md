@@ -5,11 +5,11 @@ Updated **6 October 2026**. This is the readable, active task list. Technical no
 ## At a glance
 
 - **Current priority:** the installer and first-launch redesign, app polish, folders and the website alongside missing-medal gameplay.
-- **Sweep:** running in the VM. Latest confirmed clears: Sunken Columns Reverse, Spice Islands Hard Standard and Spice Islands Alternate Bloons Rounds, each with victory and saved-medal evidence. Sunken Columns Alternate Bloons Rounds lost at round 27; the persistent failure remains open. Earlier confirmed clears remain in saved progress and are skipped.
+- **Sweep:** running in the VM. Latest confirmed clears: Sunken Columns Reverse, Spice Islands Hard Standard and Spice Islands Alternate Bloons Rounds and Impoppable, each with victory and saved-medal evidence. Sunken Columns Alternate Bloons Rounds lost at round 27; the persistent failure remains open. Earlier confirmed clears remain in saved progress and are skipped.
 - **Installer batches 1–5:** native separation, durable recovery, shared setup coordination and compact native presentation are implemented. Batch 4 passes 39 focused Python checks and seven Node suites; the complete native bootstrap compiles. The shared first-launch controls and Full/Reduced/Off intro are implemented and checked in an isolated actual renderer. Clean-machine and physical accessibility acceptance remain open. These sources have not replaced the healthy guest runtime.
 - **Development alongside gameplay:** installer/setup polish, app polish, folder organization and website redesign. Check the sweep every five minutes and diagnose meaningful failures.
 - **Background work:** improve routes and placement from missing-medal gameplay evidence; retain failures and skip owned medals.
-- **Latest release:** [Preview 91](https://github.com/Klaasawastaken/BloonsPlus/releases/tag/v0.1.0-preview.91) is published with the native installer redesign, shared first-launch setup and configurable intro. The healthy VM replay retains its existing runtime; this batch was not deployed mid-run. Live cash-recovery evidence remains open.
+- **Latest release:** [Preview 92](https://github.com/Klaasawastaken/BloonsPlus/releases/tag/v0.1.0-preview.92) is published with the legacy-controller HTTP 404 fix and community standards. Post-install configuration and removal of the Skip intro button are verified locally for the next preview. The healthy VM replay retains its existing runtime; this batch was not deployed mid-run. Live cash-recovery evidence remains open.
 
 ## Work order
 
@@ -27,7 +27,7 @@ Updated **6 October 2026**. This is the readable, active task list. Technical no
 
 ### Immediate queue
 
-1. **I-07 complete — Approved redesign:** the [source audit](installer-startup-audit.md), [design](../superpowers/specs/2026-10-06-installer-startup-design.md) and [inline implementation plan](../superpowers/plans/2026-10-06-installer-startup.md) are approved. Batches 1–5 are implemented and checked offline; Preview 91 is published.
+1. **I-07 complete — Approved redesign:** the [source audit](installer-startup-audit.md), [design](../superpowers/specs/2026-10-06-installer-startup-design.md) and [inline implementation plan](../superpowers/plans/2026-10-06-installer-startup.md) are approved. Batches 1–5 are implemented and checked offline; Preview 92 is published.
 2. **I-08–I-11 / A-05–A-07 — Installer and first launch:** compact native flow, durable recovery, shared coordination and the intro are implemented. Finish actual clean-machine and physical accessibility acceptance; deploy only at a safe replay boundary.
 3. **I-01 / I-03 / I-04 — Acceptance and releases:** check clean and interrupted setup, repair and release packaging.
 4. **A-01 / A-03 / A-04 — App and files:** polish controls, accessibility, scrolling and folder organization.
@@ -132,7 +132,7 @@ The sweep earns missing medals alongside development. Deploy changes together af
 - [ ] **I-05 — Add trusted code signing when available.** Unsigned installers may still trigger SmartScreen.
 - [ ] **I-06 — Meet production acceptance gates.** Complete the specification before publishing **v1.0.0**; previews do not establish production readiness.
 
-**Latest published:** [Preview 91](https://github.com/Klaasawastaken/BloonsPlus/releases/tag/v0.1.0-preview.91), installer 246,809,855 bytes (235.4 MiB). Verified 332 Python checks, ten setup-transport checks, 56 JavaScript check files, 125 packaged-source comparisons and all 1,669 inventory hashes; source and payload publication guards reported zero findings. Uploaded installer size and digest match. Clean-machine installation and live recovery evidence remain open. [Release notes](../releases/preview-91.md).
+**Latest published:** [Preview 92](https://github.com/Klaasawastaken/BloonsPlus/releases/tag/v0.1.0-preview.92), installer 246,828,802 bytes (235.4 MiB). Verified 333 Python checks, ten setup-transport checks, 56 JavaScript check files, 125 packaged-source comparisons and all 1,680 inventory hashes; source and payload publication guards reported zero findings. Uploaded size and digest match. Clean-machine installation and live recovery evidence remain open. [Release notes](../releases/preview-92.md).
 
 ### Installer redesign — requested 6 October
 
@@ -170,9 +170,9 @@ The sweep earns missing medals alongside development. Deploy changes together af
 - [ ] **A-05 — Build an original branded intro.** Use the Bloons+ logo and restrained tower/map motifs, with a seamless transition into the actual dashboard. Target roughly 1–2 seconds on normal launch; an optional richer first launch may take 2–3 seconds. Load configuration, cached UI and lightweight connections concurrently. If readiness takes longer, show a real loading state; never freeze the final animation frame.
   - Implemented in Preview 91: small-logo Full/Reduced/Off intro, 1.6 s normal/2.4 s first launch, concurrent shell, independent eight-second service deadline and explicit Retry/details. Isolated actual first/repeat/failure renders pass; broader physical acceptance remains open.
 - [ ] **A-06 — Keep launch fast and accessible.** Use small vector/native/GPU-friendly assets, not a large video or GIF. Preload required assets; avoid white flashes, window resizing, console windows, asset pop-in and a blank frame before the app. Support Full/Reduced/Off animation settings and reduced-motion preferences. Allow dismissal/recovery when startup fails. Keep sound off unless an appropriate original/licensed asset and user control exist.
-  - Preview 91 preserves host acceleration and lighter guest rendering, uses stable themed window colors and bounded navigation, honors reduced motion and Escape/Skip. Real screen-reader, focus and weak-hardware acceptance remain open.
+  - Preview 91 preserves host acceleration and lighter guest rendering, uses stable themed window colors and bounded navigation, honors reduced motion and Escape. The Skip intro button was removed at the user’s request for the next preview. Real screen-reader, focus and weak-hardware acceptance remain open.
 - [ ] **A-07 — Match installer, intro and app.** Share website colors, typography, logo treatment, radii, spacing and motion curves. Animate button feedback, state changes, errors and completion without stalling work. Check high DPI, weaker hardware, keyboard/screen-reader use and first versus repeat launches. A color change plus loading GIF does not complete this redesign.
-- [ ] **A-08 — Restyle post-install configuration.** User clarification: keep the native installer; give the post-install configuration an original Opera-inspired welcome, proportional official art, rounded setup/Options cards and smooth time-based motion targeting 60 fps. Keep the existing native engine, silent guest setup, shared coordinator and recovery behavior. Honor reduced motion and avoid blocking navigation or claiming unmeasured frame rates.
+- [x] **A-08 — Restyle post-install configuration.** Implemented and inspected in isolated actual light/dark/compact renders; grouped observed stages, expandable component/ISO options, progress semantics and reduced motion pass. Isolated 60-frame median 16.7 ms; physical performance remains I-06. User clarification: keep the native installer; give the post-install configuration an original Opera-inspired welcome, proportional official art, rounded setup/Options cards and smooth time-based motion targeting 60 fps. Keep the existing native engine, silent guest setup, shared coordinator and recovery behavior. Honor reduced motion and avoid blocking navigation or claiming unmeasured frame rates.
 
 ## 6. Website redesign
 

@@ -7,6 +7,7 @@
   const $ = id => document.getElementById(id);
   const nextText = $('setup-bar-next'), button = $('setup-bar-button'), hideButton = $('setup-bar-hide');
   const isoInput = $('setup-bar-iso'), stepsList = $('setup-bar-steps'), activity = $('setup-bar-activity');
+  const stagesList = $('setup-bar-stages'), checksCount = $('setup-bar-check-count'), optionsPanel = $('setup-bar-options');
   const progress = $('setup-bar-progress'), progressFill = progress.querySelector('span');
   const settingsStatus = $('vm-settings-status'), settingsSteps = $('vm-settings-steps');
   const settingsChip = $('vm-settings-chip'), settingsStart = $('vm-settings-start');
@@ -61,6 +62,36 @@
     const active = ['checking', 'installing', 'validating', 'retrying'].includes(state);
     return { state, label: stateLabels[state], icon: failed ? '×' : restart ? '↻' : active ? '→' : step.done ? '✓' : '○',
       className: failed ? 'failed' : restart ? 'restart-required' : active ? 'current' : step.done ? 'done' : step.id === next.id ? 'current' : '' };
+  }
+
+  function renderStages(checks) {
+    const groups = [
+      {title:'Prepare your PC', ids:['vmp','appsandbox','daemon']},
+      {title:'Build your game space', ids:['iso','vm','provision']},
+      {title:'Connect & play', ids:['connected','steam']},
+    ];
+    let currentFound = false;
+    const items = groups.map((group, index) => {
+      const observed = group.ids.map(id => checks.find(step => step.id === id));
+      const done = observed.filter(step => step?.done).length;
+      const failed = observed.some(step => step?.state === 'failed');
+      const restarting = observed.some(step => step?.state === 'restart-required');
+      const complete = !failed && !restarting && done === group.ids.length;
+      const isCurrent = !complete && !currentFound;
+      if (isCurrent) currentFound = true;
+      const state = failed ? 'failed' : restarting ? 'restart-required' : complete ? 'done' : isCurrent ? 'current' : 'pending';
+      const item = document.createElement('li');
+      item.className = state;
+      item.setAttribute('aria-current', isCurrent ? 'step' : 'false');
+      const number = document.createElement('span');
+      number.className = 'setup-stage-number';number.textContent = complete ? '✓' : String(index + 1);
+      const copy = document.createElement('span'), title = document.createElement('strong'), detail = document.createElement('small');
+      title.textContent = group.title;
+      detail.textContent = failed ? 'Needs attention' : restarting ? 'Restart required' : complete ? 'Ready' : `${done} of ${group.ids.length} ready`;
+      copy.replaceChildren(title, detail);item.replaceChildren(number, copy);return item;
+    });
+    stagesList?.replaceChildren(...items);
+    if (checksCount) checksCount.textContent = `${checks.filter(step => step.done).length} of ${checks.length} ready`;
   }
 
   function render(status) {
@@ -131,6 +162,7 @@
     const job = status.job || {};
     const next = status.next || {};
     const done = (status.steps || []).filter(step => step.done).length;
+    renderStages(status.steps || []);
     nextText.textContent = job.running ? (job.activity || 'Working…') : job.error
       ? 'Setup paused. Your completed steps are saved. Review the details below, then retry.'
       : `${done} of ${(status.steps || []).length} checks ready. ${next.message || ''}`;
@@ -147,6 +179,7 @@
     button.textContent = job.running ? 'Working…' : job.error ? 'Retry this step' : next.button || '';
     button.disabled = actionPending || !!job.running;
     isoInput.hidden = !(next.isoInput && !job.running);
+    if (optionsPanel) optionsPanel.hidden = isoInput.hidden;
     downloadHelp.hidden = isoInput.hidden;
     isoInput.placeholder = 'Or paste the path to an existing Windows 11 ISO';
     // Always show a determinate overall step bar. A download can provide a finer
@@ -157,7 +190,10 @@
     const stepFraction = stepCount ? doneCount / stepCount : 0;
     const fraction = typeof job.progress === 'number' ? Math.min(1, (doneCount + job.progress) / Math.max(1, stepCount)) : stepFraction;
     progress.hidden = !stepCount;
-    progressFill.style.width = `${status.coordinator ? status.coordinator.completedWeight : Math.round(fraction * 100)}%`;
+    const observedPercent = status.coordinator ? status.coordinator.completedWeight : Math.round(fraction * 100);
+    const percent = Number.isFinite(observedPercent) ? Math.max(0, Math.min(100, observedPercent)) : 0;
+    progressFill.style.width = `${percent}%`;
+    progress.setAttribute('aria-valuenow', String(percent));
     const message = job.error ? job.error : job.running ? '' : job.activity;
     activity.hidden = !message;
     activity.textContent = message || '';
@@ -200,7 +236,7 @@
     if (actionPending) return;
     actionPending = true; actionError = '';
     firstRunSeen = true;
-    bar.classList.remove('setup-prepage');
+    bar.classList.remove('setup-first-launch');
     try { localStorage.setItem('bloonsSetupPrepageSeen', '1'); } catch { /* storage blocked */ }
     button.disabled = true;
     try {
