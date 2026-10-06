@@ -4,6 +4,8 @@ Updated 6 October 2026. Checkboxes require evidence, not merely code. Preserve o
 
 ## Current repair pass
 
+- [x] Simplify Settings maintenance: separate ordinary appearance/connection controls from installation details and the advanced preference/queue reset. Keep automatic game-profile detection out of manual settings. Disable stale setup/update actions for HTTP failures as well as network failures, and recheck controller availability after failed updates. JavaScript syntax and diff checks pass; visual review pending.
+
 - [x] Add same-map, same-tower route coordinates as unverified placement hints after local search fails. Normalize/deduplicate source coordinates, reject malformed maps/resolutions and out-of-bounds points, require positive live preview, preserve occupancy/range checks, and exclude CHIMPS/dynamic maps from this fallback. Actual search probes pass without game input. Infernal Heli hints include (103,600), (102,571) and opposite-bank (1565,553); none newly claimed legal.
 
 - [x] Allow one stable fresh attempt specifically for non-CHIMPS Infernal routes with Heli after this evidenced recovery change. Preserve unrelated failure exclusions, original content hashes and saved-medal skipping. Actual fingerprint checks pass. Infernal ABR round 19 and Reverse round 17 defeats remain recorded; their routes are not marked fixed or winning.

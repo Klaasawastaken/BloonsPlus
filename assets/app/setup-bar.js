@@ -114,7 +114,8 @@
     clearTimeout(timer);
     try {
       const response = await fetch('/api/setup/status', { cache: 'no-store', signal: AbortSignal.timeout(12000) });
-      if (response.ok) render(await response.json());
+      if (!response.ok) throw new Error(`Connection check failed (${response.status})`);
+      render(await response.json());
     } catch {
       if (settingsStatus) settingsStatus.textContent = 'Waiting for the Bloons+ controller to reconnect…';
       if (settingsChip) settingsChip.textContent = 'RECONNECTING';
@@ -175,7 +176,9 @@
       await poll();
     } catch (error) {
       if (settingsStatus) { settingsStatus.textContent = error.message; settingsStatus.classList.add('error'); }
-      settingsUpdate.disabled = false;
+      // A failed update may also mean the controller disconnected. Recheck
+      // availability before enabling another update request.
+      await poll();
     }
   });
 

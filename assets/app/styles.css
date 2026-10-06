@@ -366,3 +366,10 @@ body.boss-view-active{background:radial-gradient(ellipse at 95% 0,color-mix(in s
 #settings .settings-subdetails{margin-bottom:0}
 @media(max-width:850px){.settings-layout{grid-template-columns:1fr}#settings .settings-layout .theme-choices{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:550px){#settings .settings-layout .theme-choices{grid-template-columns:1fr}}
+
+/* Keep destructive maintenance separate from ordinary preferences. */
+#settings .settings-danger-zone{margin-top:22px}
+#settings .settings-danger-zone>summary{color:var(--muted);font-size:12px}
+#settings .settings-danger-zone .settings-reset-row{border-top:0;margin-top:0;padding-top:14px}
+#settings .settings-maintenance .settings-help-row{padding-top:18px}
+#settings .settings-subdetails[open]>summary{color:var(--ink)}
