@@ -391,3 +391,9 @@ The prepared v0.1.12-preview.99 installer is 246,919,920 bytes. Its 126 runtime
 comparisons, 1,707 inventory hashes, four staged identities, actual native embedded
 identity and both seven-frame application icons pass. The prior installer archive
 is retained, and the pending ABR draft was excluded from packaging.
+
+GitHub publication now confirms a single installer asset under
+`v0.1.12-preview.99`, with matching uploaded size/state and digest. Download
+fallback metadata and the local selector were updated after that confirmation.
+The guest was not reloaded; Skulltweak Reverse continued through round 38 during
+release preparation with three confirmed victories and zero defeats in this job.
