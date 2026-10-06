@@ -20,6 +20,7 @@ import base64
 import hashlib
 import json
 import os
+import re
 import subprocess
 import sys
 import tempfile
@@ -39,9 +40,35 @@ GUEST_INSTALL_RESULT = r'C:\Users\%s\AppData\Local\BloonsPlus\installer-result.t
 BTD6_APP_ID = 960090
 
 
+def released_installer():
+    try:
+        release = json.loads((ROOT / 'docs/release.json').read_text(encoding='utf-8'))
+    except (OSError, ValueError):
+        return None
+    if not isinstance(release, dict):
+        return None
+    version = re.fullmatch(r'v[0-9]+\.[0-9]+\.[0-9]+-preview\.([0-9]+)', str(release.get('tag_name', '')))
+    assets = release.get('assets')
+    asset = next((item for item in assets if isinstance(item, dict) and item.get('name') == 'BloonsPlusSetup.exe'), None) if isinstance(assets, list) else None
+    size = asset.get('size') if asset else None
+    if not version or type(size) is not int or size <= 0 or size > 2**53 - 1:
+        return None
+    candidate = ROOT / 'dist' / ('preview' + version[1]) / 'BloonsPlusSetup.exe'
+    try:
+        actual_size = candidate.stat().st_size
+    except FileNotFoundError:
+        return None
+    if not candidate.is_file() or actual_size != size:
+        raise RuntimeError('The latest release installer is incomplete (size mismatch). Rebuild or download it before updating the VM.')
+    return candidate
+
+
 def default_installer():
     # A developer checkout builds dist/BloonsPlusSetup.exe; an installed Bloons+ keeps a copy of its
     # own installer next to Bloons+.exe (resources/app/vm -> install root).
+    released = released_installer()
+    if released:
+        return released
     for candidate in (ROOT / 'dist' / 'BloonsPlusSetup.exe', ROOT.parent.parent / 'BloonsPlusSetup.exe'):
         if candidate.is_file():
             return candidate
@@ -53,13 +80,15 @@ def parse_args(argv=None):
     parser.add_argument('action', nargs='?', default='provision', choices=['provision', 'steam-install', 'launch-app'])
     parser.add_argument('--appsandbox-dir', default=os.environ.get('APPSANDBOX_DIR', str(Path.home() / 'Downloads' / 'AppSandbox')))
     parser.add_argument('--iso', default=os.environ.get('BLOONS_VM_ISO'))
-    parser.add_argument('--installer', default=str(default_installer()))
+    parser.add_argument('--installer')
     parser.add_argument('--cache-dir', default=str(ROOT / 'dist'), help='where SteamSetup.exe is cached')
     parser.add_argument('--reinstall', action='store_true', help='copy and run the Bloons+ installer even if Bloons+ is already in the VM')
     args = parser.parse_args(argv)
+    if args.installer is None and args.action == 'provision':
+        args.installer = str(default_installer())
     args.appsandbox_dir = Path(args.appsandbox_dir)
     args.iso = Path(args.iso) if args.iso else args.appsandbox_dir / 'Win11_25H2_English_x64_v2.iso'
-    args.installer = Path(args.installer)
+    args.installer = Path(args.installer) if args.installer else None
     args.cache_dir = Path(args.cache_dir)
     return args
 

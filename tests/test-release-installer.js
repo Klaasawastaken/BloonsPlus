@@ -1,0 +1,35 @@
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const os = require('node:os');
+const path = require('node:path');
+const vm = require('node:vm');
+const source = fs.readFileSync('lib/vm-setup.js', 'utf8');
+const releasedStart = source.indexOf('function releasedInstaller(');
+const start = releasedStart < 0 ? source.indexOf('function installerCopy(') : releasedStart;
+const code = source.slice(start, source.indexOf('function runSetupScript(', start));
+const root = fs.mkdtempSync(path.join(os.tmpdir(), 'bloons-release-installer-'));
+try {
+  const generic = path.join(root, 'dist', 'BloonsPlusSetup.exe');
+  const released = path.join(root, 'dist', 'preview87', 'BloonsPlusSetup.exe');
+  fs.mkdirSync(path.dirname(released), { recursive: true });
+  fs.mkdirSync(path.join(root, 'docs'));
+  fs.writeFileSync(generic, 'old'); fs.writeFileSync(released, 'released');
+  const context = { fs, path, ROOT: root, fileExists: file => fs.existsSync(file) };
+  vm.createContext(context); vm.runInContext(code, context);
+  const metadata = { tag_name: 'v0.1.0-preview.87', assets: [{ name: 'BloonsPlusSetup.exe', size: 8 }] };
+  const write = data => fs.writeFileSync(path.join(root, 'docs', 'release.json'), JSON.stringify(data));
+  const select = () => vm.runInContext('installerCopy()', context);
+  write(metadata);
+  assert.equal(select(), released, 'Published build must precede an older generic installer');
+  fs.writeFileSync(released, 'truncated');
+  assert.throws(select, /incomplete|size/i, 'An incomplete named release must not silently downgrade');
+  fs.unlinkSync(released);
+  assert.equal(select(), generic, 'Standard build still works without a separate release artifact');
+  write({ ...metadata, tag_name: 'v0.1.0-preview.../../outside' });
+  assert.equal(select(), generic, 'Metadata cannot direct setup outside the known build directories');
+  write({ ...metadata, assets: [{ name: '../outside.exe', size: 8 }] });
+  assert.equal(select(), generic, 'Only the fixed installer filename is accepted');
+  fs.writeFileSync(path.join(root, 'docs', 'release.json'), 'broken JSON');
+  assert.equal(select(), generic, 'Legacy and installed layouts remain usable');
+  console.log('Released installer selection, corruption rejection and legacy fallback checks passed');
+} finally { fs.rmSync(root, { recursive: true, force: true }); }

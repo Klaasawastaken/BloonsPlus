@@ -113,8 +113,10 @@ The sweep earns missing medals alongside development. Deploy changes together af
 - [ ] **I-01 — Check a clean Windows setup.** No Python, Visual C++ runtime, App Sandbox or existing VM. Show progress and repair for each prerequisite.
 - [ ] **I-02 — Check the complete VM setup.** Steam sign-in, game install/launch, SSH, bridge connection and remote updates. Never store Steam credentials.
   - Current VM update now uses a unique application staging folder and verifies size/hash before launch. Installed successfully; clean-machine and interrupted-install checks remain open.
+  - Developer updates now select the published preview artifact before older generic builds, validate its metadata size and reject incomplete named artifacts. Launch and Steam actions resolve no installer unless provisioning needs one. Offline regression checks pass; the healthy guest replay was left untouched.
 - [ ] **I-03 — Check partial-install repair.** Reuse healthy components without changing Steam or game data.
   - Installer now uses five named steps with measured percentages or a working indicator. Healthy unstamped Python environments pass version, dependency and runtime import probes before reuse. Offline progress/reuse checks pass; clean-machine repair evidence remains open.
+  - Healthy environment reuse now happens before the 5 GB package-install space check. Repairs still check space before moving or rebuilding environments. Explicit VM setup states and clean/interrupted setup acceptance remain open.
 - [ ] **I-04 — Check release packaging.** Installer, release notes and latest-download link. No separate `SHA256SUMS.txt` asset.
 - [ ] **I-05 — Add trusted code signing when available.** Unsigned installers may still trigger SmartScreen.
 - [ ] **I-06 — Meet production acceptance gates.** Complete the specification before publishing **v1.0.0**; previews do not establish production readiness.

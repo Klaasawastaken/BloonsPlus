@@ -1,3 +1,10 @@
+## Preview 88 — Published VM installer and Python reuse
+
+- Prefer the published preview installer in developer checkouts instead of an older generic build.
+- Reject incomplete named artifacts, preserve standard/installed layouts and keep launch actions independent of installer lookup.
+- Accept a healthy private Python environment before checking temporary package-install disk space; check space before repair mutations.
+- Verification: 301 Python checks, ten setup-transport checks and 49 JavaScript check files. Clean-machine and interrupted-install acceptance remain open.
+
 ## Preview 87 — Installer steps and less background rendering
 
 - Show named installation steps, measured file/download progress and a working indicator for tasks without a measurable percentage.

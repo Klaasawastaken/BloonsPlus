@@ -8,6 +8,18 @@ import unittest
 
 
 class InstallerProgressChecks(unittest.TestCase):
+    def test_healthy_runtime_is_checked_before_install_space_and_mutation(self):
+        root = Path(__file__).resolve().parents[1]
+        source = (root / 'installer/installer-bootstrap.cs').read_text(encoding='utf-8')
+        start = source.index('    private void ConfigurePython()')
+        end = source.index('    private void EnsureVisualCppRuntime()', start)
+        method = source[start:end]
+        ready = method.index('Existing Python packages are ready.')
+        space = method.index('AvailableFreeSpace')
+        self.assertLess(ready, space, 'A reusable environment does not need package-install free space')
+        self.assertLess(space, method.index('Directory.Move(venv, preserved)'), 'Check space before rebuilding')
+        self.assertLess(space, method.index('RunInstallerProcess(python,'), 'Check space before creating an environment')
+
     @unittest.skipUnless(os.name == 'nt', 'Windows .NET compiler')
     def test_healthy_runtime_without_old_stamp_is_reused(self):
         root = Path(__file__).resolve().parents[1]
@@ -25,6 +37,7 @@ using System.Collections.Generic;
 internal static class ReuseChecks {
     static List<string> calls = new List<string>();
     static string rejected = null;
+    static bool compatibleRuntime = true;
     static bool ProcessSucceeds(string executable, string args, int timeout = 30000) {
         calls.Add(args); return args != rejected;
     }
@@ -32,10 +45,14 @@ internal static class ReuseChecks {
         string stamp = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
         string requirementsHash = "no stamp required";
         string venvPython = "unused", installedCheck = "versions", probe = "imports";
+        bool compatible = compatibleRuntime;
         return ''' + condition + r''';
     }
     static void Main() {
         if (!Ready() || calls.Count != 3) throw new Exception("Healthy runtime was not reused without a stamp");
+        compatibleRuntime = false;
+        if (Ready()) throw new Exception("Incompatible runtime reused");
+        compatibleRuntime = true;
         foreach (string failure in new[] {"versions", "-m pip check", "imports"}) {
             calls.Clear(); rejected = failure;
             if (Ready()) throw new Exception("Unhealthy runtime reused: " + failure);

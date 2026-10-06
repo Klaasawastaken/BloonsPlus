@@ -607,12 +607,26 @@ internal sealed class InstallerForm : Form
         if (!File.Exists(python) || !File.Exists(pipRequirements))
             throw new FileNotFoundException("A compatible Python 3.12 runtime or the bundled fallback is required.");
 
+        string venvPython = Path.Combine(venv, "Scripts", "python.exe");
+        bool compatible = File.Exists(venvPython) && ProcessSucceeds(venvPython, "-c \"import sys; assert sys.version_info[:2] == (3,12) and sys.maxsize > 2**32; import pip\"");
+        string stamp = Path.Combine(venv, "bloons-requirements.sha256");
+        string requirementsHash = HashFile(pipRequirements);
+        string installedCheck = "-c \"from importlib import metadata as m;import sys;lines=[x.strip().split('==',1) for x in open(sys.argv[1]) if '==' in x];assert all(m.version(n)==v for n,v in lines)\" " + Quote(pipRequirements);
+        string probe = Quote(Path.Combine(appRoot, "autobtd6", "runtime_check.py")) + " --requirements " + Quote(pipRequirements);
+        // The stamp is a cache receipt, not evidence that an installed runtime
+        // is healthy. Reuse exact pinned packages after all real checks pass,
+        // including an older installation with no stamp or a changed stamp.
+        if (compatible && ProcessSucceeds(venvPython, installedCheck) && ProcessSucceeds(venvPython, "-m pip check") && ProcessSucceeds(venvPython, probe, 120000)) {
+            File.WriteAllText(stamp, requirementsHash);
+            SetStatus("Existing Python packages are ready.", InstallerStage.Python, 100);
+            return;
+        }
+        // Package downloads need temporary wheel/extraction space. A healthy
+        // environment was already accepted above; check before any repair move.
         string driveRoot = Path.GetPathRoot(installRoot);
         if (new DriveInfo(driveRoot).AvailableFreeSpace < 5L * 1024 * 1024 * 1024)
             throw new IOException("At least 5 GB of free disk space is needed to install the automation runtime.");
-
-        string venvPython = Path.Combine(venv, "Scripts", "python.exe");
-        if (Directory.Exists(venv) && (!File.Exists(venvPython) || !ProcessSucceeds(venvPython, "-c \"import sys; assert sys.version_info[:2] == (3,12) and sys.maxsize > 2**32; import pip\""))) {
+        if (Directory.Exists(venv) && !compatible) {
             string preserved = venv + ".repair-" + DateTime.UtcNow.ToString("yyyyMMddHHmmss") + "-" + Guid.NewGuid().ToString("N").Substring(0, 6);
             SetStatus("Preserving an unusable Python environment and rebuilding it…", InstallerStage.Python);
             Directory.Move(venv, preserved);
@@ -623,18 +637,6 @@ internal sealed class InstallerForm : Form
             RunInstallerProcess(python, "-m venv --copies " + Quote(venv), appRoot, "Could not create the private Python environment");
         }
         if (!File.Exists(venvPython)) throw new FileNotFoundException("The private Python environment was not created.");
-        string stamp = Path.Combine(venv, "bloons-requirements.sha256");
-        string requirementsHash = HashFile(pipRequirements);
-        string installedCheck = "-c \"from importlib import metadata as m;import sys;lines=[x.strip().split('==',1) for x in open(sys.argv[1]) if '==' in x];assert all(m.version(n)==v for n,v in lines)\" " + Quote(pipRequirements);
-        string probe = Quote(Path.Combine(appRoot, "autobtd6", "runtime_check.py")) + " --requirements " + Quote(pipRequirements);
-        // The stamp is a cache receipt, not evidence that an installed runtime
-        // is healthy. Reuse exact pinned packages after all real checks pass,
-        // including an older installation with no stamp or a changed stamp.
-        if (ProcessSucceeds(venvPython, installedCheck) && ProcessSucceeds(venvPython, "-m pip check") && ProcessSucceeds(venvPython, probe, 120000)) {
-            File.WriteAllText(stamp, requirementsHash);
-            SetStatus("Existing Python packages are ready.", InstallerStage.Python, 100);
-            return;
-        }
         SetStatus("Downloading Python dependencies (including TensorFlow); this may take a while…", InstallerStage.Python);
         RunInstallerProcess(venvPython, "-m ensurepip --upgrade", appRoot, "Could not repair pip");
         string installArgs = "-m pip install --disable-pip-version-check --no-input --prefer-binary --retries 3 --timeout 60 -r " + Quote(pipRequirements);
