@@ -1,3 +1,11 @@
+## Preview 50 — Placement evidence and changing surfaces
+
+- Keep placement memory separate for each tower and hero footprint.
+- Stop seeding confirmed legal spots from merely planned actions in winning routes.
+- Preserve legacy memory without using broad terrain-only buckets for tower decisions.
+- Ignore phase-stale illegal-spot caches on changing maps; live confirmation still applies.
+- Preserve older refusal observations without using another run's occupied layout as a permanent terrain ban.
+
 ## Preview 49 — One medal-completion workflow
 
 - Remove the separate live route-verification run type and one-attempt-per-map branch.

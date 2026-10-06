@@ -4,6 +4,12 @@ Updated 6 October 2026. Checkboxes require evidence, not merely code. Preserve o
 
 ## Current repair pass
 
+- [x] Diagnose Infernal ABR Heli retries from screenshot/logs: held placement remained and the run did not earn its medal at round 19. Separate learned placement spots/samples/refusals by tower or hero footprint. Remove victory-route planned-placement seeding, which incorrectly treated skipped towers as confirmed placements. Preserve legacy data without applying its broad terrain-only buckets. Offline actual-function probes and eight existing HUD/placement checks pass; this does not prove the Heli route fixed.
+
+- [x] Prevent stale refusal caches from blacklisting changed terrain phases or earlier runs' occupied layouts. Dynamic-map spots still require live hover/click confirmation; cached refusal is not current legality evidence. Current static-run scoped refusals remain effective. Earlier negative observations remain stored for learning. Offline probes only; phase-specific live recovery remains open.
+
+- Preview 48 deployment completed at the Infernal ABR boundary and the guest confirmed the missing-medal sweep restarted. Infernal Reverse is now active; no ABR clear claimed.
+
 - [x] Remove the separate live route-verification API mode, its one-attempt-per-map branch and UI status path. Completion automation now has one missing-medal sweep; historical files preserved. Actual API rejects legacy run types before runtime startup. Five existing offline sweep checks pass (saved-medal gate, alternatives, ordering, counts and delayed medal confirmation). Deployment pending; no validation game launched.
 
 - Confirmed Infernal Hard at round 80: replay logged VICTORY_CONFIRMED and authoritative VM save Hard/Standard=1049864. Never replay it. Preview 45 update worker completed at idle and confirmed the missing-medal sweep restarted.

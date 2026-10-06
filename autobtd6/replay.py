@@ -357,17 +357,21 @@ def clickTitleStartIfVisible(screenshot):
     return True
 
 KNOWN_SPOTS_DIR = 'placement-maps'
-KNOWN_SPOTS_SEED = '../route-verification.json'
 _knownSpots = {}
 
 
 def placementClassFor(action, mapConfig):
+    """Placement evidence applies to one tower footprint, not all land/water towers."""
+    kind = str(action.get('type') or 'unknown').lower()
     try:
-        if action.get('type') == 'hero':
-            return towers['heros'].get(mapConfig.get('hero') or action.get('extra', {}).get('type'), {}).get('class', 'land')
-        return towers['monkeys'].get(action.get('type'), {}).get('class', 'land')
+        if kind == 'hero':
+            hero = str(mapConfig.get('hero') or action.get('extra', {}).get('type') or 'unknown').lower()
+            terrain = towers['heros'].get(hero, {}).get('class', 'land')
+            return str(terrain) + ':hero:' + hero
+        terrain = towers['monkeys'].get(kind, {}).get('class', 'land')
     except Exception:
-        return 'land'
+        terrain = 'land'
+    return str(terrain) + ':' + kind
 
 
 def _spotsFile(mapName):
@@ -375,9 +379,9 @@ def _spotsFile(mapName):
 
 
 def loadKnownSpots(mapName):
-    """Legal/illegal tower spots per placement class, in 1920x1080 coordinates.
-    Learned live (confirmed placements, red ghosts) plus seeded from every route that has
-    actually won on this map in any mode: those coordinates are proven placeable."""
+    """Live placement evidence keyed by tower footprint, in 1920x1080 coordinates.
+    Legacy terrain-only buckets are retained but cannot authorize/reject another tower.
+    Winning a route does not establish that every planned tower was placed."""
     if mapName in _knownSpots:
         return _knownSpots[mapName]
     data = {'legal': {}, 'illegal': {}}
@@ -389,35 +393,6 @@ def loadKnownSpots(mapName):
         data['samples'] = saved.get('samples', {})
     except (OSError, ValueError):
         pass
-    seeded = {}
-    try:
-        with open(KNOWN_SPOTS_SEED, encoding='utf-8') as fp:
-            verified = json.load(fp)
-        for filename in verified:
-            if not filename.startswith(str(mapName) + '#'):
-                continue
-            parts = filename.split('#')
-            width = int(parts[2].split('x')[0]) if len(parts) > 2 and 'x' in parts[2] else 1920
-            try:
-                with open(os.path.join('playthroughs', filename), encoding='utf-8') as fp:
-                    lines = fp.read().splitlines()
-            except OSError:
-                continue
-            for line in lines:
-                m = re.match(r'place\s+(\w+)\s+\w+\s+at\s+(\d+),\s*(\d+)', line.strip())
-                if not m:
-                    continue
-                kind = m.group(1)
-                cls = towers['monkeys'].get(kind, {}).get('class') or towers['heros'].get(kind, {}).get('class') or 'land'
-                pos = (round(int(m.group(2)) * 1920 / width), round(int(m.group(3)) * 1920 / width))
-                seeded.setdefault(cls, []).append(pos)
-    except (OSError, ValueError):
-        pass
-    for cls, spots in seeded.items():
-        existing = data['legal'].setdefault(cls, [])
-        for pos in spots:
-            if all((pos[0] - q[0]) ** 2 + (pos[1] - q[1]) ** 2 > 64 for q in existing):
-                existing.append(pos)
     _knownSpots[mapName] = data
     return data
 
@@ -459,16 +434,25 @@ def markRefused(mapName, cls, pos, frameWidth):
 
 
 def knownSpotIsIllegal(mapName, cls, pos, frameWidth):
+    # A refusal on a moving/frozen/covered surface expires with its phase.
+    # This cache has no phase evidence, so it cannot blacklist changing maps.
+    # Returning False means "not known illegal", not "legal": hover/click
+    # confirmation still determines whether the current spot can be used.
+    if isDynamicPlacementMap(mapName):
+        return False
     norm = (pos[0] * 1920 / frameWidth, pos[1] * 1920 / frameWidth)
     if any((norm[0] - q[0]) ** 2 + (norm[1] - q[1]) ** 2 <= 144 for q in _refusedThisRun.get((str(mapName), cls), [])):
         return True
-    return any((norm[0] - q[0]) ** 2 + (norm[1] - q[1]) ** 2 <= 144 for q in loadKnownSpots(mapName)['illegal'].get(cls, []))
+    # Earlier runs may have had another tower/obstacle occupying this point.
+    # Preserve those observations for learning, but do not treat them as a
+    # permanent terrain ban under a different placement layout.
+    return False
 
 
 def nearestKnownLegalSpots(mapName, cls, pos, frameWidth, occupied, limit=6, maxDistance1080=300):
     """Known-legal spots nearest to pos (frame coordinates), skipping ones our own towers occupy."""
     scale = frameWidth / 1920
-    spots = loadKnownSpots(mapName)['legal'].get(cls, []) + (loadKnownSpots(mapName)['legal'].get('any', []) if cls != 'any' else [])
+    spots = loadKnownSpots(mapName)['legal'].get(cls, [])
     out = []
     for q in spots:
         cand = (int(q[0] * scale), int(q[1] * scale))
@@ -3571,13 +3555,7 @@ def main():
                             heroName = mapConfig.get('hero') or action.get('extra', {}).get('type')
                             heroClass = towers.get('heros', {}).get(heroName, {}).get('class', 'unknown') if heroName else 'unknown'
                             customPrint('DEBUG hero placement target=' + str(heroName) + ' terrain=' + str(heroClass) + ' pos=' + str(action['pos']) + ' map=' + str(mapConfig.get('map')))
-                        try:
-                            if action.get('type') == 'hero':
-                                placeClass = towers['heros'].get(mapConfig.get('hero') or action.get('extra', {}).get('type'), {}).get('class', 'land')
-                            else:
-                                placeClass = towers['monkeys'].get(action.get('type'), {}).get('class', 'land')
-                        except Exception:
-                            placeClass = 'land'
+                        placeClass = placementClassFor(action, mapConfig)
                         pyautogui.moveTo(action['pos'])
                         time.sleep(actionDelay)
                         sendKey(action['key'])
