@@ -1,3 +1,19 @@
+## Preview 99 hotfix — 6 October 2026
+
+### Additions
+
+- Add scale, negative and cancellation-order checks for Magic Monkeys Only placement.
+
+### Changes
+
+- Recognize purple shop cards alongside cyan while retaining the close-anchor and two-row gate.
+- Verify the actual private failure frame, nine focused checks and all 365 Python tests.
+- Keep live recovery and full production acceptance open; retain original recordings and persistent failure history.
+
+### Removed
+
+- Remove the cyan-only placement assumption in restricted Magic tower shops.
+
 ## Preview 99 — 6 October 2026
 
 ### Additions
