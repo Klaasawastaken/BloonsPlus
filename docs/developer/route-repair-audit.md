@@ -646,3 +646,31 @@ before repair and passes afterward. A scoped re-review found no actionable issue
 The private Balance Magic frame cancels the orphan placement without a world
 click in an injected-input fixture. Deployment is deferred until a healthy
 replay finishes; future missing-medal gameplay must supply live outcome evidence.
+
+
+### Rake Alternate Bloons Rounds failure — 6 October
+
+The missing-medal attempt defeated at the last trusted round 30. Persistent
+history classifies it as gameplay-defeat, with 1,920 cash and no unresolved
+upgrade marker. Recorded Tack, Heli and Village purchases have panel-tier
+confirmation. The mode's imported Hard opening therefore needs strategy review;
+the evidence does not support blaming a missed upgrade. It reached a 0-1-0
+Village but not its planned 0-2-0 camo upgrade before the loss. The sweep retained
+the failure and continued to missing Reverse; the owned Hard medal stays skipped.
+
+The [round-30 ABR reference](https://bloons.fandom.com/wiki/Round_30/ABR) lists
+nine spaced camo leads. This supports checking combined camo/lead coverage and
+ability timing as an explicit hypothesis. It does not identify the exact bloons
+that leaked in this account's frame or prove a replacement opening. A dedicated
+[Rake ABR guide](https://www.youtube.com/watch?v=VandVCZAPYc) was located, but its
+full video could not be fetched in this check; no unseen placement/timing data
+was copied or marked verified. Private failure evidence remains excluded.
+
+### Firing Range source coverage clarification — 6 October
+
+The pinned source includes `firing_rangeHardChimps.py` with Rosalia, coordinates,
+upgrade order and round timing. Read-only re-conversion preserves 55 actions but
+marks the second special as lossy. Earlier gap wording about no candidate does
+not describe this current source. Exact `TowerSpecial2` binding, hero movement
+and its positional click must be preserved before a separate complete candidate
+can be eligible. No source plan was launched or original recording rewritten.
