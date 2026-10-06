@@ -4,6 +4,8 @@ Updated 6 October 2026. Checkboxes require evidence, not merely code. Preserve o
 
 ## Current repair pass
 
+- Preview 66 boundary updater completed after Sanctuary Medium returned to the menu with no result, then confirmed the missing-medal sweep resumed. Guest setup reports VM update installed. Pacing is deployed; live winning-route evidence remains pending. Legacy Sanctuary moving-position copies still require correction/exclusion based on the source audit.
+
 - Preview 64 boundary worker completed after Glacial Trail ABR's round-40 defeat and confirmed the missing-medal sweep resumed. VM profile remains available. Preview 66 is published and its updater is waiting at a healthy replay boundary; root dist payload is reserved until that worker terminates.
 - [ ] Review legacy source_btd6bot/compat copies against pinned source commands. Sanctuary Medium's from_hard copy failed its first Sniper placement 13 times; source Hard plan requires cpos moving-position updates rejected by the current faithful importer. Do not equate legacy filenames or parser success with preservation. Read-only source audit added; original recordings untouched. No new clear claimed.
 
