@@ -4,6 +4,10 @@ Updated 6 October 2026. Checkboxes require evidence, not merely code. Preserve o
 
 ## Current repair pass
 
+- [x] Keep host run requests queued while VM setup/update owns the job, including ownership claimed during awaited game-status probes. Pending dispatch resumes through its existing timer after setup finishes. Pause/stop/stop-after relay remains available. Deployment pending.
+
+- [x] Reproduce concurrent VM update requests starting two installers; recheck setup-job ownership after the awaited guest idle probe. Setup state now writes and flushes a unique temporary file before atomic replacement, preserving old state when replacement fails and rejecting non-object cache shapes. Offline checks only; clean Windows installation remains open.
+
 - Confirmed Flooded Valley Reverse at round 60: saved Medium/Reverse=1049545 and observed replay result victory. Never replay it. Preview 42 deployed at the boundary and the missing-medal sweep resumed on Infernal Hard.
 
 - [x] Diagnose Flooded Valley Reverse’s unselected Sniper upgrades from the live frame: placement-only close template=0.996, nudge cancel=0.400, shop cyan fraction=0.475. Recognize ordinary shop-based held placement and cancel it before selecting an existing tower. Persistent held state withholds the target click. Live deployment remains queued; screenshot private.

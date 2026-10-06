@@ -1,3 +1,9 @@
+## Preview 46 — VM setup concurrency and repair state
+
+- Share concurrent VM update requests with the existing setup job.
+- Hold queued gameplay starts while setup/update runs.
+- Preserve previous setup state when a write or replacement fails.
+
 ## Preview 45 — Held shop placement recovery
 
 - Recognize ordinary shop-based placement when the nudge cancel button is absent.

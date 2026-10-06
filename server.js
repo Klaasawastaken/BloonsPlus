@@ -74,7 +74,7 @@ function savePendingStart(value) {
   else { try { fs.unlinkSync(pendingStartPath); } catch { /* absent */ } }
 }
 async function dispatchPendingStart() {
-  if (!pendingStart || pendingDispatch || vmSetup.isGuest()) return;
+  if (!pendingStart || pendingDispatch || vmSetup.isGuest() || vmSetup.isSetupRunning()) return;
   pendingDispatch = true;
   try {
     // A sweep request is also the VM wake-up signal: make the guest display
@@ -83,6 +83,7 @@ async function dispatchPendingStart() {
     const text = await vmFetch('/api/game-status', 3000);
     let game = null;
     try { game = JSON.parse(text); } catch { /* VM or game unavailable */ }
+    if (vmSetup.isSetupRunning()) return; // Setup may claim ownership during the awaited probe.
     if (game?.game) {
       const relayed = await vmPost('/api/farm/start', JSON.stringify(pendingStart.body));
       if (relayed && relayed.status >= 200 && relayed.status < 300) savePendingStart(null);
@@ -537,7 +538,7 @@ http.createServer((req, res) => {
           const remote = await vmFetch('/api/game-status', 3000);
           let game = null;
           try { game = JSON.parse(remote); } catch { /* VM unavailable */ }
-          if (!game?.game) {
+          if (!game?.game || vmSetup.isSetupRunning()) {
             savePendingStart({ body: request, createdAt: new Date().toISOString() });
             lastSetupStepId = null;
             dispatchPendingStart();
