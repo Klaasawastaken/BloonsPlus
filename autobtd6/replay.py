@@ -10,7 +10,7 @@ import threading
 import time
 from copy import deepcopy
 from game_runtime import GameState, normalize_action
-from upgrade_rules import can_upgrade_in_roster
+from upgrade_rules import can_upgrade_in_roster, read_upgrade_caps
 from upgrade_observation import observe_upgrade, resolve_hud_panels, select_tower
 from placement_observation import held_placement_visible
 from route_timing import delay_ready, round_offset_ready, ability_ready, issue_ability, upgrade_ready, RepeatedAbilities, round_start_ready
@@ -1773,6 +1773,9 @@ def main():
 
     gamesPlayed = 0
     victoryRecorded = False
+    surplusUpgradeCaps = read_upgrade_caps(os.environ.get('BLOONS_UPGRADE_CAPS', ''))
+    customPrint('DEBUG surplus upgrade unlock source=' +
+                ('Profile.Save launch snapshot' if surplusUpgradeCaps is not None else 'unavailable; live panel checks'))
     surplusUpgradeAttempts = set()
     surplusUpgradeStopped = False
     surplusBlockedPaths = set()
@@ -2052,6 +2055,8 @@ def main():
                                       and userHasMonkeyKnowledge('master_double_cross'))):
                     continue
                 tier = int(levels[path]) + 1
+                if surplusUpgradeCaps is not None and tier > surplusUpgradeCaps.get(towerType, [0, 0, 0])[path]:
+                    continue
                 if tier > 5 or len(priceTable) <= path or len(priceTable[path]) < tier:
                     continue
                 attemptKey = (str(instance), path, tier)

@@ -44,3 +44,19 @@ def can_upgrade_in_roster(levels, path, tower_type, roster, *, double_cross=Fals
             return False
         owned += tiers[path] == 5
     return owned < limit
+
+
+def read_upgrade_caps(encoded):
+    """Validate an optional read-only profile snapshot without game imports."""
+    import json
+    try:
+        caps = json.loads(encoded)
+    except (ValueError, TypeError):
+        return None
+    if not isinstance(caps, dict):
+        return None
+    if any(not isinstance(name, str) or not isinstance(tiers, list) or len(tiers) != 3
+           or any(type(tier) is not int or not 0 <= tier <= 5 for tier in tiers)
+           for name, tiers in caps.items()):
+        return None
+    return caps

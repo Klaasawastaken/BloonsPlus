@@ -4,6 +4,8 @@ Updated 6 October 2026. Checkboxes require evidence, not merely code. Preserve o
 
 ## Current repair pass
 
+- [x] Pass a read-only Profile.Save-derived per-tower path unlock snapshot at replay launch. Optional surplus upgrades respect owned contiguous tiers; unknown names cannot authorize purchases. Unavailable snapshots retain live observation recovery. Recorded actions and game saves are unchanged; deployment pending.
+
 - Confirmed Flooded Valley Alternate Bloons Rounds victory at 03:46:39, round 80; authoritative VM save Hard/AlternateBloonsRounds=1049865. Missing medal earned; never replay it. Preview 39 boundary update remains tracked through its existing process handle.
 
 - [x] Enforce active T5 limits in surplus spending. Flooded Valley ABR showed Sub0 at 2-0-5 while the planner issued Sub1’s 2-0-5 purchase. Block duplicate tower/path T5 purchases; allow at most two Crossbow Masters only outside CHIMPS with enabled Master Double Cross. Original route actions unchanged; deployment pending.

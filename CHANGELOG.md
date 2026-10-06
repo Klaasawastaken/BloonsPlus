@@ -1,3 +1,9 @@
+## Preview 43 — Owned upgrade limits for surplus spending
+
+- Derive optional upgrade caps from the read-only profile at replay launch.
+- Share upgrade-name aliases with preflight, including renamed and prefixed save names.
+- Reject malformed snapshots without changing recorded route actions.
+
 ## Preview 42 — Settings and surplus upgrade limits
 
 - Simplify Settings and consolidate troubleshooting controls.
