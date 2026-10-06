@@ -372,3 +372,38 @@ for testing. The sweep retained this failure and continued with another candidat
 The failure logs and native frames are retained only in private, ignored runtime
 storage. No screenshots, credentials, machine paths or account data are included
 in this audit. This entry is diagnosis evidence, not a completed route repair.
+
+### Cornfield coordinate conversion check
+
+Compared the five recorded Hero, Tack, Spike Factory, Heli and Village points
+with `RatioFit` in the pinned [BloonsPlayer handler](https://github.com/piweiblen/BloonsPlayer/blob/17d624879c5ad777e82594da34450e66b2d60756/src/player.py).
+At 1920×1080, every converted point agrees with the source geometry before
+integer rounding. The offline comparison executes only the extracted coordinate
+geometry, with an explicit screen size; it never initializes the source input
+handler or sends game input.
+
+This rules out a differing conversion formula for those five points. It does
+not establish legal tower footprints, correct terrain state or placement parity
+with the source game's version. Investigate blocked placement and dependency
+recovery before changing the transform. Private coordinate results stay outside
+the public repository.
+
+## Repeat-ability implementation audit — 6 October
+
+Repeat/stop-ability support already spans the BloonsPlayer importer, route parser,
+recording writer, main replay dispatch and saved checkpoint restore. The scheduler
+retains repeated slots as a multiset: cancelling a slot removes one entry, while
+`stop all abilities` clears every entry. Restore rebinds slots through the current
+key configuration rather than persisting arbitrary keys or clock values.
+
+All eight checks in `tests/test_repeated_abilities.py` passed. They cover import
+of key zero as slot ten, malformed commands, parser/writer round trips, duplicate
+entries, cancellation, checkpoint validation and the actual runner dispatch/input
+gate exercised with mocked frames and input. Repeated input is withheld while
+placement, a route action or delayed targeting owns the input loop.
+
+These checks prove those contracts offline. They do not establish cooldown
+recognition, source-equivalent timing under every frame rate, or strategy victory.
+R-01 remains open for source-command coverage; R-11 retains live timing evidence
+from missing-medal gameplay only. No existing route or original CHIMPS recording
+was modified by this audit.
