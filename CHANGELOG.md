@@ -1,3 +1,18 @@
+## Preview 99 setup status hotfix — 6 October 2026
+
+### Additions
+
+- Add offline setup attempt and active ownership regressions.
+
+### Changes
+
+- Scope step attempts to independent setup or VM update operations; preserve genuine retries and active ownership.
+- Verify 62 JavaScript check files and all 373 Python tests. Keep clean-machine and physical accessibility acceptance open.
+
+### Removed
+
+- Remove misleading retry state inherited from earlier successful operations.
+
 ## Preview 99 HUD hotfix — 6 October 2026
 
 ### Additions
