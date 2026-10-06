@@ -371,5 +371,8 @@ body.boss-view-active{background:radial-gradient(ellipse at 95% 0,color-mix(in s
 #settings .settings-danger-zone{margin-top:22px}
 #settings .settings-danger-zone>summary{color:var(--muted);font-size:12px}
 #settings .settings-danger-zone .settings-reset-row{border-top:0;margin-top:0;padding-top:14px}
-#settings .settings-maintenance .settings-help-row{padding-top:18px}
+#settings .settings-maintenance .settings-help-row{padding-top:0}
+#settings .settings-help-row h3{margin:0;font-size:16px}
+#settings .settings-help-row .form-row{flex-shrink:0;flex-wrap:wrap;gap:10px}
+#settings #vm-settings-actions[hidden]{display:none}
 #settings .settings-subdetails[open]>summary{color:var(--ink)}

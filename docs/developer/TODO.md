@@ -4,6 +4,8 @@ Updated 6 October 2026. Checkboxes require evidence, not merely code. Preserve o
 
 ## Current repair pass
 
+- [x] Finish the Settings help pass: make logs/reporting directly accessible, keep installation/reset details collapsed, hide empty guest VM actions, remove obsolete calibration instructions, and start setup/update buttons disabled until fresh connection state arrives. Reuse existing redacted reporting; JS syntax/diff checks and browser accessibility tree reviewed. No active replay interrupted.
+
 - [x] Reproduce client-geometry error masking: 304x201 and 320x180 windows incorrectly ended as minimized. Preserve transition/not-ready reasons and dimensions; reserve minimized for a zero-area/iconic client. Four actual-function geometry checks pass. No live capture failure or complete installer recovery claim.
 
 - Confirmed Bloody Puddles Alternate Bloons Rounds at round 80 (6 October 04:58:22): replay VICTORY_CONFIRMED, controller clear confirmation and authoritative VM save Hard/AlternateBloonsRounds=1049865. Never replay the earned medal. Preview 51 updater then completed at guest idle and confirmed the missing-medal sweep restarted.

@@ -47,6 +47,7 @@
       if ($('vm-settings-iso-hint')) $('vm-settings-iso-hint').hidden = !needsIso;
       if (advanced) advanced.hidden = !status.applicable;
       if (settingsUpdate) settingsUpdate.hidden = !status.applicable;
+      if ($('vm-settings-actions')) $('vm-settings-actions').hidden = !status.applicable;
       if ($('vm-settings-update-hint')) $('vm-settings-update-hint').hidden = !status.applicable;
       if (settingsProgress && settingsProgressLabel) {
         const checks = status.steps || [];

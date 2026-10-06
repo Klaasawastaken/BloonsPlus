@@ -835,8 +835,8 @@ function liveSyncLabel() {
     const screen = detectedProgress.lastRecognizedScreen;
     return { title: seconds != null ? `Live scan · updated ${seconds}s ago` : 'Live scan', detail: screen && screen !== 'unknown' ? `Reading the ${screen} screen.` : 'Waiting for a recognized game screen.' };
   }
-  if (detectedProgress.source === 'calibration-snapshot') return { title: 'Calibration snapshot · not live', detail: 'A one-off manual snapshot. Open Settings → Scanner calibration to switch to live scanning.' };
-  return { title: 'Not calibrated yet', detail: 'Open Settings → Scanner calibration to start reading game data automatically.' };
+  if (detectedProgress.source === 'calibration-snapshot') return { title: 'Calibration snapshot · not live', detail: 'A saved snapshot. Connect the game to refresh your current progress.' };
+  return { title: 'Waiting for game progress', detail: 'Check the game connection in Settings. Progress refreshes automatically from your save.' };
 }
 
 function markVmSaveUnavailable(payload = {}) {
@@ -1595,7 +1595,7 @@ function updateIssueReport() {
   const body = `## What happened\n${description || 'Describe what happened here.'}\n\n## Run context\nApp: Bloons+ 0.1.0\nEngine: ${latestAutomationStatus?.vm ? 'VM' : 'Local / unknown'}\n\n## Redacted log excerpt\n\`\`\`text\n${excerpt.replace(/\`/g, "'")}\n\`\`\`\n`;
   document.querySelector('#report-submit').href = 'https://github.com/Klaasawastaken/BloonsPlus/issues/new?title=' + encodeURIComponent('Run issue') + '&body=' + encodeURIComponent(body);
 }
-document.querySelector('#report-issue').addEventListener('click', () => { updateIssueReport(); reportDialog.showModal(); });
+document.querySelectorAll('#report-issue, #settings-report-issue').forEach(button => button.addEventListener('click', () => { updateIssueReport(); reportDialog.showModal(); }));
 document.querySelector('#report-close').addEventListener('click', () => reportDialog.close());
 document.querySelector('#report-description').addEventListener('input', updateIssueReport);
 document.querySelector('#report-download').addEventListener('click', () => {
