@@ -1,3 +1,4 @@
+const saveUpgradeNames = require('../data/catalogs/save-upgrade-names');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const vm = require('node:vm');
@@ -12,7 +13,7 @@ assert.deepEqual(Array.from(requirements('stop ability 1', {}, {}).abilities), [
 function rank(gameplay, abilities = [3, 10], roundStart = false) {
   const profile = { available: true, gameHotkeys: { gameplay } };
   const fn = vm.runInNewContext(rankSource + ';rankCandidatesForProfile', {
-    readLocalProgress: () => profile, fs: { readFileSync: () => '{}' }, path, PROJECT_ROOT: '.',
+    saveUpgradeNames, readLocalProgress: () => profile, fs: { readFileSync: () => '{}' }, path, PROJECT_ROOT: '.',
   });
   return fn([{ requirements: { towers: {}, abilities, roundStart } }, { requirements: { towers: {} } }]);
 }
@@ -49,7 +50,7 @@ assert.equal(rank({ PlayFastForward: { path: '<Keyboard>/Space' } }, [], true)[0
 // Only upgrade paths actually required by the candidate affect readiness.
 function rankPaths(monkeys, towers, hero = null) {
   const fn = vm.runInNewContext(rankSource + ';rankCandidatesForProfile', {
-    readLocalProgress: () => ({ available: true, gameHotkeys: { monkeys: monkeys && Object.keys(monkeys).length ? { NinjaMonkey: { path: '<Keyboard>/n' }, ...monkeys } : monkeys } }),
+    saveUpgradeNames, readLocalProgress: () => ({ available: true, gameHotkeys: { monkeys: monkeys && Object.keys(monkeys).length ? { NinjaMonkey: { path: '<Keyboard>/n' }, ...monkeys } : monkeys } }),
     fs: { readFileSync: () => '{}' }, path, PROJECT_ROOT: '.',
   });
   return fn([{ requirements: { towers, hero } }])[0].profileReadiness;

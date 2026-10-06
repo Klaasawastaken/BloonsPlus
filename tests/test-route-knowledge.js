@@ -1,3 +1,4 @@
+const saveUpgradeNames = require('../data/catalogs/save-upgrade-names');
 const assert=require('node:assert/strict'), fs=require('node:fs'), vm=require('node:vm'), path=require('node:path');
 const source=fs.readFileSync('lib/automation.js','utf8');
 const reqSource=source.slice(source.indexOf('function routeRequirements('),source.indexOf('\nfunction getRecordedCombos('));
@@ -11,7 +12,7 @@ assert.equal(req(first+'\nsell a\n'+second,{dart:{}},{}).knowledge.length,0);
 assert.deepEqual(Array.from(req(first+'\nsell a\nplace dart a at 10, 10\nupgrade a path 2',{dart:{}},{}).towers.dart),[0,0,5]);
 function rank(knowledge) {
  const profile={available:true,monkeyKnowledge:knowledge};
- const fn=vm.runInNewContext(rankSource+';rankCandidatesForProfile',{readLocalProgress:()=>profile,fs:{readFileSync:()=> '{}'},path,PROJECT_ROOT:'.'});
+ const fn=vm.runInNewContext(rankSource+';rankCandidatesForProfile',{saveUpgradeNames, readLocalProgress:()=>profile,fs:{readFileSync:()=> '{}'},path,PROJECT_ROOT:'.'});
  return fn([{requirements:{towers:{},knowledge:['MasterDoubleCross']}},{requirements:{towers:{},knowledge:[]}}]);
 }
 assert.equal(rank({enabled:true,acquired:['MasterDoubleCross']})[0].profileReadiness.missing,0);

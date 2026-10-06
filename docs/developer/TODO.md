@@ -4,6 +4,8 @@ Updated 5 October 2026. Checkboxes require evidence, not merely code. Preserve o
 
 ## Current repair pass
 
+- [x] Settings follow-up: remove duplicate introduction/category labels, shorten connection guidance and name the reset section directly. Keep setup/update/theme/reset IDs and working handlers; installation details remain collapsed.
+
 - [x] Add executable `round N after S seconds` across parser, recorder, canonical action validation, strict JS validation and the non-blocking replay gate. Use the existing observed round-start timestamp, not per-action sleeps. Emergency wait release retains explicit offsets; overdue and mid-round resume cases log timing recovery. Nine offline timing/recording checks and eight converter checks pass. Two separate Everything Macro timing-preserved candidates pass both full Python parser and JS legality checks: Dark Castle Deflation and Tricky Tracks Impoppable. No original route replaced; live timing verification remains pending missing-medal gameplay.
 
 - [x] Reproduce and fix false harmless classification of BloonsPlayer delays, life thresholds, speed/autostart and manual-round controls, plus Everything Macro round-relative delays. Preserve zero waits as no-ops. Add read-only `--audit-timing`: 891 files scanned, 48 legacy review candidates, four timing-preserved alternatives. Eight offline regressions pass. No original recordings regenerated. Faithful round-relative/manual-control execution remains unfinished.
@@ -417,7 +419,7 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [x] Restore validated pending metadata with fresh source bindings; reject malformed deadlines and rebase a future clock without issuing input. Hold on failed checkpoint writes. Required Play/Fast Forward bindings are checked before launch.
 - [x] Six offline state/input/recording/integration checks, 18 timing checks, eight repeat checks and 12 importer checks pass. Adjacent JS syntax/knowledge/binding gates pass. The captured-source startup behavior is adapted to observation rather than claimed literal timing equivalence.
 - [x] Create six separately named observed-start candidates using source placements/upgrades: Balance CHIMPS, Quarry CHIMPS, Dark Castle Deflation, #Ouch Hard, Ravine Hard and Workshop Hard. Python parser and strict JS legality pass for all six. No original recording overwritten, no validation-only gameplay and no new candidate victory claim.
-- [ ] Publish Preview 34 and deploy the batch after the active healthy replay finishes. Observe the new control only when the sweep naturally selects a missing medal.
+- [x] Preview 34 published and boundary updater completed successfully after Cubism Double HP MOABs; authoritative guest confirms the missing-medal sweep resumed. Observe the new control only when a missing medal naturally selects it.
 - [ ] Explicit autostart settings, relative speed changes, multiple manual round starts and paid hero levels remain incomplete. Coverage remains 509/1,204 pairs (695 gaps); additional candidates improve alternatives but do not prove wins or resolve all coverage.
 
 ## Settings refinement (2026-10-06)
@@ -435,3 +437,11 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [x] Replace that fallback with None, preserving defaults only for absent/empty saved sections. Gate required placement/hero/path controls using the replay key whitelist; unused paths do not block.
 - [x] Seven focused Python control checks and JS readiness checks pass; no recording or game/save file changed.
 - [ ] Publish Preview 35 and deploy after a healthy replay boundary. The active Cubism Double HP MOABs replay remains untouched.
+
+- Preview 34 reached the terminal Cubism Double HP MOABs boundary at 02:46:17. Guest idle was confirmed before the updater began; source/API reconciliation continues after controller replacement. No healthy replay interrupted.
+
+- Cubism Double HP MOABs earned: VICTORY_CONFIRMED at round 80 (02:45:58), controller clear confirmation, and authoritative VM save Cubism.difficult.Hard.modes.DoubleMoabHealth=1049865. Never replay this owned medal. Preview 34 update finished and resumed the missing-medal sweep without interrupting that replay.
+
+- [x] Investigate Preview 34 immediate pass end: read-only candidate ranking found false missing Cold Snap and Bionic Boomerang names despite Metal Freeze and Bionc Boomerang in Profile.Save. UI already had scoped aliases; sweep did not.
+- [x] Share one save-upgrade resolver between UI and backend, including qualified Buccaneer names. Actual Quad ABR and Infernal Hard candidates now rank missing=0/unknown=0 against the same save. Genuine missing tiers still block; no attempt history or game/save file changed.
+- [x] Log missing upgrade names/path/tiers and mark incomplete passes distinctly from complete. Offline checks cover stopped, incomplete, unknown medal records and complete endings.

@@ -431,23 +431,8 @@ function upgradeNameFor(towerName, pathIndex, tier) {
   return typeof entry?.[1]?.[0] === 'string' ? entry[1][0] : null;
 }
 function unlockedUpgradeSet() { return new Set((detectedProgress.localProfile?.acquiredUpgrades || []).map(normalizeUpgradeName)); }
-const SAVE_UPGRADE_ALIASES = {
-  'Ice Monkey': { 'cold snap': 'Metal Freeze' },
-  'Boomerang Monkey': { 'bionic boomerang': 'Bionc Boomerang' },
-  'Mortar Monkey': { 'faster reload': 'Mortar Faster Reload', 'rapid reload': 'Mortar Rapid Reload' },
-  'Alchemist': { 'faster throwing': 'Alchemist Faster Throwing' },
-  'Sniper Monkey': { 'full auto riffle': 'Full Auto Rifle' },
-  'Spike Factory': { 'smart spikes': 'Directed Spikes' },
-  'Druid': { 'monarch of storms': 'Superstorm' },
-  'Wizard Monkey': { 'prince of darkness': 'Soulbind' },
-  'Engineer Monkey': { 'sentry champion': 'Sentry Paragon' },
-};
 function ownsUpgrade(owned, towerName, upgradeName) {
-  if (!upgradeName) return false;
-  // Profile.Save qualifies Buccaneer upgrades to separate names shared with other towers.
-  const savedName = towerName === 'Monkey Buccaneer' ? `Buccaneer-${upgradeName}` : upgradeName;
-  const alias = SAVE_UPGRADE_ALIASES[towerName]?.[upgradeName.toLowerCase()];
-  return owned.has(normalizeUpgradeName(savedName)) || !!alias && owned.has(normalizeUpgradeName(alias));
+  return SaveUpgradeNames.owns(owned, towerName, upgradeName);
 }
 // Shared by renderTowers() and renderTowerRequirements() so a tower's catalog coverage
 // (e.g. Skywarden's tiers, once tower-upgrade-overrides.json supplies them) can't be

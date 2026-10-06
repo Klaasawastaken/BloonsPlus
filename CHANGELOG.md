@@ -4,6 +4,9 @@
 - Check only the upgrade paths needed by each candidate, with explicit readiness reasons.
 - Remove guessed default upgrade keys when the save marks a path unbound or unsupported.
 
+- Share qualified and renamed save-upgrade identifiers between UI and sweep to remove false locked-tier skips.
+- Name missing tiers in logs and report passes with remaining medals as incomplete.
+
 ## Preview 34 — Observe recorded round starts
 
 - Add observed startup commands with input ownership, pre-input checkpoints and fresh-binding resume.
