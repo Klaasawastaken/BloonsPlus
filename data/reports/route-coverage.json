@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-05T22:09:29.901Z",
+  "generatedAt": "2026-10-06T00:09:55.238Z",
   "modes": [
     "easy",
     "primary_only",
@@ -20,12 +20,12 @@
   "summary": {
     "maps": 86,
     "mapModePairs": 1204,
-    "covered": 508,
-    "missing": 696,
+    "covered": 509,
+    "missing": 695,
     "mapsFullyCovered": 1,
-    "mapsWithNoRoute": 6,
+    "mapsWithNoRoute": 5,
     "coveredPerMode": {
-      "easy": 78,
+      "easy": 79,
       "primary_only": 23,
       "deflation": 21,
       "medium": 79,
@@ -3045,7 +3045,9 @@
       "slug": "dark_dungeons",
       "inMapsJson": true,
       "modes": {
-        "easy": "missing",
+        "easy": [
+          "dark_dungeons#easy#1920x1080#converted#source_bloonsplayer#ability-preserved.btd6"
+        ],
         "primary_only": "missing",
         "deflation": "missing",
         "medium": "missing",
@@ -3401,6 +3403,7 @@
       "modes": {
         "easy": [
           "muddy_puddles#hard#2560x1440.btd6",
+          "muddy_puddles#hard#1920x1080#converted#source_bloonsplayer#ability-preserved.btd6",
           "muddy_puddles#hard#1920x1080#converted#source_randyhodges.btd6",
           "muddy_puddles#easy#1920x1080#converted#source_bloonsplayer.btd6",
           "muddy_puddles#easy#1920x1080#converted#source_btd6bot.btd6"
@@ -3409,6 +3412,7 @@
         "deflation": "missing",
         "medium": [
           "muddy_puddles#hard#2560x1440.btd6",
+          "muddy_puddles#hard#1920x1080#converted#source_bloonsplayer#ability-preserved.btd6",
           "muddy_puddles#hard#1920x1080#converted#source_randyhodges.btd6"
         ],
         "military_only": "missing",
@@ -3416,6 +3420,7 @@
         "apopalypse": "missing",
         "hard": [
           "muddy_puddles#hard#2560x1440.btd6",
+          "muddy_puddles#hard#1920x1080#converted#source_bloonsplayer#ability-preserved.btd6",
           "muddy_puddles#hard#1920x1080#converted#source_randyhodges.btd6"
         ],
         "magic_monkeys_only": "missing",

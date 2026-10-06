@@ -403,4 +403,7 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [x] Wider timing gate exposed two obsolete expectations. Pinned source implements TAS_delay but no wait handler; source scripts nevertheless use wait. Preserve supported delay and label nonzero wait interpretation for strategy review rather than claiming complete conversion.
 - [x] Retain the Glacial Trail Easy candidate body with a review header/lossy filename. Mark its stale installed name lossy because installer updates preserve recordings. Original CHIMPS recordings unchanged.
 - [x] Updated audit: 83 source files, 15 affected (14 lossy, one rejected), including six unregistered wait operations. Eleven importer, four audit, eight repeated-ability and ability-binding checks pass. Two complete repeating-ability candidates remain; no recordings regenerated or gameplay launched for validation.
-- [ ] Publish Preview 33; deploy with the next maintenance batch at a healthy replay boundary. Review intended Glacial Trail freezing/timing before restoring a complete candidate.
+- [x] Preview 33 published; packaged controller matches reviewed source and publication guard reports no findings.
+- [ ] Deploy Preview 33 at the Cubism Primary Only terminal boundary. Stop-after confirmed at round 38; updater waits for explicit idle, installs, then resumes missing medals. Review intended Glacial Trail freezing/timing before restoring a complete candidate.
+
+- Refreshed offline coverage after the source review: 86 catalog maps, 509 of 1,204 map/mode pairs covered, 695 gaps and five maps with no route. These are route-catalog counts, not victory proof. Remaining coverage is substantial; V1.0 is not complete.
