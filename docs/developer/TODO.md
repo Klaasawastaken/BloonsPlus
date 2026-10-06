@@ -8,7 +8,7 @@ Updated **6 October 2026**. This is the readable, active task list. Technical no
 - **Sweep:** running in the VM again. The previous stopped Bloody Puddles game showed defeat at round 40 after updating; recovery refused the stale round-34 checkpoint. The cause of that game progression remains under investigation. No new victory or medal claimed yet.
 - **Development alongside gameplay:** installer/setup polish, app polish, folder organization and website redesign. Check the sweep every five minutes and diagnose meaningful failures.
 - **Background work:** improve routes and placement from missing-medal gameplay evidence; retain failures and skip owned medals.
-- **Latest release:** Preview 85 is published; Preview 86 is built and installed in the VM. Its verified transfer and bounded cash recovery are ready for publication. Live cash-recovery evidence remains open.
+- **Latest release:** Preview 86 is published with the refreshed website/README, verified VM transfer and bounded cash recovery. Its round-boundary fix is installed in the VM. Live cash-recovery evidence remains open.
 
 ## Work order
 
@@ -118,7 +118,7 @@ The sweep earns missing medals alongside development. Deploy changes together af
 - [ ] **I-05 — Add trusted code signing when available.** Unsigned installers may still trigger SmartScreen.
 - [ ] **I-06 — Meet production acceptance gates.** Complete the specification before publishing **v1.0.0**; previews do not establish production readiness.
 
-**Latest published:** [Preview 85](https://github.com/Klaasawastaken/BloonsPlus/releases/tag/v0.1.0-preview.85), installer 245,324,928 bytes. The release passed 287 Python checks, focused JS checks and 25 packaged-source comparisons; publication guard reported zero findings. VM deployment is pending the installer-transfer repair. This does not establish clean-machine installation or winning routes.
+**Latest published:** [Preview 86](https://github.com/Klaasawastaken/BloonsPlus/releases/tag/v0.1.0-preview.86), installer 246,293,547 bytes. Verified 295 replay checks, ten setup-transport checks, focused site checks and 27 packaged-source comparisons; publication guard reported zero findings. The missing-medal sweep restarted on Dark Castle Military Monkeys Only after an old checkpoint refused a changed scene. No new clear is claimed. Clean-machine installation and live recovery evidence remain open.
 
 ## 5. App polish and files
 
