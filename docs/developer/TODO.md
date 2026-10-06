@@ -481,3 +481,5 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [x] Reproduce automatic Play/Fast Forward admission on a frame already used for a route action. Hold automatic toggles while a route action, held placement or prior toggle owns that frame. Seven round-control, five relative-speed and four cursor offline checks pass after the formerly failing regression. This addresses a real control race, not proof of all historical defeat causes.
 - Confirmed Glacial Trail Primary Only at 03:26:49 on 6 October: observed victory at round 40 plus authoritative Easy/PrimaryOnly=1049225. Never replay the earned medal.
 - Preview 37 installer completed at the replay boundary and the guest confirmed the resumed missing-medal sweep. Cursor support and the new input gate are queued together for the next batch.
+
+- Preview 39 published on 6 October; its installer packages both cursor support and automatic input ownership. Packaged runtime matches source byte-for-byte. Boundary updater is live, waiting on the active replay with stop-after confirmed; no healthy run was interrupted. Guest deployment remains pending until that job completes.
