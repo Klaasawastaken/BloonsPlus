@@ -606,3 +606,8 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [x] Forward compact requests through the VM bridge and project responses from older guests too. Download fetches complete recent-run logs on demand with a longer bridge timeout; errors do not silently export the index as if it were full evidence.
 - [x] Offline checks prove summary fields/counts remain, full-export contents remain unchanged, stored evidence is not mutated, and the synthetic large-log response shrinks by more than 50x. Live transfer/render measurement remains pending deployment.
 - Measured against the live VM history: 614 total failures, 150 recent entries, 23,821,866-byte full response versus 89,893-byte compact projection (~265x smaller). Full logs remained present in the original response. This is a real data-volume measurement; browser rendering performance still awaits deployment.
+
+### Glacial Trail Hard failure evidence — 6 October
+
+- Persisted gameplay defeat at round 23 (2026-10-06T12:56:00.629Z), using the separate spike-target-preserved CHIMPS conversion as a Hard fallback. Druid 0-1-0 was panel-confirmed at round 22; its next upgrade was unselected shortly before DEFEAT. Hero was placed at round 3, unlike the source CHIMPS start. These observations warrant a freeze/timing audit; they do not establish freezing as the sole cause or justify blind changes to original CHIMPS recordings.
+- Preview 60 applied after that replay ended; guest confirmed the resumed missing-medal sweep. Preview 61 is published and its boundary worker is live. Full failure evidence remains private under dist.
