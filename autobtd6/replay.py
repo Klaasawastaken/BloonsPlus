@@ -1957,6 +1957,9 @@ def main():
                 if any((item[1][0] - v[0]) ** 2 + (item[1][1] - v[1]) ** 2 <= villagePx * villagePx for v in villages):
                     item[0] += 0.3
         scored.sort(key=lambda item: -item[0])
+        customPrint('PLACE_SEARCH_DIAGNOSTIC footprint=' + str(cls) + ' origin=' + str(origin)
+                    + ' confirm_mode=' + str(confirmPlacementMode) + ' candidates=' + str(len(scored))
+                    + ' dynamic=' + str(dynamic) + ' range=' + str(rangePx))
         for priority, cand, feature in scored[:14]:
             pyautogui.moveTo(cand)
             time.sleep(0.08)
@@ -2008,6 +2011,9 @@ def main():
                     verdict = ghostLooksInvalid(baseline, cand)
                 # Unlike nearby recovery, a distant hint requires positive
                 # preview evidence; an unknown tint must not authorize it.
+                customPrint('PLACE_HINT_DIAGNOSTIC footprint=' + str(cls) + ' candidate=' + str(cand)
+                            + ' verdict=' + str(verdict) + ' confirm_mode=' + str(confirmPlacementMode)
+                            + ' source=' + str(source))
                 if verdict is False:
                     return cand, 'route hint (unverified source; live preview accepted): ' + source
         if motion is not None and not allowMoving:

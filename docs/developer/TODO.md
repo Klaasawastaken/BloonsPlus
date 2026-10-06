@@ -4,6 +4,8 @@ Updated 6 October 2026. Checkboxes require evidence, not merely code. Preserve o
 
 ## Current repair pass
 
+- [x] Add bounded placement-search diagnostics for footprint, active confirmation mode, candidate count and source-hint live verdicts. Infernal ABR still lost at round 19; this is instrumentation, not a repaired strategy claim.
+
 - [x] Respect hidden optgroups in dropdown rendering/signatures, close open menus when the document becomes hidden, and give Settings error surfaces sufficient specificity in both themes. Syntax/diff checks only; broader dropdown keyboard and visual coverage remains open.
 - Preview 53 boundary update completed after Infernal ABR lost at round 19; the guest confirmed the missing-medal sweep resumed. Heli recovery remains unresolved; no medal claimed.
 

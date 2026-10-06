@@ -7,6 +7,11 @@
 - Keep the existing bounded capture recovery and valid-window input behavior.
 - Include Preview 53’s exact surplus upgrade intent, resume-ledger validation and route alternatives.
 
+## Placement diagnostics
+
+- Record placement-search mode, footprint, candidate count and live verdicts for same-map fallback hints.
+- Infernal Heli placement remains unresolved; this diagnostic addition does not mark its routes fixed.
+
 ## Settings and dropdowns
 
 - Simplify Help with direct run-log and existing redacted issue-report actions. Keep installation/reset details collapsed.
