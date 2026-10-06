@@ -4,6 +4,8 @@ Updated 6 October 2026. Checkboxes require evidence, not merely code. Preserve o
 
 ## Current repair pass
 
+- [x] Finish Settings layout cleanup: compact keyboard-accessible Light/Dark selector, full-width connection panel, explicit folded checklist indicator, clearer maintenance labels and one autosave description. Preserve all setup/update/support IDs and conditional action guards. Existing Settings regression passes; light/dark browser views reviewed. VM deployment remains queued separately; this UI change does not interrupt gameplay.
+
 - Preview 76 published with the counter-structure repair and source Engineer targeting. Packaged OCR/replay/Settings/validator match source and payload privacy guard reports zero findings. Preview 74 boundary worker still owns the root update payload while High Finance Hard remains active (last observed round 64, 100 lives); Preview 75–76 are isolated for a later safe batch. No new medal claimed.
 
 - [x] Reproduce the primary reader accepting 82/80 and its fallback accepting a wrong total 79/100 on an 80-round mode. Share canonical counter validation in both paths, bounded by the selected mode rather than source recording. Four actual-statement/14-mode regressions plus six HUD and two freshness checks pass. Live deployment remains pending a healthy boundary; no defeat is claimed fixed solely by offline proof.
