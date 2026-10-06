@@ -4,6 +4,9 @@ Updated 6 October 2026. Checkboxes require evidence, not merely code. Preserve o
 
 ## Current repair pass
 
+- Preview 64 boundary worker completed after Glacial Trail ABR's round-40 defeat and confirmed the missing-medal sweep resumed. VM profile remains available. Preview 66 is published and its updater is waiting at a healthy replay boundary; root dist payload is reserved until that worker terminates.
+- [ ] Review legacy source_btd6bot/compat copies against pinned source commands. Sanctuary Medium's from_hard copy failed its first Sniper placement 13 times; source Hard plan requires cpos moving-position updates rejected by the current faithful importer. Do not equate legacy filenames or parser success with preservation. Read-only source audit added; original recordings untouched. No new clear claimed.
+
 - [x] Inspect Glacial Trail ABR defeat at last readable round 40: round-39 Alchemist placement/retarget/three confirmed top-path purchases took ~22 seconds; round 40 started before the planned Spike upgrades. Add observed fast-to-slow pacing for affordable untimed upgrade batches, serialized before purchase and bounded by existing toggle cooldown. Explicit speed/manual-start/timed/repeated-ability routes opt out before resume trims steps. Offline helper and actual replay gate checks pass; no route victory claimed. Original recordings and attempt exclusions remain unchanged.
 
 - [x] Reproduce offline route-coverage command failing with compareRouteCandidates undefined after dedicated-route ordering changed. Include both priority helpers in its runtime extraction; regenerate coverage/gaps from current rules. Full-command regression checks all mode entries, actual candidate files and arithmetic. Current eligibility: 513/1,204, 691 gaps; eligibility does not prove a winning route.
