@@ -4,7 +4,7 @@ Updated 6 October 2026. Checkboxes require evidence, not merely code. Preserve o
 
 ## Current repair pass
 
-- Preview 76 published with the counter-structure repair and source Engineer targeting. Packaged OCR/replay/Settings/validator match source and payload privacy guard reports zero findings. Preview 74 boundary worker still owns the root update payload while High Finance Hard remains active (last observed round 64, 100 lives); Preview 75â€“76 are isolated for a later safe batch. No new medal claimed.
+- Preview 76 published with the counter-structure repair and source Engineer targeting. Packaged OCR/replay/Settings/validator match source and payload privacy guard reports zero findings. Preview 74 boundary worker still owns the root update payload while High Finance Hard remains active (last observed round 64, 100 lives); Preview 75–76 are isolated for a later safe batch. No new medal claimed.
 
 - [x] Reproduce the primary reader accepting 82/80 and its fallback accepting a wrong total 79/100 on an 80-round mode. Share canonical counter validation in both paths, bounded by the selected mode rather than source recording. Four actual-statement/14-mode regressions plus six HUD and two freshness checks pass. Live deployment remains pending a healthy boundary; no defeat is claimed fixed solely by offline proof.
 
@@ -13,11 +13,11 @@ Updated 6 October 2026. Checkboxes require evidence, not merely code. Preserve o
 - [x] Settings only shows VM updates after a VM exists; reboot-only steps show instructions without an unusable button. Creation still exposes optional ISO override; guest hides host-only actions. Actual render state regressions and dark-theme browser review pass.
 - [x] Reject explicit conversion headers declaring omitted manual-round controls, including the unflagged Midnight Mansion CHIMPS copy. Seven declarations checked; original recordings unchanged. Current offline eligibility is 516/1,204, with 688 gaps and five maps without eligible routes. Manual control support remains unfinished; no victory claimed.
 
-- Confirmed Peninsula Reverse at round 60 (6 October 07:24:17): replay VICTORY_CONFIRMED on VICTORY_SUMMARY, controller clear confirmation and authoritative VM save Medium/Reverse=1049545. Never replay this earned medal. Preview 71 boundary worker completed and confirmed the missing-medal sweep resumed. Preview 72â€“74 changes are batched for the next replay boundary.
+- Confirmed Peninsula Reverse at round 60 (6 October 07:24:17): replay VICTORY_CONFIRMED on VICTORY_SUMMARY, controller clear confirmation and authoritative VM save Medium/Reverse=1049545. Never replay this earned medal. Preview 71 boundary worker completed and confirmed the missing-medal sweep resumed. Preview 72–74 changes are batched for the next replay boundary.
 
 - [x] Extend pinned-source omission audit and exact-version exclusion to targeted specials. Guard 23 legacy copies with missing selectors/targets; retain all 14 newly preserved candidates. Actual inventory/hash checks and runtime selection guard checks pass. Offline eligibility remains 521/1,204; recordings and saved-clear evidence unchanged.
 
-- [x] Preserve BTD6bot targeted special-1 commands instead of omitting them: new special-to grammar, independent moved-tower selector, scaled recording round trip and keyâ†’targetâ†’click runtime helper. Emit 14 separate complete candidates including dedicated Sanctuary Medium; full parser reports no errors. Original recordings unchanged. Offline eligibility now 521/1,204; 683 gaps remain and no new victory is claimed. Second-special/manual-flow omissions remain excluded.
+- [x] Preserve BTD6bot targeted special-1 commands instead of omitting them: new special-to grammar, independent moved-tower selector, scaled recording round trip and key→target→click runtime helper. Emit 14 separate complete candidates including dedicated Sanctuary Medium; full parser reports no errors. Original recordings unchanged. Offline eligibility now 521/1,204; 683 gaps remain and no new victory is claimed. Second-special/manual-flow omissions remain excluded.
 
 - [x] Repair custom dropdown stale rows: include option values in refresh signatures and compare native node identity after replacement, even when labels/values match. Ignore detached-option clicks rather than setting selectedIndex to -1. Focused actual-function regression fails on old source and passes on repaired source; Settings action-state and syntax checks pass. Search/native events retained.
 
@@ -40,18 +40,18 @@ Updated 6 October 2026. Checkboxes require evidence, not merely code. Preserve o
 
 
 - Confirmed Bloody Puddles Reverse at round 60 (6 October 05:31:56): replay VICTORY_CONFIRMED, controller clear confirmation and authoritative VM save Medium/Reverse=1049549. Never replay the earned medal. Preview 56 boundary update completed and its worker confirmed the missing-medal sweep resumed on Infernal ABR.
-- [x] Reproduce map-search Enter doing nothing in the browser. Activate the selected visible enabled row or first match through its existing click handler; preserve native input/change events. Include optgroup labels in refresh signatures. Run selected starts disabled and remains disabled for absent routes, stale controller status, owned medals or an active job. Unknown medal evidence is now labelled Waiting for game save instead of Not completed. Also prevent the global Escape shortcut from navigating away after a dropdown consumes it, or while a dialog is open. Browser verification confirms Enter selects the map and Escape closes the menu without leaving Automation. Fix the run chooserâ€™s medal lookup to use exact normalized save/display aliases, matching Maps. Existing alias and medal-gate checks pass.
+- [x] Reproduce map-search Enter doing nothing in the browser. Activate the selected visible enabled row or first match through its existing click handler; preserve native input/change events. Include optgroup labels in refresh signatures. Run selected starts disabled and remains disabled for absent routes, stale controller status, owned medals or an active job. Unknown medal evidence is now labelled Waiting for game save instead of Not completed. Also prevent the global Escape shortcut from navigating away after a dropdown consumes it, or while a dialog is open. Browser verification confirms Enter selects the map and Escape closes the menu without leaving Automation. Fix the run chooser’s medal lookup to use exact normalized save/display aliases, matching Maps. Existing alias and medal-gate checks pass.
 
 
 - [x] Rework Settings into connection, appearance and support sections; keep optional ISO/install details and resets collapsed, clarify retry setup, remove the unused AI Settings initializer. Preserve setup/update/reporting hooks and automatic profile detection. Browser layout reviewed; JS syntax checks pass.
-- [x] Preserve pinned BTD6bot Spike Factory Normal â†’ Smart targeting for bottom tiers 2â€“4 using two forward presses. Other uncertain cycles remain excluded. Six separate candidates pass full parser and strict JS legality; original recordings unchanged. Coverage is 513/1,204, with 691 gaps and four maps without eligible routes. No new victories claimed.
+- [x] Preserve pinned BTD6bot Spike Factory Normal → Smart targeting for bottom tiers 2–4 using two forward presses. Other uncertain cycles remain excluded. Six separate candidates pass full parser and strict JS legality; original recordings unchanged. Coverage is 513/1,204, with 691 gaps and four maps without eligible routes. No new victories claimed.
 
 
 - [x] Preserve round-read freshness separately from a retained counter. Unreadable frames cannot refresh its timestamp; resumed checkpoints are not new observations. New failures use guest read/end timestamps to reject counters older than ten seconds for loss-stage classification, retaining the last readable number and timestamp as diagnostics. Legacy records retain their interpretation. Two runtime regressions, eight helper cases, loss/failure classification and four ledger checks pass. Live deployment pending.
 - [x] Give only Infernal Reverse/ABR Heli candidates one stable new attempt revision after the live-confirm fix. Keep failure history, unrelated exclusions, other Infernal modes and original CHIMPS unchanged; owned-medal admission still applies. Targeted hash regressions pass. No route win claimed.
 - Preview 54 updater completed after Infernal Reverse ended in defeat (last readable round 17; actual loss round not established while the counter was blocked). Guest confirmed the missing-medal sweep resumed and began Bloody Puddles Reverse.
 
-- [x] Correct Infernalâ€™s displayed terrain guidance: include the narrow left/right edge strips for Heli/Farm footprints, reserve space before support, and require live legality. Source: https://bloons.fandom.com/wiki/Infernal . This does not authorize an unobserved placement or change original recordings.
+- [x] Correct Infernal’s displayed terrain guidance: include the narrow left/right edge strips for Heli/Farm footprints, reserve space before support, and require live legality. Source: https://bloons.fandom.com/wiki/Infernal . This does not authorize an unobserved placement or change original recordings.
 
 - [x] Reproduce stale confirmation-mode admission from an old private flag. Start each replay with mode unconfirmed, learn it only from the actual post-click check button, and stop persisting the setting. Preserve historical files without reading/deleting them. Three actual-block regressions pass (old flag ignored, live check clicked, absent check sends no input) plus eight nearby placement/HUD checks. Infernal recovery still needs a missing-medal run; do not mark its routes winning.
 
@@ -68,7 +68,7 @@ Updated 6 October 2026. Checkboxes require evidence, not merely code. Preserve o
 
 - [x] Validate resumed tower/history ledgers before atomic replacement: malformed objects, entries, tiers, positions or history must not crash later optional purchases or partially replace state. Copy only matching run/map/mode data. Four corruption/copy tests and eleven resume checks pass; a read-only current VM snapshot with eighteen towers is accepted. No actual interrupted-run recovery claim.
 
-- [x] Reproduce missing exact tier intent in surplus upgrades: the actual planner returned no expectedUpgradeTiers. Copy the selected candidateâ€™s target tiers into its action, independent of later roster entries/mutations. Existing observation and checkpoint machinery now receives exact intent for safe selection/retry/resume. Two intent, twenty observation and five checkpoint checks pass. Use path_index consistently in surplus logs. No live wrong-tier purchase or subsequent victory claimed from these offline checks.
+- [x] Reproduce missing exact tier intent in surplus upgrades: the actual planner returned no expectedUpgradeTiers. Copy the selected candidate’s target tiers into its action, independent of later roster entries/mutations. Existing observation and checkpoint machinery now receives exact intent for safe selection/retry/resume. Two intent, twenty observation and five checkpoint checks pass. Use path_index consistently in surplus logs. No live wrong-tier purchase or subsequent victory claimed from these offline checks.
 
 - [x] Review pinned Randy-Hodges ordinary runner: start_game sends two Space presses, click sends one position click, ordinary finish sends no input, Sanctuary uses a separate manual handler. Preserve startup as observed fast intent and map clicks as exact commands; reject moving-map/manual cases. Add eight separate Hard startup candidates and one Quad BloonsPlayer startup alternative. Full Python parser and strict JS legality pass; importer repeat/overwrite preservation checks pass. Coverage remains 509/1,204; no new wins claimed.
 
@@ -108,7 +108,7 @@ Updated 6 October 2026. Checkboxes require evidence, not merely code. Preserve o
 
 - Confirmed Flooded Valley Reverse at round 60: saved Medium/Reverse=1049545 and observed replay result victory. Never replay it. Preview 42 deployed at the boundary and the missing-medal sweep resumed on Infernal Hard.
 
-- [x] Diagnose Flooded Valley Reverseâ€™s unselected Sniper upgrades from the live frame: placement-only close template=0.996, nudge cancel=0.400, shop cyan fraction=0.475. Recognize ordinary shop-based held placement and cancel it before selecting an existing tower. Persistent held state withholds the target click. Live deployment remains queued; screenshot private.
+- [x] Diagnose Flooded Valley Reverse’s unselected Sniper upgrades from the live frame: placement-only close template=0.996, nudge cancel=0.400, shop cyan fraction=0.475. Recognize ordinary shop-based held placement and cancel it before selecting an existing tower. Persistent held state withholds the target click. Live deployment remains queued; screenshot private.
 
 - Refreshed offline coverage on 6 October: 509 eligible map/mode pairs, 695 gaps (21 with rejected candidates, 674 without a found candidate). Source Auto Start controls need observed setting ownership; time-based clicks alone cannot establish faithful manual-round conversion.
 
@@ -118,7 +118,7 @@ Updated 6 October 2026. Checkboxes require evidence, not merely code. Preserve o
 
 - Confirmed Flooded Valley Alternate Bloons Rounds victory at 03:46:39, round 80; authoritative VM save Hard/AlternateBloonsRounds=1049865. Missing medal earned; never replay it. Preview 39 boundary update remains tracked through its existing process handle.
 
-- [x] Enforce active T5 limits in surplus spending. Flooded Valley ABR showed Sub0 at 2-0-5 while the planner issued Sub1â€™s 2-0-5 purchase. Block duplicate tower/path T5 purchases; allow at most two Crossbow Masters only outside CHIMPS with enabled Master Double Cross. Original route actions unchanged; deployment pending.
+- [x] Enforce active T5 limits in surplus spending. Flooded Valley ABR showed Sub0 at 2-0-5 while the planner issued Sub1’s 2-0-5 purchase. Block duplicate tower/path T5 purchases; allow at most two Crossbow Masters only outside CHIMPS with enabled Master Double Cross. Original route actions unchanged; deployment pending.
 
 - [x] Bound surplus waiting logs to round changes or changed cash after 15 seconds. Live Flooded Valley ABR logs showed income causing repeated messages every frame; purchases and failure messages remain immediate. Runtime deployment queued at a replay boundary.
 
@@ -212,7 +212,7 @@ Updated 6 October 2026. Checkboxes require evidence, not merely code. Preserve o
 - [x] Fix subscription selector typography, selected-price contrast and keyboard focus; add a visible active-page indicator in mobile navigation.
 
 - [x] Fix unreachable upgrade retry branch: unselected/unchanged observations now queue the same intended upgrade before dependent steps. Regression executes the actual replay reconciliation branch.
-- [x] Validate this retry correction in the guest: Workshop Hard reached victory at round 80 and saved medal value 1049864. Its Heli retry confirmed 3-0-2 â†’ 4-0-2 at round 55. This proves that recovery case, not every route.
+- [x] Validate this retry correction in the guest: Workshop Hard reached victory at round 80 and saved medal value 1049864. Its Heli retry confirmed 3-0-2 → 4-0-2 at round 55. This proves that recovery case, not every route.
 
 ## Queued production overhaul
 
@@ -240,7 +240,7 @@ Start only after the current repair work is complete, as requested on 5 October.
   - Implemented: version-2 remaining-action snapshots; pending upgrades restored in original order; ownership probe before cash gating; owned targets removed without purchase input. Six recovery regressions pass. Live restart validation remains open.
 - [ ] Review each backlog entry against its own evidence and confirm a subsequent victory plus saved medal.
 
-## P0 â€” replay reliability
+## P0 — replay reliability
 
 - [ ] Calibrate the hero picker at 1080p and 1440p. Verify displayed hero name and Select/Selected state. Current button OCR can return `unknown`; the runner now skips safely, but that still leaves modes unfinished.
 - [ ] Confirm free and paid placements visually when cash is unchanged; handle free Dart Monkey knowledge and Deflation starting cash without endless retries.
@@ -252,7 +252,7 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [ ] Add bounded recovery for placement, upgrade, navigation and stalled rounds. After a real defeat, try a different route candidate without replaying earned medals.
 - [ ] Investigate known failures: Hedge CHIMPS round 6; Scrapyard CHIMPS round 42; Spa Pits ABR round 24; Spa Pits Deflation hero mismatch; Cubism upgrade and round ambiguity. Keep original CHIMPS routes intact.
 
-## P1 â€” routes and sweep
+## P1 — routes and sweep
 
 - [x] Recover held placement ghosts despite rising cash. Downstream CHIMPS failure evidence showed an unplaced village ghost while round income bypassed retries. Two placement controls now override cash and visual-patch confirmation and enter existing bounded recovery. Offline recognition checks cover 1080p/1440p and missing controls; actual failed frame recognized. Guest deployment and live outcome remain pending. Original CHIMPS routes unchanged.
 
@@ -269,14 +269,14 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [ ] Record per-route success/failure history and exact skip reasons: locked upgrade, hero, map, restriction, or known failure.
 - [ ] Confirm Expert-to-Beginner sweep and randomized order within categories without repeating excluded candidates.
 
-## P1 â€” progress and diagnostics
+## P1 — progress and diagnostics
 
 - [x] Reset MM/hour and XP/hour samples when the save source changes or its clock moves backwards. Offline regression reproduced a false 1,497,000 MM/hour reading after switching accounts; source changes now show no rate until a fresh window exists, and clock recovery resumes normally. Source identity stays in memory only. Guest/app deployment pending.
 
 - [x] Clear stale MM/hour and XP/hour values when samples expire or values are missing; compare veteran XP only within the same veteran rank. Focused regressions pass. Live multi-run rate validation remains below.
 
 - [ ] Check MM/hour and XP/hour against several live VM save updates, rank changes and spending; display no rate until enough samples exist.
-- [ ] Confirm level, veteran rank, Monkey Money, hero ownership, Monkey Knowledge, tower XP and T1â€“T5 unlocks from the VM save with source and freshness.
+- [ ] Confirm level, veteran rank, Monkey Money, hero ownership, Monkey Knowledge, tower XP and T1–T5 unlocks from the VM save with source and freshness.
 - [ ] Reconcile achievement progress with Steam unlock state and clearly label unsupported progress.
 - [ ] Fix activity ages and victory/defeat counters; require victory plus saved medal before adding a clear.
   - Fixed future-clock activity anchors resetting as host time caught up; added numeric-string timestamp normalization and unknown-date handling. Offline tests cover ISO, Unix seconds/milliseconds, numeric strings and short/long clock skew. Counter/end-to-end host refresh checks remain outstanding.
@@ -284,7 +284,7 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [ ] Keep redacted full logs and group route failures by actionable cause, even if an old game-state file survives.
 - [ ] Keep host UI and guest controller connected after VM updates/restarts; expose the specific failing step.
 
-## P2 â€” installer and distribution
+## P2 — installer and distribution
 
 - [x] Preserve the last usable installer when a rebuild fails. Final EXE assembly now writes and flushes a unique temporary file before atomic replacement, with partial-file cleanup. Offline tests reproduced the old empty-output failure and cover copy errors, locked replacement and exact payload/footer bytes. No installer was executed by these tests.
 
@@ -299,7 +299,7 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [ ] Publish the next installer with release notes, verification limits and a working site download. Do not add a separate SHA256SUMS.txt asset (user removed that requirement).
 - [ ] Add trusted code signing when available; unsigned installers may show SmartScreen warnings.
 
-## P2 â€” product and site
+## P2 — product and site
 
 - [x] Stop hidden reading-progress work for reduced-motion and background pages; coalesce scroll/resize frames and cancel pending work on preference changes. Offline lifecycle regression passes; local subscriptions page loads with the progress marker and no console errors. Actual screen-reader speech and browser reduced-motion emulation remain unverified.
 
@@ -310,7 +310,7 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [ ] Tidy repo folders without blindly moving runtime data. Exclude personal saves, logs, keys, VM images and private Discord bot source.
 - [x] Replace the README banner with official Wizard, Ninja, Engineer and Super Monkey artwork, linked to the website. No generated artwork or map thumbnails; preserve proportions and attribution. Clarify preview status, installation and planned Pro additions.
 
-## Later â€” experimental systems
+## Later — experimental systems
 
 - [ ] Test autonomous strategy/placement assistance behind experimental settings, with redacted gameplay observations and route-level evidence before live decisions.
 - [ ] Add boss events only after modifiers, restrictions, version compatibility and executable routes have victory checks.
@@ -319,9 +319,9 @@ Start only after the current repair work is complete, as requested on 5 October.
 ## Completed in this pass
 
 - [x] Refuse to start a route when the hero picker cannot confirm the required hero.
-- [x] Verify live hero Select/Selected state at 1920Ã—1080 and recover stale portrait indices by scanning displayed hero names.
+- [x] Verify live hero Select/Selected state at 1920×1080 and recover stale portrait indices by scanning displayed hero names.
 - [x] Detect left tower panels across cyan and purple portrait cards without treating Glacial Trail's ice as a panel.
-- [x] Read shifted cash with a left tower panel and Double Cash active; reject the repeated `$1,300` â†’ `51,300` glyph artifact.
+- [x] Read shifted cash with a left tower panel and Double Cash active; reject the repeated `$1,300` → `51,300` glyph artifact.
 - [x] Keep a replay alive after its planned actions end; Tricky Tracks Hard reached round 80, showed victory, saved the medal, and was skipped afterward.
 - [x] Execute canonical route ability actions instead of dropping them as unsupported.
 - [x] Relay pause, stop, and stop-after controls directly to the guest across transient status-probe disconnects.
@@ -377,7 +377,7 @@ Start only after the current repair work is complete, as requested on 5 October.
 ## Status polling payload (2026-10-06)
 
 - [x] Trace host UI polling payload: historical lastRun and route attempts account for roughly 330 KB per response. Add opt-in UI projection; preserve full API/history and all 2,000 log lines.
-- [x] Verify pure projection and actual server handler offline. Current sample: 562,687 â†’ 231,888 bytes (59% reduction); no claim of measured scroll latency or timeout recovery.
+- [x] Verify pure projection and actual server handler offline. Current sample: 562,687 → 231,888 bytes (59% reduction); no claim of measured scroll latency or timeout recovery.
 - [x] Verify UI projection on reloaded host and guest after One Two Tree CHIMPS finished. Both omit unused history and retain logs; host reports fresh VM status for the new replay.
 
 ## Confirmed replay boundary (2026-10-06)
@@ -429,7 +429,7 @@ Start only after the current repair work is complete, as requested on 5 October.
 
 - [x] Skulltweak CHIMPS exit=0, controller clear confirmed, saved Hard.Clicks=1050185. Stop-after ended before another replay.
 - [x] Guest Preview 23 update completed without error. Guest status now includes sourceNow; clock-aware app code is served. Host Electron reloaded only after the setup job finished.
-- [x] Host UI visibly shows historical ages (Skulltweak 1â€“2 minutes, One Two Tree CHIMPS 27â€“28 minutes), a sane new run duration, and the correct new map. Missing-medal sweep resumed on Winter Park Hard; Skulltweak CHIMPS remains earned.
+- [x] Host UI visibly shows historical ages (Skulltweak 1–2 minutes, One Two Tree CHIMPS 27–28 minutes), a sane new run duration, and the correct new map. Missing-medal sweep resumed on Winter Park Hard; Skulltweak CHIMPS remains earned.
 - [x] Follow-up UI evidence found Winter Park navigation displaying the previous Skulltweak checkpoint's 61/61 steps. Scope checkpoint progress and result badges to the current map/mode; syntax check passes. This small follow-up is pending the next healthy deployment boundary.
 
 ## Settings organization and dropdown focus (2026-10-06)
@@ -488,7 +488,7 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [x] Eight scheduler/importer/runtime checks, 18 timing checks and four paid-hero rejection checks pass; syntax and publication guard pass.
 - [x] Scrapyard CHIMPS earned: observed VICTORY_SUMMARY, controller clear confirmed, authoritative Scrapyard.difficult.Hard.modes.Clicks=1050185. Stop-after boundary confirmed running=false. Never replay this owned medal.
 - [x] Preview 30 guest update completed without error at the confirmed Scrapyard boundary. Guest serves new Settings and all three ability-preserved candidates. Exact host Electron owner reloaded only while guest idle; authoritative guest status confirms missing-medal sweep running again.
-- [x] Repeated abilities observed naturally during Dark Dungeons Easy at rounds 3â€“5 and 13; no validation-only replay launched.
+- [x] Repeated abilities observed naturally during Dark Dungeons Easy at rounds 3–5 and 13; no validation-only replay launched.
 
 - Pinned upstream revision 17d624879c5ad777e82594da34450e66b2d60756 confirms duplicate-entry repeat lists, per-slot cancellation and the one-second cycle. Six existing JS route-validation/failure gates also pass.
 - New sweep naturally selected Dark Dungeons Easy for a missing medal using its ability-preserved source candidate; hero-picker logs show Etienne correctly read as Select. No validation-only run launched. Live repeating-input behavior and outcome remain to be observed.
@@ -588,7 +588,7 @@ Start only after the current repair work is complete, as requested on 5 October.
 
 - Preview 37 published on 6 October with observed speed controls and Settings cleanup. Installer payload matches the current Settings and replay source byte-for-byte; publication guard reports no findings. VM deployment is queued for the next replay boundary.
 
-### Explicit source cursor targets â€” 6 October
+### Explicit source cursor targets — 6 October
 
 - [x] Preserve BTD6bot move_cursor as a move-only command with normalized source coordinates, full route grammar, recording, canonical action and serialized replay execution. Reject malformed, boolean and outside-playfield source coordinates.
 - [x] Add one separate #Ouch Alternate Bloons Rounds cursor-preserved candidate. All 103 commands pass the complete Python parser and JS mode/legality validation. Original recordings unchanged; no victory claimed. Four offline cursor checks and 14 importer checks pass.
@@ -596,7 +596,7 @@ Start only after the current repair work is complete, as requested on 5 October.
 
 - Preview 38 published on 6 October from an isolated build directory, preserving the already queued Preview 37 installer. Packaged runtime files match source; publication guard reports no findings. Cursor support still awaits its own replay-boundary deployment.
 
-### Automatic play input ownership â€” 6 October
+### Automatic play input ownership — 6 October
 
 - [x] Reproduce automatic Play/Fast Forward admission on a frame already used for a route action. Hold automatic toggles while a route action, held placement or prior toggle owns that frame. Seven round-control, five relative-speed and four cursor offline checks pass after the formerly failing regression. This addresses a real control race, not proof of all historical defeat causes.
 - Confirmed Glacial Trail Primary Only at 03:26:49 on 6 October: observed victory at round 40 plus authoritative Easy/PrimaryOnly=1049225. Never replay the earned medal.
@@ -604,13 +604,13 @@ Start only after the current repair work is complete, as requested on 5 October.
 
 - Preview 39 published on 6 October; its installer packages both cursor support and automatic input ownership. Packaged runtime matches source byte-for-byte. Boundary updater is live, waiting on the active replay with stop-after confirmed; no healthy run was interrupted. Guest deployment remains pending until that job completes.
 
-### Signed Monkey Money rate â€” 6 October
+### Signed Monkey Money rate — 6 October
 
 - [x] Reproduce spending being clamped to zero in MM/hour. Preserve signed saved-balance changes, reject negative saved totals, and avoid negative-zero display. Label the statistic Net MM/hr with a spending/sampling explanation; document it in the account-progress wiki. Existing freshness, clock/source isolation and veteran-counter regressions pass alongside the new spending checks. Live sampling remains a separate check; no invented gross farming income is reported.
 
 - Preview 40 published on 6 October from a separate build directory; the queued Preview 39 VM installer remains untouched. Packaged UI/replay matches source and publication guard reports no findings. Two authoritative VM save reads 59.788 seconds apart showed unchanged totals, consistent with zero XP/hr and Net MM/hr. Nonzero live gains and spending remain unverified.
 
-### Advisory hero-picker layout memory â€” 6 October
+### Advisory hero-picker layout memory — 6 October
 
 - [x] Keep visually discovered page/card positions in the existing private last-hero.json after selection confirmation. Scope hints to exact resolution and slot geometry; require live title verification before reuse and fall back to a reset/full search on mismatch. Selection/ownership checks remain live.
 - [x] Treat malformed non-object hero memory as empty and atomically replace the local hint file. No game saves or new public profile data are written. Five offline tests cover corrupt caches, changed layouts, invalid hints, confirmed persistence and wrong-hint fallback.
@@ -618,13 +618,13 @@ Start only after the current repair work is complete, as requested on 5 October.
 
 - Preview 41 published on 6 October from a separate build directory. Packaged hero runtime matches source; private last-hero.json is excluded. The existing Preview 39 boundary updater remains live, waiting on Flooded Valley ABR (observed round 64, 12 lives); no clear or defeat is yet claimed for that replay. Hero hint and net-rate deployment remain pending a later batch.
 
-### Positive evidence for ambiguous placements â€” 6 October
+### Positive evidence for ambiguous placements — 6 October
 
 - [x] Require a newly selected 0-0-0 upgrade panel before confirming ordinary towers from visual changes when free placement or income masks cash. Clear an old panel first; send no purchase input. Missing or unchanged panels remain unverified and do not teach terrain refusals or trigger blind duplicate free placements. Heroes retain their separate observer.
 - [x] Offline observations cover stale panels, fresh base panels, upgraded existing towers, missing frames and held placements. This proves panel observation behavior, not tower identity or a winning Infernal strategy.
 - [ ] Deploy this observer at a healthy replay boundary after Preview 58. Continue only missing-medal gameplay; retain the Infernal ABR round-24 defeat in persistent failures.
 
-### Authoritative medal display precedence â€” 6 October
+### Authoritative medal display precedence — 6 October
 
 - [x] Reproduce an older visual scan overwriting explicit missing CHIMPS/Impoppable medals from a fresh save when map keys differ in case or alias spelling. This is a synthetic regression, not a claim about the current account's Skulltweak medals.
 - [x] Merge scan records first and authoritative save records last; order save records by localSaveReadAt. Invalid timestamps cannot give a scan priority over a save. Preserve exact alias normalization and missing/unknown distinctions.
@@ -632,19 +632,19 @@ Start only after the current repair work is complete, as requested on 5 October.
 
 - Confirmed Infernal Reverse on 6 October: replay reached VICTORY at 05:50:25 and the controller logged clear confirmed; the authoritative VM save subsequently returned Medium/Reverse=1049545. Never replay this earned medal. Preview 58 deployed at that boundary and the guest confirmed the missing-medal sweep resumed. Preview 60 is queued for its next replay boundary.
 
-### Lightweight failure-log browsing â€” 6 October
+### Lightweight failure-log browsing — 6 October
 
 - [x] Separate the failure index from full run evidence. The logs page requests a compact response without per-run fullLog, log, action, screenshot or observation arrays; the default diagnostics endpoint retains full evidence for explicit downloads.
 - [x] Forward compact requests through the VM bridge and project responses from older guests too. Download fetches complete recent-run logs on demand with a longer bridge timeout; errors do not silently export the index as if it were full evidence.
 - [x] Offline checks prove summary fields/counts remain, full-export contents remain unchanged, stored evidence is not mutated, and the synthetic large-log response shrinks by more than 50x. Live transfer/render measurement remains pending deployment.
 - Measured against the live VM history: 614 total failures, 150 recent entries, 23,821,866-byte full response versus 89,893-byte compact projection (~265x smaller). Full logs remained present in the original response. This is a real data-volume measurement; browser rendering performance still awaits deployment.
 
-### Glacial Trail Hard failure evidence â€” 6 October
+### Glacial Trail Hard failure evidence — 6 October
 
 - Persisted gameplay defeat at round 23 (2026-10-06T12:56:00.629Z), using the separate spike-target-preserved CHIMPS conversion as a Hard fallback. Druid 0-1-0 was panel-confirmed at round 22; its next upgrade was unselected shortly before DEFEAT. Hero was placed at round 3, unlike the source CHIMPS start. These observations warrant a freeze/timing audit; they do not establish freezing as the sole cause or justify blind changes to original CHIMPS recordings.
 - Preview 60 applied after that replay ended; guest confirmed the resumed missing-medal sweep. Preview 61 is published and its boundary worker is live. Full failure evidence remains private under dist.
 
-### Dedicated route priority â€” 6 October
+### Dedicated route priority — 6 October
 
 - [x] Correct candidate ordering that placed recorded/converted CHIMPS reuse ahead of converted target-mode plans. Keep exact target-mode local wins first; otherwise prefer dedicated recordings, dedicated conversions and dedicated guides before CHIMPS/Hard fallbacks.
 - [x] Glacial Trail Hard source plan preserves temporary Engineer/Dart opening and Sauda placement at round 6. The failed CHIMPS fallback placed Sauda at round 3. Do not claim this ordering change alone proves the round-23 loss is fixed; source placement timing is mechanically significant, but the unselected Druid upgrade still needs observation.
@@ -653,13 +653,13 @@ Start only after the current repair work is complete, as requested on 5 October.
 
 - Dedicated Glacial Trail Hard replay subsequently reached round 34; Druid tiers 0-1-0, 0-2-0 and 0-3-0 were live panel-confirmed, passing the earlier round-23 failure point. This is progress evidence, not a claimed clear. Preview 62 is published; Preview 61's boundary worker still owns the reserved root payload, so Preview 62 remains isolated pending that deployment.
 
-### Shared medal decoding â€” 6 October
+### Shared medal decoding — 6 October
 
 - [x] Consolidate duplicated browser/server medal rules into one browser-safe data/catalogs/medal-progress.js contract. Preserve public Node export and UI wrapper, exact difficulty/mode mapping, Clicks vs SuperChimps, empirical completion threshold and null unknown values. No schema or saved-data change.
 - [x] Run the same authoritative admission/alias tests before and after extraction. Shared-decoder coverage checks all 14 supported modes across 14 value schemas, browser/server parity and unchanged input records. Script-load order is checked before app initialization.
 - [ ] Deploy with the next boundary batch. This removes one source of UI/sweep divergence; it does not prove every save field or route is correct.
 
-### Steam account selection â€” 6 October
+### Steam account selection — 6 October
 
 - [x] Reproduce first-directory selection in a two-account profile fixture. Both profile and achievement readers previously chose the first matching cached account without checking active identity.
 - [x] Use Steam's read-only ActiveProcess/ActiveUser signal when available. If it is unavailable, accept only one unambiguous cached account; logged-out or ambiguous selections return unavailable rather than another account's progress. Achievements invalidate their short cache when the detected account changes.
@@ -669,7 +669,7 @@ Start only after the current repair work is complete, as requested on 5 October.
 - Confirmed Glacial Trail Hard on 6 October: VICTORY_CONFIRMED at 06:14:20, round 80, controller clear confirmed and authoritative VM Hard/Standard=1049864. The dedicated Hard plan earned the medal after the CHIMPS fallback had lost at round 23. Never replay this earned medal. Preview 61 boundary deployment started after the completed run; Preview 64 remains isolated until that worker releases the reserved payload.
 
 
-### Moving tower selection and compact Settings â€” 6 October
+### Moving tower selection and compact Settings — 6 October
 
 - [x] Preserve explicit BTD6bot selection-coordinate updates on upgrade, targeting, special and sell commands. Keep placement coordinates separate and preserve the selector across later commands. Three separate candidates pass the full parser; original recordings are unchanged.
 - [x] Block three audited Sanctuary copies that omit source selection updates, scoped to exact content hashes and without deleting prior failures. Exclude round-3/6 Sanctuary and Geared openings from round-1 reuse unless that exact target mode has a confirmed local win. Sanctuary Medium remains an honest route gap.
@@ -678,7 +678,7 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [x] Preview 67 deployed at the completed Peninsula Hard boundary and the missing-medal sweep resumed. New selection candidates remain unverified in gameplay; never replay the already earned Tricky Tracks Hard medal to test one.
 
 
-### Hero picker title crop â€” 6 October
+### Hero picker title crop — 6 October
 
 - [x] Inspect Dark Castle Military Only's no-result failure: Obyn could not be verified, and the final Corvus card was read repeatedly. No defeat was observed and no last round was recorded; this was a picker failure before gameplay.
 - [x] Inspect the saved picker frame: the old 1920px crop began at x675 inside Corvus's first glyph and stopped at x1013. Widen the name-banner crop to include the full heading without its subtitle. Existing saved frame now returns a title containing corvus and Select.
@@ -686,7 +686,7 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [ ] Observe Obyn verification in a missing-medal run after deployment; this screenshot proves the crop improvement for Corvus, not every hero or resolution. No attempt history was reset.
 
 
-### Pre-game hero failures â€” 6 October
+### Pre-game hero failures — 6 October
 
 - [x] Reproduce the exact Obyn not-found log being labelled insufficient-data. Recognize it as navigation failure without treating successful visual discovery messages as failures.
 - [x] Keep a pre-game hero-selection failure retryable in the actual sweep branch, record its evidence and move to the next map before saving a route attempt. A recorded INGAME/INGAME_PAUSED or GOTO_INGAME transition, or observed defeat, prevents this exception. Actual-branch fixtures and medal admission tests pass.
@@ -696,9 +696,9 @@ Start only after the current repair work is complete, as requested on 5 October.
 - Confirmed Peninsula Hard Standard on 6 October: VICTORY_CONFIRMED at 06:56:56, round 80; controller clear confirmation and authoritative VM Hard/Standard=1049864. Never replay this earned medal. Preview 67 boundary worker terminated successfully after deployment/resume. Preview 69's separate worker is waiting at the next replay boundary; no healthy replay was interrupted.
 
 
-### Spike Close targeting and hero lettering â€” 6 October
+### Spike Close targeting and hero lettering — 6 October
 
-- [x] Preserve the source-confirmed forward Spike Factory sequence Normal â†’ Close â†’ Smart for bottom tiers 2â€“4. Same-state commands are no-ops; backward, Set, Automatic, locked and tier-five cycles remain unsupported rather than guessed. Moving selection coordinates remain attached.
+- [x] Preserve the source-confirmed forward Spike Factory sequence Normal → Close → Smart for bottom tiers 2–4. Same-state commands are no-ops; backward, Set, Automatic, locked and tier-five cycles remain unsupported rather than guessed. Moving selection coordinates remain attached.
 - [x] Add four separate parser-checked candidates: Dark Castle CHIMPS, Dark Dungeons Easy, Ravine Easy and Workshop Easy. Preserve existing candidates and original CHIMPS recordings. These improve alternatives, not total eligibility: coverage remains 512/1,204 pairs and 692 gaps. Never replay an owned medal to validate a candidate.
 - [x] Isolate teal hero-heading pixels and retain a natural-text reading as a separate candidate. Saved Corvus frame produces exact corvus; fifteen combined hero/Spike/selector checks pass. The Selected-button requirement and wrong-hero rejection remain.
 - [ ] Deploy at the next completed replay boundary; observe other heroes only during missing-medal gameplay. A saved Corvus frame does not prove all heroes/resolutions.
@@ -707,13 +707,13 @@ Start only after the current repair work is complete, as requested on 5 October.
 - Preview 70 published and its packaged runtime/four new candidates match source; the developer-only importer remains intentionally outside the installer. Captured live Silas picker frame also reads exact silas/Select through the new reader, with no extra gameplay input. Preview 69 worker terminated successfully after deployment/resume. Preview 70's worker is now live at the next replay boundary; its root payload is reserved until terminal.
 
 
-### Settings cleanup â€” 6 October
+### Settings cleanup — 6 October
 
 - [x] Remove the redundant preferences/queue reset, its confirmation dialog, handlers and unused styles. Theme selection already saves automatically; queued runs are retained. Keep Appearance, Game & VM, and Help & support as the Settings sections.
 - [x] Refresh setup status on every Settings visit through the existing single-request guard. Hide setup/update/advanced controls until their availability is known. Focused setup state checks and JavaScript syntax checks pass; the refreshed local Settings page shows the removed control is absent.
 
 
-### Pause evidence and manual-round foundation â€” 6 October
+### Pause evidence and manual-round foundation — 6 October
 
 - [x] Correct Auto Start's lime-rail detector using measured BGR ranges from both existing pause calibrations. Decode known on/off separately from full pause-menu confirmation; unknown switch states provide no toggle coordinate.
 - [x] Strengthen the actual double-frame pause recovery branch with heading/label evidence before Esc. Seven offline regressions pass, including the real branch withholding input on absent menu evidence. Original recordings are unchanged.
@@ -722,25 +722,26 @@ Start only after the current repair work is complete, as requested on 5 October.
 - Confirmed High Finance Hard Standard on 6 October: VICTORY_CONFIRMED at 07:46:55, round 80; controller clear confirmation and authoritative VM HighFinance Hard/Standard=1049870. Never replay this earned medal. Preview 76 boundary updater completed and the missing-medal sweep resumed on High Finance Alternate Bloons Rounds.
 
 
-### Manual-round control continuation â€” 6 October
+### Manual-round control continuation — 6 October
 
 - [x] Build the absolute Auto Start controller foundation with serialized opening/toggling/closing phases, fresh-observation delays, checkpoint-before-input and cooldowns. A new process reopens/reobserves after a saved close instead of trusting the previous process. Thirteen offline callback tests pass; this module is not yet connected to replay or route admission.
 - [x] Wire absolute Auto Start parser/serializer, replay input ownership and resume rechecking. Complete manual plans remain gated on end-round semantics. Restore the desired switch even when its earlier route step has already been consumed. Keep round/speed automation and purchase pacing from competing with source manual control.
 - [ ] Preserve source `end_round(time_limit)` semantics: the source waits, sends exactly one Play keypress, and sets `skip_roundcheck` for its next loop. Do not translate it into only `await_round` or assume it waits for round completion. Source `forward(1)` is one keypress; `forward(2)` is two, with Deflation's initially running speed accounted for. Preserve source round branch transitions and waits before enabling conversion.
 
 
-### Resume counter and manual-control contract â€” 6 October
+### Resume counter and manual-control contract — 6 October
 
 - [x] Apply canonical counter/selected-mode total checks to the actual resume OCR statement as well as normal/fallback reads. Reject phantom digits, wrong-mode totals and padded counters before comparing to the checkpoint. Five reader-structure tests pass, including the actual resume statements.
 - [x] Add draft absolute Auto Start parsing/serialization and source-derived consumed-step resume intent. Restore only matching, well-formed retry metadata through the real resume queue; discard saved coordinates. Seventeen controller/contract tests pass. Runtime grammar and public route admission remain gated until input ownership and resume-menu recovery are integrated.
 
 - Confirmed High Finance Alternate Bloons Rounds on 6 October: VICTORY_CONFIRMED at 08:08:17, round 80; authoritative VM HighFinance Hard/AlternateBloonsRounds=1049865. Never replay this earned medal. Preview 77 boundary worker completed successfully and resumed the missing-medal sweep. Resume counter/control-contract source changes will be batched into a later installer.
 
-### Settings refinement â€” 6 October
+### Settings refinement — 6 October
 
 - [x] Keep Appearance, Game & VM, and Support as the main sections. Fold manual VM updates into App updates, clarify that updates originate on the main PC, and show setup/ISO controls only when applicable. Add theme-aware separators, keyboard focus styling and a mobile update layout. JavaScript syntax checked; no live replay interrupted. Installer packaging remains part of the next batch.
 
 ### Preview 78 — absolute Auto Start integration
 
 - [x] Connect actual parser/writer and replay branches to observed Auto Start ownership. Preserve purchase confirmation, defer ordinary controls, and retain commands on save failure. Resume consumed intent outside the recorded queue and close only confirmed foreground pause menus before playfield validation. 91 focused Python checks and two JavaScript admission checks pass; no validation-only gameplay launched.
-- [ ] Package, publish and deploy this batch between completed replays. Source end-round conversion remains unfinished; omitted manual plans remain excluded.
+- [x] Package and publish Preview 78. Publication guard reports no findings, and nine changed runtime/UI files match the packaged payload exactly.
+- [ ] Deploy at the current replay boundary. Worker session 56390 is confirmed running; Underground ABR continues with stop-after enabled. Source end-round conversion remains unfinished; omitted manual plans remain excluded.
