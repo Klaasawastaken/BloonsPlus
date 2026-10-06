@@ -591,3 +591,9 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [x] Require a newly selected 0-0-0 upgrade panel before confirming ordinary towers from visual changes when free placement or income masks cash. Clear an old panel first; send no purchase input. Missing or unchanged panels remain unverified and do not teach terrain refusals or trigger blind duplicate free placements. Heroes retain their separate observer.
 - [x] Offline observations cover stale panels, fresh base panels, upgraded existing towers, missing frames and held placements. This proves panel observation behavior, not tower identity or a winning Infernal strategy.
 - [ ] Deploy this observer at a healthy replay boundary after Preview 58. Continue only missing-medal gameplay; retain the Infernal ABR round-24 defeat in persistent failures.
+
+### Authoritative medal display precedence — 6 October
+
+- [x] Reproduce an older visual scan overwriting explicit missing CHIMPS/Impoppable medals from a fresh save when map keys differ in case or alias spelling. This is a synthetic regression, not a claim about the current account's Skulltweak medals.
+- [x] Merge scan records first and authoritative save records last; order save records by localSaveReadAt. Invalid timestamps cannot give a scan priority over a save. Preserve exact alias normalization and missing/unknown distinctions.
+- [x] Focused browser-helper regressions, map-save alias checks, sweep medal admission and JS syntax pass. Original recordings and game saves are unchanged.

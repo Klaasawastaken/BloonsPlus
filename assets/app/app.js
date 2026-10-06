@@ -312,7 +312,14 @@ function mapThumb(name, category) {
 const mapProgressKey = BloonsMapNames.normalize;
 const mapObservationFor = name => {
   const entries = Object.entries(detectedProgress.maps || {}).filter(([key]) => mapProgressKey(key) === mapProgressKey(name));
-  entries.sort((a,b) => Date.parse(a[1].updatedAt || a[1].scannedAt || 0) - Date.parse(b[1].updatedAt || b[1].scannedAt || 0));
+  const saved = entry => entry.localSaveSource === 'btd6-profile-save';
+  const observedAt = entry => {
+    const value = Date.parse(saved(entry) ? entry.localSaveReadAt : entry.updatedAt || entry.scannedAt);
+    return Number.isFinite(value) ? value : 0;
+  };
+  // Save records include explicit false medals. Never let an OCR alias overwrite
+  // them, even when the scan is newer or either timestamp is unavailable.
+  entries.sort((a,b) => Number(saved(a[1])) - Number(saved(b[1])) || observedAt(a[1]) - observedAt(b[1]));
   return entries.reduce((result, [,entry]) => ({...result, ...entry, medals: {...result.medals, ...entry.medals}}), {});
 };
 function medalsFromLocalRecord(record) {
