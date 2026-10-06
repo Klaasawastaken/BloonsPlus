@@ -9,7 +9,7 @@ Updated **6 October 2026**. This is the readable, active task list. Technical no
 - **Installer batches 1–5:** native separation, durable recovery, shared setup coordination and compact native presentation are implemented. Batch 4 passes 39 focused Python checks and seven Node suites; the complete native bootstrap compiles. The shared first-launch controls and Full/Reduced/Off intro are implemented and checked in an isolated actual renderer. Clean-machine and physical accessibility acceptance remain open. These sources have not replaced the healthy guest runtime.
 - **Development alongside gameplay:** installer/setup polish, app polish, folder organization and website redesign. Check the sweep every five minutes and diagnose meaningful failures.
 - **Background work:** improve routes and placement from missing-medal gameplay evidence; retain failures and skip owned medals.
-- **Latest installer repair:** Preview 94 fixes the current installer being rejected as too old during VM provisioning and exposes the actual setup component error. Packaging and regression checks pass; publication is in progress. The host setup helper was repaired without restarting healthy VM gameplay. Clean-machine setup and live cash-recovery evidence remain open.
+- **Latest installer repair:** [Preview 94](https://github.com/Klaasawastaken/BloonsPlus/releases/tag/v0.1.0-preview.94) is published and fixes the current installer being rejected as too old during VM provisioning. It exposes the actual setup component error. Packaging, uploaded size/digest and regression checks pass. The host setup helper was repaired without restarting healthy VM gameplay. Clean-machine setup and live cash-recovery evidence remain open.
 
 ## Work order
 
