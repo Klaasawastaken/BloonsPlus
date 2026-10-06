@@ -9,3 +9,4 @@ Effective from the next release after Preview 96.
 - Milestone 100 is the full **Bloons+ 1.0** release, tagged `v1.0.0`, rather than `v0.1.0-preview.100`.
 - Use Previews 97–99 for remaining preparation. Publish milestone 100 after the production acceptance gates are met; its number does not establish readiness.
 - Keep the current release metadata and download links on the latest published release until a new release is successfully published.
+- Keep isolated published installers at `dist/preview<N>/BloonsPlusSetup.exe` for previews and `dist/v<major>.<minor>.<patch>/BloonsPlusSetup.exe` for production releases. Both host setup and the standalone VM helper select that artifact before a generic build and reject a size mismatch. This directory convention does not publish or certify a release.

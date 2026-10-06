@@ -11,6 +11,25 @@ spec.loader.exec_module(setup)
 
 
 class ReleaseInstallerTests(unittest.TestCase):
+    def test_production_release_precedes_generic_and_rejects_incomplete_artifact(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            generic = root / 'dist/BloonsPlusSetup.exe'
+            released = root / 'dist/v1.0.0/BloonsPlusSetup.exe'
+            released.parent.mkdir(parents=True)
+            (root / 'docs').mkdir()
+            generic.write_bytes(b'old')
+            released.write_bytes(b'stable-release')
+            (root / 'docs/release.json').write_text(json.dumps({
+                'tag_name': 'v1.0.0', 'assets': [{'name': 'BloonsPlusSetup.exe', 'size': 14}]}))
+            with patch.object(setup, 'ROOT', root):
+                self.assertEqual(setup.default_installer(), released)
+                released.write_bytes(b'partial')
+                with self.assertRaisesRegex(RuntimeError, 'incomplete|size'):
+                    setup.default_installer()
+                released.unlink()
+                self.assertEqual(setup.default_installer(), generic)
+
     def test_noninstall_actions_and_explicit_installer_do_not_resolve_release(self):
         with patch.object(setup, 'default_installer', side_effect=AssertionError('Unexpected installer lookup')):
             self.assertIsNone(setup.parse_args(['steam-install']).installer)

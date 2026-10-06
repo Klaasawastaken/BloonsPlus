@@ -230,3 +230,28 @@ power-loss durability or clean-machine Windows/UAC/reboot/accessibility
 acceptance. No healthy gameplay or game/save file was changed. Prior Preview 96
 temporary copies without a journal are not automatically adopted as trusted
 transaction data.
+
+## Existing-guest update and production-tag selection — 6 October
+
+The guest replay ended at an observed stop-after boundary. Bloonarius Prime
+CHIMPS reported `VICTORY_CONFIRMED`; a separate read-only profile read found
+Hard/Clicks=1050185, above the earned-medal threshold. `SuperChimps=2` is a
+different internal field and is not the CHIMPS medal. The completed target must
+remain skipped.
+
+The host's remote update completed without a setup error. Read-only SSH hashes
+for `replay.py`, `helper.py`, `automation.js`, `select-controls.js` and `server.js`
+matched the Preview 98 payload. Guest status and game detection responded; the
+host's Start Sweep request succeeded. Balance Hard began with an unearned saved
+Standard value of 608. This proves an update on this existing machine, not clean
+provisioning, physical accessibility or a post-update clear. Later source changes
+are not part of the deployed Preview 98 package.
+
+A separate production-release defect was reproduced in both host JavaScript and
+the standalone Python VM helper: `v1.0.0` metadata ignored its named artifact and
+selected an older generic installer. Both selectors now retain preview naming
+and recognize the fixed stable directory `dist/v1.0.0`. Numeric tag validation,
+fixed filename, missing-artifact fallback and size-mismatch rejection remain.
+Both regressions passed RED to GREEN; the full 354-check Python suite and 60
+JavaScript check files passed. Scoped read-only review found no regressions.
+The unpublished route draft was excluded from JavaScript checks and publication.

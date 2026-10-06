@@ -48,13 +48,14 @@ def released_installer():
         return None
     if not isinstance(release, dict):
         return None
-    version = re.fullmatch(r'v[0-9]+\.[0-9]+\.[0-9]+-preview\.([0-9]+)', str(release.get('tag_name', '')))
+    version = re.fullmatch(r'(v[0-9]+\.[0-9]+\.[0-9]+)(?:-preview\.([0-9]+))?', str(release.get('tag_name', '')))
     assets = release.get('assets')
     asset = next((item for item in assets if isinstance(item, dict) and item.get('name') == 'BloonsPlusSetup.exe'), None) if isinstance(assets, list) else None
     size = asset.get('size') if asset else None
     if not version or type(size) is not int or size <= 0 or size > 2**53 - 1:
         return None
-    candidate = ROOT / 'dist' / ('preview' + version[1]) / 'BloonsPlusSetup.exe'
+    directory = 'preview' + version[2] if version[2] else version[1]
+    candidate = ROOT / 'dist' / directory / 'BloonsPlusSetup.exe'
     try:
         actual_size = candidate.stat().st_size
     except FileNotFoundError:

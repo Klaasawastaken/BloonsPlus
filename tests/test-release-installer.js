@@ -21,6 +21,16 @@ try {
   const select = () => vm.runInContext('installerCopy()', context);
   write(metadata);
   assert.equal(select(), released, 'Published build must precede an older generic installer');
+  const stable = path.join(root, 'dist', 'v1.0.0', 'BloonsPlusSetup.exe');
+  fs.mkdirSync(path.dirname(stable), { recursive: true });
+  fs.writeFileSync(stable, 'stable-release');
+  write({ ...metadata, tag_name: 'v1.0.0', assets: [{ name: 'BloonsPlusSetup.exe', size: 14 }] });
+  assert.equal(select(), stable, 'Production 1.0 must precede an older generic installer');
+  fs.writeFileSync(stable, 'partial');
+  assert.throws(select, /incomplete|size/i, 'An incomplete production release must not silently downgrade');
+  fs.unlinkSync(stable);
+  assert.equal(select(), generic, 'Standard build still works without a separate production artifact');
+  write(metadata);
   fs.writeFileSync(released, 'truncated');
   assert.throws(select, /incomplete|size/i, 'An incomplete named release must not silently downgrade');
   fs.unlinkSync(released);
