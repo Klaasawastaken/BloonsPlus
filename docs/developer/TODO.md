@@ -4,6 +4,8 @@ Updated 6 October 2026. Checkboxes require evidence, not merely code. Preserve o
 
 ## Current repair pass
 
+- [x] Reproduce missing exact tier intent in surplus upgrades: the actual planner returned no expectedUpgradeTiers. Copy the selected candidate’s target tiers into its action, independent of later roster entries/mutations. Existing observation and checkpoint machinery now receives exact intent for safe selection/retry/resume. Two intent, twenty observation and five checkpoint checks pass. Use path_index consistently in surplus logs. No live wrong-tier purchase or subsequent victory claimed from these offline checks.
+
 - [x] Review pinned Randy-Hodges ordinary runner: start_game sends two Space presses, click sends one position click, ordinary finish sends no input, Sanctuary uses a separate manual handler. Preserve startup as observed fast intent and map clicks as exact commands; reject moving-map/manual cases. Add eight separate Hard startup candidates and one Quad BloonsPlayer startup alternative. Full Python parser and strict JS legality pass; importer repeat/overwrite preservation checks pass. Coverage remains 509/1,204; no new wins claimed.
 
 - [x] Restrict hero-picker search to the live three-column card region. Old Geraldo/Corvus positions fell into the detail panel and repeated unchanged titles. Keep cached layout hints advisory and live title/Selected verification required; no new hero selection claimed from this source edit.

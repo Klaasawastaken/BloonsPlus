@@ -2093,17 +2093,20 @@ def main():
                 reserve = max(5, int(expectedCost * 0.12))
                 if cash < expectedCost + reserve:
                     continue
+                expectedTiers = list(levels)
+                expectedTiers[path] = tier
                 candidates.append((sum(int(value) for value in levels), tier, expectedCost,
-                                   str(instance), path, towerType, tuple(position)))
+                                   str(instance), path, towerType, tuple(position), tuple(expectedTiers)))
         if not anyUntriedLegal:
             return None, True
         if not candidates:
             return None, False
         # Extend the most developed tower first, prioritizing its main/high tier path.
         candidates.sort(key=lambda item: (-item[0], -item[1], item[2], item[3], item[4]))
-        _, tier, expectedCost, instance, path, towerType, position = candidates[0]
+        _, tier, expectedCost, instance, path, towerType, position, expectedTiers = candidates[0]
         return {
             'action': 'upgrade', 'name': instance, 'path': path,
+            'expectedUpgradeTiers': list(expectedTiers),
             'key': keybinds['path'][str(path)], 'pos': position, 'cost': expectedCost,
             'extra': {'group': 'monkeys', 'type': towerType, 'upgrade': (path, tier),
                       'opportunistic': True},
@@ -3366,7 +3369,7 @@ def main():
                             })
                             writeRouteCheckpoint(routeCheckpoint, mapConfig['steps'])
                         customPrint('SURPLUS_UPGRADE planned tower=' + str(extraUpgrade['name']) +
-                                    ' path=' + str(extraUpgrade['path'] + 1) + ' tier=' +
+                                    ' path_index=' + str(extraUpgrade['path']) + ' tier=' +
                                     str(extraUpgrade['extra']['upgrade'][1]) + ' cost=' + str(extraUpgrade['cost']) +
                                     ' cash=' + str(currentValues['money']))
                     elif (lastSurplusWaitRound != currentValues['round']
