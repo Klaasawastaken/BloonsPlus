@@ -718,3 +718,5 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [x] Correct Auto Start's lime-rail detector using measured BGR ranges from both existing pause calibrations. Decode known on/off separately from full pause-menu confirmation; unknown switch states provide no toggle coordinate.
 - [x] Strengthen the actual double-frame pause recovery branch with heading/label evidence before Esc. Seven offline regressions pass, including the real branch withholding input on absent menu evidence. Original recordings are unchanged.
 - [ ] Finish manual-round parser, controller, checkpoint and importer support. Confirm switch changes from fresh observations before admitting plans with `change_autostart`/`end_round`; synthetic off artwork is not live gameplay proof.
+
+- Confirmed High Finance Hard Standard on 6 October: VICTORY_CONFIRMED at 07:46:55, round 80; controller clear confirmation and authoritative VM HighFinance Hard/Standard=1049870. Never replay this earned medal. Preview 76 boundary updater completed and the missing-medal sweep resumed on High Finance Alternate Bloons Rounds.
