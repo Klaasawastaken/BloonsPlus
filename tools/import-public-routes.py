@@ -209,13 +209,14 @@ class Route:
         if kind == "spike":
             # Source bot: Normal -> Close -> Smart uses two forward presses.
             # Higher tiers and positional targeting have different cycles.
-            if target.lower() == "smart" and 2 <= state["up"][2] <= 4:
+            if target.lower() in ('close', 'smart') and 2 <= state["up"][2] <= 4:
                 current = state.get("spikeTarget", "normal")
-                if current == "normal":
-                    self.lines.extend([f"retarget {name}" + self.selection_suffix(name)] * 2)
-                    state["spikeTarget"] = "smart"
-                    return
-                if current == "smart":
+                desired = target.lower()
+                forward = {'normal': 0, 'close': 1, 'smart': 2}
+                if current in forward and forward[desired] >= forward[current]:
+                    self.lines.extend([f"retarget {name}" + self.selection_suffix(name)]
+                                      * (forward[desired] - forward[current]))
+                    state["spikeTarget"] = desired
                     return
             self.lossy.add(f"spike targeting '{target}' (needs a special cycle or click)")
             return
@@ -1153,8 +1154,10 @@ def emit_speed_candidates():
     print(json.dumps({'speedCandidates': written, 'parserErrors': errors}, indent=2))
 
 
-def emit_spike_target_candidates():
-    """Keep faithful Smart targeting in new candidates; preserve recordings."""
+def emit_spike_target_candidates(target_mode='smart'):
+    """Keep supported forward Spike targeting in new candidates; preserve recordings."""
+    if target_mode not in ('smart', 'close'):
+        raise Unsupported('unsupported Spike target candidate mode')
     written = []
     for path in sorted(BTD6BOT_PLANS.glob('*.py')):
         if path.name.startswith('_'):
@@ -1164,13 +1167,15 @@ def emit_spike_target_candidates():
             lines = route.body()
         except (Unsupported, KeyError, IndexError, ValueError):
             continue
-        if route.lossy or not any(state.get('spikeTarget') == 'smart' for state in route.towers.values()):
+        if route.lossy or not any(state.get('spikeTarget') == target_mode for state in route.towers.values()):
             continue
         source = SOURCES[route.source]
-        name = f'{route.map}#{route.mode}#{W}x{H}#converted#source_{route.source}#spike-target-preserved.btd6'
+        suffix = 'spike-target-preserved' if target_mode == 'smart' else 'spike-close-preserved'
+        name = f'{route.map}#{route.mode}#{W}x{H}#converted#source_{route.source}#{suffix}.btd6'
         meta = [f"source: {source['repo']} (license {source['license']}) commit {source['commit']}",
                 f'source file: {route.source_file}', f'generator: {GENERATOR}',
-                'Spike Factory Normal to Smart targeting preserved as two forward presses.',
+                ('Spike Factory Normal to Smart targeting preserved as two forward presses.' if target_mode == 'smart'
+                 else 'Spike Factory Normal to Close targeting preserved as one forward press.'),
                 'Recorded placements and upgrades retained. No original replaced; no local victory claimed.']
         content = '\n'.join(header(meta) + lines) + '\n'
         target = PT / name
@@ -1250,6 +1255,8 @@ if __name__ == "__main__":
         emit_round_start_candidates()
     elif '--speed-candidates' in sys.argv:
         emit_speed_candidates()
+    elif '--spike-close-candidates' in sys.argv:
+        emit_spike_target_candidates('close')
     elif '--spike-target-candidates' in sys.argv:
         emit_spike_target_candidates()
     elif '--selection-candidates' in sys.argv:

@@ -81,7 +81,7 @@ const report = { generatedAt: new Date().toISOString(), modes: MODES,
     + 'non-generated files in autobtd6/playthroughs, class-only modes need class-only towers, CHIMPS routes '
     + 'are reused for easy/medium/hard standard and impoppable, Hard routes are further reused for '
     + `easy/medium, and modes ${MODES_REQUIRING_VERIFIED_ROUTE.join(', ')} `
-    + 'accept only dedicated or CHIMPS-reused routes that are not unverified guide adaptations. Generated drafts are listed separately and never count. Runtime additionally preflights each candidate against saved hero, tower, and upgrade unlocks; routes with missing or unknown prerequisites are skipped before launch.',
+    + 'accept only dedicated or allowed CHIMPS-reused routes that are not unverified guide adaptations. Audited content missing moving-selection commands and phase-incompatible Sanctuary/Geared opening reuse are excluded unless an exact target-mode local win exists. Lossy conversions and generated drafts do not count without the required evidence. Runtime additionally preflights each candidate against saved hero, tower, upgrade, knowledge and control-binding requirements; missing or unknown prerequisites are skipped before launch. Eligibility is not proof of victory.',
   summary: {}, maps: {} };
 let covered = 0, total = 0;
 const perMode = Object.fromEntries(MODES.map(mode => [mode, 0]));

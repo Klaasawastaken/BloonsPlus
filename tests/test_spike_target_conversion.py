@@ -26,11 +26,20 @@ class SpikeTargets(unittest.TestCase):
         self.assertEqual(len(route.lines),before+2)
 
     def test_locked_or_uncertain_cycles_remain_lossy(self):
-        for bottom,target in [(1,'smart'),(5,'smart'),(2,'set'),(2,'automatic')]:
+        for bottom,target in [(1,'smart'),(5,'smart'),(1,'close'),(5,'close'),(2,'set'),(2,'automatic')]:
             route=self.route(bottom);before=list(route.lines)
             route.set_target('spike',target)
             self.assertTrue(route.lossy,(bottom,target))
             self.assertEqual(route.lines,before)
+
+    def test_normal_close_smart_forward_sequence_with_moving_selector(self):
+        route=self.route();route.update_selection('spike',(0.3,0.4));before=len(route.lines)
+        route.set_target('spike','close');route.set_target('spike','close');route.set_target('spike','smart')
+        self.assertFalse(route.lossy)
+        self.assertEqual(route.lines[before:],['retarget spike0 at 576, 432']*2)
+        route.set_target('spike','close')
+        self.assertTrue(route.lossy, 'Reverse transitions remain unsupported, never guessed')
+        self.assertEqual(route.lines[before:],['retarget spike0 at 576, 432']*2)
 
     def test_candidate_creation_repeat_and_overwrite_guard(self):
         with tempfile.TemporaryDirectory() as folder:

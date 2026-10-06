@@ -4,7 +4,7 @@ Updated 6 October 2026. Checkboxes require evidence, not merely code. Preserve o
 
 ## Current repair pass
 
-- Preview 67 boundary updater completed after Peninsula Hard victory and saved medal confirmation. Guest confirmed the missing-medal sweep resumed. Preview 69 is now published; its new updater is live at the next healthy boundary, with stop-after confirmed and the root payload reserved for that worker. Compact Settings is visually checked in both themes.
+- Preview 67 boundary updater completed after Peninsula Hard victory and saved medal confirmation. Guest confirmed the missing-medal sweep resumed. Preview 69 boundary updater completed after the next replay ended and confirmed the missing-medal sweep resumed. Hero-title preprocessing is being improved further from saved-frame evidence; no additional clear is claimed. Compact Settings is visually checked in both themes.
 
 - Preview 66 boundary updater completed after Sanctuary Medium returned to the menu with no result, then confirmed the missing-medal sweep resumed. Guest setup reports VM update installed. Pacing is deployed; live winning-route evidence remains pending. Legacy Sanctuary moving-position copies still require correction/exclusion based on the source audit.
 
@@ -675,3 +675,11 @@ Start only after the current repair work is complete, as requested on 5 October.
 
 
 - Confirmed Peninsula Hard Standard on 6 October: VICTORY_CONFIRMED at 06:56:56, round 80; controller clear confirmation and authoritative VM Hard/Standard=1049864. Never replay this earned medal. Preview 67 boundary worker terminated successfully after deployment/resume. Preview 69's separate worker is waiting at the next replay boundary; no healthy replay was interrupted.
+
+
+### Spike Close targeting and hero lettering — 6 October
+
+- [x] Preserve the source-confirmed forward Spike Factory sequence Normal → Close → Smart for bottom tiers 2–4. Same-state commands are no-ops; backward, Set, Automatic, locked and tier-five cycles remain unsupported rather than guessed. Moving selection coordinates remain attached.
+- [x] Add four separate parser-checked candidates: Dark Castle CHIMPS, Dark Dungeons Easy, Ravine Easy and Workshop Easy. Preserve existing candidates and original CHIMPS recordings. These improve alternatives, not total eligibility: coverage remains 512/1,204 pairs and 692 gaps. Never replay an owned medal to validate a candidate.
+- [x] Isolate teal hero-heading pixels and retain a natural-text reading as a separate candidate. Saved Corvus frame produces exact corvus; fifteen combined hero/Spike/selector checks pass. The Selected-button requirement and wrong-hero rejection remain.
+- [ ] Deploy at the next completed replay boundary; observe other heroes only during missing-medal gameplay. A saved Corvus frame does not prove all heroes/resolutions.

@@ -1,0 +1,130 @@
+# source: https://github.com/j-miet/BTD6bot (license MIT (c) 2025 Jani Miettinen) commit 2d6dac0957a0d55d0af201bd497afbebf7f3e5c2
+# source file: btd6bot/plans/dark_castleHardChimps.py
+# generator: import-public-routes.py
+# Spike Factory Normal to Close targeting preserved as one forward press.
+# Recorded placements and upgrades retained. No original replaced; no local victory claimed.
+# generator: import-public-routes.py
+place sub sub0 at 1083, 433
+place dart dart0 at 869, 657
+retarget dart0
+round 7
+place dart dart1 at 587, 485
+round 10
+place obyn_greenfoot hero0 at 815, 447
+round 12
+place druid druid0 at 739, 443
+round 14
+place druid druid1 at 683, 399
+round 15
+place druid druid2 at 891, 447
+round 18
+place druid druid3 at 779, 387
+round 19
+place druid druid4 at 859, 387
+round 21
+place druid druid5 at 967, 445
+round 22
+upgrade dart1 path 2
+upgrade dart1 path 2
+round 23
+upgrade druid0 path 1
+upgrade druid0 path 2
+round 24
+upgrade druid1 path 1
+upgrade druid1 path 2
+round 26
+upgrade druid2 path 1
+upgrade druid2 path 2
+round 27
+upgrade druid3 path 1
+upgrade druid3 path 2
+round 28
+upgrade druid4 path 1
+upgrade druid4 path 2
+round 29
+upgrade druid5 path 1
+upgrade druid5 path 2
+round 31
+place spike spike0 at 1518, 551
+round 33
+upgrade spike0 path 0
+round 35
+upgrade spike0 path 2
+upgrade spike0 path 2
+upgrade spike0 path 2
+retarget spike0
+round 36
+upgrade druid0 path 2
+upgrade druid0 path 2
+round 37
+upgrade druid1 path 2
+upgrade druid1 path 2
+round 38
+upgrade druid2 path 2
+upgrade druid2 path 2
+round 39
+upgrade druid3 path 2
+upgrade druid3 path 2
+upgrade druid4 path 2
+upgrade druid4 path 2
+round 41
+upgrade druid5 path 2
+upgrade druid5 path 2
+round 42
+place village village0 at 859, 301
+round 43
+upgrade village0 path 0
+upgrade village0 path 0
+round 44
+place alchemist alchemist0 at 781, 249
+round 45
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+upgrade alchemist0 path 2
+round 47
+upgrade druid2 path 2
+round 48
+upgrade druid1 path 2
+round 49
+upgrade druid3 path 2
+upgrade druid0 path 2
+round 51
+upgrade druid4 path 2
+round 52
+upgrade druid5 path 2
+round 54
+upgrade alchemist0 path 0
+round 55
+upgrade spike0 path 2
+upgrade spike0 path 0
+round 79
+upgrade druid0 path 2
+place alchemist alchemist1 at 717, 242
+round 80
+upgrade alchemist1 path 0
+upgrade alchemist1 path 0
+upgrade alchemist1 path 0
+round 81
+upgrade alchemist1 path 0
+upgrade alchemist1 path 2
+round 83
+upgrade village0 path 1
+upgrade village0 path 1
+upgrade village0 path 1
+round 94
+upgrade spike0 path 2
+round 95
+place alchemist alchemist2 at 1511, 632
+upgrade alchemist2 path 0
+upgrade alchemist2 path 0
+upgrade alchemist2 path 0
+upgrade alchemist2 path 0
+upgrade alchemist2 path 2
+round 96
+place alchemist alchemist3 at 933, 354
+upgrade alchemist3 path 0
+upgrade alchemist3 path 0
+upgrade alchemist3 path 0
+upgrade alchemist3 path 0
+upgrade alchemist3 path 2

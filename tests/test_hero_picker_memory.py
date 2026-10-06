@@ -5,6 +5,15 @@ ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'autobtd6'))
 from hero_picker_memory import read_memory, lookup_hint, save_selection
 class HeroHints(unittest.TestCase):
+    def test_title_preprocessing_candidates_still_require_selection(self):
+        source=(ROOT/'autobtd6/replay.py').read_text()
+        env={};exec(source[source.index('def heroAlreadySelected('):source.index('\ndef findHeroCard(')],env)
+        match=env['heroAlreadySelected']
+        self.assertTrue(match('obyn_greenfoot',dict(title='noise',titleCandidates=['obyngreenfoot'],button='selected')))
+        self.assertFalse(match('obyn_greenfoot',dict(title='noise',titleCandidates=['obyngreenfoot'],button='select')))
+        self.assertFalse(match('obyn_greenfoot',dict(title='corvus',titleCandidates=[None,3,{},'corvus'],button='selected')))
+        self.assertFalse(match('obyn_greenfoot',dict(title='',titleCandidates='obyngreenfoot',button='selected')))
+        self.assertTrue(match('sauda',dict(title='auda',button='selected')))
     def test_corrupt_or_wrong_shape_cache_is_advisory(self):
         with tempfile.TemporaryDirectory() as folder:
             path=Path(folder)/'last-hero.json'

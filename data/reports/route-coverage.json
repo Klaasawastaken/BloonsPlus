@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-06T04:39:25.639Z",
+  "generatedAt": "2026-10-06T05:01:19.189Z",
   "modes": [
     "easy",
     "primary_only",
@@ -16,7 +16,7 @@
     "impoppable",
     "chimps"
   ],
-  "rules": "Routes counted exactly as automation.js getRecordedCombos() + sweepCandidates() select them: non-generated files in autobtd6/playthroughs, class-only modes need class-only towers, CHIMPS routes are reused for easy/medium/hard standard and impoppable, Hard routes are further reused for easy/medium, and modes primary_only, deflation, military_only, reverse, apopalypse, magic_monkeys_only, double_hp_moabs, half_cash, alternate_bloons_rounds, impoppable, chimps accept only dedicated or CHIMPS-reused routes that are not unverified guide adaptations. Generated drafts are listed separately and never count. Runtime additionally preflights each candidate against saved hero, tower, and upgrade unlocks; routes with missing or unknown prerequisites are skipped before launch.",
+  "rules": "Routes counted exactly as automation.js getRecordedCombos() + sweepCandidates() select them: non-generated files in autobtd6/playthroughs, class-only modes need class-only towers, CHIMPS routes are reused for easy/medium/hard standard and impoppable, Hard routes are further reused for easy/medium, and modes primary_only, deflation, military_only, reverse, apopalypse, magic_monkeys_only, double_hp_moabs, half_cash, alternate_bloons_rounds, impoppable, chimps accept only dedicated or allowed CHIMPS-reused routes that are not unverified guide adaptations. Audited content missing moving-selection commands and phase-incompatible Sanctuary/Geared opening reuse are excluded unless an exact target-mode local win exists. Lossy conversions and generated drafts do not count without the required evidence. Runtime additionally preflights each candidate against saved hero, tower, upgrade, knowledge and control-binding requirements; missing or unknown prerequisites are skipped before launch. Eligibility is not proof of victory.",
   "summary": {
     "maps": 86,
     "mapModePairs": 1204,
@@ -3078,7 +3078,8 @@
       "inMapsJson": true,
       "modes": {
         "easy": [
-          "dark_dungeons#easy#1920x1080#converted#source_bloonsplayer#ability-preserved.btd6"
+          "dark_dungeons#easy#1920x1080#converted#source_bloonsplayer#ability-preserved.btd6",
+          "dark_dungeons#easy#1920x1080#converted#source_btd6bot#spike-close-preserved.btd6"
         ],
         "primary_only": "missing",
         "deflation": "missing",
@@ -3132,6 +3133,7 @@
       "modes": {
         "easy": [
           "ravine#easy#1920x1080#converted#source_bloonsplayer.btd6",
+          "ravine#easy#1920x1080#converted#source_btd6bot#spike-close-preserved.btd6",
           "ravine#hard#2560x1440.btd6",
           "ravine#hard#1920x1080#converted#source_bloonsplayer#observed-start.btd6",
           "ravine#hard#1920x1080#converted#source_randyhodges.btd6",
@@ -3316,6 +3318,7 @@
       "modes": {
         "easy": [
           "workshop#easy#1920x1080#converted#source_bloonsplayer.btd6",
+          "workshop#easy#1920x1080#converted#source_btd6bot#spike-close-preserved.btd6",
           "workshop#hard#2560x1440.btd6",
           "workshop#hard#1920x1080#converted#source_bloonsplayer.btd6",
           "workshop#hard#1920x1080#converted#source_bloonsplayer#observed-start.btd6"
@@ -3405,6 +3408,7 @@
           "dark_castle#easy#1920x1080#converted#source_bloonsplayer.btd6",
           "dark_castle#easy#1920x1080#converted#source_btd6bot.btd6",
           "dark_castle#chimps#2560x1440#noMK#noLL.btd6 (CHIMPS reuse)",
+          "dark_castle#chimps#1920x1080#converted#source_btd6bot#spike-close-preserved.btd6 (CHIMPS reuse)",
           "dark_castle#hard#2560x1440#noMK#noLLwMK.btd6",
           "dark_castle#hard#1920x1080#converted#source_randyhodges.btd6",
           "dark_castle#hard#1920x1080#converted#source_randyhodges#observed-start.btd6"
@@ -3422,6 +3426,7 @@
         ],
         "medium": [
           "dark_castle#chimps#2560x1440#noMK#noLL.btd6 (CHIMPS reuse)",
+          "dark_castle#chimps#1920x1080#converted#source_btd6bot#spike-close-preserved.btd6 (CHIMPS reuse)",
           "dark_castle#hard#2560x1440#noMK#noLLwMK.btd6",
           "dark_castle#hard#1920x1080#converted#source_randyhodges.btd6",
           "dark_castle#hard#1920x1080#converted#source_randyhodges#observed-start.btd6"
@@ -3435,7 +3440,8 @@
           "dark_castle#hard#2560x1440#noMK#noLLwMK.btd6",
           "dark_castle#hard#1920x1080#converted#source_randyhodges.btd6",
           "dark_castle#hard#1920x1080#converted#source_randyhodges#observed-start.btd6",
-          "dark_castle#chimps#2560x1440#noMK#noLL.btd6 (CHIMPS reuse)"
+          "dark_castle#chimps#2560x1440#noMK#noLL.btd6 (CHIMPS reuse)",
+          "dark_castle#chimps#1920x1080#converted#source_btd6bot#spike-close-preserved.btd6 (CHIMPS reuse)"
         ],
         "magic_monkeys_only": "missing",
         "double_hp_moabs": "missing",
@@ -3444,10 +3450,12 @@
           "dark_castle#alternate_bloons_rounds#2560x1440.btd6"
         ],
         "impoppable": [
-          "dark_castle#chimps#2560x1440#noMK#noLL.btd6 (CHIMPS reuse)"
+          "dark_castle#chimps#2560x1440#noMK#noLL.btd6 (CHIMPS reuse)",
+          "dark_castle#chimps#1920x1080#converted#source_btd6bot#spike-close-preserved.btd6 (CHIMPS reuse)"
         ],
         "chimps": [
-          "dark_castle#chimps#2560x1440#noMK#noLL.btd6"
+          "dark_castle#chimps#2560x1440#noMK#noLL.btd6",
+          "dark_castle#chimps#1920x1080#converted#source_btd6bot#spike-close-preserved.btd6"
         ]
       }
     },

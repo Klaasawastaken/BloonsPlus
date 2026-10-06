@@ -13,7 +13,10 @@ const normalize = value => String(value).toLowerCase().replace(/[^a-z]/g, '');
     w: Math.round(box.w * sx), h: Math.round(box.h * sy) });
   // The old crop started inside the first glyph and ended before long names.
   // Include the full name banner, preserving its height so the subtitle stays out.
-  const title = await readNaturalText(png, scale({ x: 800, y: 25, w: 1050, h: 120 }));
+  const titleBox = scale({ x: 800, y: 25, w: 1050, h: 120 });
+  const title = await readTitle(png, titleBox, { tighten: true,
+    classify: (r, g, b) => g > 110 && b > 100 && r < g * 0.75 && r < b * 0.85 });
+  const naturalTitle = await readNaturalText(png, titleBox);
   const buttonBox = scale({ x: 1300, y: 760, w: 430, h: 110 });
   const outlinedButton = await readTitle(png, buttonBox);
   const naturalButton = await readNaturalText(png, buttonBox);
@@ -39,6 +42,7 @@ const normalize = value => String(value).toLowerCase().replace(/[^a-z]/g, '');
   // region before resolving that specific ambiguity; retain unknown for other cases.
   const resolvedButton = button === 'select' && greenFraction >= 0.08 && greenFraction <= 0.20
     ? 'selected' : button === 'unknown' ? visualButton : button;
-  process.stdout.write(JSON.stringify({ title: normalize(title), button: resolvedButton, greenFraction: Number(greenFraction.toFixed(3)) }));
+  const titleCandidates = [...new Set([title, naturalTitle].map(normalize).filter(Boolean))];
+  process.stdout.write(JSON.stringify({ title: titleCandidates[0] || '', titleCandidates, button: resolvedButton, greenFraction: Number(greenFraction.toFixed(3)) }));
 })().catch(error => { process.stderr.write(error.message); process.exitCode = 2; })
   .finally(() => shutdown());

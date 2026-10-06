@@ -828,9 +828,12 @@ def heroAlreadySelected(hero, state):
         'psi': {'psi', 'psl'},
     }
     firstName = hero.lower().split('_')[0]
-    titleMatches = (shown in shortAliases.get(expected, set())
-                    or expected in shown or (len(firstName) >= 5 and firstName in shown)
-                    or SequenceMatcher(None, expected, shown).ratio() >= 0.72)
+    candidates = [shown] + (state.get('titleCandidates') if isinstance(state.get('titleCandidates'), list) else [])
+    titleMatches = any(isinstance(title, str) and bool(title) and
+                       (title in shortAliases.get(expected, set())
+                        or expected in title or (len(firstName) >= 5 and firstName in title)
+                        or SequenceMatcher(None, expected, title).ratio() >= 0.72)
+                       for title in candidates)
     return titleMatches and 'selected' in state.get('button', '')
 
 

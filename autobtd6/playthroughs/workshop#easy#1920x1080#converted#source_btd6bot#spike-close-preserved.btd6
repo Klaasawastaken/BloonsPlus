@@ -1,0 +1,50 @@
+# source: https://github.com/j-miet/BTD6bot (license MIT (c) 2025 Jani Miettinen) commit 2d6dac0957a0d55d0af201bd497afbebf7f3e5c2
+# source file: btd6bot/plans/workshopEasyStandard.py
+# generator: import-public-routes.py
+# Spike Factory Normal to Close targeting preserved as one forward press.
+# Recorded placements and upgrades retained. No original replaced; no local victory claimed.
+# generator: import-public-routes.py
+place sauda hero0 at 1016, 494
+round 2
+place dart dart0 at 222, 625
+round 3
+place dart dart1 at 603, 502
+round 4
+place dart dart2 at 669, 502
+round 9
+place spike spike0 at 1596, 714
+round 11
+place druid druid0 at 943, 626
+round 13
+upgrade druid0 path 1
+upgrade druid0 path 1
+round 16
+upgrade druid0 path 1
+round 20
+upgrade druid0 path 0
+upgrade druid0 path 0
+round 22
+upgrade spike0 path 2
+upgrade spike0 path 2
+retarget spike0
+round 26
+upgrade spike0 path 0
+upgrade spike0 path 0
+round 31
+upgrade spike0 path 0
+round 33
+place alchemist alchemist0 at 1500, 653
+round 35
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+round 38
+place spike spike1 at 1595, 634
+upgrade spike1 path 0
+upgrade spike1 path 0
+upgrade spike1 path 2
+upgrade spike1 path 2
+round 39
+upgrade spike1 path 0
+retarget spike1
+upgrade alchemist0 path 2

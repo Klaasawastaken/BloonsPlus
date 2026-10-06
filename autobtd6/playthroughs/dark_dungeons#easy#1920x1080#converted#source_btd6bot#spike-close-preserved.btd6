@@ -1,0 +1,82 @@
+# source: https://github.com/j-miet/BTD6bot (license MIT (c) 2025 Jani Miettinen) commit 2d6dac0957a0d55d0af201bd497afbebf7f3e5c2
+# source file: btd6bot/plans/dark_dungeonsEasyStandard.py
+# generator: import-public-routes.py
+# Spike Factory Normal to Close targeting preserved as one forward press.
+# Recorded placements and upgrades retained. No original replaced; no local victory claimed.
+# generator: import-public-routes.py
+place dart dart0 at 289, 818
+place dart dart1 at 797, 950
+place dart dart2 at 1333, 1051
+round 3
+place dart dart3 at 1547, 514
+retarget dart2
+retarget dart2
+retarget dart2
+round 4
+upgrade dart0 path 1
+upgrade dart1 path 1
+round 5
+place dart dart4 at 797, 893
+round 6
+place engineer engineer0 at 217, 803
+round 9
+place sauda hero0 at 1441, 339
+retarget dart3
+retarget dart3
+retarget dart3
+round 10
+retarget dart1
+retarget dart1
+retarget dart1
+upgrade dart1 path 1
+round 11
+upgrade dart1 path 1
+round 13
+upgrade engineer0 path 0
+round 15
+upgrade dart3 path 0
+round 18
+place spike spike0 at 183, 283
+round 21
+place spike spike1 at 1011, 469
+round 25
+place tack tack0 at 901, 941
+upgrade tack0 path 2
+upgrade tack0 path 2
+round 26
+upgrade tack0 path 2
+upgrade tack0 path 0
+upgrade tack0 path 0
+round 27
+place alchemist alchemist0 at 1055, 889
+retarget alchemist0
+retarget alchemist0
+retarget alchemist0
+place druid druid0 at 337, 914
+upgrade druid0 path 0
+round 30
+upgrade druid0 path 1
+upgrade druid0 path 1
+round 31
+upgrade druid0 path 1
+round 32
+upgrade spike0 path 2
+upgrade spike0 path 2
+retarget spike0
+round 33
+upgrade spike1 path 2
+upgrade spike1 path 2
+round 35
+upgrade alchemist0 path 0
+round 37
+retarget druid0
+retarget druid0
+retarget druid0
+upgrade dart3 path 0
+upgrade dart3 path 0
+upgrade dart3 path 1
+upgrade dart3 path 1
+upgrade tack0 path 2
+round 39
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
