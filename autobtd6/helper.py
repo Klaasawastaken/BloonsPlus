@@ -745,6 +745,8 @@ def parseBTD6InstructionsFile(
             newMapConfig["steps"] += newSteps
 
     newMapConfig["monkeys"] = monkeys
+    from purchase_pacing import pacing_allowed
+    newMapConfig['purchasePacingAllowed'] = pacing_allowed(newMapConfig['steps'])
     return newMapConfig
 
 

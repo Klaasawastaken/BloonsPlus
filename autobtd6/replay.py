@@ -15,6 +15,7 @@ from upgrade_observation import observe_upgrade, resolve_hud_panels, select_towe
 from placement_observation import held_placement_visible
 from placement_hints import route_placement_hints
 from route_timing import delay_ready, round_offset_ready, ability_ready, issue_ability, upgrade_ready, RepeatedAbilities, round_start_ready
+from purchase_pacing import affordable_upgrade_batch, purchase_pacing_ready
 from map_availability import predicted_thaw_round
 from resume_recovery import restore_upgrade_steps, probe_owned_upgrade, resumable_round_start
 
@@ -3507,6 +3508,29 @@ def main():
                 nextStepCost = int(nextStep.get('cost', 0) or 0) if nextStep else 0
                 cashRequiredForNext = bool(nextStep and (nextStepCost > 0 or nextStepAction in ('await_cash', 'sell')))
                 roundRequiredForNext = bool(nextStep and nextStepAction == 'await_round')
+
+                # Panel confirmation takes real time. Do not let an untimed,
+                # affordable upgrade batch lose several game rounds at 3x speed.
+                # The parser stores this opt-out before resume removes old steps.
+                if (mapConfig.get('purchasePacingAllowed') is True and nextStepDelayReady
+                        and nextStepAction in ('place', 'upgrade', 'retarget', 'special')
+                        and affordable_upgrade_batch(mapConfig['steps'], currentValues.get('money'))):
+                    paceState, paceDiff = None, None
+                    for paceName, paceValue in (('game_playing_fast', 'fast'), ('game_playing_slow', 'slow'), ('game_paused', 'paused')):
+                        diff = cv2.matchTemplate(cutImage(screenshot, imageAreas['compare']['game_state']),
+                                                cutImage(comparisonImages['game_state'][paceName], imageAreas['compare']['game_state']),
+                                                cv2.TM_SQDIFF_NORMED)[0][0]
+                        if paceDiff is None or diff < paceDiff:
+                            paceState, paceDiff = paceValue, diff
+                    paceReady, paceIssued = purchase_pacing_ready(True,
+                        paceState if paceDiff < 0.05 else None,
+                        not (skippingIteration or heldPlacement or routeActionExecuted or playToggleIssued),
+                        time.time(), lastPlayToggleAt, keybinds['others'].get('play'), sendKey)
+                    nextStepDelayReady = nextStepDelayReady and paceReady
+                    if paceIssued:
+                        lastPlayToggleAt = time.time()
+                        playToggleIssued = routeActionExecuted = True
+                        customPrint('PURCHASE_PACING observed fast; slowing affordable upgrade batch before input')
 
                 if mode == Mode.VALIDATE_PLAYTHROUGHS:
                     if lastIterationBalance != -1 and currentValues['money'] != lastIterationBalance - lastIterationCost:
