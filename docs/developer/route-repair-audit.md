@@ -803,3 +803,20 @@ achievement values match with `steam-local-guest` and `steam-local-vm` labels,
 without host fallback. These checks establish transport and artifact identity,
 not every decoder's meaning or a live second-special victory. Fresh idle/setup
 checks passed, and missing-medal gameplay resumed on Streambed Magic Monkeys Only.
+
+## Streambed Magic Monkeys Only — 6 October 2026
+
+The replay reached `VICTORY_CONFIRMED` at round 80; saved Hard/MagicOnly progress
+reports 1,049,865 and the sweep recorded the clear before advancing to Spring
+Spring Hard. Streambed's earned medal is permanently skipped.
+
+Live panel observations confirmed the first Wizard's bottom-path transition
+from Tier 4 to Tier 5 and the second Wizard's top-path Tier 1, 2 and 3 purchases.
+The round-40 log reported lost lives, with later observations at 88. Retain that
+opening incident for strategy review, without replaying this account's owned
+medal or inferring the exact initial lives from earlier noisy OCR. A clear does
+not establish that the route's `noLL` filename still describes every run.
+
+The [read-only transition observation](replay-transition-timing-2026-10-06.md)
+records the subsequent 65-second interval to recognized gameplay. No recovery
+click, wait or route was changed from this observation alone.
