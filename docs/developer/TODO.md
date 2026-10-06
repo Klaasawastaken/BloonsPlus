@@ -66,7 +66,7 @@ Updated **6 October 2026**. This is the active task list. Detailed implementatio
 - [ ] Confirm Expert-to-Beginner ordering, shuffled within categories, without repeating excluded candidates.
 - [ ] Regenerate coverage and audit architecture before extending the production overhaul. Eligibility is not victory evidence.
 
-**Last recorded offline coverage:** 532 of 1,204 map/mode pairs eligible; 672 gaps and three maps without eligible routes. Eligibility does not establish winning strategies or account prerequisites.
+**Last recorded offline coverage:** 526 of 1,204 map/mode pairs eligible; 678 gaps and three maps without eligible routes. Manual source schedules now require the target's starting round unless an exact-content target win exists. Eligibility does not establish winning strategies or account prerequisites.
 
 ## 3. Progress, activity and host/VM connection
 
@@ -78,7 +78,7 @@ Updated **6 October 2026**. This is the active task list. Detailed implementatio
 - [ ] Keep full redacted logs and group failures by actionable cause, even when stale game-state files remain.
 - [ ] Confirm host/guest synchronization after updates and restarts; expose the actual failed connection/setup step.
 - [x] Deploy Preview 81 while the guest is idle, then resume missing medals. Setup confirms installation; host and guest both report the sweep running. The worker's initial two-second resume check was too early; later authoritative checks confirmed success without starting another sweep.
-- [ ] Apply Preview 82 at the next completed replay boundary. Stop-after is confirmed and the update worker is waiting; keep the current replay untouched and resume missing medals after installation.
+- [ ] Apply the Preview 83 batch at the next completed replay boundary. Preview 82's waiting worker was stopped before installation to add the manual-schedule reuse fix. The current replay remains untouched with stop-after enabled; resume missing medals after installation.
 
 ## 4. Installer, updates and production release
 
