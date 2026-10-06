@@ -1,3 +1,23 @@
+## Preview 99 — 6 October 2026
+
+### Additions
+
+- Add separate complete source candidates for Last Resort and Erosion CHIMPS.
+- Preserve Spike Factory Tier 5, reverse targeting and supported Set clicks with saved bindings.
+- Preflight targeting/special controls and cover selection, scaling, recording and resume offline.
+
+### Changes
+
+- Guard automatic Play and nested tower commands against unbound inputs.
+- Retain unresolved upgrade counts across replaced tower instances.
+- Improve dark requirement contrast and prepare installer selection for the v1.0.0 milestone.
+- Verify 362 Python tests, 61 JavaScript check files and ten setup-transport tests.
+- Verify the 235.4 MiB installer, all packaged runtime comparisons, inventory hashes and application icons. Retain clean-machine and live acceptance gates.
+
+### Removed
+
+- Remove incomplete forward-only Spike targeting conversion and white dark-mode requirement surfaces.
+
 ## Preview 98 — 6 October 2026
 
 ### Additions
