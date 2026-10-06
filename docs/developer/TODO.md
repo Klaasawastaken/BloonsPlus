@@ -4,6 +4,8 @@ Updated 6 October 2026. Checkboxes require evidence, not merely code. Preserve o
 
 ## Current repair pass
 
+- Preview 67 is published and pushed. Its existing boundary updater is live, waiting on Peninsula Hard; stop-after is confirmed. Root dist payload remains reserved for Preview 67 until that worker terminates. Compact Settings is visually checked in both themes.
+
 - Preview 66 boundary updater completed after Sanctuary Medium returned to the menu with no result, then confirmed the missing-medal sweep resumed. Guest setup reports VM update installed. Pacing is deployed; live winning-route evidence remains pending. Legacy Sanctuary moving-position copies still require correction/exclusion based on the source audit.
 
 - Preview 64 boundary worker completed after Glacial Trail ABR's round-40 defeat and confirmed the missing-medal sweep resumed. VM profile remains available. Preview 66 is published and its updater is waiting at a healthy replay boundary; root dist payload is reserved until that worker terminates.
@@ -655,3 +657,11 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [x] Rework Settings into compact Appearance, Game connection and Help sections. Keep automatic profile detection out of manual preferences; hide optional Windows installation controls when unnecessary and collapse reset/checklist details. Remove conflicting layout overrides.
 - [x] Retain failed setup/update requests through status refreshes and reject concurrent duplicate setup actions. Focused offline checks pass; the actual dark-theme Settings view is visually reviewed.
 - [ ] Deploy at the next completed replay boundary. New selection candidates remain unverified in gameplay; never replay the already earned Tricky Tracks Hard medal to test one.
+
+
+### Hero picker title crop — 6 October
+
+- [x] Inspect Dark Castle Military Only's no-result failure: Obyn could not be verified, and the final Corvus card was read repeatedly. No defeat was observed and no last round was recorded; this was a picker failure before gameplay.
+- [x] Inspect the saved picker frame: the old 1920px crop began at x675 inside Corvus's first glyph and stopped at x1013. Widen the name-banner crop to include the full heading without its subtitle. Existing saved frame now returns a title containing corvus and Select.
+- [x] Stop the bounded card search if every card in a page returns the same nonempty title. Preserve live verification; no cache or OCR alias is added to claim Obyn from an unreadable title. Six memory/search regressions and actual saved-frame OCR pass.
+- [ ] Observe Obyn verification in a missing-medal run after deployment; this screenshot proves the crop improvement for Corvus, not every hero or resolution. No attempt history was reset.

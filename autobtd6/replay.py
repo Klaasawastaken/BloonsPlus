@@ -857,10 +857,12 @@ def findHeroCard(hero):
         pyautogui.scroll(-4)
         sendKey('{WheelDown 6}')
         time.sleep(menuChangeDelay)
+    pageTitles = []
     def readCard(page, slot):
         pyautogui.click(slot)
         time.sleep(0.18)
         candidate = heroSelectionState()
+        pageTitles.append(candidate.get('title', ''))
         if heroAlreadySelected(hero, {**candidate, 'button': 'selected'}):
             candidate['pickerHint'] = {'page': page, 'position': list(slot),
                 'resolution': list(resolution), 'slots': [list(point) for point in slots]}
@@ -878,11 +880,16 @@ def findHeroCard(hero):
         customPrint('HERO_PICKER layout hint mismatched; searching live cards for ' + hero)
         top()
     for page in range(5):
+        pageTitles.clear()
         for slot in slots:
             candidate = readCard(page, slot)
             if candidate is not None:
                 customPrint('DEBUG hero ' + hero + ' found visually on page ' + str(page) + ' at ' + str(slot))
                 return candidate
+        if len(pageTitles) > 1 and all(pageTitles) and len(set(pageTitles)) == 1:
+            customPrint('HERO_PICKER search stopped: every card returned the same title on page '
+                        + str(page) + ': ' + str(pageTitles[0]))
+            break
         nextPage()
     return {}
 

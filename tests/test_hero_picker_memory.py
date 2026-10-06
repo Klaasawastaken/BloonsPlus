@@ -51,4 +51,9 @@ class HeroHints(unittest.TestCase):
     def test_no_hint_full_search_finds_new_slot(self):
         result,clicks,scrolls=self.run_search(None,['quincy','psi'])
         self.assertEqual(clicks,[(100,100),(200,100)]);self.assertEqual(result['pickerHint']['position'],[200,100])
+    def test_unchanged_final_card_stops_without_trusting_it(self):
+        result,clicks,scrolls=self.run_search(None,['corvus','corvus'])
+        self.assertEqual(result,{})
+        self.assertEqual(clicks,[(100,100),(200,100)])
+        self.assertEqual(scrolls,[20])
 if __name__=='__main__':unittest.main()

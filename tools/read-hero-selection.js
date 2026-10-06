@@ -11,7 +11,9 @@ const normalize = value => String(value).toLowerCase().replace(/[^a-z]/g, '');
   const sx = image.width / 2560, sy = image.height / 1440;
   const scale = box => ({ x: Math.round(box.x * sx), y: Math.round(box.y * sy),
     w: Math.round(box.w * sx), h: Math.round(box.h * sy) });
-  const title = await readNaturalText(png, scale({ x: 900, y: 25, w: 450, h: 120 }));
+  // The old crop started inside the first glyph and ended before long names.
+  // Include the full name banner, preserving its height so the subtitle stays out.
+  const title = await readNaturalText(png, scale({ x: 800, y: 25, w: 1050, h: 120 }));
   const buttonBox = scale({ x: 1300, y: 760, w: 430, h: 110 });
   const outlinedButton = await readTitle(png, buttonBox);
   const naturalButton = await readNaturalText(png, buttonBox);
