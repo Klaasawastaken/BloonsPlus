@@ -21,6 +21,49 @@ from resume_recovery import restore_action
 
 
 class SelectionPositionTests(unittest.TestCase):
+    def test_positional_selector_matches_keyword_selector(self):
+        positional = ('sniper.upgrade(["1-0-0"], (.5,.5))',
+                      'sniper.target("strong", None, None, (.25,.25))',
+                      'sniper.special(1, None, None, (.4,.4))',
+                      'sniper.sell((.3,.3))')
+        keyword = ('sniper.upgrade(["1-0-0"], cpos=(.5,.5))',
+                   'sniper.target("strong", cpos=(.25,.25))',
+                   'sniper.special(1, cpos=(.4,.4))',
+                   'sniper.sell(cpos=(.3,.3))')
+        routes = []
+        for commands in (positional, keyword):
+            route = importer.Route('test', 'test', 'logs', 'hard')
+            route.place('sniper', 'sniper', 200, 300)
+            for command in commands:
+                importer.btd6bot_statement(route, ast.parse(command).body[0])
+            routes.append(route)
+        self.assertEqual(routes[0].lines, routes[1].lines)
+        self.assertEqual(routes[0].towers, routes[1].towers)
+        self.assertFalse(routes[0].lossy)
+
+    def test_keyword_tower_arguments_preserve_source_intent(self):
+        route = importer.Route('test', 'test', 'logs', 'hard')
+        route.place('sniper', 'sniper', 200, 300)
+        for command in ('sniper.upgrade(set_upg=["1-0-0"], cpos=(.5,.5))',
+                        'sniper.target(set_target="strong")'):
+            importer.btd6bot_statement(route, ast.parse(command).body[0])
+        self.assertEqual(route.lines[1], 'upgrade sniper0 path 0 at 960, 540')
+        self.assertEqual(route.lines[2:], ['retarget sniper0 at 960, 540'] * 3)
+
+    def test_malformed_arguments_are_rejected_before_selector_changes(self):
+        for command in ('sniper.sell((.5,.5), cpos=(.25,.25))',
+                        'sniper.upgrade(["1-0-0"], unexpected=True, cpos=(.5,.5))',
+                        'sniper.sell((.5,.5), True)',
+                        'sniper.target("strong", y=.4, cpos=(.5,.5))'):
+            with self.subTest(command=command):
+                route = importer.Route('test', 'test', 'logs', 'hard')
+                route.place('sniper', 'sniper', 200, 300)
+                before = list(route.lines)
+                with self.assertRaises(importer.Unsupported):
+                    importer.btd6bot_statement(route, ast.parse(command).body[0])
+                self.assertEqual(route.lines, before)
+                self.assertNotIn('selectionPos', route.towers['sniper0'])
+
     def test_source_coordinate_persists_until_changed(self):
         route = importer.Route('test', 'test', 'logs', 'hard')
         route.place('sniper', 'sniper', 200, 300)

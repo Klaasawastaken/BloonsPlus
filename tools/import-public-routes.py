@@ -470,6 +470,39 @@ def convert_btd6bot_loop(route, loop, begin, end):
     route.source_flow_active = False
 
 
+def bind_btd6bot_tower_arguments(action, args, kwargs):
+    """Bind the pinned Monkey signatures without executing upstream input code."""
+    parameters = {
+        'upgrade': ('set_upg', 'cpos'),
+        'target': ('set_target', 'x', 'y', 'cpos'),
+        'special': ('s', 'x', 'y', 'cpos'),
+        'sell': ('cpos',),
+    }.get(action)
+    if parameters is None:
+        return args, kwargs
+    if len(args) > len(parameters) or set(kwargs) - set(parameters):
+        raise Unsupported(f'invalid arguments for {action}')
+    bound = dict(kwargs)
+    for parameter, node in zip(parameters, args):
+        if parameter in bound:
+            raise Unsupported(f'duplicate {parameter} argument for {action}')
+        bound[parameter] = node
+    required = {'upgrade': 'set_upg', 'target': 'set_target'}.get(action)
+    if required and required not in bound:
+        raise Unsupported(f'{action} requires {required}')
+    # None is the source default, not a coordinate target. Keep explicit
+    # selection coordinates separate from the special/priority target.
+    for parameter in ('x', 'y'):
+        if parameter in bound and literal(bound[parameter]) is None:
+            del bound[parameter]
+    if ('x' in bound) != ('y' in bound):
+        raise Unsupported(f'{action} target requires both x and y')
+    args = [bound.pop(required)] if required else []
+    if action == 'special':
+        args = [bound.pop('s', ast.Constant(value=1))]
+    return args, bound
+
+
 def btd6bot_statement(route, stmt):
     if isinstance(stmt, ast.Pass):
         return
@@ -492,6 +525,10 @@ def btd6bot_statement(route, stmt):
         raise Unsupported(f"unsupported statement {type(stmt).__name__}")
     owner, action = call_parts(stmt.value)
     args, kwargs = stmt.value.args, {k.arg: k.value for k in stmt.value.keywords}
+    if owner is not None:
+        if None in kwargs or len(kwargs) != len(stmt.value.keywords):
+            raise Unsupported('expanded or duplicate tower keyword arguments')
+        args, kwargs = bind_btd6bot_tower_arguments(action, args, kwargs)
     if "cpos" in kwargs:
         if owner is None or action not in ('upgrade', 'target', 'special', 'sell'):
             raise Unsupported('cpos requires a supported tower command')

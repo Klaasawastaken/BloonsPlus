@@ -42,6 +42,17 @@ installer and release-notes links to Preview 90. Its displayed 234.9 MB size
 matches the local release metadata of 246,311,732 bytes. The installer was not
 downloaded or executed for this website check.
 
+### Latest-release follow-up
+
+A later browser observation on 6 October reached the same deployed HTTPS Download
+page. Its installer link and release-notes link both resolved to
+**v0.1.0-preview.94**. The rendered release label matched that tag and displayed
+**235.4 MB**, consistent with the 246,836,142-byte release asset under the site's
+current binary-size formatting. No horizontal overflow was observed at the
+checked desktop viewport. This replaces Preview 90 as the latest-download
+evidence; the earlier page observations remain historical. No installer was
+executed by this browser check.
+
 ## Open readability defect
 
 The rendered light theme uses `--muted: #708177` for secondary text, including

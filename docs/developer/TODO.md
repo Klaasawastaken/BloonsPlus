@@ -27,9 +27,9 @@ Updated **6 October 2026**. This is the readable, active task list. Technical no
 
 ### Immediate queue
 
-1. **I-07 complete — Approved redesign:** the [source audit](installer-startup-audit.md), [design](../superpowers/specs/2026-10-06-installer-startup-design.md) and [inline implementation plan](../superpowers/plans/2026-10-06-installer-startup.md) are approved. Batches 1–5 and post-install presentation are implemented and checked offline; Preview 93 is published.
+1. **I-07 complete — Approved redesign:** the [source audit](installer-startup-audit.md), [design](../superpowers/specs/2026-10-06-installer-startup-design.md) and [inline implementation plan](../superpowers/plans/2026-10-06-installer-startup.md) are approved. Batches 1–5 and post-install presentation are implemented and checked offline; Preview 94 includes the follow-up VM provisioning repair.
 2. **I-08–I-11 / A-05–A-07 — Installer and first launch:** compact native flow, durable recovery, shared coordination and the intro are implemented. Finish actual clean-machine and physical accessibility acceptance; deploy only at a safe replay boundary.
-3. **I-01 / I-03 / I-04 — Acceptance and releases:** check clean and interrupted setup, repair and release packaging.
+3. **I-01 / I-03 — Acceptance:** check clean and interrupted setup and repair. I-04 packaging is complete for Preview 94; repeat its checks for each later release.
 4. **A-01 / A-03 / A-04 — App and files:** polish controls, accessibility, scrolling and folder organization.
 5. **W-04 — Website:** finish responsive and accessibility checks for the refreshed pages.
 6. **R-02 / R-15 — Recovery:** investigate game progression while replay input is paused or stopped; a paused controller does not prove a paused game.
@@ -56,6 +56,7 @@ The sweep earns missing medals alongside development. Deploy changes together af
 - [ ] **R-01 — Finish source-command coverage.** Audit converted candidates for remaining moved selectors, positional specials and Ace centering; retain exclusions where exact source behavior is unsupported.
   - [x] Repeat/stop-ability commands are implemented through import, parser, recording, replay dispatch and checkpoint restore. Eight focused offline checks passed on 6 October, including duplicate slots, cancellation, rebound keys and the shared input gate. Live timing and victory remain separate evidence under R-11.
   - Selection-position suffixes and targeted-special commands already exist. Audit each source dialect and candidate before treating these as complete coverage; do not implement a second command system.
+  - [x] Correct positional/keyword argument binding for the pinned BTD6bot tower commands. Moved selection coordinates now persist with either call syntax; unknown, duplicate and partial target arguments are rejected before selection changes. Seven selector checks and the full 339-check Python suite pass. A read-only comparison of 252 existing source scripts found no changed conversion result; existing recordings were not regenerated.
 - [ ] **R-02 — Check manual controls and resume.** Observe them during missing-medal gameplay. Keep incomplete plans excluded.
 - [ ] **R-03 — Support paid hero levels.** Preserve the source purchase before restoring routes that omitted it.
 - [ ] **R-04 — Audit older imports.** Compare `source_btd6bot` and compatibility recordings with pinned source. Timing labels alone do not prove equivalence.
@@ -128,11 +129,11 @@ The sweep earns missing medals alongside development. Deploy changes together af
   - Healthy environment reuse now happens before the 5 GB package-install space check. Repairs still check space before moving or rebuilding environments.
   - VM setup now reports explicit states and validates actions before advancing. Retry/failure/restart/sign-in and delayed update connection checks pass offline. Interrupted-process recovery and clean/interrupted setup acceptance remain open.
   - The native installer now holds an exclusive installation lock before file changes or result receipts. VM requests have unique tasks and receipts; setup waits for an owner and compares installer hashes before reusing an identical completed update. Real Windows cross-process, duplicate-result and PowerShell lock checks pass. Unsupported older installers are refused before staging. Recovery of orphaned package processes remains open.
-- [ ] **I-04 — Check release packaging.** Installer, release notes and latest-download link. No separate `SHA256SUMS.txt` asset.
+- [x] **I-04 — Check release packaging.** Preview 94 installer, release notes and the deployed latest-download link were checked. One installer asset; no separate `SHA256SUMS.txt` asset. Repeat this gate for each later release.
 - [ ] **I-05 — Add trusted code signing when available.** Unsigned installers may still trigger SmartScreen.
 - [ ] **I-06 — Meet production acceptance gates.** Complete the specification before publishing **v1.0.0**; previews do not establish production readiness.
 
-**Latest published:** [Preview 93](https://github.com/Klaasawastaken/BloonsPlus/releases/tag/v0.1.0-preview.93), installer 246,833,668 bytes (235.4 MiB). Verified 333 Python checks, ten setup-transport checks, 56 JavaScript check files, 126 packaged-source comparisons and all 1,682 inventory hashes; source and payload publication guards reported zero findings. Uploaded size and digest match. Actual light/dark/compact post-install layouts and reduced motion pass. Clean-machine installation and live recovery evidence remain open. [Release notes](../releases/preview-93.md).
+**Latest published:** [Preview 94](https://github.com/Klaasawastaken/BloonsPlus/releases/tag/v0.1.0-preview.94), installer 246,836,142 bytes (235.4 MiB). Verified 336 Python checks, ten setup-transport checks, 56 existing JavaScript check files, 126 packaged-source comparisons and all 1,683 inventory hashes; source and payload publication guards reported zero findings. Uploaded size and digest match; both executables retain the seven original app-icon frames. The deployed HTTPS Download page resolves its installer and notes to Preview 94. The 18 focused installer compatibility, engine and actual offscreen-view checks also pass after publication. Clean-machine installation and live recovery evidence remain open. [Release notes](../releases/preview-94.md).
 
 ### Installer redesign — requested 6 October
 
@@ -182,7 +183,7 @@ Requested **6 October**. Work alongside background missing-medal gameplay after 
 - [x] **W-02 — Rebuild Features.** Four practical workflow groups and a compact progress section, using varied official monkeys. Desktop/dark/narrow browser checks pass without broken images or horizontal overflow.
 - [x] **W-03 — Streamline Home.** Three feature cards, clearer copy and corrected installation link. Retain the requested app-preview hero and floating card.
 - [ ] **W-04 — Check artwork and layout.** Preserve proportions, attribution, responsiveness and accessibility. No AI-generated images.
-  - [Browser/source evidence](website-acceptance-2026-10-06.md): 18 phone/tablet page checks, menu keyboard behavior, Wiki search/highlighting, annual pricing and all 26 HTML files' local targets passed. Deployed HTTPS pages and the Preview 90 download target were also checked. Light secondary-text contrast needs repair; broader keyboard, screen-reader and motion checks remain open.
+  - [Browser/source evidence](website-acceptance-2026-10-06.md): 18 phone/tablet page checks, menu keyboard behavior, Wiki search/highlighting, annual pricing and all 26 HTML files' local targets passed. The latest deployed HTTPS download target is Preview 94. Light secondary-text contrast needs repair; broader keyboard, screen-reader and motion checks remain open.
 
 ## 7. AI, bosses and Pro
 

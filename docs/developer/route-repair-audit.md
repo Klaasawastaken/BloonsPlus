@@ -436,3 +436,25 @@ BloonsPlayer positional priority and non-Mortar positional targeting still carry
 lossy markers; the separate EverythingMacro adapter rejects several coordinate
 targeting actions. Ace centering and source-specific action semantics therefore
 remain part of R-01's audit instead of being marked globally supported.
+
+### Positional and keyword argument preservation
+
+The BTD6bot adapter previously read `cpos` only as a keyword. The pinned Monkey
+methods also accept it positionally: after the upgrade list, after target/special
+coordinates, or as the first sell argument. Those valid calls could select the
+original location instead of the moved tower. Keyword-only `set_upg` and
+`set_target` calls also indexed an absent positional argument. Unknown arguments
+and duplicate positional/keyword values could be silently ignored.
+
+The adapter now binds the four known signatures before changing selection state.
+An explicit `None` coordinate retains the source default rather than inventing a
+target. Unknown, duplicate, excess and partial coordinate arguments are rejected;
+unsupported Ace centering and second-special operations remain review cases.
+
+Seven selector checks pass, including parser/scaling, recording and resume
+coverage. The full offline Python suite passes 339 checks. A read-only comparison
+of 252 locally available strategy files from the four source adapters found
+identical conversion results before and after this fix. This proves preservation
+of that source sample, not every possible source call or strategy victory. No
+recording, game file or save was rewritten, and no gameplay was launched for this
+check.

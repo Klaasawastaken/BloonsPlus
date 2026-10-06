@@ -15,4 +15,4 @@ Unused full source snapshots are excluded from the public repository and install
 - `btd6bot/`: https://github.com/j-miet/BTD6bot
 - `btd6autoplay/`: https://github.com/Jazzmoon/btd6_autoplay
 
-Their original MIT notices are retained in `licenses/`. Existing imported routes retain provenance. Removing snapshots does not validate their converted strategies.
+Their original MIT notices are retained in [licenses/](licenses/). Existing imported routes retain provenance. Removing snapshots does not validate their converted strategies.
