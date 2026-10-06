@@ -1,3 +1,9 @@
+## Unreleased — Saved hotkey validation
+
+- Reject unsupported saved modifiers instead of sending the bare upgrade key.
+- Handle malformed saved binding objects without crashing startup.
+- Align route readiness with keyboard/modifier support in the replay runner.
+
 ## Preview 47 — Settings connection cleanup
 
 - Show Game Connection inside the guest and keep VM setup guidance on the main PC.

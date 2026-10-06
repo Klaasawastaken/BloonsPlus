@@ -4,6 +4,8 @@ Updated 6 October 2026. Checkboxes require evidence, not merely code. Preserve o
 
 ## Current repair pass
 
+- [x] Reproduce malformed saved modifiers crashing replay startup and unknown modifiers silently becoming bare upgrade keys. Reject unsupported modifier/device combinations in both replay decoding and route readiness; malformed binding entries no longer crash decoding. Supported keyboard scan codes and Shift/Alt/Ctrl preserved. Offline checks only; deployment pending at a replay boundary.
+
 - [x] Finish Settings connection cleanup: distinguish the guest's Game Connection from host VM setup, disable stale install/update actions during controller disconnection, and label queue reset explicitly. JavaScript syntax checked; live replay left untouched.
 
 - [x] Keep host run requests queued while VM setup/update owns the job, including ownership claimed during awaited game-status probes. Pending dispatch resumes through its existing timer after setup finishes. Pause/stop/stop-after relay remains available. Deployment pending.

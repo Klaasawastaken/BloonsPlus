@@ -1588,16 +1588,21 @@ _UNITY_MODIFIERS = {1: '+', 2: '!', 3: '^'}   # Shift, Alt, Ctrl (Copy = Ctrl+C 
 
 def unityBindingToKey(path, modifier=0):
     """'<Keyboard>/q' -> scan code 0x10; with a modifier -> AHK string like '^{sc2e}'. None if unbound."""
-    name = str(path or '').split('/')[-1].lower()
+    if not isinstance(path, str) or not path.lower().startswith('<keyboard>/'):
+        return None
+    modifier = 0 if modifier is None else modifier
+    if type(modifier) is not int or modifier not in (0, 1, 2, 3):
+        return None
+    name = path.split('/')[-1].lower()
     if not name:
         return None
     if name in _UNITY_SCANCODES:
         key = _UNITY_SCANCODES[name]
         if not modifier:
             return key
-        return _UNITY_MODIFIERS.get(int(modifier), '') + '{sc' + hex(key)[2:] + '}'
+        return _UNITY_MODIFIERS[modifier] + '{sc' + hex(key)[2:] + '}'
     if name in _UNITY_NAMED:
-        return _UNITY_MODIFIERS.get(int(modifier or 0), '') + _UNITY_NAMED[name]
+        return _UNITY_MODIFIERS.get(modifier, '') + _UNITY_NAMED[name]
     return None
 
 
@@ -1623,7 +1628,13 @@ def applyGameHotkeys(raw):
     if not isinstance(data, dict):
         return False
     monkeys, gameplay = data.get('monkeys') or {}, data.get('gameplay') or {}
-    key = lambda section, name: unityBindingToKey((section.get(name) or {}).get('path'), (section.get(name) or {}).get('modifierKey', 0))
+    if not isinstance(monkeys, dict) or not isinstance(gameplay, dict):
+        return False
+    def key(section, name):
+        binding = section.get(name)
+        if not isinstance(binding, dict):
+            return None
+        return unityBindingToKey(binding.get('path'), binding.get('modifierKey', 0))
     if monkeys:
         for saveName, towerType in _SAVE_TOWER_NAMES.items():
             keybinds['monkeys'][towerType] = key(monkeys, saveName)
