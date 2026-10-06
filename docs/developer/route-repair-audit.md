@@ -907,3 +907,12 @@ stop-after-replay was disabled. The existing five-minute monitor remained active
 The current host power plan disables sleep and hibernation on AC power. These
 checks establish current operation and monitoring, not uninterrupted future
 uptime.
+
+## Skulltweak Reverse — 7 October 2026
+
+Guest logs reported `VICTORY_CONFIRMED` at round 60 and `clear confirmed` for
+Skulltweak Reverse. A separate read-only VM profile request decoded its Reverse
+medal as owned. The sweep then automatically entered Three Mines 'Round Primary
+Only, with four victories and zero defeats in the current job. No manual input,
+deployment or restart was needed. Skulltweak Reverse must remain skipped for
+this account.

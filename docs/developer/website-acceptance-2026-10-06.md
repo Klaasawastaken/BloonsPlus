@@ -141,4 +141,39 @@ historical.
 - Complete deployed-page interaction and accessibility coverage; the HTTPS,
   artwork, navigation and latest-download spot checks above are only a sample.
 
+## Complete local page and artwork sweep — 7 October 2026
+
+Source baseline: `dc858f1`. An isolated actual Chromium fixture examined all
+17 current content pages at 1,280 px and 390 px CSS widths in both light and dark
+themes: 68 content observations. It also followed all nine legacy HTML redirects
+to their canonical destinations. No VM or gameplay command was issued.
+
+- All 212 local image observations loaded successfully after real page scrolling,
+  including below-fold lazy images. External avatar requests were blocked in eight
+  observations; their availability is not claimed.
+- All 64 character-image observations, comprising 14 distinct images, used
+  `object-fit: contain` or retained their natural proportions within the measured
+  tolerance. This checks computed boxes and fitting, not pixel-level cropping.
+- Thirteen locally hosted tower PNGs are byte-identical to their originals in the
+  app's existing tower-icon catalog. Existing artwork attribution remains in
+  `docs/assets/game/README.md`; this does not establish an independent asset license.
+- All content observations exposed one main landmark and one H1, with no missing
+  local request or main-content fragment target.
+- All 32 Wiki-article observations selected exactly their own sidebar entry.
+  There are eight current articles; Wiki home is a separate content page. The
+  repository's 26 HTML files include nine redirects, not 26 Wiki articles.
+
+**New reproducible layout defect:** VM Connection's setup-state table expands to
+620 px on the 390 px phone viewport in both themes. Its right edge is at 638 px,
+so the entire page scrolls horizontally. The table lacks the existing
+`.wiki-table-scroll` wrapper and inherits the site's mobile table minimum width.
+The other 66 content observations remained within the viewport.
+
+The proposed bounded repair uses that existing scroll wrapper with a descriptive
+region name and keyboard focus, retaining the native caption, column headings,
+row headings and content. Its approval is pending. The fixture deliberately exits
+with failure for the two overflowing observations; this audit is not recorded as
+a full layout pass. Earlier light contrast and Escape-focus repairs also remain
+pending.
+
 W-04 remains open until the outstanding checks and defects are resolved.
