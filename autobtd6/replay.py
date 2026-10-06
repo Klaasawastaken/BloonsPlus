@@ -3385,7 +3385,7 @@ def main():
                                       and ability_ready(nextStep, time.time(), observedRoundStartedAt)
                                       and upgrade_ready(nextStep, currentValues.get('round')))
                 roundStartInputIssued = False
-                if nextStepAction == 'start_round' and nextStepDelayReady:
+                if nextStepAction in ('start_round', 'speed_toggle') and nextStepDelayReady:
                     startState, startDiff = None, None
                     for startName, startValue in (('game_playing_fast', 'fast'), ('game_playing_slow', 'slow'), ('game_paused', 'paused')):
                         diff = cv2.matchTemplate(cutImage(screenshot, imageAreas['compare']['game_state']),
@@ -3803,12 +3803,13 @@ def main():
                             fast = True
                         elif action['speed'] == 'slow':
                             fast = False
-                    elif action['action'] == 'start_round':
+                    elif action['action'] in ('start_round', 'speed_toggle'):
                         action['playStateConfirmed'] = True
                         fast = action['speed'] == 'fast'
-                        mapConfig['roundStartCompleted'] = True
-                        if routeCheckpoint is not None:
-                            routeCheckpoint['roundStartCompleted'] = True
+                        if action['action'] == 'start_round':
+                            mapConfig['roundStartCompleted'] = True
+                            if routeCheckpoint is not None:
+                                routeCheckpoint['roundStartCompleted'] = True
                         customPrint('ROUND_CONTROL confirmed playing speed=' + action['speed'])
                     elif action['action'] == 'await_delay':
                         customPrint('DEBUG route wait completed seconds=' + str(action['seconds']))
@@ -3850,6 +3851,7 @@ def main():
                 startupRoundStartPending = (not mapConfig.get('roundStartCompleted', False)
                                             and any(step.get('action') == 'start_round' for step in mapConfig['steps']))
                 if (not skippingIteration and not placementRetryPending and not startupRoundStartPending and not roundStartInputIssued
+                    and nextStepAction not in ('start_round', 'speed_toggle')
                     and ((not doAllStepsBeforeStart and mapConfig['gamemode'] != 'deflation'
                           and (waitingForLaterRound or getNextCostingAction(mapConfig['steps'])['cost'] > min(currentValues['money'], lastIterationBalance - lastIterationCost)))
                          or len(mapConfig['steps']) == 0)):

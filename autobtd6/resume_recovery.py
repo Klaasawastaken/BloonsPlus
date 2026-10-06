@@ -7,7 +7,7 @@ from upgrade_observation import read_upgrade_panel
 def resumable_round_start(checkpoint):
     """Admit an observed round control, never an ambiguous pending purchase."""
     if (not isinstance(checkpoint, dict) or checkpoint.get('status') != 'pending'
-            or checkpoint.get('pendingAction') != 'start_round'):
+            or checkpoint.get('pendingAction') not in ('start_round', 'speed_toggle')):
         return False
     remaining = checkpoint.get('remainingSteps')
     offset = checkpoint.get('nextStep')
@@ -15,7 +15,14 @@ def resumable_round_start(checkpoint):
             or not remaining or not isinstance(remaining[0], dict)):
         return False
     step = remaining[0]
-    return (step.get('action') == 'start_round' and step.get('speed') in ('fast', 'slow')
+    relative = step.get('action') == 'speed_toggle'
+    pending = step.get('roundStartPending')
+    if relative and (not isinstance(pending, dict)
+                     or pending.get('from') not in ('paused', 'fast', 'slow')
+                     or step.get('speedToggleFrom') not in ('paused', 'fast', 'slow')
+                     or step.get('speed') != ('fast' if step['speedToggleFrom'] == 'slow' else 'slow')):
+        return False
+    return (step.get('action') == checkpoint['pendingAction'] and step.get('speed') in ('fast', 'slow')
             and type(step.get('routeStepIndex')) is int
             and step['routeStepIndex'] == offset)
 
@@ -23,6 +30,17 @@ def resumable_round_start(checkpoint):
 def restore_action(source, saved):
     """Keep current parsed inputs/economy, retaining only recovery state."""
     step = deepcopy(source)
+    if source.get('action') == 'speed_toggle':
+        pending = saved.get('roundStartPending')
+        if pending is not None:
+            if (not isinstance(pending, dict) or pending.get('from') not in ('paused', 'fast', 'slow')
+                    or type(pending.get('sentAt')) not in (int, float) or not isfinite(pending['sentAt'])
+                    or saved.get('speedToggleFrom') not in ('paused', 'fast', 'slow')
+                    or saved.get('speed') != ('fast' if saved['speedToggleFrom'] == 'slow' else 'slow')):
+                raise ValueError('invalid checkpoint relative speed intent')
+            step['speed'] = saved['speed']
+            step['speedToggleFrom'] = saved['speedToggleFrom']
+            step['roundStartPending'] = {'from': pending['from'], 'sentAt': pending['sentAt']}
     if source.get('action') == 'start_round' and saved.get('speed') == source.get('speed'):
         pending = saved.get('roundStartPending')
         if pending is not None:

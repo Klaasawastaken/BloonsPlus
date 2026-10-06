@@ -1,0 +1,112 @@
+# source: https://github.com/piweiblen/BloonsPlayer (license MIT (c) 2021 piweiblen) commit 17d624879c5ad777e82594da34450e66b2d60756
+# source file: tas/general/quad hard.txt
+# generator: import-public-routes.py
+# Relative speed input adapted to observed, checkpointed play-state confirmation.
+# Recorded placements and upgrades retained. No original replaced; no local victory claimed.
+# generator: import-public-routes.py
+place dart dart0 at 836, 273
+place dart dart1 at 407, 556
+place dart dart2 at 1282, 562
+start round fast
+repeat ability 1
+repeat ability 2
+place quincy hero0 at 763, 274
+place dart dart3 at 832, 842
+place sub sub0 at 916, 449
+upgrade sub0 path 0
+upgrade sub0 path 0
+upgrade sub0 path 2
+upgrade sub0 path 2
+place sniper sniper0 at 792, 337
+retarget sniper0
+retarget sniper0
+retarget sniper0
+upgrade sniper0 path 2
+upgrade sniper0 path 0
+upgrade sub0 path 2
+upgrade sniper0 path 2
+upgrade dart3 path 2
+upgrade dart3 path 2
+place alchemist alchemist0 at 989, 478
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+upgrade alchemist0 path 2
+upgrade dart3 path 1
+upgrade dart3 path 1
+upgrade dart3 path 2
+upgrade alchemist0 path 0
+upgrade dart1 path 2
+upgrade dart1 path 2
+upgrade sniper0 path 0
+upgrade dart2 path 2
+upgrade dart2 path 2
+upgrade sniper0 path 0
+place village village0 at 709, 402
+upgrade village0 path 0
+upgrade village0 path 0
+round 50
+change speed
+sell dart3
+place wizard wizard0 at 890, 859
+upgrade wizard0 path 2
+upgrade wizard0 path 2
+upgrade wizard0 path 0
+upgrade wizard0 path 0
+upgrade wizard0 path 0
+change speed
+place alchemist alchemist1 at 824, 836
+upgrade alchemist1 path 0
+upgrade alchemist1 path 0
+upgrade alchemist1 path 0
+upgrade alchemist1 path 2
+upgrade wizard0 path 0
+place bomb bomb0 at 1214, 607
+upgrade bomb0 path 2
+upgrade bomb0 path 2
+upgrade bomb0 path 2
+upgrade bomb0 path 1
+upgrade bomb0 path 1
+upgrade bomb0 path 2
+place bomb bomb1 at 474, 494
+upgrade bomb1 path 2
+upgrade bomb1 path 2
+upgrade bomb1 path 2
+upgrade bomb1 path 1
+upgrade bomb1 path 1
+upgrade bomb1 path 2
+upgrade village0 path 0
+upgrade alchemist1 path 0
+place village village1 at 1037, 720
+upgrade village1 path 0
+upgrade village1 path 0
+upgrade village1 path 0
+upgrade sniper0 path 0
+place bomb bomb2 at 1161, 557
+upgrade bomb2 path 1
+upgrade bomb2 path 1
+upgrade bomb2 path 2
+upgrade bomb2 path 2
+upgrade bomb2 path 2
+upgrade bomb2 path 2
+cash 1500
+remove obstacle at 1540, 536 for 1500
+cash 1500
+remove obstacle at 152, 547 for 1500
+upgrade village1 path 0
+upgrade village1 path 1
+upgrade village1 path 1
+cash 1500
+remove obstacle at 853, 50 for 1500
+cash 1500
+remove obstacle at 837, 1005 for 1500
+place bomb bomb3 at 547, 452
+upgrade bomb3 path 1
+upgrade bomb3 path 1
+upgrade bomb3 path 2
+upgrade bomb3 path 2
+upgrade bomb3 path 2
+upgrade bomb3 path 2
+upgrade village0 path 0
+upgrade village0 path 1
+upgrade village0 path 1

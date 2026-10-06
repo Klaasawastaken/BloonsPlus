@@ -9,15 +9,21 @@ def round_start_ready(step, now, play_state, input_free, press, persist=lambda: 
     input never authorizes a key. Persist before input, so resume observes the
     actual state instead of blindly replaying a toggle.
     """
-    if not step or step.get('action') != 'start_round':
+    if not step or step.get('action') not in ('start_round', 'speed_toggle'):
         return True, False
-    target = step.get('speed')
-    if target not in ('fast', 'slow'):
-        raise ValueError('round start must select fast or slow')
     if type(now) not in (int, float) or not math.isfinite(now):
-        raise ValueError('round start clock must be finite')
+        raise ValueError('round control clock must be finite')
     if not input_free or play_state not in ('paused', 'fast', 'slow'):
         return False, False
+    target = step.get('speed')
+    if step['action'] == 'speed_toggle' and target is None:
+        # Choose once from an observed state. The checkpoint keeps this absolute
+        # intent so a restart cannot invert a toggle that already reached the game.
+        target = 'fast' if play_state == 'slow' else 'slow'
+        step['speed'] = target
+        step['speedToggleFrom'] = play_state
+    if target not in ('fast', 'slow'):
+        raise ValueError('round start must select fast or slow')
     pending = step.get('roundStartPending')
     if pending is not None:
         if not isinstance(pending, dict) or pending.get('from') not in ('paused', 'fast', 'slow'):

@@ -1,3 +1,15 @@
+## Preview 37 — Recorded speed controls and clearer Settings
+
+- Preserve relative speed commands with observed state, serialized input and checkpoint-safe resume.
+- Add two separate speed-preserved source candidates without replacing original recordings.
+- Group Settings into appearance, connection and maintenance with direct diagnostics access.
+
+## Preview 36 — Cash HUD and saved map identities
+
+- Recognize the shifted cash HUD behind alternate hero panels.
+- Share exact Town Centre and Three Mines Around save aliases between sweep and UI.
+- Exclude orphaned legacy scan identifiers from the map pool.
+
 ## Preview 35 — Required tower and upgrade controls
 
 - Check saved placement keys for required towers and heroes before starting a route.

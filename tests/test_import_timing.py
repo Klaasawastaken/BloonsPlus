@@ -83,7 +83,7 @@ class TimingConversionTests(unittest.TestCase):
             self.assertFalse(route.lossy)
 
     def test_bloonsplayer_omitted_flow_is_not_harmless(self):
-        for command in ('wait 2', 'lives 50', 'change speed', 'toggle autostart', 'start round turbo'):
+        for command in ('wait 2', 'lives 50', 'toggle autostart', 'start round turbo'):
             with self.subTest(command=command), tempfile.TemporaryDirectory() as folder:
                 path = Path(folder) / 'strategy.txt'
                 path.write_text('open Logs, Hard, Standard\n' + command + '\n', encoding='utf-8')
@@ -101,6 +101,32 @@ class TimingConversionTests(unittest.TestCase):
                 self.assertFalse(route.lossy)
                 path.write_text('open Logs, Hard, Standard\n' + command + '\n' + command + '\n', encoding='utf-8')
                 self.assertTrue(module.convert_bloonsplayer(path).lossy)
+
+    def test_relative_speed_is_preserved(self):
+        with tempfile.TemporaryDirectory() as folder:
+            path = Path(folder) / 'strategy.txt'
+            path.write_text('open Logs, Hard, Standard\nchange speed\nchange speed\n', encoding='utf-8')
+            route = module.convert_bloonsplayer(path)
+            self.assertEqual(route.lines, ['change speed', 'change speed'])
+            self.assertFalse(route.lossy)
+
+    def test_speed_candidates_are_separate_idempotent_and_preserve_edits(self):
+        with tempfile.TemporaryDirectory() as folder:
+            output = Path(folder)
+            original = output / 'original#chimps#1920x1080.btd6'
+            original.write_bytes(b'keep original recording\n')
+            with patch.object(module, 'PT', output), patch.object(module, 'validate', return_value={}), redirect_stdout(io.StringIO()):
+                module.emit_speed_candidates()
+                before = {p.name:p.read_bytes() for p in output.glob('*.btd6')}
+                self.assertEqual(len(before), 3)
+                module.emit_speed_candidates()
+                self.assertEqual(before, {p.name:p.read_bytes() for p in output.glob('*.btd6')})
+                candidate = next(output.glob('*#speed-preserved.btd6'))
+                candidate.write_text('user edit', encoding='utf-8')
+                with self.assertRaisesRegex(RuntimeError, 'Refusing to overwrite'):
+                    module.emit_speed_candidates()
+                self.assertEqual(candidate.read_text(), 'user edit')
+            self.assertEqual(original.read_bytes(), b'keep original recording\n')
 
     def test_bloonsplayer_delay_preserved_and_wait_assumption_explicit(self):
         for command, expected, review in [('delay 5', 'wait 5 seconds', False), ('wait 2', 'wait 2 seconds', True)]:

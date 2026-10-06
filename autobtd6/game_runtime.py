@@ -11,7 +11,7 @@ import time
 
 SUPPORTED_ACTIONS = {
     'place', 'upgrade', 'sell', 'retarget', 'special', 'remove',
-    'click', 'press', 'ability', 'repeat_ability', 'stop_ability', 'speed', 'start_round', 'await_round', 'await_cash', 'await_delay',
+    'click', 'press', 'ability', 'repeat_ability', 'stop_ability', 'speed', 'speed_toggle', 'start_round', 'await_round', 'await_cash', 'await_delay',
 }
 POSITION_ACTIONS = {'place', 'upgrade', 'sell', 'retarget', 'special', 'remove', 'click'}
 TOWER_ACTIONS = {'place', 'upgrade', 'sell', 'retarget', 'special'}
@@ -84,6 +84,8 @@ def normalize_action(step):
         raise ValueError('await_cash needs a non-negative cash amount')
     if action_type in ('speed', 'start_round') and action.get('speed') not in {'fast', 'slow'}:
         raise ValueError('speed action must select fast or slow')
+    if action_type == 'speed_toggle' and action.get('speed') not in {None, 'fast', 'slow'}:
+        raise ValueError('relative speed intent must select fast or slow')
     return action
 
 
@@ -238,7 +240,7 @@ class GameState:
         self.updated_at = event['confirmedAt']
 
     def record_issued_action(self, action):
-        play_confirmed = action['action'] == 'start_round' and action.get('playStateConfirmed') is True
+        play_confirmed = action['action'] in ('start_round', 'speed_toggle') and action.get('playStateConfirmed') is True
         if play_confirmed:
             self.speed = action['speed']
             self.speed_status = 'play-state-confirmed'

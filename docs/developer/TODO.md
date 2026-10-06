@@ -1,6 +1,6 @@
 # Bloons+ roadmap and repair list
 
-Updated 5 October 2026. Checkboxes require evidence, not merely code. Preserve original CHIMPS recordings and BTD6 saves. Gameplay stays behind simulated input.
+Updated 6 October 2026. Checkboxes require evidence, not merely code. Preserve original CHIMPS recordings and BTD6 saves. Gameplay stays behind simulated input.
 
 ## Current repair pass
 
@@ -452,6 +452,16 @@ Start only after the current repair work is complete, as requested on 5 October.
 - [x] Diagnose live Quad ABR cash stall: screenshot at round 16 showed $5,512 and 28 lives, while replay cash was 28. The alternate Sauda panel missed portrait-colour detection; the currency anchor scored .800 at the shifted HUD versus .144 at the normal HUD and was rejected by the .82 threshold. Accept >=.78 only with stronger >=.35 separation. Captured frame now resolves shifted HUD; 20 upgrade/HUD observation tests and panel-transition regression pass. New live cash reading remains pending a missing-medal replay after deployment; no strategy victory claimed.
 - [x] Repair corrupted arrow/dash/bullet symbols in controller log messages. No route commands or original recordings modified.
 
-- Preview 36 published on 6 October. Stop-after-replay is confirmed true in the guest; the current Scrapyard Medium replay remains running. Update/resume is queued at its terminal boundary.
+- Preview 36 published on 6 October. Stop-after-replay is confirmed true in the guest; the current Tricky Tracks Medium replay remains running. Update/resume is queued at its terminal boundary.
 - Offline follow-up on the recorded Quad JPEG: at a reconstructed 1920x1080 frame, the unchanged model reads 28 from the wrong HUD crop and 5512 from the shifted crop, matching the captured cash display. The raw 960px viewer image is too degraded for reliable direct digit OCR; do not claim native-frame accuracy from it.
 - [x] Repair stale regression harnesses: normalize CRLF before extracting functions, allow PROJECT_ROOT declarations after imports in relocation checks, and test the actual live-source clock helpers instead of the removed activityTimestamp helper. All JavaScript test files and five HUD/placement regressions pass. This confirms the tested mechanisms, not every replay outcome.
+
+## Relative speed controls (2026-10-06)
+
+- [x] Add `change speed` grammar across parser, recorder, canonical action contract, legality validation, converter and required Play/Fast Forward preflight. Choose an absolute target from the observed initial state, serialize input, persist intent and await later-frame confirmation. A replay resume restores that same target with current bindings; it does not blindly toggle again.
+- [x] Block automatic play/speed adjustment while an explicit control is unresolved, including a slow round start. Five relative-control checks, seven startup checks, eleven resume checks and fourteen importer checks pass.
+- [x] Preserve two source-specific candidates separately: Monkey Meadow Deflation and Quad Hard. Full Python parser and strict JavaScript legality pass. Generator repeat/overwrite checks preserve original recordings and reject modified generated candidates. No candidate victory claimed; no owned medal launched for validation.
+- [ ] Deploy relative speed support after the current Preview 36 update/resume batch. Explicit autostart, multiple manual starts and paid hero levels remain unfinished.
+
+- [x] Finish Settings cleanup with a labelled page, distinct Appearance / Connection / Maintenance sections, a direct diagnostics link and main-PC update guidance. Keep setup actions and optional ISO details; automatic profile detection remains in diagnostics. No manual hero/XP/medal configuration added.
+- Confirmed Tricky Tracks Medium on 6 October at 03:12:53: victory at round 60 and authoritative Medium/Standard=1049544. Preview 36 installed at the replay boundary; guest confirmed the missing-medal sweep resumed. Never replay this earned medal.
