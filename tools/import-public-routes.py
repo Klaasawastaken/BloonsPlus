@@ -220,7 +220,9 @@ class Route:
                     return
             self.lossy.add(f"spike targeting '{target}' (needs a special cycle or click)")
             return
-        if kind in ("heli", "ace", "mortar", "dartling", "spike", "farm", "village", "engineer", "beasthandler"):
+        # Engineer uses the ordinary First/Last/Close/Strong cycle in the
+        # pinned source. Foam/trap placement uses separate special commands.
+        if kind in ("heli", "ace", "mortar", "dartling", "spike", "farm", "village", "beasthandler"):
             self.lossy.add(f"{kind} targeting '{target}' (needs a special cycle or click)")
             return
         if state["hero"] and kind not in STANDARD_TARGETING_HEROES:

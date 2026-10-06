@@ -4,6 +4,8 @@ Updated 6 October 2026. Checkboxes require evidence, not merely code. Preserve o
 
 ## Current repair pass
 
+- [x] Preserve ordinary Engineer First/Last/Close/Strong targeting in the faithful importer. Pinned BTD6bot uses its normal four-state handler for Engineer; foam/trap placement remains a separate targeted-special operation. Four regressions cover all 16 transitions, moved selectors, unknown/positional targets and four actual plans. Those plans still require manual controls or Ace centering and remain excluded; no routes rewritten or new victory claimed.
+
 - [x] Settings only shows VM updates after a VM exists; reboot-only steps show instructions without an unusable button. Creation still exposes optional ISO override; guest hides host-only actions. Actual render state regressions and dark-theme browser review pass.
 - [x] Reject explicit conversion headers declaring omitted manual-round controls, including the unflagged Midnight Mansion CHIMPS copy. Seven declarations checked; original recordings unchanged. Current offline eligibility is 516/1,204, with 688 gaps and five maps without eligible routes. Manual control support remains unfinished; no victory claimed.
 
