@@ -2,12 +2,14 @@
 
 Updated **6 October 2026**. This is the readable, active task list. Technical notes, past failures and release evidence are preserved in the [history archive](history/roadmap-2026-10-06.md).
 
+The [production acceptance matrix](production-1.0-gates.md) separates implemented behavior, evidence and remaining release gates.
+
 ## At a glance
 
 - **Current priority:** the installer and first-launch redesign, app polish, folders and the website alongside missing-medal gameplay.
 - **Release target:** milestone 100 is the full **v1.0.0** release. Use Previews 97–99 for preparation and complete production acceptance before publishing 1.0. Future notes use only **Additions**, **Changes**, and **Removed**; see the [release policy](release-policy.md) and [template](../releases/TEMPLATE.md).
-- **Sweep:** earning missing medals again after the checked Chutes placement update. Current target: Quiet Street Magic Monkeys Only. Owned medals are skipped and failures persist.
-- **Recent clears:** Bloonarius Prime ABR, Impoppable and CHIMPS; Balance Hard; Rake Hard and Reverse; Quarry Magic Monkeys Only; Chutes Medium and Hard. Each has victory plus saved-medal evidence.
+- **Sweep:** earning missing medals again after the checked Chutes placement update. Quiet Street Magic Monkeys Only is now confirmed; the sweep continued to Downstream Magic Monkeys Only. Owned medals are skipped and failures persist.
+- **Recent clears:** Bloonarius Prime ABR, Impoppable and CHIMPS; Balance Hard; Rake Hard and Reverse; Quarry Magic Monkeys Only; Chutes Medium and Hard; Quiet Street Magic Monkeys Only. Each has victory plus saved-medal evidence.
 - **Open failures:** Balance Magic Monkeys Only and Rake ABR. The former exposed a held-placement recognition bug now repaired; the latter lost at round 30 with confirmed upgrades and needs strategy review. Sunken Columns ABR also remains open.
 - **Installer batches 1–5:** native separation, durable recovery, shared setup coordination and compact native presentation are implemented and included in Preview 98. Batch 4 passes 39 focused Python checks and seven Node suites; the complete native bootstrap compiles. Shared first-launch controls and the Full/Reduced/Off intro were checked in an isolated actual renderer. Clean-machine and physical accessibility acceptance remain open.
 - **Development alongside gameplay:** installer/setup polish, app polish, folder organization and website redesign. Check the sweep every five minutes and diagnose meaningful failures.
@@ -60,7 +62,7 @@ The sweep earns missing medals alongside development. Deploy changes together af
 - [x] Preserve source `end_round` / `forward` commands, implicit first-round Play, logical branch order and skip-round-check consumption by empty iterations. Fifteen loop/import checks pass; eight separate candidates pass the full Python parser and JS legality checks.
 - [ ] **R-01 — Finish source-command coverage.** Audit converted candidates for remaining moved selectors, positional specials and Ace centering; retain exclusions where exact source behavior is unsupported.
   - [x] Repeat/stop-ability commands are implemented through import, parser, recording, replay dispatch and checkpoint restore. Eight focused offline checks passed on 6 October, including duplicate slots, cancellation, rebound keys and the shared input gate. Live timing and victory remain separate evidence under R-11.
-  - Read-only re-conversion confirms Firing Range has 55 preserved actions but remains lossy because Rosalia uses her second special. Its source placement coordinates exist; second-special support is the actual conversion gap, not an absent source plan.
+  - [x] Preserve second-special commands through import, parsing, recording and resume with the exact saved `TowerSpecial2` binding. Missing bindings block sweep and direct starts even without a readable profile. Recorder checks preserve modifiers and keypad identity. A separate Firing Range CHIMPS candidate retains all 57 source actions with no omissions; original recordings remain unchanged. Live target behavior and victory remain open under R-11.
   - Selection-position suffixes and targeted-special commands already exist. Audit each source dialect and candidate before treating these as complete coverage; do not implement a second command system.
   - [x] Correct positional/keyword argument binding for the pinned BTD6bot tower commands. Moved selection coordinates now persist with either call syntax; unknown, duplicate and partial target arguments are rejected before selection changes. Seven selector checks and the full 339-check Python suite pass. A read-only comparison of 252 existing source scripts found no changed conversion result; existing recordings were not regenerated.
   - [x] Preserve the pinned Spike Factory five-state targeting cycle through Tier 5, including exact reverse inputs and supported positional Set clicks. Reverse uses the saved game binding, never an invented default. Twelve focused checks, 362 Python checks and 61 JavaScript check files pass. Separate Last Resort and Erosion CHIMPS candidates pass the full parser; original recordings are unchanged. Ambiguous source Set calls remain excluded. Live targeting and victories remain open under R-11.
@@ -114,7 +116,7 @@ The sweep earns missing medals alongside development. Deploy changes together af
 - [ ] **S-07 — Check map ordering.** Expert to Beginner, shuffled within categories, without repeating excluded candidates.
 - [ ] **S-08 — Refresh coverage and architecture audit.** Complete before extending the production overhaul. Eligibility is not victory evidence.
 
-**Offline coverage refreshed 6 October:** 530 of 1,204 map/mode pairs eligible; 674 gaps and one map without an eligible route. Last Resort and Erosion now have separate complete source candidates. Manual source schedules require the target's starting round unless an exact-content target win exists. Eligibility does not establish winning strategies or account prerequisites.
+**Offline coverage refreshed 6 October:** 535 of 1,204 map/mode pairs eligible; 669 gaps and zero maps entirely without a candidate. Firing Range joins Last Resort and Erosion with a separate complete source candidate. Manual source schedules require the target's starting round unless an exact-content target win exists. Eligibility does not establish winning strategies or account prerequisites.
 
 ## 3. Progress and VM connection
 

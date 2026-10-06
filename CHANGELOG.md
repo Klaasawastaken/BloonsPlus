@@ -1,3 +1,19 @@
+## Preview 99 second special hotfix — 6 October 2026
+
+### Additions
+
+- Add a complete, separate Firing Range CHIMPS candidate and offline second-special regressions.
+
+### Changes
+
+- Preserve second-special source inputs, saved keyboard bindings, independent targets/selectors and checkpoint intent.
+- Enforce binding prerequisites during direct starts and distinguish ordinary keys from keypad shortcuts in recording.
+- Keep original CHIMPS recordings and healthy missing-medal replays intact; live target behavior remains unverified.
+
+### Removed
+
+- Remove second-special omissions and duplicate recorder actions from the supported conversion path.
+
 ## Preview 99 achievement source hotfix — 6 October 2026
 
 ### Additions

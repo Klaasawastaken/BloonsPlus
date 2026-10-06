@@ -190,8 +190,8 @@ class SourceRoundLoopTests(unittest.TestCase):
             with patch.object(converter, 'PT', output), patch.object(converter, 'validate', return_value={}), redirect_stdout(io.StringIO()):
                 converter.emit_manual_candidates()
                 before = {p.name: p.read_bytes() for p in output.glob('*.btd6')}
-                self.assertEqual(len(before), 13)
-                for name in ('last_resort', 'erosion', 'sanctuary', 'sunset_gulch'):
+                self.assertEqual(len(before), 14)
+                for name in ('last_resort', 'erosion', 'sanctuary', 'sunset_gulch', 'midnight_mansion'):
                     self.assertTrue(any(file.startswith(name+'#') for file in before),name)
                 converter.emit_manual_candidates()
                 self.assertEqual(before, {p.name: p.read_bytes() for p in output.glob('*.btd6')})

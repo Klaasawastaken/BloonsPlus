@@ -33,6 +33,18 @@ for (const monkeys of [undefined,{}, {ReverseChangeTargeting:{path:''}}, {Revers
 assert.equal(rankControls({ReverseChangeTargeting:{path:'<Keyboard>/tab',modifierKey:1}},['ReverseChangeTargeting']).missing,0);
 assert.equal(rankControls({ChangeTargeting:{path:'<Keyboard>/tab'}},['TowerSpecial']).missingControlBindings,1);
 assert.equal(rankControls({},['ChangeTargeting','TowerSpecial']).missing,0,'Absent section preserves legacy forward/special defaults');
+assert.deepEqual(Array.from(requirements('special2 hero to 100, 200 at 300, 400\n# special2 hero', {}, {}).monkeyControls), ['TowerSpecial2']);
+for (const monkeys of [undefined, {}, {TowerSpecial2:{path:''}}, {TowerSpecial2:{path:'<Mouse>/leftButton'}}]) {
+  assert.equal(rankControls(monkeys, ['TowerSpecial2']).missingControlBindings, 1,
+    'Second special needs an explicit supported saved keyboard binding');
+}
+assert.equal(rankControls({TowerSpecial2:{path:'<Keyboard>/PageUp'}}, ['TowerSpecial2']).missing, 0);
+const unavailableRank = vm.runInNewContext(rankSource + ';rankCandidatesForProfile', {
+  readLocalProgress: () => ({available:false}),
+});
+const unavailable = unavailableRank([{requirements:{monkeyControls:['TowerSpecial2']}}, {requirements:{}}]);
+assert.equal(unavailable[0].profileReadiness.missingControlBindings, 1);
+assert.equal(unavailable[1].profileReadiness, undefined, 'Existing unavailable-profile behavior remains unchanged');
 function rank(gameplay, abilities = [3, 10], roundStart = false) {
   const profile = { available: true, gameHotkeys: { gameplay } };
   const fn = vm.runInNewContext(rankSource + ';rankCandidatesForProfile', {

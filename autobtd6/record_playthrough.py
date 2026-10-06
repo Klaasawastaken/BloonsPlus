@@ -69,8 +69,14 @@ def onRecordingEvent(e):
         if selectedMonkey is None:
             print("selectedMonkey unassigned!")
             return
-        config["steps"].append({"action": "special", "name": selectedMonkey["name"]})
-        print("special " + selectedMonkey["name"])
+        step = {"action": "special", "name": selectedMonkey["name"]}
+        if e.get("specialSlot", 1) == 2:
+            step["specialSlot"] = 2
+        if keyboard.is_pressed("space"):
+            step["to"] = pos
+        config["steps"].append(step)
+        print(("special2 " if step.get("specialSlot") == 2 else "special ")
+              + selectedMonkey["name"] + (" to " + tupleToStr(pos) if "to" in step else ""))
     elif e["action"] == "sell":
         if selectedMonkey is None:
             print("selectedMonkey unassigned!")
@@ -181,6 +187,48 @@ def createKeybind(key, data):
         lambda e: onRecordingEvent(data),
     )
 
+
+def registerSecondSpecialRecording():
+    """Record only the second-special key read from this game's profile."""
+    key = keybinds['others'].get('special2')
+    modifiers = ''
+    keypad = False
+    if type(key) is not int:
+        match = re.fullmatch(r'([+^!]*)(?:\{sc([0-9a-f]+)\}|\{([^}]+)\}|([a-z0-9]))', key or '', re.I)
+        if not match:
+            return
+        modifiers = match.group(1)
+        keypad = bool(match.group(3) and match.group(3).startswith('Numpad'))
+        names = {'PgUp': 'page up', 'PgDn': 'page down', 'Backspace': 'backspace',
+                 'Space': 'space', 'Tab': 'tab', 'Enter': 'enter', 'Home': 'home',
+                 'End': 'end', 'Ins': 'insert', 'Del': 'delete',
+                 'Up': 'up', 'Down': 'down', 'Left': 'left', 'Right': 'right'}
+        # The keyboard package does not recognize AHK's Numpad names. Use
+        # their Windows scan codes so the top-row digit is not recorded too.
+        names.update({'Numpad' + str(number): scan for number, scan in enumerate((82,79,80,81,75,76,77,71,72,73))})
+        key = int(match.group(2), 16) if match.group(2) else names.get(match.group(3), match.group(3)) or match.group(4)
+    required = [name for symbol, name in (('+', 'shift'), ('^', 'ctrl'), ('!', 'alt')) if symbol in modifiers]
+    scan_codes = set(keyboard.key_to_scan_codes(key))
+    def claims(event):
+        return (event.scan_code in scan_codes and bool(getattr(event, 'is_keypad', False)) == keypad
+                and all(keyboard.is_pressed(name) for name in required))
+    def record(event):
+        if claims(event):
+            onRecordingEvent({'action': 'monkey_special', 'specialSlot': 2})
+    keyboard.on_press_key(key, record)
+    return claims
+
+
+def registerSpecialRecordings():
+    second_claims = registerSecondSpecialRecording()
+    first = keybinds['recording']['monkey_special']
+    first_keypad = bool(re.fullmatch(r'(?:num(?:pad)? ?[0-9]|decimal)', str(first), re.I))
+    def record_first(event):
+        if (bool(getattr(event, 'is_keypad', False)) == first_keypad
+                and (not second_claims or not second_claims(event))):
+            onRecordingEvent({'action': 'monkey_special'})
+    keyboard.on_press_key(first, record_first)
+
 for monkey, key in keybinds["monkeys"].items():
     createKeybind(key, {"action": "place", "type": monkey})
 
@@ -192,7 +240,7 @@ createKeybind(keybinds["recording"]["select_monkey"], {"action": "select_monkey"
 createKeybind(keybinds["recording"]["remove_obstacle"], {"action": "remove_obstacle"})
 createKeybind(keybinds["recording"]["retarget"], {"action": "retarget"})
 createKeybind(keybinds["recording"]["sell"], {"action": "sell"})
-createKeybind(keybinds["recording"]["monkey_special"], {"action": "monkey_special"})
+registerSpecialRecordings()
 createKeybind(keybinds["recording"]["await_round"], {"action": "await_round", "round": "0"})
 
 while True:

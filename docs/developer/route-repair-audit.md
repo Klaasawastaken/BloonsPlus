@@ -740,3 +740,35 @@ Hard/Standard value changed from 816 to 1,049,864, and stop-after-replay saved t
 clear before ending the sweep. It ran on the previously installed build; the new
 placement correction did not interrupt that game and cannot receive credit for
 its victory. The earned Hard medal is now permanently skipped.
+
+## Firing Range second-special candidate — 6 October 2026
+
+The pinned BTD6bot source places Rosalia and issues second-special target clicks
+at rounds 11 and 16. Conversion previously omitted both commands, so no complete
+Firing Range candidate was eligible. The approved extension preserves them as
+`special2`, parsed into the existing selected-tower special action with slot 2.
+Targets and selection positions remain independent; source clicks, waits,
+abilities, placements and upgrade order remain intact.
+
+The saved `TowerSpecial2` keyboard binding is mandatory. No key is guessed when
+the profile is missing, the action is unbound or the binding is unsupported.
+Both candidate ranking and direct starts enforce this condition. Recording and
+resume retain the slot; recording distinguishes modifier keys and keypad events
+from ordinary navigation keys that share a scan code.
+
+The separate candidate passes the full Python parser: 57 executable lines,
+57 recognized commands and 57 parsed actions. Ten focused checks and all
+394 Python checks / 64 JavaScript check files pass. Scoped review exposed direct
+start and recorder collision gaps; regression checks now cover both repairs.
+Original recordings are unchanged. No local Firing Range victory is claimed.
+
+Coverage increases to 535 of 1,204 map/mode pairs, with no map entirely lacking
+an eligible candidate. Compatibility counts do not establish victories.
+
+## Quiet Street Magic Monkeys Only — 6 October 2026
+
+The healthy replay reached `VICTORY_CONFIRMED` at round 80. The sweep recorded
+the clear, and the VM save-backed progress reports the completed Hard/MagicOnly
+medal. The sweep continued to Downstream Magic Monkeys Only. The new
+second-special code did not run during this clear; it receives no credit for
+the result. Quiet Street's earned medal is permanently excluded.

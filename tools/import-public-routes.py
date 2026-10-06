@@ -252,9 +252,10 @@ class Route:
         for _ in range(steps):
             self.lines.append(f"retarget {name}" + self.selection_suffix(name))
 
-    def special(self, source_name, to=None):
+    def special(self, source_name, to=None, slot=1):
         name = self.tower(source_name)
-        self.lines.append(f"special {name}" + (f" to {to[0]}, {to[1]}" if to is not None else '') + self.selection_suffix(name))
+        command = 'special2' if slot == 2 else 'special'
+        self.lines.append(f"{command} {name}" + (f" to {to[0]}, {to[1]}" if to is not None else '') + self.selection_suffix(name))
 
     def sell(self, source_name):
         name = self.tower(source_name)
@@ -630,9 +631,10 @@ def btd6bot_statement(route, stmt):
         s = literal(args[0]) if args else literal(kwargs["s"]) if "s" in kwargs else 1
         has_xy = len(args) > 1 or "x" in kwargs
         name = route.tower(owner)
-        if str(s) != "1":
-            route.lossy.add("second special ability")
-        elif has_xy and route.towers[name]["type"] == "mortar":
+        if type(s) not in (int, str) or str(s) not in ('1', '2'):
+            raise Unsupported('special slot must be 1 or 2')
+        slot = int(s)
+        if slot == 1 and has_xy and route.towers[name]["type"] == "mortar":
             x = literal(args[1] if len(args) > 1 else kwargs["x"]) * W
             y = literal(args[2] if len(args) > 2 else kwargs["y"]) * H
             route.retarget(owner, 1, route.point(x, y))
@@ -641,9 +643,9 @@ def btd6bot_statement(route, stmt):
             y = literal(args[2] if len(args) > 2 else kwargs['y'])
             if any(type(value) not in (int, float) or not 0 <= value < 1 for value in (x, y)):
                 raise Unsupported('special target needs normalized coordinates in [0, 1)')
-            route.special(owner, route.point(x * W, y * H))
+            route.special(owner, route.point(x * W, y * H), slot=slot)
         else:
-            route.special(owner)
+            route.special(owner, slot=slot)
     elif action == "sell":
         route.sell(owner)
     elif action in ("center", "force_target", "target_robo", "merge", "shop", "spellbook"):
@@ -1138,7 +1140,7 @@ for name in json.load(sys.stdin):
     else:
         text = open(path, encoding='utf-8').read()
         body = [l for l in text.splitlines() if l.strip() and not l.startswith('#')]
-        expected = sum(1 for l in body if re.match(r'^(place|upgrade|retarget|special|sell|remove|click|ability|repeat|stop|round|cash|wait|speed|start|change|move|autostart|source|play) ', l))
+        expected = sum(1 for l in body if re.match(r'^(place|upgrade|retarget|special2?|sell|remove|click|ability|repeat|stop|round|cash|wait|speed|start|change|move|autostart|source|play) ', l))
         actual = sum(1 for s in config['steps'] if s['action'] in ('place', 'upgrade', 'retarget', 'special', 'sell', 'remove', 'ability', 'repeat_ability', 'stop_ability', 'await_round', 'await_cash', 'await_delay', 'speed', 'speed_toggle', 'start_round', 'move_cursor', 'set_autostart', 'source_round', 'play_once', 'play_twice')
                      or (s['action'] == 'click' and s.get('name') == 'map'))
         if expected != actual or expected != len(body):
@@ -1468,6 +1470,32 @@ def emit_special_target_candidates():
     print(json.dumps({'specialTargetCandidates':written,'parserErrors':errors}, indent=2))
 
 
+def emit_second_special_candidate():
+    """Preserve Firing Range's source special slots in a separate candidate."""
+    path = BTD6BOT_PLANS / 'firing_rangeHardChimps.py'
+    route = convert_btd6bot(path)
+    if route.lossy:
+        raise Unsupported('Second-special candidate still omits source commands: ' + '; '.join(sorted(route.lossy)))
+    name = f'{route.map}#{route.mode}#{W}x{H}#converted#source_btd6bot#second-special-preserved.btd6'
+    info = SOURCES['btd6bot']
+    content = '\n'.join(header([
+        f"source: {info['repo']} (license {info['license']}) commit {info['commit']}",
+        'source file: ' + route.source_file,
+        'Second-special slot, target clicks, source waits and independent selectors preserved.',
+        'Requires the saved TowerSpecial2 keyboard binding; no fallback key is guessed.',
+        'Candidate is unverified until victory and saved medal are confirmed.',
+    ]) + route.body()) + '\n'
+    target = PT / name
+    if target.exists() and target.read_text(encoding='utf-8') != content:
+        raise RuntimeError('Refusing to overwrite changed second-special candidate: ' + name)
+    if not target.exists():
+        target.write_text(content, encoding='utf-8', newline='\n')
+    errors = {file: error for file, error in validate([name]).items() if error}
+    if errors:
+        raise RuntimeError('Second-special candidate parser errors: ' + json.dumps(errors))
+    print(json.dumps({'secondSpecialCandidates': [name], 'parserErrors': errors}, indent=2))
+
+
 def audit_legacy_timing():
     """Read-only inventory of legacy timing omissions; never launch or rewrite routes."""
     files = sorted(PT.glob('*.btd6'))
@@ -1498,6 +1526,8 @@ if __name__ == "__main__":
         emit_manual_candidates()
     elif '--special-target-candidates' in sys.argv:
         emit_special_target_candidates()
+    elif '--second-special-candidate' in sys.argv:
+        emit_second_special_candidate()
     elif '--ability-candidates' in sys.argv:
         emit_ability_candidates()
     elif '--round-start-candidates' in sys.argv:

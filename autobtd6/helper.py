@@ -269,7 +269,8 @@ def writeBTD6InstructionsFile(
                 + "\n"
             )
         elif action["action"] == "special":
-            fp.write("special " + action["name"] + (" to " + tupleToStr(action["to"]) if "to" in action else "") + selectionSuffix + "\n")
+            command = "special2" if action.get("specialSlot", 1) == 2 else "special"
+            fp.write(command + " " + action["name"] + (" to " + tupleToStr(action["to"]) if "to" in action else "") + selectionSuffix + "\n")
         elif action["action"] == "sell":
             fp.write("sell " + action["name"] + selectionSuffix + "\n")
         elif action["action"] == "remove":
@@ -483,7 +484,7 @@ def parseBTD6InstructionsFile(
             })
             continue
         selectionPos = None
-        selectionMatch = re.fullmatch(r'((?:upgrade|retarget|special|sell)\s.+) at (\d+), (\d+)', line)
+        selectionMatch = re.fullmatch(r'((?:upgrade|retarget|special2?|sell)\s.+) at (\d+), (\d+)', line)
         if selectionMatch:
             line = selectionMatch.group(1)
             selectionPos = (int(selectionMatch.group(2)), int(selectionMatch.group(3)))
@@ -491,7 +492,7 @@ def parseBTD6InstructionsFile(
         if reverseTarget:
             line = line.removesuffix(' reverse')
         matches = re.search(
-            r"^(?P<action>place|upgrade|retarget|special|sell|remove|round|speed|cash) ?(?P<type>[a-z_]+)? (?P<name>\w+)(?: (?:(?:at|to) (?P<x>\d+), (?P<y>\d+))?(?:path (?P<path>[0-2]))?)?(?: for (?P<price>\d+|\?\?\?))?(?: with (?P<discount>\d{1,2}|100)% discount)?$",
+            r"^(?P<action>place|upgrade|retarget|special2?|sell|remove|round|speed|cash) ?(?P<type>[a-z_]+)? (?P<name>\w+)(?: (?:(?:at|to) (?P<x>\d+), (?P<y>\d+))?(?:path (?P<path>[0-2]))?)?(?: for (?P<price>\d+|\?\?\?))?(?: with (?P<discount>\d{1,2}|100)% discount)?$",
             line,
         )
         if not matches:
@@ -702,7 +703,7 @@ def parseBTD6InstructionsFile(
                 print("mortar can only be retargeted to a position! skipping!")
                 continue
             newSteps.append(newStep)
-        elif matches.group("action") == "special":
+        elif matches.group("action") in ("special", "special2"):
             if not monkeys.get(matches.group("name")):
                 print(
                     filename
@@ -714,10 +715,12 @@ def parseBTD6InstructionsFile(
             newStep = {
                 "action": "special",
                 "name": matches.group("name"),
-                "key": keybinds["others"]["special"],
+                "key": keybinds["others"].get(matches.group("action")),
                 "pos": monkeys[matches.group("name")]["pos"],
                 "cost": 0,
             }
+            if matches.group("action") == "special2":
+                newStep["specialSlot"] = 2
             if matches.group("x"):
                 newStep["to"] = (int(matches.group("x")), int(matches.group("y")))
             newSteps.append(newStep)
@@ -1671,6 +1674,9 @@ def applyGameHotkeys(raw):
     """Override keybinds.json with the bindings BTD6 itself uses (from Profile.Save, passed by
     Bloons+ at every replay start). Unbound actions become None so they're skipped, never
     guessed: e.g. an unbound ability '1' would otherwise buy Upgrade Path 1."""
+    # Second-special commands have no legacy key. Clear stale configuration
+    # even when this profile has no readable binding section.
+    keybinds['others']['special2'] = None
     try:
         data = json.loads(raw) if raw else None
     except ValueError:
@@ -1693,6 +1699,7 @@ def applyGameHotkeys(raw):
         keybinds['others']['retarget'] = key(monkeys, 'ChangeTargeting')
         keybinds['others']['retarget_reverse'] = key(monkeys, 'ReverseChangeTargeting')
         keybinds['others']['special'] = key(monkeys, 'TowerSpecial')
+        keybinds['others']['special2'] = key(monkeys, 'TowerSpecial2')
     if gameplay:
         keybinds['others']['sell'] = key(gameplay, 'Sell')
         play = key(gameplay, 'PlayFastForward')

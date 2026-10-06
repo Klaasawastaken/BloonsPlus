@@ -28,9 +28,9 @@ def audit():
             route = importer.convert_btd6bot(source)
             verdict = dict(status='source-convertible' if not route.lossy else 'source-omissions',
                            omissions=sorted(route.lossy), requiredSelectionCommands=sum(
-                               bool(re.match(r'^(upgrade|retarget|special|sell)\s.+ at \d+, \d+$', line))
+                               bool(re.match(r'^(upgrade|retarget|special2?|sell)\s.+ at \d+, \d+$', line))
                                for line in route.body()), requiredTargetSpecialCommands=sum(
-                               bool(re.match(r'^special \w+ to \d+, \d+', line)) for line in route.body()))
+                               bool(re.match(r'^special2? \w+ to \d+, \d+', line)) for line in route.body()))
         except importer.Unsupported as error:
             verdict = dict(status='source-unsupported', reason=str(error))
         sources[(slug, identity[1])] = dict(verdict, source=source.relative_to(ROOT).as_posix(),
@@ -47,9 +47,9 @@ def audit():
         elif 'fromImpoppable' in flags:
             source_mode = 'impoppable'
         verdict = sources.get((fields[0], source_mode), dict(status='source-unresolved'))
-        selectors = sum(bool(re.match(r'^(upgrade|retarget|special|sell)\s.+ at \d+, \d+$', line))
+        selectors = sum(bool(re.match(r'^(upgrade|retarget|special2?|sell)\s.+ at \d+, \d+$', line))
                         for line in file.read_text(encoding='utf-8-sig').splitlines())
-        target_specials = sum(bool(re.match(r'^special \w+ to \d+, \d+', line))
+        target_specials = sum(bool(re.match(r'^special2? \w+ to \d+, \d+', line))
                               for line in file.read_text(encoding='utf-8-sig').splitlines())
         findings.append(dict(verdict, file=file.name, map=fields[0], targetMode=fields[1],
             sourceMode=source_mode, compatibilityCopy='compat' in flags,
