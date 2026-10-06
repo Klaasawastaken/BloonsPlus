@@ -5,11 +5,11 @@ Updated **6 October 2026**. This is the readable, active task list. Technical no
 ## At a glance
 
 - **Current priority:** the installer and first-launch redesign, app polish, folders and the website alongside missing-medal gameplay.
-- **Sweep:** running in the VM. Dark Castle Military Monkeys Only, Underground CHIMPS, Off the Coast Military Monkeys Only, Cornfield Impoppable and Cornfield CHIMPS were confirmed. Dark Path Alternate Bloons Rounds now has both `VICTORY_CONFIRMED` and its saved medal; the sweep has moved to Spillway. The previous Bloody Puddles interruption remains under investigation.
+- **Sweep:** running in the VM. Latest confirmed clears: Sunken Columns Reverse, Spice Islands Hard Standard and Spice Islands Alternate Bloons Rounds, each with victory and saved-medal evidence. Sunken Columns Alternate Bloons Rounds lost at round 27; the persistent failure remains open. Earlier confirmed clears remain in saved progress and are skipped.
 - **Installer batches 1–5:** native separation, durable recovery, shared setup coordination and compact native presentation are implemented. Batch 4 passes 39 focused Python checks and seven Node suites; the complete native bootstrap compiles. The shared first-launch controls and Full/Reduced/Off intro are implemented and checked in an isolated actual renderer. Clean-machine and physical accessibility acceptance remain open. These sources have not replaced the healthy guest runtime.
 - **Development alongside gameplay:** installer/setup polish, app polish, folder organization and website redesign. Check the sweep every five minutes and diagnose meaningful failures.
 - **Background work:** improve routes and placement from missing-medal gameplay evidence; retain failures and skip owned medals.
-- **Latest release:** Preview 90 is published with native installer ownership and isolated VM setup tasks/results. The healthy VM replay retains its existing runtime; this batch was not deployed mid-run. Live cash-recovery evidence remains open.
+- **Latest release:** [Preview 91](https://github.com/Klaasawastaken/BloonsPlus/releases/tag/v0.1.0-preview.91) is published with the native installer redesign, shared first-launch setup and configurable intro. The healthy VM replay retains its existing runtime; this batch was not deployed mid-run. Live cash-recovery evidence remains open.
 
 ## Work order
 
@@ -27,13 +27,14 @@ Updated **6 October 2026**. This is the readable, active task list. Technical no
 
 ### Immediate queue
 
-1. **I-07 complete — Approved redesign:** the [source audit](installer-startup-audit.md), [design](../superpowers/specs/2026-10-06-installer-startup-design.md) and [inline implementation plan](../superpowers/plans/2026-10-06-installer-startup.md) are approved. Batches 1–3 are implemented and checked offline.
-2. **I-08–I-11 / A-05–A-07 — Installer and first launch:** implement the simple install flow and branded startup in verified, recoverable batches.
+1. **I-07 complete — Approved redesign:** the [source audit](installer-startup-audit.md), [design](../superpowers/specs/2026-10-06-installer-startup-design.md) and [inline implementation plan](../superpowers/plans/2026-10-06-installer-startup.md) are approved. Batches 1–5 are implemented and checked offline; Preview 91 is published.
+2. **I-08–I-11 / A-05–A-07 — Installer and first launch:** compact native flow, durable recovery, shared coordination and the intro are implemented. Finish actual clean-machine and physical accessibility acceptance; deploy only at a safe replay boundary.
 3. **I-01 / I-03 / I-04 — Acceptance and releases:** check clean and interrupted setup, repair and release packaging.
 4. **A-01 / A-03 / A-04 — App and files:** polish controls, accessibility, scrolling and folder organization.
 5. **W-04 — Website:** finish responsive and accessibility checks for the refreshed pages.
 6. **R-02 / R-15 — Recovery:** investigate game progression while replay input is paused or stopped; a paused controller does not prove a paused game.
 7. **Background — R / S tasks:** check the missing-medal sweep every five minutes; diagnose failures and improve candidates without replaying owned medals.
+8. **A-08 — Post-install configuration:** apply the approved Opera-inspired visual direction after installation; keep the compact native installer unchanged. Reuse shared observed setup actions, preserve navigation, support reduced motion and measure animation performance rather than promising a frame rate.
 
 The sweep earns missing medals alongside development. Deploy changes together after the current healthy replay finishes.
 
@@ -131,7 +132,7 @@ The sweep earns missing medals alongside development. Deploy changes together af
 - [ ] **I-05 — Add trusted code signing when available.** Unsigned installers may still trigger SmartScreen.
 - [ ] **I-06 — Meet production acceptance gates.** Complete the specification before publishing **v1.0.0**; previews do not establish production readiness.
 
-**Latest published:** [Preview 90](https://github.com/Klaasawastaken/BloonsPlus/releases/tag/v0.1.0-preview.90), installer 246,311,732 bytes. Verified 314 Python checks, ten setup-transport checks, 50 JavaScript check files and 29 packaged-source comparisons; publication guard reported zero findings. Dark Castle Military Monkeys Only, Underground CHIMPS and Off the Coast Military Monkeys Only were confirmed by victory and saved medals. Clean-machine installation and live recovery evidence remain open.
+**Latest published:** [Preview 91](https://github.com/Klaasawastaken/BloonsPlus/releases/tag/v0.1.0-preview.91), installer 246,809,855 bytes (235.4 MiB). Verified 332 Python checks, ten setup-transport checks, 56 JavaScript check files, 125 packaged-source comparisons and all 1,669 inventory hashes; source and payload publication guards reported zero findings. Uploaded installer size and digest match. Clean-machine installation and live recovery evidence remain open. [Release notes](../releases/preview-91.md).
 
 ### Installer redesign — requested 6 October
 
@@ -142,9 +143,13 @@ The sweep earns missing medals alongside development. Deploy changes together af
   - **Approved architecture:** retain native C#, separate setup operations from presentation, reuse the existing JavaScript/Python VM operators and implement the short intro in the existing app renderer. Add no installer runtime. The [written contract](../superpowers/specs/2026-10-06-installer-startup-design.md) maps the requested installer/startup experience to these boundaries; its review precedes the implementation plan.
   - **Baseline verified:** 23 focused installer/release checks passed on 6 October. These cover native duplicate ownership, receipt isolation, runtime reuse, progress states, controller guards, mocked guest deployment, atomic builder output and release selection. They do not prove clean-machine installation or recovery of surviving package children; see the [test evidence](installer-startup-audit.md#focused-baseline-checks).
 - [ ] **I-08 — Build a compact, simple install flow.** Welcome with one clear **Install BloonsPlus** action and secondary **Options**. Transition through preparing, installing and validated completion with **Launch BloonsPlus**. Hide advanced choices until requested; avoid a long Next/Next wizard. Offer useful options such as shortcuts and launch behavior, without exposing internal commands as normal controls.
+  - Implemented in Preview 91. Actual native controls inspected offscreen in four states and both themes; end-to-end clean-machine launch remains I-01/I-02.
 - [ ] **I-09 — Separate engine and presentation.** Keep installer state/operations, installer UI, app bootstrap, launch presentation and main UI distinct. Render real engine state. Each stage needs friendly status, technical details, progress behavior, bounded retry, cancellation and resume rules. Show measured stage/overall progress where meaningful and an indeterminate state where work cannot be measured. Never invent percentages, regress overall progress or declare completion before validation.
+  - Implemented in Preview 91: independent native engine, durable owned-process receipts, shared coordinator, measured progress and interruption fixtures. Actual UAC/reboot acceptance remains open.
 - [ ] **I-10 — Add smart preflight and targeted repair.** Check Windows version/architecture, storage, virtualization/features, runtimes, existing installation/VM, SSH, network, permissions and incomplete setup. Reuse healthy components; verify changes before advancing. Resume from actual machine state instead of rebuilding resources. Recognize installed versions and expose Launch, Update and Repair, with Modify/Uninstall secondary. Preserve app data, Steam, game data, VM disks, settings and keys.
+  - Preview 91 adds inventory-based installed actions and selective uninstall, preserves modified/unlisted data, keeps Update intent through Resume and blocks unknown active owners. Clean/partial-install acceptance remains open.
 - [ ] **I-11 — Polish recovery and diagnostics.** Use friendly error summaries with Try Again/Repair and expandable details; preserve original diagnostics and support redacted copy/export. Group required elevation with a clear reason. Treat restart required as a persisted state with explicit Now/Later choices and recovery after reboot. Use bounded backoff for transient downloads/VM/SSH failures, verify downloads and resume where safe. Keep heavy work off the UI thread.
+  - Preview 91 includes redacted bounded Copy/Export, restart checkpoints, safe cancellation/resume and actionable disconnected-VM recovery. Physical reboot/resume and weak-hardware checks remain open.
 
 **Design and motion:** compact visual/functional areas, excellent typography, rounded surfaces, restrained gradients/glow, subtle shadows and brief state transitions. Respond to clicks immediately; never delay setup for an animation. Avoid constant particles, large spinners or an exaggerated RGB style.
 
@@ -163,8 +168,11 @@ The sweep earns missing medals alongside development. Deploy changes together af
 ### App startup and first launch — requested 6 October
 
 - [ ] **A-05 — Build an original branded intro.** Use the Bloons+ logo and restrained tower/map motifs, with a seamless transition into the actual dashboard. Target roughly 1–2 seconds on normal launch; an optional richer first launch may take 2–3 seconds. Load configuration, cached UI and lightweight connections concurrently. If readiness takes longer, show a real loading state; never freeze the final animation frame.
+  - Implemented in Preview 91: small-logo Full/Reduced/Off intro, 1.6 s normal/2.4 s first launch, concurrent shell, independent eight-second service deadline and explicit Retry/details. Isolated actual first/repeat/failure renders pass; broader physical acceptance remains open.
 - [ ] **A-06 — Keep launch fast and accessible.** Use small vector/native/GPU-friendly assets, not a large video or GIF. Preload required assets; avoid white flashes, window resizing, console windows, asset pop-in and a blank frame before the app. Support Full/Reduced/Off animation settings and reduced-motion preferences. Allow dismissal/recovery when startup fails. Keep sound off unless an appropriate original/licensed asset and user control exist.
+  - Preview 91 preserves host acceleration and lighter guest rendering, uses stable themed window colors and bounded navigation, honors reduced motion and Escape/Skip. Real screen-reader, focus and weak-hardware acceptance remain open.
 - [ ] **A-07 — Match installer, intro and app.** Share website colors, typography, logo treatment, radii, spacing and motion curves. Animate button feedback, state changes, errors and completion without stalling work. Check high DPI, weaker hardware, keyboard/screen-reader use and first versus repeat launches. A color change plus loading GIF does not complete this redesign.
+- [ ] **A-08 — Restyle post-install configuration.** User clarification: keep the native installer; give the post-install configuration an original Opera-inspired welcome, proportional official art, rounded setup/Options cards and smooth time-based motion targeting 60 fps. Keep the existing native engine, silent guest setup, shared coordinator and recovery behavior. Honor reduced motion and avoid blocking navigation or claiming unmeasured frame rates.
 
 ## 6. Website redesign
 

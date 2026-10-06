@@ -1,0 +1,42 @@
+name: Feature request
+description: Suggest an improvement and explain the problem it would solve.
+title: "[Feature]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Check the existing issues and roadmap first. Describe the benefit before proposing an implementation.
+        Roadmap: https://github.com/Klaasawastaken/BloonsPlus/blob/main/docs/developer/TODO.md
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or use case
+      description: Who is affected, and what is difficult today?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed improvement
+      description: Describe the expected user experience and what success would look like.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Existing workarounds or simpler approaches, if any.
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context (optional)
+      description: Include reviewed, non-personal examples. Keep security reports private.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I checked the roadmap and existing requests.
+          required: true
+        - label: This request contains no credentials, keys or personal data.
+          required: true

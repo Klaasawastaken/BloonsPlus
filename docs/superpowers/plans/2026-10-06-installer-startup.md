@@ -150,7 +150,7 @@
 - [ ] Use a separate clean supported Windows environment for actual no-dependency setup; record UAC decline, reboot later/resume, Steam sign-in/2FA and delayed bridge. Do not repurpose the active gameplay VM.
 - [ ] Finish keyboard/screen-reader, DPI/text-scale, theme and weak-hardware acceptance across installer, first launch and intro settings.
 - [x] Verify packaged sources match this batch, footer/receipts/ownership remain compatible and publication guards exclude private artifacts. Final rebuilt EXE: 246,809,855 bytes; 125 runtime sources and all 1,669 inventory hashes match. Source and payload privacy guards report zero findings.
-- [ ] Publish a preview only after its completed batch is verified. Keep v1.0 blocked until the full production gates pass; docs or mocks alone cannot satisfy them.
+- [x] Publish a preview only after its completed batch is verified. Preview 91 is published; uploaded installer size and digest match. Keep v1.0 blocked until the full production gates pass; docs or mocks alone cannot satisfy them.
 - [ ] Deploy approved runtime changes only after the current healthy replay ends; resume missing medals and independently confirm new clears from saved medals.
 
 ## Review and execution record

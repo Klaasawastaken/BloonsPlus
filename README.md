@@ -65,10 +65,10 @@ Copy the example configuration only on a fresh checkout. Preserve existing setti
 | `tools/` | Build, import and maintenance scripts |
 | `vm/` | Guest provisioning |
 | `data/`, `assets/` | Shared catalogs and application artwork |
-| `route-library/`, `licenses/` | Strategy provenance and third-party notices |
+| `route-library/`, `docs/developer/licenses/` | Strategy provenance and third-party notices |
 | `tests/` | Focused offline regression checks |
 
-[Developer guide →](https://bloonsplus.com/wiki/development/) · [Route format →](https://bloonsplus.com/wiki/route-format/) · [Build reference →](docs/developer/README.md) · [Repair roadmap →](docs/developer/TODO.md)
+[Contributing →](.github/CONTRIBUTING.md) · [Developer guide →](https://bloonsplus.com/wiki/development/) · [Route format →](https://bloonsplus.com/wiki/route-format/) · [Repair roadmap →](docs/developer/TODO.md)
 
 ## Coming next
 
@@ -80,4 +80,14 @@ Built by **klaasa**. No community contributors yet. Join [Discord](https://disco
 
 Gameplay uses simulated mouse and keyboard. Game save readers do not modify saves. Never publish credentials, VM keys, player profiles or personal screenshots. Installed copies require an app update; a GitHub push alone does not update them.
 
-Bloons TD 6 belongs to Ninja Kiwi. Bloons+ is independent and is not affiliated with Ninja Kiwi. Imported software, routes and artwork retain their notices in `licenses/` and source metadata.
+Bloons TD 6 belongs to Ninja Kiwi. Bloons+ is independent and is not affiliated with Ninja Kiwi. Imported software and routes retain their notices in `docs/developer/licenses/` and source metadata; official artwork retains Ninja Kiwi's rights.
+
+[Code of Conduct](.github/CODE_OF_CONDUCT.md) · [Support](.github/SUPPORT.md) · [Security policy and private reporting](.github/SECURITY.md)
+
+## License
+
+**Source-available · Copyright © 2026 BloonsPlus.** BloonsPlus-owned code and documentation use [PolyForm Noncommercial 1.0.0](LICENSE.md). Noncommercial use, modification and redistribution are permitted subject to that license and its required notices. Commercial use requires a separate written permission from the copyright holder. The full license controls.
+
+Required Notice: Copyright © 2026 BloonsPlus.
+
+Third-party software, imported routes, official BTD6 artwork and trademarks retain their own terms and are excluded from this grant. See the [license scope and retained notices](.github/THIRD_PARTY.md).

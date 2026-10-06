@@ -1,0 +1,73 @@
+name: Bug report
+description: Report an app, setup, connection or replay problem with reproducible evidence.
+title: "[Bug]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Search existing issues first. This report and its attachments will be public.
+        Never include passwords, tokens, SSH keys, saves, account identifiers or complete VM images.
+        Security vulnerabilities should be reported privately: https://github.com/Klaasawastaken/BloonsPlus/security/advisories/new
+  - type: input
+    id: version
+    attributes:
+      label: BloonsPlus release
+      description: Exact preview tag or development commit. Avoid saying only "latest".
+      placeholder: v0.1.0-preview.91
+    validations:
+      required: true
+  - type: dropdown
+    id: component
+    attributes:
+      label: Affected area
+      options:
+        - Installer or first launch
+        - VM setup or connection
+        - Replay or missing-medal sweep
+        - Progress or saved medals
+        - App interface
+        - Website or documentation
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Windows version, host or VM, installed release or source checkout, and BTD6 version when relevant. Exclude identifying data.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Include map, mode, approximate round and action for a replay problem. Describe steps already attempted.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      description: Include the exact error and whether the run was active, paused, defeated or completed.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Redacted evidence (optional)
+      description: A short log excerpt or reviewed support report is enough. Crop screenshots. Do not attach personal data or unreviewed full logs.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I searched for an existing report of this problem.
+          required: true
+        - label: I reviewed the report and attachments and removed credentials, keys and personal data.
+          required: true
