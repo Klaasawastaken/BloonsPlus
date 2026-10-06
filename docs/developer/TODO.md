@@ -4,6 +4,8 @@ Updated 6 October 2026. Checkboxes require evidence, not merely code. Preserve o
 
 ## Current repair pass
 
+- [x] Finish Settings connection cleanup: distinguish the guest's Game Connection from host VM setup, disable stale install/update actions during controller disconnection, and label queue reset explicitly. JavaScript syntax checked; live replay left untouched.
+
 - [x] Keep host run requests queued while VM setup/update owns the job, including ownership claimed during awaited game-status probes. Pending dispatch resumes through its existing timer after setup finishes. Pause/stop/stop-after relay remains available. Deployment pending.
 
 - [x] Reproduce concurrent VM update requests starting two installers; recheck setup-job ownership after the awaited guest idle probe. Setup state now writes and flushes a unique temporary file before atomic replacement, preserving old state when replacement fails and rejecting non-object cache shapes. Offline checks only; clean Windows installation remains open.

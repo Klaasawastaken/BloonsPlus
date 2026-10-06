@@ -30,6 +30,10 @@
     const setupJob = status.job || {};
     if (settingsStatus) {
       const next = status.next || {};
+      $('vm-settings-title').textContent = status.applicable ? 'VM connection' : 'Game connection';
+      $('vm-settings-description').textContent = status.applicable
+        ? 'Setup, repairs and updates in one place.'
+        : 'VM setup is managed from your main PC.';
       settingsStatus.textContent = setupJob.error ? `Setup stopped: ${setupJob.error}`
         : setupJob.running ? (setupJob.activity || 'Setting up the VM…')
         : status.allDone ? 'Ready: VM connected, Steam signed in, and BTD6 installed.'
@@ -114,6 +118,10 @@
     } catch {
       if (settingsStatus) settingsStatus.textContent = 'Waiting for the Bloons+ controller to reconnect…';
       if (settingsChip) settingsChip.textContent = 'RECONNECTING';
+      // Stale setup state must not leave install/update actions available.
+      if (settingsStart) settingsStart.disabled = true;
+      if (settingsUpdate) settingsUpdate.disabled = true;
+      button.disabled = true;
     }
     // Fast while setup works, slower otherwise; keep checking after completion so the bar returns if the VM stops.
     const delay = last?.job?.running ? 2000 : last && (last.allDone || !last.applicable) ? 30000 : 5000;

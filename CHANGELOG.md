@@ -1,3 +1,9 @@
+## Preview 47 — Settings connection cleanup
+
+- Show Game Connection inside the guest and keep VM setup guidance on the main PC.
+- Disable installation/update buttons while the controller reconnects.
+- Label preference and queue reset consistently.
+
 ## Preview 46 — VM setup concurrency and repair state
 
 - Share concurrent VM update requests with the existing setup job.
