@@ -744,8 +744,15 @@ Start only after the current repair work is complete, as requested on 5 October.
 
 - [x] Connect actual parser/writer and replay branches to observed Auto Start ownership. Preserve purchase confirmation, defer ordinary controls, and retain commands on save failure. Resume consumed intent outside the recorded queue and close only confirmed foreground pause menus before playfield validation. 91 focused Python checks and two JavaScript admission checks pass; no validation-only gameplay launched.
 - [x] Package and publish Preview 78. Publication guard reports no findings, and nine changed runtime/UI files match the packaged payload exactly.
-- [ ] Deploy at the current replay boundary. Worker session 56390 is confirmed running; Underground ABR continues with stop-after enabled. Source end-round conversion remains unfinished; omitted manual plans remain excluded.
+- [x] Deploy Preview 78 at the completed replay boundary. Worker session 56390 completed with exit 0 and confirmed the missing-medal sweep resumed. Source end-round conversion remains unfinished; omitted manual plans remain excluded.
 
 ### Source Auto Start conversion
 
 - [x] Preserve pinned BTD6bot initial-on setup and each no-argument Auto Start toggle as explicit absolute commands. Reject unsupported arguments without partial output. Four offline checks pass, including the actual Sanctuary CHIMPS source remaining gated on its omitted forward/end-round commands. No recordings emitted or changed; this source-only continuation follows Preview 78 and will join the next complete conversion batch.
+
+### Single Play and hero title recovery
+
+- Confirmed Underground Alternate Bloons Rounds: VICTORY_CONFIRMED at 08:32:57, round 80, controller clear confirmation and authoritative VM Underground Hard/AlternateBloonsRounds=1049865. Never replay this earned medal.
+- [x] Wire single Play through parsing, recording, startup/input ownership, action ledger and checkpoint restoration. Require observed transition, preserve fresh binding and prevent blind repeats. Ten focused checks pass, including actual parser/writer/runtime/startup branches; the full related Python batch totals 105 passing checks.
+- [x] Reproduce erased yellow hero lettering using an existing Admiral Brickell capture. Separate warm/violet masks return a candidate accepted by the actual hero matcher; color-mask JS check passes. Live Gwendolin/Psi selection remains unproven.
+- [ ] Package and deploy Preview 79 between completed replays. Full source logical-round/end-round conversion remains open; no recordings have been emitted or changed.

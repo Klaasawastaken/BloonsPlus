@@ -445,3 +445,10 @@ These changes do not certify route victories or clean-PC installer compatibility
 - Validate resumed round counters against the selected mode's total.
 - Simplify Settings maintenance controls and explain updates from the main PC to the VM.
 - Keep incomplete source manual-round conversions excluded and original recordings unchanged.
+## Preview 79 — Single Play control and colored hero titles
+
+- Add an observed single-Play command across parser, recorder, replay ownership and resume recovery.
+- Preserve pending input intent rather than sending another key without evidence, and keep automatic startup from competing with planned single Play.
+- Preserve source Auto Start's initial-on baseline and toggle sequence during conversion.
+- Read warm and violet hero-title fills alongside cyan; retain title verification instead of guessing hero identity.
+- Keep source logical-round/end-round conversions gated; original recordings are unchanged.

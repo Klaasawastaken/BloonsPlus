@@ -20,6 +20,7 @@ from purchase_pacing import affordable_upgrade_batch, purchase_pacing_ready
 from targeted_special import perform_targeted_special
 from autostart_observation import observe_autostart
 from autostart_control import pending_autostart_step, drive_autostart, resume_autostart_intent
+from play_once import play_once_ready
 from map_availability import predicted_thaw_round
 from resume_recovery import restore_upgrade_steps, probe_owned_upgrade, resumable_round_start
 
@@ -3555,7 +3556,7 @@ def main():
                 if nextStepAction == 'set_autostart':
                     nextStepDelayReady = False
                 roundStartInputIssued = False
-                if nextStepAction in ('start_round', 'speed_toggle') and nextStepDelayReady:
+                if nextStepAction in ('play_once', 'start_round', 'speed_toggle') and nextStepDelayReady:
                     startState, startDiff = None, None
                     for startName, startValue in (('game_playing_fast', 'fast'), ('game_playing_slow', 'slow'), ('game_paused', 'paused')):
                         diff = cv2.matchTemplate(cutImage(screenshot, imageAreas['compare']['game_state']),
@@ -3568,9 +3569,15 @@ def main():
                             return True
                         routeCheckpoint.update(status='ready', pendingAction=None)
                         return writeRouteCheckpoint(routeCheckpoint, mapConfig['steps'])
-                    nextStepDelayReady, roundStartInputIssued = round_start_ready(
-                        nextStep, time.time(), startState if startDiff < 0.05 else None,
-                        not (skippingIteration or heldPlacement or routeActionExecuted), sendKey, persistRoundStart, customPrint)
+                    if nextStepAction == 'play_once':
+                        nextStepDelayReady, roundStartInputIssued = play_once_ready(
+                            nextStep, time.time(), startState if startDiff < 0.05 else None,
+                            currentValues.get('round'),
+                            not (skippingIteration or heldPlacement or routeActionExecuted), sendKey, persistRoundStart, customPrint)
+                    else:
+                        nextStepDelayReady, roundStartInputIssued = round_start_ready(
+                            nextStep, time.time(), startState if startDiff < 0.05 else None,
+                            not (skippingIteration or heldPlacement or routeActionExecuted), sendKey, persistRoundStart, customPrint)
                     routeActionExecuted = routeActionExecuted or roundStartInputIssued
                     playToggleIssued = playToggleIssued or roundStartInputIssued
                 if nextStep and 'secondsAfterRound' in nextStep and observedRound is not None and observedRound > nextStep.get('round', observedRound):
@@ -4004,14 +4011,14 @@ def main():
                             fast = True
                         elif action['speed'] == 'slow':
                             fast = False
-                    elif action['action'] in ('start_round', 'speed_toggle'):
+                    elif action['action'] in ('play_once', 'start_round', 'speed_toggle'):
                         action['playStateConfirmed'] = True
                         fast = action['speed'] == 'fast'
-                        if action['action'] == 'start_round':
+                        if action['action'] in ('start_round','play_once'):
                             mapConfig['roundStartCompleted'] = True
                             if routeCheckpoint is not None:
                                 routeCheckpoint['roundStartCompleted'] = True
-                        customPrint('ROUND_CONTROL confirmed playing speed=' + action['speed'])
+                        customPrint('ROUND_CONTROL confirmed action=' + action['action'] + ' speed=' + str(action['speed']))
                     elif action['action'] == 'await_delay':
                         customPrint('DEBUG route wait completed seconds=' + str(action['seconds']))
                     elif action['action'] == 'await_cash':
@@ -4050,12 +4057,12 @@ def main():
                                           and mapConfig['steps'][0].get('placeAttempts', 0) > 0)
                                          or (thisIterationAction is not None and thisIterationAction.get('action') == 'place'))
                 startupRoundStartPending = (not mapConfig.get('roundStartCompleted', False)
-                                            and any(step.get('action') == 'start_round' for step in mapConfig['steps']))
+                                            and any(step.get('action') in ('start_round','play_once') for step in mapConfig['steps']))
                 # This screenshot predates the action just issued above. Let a
                 # fresh frame confirm it before automatic Play/Fast Forward input.
                 if (not skippingIteration and not placementRetryPending and not startupRoundStartPending and not roundStartInputIssued
                     and not (routeActionExecuted or heldPlacement or playToggleIssued)
-                    and nextStepAction not in ('set_autostart', 'start_round', 'speed_toggle')
+                    and nextStepAction not in ('play_once', 'set_autostart', 'start_round', 'speed_toggle')
                     and (mapConfig.get('autostartEnabled') is not False or not mapConfig['steps'])
                     and ((not doAllStepsBeforeStart and mapConfig['gamemode'] != 'deflation'
                           and (waitingForLaterRound or getNextCostingAction(mapConfig['steps'])['cost'] > min(currentValues['money'], lastIterationBalance - lastIterationCost)))

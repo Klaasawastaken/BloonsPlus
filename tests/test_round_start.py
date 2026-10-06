@@ -138,7 +138,7 @@ class RoundStartTests(unittest.TestCase):
             values[busy] = True
             self.assertFalse(eval(expression, values), busy + ' owns the current frame; automatic input must wait')
             values[busy] = False
-        for control in ('start_round', 'speed_toggle'):
+        for control in ('play_once', 'start_round', 'speed_toggle'):
             values['nextStepAction'] = control
             self.assertFalse(eval(expression, values), 'Unconfirmed control owns Play/Fast Forward input')
 

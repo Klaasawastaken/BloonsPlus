@@ -16,6 +16,14 @@ const normalize = value => String(value).toLowerCase().replace(/[^a-z]/g, '');
   const titleBox = scale({ x: 800, y: 25, w: 1050, h: 120 });
   const title = await readTitle(png, titleBox, { tighten: true,
     classify: (r, g, b) => g > 110 && b > 100 && r < g * 0.75 && r < b * 0.85 });
+  // Hero name fills vary by hero: cyan-only processing erases yellow/orange
+  // titles (evidenced by the live Admiral Brickell panel) and violet titles.
+  // Keep separate masks so the red ribbon and white border do not merge into
+  // the glyphs. Never turn an unreadable title into an inferred hero name.
+  const warmTitle = await readTitle(png, titleBox, { tighten: true,
+    classify: (r, g, b) => r > 180 && g > 65 && b < 125 && r > g * 1.05 });
+  const violetTitle = await readTitle(png, titleBox, { tighten: true,
+    classify: (r, g, b) => b > 145 && r > 100 && g > 70 && b > g * 1.15 && r > g * 0.9 });
   const naturalTitle = await readNaturalText(png, titleBox);
   const buttonBox = scale({ x: 1300, y: 760, w: 430, h: 110 });
   const outlinedButton = await readTitle(png, buttonBox);
@@ -42,7 +50,7 @@ const normalize = value => String(value).toLowerCase().replace(/[^a-z]/g, '');
   // region before resolving that specific ambiguity; retain unknown for other cases.
   const resolvedButton = button === 'select' && greenFraction >= 0.08 && greenFraction <= 0.20
     ? 'selected' : button === 'unknown' ? visualButton : button;
-  const titleCandidates = [...new Set([title, naturalTitle].map(normalize).filter(Boolean))];
+  const titleCandidates = [...new Set([title, warmTitle, violetTitle, naturalTitle].map(normalize).filter(Boolean))];
   process.stdout.write(JSON.stringify({ title: titleCandidates[0] || '', titleCandidates, button: resolvedButton, greenFraction: Number(greenFraction.toFixed(3)) }));
 })().catch(error => { process.stderr.write(error.message); process.exitCode = 2; })
   .finally(() => shutdown());

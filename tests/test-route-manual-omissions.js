@@ -9,6 +9,8 @@ for (const command of ['change_autostart()', 'end_round()', 'end_round(10)']) {
   assert.ok(errors.some(item => /manual-round controls/.test(item.message)), command);
 }
 assert.deepEqual(validateRoute('# source used end_round(), fully preserved by recording\n'+body, 'hard', catalog), []);
+assert.deepEqual(validateRoute('play once\n'+body, 'hard', catalog), []);
+assert.ok(validateRoute('play once twice\n'+body, 'hard', catalog).some(item => /Unsupported|Unknown|unsupported|unknown/.test(item.message)));
 const filename = 'midnight_mansion#chimps#1920x1080#converted#source_btd6bot.btd6';
 const errors = validateRoute(fs.readFileSync(path.join('autobtd6/playthroughs', filename),'utf8'), 'chimps', catalog);
 assert.ok(errors.some(item => /manual-round controls/.test(item.message)), 'missing lossy filename flag must not bypass content validation');

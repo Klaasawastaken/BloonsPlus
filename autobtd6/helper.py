@@ -316,6 +316,8 @@ def writeBTD6InstructionsFile(
             fp.write("start round " + action['speed'] + "\n")
         elif action["action"] == "speed_toggle":
             fp.write("change speed\n")
+        elif action["action"] == "play_once":
+            fp.write("play once\n")
         elif action["action"] == "await_round":
             line = "round " + str(action["round"])
             if 'secondsAfterRound' in action:
@@ -415,6 +417,10 @@ def parseBTD6InstructionsFile(
             continue
         if line == 'change speed':
             newMapConfig['steps'].append({'action': 'speed_toggle',
+                'key': keybinds['others'].get('round_start', keybinds['others']['play']), 'cost': 0})
+            continue
+        if line == 'play once':
+            newMapConfig['steps'].append({'action': 'play_once',
                 'key': keybinds['others'].get('round_start', keybinds['others']['play']), 'cost': 0})
             continue
         startRound = re.fullmatch(r"start round (fast|slow)", line)

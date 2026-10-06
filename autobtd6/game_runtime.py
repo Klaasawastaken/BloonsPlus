@@ -10,7 +10,7 @@ import time
 
 
 SUPPORTED_ACTIONS = {
-    'set_autostart', 'place', 'upgrade', 'sell', 'retarget', 'special', 'remove',
+    'play_once', 'set_autostart', 'place', 'upgrade', 'sell', 'retarget', 'special', 'remove',
     'click', 'move_cursor', 'press', 'ability', 'repeat_ability', 'stop_ability', 'speed', 'speed_toggle', 'start_round', 'await_round', 'await_cash', 'await_delay',
 }
 POSITION_ACTIONS = {'place', 'upgrade', 'sell', 'retarget', 'special', 'remove', 'click', 'move_cursor'}
@@ -278,7 +278,7 @@ class GameState:
         self.updated_at = event['confirmedAt']
 
     def record_issued_action(self, action):
-        play_confirmed = action['action'] in ('start_round', 'speed_toggle') and action.get('playStateConfirmed') is True
+        play_confirmed = action['action'] in ('start_round', 'speed_toggle', 'play_once') and action.get('playStateConfirmed') is True
         if play_confirmed:
             self.speed = action['speed']
             self.speed_status = 'play-state-confirmed'
