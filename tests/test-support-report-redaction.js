@@ -74,4 +74,36 @@ for (const output of [report, element('#report-preview').textContent]) {
 element('#report-download').handlers.click();
 assert.ok(!/fixture-(?:prefix|secret)/.test(browser.download), 'Download leaked a value');
 assert.ok(browser.download.includes('skulltweak'));
-console.log('Support redaction: structured fields, truncation, browser parity and report/export boundaries passed');
+// Full route-log downloads use a separate handler. Check that every exported
+// field passes through the same filter while private source records stay intact.
+(async () => {
+  const failures = [{at:'2026-10-07', map:'skulltweak', gamemode:'hard', route:'synthetic.btd6',
+    lastRound:60, finalRound:80, reason:'accountId=fixture-secret', fullLog:cases}];
+  const original = JSON.stringify(failures);
+  browser.fetch = async url => {
+    assert.equal(url, '/api/route-failures');
+    return {ok:true, json:async () => ({available:true, failures})};
+  };
+  browser.AbortSignal = AbortSignal;
+  browser.notify = message => {browser.notice=message;};
+  const formatterStart = app.indexOf('function formatRouteFailures(');
+  const formatterEnd = app.indexOf('async function loadRouteFailures()', formatterStart);
+  const downloadStart = app.indexOf("document.querySelector('#download-route-failures')");
+  const downloadEnd = app.indexOf("document.querySelector('#farm-file')", downloadStart);
+  assert.ok(formatterStart>=0 && formatterEnd>formatterStart && downloadStart>=0 && downloadEnd>downloadStart);
+  vm.runInContext(app.slice(formatterStart, formatterEnd) + app.slice(downloadStart, downloadEnd), browser);
+  const button=element('#download-route-failures');
+  browser.download=null;
+  await button.handlers.click({currentTarget:button});
+  assert.ok(browser.download && !/fixture-(?:prefix|secret)/.test(browser.download), 'Full route download leaked a value');
+  assert.ok(browser.download.includes('round 60/80') && browser.download.includes('skulltweak'));
+  assert.equal(JSON.stringify(failures), original, 'Private source records were changed');
+  assert.equal(button.disabled, false);
+  browser.download=null;
+  browser.BloonsSupport=undefined;
+  await button.handlers.click({currentTarget:button});
+  assert.equal(browser.download, null, 'Missing privacy helper permitted a raw download');
+  assert.equal(button.disabled, false);
+  assert.ok(browser.notice);
+  console.log('Support redaction: structured fields, truncation, browser parity and both report/route export boundaries passed');
+})().catch(error => {console.error(error);process.exitCode=1;});

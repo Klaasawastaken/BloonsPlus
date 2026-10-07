@@ -28,7 +28,13 @@ internal static class StructuredDiagnosticsChecks {
     "{\"sessionId\":\"fixture-secret\",\"round\":60,\"map\":\"skulltweak\"}",
     "{\"access_token\":\"fixture-secret\",\"round\":60,\"map\":\"skulltweak\"}",
     "{\"X-Bloons-Setup-Key\":\"fixture-secret\",\"round\":60,\"map\":\"skulltweak\"}",
-    "password=fixture-secret, round=60, map=skulltweak"
+    "password=fixture-secret, round=60, map=skulltweak",
+    "{\"password\":\"fixture-prefix\\\nfixture-secret\",\"round\":60,\"map\":\"skulltweak\"}",
+    "{\"password\":\"fixture-prefix\\\r\nfixture-secret\",\"round\":60,\"map\":\"skulltweak\"}",
+    "{'password': 'fixture-prefix\\\nfixture-secret', 'round':60, 'map':'skulltweak'}",
+    "{'password': 'fixture-prefix\\\r\nfixture-secret', 'round':60, 'map':'skulltweak'}",
+    "{\"authorization\":\"Bearer fixture-prefix\\\"fixture-secret\",\"round\":60,\"map\":\"skulltweak\"}",
+    "{'authorization':'Basic fixture-prefix\\'fixture-secret','round':60,'map':'skulltweak'}"
    };
    foreach (string input in inputs) {
     string redacted = InstallerDiagnostics.Redact(input);

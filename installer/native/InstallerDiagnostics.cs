@@ -6,9 +6,10 @@ internal static class InstallerDiagnostics {
         string value = text ?? "";
         value = Regex.Replace(value, @"(?s)-----BEGIN [^-]*(?:PRIVATE KEY|TOKEN)[^-]*-----.*?(?:-----END [^-]+-----|$)", "[private credential removed]");
         // Logs may contain JSON or Python dictionaries. Consume complete quoted
-        // values, including escaped quotes, so a suffix cannot survive export.
+        // values, including escaped quotes and line continuations, so a suffix
+        // cannot survive export. Dot does not consume LF in .NET regexes.
         value = Regex.Replace(value,
-            @"(?i)((?<![\w-])(?:""|')?(?:authorization|password|passwd|secret|token|api[_-]?key|access[_-]?token|refresh[_-]?token|x-bloons-setup-key|session[_-]?id|account[_-]?(?:id|name)|player[_-]?(?:id|name)|steam[_-]?name|user[_-]?name|host[_-]?name)(?:""|')?\s*[:=]\s*)(?:""(?:\\.|[^""\\])*(?:""|\\?$)|'(?:\\.|[^'\\])*(?:'|\\?$)|[^\s,;}]+)",
+            @"(?i)((?<![\w-])(?:""|')?(?:authorization|password|passwd|secret|token|api[_-]?key|access[_-]?token|refresh[_-]?token|x-bloons-setup-key|session[_-]?id|account[_-]?(?:id|name)|player[_-]?(?:id|name)|steam[_-]?name|user[_-]?name|host[_-]?name)(?:""|')?\s*[:=]\s*)(?:""(?:\\[\s\S]|[^""\\])*(?:""|\\?$)|'(?:\\[\s\S]|[^'\\])*(?:'|\\?$)|[^\s,;}]+)",
             "$1\"[credential removed]\"");
         value = Regex.Replace(value, @"(?i)(?:[a-z]:[\\/]users[\\/]|/home/)[^\r\n""'<>]*", "[user path removed]");
         value = Regex.Replace(value, @"(?i)\b[^\s@]+@(?:[a-z0-9._-]+|\[[^\]]+\])", "[remote account removed]");

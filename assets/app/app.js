@@ -1259,7 +1259,9 @@ document.querySelector('#download-route-failures')?.addEventListener('click', as
     const response = await fetch('/api/route-failures', {cache:'no-store', signal:AbortSignal.timeout(60000)});
     const body = await response.json();
     if (!response.ok || !body?.available) throw new Error(body?.reason || 'VM logs are unavailable');
-    const text = formatRouteFailures(body.failures || [], true);
+    // Shared downloads must use the same privacy boundary as issue reports.
+    // If the helper is unavailable, fail without creating a raw-log download.
+    const text = window.BloonsSupport.redact(formatRouteFailures(body.failures || [], true));
     const blob = new Blob([text || 'No route failures recorded yet.'], { type: 'text/plain' });
     const link = document.createElement('a');
     link.href = URL.createObjectURL(blob);

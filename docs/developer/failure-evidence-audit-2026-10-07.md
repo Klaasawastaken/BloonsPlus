@@ -74,6 +74,13 @@ and Python field names bypass its assignment pattern. The issue preview and
 downloaded log both use this function. Its bounded repair awaits the requested
 design approval; it is not included in the native installer repair.
 
+**Later implementation status:** the shared-field repair shipped in .20 under
+the approved shared-diagnostics contract. Follow-up checks reproduced a separate
+raw full-route download bypass and native escaped-line suffixes; both now have
+bounded repairs and synthetic regression evidence. See the
+[current export acceptance record](support-export-acceptance-2026-10-07.md).
+The preceding paragraph describes the original audit state.
+
 The approved installer plan separately requires redacted Copy/Export details.
 Its native redactor had the same quoted-field gap. A real compiled native harness
 failed before the repair. It now removes structured credential/account/session
