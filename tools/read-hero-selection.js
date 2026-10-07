@@ -26,6 +26,11 @@ const normalize = value => String(value).toLowerCase().replace(/[^a-z]/g, '');
     classify: (r, g, b) => b > 145 && r > 100 && g > 70 && b > g * 1.15 && r > g * 0.9 });
   const magentaTitle = await readTitle(png, titleBox, { tighten: true,
     classify: (r, g, b) => r > 160 && b > 120 && g < 110 && r > g * 1.4 && b > g * 1.4 });
+  // Rosalia's green name is absent from the cyan/warm/violet masks.
+  // Keep the yellow ribbon and white border out; the OCR result must still
+  // match the requested hero and the button must independently say Selected.
+  const greenTitle = await readTitle(png, titleBox, { tighten: true,
+    classify: (r, g, b) => g > 180 && r > 75 && b < 110 && g > r * 1.25 && g > b * 1.8 });
   const naturalTitle = await readNaturalText(png, titleBox);
   // Psi's three-letter yellow title merges with its yellow ribbon in the warm
   // mask. A narrow natural-color crop reads the letters without the ribbon tail.
@@ -67,7 +72,7 @@ const normalize = value => String(value).toLowerCase().replace(/[^a-z]/g, '');
   const resolvedButton = conflicting ? 'unknown'
     : buttons.includes('selected') || repairedLabel ? 'selected'
     : buttons.includes('select') ? 'select' : 'unknown';
-  const titleCandidates = [...new Set([title, warmTitle, violetTitle, magentaTitle, naturalTitle, shortPsiTitle].map(normalize).filter(Boolean))];
+  const titleCandidates = [...new Set([title, warmTitle, violetTitle, magentaTitle, greenTitle, naturalTitle, shortPsiTitle].map(normalize).filter(Boolean))];
   process.stdout.write(JSON.stringify({ title: titleCandidates[0] || '', titleCandidates,
     button: resolvedButton, buttonCandidates: [...new Set(buttons.filter(Boolean))],
     greenFraction: Number(greenFraction.toFixed(3)), brightFraction: Number(brightFraction.toFixed(3)) }));
