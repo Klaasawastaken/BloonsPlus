@@ -201,6 +201,42 @@ that assertion corrected the fixture; the production operations were unchanged.
 Only account-free observations are published. The fixture and extracted files
 were removed from their verified application-owned temporary directory.
 
+### Fresh prerequisite resolution — 7 October
+
+The current prerequisite URLs were read from the production installer/setup
+sources and checked against their upstream services. All four returned HTTP 200:
+the Microsoft C++ runtime, Steam installer, pinned App Sandbox 0.1.9 archive and
+pinned Fido 1.70 script. This is point-in-time availability evidence, not a
+guarantee of future service uptime or a diagnosis of an older installer.
+
+All 47 exact Python pins in `requirements-installer.txt` have an available,
+non-yanked Python 3.12-compatible wheel or source distribution. Their selected
+artifact headers match the declared sizes. A Windows dependency-metadata check
+found no missing runtime pin or incompatible pinned requirement. A subsequent
+actual pip resolution used `--dry-run --ignore-installed --isolated` with a new
+private cache on Windows CPython 3.12.14; it resolved exactly those 47 packages,
+including TensorFlow, without changing the existing environment.
+
+Six pins require source builds on this platform: MouseInfo, PyAutoGUI,
+PyGetWindow, PyRect, PyScreeze and pytweening. Each built a wheel successfully in
+the isolated audit using the pinned version and `pip wheel --no-deps`. This
+exercises their build paths, not their game-input behavior. Download/build cache
+files and raw tool output remain private and outside the installer.
+
+The unmodified pinned Fido script was then run with the same command-line
+selection as setup: Windows 11, latest release, Pro, English, x64, URL only.
+It exited successfully and supplied a Microsoft-hosted ISO link whose HEAD
+request returned HTTP 200 and a size above 8 GB. No ISO was downloaded, browser
+or selection dialog opened, or Windows installation started. The temporary
+signed URL is not included in source or reports.
+
+The actual App Sandbox ZIP also passed CRC inspection and contains the expected
+root executable, ISO patcher and `headless-api` directory. It was inspected in
+memory without extraction or execution. No current 404 or dependency-resolution
+failure was reproduced. This closes this download/resolution observation; it
+does not resolve the earlier `bcdboot` fixture failure or establish clean Windows
+installation, UAC/reboot, physical accessibility or complete VM provisioning.
+
 ### Remaining recovery checks
 
 After the approved checkpoint repair, repeat these checks and add deterministic
