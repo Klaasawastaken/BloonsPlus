@@ -565,3 +565,9 @@ finding a blocker. This repairs the evidenced transient boundary; it does not
 claim recovery from every replacement error or complete clean-Windows setup.
 The complete 429-test Python suite also passes, and publication scanning reports
 zero findings.
+
+Published as `v0.1.32-preview.99`: the 247,035,235-byte installer passes 127
+runtime comparisons, all 1,739 inventory hashes, four version identities, exact
+appended-payload verification and both seven-frame icon comparisons. Its single
+GitHub asset matches the local size and digest. No guest update was performed
+during the recovered healthy missing-medal replay.

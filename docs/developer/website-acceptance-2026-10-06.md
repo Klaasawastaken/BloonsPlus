@@ -303,6 +303,23 @@ claim. The broader exploratory spacing audit did not complete and is not counted
 as acceptance. Physical screen readers, standalone text scaling and gradient
 contrast remain open gates. No guest update or gameplay input was needed.
 
+## Rendered-background contrast investigation — 7 October
+
+An isolated browser probe sampled Home, Features, Subscriptions and Download in
+both themes at a 1,280-pixel viewport. It captured each page before and after
+hiding text fill, then compared computed foreground colors with the rendered
+background at changed text pixels. This includes gradient and artwork pixels
+that the earlier flat-color audit excluded. No desktop or VM capture was used.
+
+The probe produced 776 text observations and 42 low-contrast candidates. These
+are investigation results, not 42 confirmed accessibility defects: brand marks,
+decorative symbols and antialiased/shadow boundaries require separate review.
+Candidates include the homepage map-preview caption and Routes chip, small
+Coming Soon labels and light-theme journey numbers. Elements with ancestor
+opacity and hidden content were excluded. No CSS fix or comprehensive contrast
+conformance is claimed from this probe. Retain the character artwork and hero
+concept while reviewing the text treatment.
+
 
 ### Packaged repair
 
