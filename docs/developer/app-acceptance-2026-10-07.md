@@ -270,6 +270,14 @@ hardware acceleration and actual weak hardware remain separate acceptance
 work. The map-navigation stall is a concrete performance target; this check
 does not establish that all app scrolling feels smooth.
 
+A separate cold-navigation CPU sample reproduced the slowdown under the same
+fourfold throttle. It measured 822.4 ms with profiler overhead; 501.7 ms of
+sampled self time was attributed to the native `scrollTo` call, followed by
+324.6 ms in the browser's program frame. Those samples identify the synchronous
+navigation/scroll boundary for deeper tracing. They do not distinguish every
+layout, paint or compositor cost, and the instrumented value is not comparable
+to the unprofiled navigation result as a performance regression.
+
 - Apply approved repairs, then repeat their actual-renderer checks and the broader
   layout cases before publishing an app hotfix.
 - Repair the evidenced unavailable-save requirements/hero failures and repeat

@@ -30,6 +30,15 @@ Updated 7 October 2026. **Production 1.0 is not ready for publication.** This ch
 
 Coverage was produced by `node tools/route-coverage-report.js` after adding the separate Firing Range candidate. Its five compatible targets account for the increase from 530 to 535; they have no new local victory claim. All 86 map names have explicit mechanics entries, which does not establish that every mechanic has a complete executable handling rule.
 
+Two separate clean Windows fixture builds failed at App Sandbox's boot-file
+stage (`bcdboot` exit 183, `BcdOpenStore` status `c0000035`) before Bloons+ ran.
+A fresh name did not repair the failure. Preview `v0.1.14-preview.99` preserves
+this exact-VM, fresh-log diagnosis without repeating three image builds; it
+does not close clean provisioning or resolve the boot-store issue. All 407
+Python tests and 65 approved JavaScript checks pass. The published installer
+has 126 matching runtime comparisons, 1,710 valid inventory hashes, matching
+native/staged identities and both verified application icons.
+
 ## Deferred capabilities
 
 Experimental assistance, boss automation and Pro entitlements remain explicitly unfinished. Their drafts must not be presented as shipped capability or used to conceal missing core acceptance. The private community bot stays outside public packages.
