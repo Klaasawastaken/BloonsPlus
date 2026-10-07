@@ -356,3 +356,29 @@ native embedded inventory, both seven-frame executable icons and exact appended
 ZIP payload pass inspection. License notices remain intact and the separately
 pending route draft is excluded. This verifies the artifact, not a clean Windows
 installation or resolution of the outstanding gameplay failures.
+
+### Locked package rollback and fresh-process retry
+
+`tests/test_installer_locked_rollback.py` compiles the unchanged production native
+installer code and applies a three-file package in isolated temporary folders.
+Each file position is held open with a real Windows sharing mode that permits
+hash reads but denies replacement or deletion. Recovery restores the unlocked
+files, reports incomplete rollback, and retains the journal and required backup
+for the locked file. The fixture exits without unwinding the lock scope.
+
+Separate processes then recover, repeat recovery, and install the next package.
+The prior files are restored, the introduced file is removed, and unlisted user
+data remains intact. Recovery clears the journal, staged/backup files and
+transaction directory. A subsequent full package installation succeeds.
+
+Two private negative controls demonstrate regression sensitivity: suppressing
+the incomplete-rollback error fails the initial assertion; rejecting files that
+were already restored fails recovery in the next process. Neither mutation was
+applied to production source. Independent review found no important issue; its
+suggested transaction-directory cleanup assertion was added.
+
+All 420 Python checks passed before that additional assertion; the strengthened
+focused fixture also passes. This closes a bounded file-lock recovery check,
+not the entire I-03 gate. It does not simulate physical power loss, a reboot, or
+interruption inside an individual filesystem operation. No installed app, VM,
+Steam directory or game save is modified by this fixture.

@@ -1088,3 +1088,33 @@ or verified. Legacy records without identity retain conservative exclusions;
 they are not retroactively attributed to an account. Broader identity semantics
 and live acceptance remain open. The private progress ledger is excluded from
 Git and installers and is explicitly rejected by publication checks.
+
+## Psi outcome and exhausted pass — 7 October 2026
+
+The published .19 helper's exact short-title crop recognizes Psi in the retained
+failure evidence and in the live picker. Thirty-two retained observations include
+two Psi cards and thirty other heroes, with no false Psi match. Separate checks
+cover widths 960, 1920 and 2560. The repair files were installed and hash-checked
+while replay was idle; the controller's base inventory remains .18.
+
+The resulting missing-medal pass reached Three Mines 'Round Deflation and logged
+`VICTORY_CONFIRMED` on its round-60 victory summary. A separate fresh authoritative
+save read confirmed Deflation ownership. The pass finished with one clear, zero
+failed route attempts and 85 incomplete maps; two maps lacked authoritative medal
+data. This is one newly confirmed clear, not complete route or account coverage.
+
+A fresh read-only admission audit uses the current save-source identity, scoped
+attempt ledger and positive saved-medal history. Eight otherwise ready candidates
+target Tree Stump Medium, Hard and Primary Only, but the existing map-wide cash
+reader exclusion blocks them. The only other host-local difference is the
+unapproved Sunken Columns ABR draft; it does not establish installed eligibility.
+Four additional combinations have known missing profile requirements.
+
+Tree Stump's exclusion references upstream
+[cash-recognition issue 40](https://github.com/ANRAR4/AutoBTD6/issues/40), which
+reports scenery contamination and premature upgrades. The current reader adds
+outlined-glyph/baseline filtering and cash plausibility checks, but no retained
+Tree Stump frame was found to establish that those changes resolve this specific
+failure. Keep the exclusion until that evidence exists. No recording, retry
+history, ownership ledger or eligibility guard was changed by this audit, and
+the exhausted queue was not blindly restarted.
