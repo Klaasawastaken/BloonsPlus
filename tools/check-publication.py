@@ -14,7 +14,7 @@ PATTERNS = {
 }
 PRIVATE_NAMES = {'live-frame.jpg', 'live-frame.jpg.tmp', 'viewer-request.json', 'profile.save', 'host.json', 'game-state.json', 'route-checkpoint.json', 'experimental-ai-data.json', 'route-failures.json', 'playthrough_stats.json', 'upgrade-memory.json', 'last-hero.json', 'pending-automation.json'}
 TEXT_SUFFIXES = {'.js','.py','.cs','.md','.json','.txt','.html','.yml','.yaml','.ps1','.cmd','.toml'}
-PRIVATE_NAMES.add('.scp-list.txt')
+PRIVATE_NAMES.update({'.scp-list.txt', 'automation-progress.json'})
 def inspect(name, data):
     findings=[]; path=Path(name)
     if 'private' in path.parts:

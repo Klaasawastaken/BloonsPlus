@@ -1058,3 +1058,33 @@ Sniper upgrade. Its retained upgrade observation shows the Desperado unlock page
 while replay expected an in-game Sniper panel. This is evidence of an unexpected
 screen, not proof of its cause or of an unaffordable strategy. The failure remains
 persistent and the original CHIMPS recording is unchanged.
+
+
+## Save-source medal history — 7 October 2026
+
+A private in-memory audit of the complete production sweep reproduced two
+ownership gaps: a confirmed medal could run through another candidate after a
+regressed save read, and a different save source could supply the medal used to
+credit the active run. The user approved the bounded identity/history repair.
+
+The sweep now hashes the decoder-selected Steam Profile.Save path into an opaque
+source key. Positive authoritative medal reads persist under that key; legacy
+visual observations do not establish scoped ownership. New route attempts use
+separate source buckets, retaining legacy exclusions and all failure records.
+Clear polling uses one snapshot and latches an observed source mismatch. The
+final launch gate preserves its positive snapshot, and stop-after-replay commits
+confirmed ownership before exiting. Missing maps on another source remain unknown.
+
+Nineteen complete-loop synthetic scenarios pass, covering owned and newly owned
+medals, unreadable records, delayed saves, stop boundaries, persistent failures,
+alternative candidates, account-source changes and empty-queue completion. The
+fixture executes the production scheduling and medal functions with in-memory
+persistence and simulated profile/replay boundaries. No validation gameplay ran.
+Independent review found four boundary defects; each was reproduced and repaired.
+
+Identity scope is the selected Steam save source, not a guessed Ninja Kiwi ID.
+A Ninja Kiwi account replacement inside the same save path has not been observed
+or verified. Legacy records without identity retain conservative exclusions;
+they are not retroactively attributed to an account. Broader identity semantics
+and live acceptance remain open. The private progress ledger is excluded from
+Git and installers and is explicitly rejected by publication checks.

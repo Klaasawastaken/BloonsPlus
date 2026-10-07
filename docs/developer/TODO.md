@@ -141,6 +141,7 @@ The sweep earns missing medals alongside development. Deploy changes together af
 ### Sweep behavior
 
 - [ ] **S-05 — Reconcile saved medals.** Check after runs and restarts, resume partial sweeps and exclude owned or unreadable medals.
+  - Approved save-source history repair now preserves authoritative ownership across regressed reads and changed candidates, separates new route attempts, and rejects source changes during confirmation. Nineteen full-loop synthetic checks pass; original routes and game saves are untouched. Same-path Ninja Kiwi identity and live deployment remain separate acceptance. See [evidence](route-repair-audit.md#save-source-medal-history--7-october-2026).
 - [ ] **S-06 — Preserve outcomes and skip reasons.** Distinguish missing requirements, restrictions, known failures and no eligible candidate.
   - Early strategy defeats now keep their consumed attempt. Automatic opening retries require an evidenced placement/OCR failure and retain the two-retry bound. The actual failure branch passes offline checks and is included in the installed HUD hotfix; broader live retry acceptance remains open.
 - [ ] **S-07 — Check map ordering.** Expert to Beginner, shuffled within categories, without repeating excluded candidates.

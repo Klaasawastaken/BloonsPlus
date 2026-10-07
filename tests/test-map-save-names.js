@@ -22,7 +22,7 @@ for (const [slug, saved] of [['town_center','TownCentre'],['three_mines_round','
   for (const [value, expected] of [[1049864,true],[784,false],[null,null]]) {
     const profile = {available:true,mapProgress:{[saved]:{difficult:{Hard:{modes:{Standard:value}}}}}};
     const context = {readLocalProgress:()=>profile,fs:{readFileSync:()=>JSON.stringify(catalogs)},MAPS_PATH:'unused',
-      normalizeMapName:mapNames.normalize,medalsFromMapRecord,syncMedalsFromObservations:()=>{},pushLog:()=>{}};
+      medalProfileIdentity:()=>"fixture", normalizeMapName:mapNames.normalize,medalsFromMapRecord,syncMedalsFromObservations:()=>{},pushLog:()=>{}};
     assert.equal(vm.runInNewContext(extract('savedMedalState')+`;savedMedalState('${slug}','hard')`,context),expected);
     const scanned = vm.runInNewContext(extract('loadMedalsFromProfileSave')+';loadMedalsFromProfileSave({})',context);
     assert.ok(scanned.has(mapNames.normalize(catalogs[slug].name)));

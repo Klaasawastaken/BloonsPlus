@@ -15,6 +15,11 @@ class PublicationGuardTests(unittest.TestCase):
             with self.subTest(name=name):
                 self.assertIn((name, 'private runtime file'), guard.inspect(name, b'server.js\n'))
 
+    def test_account_scoped_medal_and_attempt_history_stays_private(self):
+        for name in ('automation-progress.json', 'resources/app/AUTOMATION-PROGRESS.JSON'):
+            with self.subTest(name=name):
+                self.assertIn((name, 'private runtime file'), guard.inspect(name, b'{}'))
+
     def test_public_notices_and_runtime_source_are_not_transfer_metadata(self):
         for name in ('LICENSE.md', '.github/THIRD_PARTY.md', 'lib/automation.js'):
             with self.subTest(name=name):

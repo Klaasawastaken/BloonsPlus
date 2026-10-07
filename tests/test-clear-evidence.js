@@ -14,8 +14,9 @@ const source = fs.readFileSync(require.resolve('../lib/automation'), 'utf8').rep
 const start = source.indexOf('function confirmClear(');
 const end = source.indexOf('\n}\n', start) + 2;
 function confirm(saved, result) {
-  return vm.runInNewContext(source.slice(start, end) + '\nconfirmClear("map", "hard", result, () => {})', {
-    result, savedMedalState: () => saved,
+  return vm.runInNewContext(source.slice(start, end) + '\nconfirmClear("map", "hard", result, () => {}, "fixture")', {
+    result, savedMedalState: () => saved, readLocalProgress:()=>({available:true}),
+    medalProfileIdentity:()=>"fixture", rememberConfirmedMedal:()=>{},
   });
 }
 assert.equal(confirm(true, {round:80}), false);

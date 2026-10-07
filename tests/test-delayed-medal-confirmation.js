@@ -10,8 +10,9 @@ function extract(name) {
 }
 async function check(states, result, stopped = false) {
   let reads = 0, waits = 0;
-  const job = { stopRequested: stopped }, logs = [];
+  const job = { stopRequested: stopped, medalProfileIdentity:"fixture" }, logs = [];
   const answer = await vm.runInNewContext(`${extract('confirmClear')}\n${extract('waitForSavedClear')}\nwaitForSavedClear('map', 'hard', result, job)`, {
+    readLocalProgress:()=>({available:true}), medalProfileIdentity:()=>"fixture", rememberConfirmedMedal:()=>{},
     job, result, savedMedalState: () => states[Math.min(reads++, states.length - 1)],
     pushLog: (_job, text) => logs.push(text),
     setTimeout: (resolve, delay) => { assert.equal(delay, 2000); waits++; resolve(); },
