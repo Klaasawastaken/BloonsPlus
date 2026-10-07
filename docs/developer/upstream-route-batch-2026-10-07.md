@@ -32,3 +32,11 @@ None of these exclusions was bypassed to extend the sweep.
 Preview `v0.1.24-preview.99` contains this batch. The single installer is 247,002,213 bytes, with SHA-256 `fa361b0d06695d9456bb0c8287a308f3b1d54a2ce4da55eef9dc5118d9746510`. Checks verified 127 runtime source files, all eighteen new route hashes, 1,727 inventory hashes, four package identities, the exact appended ZIP payload and seven matching application icon frames in both executables. Source and decompressed-payload privacy scans reported zero findings. The unapproved ABR draft is excluded. GitHub returned the expected uploaded asset size and digest.
 
 The eighteen route files, source manifest and license were installed through the existing VM connection at an idle boundary. All twenty destination hashes matched; the controller did not restart. Its base version remains `v0.1.22-preview.99`. A missing-medal run then reached round 12 on Middle of the Road Military Only with confirmed upgrades. This establishes that the new candidate is usable by the installed controller; it does not establish victory. Full clean-machine installation acceptance remains open.
+
+### First earned medal
+
+That Middle of the Road Military Only run subsequently logged a round-60
+`VICTORY_CONFIRMED`. A fresh independent VM profile read then confirmed its
+saved Military Only medal. The sweep advanced to the missing Primary Only medal
+with one clear and zero defeats. This establishes one target's observed success;
+it does not certify all eighteen conversions or justify replaying the earned medal.
