@@ -655,3 +655,30 @@ Published as `v0.1.35-preview.99`: the 247,045,045-byte installer passes 128
 source comparisons, all 1,745 inventory hashes, four version identities, exact
 appended-payload verification and both seven-frame icon comparisons. Its sole
 GitHub asset matches the local size and digest. No guest update was performed.
+
+### Failed dependency update and fresh-process retry — 7 October
+
+The new isolated check compiles the unchanged native sources and calls the actual
+`ConfigurePython` operation in four separate processes. Real pip installs a tiny
+local wheel into a temporary private environment. The requirements then add a
+second wheel that is deliberately unavailable. Installation fails with the
+specific missing-distribution diagnostic and the native dependency-failure
+message; it does not certify the changed requirements as installed.
+
+After providing that wheel, a fresh process succeeds and writes the new verified
+requirements receipt. The original package's bytes and modification time, an
+unlisted environment marker and application configuration remain unchanged.
+No replacement environment is created. A fourth process reports healthy reuse.
+All package sources are offline; inherited pip settings are removed and pip
+configuration is disabled to prevent installation outside the fixture.
+
+The focused check passes under Python 3.12. A private copy that prematurely
+writes a successful requirements receipt fails the intended preservation
+assertion. Independent review found no remaining blocking issue after isolating
+pip settings and adding fixture-process-tree cleanup on timeout. No installed
+app, VM, Steam, game, save or global Python environment is modified.
+
+This verifies one real dependency-resolution failure and retry through the native
+pipeline. It does not establish physical power-loss, arbitrary interrupted pip
+transactions, external network recovery, clean Windows setup or reboot behavior.
+No production installer behavior changed for this acceptance batch.
