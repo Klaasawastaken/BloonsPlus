@@ -27,6 +27,11 @@ const normalize = value => String(value).toLowerCase().replace(/[^a-z]/g, '');
   const magentaTitle = await readTitle(png, titleBox, { tighten: true,
     classify: (r, g, b) => r > 160 && b > 120 && g < 110 && r > g * 1.4 && b > g * 1.4 });
   const naturalTitle = await readNaturalText(png, titleBox);
+  // Psi's three-letter yellow title merges with its yellow ribbon in the warm
+  // mask. A narrow natural-color crop reads the letters without the ribbon tail.
+  // Only accept the exact short name; partial reads of longer titles are ignored.
+  const shortTitle = normalize(await readNaturalText(png, scale({ x: 860, y: 40, w: 260, h: 95 })));
+  const shortPsiTitle = shortTitle === 'psi' ? shortTitle : '';
   const buttonBox = scale({ x: 1300, y: 760, w: 430, h: 110 });
   const outlinedButton = await readTitle(png, buttonBox);
   const naturalButton = await readNaturalText(png, buttonBox);
@@ -62,7 +67,7 @@ const normalize = value => String(value).toLowerCase().replace(/[^a-z]/g, '');
   const resolvedButton = conflicting ? 'unknown'
     : buttons.includes('selected') || repairedLabel ? 'selected'
     : buttons.includes('select') ? 'select' : 'unknown';
-  const titleCandidates = [...new Set([title, warmTitle, violetTitle, magentaTitle, naturalTitle].map(normalize).filter(Boolean))];
+  const titleCandidates = [...new Set([title, warmTitle, violetTitle, magentaTitle, naturalTitle, shortPsiTitle].map(normalize).filter(Boolean))];
   process.stdout.write(JSON.stringify({ title: titleCandidates[0] || '', titleCandidates,
     button: resolvedButton, buttonCandidates: [...new Set(buttons.filter(Boolean))],
     greenFraction: Number(greenFraction.toFixed(3)), brightFraction: Number(brightFraction.toFixed(3)) }));

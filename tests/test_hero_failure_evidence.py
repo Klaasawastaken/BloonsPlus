@@ -26,8 +26,8 @@ class HeroFailureEvidence(unittest.TestCase):
                    pyautogui=SimpleNamespace(screenshot=lambda: frame.copy()),
                    subprocess=SimpleNamespace(run=lambda *a, **k: SimpleNamespace(returncode=0, stdout=output)),
                    customPrint=logs.append, FAILURE_SHOT_DIR=folder, FAILURE_SHOTS_KEPT=60,
-                   _lastHeroPickerObservation=None)
-        names = {'heroSelectionState', 'saveFailureShots', 'saveHeroPickerFailure'}
+                   _lastHeroPickerObservation=None, _heroPickerScanObservations=[])
+        names = {'heroSelectionState', 'saveFailureShots', 'saveHeroPickerFailure', 'retainHeroPickerScanObservation'}
         functions = [node for node in TREE.body if isinstance(node, ast.FunctionDef) and node.name in names]
         exec(compile(ast.Module(body=functions, type_ignores=[]), '<hero-evidence>', 'exec'), env)
         return env, frame, logs
@@ -55,6 +55,95 @@ class HeroFailureEvidence(unittest.TestCase):
             self.assertEqual(record['frameSize'], [16, 12])
             self.assertEqual(record['freshness'], 'fresh')
             self.assertGreaterEqual(record['ageSeconds'], 0)
+
+    def test_search_failure_keeps_earlier_title_pixels_and_excludes_account_area(self):
+        with tempfile.TemporaryDirectory(prefix='bloons-hero-') as folder:
+            env, _, logs = self.environment(folder)
+            frame = np.full((1080, 1920, 3), 123, dtype=np.uint8)
+            env['_lastHeroPickerObservation'] = dict(frame=frame, observedAt=1,
+                monotonic=time.monotonic(), state={'title':'a', 'titleCandidates':['a','xps']})
+            self.assertIn('retainHeroPickerScanObservation', env)
+            env['retainHeroPickerScanObservation'](1, (140, 700))
+            frame[:] = 0
+            env['_lastHeroPickerObservation'] = dict(frame=frame, observedAt=2,
+                monotonic=time.monotonic(), state={'title':'corvus'})
+            env['pyautogui'] = SimpleNamespace()
+            env['saveHeroPickerFailure']({'hero':'psi'}, 'hero-not-found', {})
+            shots = list(Path(folder).glob('*_hero-picker-scan-00.png'))
+            self.assertEqual(len(shots), 1)
+            saved = cv2.imread(str(shots[0]))
+            self.assertEqual(saved.shape, (1080,1920,3))
+            self.assertTrue((saved[30:90,610:1300] == 123).all())
+            self.assertTrue((saved[590:640,990:1240] == 123).all())
+            self.assertFalse(saved[:100,1600:].any(), 'Account/currency area must not be retained')
+            self.assertFalse(saved[800:].any())
+            record=json.loads(next(line.split('HERO_PICKER_SCAN ',1)[1] for line in logs
+                if line.startswith('HERO_PICKER_SCAN ')))
+            self.assertEqual(record['page'],1)
+            self.assertEqual(record['position'],[140,700])
+            self.assertEqual(record['state']['titleCandidates'],['a','xps'])
+
+    def test_scan_evidence_is_deduplicated_bounded_and_nonfatal(self):
+        with tempfile.TemporaryDirectory(prefix='bloons-hero-') as folder:
+            env, _, _ = self.environment(folder)
+            self.assertIn('retainHeroPickerScanObservation', env)
+            frame=np.zeros((108,192,3),dtype=np.uint8)
+            for index in range(80):
+                env['_lastHeroPickerObservation']=dict(frame=frame,observedAt=1,
+                    monotonic=time.monotonic(),state={'title':str(index//2)})
+                env['retainHeroPickerScanObservation'](0,(100,100))
+            self.assertEqual(len(env['_heroPickerScanObservations']),40)
+            for index in range(80,120):
+                env['_lastHeroPickerObservation']['state']={'title':str(index)}
+                env['retainHeroPickerScanObservation'](0,(100,100))
+            self.assertEqual(len(env['_heroPickerScanObservations']),48)
+            env['_heroPickerScanObservations']=[]
+            env['_lastHeroPickerObservation']=None
+            env['retainHeroPickerScanObservation'](0,(100,100))
+            self.assertEqual(env['_heroPickerScanObservations'],[])
+
+    def test_same_unreadable_text_keeps_different_title_pixels(self):
+        with tempfile.TemporaryDirectory(prefix='bloons-hero-') as folder:
+            env, _, _=self.environment(folder)
+            frame=np.zeros((108,192,3),dtype=np.uint8)
+            for index in (50,150):
+                frame[2:10,60:120]=index
+                env['_lastHeroPickerObservation']=dict(frame=frame,state={'title':'','button':'select'})
+                env['retainHeroPickerScanObservation'](0,(index,100))
+            self.assertEqual(len(env['_heroPickerScanObservations']),2)
+
+    def test_scan_encode_failure_does_not_escape_or_retain_stale_data(self):
+        with tempfile.TemporaryDirectory(prefix='bloons-hero-') as folder:
+            env, frame, logs=self.environment(folder)
+            env['_lastHeroPickerObservation']=dict(frame=frame,state={})
+            def fail(*args):
+                raise RuntimeError('synthetic encode failure')
+            env['cv2']=SimpleNamespace(imencode=fail)
+            env['retainHeroPickerScanObservation'](0,(100,100))
+            self.assertEqual(env['_heroPickerScanObservations'],[])
+            self.assertTrue(any('synthetic encode failure' in line for line in logs))
+
+    def test_search_resets_scan_history_and_retains_each_actual_card(self):
+        search=next(node for node in TREE.body if isinstance(node,ast.FunctionDef) and node.name=='findHeroCard')
+        with tempfile.TemporaryDirectory(prefix='bloons-hero-') as folder:
+            env, frame, _=self.environment(folder)
+            env.update(LAST_HERO_FILE=Path(folder)/'missing.json', menuChangeDelay=0,
+                sendKey=lambda _:None, heroAlreadySelected=lambda hero,state:state['title']==hero,
+                imageAreas={'click':{'hero_positions':{'quincy':(100,100),'psi':(200,100)}}})
+            titles=iter(['quincy','psi'])
+            def observe():
+                state={'title':next(titles),'button':'select'}
+                env['_lastHeroPickerObservation']=dict(frame=frame,state=state)
+                return state
+            env.update(heroSelectionState=observe, _heroPickerScanObservations=[{'stale':True}],
+                pyautogui=SimpleNamespace(size=lambda:(1920,1080),moveTo=lambda *a:None,
+                    scroll=lambda *a:None,click=lambda *a:None))
+            import sys
+            sys.path.insert(0,str(ROOT/'autobtd6'))
+            exec(compile(ast.Module(body=[search],type_ignores=[]),'<hero-search>','exec'),env)
+            result=env['findHeroCard']('psi')
+            self.assertEqual(result['title'],'psi')
+            self.assertEqual([item['state']['title'] for item in env['_heroPickerScanObservations']],['quincy','psi'])
 
     def test_malformed_ocr_state_does_not_replace_evidence_with_unrelated_data(self):
         with tempfile.TemporaryDirectory(prefix='bloons-hero-') as folder:

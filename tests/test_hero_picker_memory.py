@@ -47,7 +47,7 @@ class HeroHints(unittest.TestCase):
                      imageAreas={'click':{'hero_positions':{'quincy':slots[0],'psi':slots[1]}}},
                      LAST_HERO_FILE=path,sendKey=lambda _:None,time=SimpleNamespace(sleep=lambda _:None),menuChangeDelay=0,
                      heroSelectionState=lambda:dict(title=next(observations),button='select'),
-                     heroAlreadySelected=lambda hero,state:state['title']==hero,customPrint=lambda _:None)
+                     retainHeroPickerScanObservation=lambda *a:None,heroAlreadySelected=lambda hero,state:state['title']==hero,customPrint=lambda _:None)
             exec(source[start:end],env);result=env['findHeroCard']('psi')
             return result,clicks,scrolls
     def test_hint_is_verified_live_instead_of_trusted(self):

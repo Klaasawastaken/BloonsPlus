@@ -100,3 +100,57 @@ handling, the ten-second publisher expiry during an active replay, suspended
 browser behavior or sustained CPU/memory use. Those remain acceptance gates;
 the earlier fourteen isolated renderer lifecycle checks emulate focus/page
 events and must not be described as physical desktop validation.
+
+
+## Hero search evidence retention
+
+The terminal hero-picker screenshot could show Corvus even when the requested
+hero was Psi: every OCR observation replaced the previous frame. That obscured
+the earlier unreadable title, so the final screenshot could not diagnose it.
+
+The approved picker investigation now retains up to 48 distinct OCR observations
+per search. Each lossless PNG preserves the original title and Select-label pixels
+at their original coordinates and blanks the rest of the frame, including account
+and currency areas. Deduplication requires equal OCR metadata **and** equal image
+bytes; two different unreadable cards must not collapse into one observation.
+Encoded payloads are limited to 512 KiB each and supported images to 3840 × 2160.
+There are no additional captures, clicks or selection decisions. Encoding failures
+are warnings, not gameplay failures. A new search resets the collection.
+
+On a failed search, `HERO_PICKER_SCAN` records identify each retained frame by
+index, page, card position and observation time. The existing bounded private
+failure-shot directory holds the images. The terminal full-frame evidence still
+uses the existing `hero-picker` suffix. These images are diagnostics, not proof
+that a hero is owned or selected; the ordinary title/button checks still apply.
+
+Offline evidence: the missing earlier-frame regression and the distinct-image/
+identical-OCR regression both failed before their fixes. All 16 focused hero tests
+and the complete 419-test Python suite pass. Independent review found the OCR-only
+deduplication weakness; its correction was reviewed with no remaining findings.
+The diagnostic patch was hash-verified in the idle guest before one missing-medal
+sweep attempt. Recognition and gameplay success remain unconfirmed at this point.
+
+
+### Psi title repair
+
+The instrumented missing-medal attempt supplied 32 masked picker observations.
+The first image visibly reads **PSI**: the yellow letter fill merges into the
+yellow ribbon under the warm-color mask. The full-width natural OCR also includes
+the decorative ribbon tail and misreads the short name. The picker had reached
+the correct card; accepting a guessed alias or assuming selection was unnecessary.
+
+A narrow natural-color crop (reference 2560 × 1440: x=860, y=40, width=260,
+height=95) now contributes a candidate only when its normalized text is exactly
+`psi`. Partial names from longer titles are discarded. Select/Selected confirmation
+is unchanged. The first 300-pixel-wide crop failed the scaled 960-pixel check;
+the final width passes actual helper checks on all 32 retained images, with two
+Psi readings and no false Psi matches among the other 30 observations. Resized
+Psi frames at 960, 1920 and 2560 also pass. Resized frames are offline evidence,
+not three independent live-resolution acceptance runs.
+
+The new synthetic exact-name/fragment regression failed before implementation.
+All 69 approved JavaScript test files pass; the unrelated pending ABR draft stays
+excluded. Independent scoped review reported no actionable helper findings.
+The helper was atomically installed with a rollback copy at a freshly confirmed
+idle boundary and its hash verified. The missing-medal sweep was then resumed;
+selection, gameplay and medal outcome still require live confirmation.

@@ -817,6 +817,7 @@ def hasMovingTowerPlatforms(mapName):
     return key in {'geared', 'sanctuary'} or os.environ.get('BLOONS_MOVING_PLATFORMS') == '1'
 
 _lastHeroPickerObservation = None
+_heroPickerScanObservations = []
 
 
 def heroSelectionState():
@@ -853,6 +854,41 @@ def heroSelectionState():
         return {}
 
 
+def retainHeroPickerScanObservation(page, position):
+    """Keep bounded title/button evidence from existing OCR frames, without input."""
+    try:
+        observation = _lastHeroPickerObservation or {}
+        frame = observation.get('frame')
+        if frame is None or len(_heroPickerScanObservations) >= 48:
+            return
+        state = observation.get('state', {})
+        fields = ('title', 'titleCandidates', 'button', 'buttonCandidates')
+        state = {key: state[key] for key in fields if key in state}
+        signature = json.dumps(state, sort_keys=True, separators=(',', ':'))
+        height, width = frame.shape[:2]
+        if width > 3840 or height > 2160:
+            return
+        # Preserve original pixel positions for replaying the OCR helper offline.
+        # Only the title and Select label survive; currency/account areas do not.
+        retained = np.zeros_like(frame)
+        for x, y, w, h in ((800, 25, 1050, 120), (1300, 760, 430, 110)):
+            left, top = round(x * width / 2560), round(y * height / 1440)
+            right, bottom = round((x + w) * width / 2560), round((y + h) * height / 1440)
+            retained[top:bottom, left:right] = frame[top:bottom, left:right]
+        encoded, png = cv2.imencode('.png', retained)
+        if not encoded or png.nbytes > 512 * 1024:
+            return
+        payload = png.tobytes()
+        if any(item['signature'] == signature and item['png'] == payload
+               for item in _heroPickerScanObservations):
+            return
+        _heroPickerScanObservations.append({'signature': signature, 'png': payload,
+            'page': page, 'position': list(position), 'state': state,
+            'observedAt': observation.get('observedAt')})
+    except Exception as error:
+        customPrint('WARNING could not retain hero scan evidence: ' + str(error))
+
+
 def heroAlreadySelected(hero, state):
     from difflib import SequenceMatcher
     expected = ''.join(character for character in hero.lower() if character.isalpha())
@@ -885,6 +921,8 @@ def heroAlreadySelected(hero, state):
 
 def findHeroCard(hero):
     """Try a verified layout hint, then search by the live displayed hero title."""
+    global _heroPickerScanObservations
+    _heroPickerScanObservations = []
     from hero_picker_memory import read_memory, lookup_hint
     resolution = tuple(pyautogui.size())
     height = resolution[1]
@@ -911,6 +949,7 @@ def findHeroCard(hero):
         pyautogui.click(slot)
         time.sleep(0.18)
         candidate = heroSelectionState()
+        retainHeroPickerScanObservation(page, slot)
         pageTitles.append(candidate.get('title', ''))
         if heroAlreadySelected(hero, {**candidate, 'button': 'selected'}):
             candidate['pickerHint'] = {'page': page, 'position': list(slot),
@@ -1230,7 +1269,8 @@ def saveFailureShots(mapConfig, ingame, defeat, phase='ingame'):
         stem = os.path.join(FAILURE_SHOT_DIR, time.strftime('%Y%m%d-%H%M%S') + '_' + str(mapConfig.get('map')) + '_' + str(mapConfig.get('gamemode')))
         saved = []
         # Only known phases may become file suffixes.
-        phase = 'hero-picker' if phase == 'hero-picker' else 'ingame'
+        allowedPhases = {'hero-picker'} | {'hero-picker-scan-' + str(index).zfill(2) for index in range(48)}
+        phase = phase if phase in allowedPhases else 'ingame'
         for suffix, frame in (('_' + phase + '.png', ingame), ('_defeat.png', defeat)):
             if frame is None:
                 continue
@@ -1280,6 +1320,16 @@ def saveHeroPickerFailure(mapConfig, reason, state, attempts=0, position=None):
                 'freshness': 'missing' if frame is None else 'fresh' if age is not None and age <= 10 else 'stale',
                 'frameSize': [frame.shape[1], frame.shape[0]] if frame is not None else None}
     customPrint('ERROR HERO_PICKER_FAILURE ' + json.dumps(evidence, separators=(',', ':')))
+    if reason == 'hero-not-found':
+        for index, item in enumerate(_heroPickerScanObservations):
+            try:
+                metadata = {key: item[key] for key in ('page', 'position', 'state', 'observedAt')}
+                metadata['index'] = index
+                customPrint('HERO_PICKER_SCAN ' + json.dumps(metadata, separators=(',', ':')))
+                retained = cv2.imdecode(np.frombuffer(item['png'], dtype=np.uint8), cv2.IMREAD_COLOR)
+                saveFailureShots(mapConfig, retained, None, phase='hero-picker-scan-' + str(index).zfill(2))
+            except Exception as error:
+                customPrint('WARNING could not save hero scan evidence: ' + str(error))
     saveFailureShots(mapConfig, frame, None, phase='hero-picker')
 
 
