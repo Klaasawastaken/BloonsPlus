@@ -600,3 +600,8 @@ This closes the observed deep-wheel failure at a custom root whose application
 files and Python launcher still fit the existing path limits. It does not claim
 arbitrarily long application roots, network-share installation, clean Windows,
 physical reboot recovery or all installer acceptance gates.
+
+Published as `v0.1.35-preview.99`: the 247,045,045-byte installer passes 128
+source comparisons, all 1,745 inventory hashes, four version identities, exact
+appended-payload verification and both seven-frame icon comparisons. Its sole
+GitHub asset matches the local size and digest. No guest update was performed.
