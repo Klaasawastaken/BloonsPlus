@@ -135,6 +135,94 @@ frontend display names. No account values were retained in public evidence. Thes
 checks establish transport, packaging and key-name coverage; they do not prove
 every acquired-upgrade identifier or unlock value is interpreted correctly.
 
+## Viewer request lifecycle — follow-up at `fbc27aa`
+
+An isolated actual Chromium renderer loaded the full app and its unmodified
+viewer script. The fixture served a small synthetic PNG rather than reading the
+VM screen. CDP emulated page focus; dispatched page-transition events exercised
+the existing suspension/restoration handlers. No physical focus change, real
+back/forward-cache restoration or live VM capture is claimed.
+
+All **14 checks passed** in the complete repeat:
+
+- Inactive categories and an unfocused window issued no capture requests.
+- A focused Automation category decoded and displayed the PNG blob and refreshed
+  at the existing two-second interval.
+- Leaving the category stopped polling and aborted an in-flight request; losing
+  focus also stopped requests.
+- Page suspension cleared the image URL and stopped polling. Restoration resumed
+  the viewer.
+- HTTP failure displayed the inline unavailable state and then recovered without
+  a page reload.
+- A slow response was aborted at the bounded timeout, followed by recovery. At
+  most one capture request was in flight throughout the checks.
+- No real controller mutations were issued. Only the synthetic setup-session
+  bootstrap was accepted by the fixture.
+
+The first fixture checked the server's close event immediately after the browser
+reported its timeout. The close event arrived asynchronously and produced a
+false failure; the complete repeat waits for both observations. Product code was
+unchanged.
+
+This proves browser request, image and handler behavior under the stated
+emulation. The replay's frame publisher uses a ten-second viewer lease, so these
+checks do not prove that guest JPEG work stops immediately after focus is lost.
+Physical lifecycle, actual capture latency and live resource usage remain A-02
+acceptance work.
+
+## Switching save sources — follow-up at `fbc27aa`
+
+A separate full-app fixture started with one synthetic save containing an earned
+Cubism Hard medal, Sniper XP and partial upgrades. It then read a different file
+identity containing only a Logs record and Dart XP. Scanner responses were held
+to isolate the independent save poller. No real account was switched.
+
+The **nine checks completed: six passed and three failed**:
+
+| Check | Result |
+| --- | --- |
+| Initial owned medal and XP | The first profile applied; its selected owned medal disabled the run control. |
+| Same-source rate sample | The expected synthetic MM/hour and XP/hour appeared. |
+| New source's explicit values | Rank, balance and Dart XP changed to the second profile. |
+| New source's rate baseline | Both rates became unavailable rather than comparing different profiles. |
+| New source's hero and upgrades | The new hero list and empty acquired-upgrade list replaced the former claims. |
+| Mutations | No real controller mutation was issued. |
+| Maps absent from the new save | **Failed:** the previous source's Cubism record retained its saved-source label and earned medal. |
+| Tower XP absent from the new save | **Failed:** the previous source's numeric Sniper XP remained. |
+| Reopening Maps | **Failed:** Cubism still displayed the previous source's earned Hard medal. |
+
+The rate sampler tracks source/file identity, but the independent save merger
+only overlays fields that the latest profile contains. It does not remove prior
+map records or tower-XP claims when that identity changes. This is distinct from
+temporary disconnection, where previously earned-medal protection should remain.
+A bounded repair to separate those cases awaits approval. The fixture establishes
+these renderer failures; it does not establish a replay of an owned medal or a
+defect in the sweep's separate authoritative-save guard.
+
+## Saved upgrade identifiers — follow-up at `fbc27aa`
+
+Catalog presence and recognized tower slugs do not prove acquired-upgrade matching.
+A read-only comparison of the current shared matcher against the 390 regular
+path slots and the upstream [generated upgrade identifier source](https://github.com/gurrenm3/BTD-Mod-Helper/blob/master/BloonsTD6%20Mod%20Helper/Api/Enums/UpgradeType.cs)
+found two unmatched display names: Mortar's **Shell Shock** and Skywarden's
+**Storm Pulse**. The generated source uses `Shockwave` and `StormsPulse` in their
+respective ordered tower upgrade groups. The downloaded source's SHA-256 was
+`ac25698641ad3f116f2537ff5d954e0e0f73aba0691dfb7b78bc3b974e9dd457`.
+
+The same two path gaps appeared when comparing frontend ownership matching with
+the backend's contiguous upgrade-cap calculation against a readable guest save.
+Other acquired identifiers outside the regular catalog include paragons or other
+content and were not classified as missing regular tiers. No account balances,
+paths, full profile or acquired-upgrade list is published here.
+
+A two-alias repair is proposed, scoped to those towers and shared by the UI,
+route preflight and optional upgrade caps. Approval and its regression checks
+remain pending. The observed guest catalog has fifteen candidates requiring
+Mortar top-path T3 or higher and none requiring Skywarden middle-path T1 or higher;
+these are requirement counts, not evidence of ownership, admission or victories.
+No mod was installed, no external source was executed, and no route or game/save
+file was changed.
+
 ## Concurrent live observations
 
 The missing-medal sweep stayed active during this work. Frozen Over Magic Monkeys
@@ -142,6 +230,12 @@ Only had completed all forty route actions by the observed round 58, continued
 through round 70 and reached a round-80 victory. Its authoritative VM-save medal
 was independently decoded as earned before reporting the clear. The job then
 advanced to Double HP MOABs, with seven victories and zero defeats recorded.
+
+During the viewer/source-switch follow-up, Double HP MOABs completed all forty
+actions before the round-65 observation and continued to its round-80 victory.
+The authoritative guest-save decoder independently confirmed that medal; the
+job then started missing Half Cash with eight victories and zero defeats. No
+runtime reload or validation-only gameplay was used.
 
 Two observed transient game-state replacement warnings did not stop gameplay.
 A later raw-JSON check showed the next map/mode's game state advancing from round
@@ -158,8 +252,10 @@ is included here.
 - Repair the evidenced unavailable-save requirements/hero failures and repeat
   the populated/stale/disconnected checks. Broader profile schemas, menu filtering
   and asynchronous option changes remain open.
+- Repair the observed source-switch carry-over and resolve the two saved-name
+  gaps before declaring map/tower progress complete.
 - Inspect keyboard traversal and physical screen-reader use throughout the app,
   including report dialogs, errors and setup recovery.
-- Complete high-DPI, weak-hardware, scrolling and live viewer acceptance.
+- Complete high-DPI, weak-hardware, scrolling and physical/live viewer acceptance.
 - Keep gameplay limited to missing medals; UI inspection never authorizes an owned
   medal replay or a validation-only game.
