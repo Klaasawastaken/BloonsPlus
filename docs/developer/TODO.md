@@ -21,6 +21,19 @@ profile source/disconnect handling, theme contrast and enlarged-text wrapping.
 Their detailed evidence remains with the task entries below and in the
 [historical status snapshot](history/status-snapshot-2026-10-07.md).
 
+## Decisions needed for the remaining release work
+
+| Decision | Prepared scope | Why it matters |
+| --- | --- | --- |
+| App repair batch | Viewport-based decorative medal artwork, installed-version report labels, malformed viewer-request rejection; each with offline checks | Addresses measured navigation lag and two reproduced diagnostic/replay defects |
+| Boot prototype prompt | Resend the canceled Windows admin prompt for the already-approved copied-template probe | Clean Windows acceptance cannot proceed until the isolated prototype is checked on the host and boots a separate fixture |
+| Historical privacy cleanup | Back up and recheck refs, replace only the affected helper blob, retire the scoped old downloads, preserve notes/newer downloads | Current source/payload scans do not remove personal build paths from older public history/assets |
+
+The grouped questions are pending in chat. No decision has been inferred from
+elapsed time. Scheduled sweep monitoring stays off. Signing also needs an
+external certificate: the current installer is unsigned and no usable local
+code-signing certificate was found in the CurrentUser or LocalMachine personal certificate store.
+
 ## Work order
 
 ### New candidate batch
@@ -213,7 +226,7 @@ exhausted queue must wait for a genuinely eligible target.
   - VM setup now reports explicit states and validates actions before advancing. Retry/failure/restart/sign-in and delayed update connection checks pass offline. Interrupted-process recovery and clean/interrupted setup acceptance remain open.
   - The native installer now holds an exclusive installation lock before file changes or result receipts. VM requests have unique tasks and receipts; setup waits for an owner and compares installer hashes before reusing an identical completed update. Real Windows cross-process, duplicate-result and PowerShell lock checks pass. Unsupported older installers are refused before staging. Recovery of orphaned package processes remains open.
 - [x] **I-04 — Check release packaging.** Preview 99 additional routes, three-section notes and uploaded size/digest were checked. Four staged identities and the native inventory agree on v0.1.24-preview.99. Download metadata and selector match the published 247,002,213-byte installer. One installer asset; no separate checksum file. Repeat for the final production artifact.
-- [ ] **I-05 — Add trusted code signing when available.** Unsigned installers may still trigger SmartScreen.
+- [ ] **I-05 — Add trusted code signing when available.** Unsigned installers may still trigger SmartScreen. A fresh Authenticode check reports the current .37 installer as `NotSigned`; CurrentUser and LocalMachine personal stores contain no currently valid code-signing certificate with a private key. No certificate was purchased, installed or changed. Signing remains dependent on certificate availability.
 - [ ] **I-06 — Meet production acceptance gates for milestone 100.** Complete the specification before publishing **v1.0.0**, the full release replacing Preview 100. Use Previews 97–99 for preparation; previews do not establish production readiness.
   - Text-only native acceptance reproduced clipped footer text at 125% and an undersized action button at 150%. Footer rows and buttons now size to their content, and the note wraps. Actual control checks pass across four font scales, both themes, default/minimum window sizes and six setup states. Full 397 Python tests and 64 approved JavaScript check files pass. Real Windows DPI/text-scale, screen-reader and scroll acceptance remain open.
   - Native status acceptance found and repaired a fixed accessibility name hiding current status. Actual own-process name events, measured/unknown progress descriptions and recovery/completion text pass in both themes; progress-only samples do not repeat status events. Four native view checks, 396 Python tests and 64 JavaScript check files pass. Physical screen-reader speech and production gates remain open.

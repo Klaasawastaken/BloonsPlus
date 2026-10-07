@@ -58,3 +58,18 @@ privately; personal paths are not reproduced here.
 ## Checked artifact
 
 Preview `v0.1.23-preview.99` has 422 passing Python tests and 71 passing approved JavaScript test files. Source and decompressed-payload publication guards report zero findings. The installer is 246,978,994 bytes with SHA-256 `3e068c9adad0850a90666180ba9021b0d9b7f74125ce36d01d18a83806d797d8`. Checks verified all 1,724 inventory hashes, 127 runtime source files, 1,245 unchanged data/route files, four package version identities, the exact appended payload and seven icon frames in each executable. The unapproved ABR draft is excluded. These checks do not establish clean Windows installation or resolve boot-file creation failures.
+
+## Additional current-source coverage — 7 October
+
+A read-only supplemental scan applies the existing privacy patterns to tracked
+UTF-8 text outside the guard's current suffix list. It covers 1,122 files:
+1,051 route recordings, 42 AutoHotkey files, ten SVGs, seven extensionless files,
+six CommonJS fixtures, five stylesheets and one XML file. It returns one match
+in the issue-report fixture, manually confirmed to be the deliberate synthetic
+account path used to verify redaction. No new real personal-data match was found.
+This is a point-in-time pattern audit; it does not expand the permanent guard,
+cover arbitrary encodings/content, or resolve the historical helper finding.
+
+The current .37 installer also reports `NotSigned` through Windows Authenticode.
+Both Windows personal certificate stores have zero currently valid code-signing
+certificates with a private key. No signing identity or certificate was changed.
