@@ -389,3 +389,8 @@ contrast checks remain separate evidence.
 
 All **80 approved JavaScript suites pass** after this repair, including the
 earlier artwork/layout, expanded spacing and rendered-background checks.
+
+Published as `v0.1.37-preview.99`, with one 247,048,668-byte installer. The uploaded
+digest matches the checked artifact. All 128 runtime source comparisons, 1,747
+inventory hashes, four identities, exact appended payload and both seven-frame
+application icons pass; source/payload privacy checks report zero findings.
