@@ -366,3 +366,26 @@ appended payload and seven exact frames in each application icon. The packaged
 website stylesheet matches this repair; publication scans report zero findings.
 The unrelated pending route draft is excluded. This does not establish a clean
 Windows installation or complete production 1.0 acceptance.
+
+## Enlarged text at fixed viewport — 7 October 2026
+
+The new isolated renderer captures every element's computed font size before
+doubling it. Browser zoom stays at one, and the viewport remains 1,280 or 390 CSS
+pixels. This covers all 17 content pages in both themes: **68 cases**. The
+unmodified stylesheet failed 12 document-overflow and 14 heading-containment
+observations. Home, Download and four Wiki pages overflowed the mobile document;
+Account Progress also had a heading outside its column.
+
+Long headings now allow word wrapping, the homepage grid text item can shrink,
+and its metadata row can wrap. The corrected 68 cases pass. The change does not
+set smaller fonts, hide overflow or change artwork dimensions. Independent
+read-only review found no actionable regression.
+
+External fonts are blocked, so these checks exercise fallback fonts. They prove
+document and heading bounds under injected text sizing, not physical Windows
+text scaling, every production font/browser combination, every clipping case
+or complete screen-reader accessibility. Existing zoom, artwork, spacing and
+contrast checks remain separate evidence.
+
+All **80 approved JavaScript suites pass** after this repair, including the
+earlier artwork/layout, expanded spacing and rendered-background checks.

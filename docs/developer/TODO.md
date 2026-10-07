@@ -6,7 +6,8 @@ The [production acceptance matrix](production-1.0-gates.md) separates implemente
 
 ## At a glance
 
-- **Current priority:** the installer and first-launch redesign, app polish, folders and the website alongside missing-medal gameplay.
+- **Current priority:** finish installer/first-launch acceptance, app polish, progress display, website and packaging for 1.0. On 7 October the user explicitly removed unfinished routes and sweep improvements from the 1.0 release prerequisites; keep that work as a later backlog rather than marking it complete.
+- **Sweep operation:** keep eligible missing-medal gameplay running alongside development when possible. An exhausted queue requires new eligible targets or resolved prerequisites; never reset failed attempts or replay owned medals just to keep a process active. Scheduled monitoring remains off at the user's request.
 - **Release target:** milestone 100 is the full **v1.0.0** release. Use Previews 97–99 for preparation and complete production acceptance before publishing 1.0. Future notes use only **Additions**, **Changes**, and **Removed**; see the [release policy](release-policy.md) and [template](../releases/TEMPLATE.md).
 - **After 1.0 — v1.2:** add Quests, Races, Boss Rush and Boss Events automation, plus a dedicated Quests tab marked **Coming soon** until usable. Finish the required 1.0 work first; these are planned capabilities, not current features.
 - **Sweep:** Five clears from the additional routes have victory plus authoritative saved-medal evidence: Middle of the Road Military Only, Primary Only and Deflation, One Two Tree Military Only, and Town Center Military Only; zero defeats were counted. Town Center Reverse exposed a menu-color classification collision at round 24. The reviewed classifier fix and four new complete-control candidates were installed at an idle boundary; the sweep restarted, skipped Bazaar before gameplay on a Rosalia OCR failure, and earned Town Center Military Only. The Rosalia repair was then deployed at that completion boundary and the sweep resumed. Fresh status is authoritative. The sweep skips owned medals and preserves failure history; scheduled-monitor status is recorded below.
@@ -31,7 +32,7 @@ The [production acceptance matrix](production-1.0-gates.md) separates implemente
 - **Installer safety follow-up:** exact installed Python/Pythonw work blocks file replacement, including work started while an idle controller closes. Actual native regressions and independent review pass; packaging and publication checks pass. No guest reload is needed.
 - **Clean Windows acceptance:** two separate fixture builds failed before Bloons+ ran, at App Sandbox's boot-file step (`bcdboot` exit 183). A new name did not repair the failure. Setup now preserves this observed cause without automatically building three images; clean-install acceptance remains open. [Evidence](installer-native-acceptance-2026-10-06.md#separate-clean-windows-attempts--7-october).
 - **Installed in the VM:** controller and inventory v0.1.22-preview.99, updated through the existing installer at an idle boundary. Six runtime file hashes and the new opaque account-identity field are verified. The existing application task's privilege level and action still match. Earlier Psi selection and Three Mines 'Round Deflation victory/save evidence remain valid; a real account switch has not been tested. No credentials or game saves were changed. The two-file observation-cache repair was subsequently installed with backup and exact hash checks after Bazaar Double HP MOABs won and its saved medal was confirmed. The unchanged existing reload task resumed the missing Half Cash target.
-- **Production gates:** clean supported Windows setup, UAC/reboot recovery, physical accessibility and broader gameplay acceptance remain open. Published hotfixes do not certify 1.0 readiness.
+- **Production gates:** clean supported Windows setup, UAC/reboot recovery, app/profile acceptance, accessibility and final packaging remain open. Broader route/sweep acceptance is deferred by the user's 7 October scope change. Published hotfixes do not certify 1.0 readiness.
 
 ## Work order
 
@@ -56,12 +57,12 @@ These are compatibility tasks, not claims that the installed game or existing ro
 
 | Order | Area | Main outcome |
 | --- | --- | --- |
-| **1 — Recovery, then background** | [Replay reliability](#1-replay-reliability) | Restore the current run; diagnose evidenced failures between development tasks |
-| **2 — Background** | [Routes and medals](#2-routes-and-medals) | Better candidates for missing medals; check the sweep every five minutes |
-| **3 — Alongside gameplay** | [Installer and release](#4-installer-and-release) | Clear setup, repair and production acceptance checks |
-| **4 — Alongside gameplay** | [App polish and files](#5-app-polish-and-files) | Smoother app, accessible controls and organized folders |
-| **5 — Alongside gameplay** | [Website redesign](#6-website-redesign) | Clearer pages with varied official BTD6 artwork |
-| **6 — Alongside gameplay** | [Progress and VM connection](#3-progress-and-vm-connection) | Accurate live progress, counters and connection status |
+| **1 — 1.0 priority** | [Installer and release](#4-installer-and-release) | Reliable setup, recovery and checked final packaging |
+| **2 — 1.0 priority** | [App polish and files](#5-app-polish-and-files) | Responsive, accessible controls and organized folders |
+| **3 — 1.0 priority** | [Progress and VM connection](#3-progress-and-vm-connection) | Accurate live progress, counters and connection status |
+| **4 — 1.0 priority** | [Website redesign](#6-website-redesign) | Finish page acceptance and release downloads |
+| **5 — Deferred improvements** | [Replay reliability](#1-replay-reliability) | Preserve failures and improve routes after core release work |
+| **6 — Background when eligible** | [Routes and medals](#2-routes-and-medals) | Earn missing medals; unfinished coverage does not block 1.0 |
 | **7 — Experimental** | [AI, bosses and Pro](#7-ai-bosses-and-pro) | Separate development after core reliability |
 
 **How to read this list:** unchecked tasks remain open, including tasks awaiting live evidence. Checked tasks have recorded completion evidence. Task IDs stay stable when priorities change. A shipped fix does not prove every route wins.
@@ -73,8 +74,8 @@ These are compatibility tasks, not claims that the installed game or existing ro
 3. **I-01 / I-03 — Acceptance:** check clean and interrupted setup and repair. I-04 packaging is checked through the Preview 99 setup status hotfix; repeat its checks for each later release.
 4. **A-01 / A-03 / A-04 — App and files:** polish controls, accessibility, scrolling and folder organization.
 5. **W-04 — Website:** finish responsive and accessibility checks for the refreshed pages.
-6. **R-02 / R-15 — Recovery:** investigate game progression while replay input is paused or stopped; a paused controller does not prove a paused game.
-7. **Background — R / S tasks:** check the missing-medal sweep every five minutes; diagnose failures and improve candidates without replaying owned medals.
+6. **Deferred R-02 / R-15 — Recovery:** investigate game progression while replay input is paused or stopped; a paused controller does not prove a paused game. This route work no longer blocks 1.0.
+7. **Background operation — R / S tasks:** check eligible missing-medal gameplay during active development; keep scheduled monitoring off. Preserve failures and skip owned medals. Route expansion and sweep improvements are deferred beyond the core 1.0 work.
 8. **A-08 — Post-install configuration:** apply the approved Opera-inspired visual direction after installation; keep the compact native installer unchanged. Reuse shared observed setup actions, preserve navigation, support reduced motion and measure animation performance rather than promising a frame rate.
 
 The sweep earns missing medals alongside development. Deploy changes together after the current healthy replay finishes.
@@ -290,6 +291,7 @@ Requested **6 October**. Work alongside background missing-medal gameplay after 
 - [x] **W-02 — Rebuild Features.** Four practical workflow groups and a compact progress section, using varied official monkeys. Desktop/dark/narrow browser checks pass without broken images or horizontal overflow.
 - [x] **W-03 — Streamline Home.** Three feature cards, clearer copy and corrected installation link. Retain the requested app-preview hero and floating card.
 - [ ] **W-04 — Check artwork and layout.** Preserve proportions, attribution, responsiveness and accessibility. No AI-generated images.
+  - Fixed-viewport text-size acceptance now covers all 17 content pages in both themes at 1,280/390 pixels. All 68 cases pass after repairing heading wrapping and the homepage text column/metadata row. All 80 approved JavaScript suites pass; independent review found no actionable regression. External fonts are blocked, and physical text scaling, full clipping and assistive-technology acceptance remain separate work.
   - [Browser/source evidence](website-acceptance-2026-10-06.md): 18 phone/tablet page checks, menu keyboard behavior, Wiki search/highlighting, annual pricing and all 26 HTML files' local targets passed. The live HTTPS release-selector check selects v0.1.8-preview.99. The secondary-text repair now passes 60 theme/surface checks; broader accessibility states remain open.
   - New actual Chromium audit covers nine main pages at verified desktop/phone widths, native keyboard skip links, landmarks, reduced motion and both billing selections. The exact annual price/period is exposed as an atomic polite live region. Escape now restores the mobile menu toggle, with native keyboard traversal and closed-menu/pointer focus preservation covered by the new renderer regression. The deployed Download page now resolves v0.1.10-preview.99 and its matching asset size.
   - Complete local artwork/layout audit: 17 content pages, two widths, both themes and nine actual legacy redirects. All 212 local image observations load, 64 character checks preserve fitting/proportions, and all 32 article observations select the correct sidebar entry. VM Connection now wraps its setup table in a named keyboard-scrollable region; native Right Arrow scrolling and Tab exit pass. The complete 68 content observations and nine redirects now pass with no overflow or missing local requests. See the [evidence](website-acceptance-2026-10-06.md#complete-local-page-and-artwork-sweep--7-october-2026).

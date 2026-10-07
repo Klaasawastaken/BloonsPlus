@@ -11,15 +11,11 @@ Updated 7 October 2026. **Production 1.0 is not ready for publication.** This ch
 - Public source and installers exclude profiles, personal logs, screenshots, credentials, VM images and private Discord bot code.
 - Milestone 100 is `v1.0.0`. Release notes contain only **Additions**, **Changes** and **Removed**. Publish one installer asset, without `SHA256SUMS.txt`.
 
-## Acceptance matrix
+## Acceptance matrix — required for 1.0
 
 | Area | Evidence available | Remaining gate | TODO |
 | --- | --- | --- | --- |
 | Medal ownership | Save-source ownership/attempt buckets; 27 complete-loop offline scenarios now include same-path owner switches and safe legacy migration using a digest of explicit ownerID; fresh-save migration preflight passes; v0.1.22 is installed with verified hashes | Observe live prevention and real account switching. Synthetic scenarios do not certify all account changes | S-05–S-07 |
-| Route coverage | 86 maps; 553/1,204 eligible map/mode pairs; zero maps entirely without a candidate | 651 coverage gaps remain. A compatible candidate is not proof of victory or current balance compatibility | S-01–S-04, S-08 |
-| Source fidelity | Manual controls, waits, selectors, targeting, repeated abilities and second-special commands have offline coverage; 132 existing import signatures match current conversions | Forty-five import signatures differ; nine differing files remain host-catalog candidates, including eight with omitted command context. Resolve admission and coordinate adaptations; support other dialects' paid hero levels and exact Ace centering | R-01–R-04 |
-| Placements and upgrades | Visual selection and purchase checks, held-placement recovery and fixed Chutes policy have focused regressions | Observe remaining free/paid placement, hero selection, frozen/moving terrain and exact upgrade cases during missing-medal runs | R-05–R-11 |
-| HUD and results | Cash/round guards and finished-route overlay recovery have offline checks; confirmed clears demonstrate some end-to-end paths | Finish representative 1080p/1440p, panel-side and Double Cash coverage; prove bounded recovery avoids stale-frame input | R-12–R-16 |
 | Failure evidence | Complete 666-record archive audited privately against current saved ownership; 47 missing-target records match current route bytes across 17 combinations; retired tower uncertainties are separated | Legacy hash/version coverage is incomplete. Audit classifications and actual engine implementation; verify each required field and redaction at export boundaries | R-16–R-17 |
 | Profile and statistics | Fifteen host/guest profile groups matched through the relay; thirteen populated-renderer checks pass for tiers/T5, heroes, medals, cadence, late-response precedence and synthetic MM/XP rates; all 390 catalog tier slots and 1,176 candidate tower slugs map; new-source explicit values and rate reset pass | Approved disconnect/source projection and two tower-name alias repairs pass the original renderer regressions. Live disconnect/account switching, broader decoder coverage and live rate semantics remain open | P-01–P-05 |
 | Setup engine | Approved native redesign batches 1–5 implemented; actual published-package install and repair passed at a shorter isolated root, including pinned runtime imports, corrupted-file restoration and configuration preservation; real native/Node transport checks cover cancellation, resume, reconnect, restart deferral and validated release; actual published-archive selective removal preserved modified source and unlisted data/routes; exact installed Python/Pythonw guards cover missing controllers and work started during shutdown. A retained native observer now blocks while a descendant survives and permits recovery after observed natural exit; real observer-loss and failed-handshake checks pass; fresh-process recovery through actual deployment at staged/prepared/first-replacement boundaries preserves prior files and allows retry | Environment operators in the protocol fixture are faked. Losing the independent observer still leaves ownership unknown and safely blocks recovery. The approved transient checkpoint repair has deterministic error and actual Windows lock coverage; the observed deep-wheel path failure now passes actual native install/reuse/repair with pinned dependencies at a long custom root. Arbitrarily long application roots remain unproven alongside clean Windows, wider interruption recovery, permissions and complete dependency recovery | I-01–I-11 |
@@ -40,6 +36,21 @@ does not close clean provisioning or resolve the boot-store issue. All 407
 Python tests and 65 approved JavaScript checks pass. The published installer
 has 126 matching runtime comparisons, 1,710 valid inventory hashes, matching
 native/staged identities and both verified application icons.
+
+## Deferred route and sweep acceptance
+
+On 7 October the user explicitly said routes and sweep improvements do not have
+to be complete for 1.0. The following remain tracked work, not release blockers.
+Existing owned-medal exclusions, account boundaries, failure retention and
+read-only game/save rules remain mandatory. Keep eligible missing-medal gameplay
+running when possible; an exhausted queue is not permission to reset attempts.
+
+| Area | Evidence available | Deferred work | TODO |
+| --- | --- | --- | --- |
+| Route coverage | 86 maps; 553/1,204 eligible map/mode pairs; zero maps entirely without a candidate | 651 coverage gaps remain. A compatible candidate is not proof of victory or current balance compatibility | S-01–S-04, S-08 |
+| Source fidelity | Manual controls, waits, selectors, targeting, repeated abilities and second-special commands have offline coverage; 132 existing import signatures match current conversions | Forty-five import signatures differ; nine differing files remain host-catalog candidates, including eight with omitted command context. Resolve admission and coordinate adaptations; support other dialects' paid hero levels and exact Ace centering | R-01–R-04 |
+| Placements and upgrades | Visual selection and purchase checks, held-placement recovery and fixed Chutes policy have focused regressions | Observe remaining free/paid placement, hero selection, frozen/moving terrain and exact upgrade cases during missing-medal runs | R-05–R-11 |
+| HUD and results | Cash/round guards and finished-route overlay recovery have offline checks; confirmed clears demonstrate some end-to-end paths | Finish representative 1080p/1440p, panel-side and Double Cash coverage; prove bounded recovery avoids stale-frame input | R-12–R-16 |
 
 ## Deferred capabilities
 

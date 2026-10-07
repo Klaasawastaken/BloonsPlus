@@ -200,3 +200,8 @@ img[src*="/game/"]:not([src$="monkeymeadow.png"]){object-fit:contain;height:auto
 
 /* These symbols carry meaning beside feature copy in both themes. */
 .feature-icon{color:var(--ink)}
+
+/* Keep enlarged text within its column without shrinking text or artwork. */
+h1{overflow-wrap:anywhere}
+.hero-copy{min-width:0}
+.hero-meta{flex-wrap:wrap}
