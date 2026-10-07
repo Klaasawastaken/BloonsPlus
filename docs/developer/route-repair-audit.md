@@ -1002,6 +1002,12 @@ correctly read Obyn live, but Psi's title remained unreadable during Three Mines
 'Round Deflation. That pass ended before gameplay, with no route attempt consumed;
 Psi still requires its own captured-title repair before readiness is claimed.
 
+The complete released helper, including the inner white-letter crop, was then
+deployed at a separately checked idle boundary and its installed hash verified.
+The previous helper is retained as a backup. This completes that deployment,
+but does not prove Psi recognition or justify repeatedly restarting the same
+failed pre-game search. Current viewer captures still show the main menu.
+
 The preceding X Factor Impoppable run lost at round 24 after an unconfirmed
 Sniper upgrade. Its retained upgrade observation shows the Desperado unlock page
 while replay expected an in-game Sniper panel. This is evidence of an unexpected
