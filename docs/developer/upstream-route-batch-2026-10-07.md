@@ -46,3 +46,11 @@ authoritative saved-medal confirmation. The sweep then advanced to the newly
 eligible missing Deflation medal with two clears and zero defeats. Its first
 Deflation observation had completed the planned setup and continued through
 round 37; no Deflation clear is claimed from that observation.
+
+Deflation later reached a round-60 `VICTORY_CONFIRMED`. An independent fresh
+VM profile read confirmed its saved Deflation medal. The sweep continued to
+One Two Tree Military Only with three clears and zero defeats. Those three
+Middle of the Road medals are now owned and must be skipped on later passes.
+
+The live website's release manifest was also checked after publication and
+selects `v0.1.24-preview.99` with the expected installer URL and byte size.

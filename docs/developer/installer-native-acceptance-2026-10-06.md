@@ -447,6 +447,11 @@ and the existing executable-header boundary, not publisher signatures, the real
 Microsoft redirect/TLS path, complete installation, reboot recovery or clean
 Windows acceptance. Those remain separate production gates.
 
+After integrating these fixtures, the complete Python suite passed 423 tests
+and all 72 approved JavaScript test files passed. The unpublished ABR draft
+test remains excluded. No installer build or live runtime deployment was
+performed for this test-only batch.
+
 ### Locked package rollback and fresh-process retry
 
 `tests/test_installer_locked_rollback.py` compiles the unchanged production native
