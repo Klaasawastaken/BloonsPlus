@@ -14,13 +14,13 @@ function fn(name) {
 }
 const production = [source.slice(source.indexOf('const CHIMPS_CRITICAL_PATH ='), source.indexOf('function getMissingMedals(')),
   ...['medalProfileIdentity','migrateMedalAccountHistory','rememberConfirmedMedal','mergeSavedMedalHistory','syncMedalsFromObservations','loadMedalsFromProfileSave','savedMedalState','getMissingMedals','sweepCandidates',
-      'confirmClear','waitForSavedClear','saveSweepProgress','profileRouteAttempts','saveRouteAttempt','recordObservedClear','ensureOutcomeCount',
+      'confirmClear','waitForSavedClear','saveSweepProgress','profileRouteAttempts','saveRouteAttempt','recordObservedClear','markMedalSeen','ensureOutcomeCount',
       'runBlackBorderSweep'].map(fn)].join('\n');
 function fixture() {
   const disk = new Map();
   const result = {runs:[],logs:[],waits:[],failures:[]};
   let progress = {}, profile;
-  let rankHook = null, runHook = null, waitHook = null, readHook = null, catalogHook = null;
+  let rankHook = null, runHook = null, waitHook = null, readHook = null, catalogHook = null, observationError = null;
   const mapNames = {example:{name:'Example'}};
   const cfg = {medals:{example:{}}, unlocked_maps:{example:true},bloonsPlusMedalsInitialized:true,bloonsPlusMedalsVerifiedV2:true};
   disk.set('config',JSON.stringify(cfg)); disk.set('maps',JSON.stringify(mapNames));disk.set('observations',JSON.stringify({maps:{}}));
@@ -28,11 +28,12 @@ function fixture() {
   const fakeFs = {
     readFileSync(file) {assert.ok(disk.has(file), `Unexpected read ${file}`);return disk.get(file);},
     writeFileSync(file,data) {assert.ok(['config','observations.tmp'].includes(file), `Unexpected write ${file}`);disk.set(file,data);},
-    renameSync(from,to) {assert.equal(from,'observations.tmp');assert.equal(to,'observations');disk.set(to,disk.get(from));disk.delete(from);}
+    renameSync(from,to) {if(observationError)throw observationError;assert.equal(from,'observations.tmp');assert.equal(to,'observations');disk.set(to,disk.get(from));disk.delete(from);}
   };
   const clone = value => JSON.parse(JSON.stringify(value));
   const context = {
     path, createHash:require('node:crypto').createHash, fs:fakeFs,USERCONFIG_PATH:'config',MAPS_PATH:'maps',OBSERVATIONS_PATH:'observations',MODE_ATTEMPTS_KEY:'attempts',
+    updateObservations:async(file,mutate)=>{if(observationError)throw observationError;const value=JSON.parse(disk.get(file));mutate(value);disk.set(file,JSON.stringify(value));},
     normalizeMapName:name=>name.toLowerCase().replace(/[^a-z0-9]/g,''),medalsFromMapRecord,canAttempt,
     readLocalProgress:()=>readHook ? readHook() : profile,loadProgress:()=>clone(progress),saveProgress:value=>{progress=clone(value);},
     getAvailableCombos:async()=>{if(catalogHook)catalogHook();return combos;}, isMapUnlocked:()=>true,buildSweepMapOrder:maps=>maps,
@@ -53,13 +54,15 @@ function fixture() {
   };
   setProfile(false);
   return {result,context,disk,combos,setProfile,get profile(){return profile;},set profile(p){profile=p;},get progress(){return progress;}, get attempts(){return progress.routeAttemptsByProfile?.[context.job.medalProfileIdentity]||{};},
-    set catalogHook(h){catalogHook=h;},
+    set observationError(error){observationError=error;},set catalogHook(h){catalogHook=h;},
     set readHook(h){readHook=h;},
     set rankHook(h){rankHook=h;},set runHook(h){runHook=h;},set waitHook(h){waitHook=h;},
     async run(){const job={stopRequested:false};context.job=job;await vm.runInContext('runBlackBorderSweep(job)',context);return job;}};
 }
 (async()=>{
  const findings=[];
+ {const f=fixture();f.setProfile(false,false);const prior=f.disk.get('observations');f.observationError=Object.assign(new Error('private/cache/path'),{code:'EPERM'});f.runHook=async(_job,args)=>{f.setProfile(true,args[2]==='medium');return {exitCode:0,victoryObserved:true};};await f.run();assert.equal(f.result.runs.length,2);assert.equal(f.progress.blackBorderSweep.counts.confirmed,2);assert.equal(f.result.failures.length,0);assert.equal(f.disk.get('observations'),prior);assert.ok(f.result.logs.some(line=>line.includes('EPERM')));assert.ok(!f.result.logs.some(line=>line.includes('private/cache/path')));f.setProfile(false,false);await f.run();assert.equal(f.result.runs.length,2,'Confirmed medals remain protected after a cache write fails');findings.push('PASS: persistent observation failure retains ownership and continues other missing medals');}
+ {const f=fixture();f.observationError=Object.assign(new Error('private/cache/path'),{code:'EPERM'});f.runHook=async()=>({exitCode:0,notable:['MEDAL_ALREADY_EARNED']});await f.run();assert.equal(f.result.runs.length,1);assert.equal(f.progress.blackBorderSweep.counts.confirmed,0);assert.equal(f.progress.blackBorderSweep.counts.skippedModes,1);assert.equal(f.result.failures.length,0);findings.push('PASS: observed owned medal stays skipped when cache persistence fails');}
  {const f=fixture();f.setProfile(true);await f.run();assert.equal(f.result.runs.length,0);assert.equal(f.progress.blackBorderSweep.status,'complete');findings.push('PASS: all owned medals launch no replay');}
  {const f=fixture();f.rankHook=()=>f.setProfile(true);await f.run();assert.equal(f.result.runs.length,0);assert.equal(f.progress.blackBorderSweep.counts.confirmed,0);findings.push('PASS: medal becomes owned after candidate selection; final gate skips it');}
  {const f=fixture();f.setProfile(null,false);f.runHook=async()=>{f.setProfile(null,true);return {exitCode:0,victoryObserved:true};};await f.run();assert.equal(f.result.runs.length,1);assert.equal(f.result.runs[0][2],'medium');assert.equal(f.progress.blackBorderSweep.counts.confirmed,1);findings.push('PASS: unreadable Easy skipped; readable missing Medium can clear');}
