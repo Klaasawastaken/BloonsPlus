@@ -1,0 +1,189 @@
+{
+  "source": "https://github.com/ThuyTran735/BTD6-Everything-Macro",
+  "commit": "715790be2fbfac0f799ef75f324a5748f5a6473f",
+  "license": "MIT",
+  "localWinVerified": false,
+  "notes": "Separate target-mode conversions using existing supported syntax. Original recordings preserved. No validation-only gameplay.",
+  "routes": [
+    {
+      "file": "middle_of_the_road#deflation#1920x1080#converted#source_everythingmacro#upstream-20261005.btd6",
+      "sourceFile": "Maps/Beginner/Middle of the Road/Easy/MiddleOfTheRoadDeflation.ahk",
+      "sourceSha256": "95099527803fd8ff343722cc083c49bd319d52783b4e6e976a17a7ecf605fa61",
+      "routeSha256": "8ecac82a4dfaf1c1f643518c91e2ef9d54a38141439a988f8fcb69c395c00407",
+      "sourceActions": 9,
+      "routeActions": 25,
+      "map": "middle_of_the_road",
+      "mode": "deflation"
+    },
+    {
+      "file": "middle_of_the_road#easy#1920x1080#converted#source_everythingmacro#upstream-20261005.btd6",
+      "sourceFile": "Maps/Beginner/Middle of the Road/Easy/MiddleOfTheRoadEasy.ahk",
+      "sourceSha256": "ca4238722c24bfa320b1a7d62e84ed887fff652b4a4563c9bd545f93572f64d4",
+      "routeSha256": "c5bca3567c2e4d5306ff14fd364c3614629a893d424f9b62f3c330b1212dfdb5",
+      "sourceActions": 18,
+      "routeActions": 49,
+      "map": "middle_of_the_road",
+      "mode": "easy"
+    },
+    {
+      "file": "middle_of_the_road#primary_only#1920x1080#converted#source_everythingmacro#upstream-20261005.btd6",
+      "sourceFile": "Maps/Beginner/Middle of the Road/Easy/MiddleOfTheRoadPrimaryOnly.ahk",
+      "sourceSha256": "39ad5732d7e0b4d30b60650cd6614105048b2b4c0814f2f4e373fb58c4ca05ee",
+      "routeSha256": "0f788223c1a88af6020256615e105ea797a2e895c5bb65e28ecf7aa4f2cb3358",
+      "sourceActions": 18,
+      "routeActions": 49,
+      "map": "middle_of_the_road",
+      "mode": "primary_only"
+    },
+    {
+      "file": "middle_of_the_road#medium#1920x1080#converted#source_everythingmacro#upstream-20261005.btd6",
+      "sourceFile": "Maps/Beginner/Middle of the Road/Medium/MiddleOfTheRoadMedium.ahk",
+      "sourceSha256": "4c65a98671096da10df66752da3a54c89d8198519dafa3d9cd2943b040da7309",
+      "routeSha256": "2c995b59a78d65b9dcf4a5e99877cf5d2eef0e6bed7976ed4580a9c5259f839e",
+      "sourceActions": 18,
+      "routeActions": 54,
+      "map": "middle_of_the_road",
+      "mode": "medium"
+    },
+    {
+      "file": "middle_of_the_road#military_only#1920x1080#converted#source_everythingmacro#upstream-20261005.btd6",
+      "sourceFile": "Maps/Beginner/Middle of the Road/Medium/MiddleOfTheRoadMilitaryOnly.ahk",
+      "sourceSha256": "304954cebd36f78000d756d5f011cb74b6e7ee4aeb7dc4613b45baf61d1439f0",
+      "routeSha256": "fbcdd21127f6e7d1b7ce96a38566d6ff63305f930ac62190d61fdf10cfa9357a",
+      "sourceActions": 18,
+      "routeActions": 54,
+      "map": "middle_of_the_road",
+      "mode": "military_only"
+    },
+    {
+      "file": "middle_of_the_road#reverse#1920x1080#converted#source_everythingmacro#upstream-20261005.btd6",
+      "sourceFile": "Maps/Beginner/Middle of the Road/Medium/MiddleOfTheRoadReverse.ahk",
+      "sourceSha256": "e3c0fb2f27a684143f1371d4d17ca01efcc80ba162fdfe85c12a8e25545e68c3",
+      "routeSha256": "5ff9a1089dd3822a0210c25baf67d09a55f9c6eaef8fe5e13f58114e34cce879",
+      "sourceActions": 18,
+      "routeActions": 54,
+      "map": "middle_of_the_road",
+      "mode": "reverse"
+    },
+    {
+      "file": "one_two_tree#deflation#1920x1080#converted#source_everythingmacro#upstream-20261005.btd6",
+      "sourceFile": "Maps/Beginner/One Two Tree/Easy/OneTwoTreeDeflation.ahk",
+      "sourceSha256": "c3134e7d8e2281e9e072029c7241ddb125155d0f5ac72682826408c73b4e5fca",
+      "routeSha256": "4fa52f8e0cb3ea291e15c5e697f663281c752e128721c7ce4a74d1921757e8b1",
+      "sourceActions": 9,
+      "routeActions": 25,
+      "map": "one_two_tree",
+      "mode": "deflation"
+    },
+    {
+      "file": "one_two_tree#easy#1920x1080#converted#source_everythingmacro#upstream-20261005.btd6",
+      "sourceFile": "Maps/Beginner/One Two Tree/Easy/OneTwoTreeEasy.ahk",
+      "sourceSha256": "baba6636a24101a12345d747f35c3ee795c9cfdd5ded9433df6400565f4edfce",
+      "routeSha256": "ed2d8b160b358ac350ea64340ec774f77b2b558056a785c3fea84625781ffb9e",
+      "sourceActions": 18,
+      "routeActions": 49,
+      "map": "one_two_tree",
+      "mode": "easy"
+    },
+    {
+      "file": "one_two_tree#primary_only#1920x1080#converted#source_everythingmacro#upstream-20261005.btd6",
+      "sourceFile": "Maps/Beginner/One Two Tree/Easy/OneTwoTreePrimaryOnly.ahk",
+      "sourceSha256": "d5f05a544c40f63b578f0892dc8ef722a02bd6876568114a7a7c5b9987e7384a",
+      "routeSha256": "58b307ad825fb4f03035d27e26eb1d824936d19cb6593c8ebf3766e2080072b6",
+      "sourceActions": 18,
+      "routeActions": 49,
+      "map": "one_two_tree",
+      "mode": "primary_only"
+    },
+    {
+      "file": "one_two_tree#medium#1920x1080#converted#source_everythingmacro#upstream-20261005.btd6",
+      "sourceFile": "Maps/Beginner/One Two Tree/Medium/OneTwoTreeMedium.ahk",
+      "sourceSha256": "a943dde79eea47888b4f4e2faa87536fbc402f3e1c3818673c50e7f668a71edd",
+      "routeSha256": "52113806e3b3c3db9c716e971b82771b97960a156678612cc32b6304b0dfb618",
+      "sourceActions": 18,
+      "routeActions": 54,
+      "map": "one_two_tree",
+      "mode": "medium"
+    },
+    {
+      "file": "one_two_tree#military_only#1920x1080#converted#source_everythingmacro#upstream-20261005.btd6",
+      "sourceFile": "Maps/Beginner/One Two Tree/Medium/OneTwoTreeMilitaryOnly.ahk",
+      "sourceSha256": "9a8d14f45d852188108ef28f5aa5f8cfd8716b5558adf0ad20039a8a39210736",
+      "routeSha256": "aeb3cec1be84e20e1302714d50999a9affe2e2cb9f340720e2875f62e1693748",
+      "sourceActions": 18,
+      "routeActions": 54,
+      "map": "one_two_tree",
+      "mode": "military_only"
+    },
+    {
+      "file": "one_two_tree#reverse#1920x1080#converted#source_everythingmacro#upstream-20261005.btd6",
+      "sourceFile": "Maps/Beginner/One Two Tree/Medium/OneTwoTreeReverse.ahk",
+      "sourceSha256": "a028fd752637654e9ed448fdb453f6750903ec5a5c534dca2e8702553f9991cc",
+      "routeSha256": "da8a6e1fe598fbec8e9faa5f2f0b3b70d58e61e49f0949aabc017ab3679f5a06",
+      "sourceActions": 18,
+      "routeActions": 54,
+      "map": "one_two_tree",
+      "mode": "reverse"
+    },
+    {
+      "file": "town_center#deflation#1920x1080#converted#source_everythingmacro#upstream-20261005.btd6",
+      "sourceFile": "Maps/Beginner/Town Center/Easy/TownCenterDeflation.ahk",
+      "sourceSha256": "97942380f426c0ecbd06fa0582ce121e34dbb0b94c0391b6521e29a0fd6c9de8",
+      "routeSha256": "b15a3fb7d520aae277a7118d7f234cbde2391d02d2d1ec2905d565097f2e4618",
+      "sourceActions": 9,
+      "routeActions": 25,
+      "map": "town_center",
+      "mode": "deflation"
+    },
+    {
+      "file": "town_center#easy#1920x1080#converted#source_everythingmacro#upstream-20261005.btd6",
+      "sourceFile": "Maps/Beginner/Town Center/Easy/TownCenterEasy.ahk",
+      "sourceSha256": "e477150d9edf8fa7e6953fc6c2f611f4ebd85854a496d28d76ac5849f6f54a4b",
+      "routeSha256": "f42d12c39496eff5b8a8e7a6bbd35957b5e3b1055bb09c3826ca6b7426a150d2",
+      "sourceActions": 18,
+      "routeActions": 49,
+      "map": "town_center",
+      "mode": "easy"
+    },
+    {
+      "file": "town_center#primary_only#1920x1080#converted#source_everythingmacro#upstream-20261005.btd6",
+      "sourceFile": "Maps/Beginner/Town Center/Easy/TownCenterPrimaryOnly.ahk",
+      "sourceSha256": "29704a5405d5f0948ae3ca4c604d0db80f4feb19f9b6dfad5165a993e64e1028",
+      "routeSha256": "9a9ce86eddc844a5f3c2b488967cd2c67f9fe1be8c974da7800446b5765b4f25",
+      "sourceActions": 18,
+      "routeActions": 49,
+      "map": "town_center",
+      "mode": "primary_only"
+    },
+    {
+      "file": "town_center#medium#1920x1080#converted#source_everythingmacro#upstream-20261005.btd6",
+      "sourceFile": "Maps/Beginner/Town Center/Medium/TownCenterMedium.ahk",
+      "sourceSha256": "7893058ac0c92b3665faead2d7d1a3b176223132f25fd0b47142175dd0fa9c58",
+      "routeSha256": "505fc99dd33b5655eb85226a1a12011604395679562bf7de1a97fd752cdad3ba",
+      "sourceActions": 18,
+      "routeActions": 54,
+      "map": "town_center",
+      "mode": "medium"
+    },
+    {
+      "file": "town_center#military_only#1920x1080#converted#source_everythingmacro#upstream-20261005.btd6",
+      "sourceFile": "Maps/Beginner/Town Center/Medium/TownCenterMilitaryOnly.ahk",
+      "sourceSha256": "41391bd0b3e50445f106b2b9af8fce601e5f12cf0d47c6e2c2f903af781f3f9f",
+      "routeSha256": "8319bbdc35034cb51c38f3e901963447a40c66665de011a8d28aa8471e7a2b67",
+      "sourceActions": 18,
+      "routeActions": 54,
+      "map": "town_center",
+      "mode": "military_only"
+    },
+    {
+      "file": "town_center#reverse#1920x1080#converted#source_everythingmacro#upstream-20261005.btd6",
+      "sourceFile": "Maps/Beginner/Town Center/Medium/TownCenterReverse.ahk",
+      "sourceSha256": "472141a42c4868a76a940ff0db25e44b32eec26cce0a9df796381044dc32215f",
+      "routeSha256": "b8b3d380695e55042f2829d861c257f7a52b3e19a8c05f764e1803c3c04550a0",
+      "sourceActions": 18,
+      "routeActions": 54,
+      "map": "town_center",
+      "mode": "reverse"
+    }
+  ]
+}

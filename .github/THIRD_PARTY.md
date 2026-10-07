@@ -8,6 +8,7 @@ The root [PolyForm Noncommercial 1.0.0 license](../LICENSE.md) applies to code a
 | --- | --- |
 | BTD6bot reference/imported material | [Original MIT notice](../docs/developer/licenses/btd6bot-LICENSE.txt) and route source metadata |
 | btd6_autoplay reference/imported material | [Original MIT notice](../docs/developer/licenses/btd6autoplay-LICENSE.txt) and route source metadata |
+| BTD6 Everything Macro converted strategies | [Original MIT notice](../docs/developer/licenses/everythingmacro-LICENSE.txt), pinned source links and hashes in `route-library/metadata/upstream-routes-2026-10-07.json` |
 | AutoBTD6 engine and imported recordings | Upstream documentation and per-recording source/provenance; BloonsPlus does not claim ownership of upstream material |
 | Other strategy sources | `route-library/` metadata and any source-specific license/notice |
 | Electron, Python and runtime libraries | Their distributed license notices and package metadata |

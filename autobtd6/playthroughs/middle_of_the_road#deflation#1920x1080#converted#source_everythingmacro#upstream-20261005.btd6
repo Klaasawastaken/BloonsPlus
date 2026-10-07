@@ -1,0 +1,31 @@
+# source: https://github.com/ThuyTran735/BTD6-Everything-Macro (MIT, copyright 2026 ThuyTran735) commit 715790be2fbfac0f799ef75f324a5748f5a6473f
+# source file: Maps/Beginner/Middle of the Road/Easy/MiddleOfTheRoadDeflation.ahk
+# source mode: deflation; converted to 1920x1080 AutoBTD6 actions
+# conversion: exact scheduled rounds, placement positions, upgrade order and targeting; no source actions omitted
+# outcome: unverified in BloonsPlus; eligible only for missing medals, not validation gameplay
+# generator: import-public-routes.py (existing Everything Macro converter)
+place psi hero0 at 1560, 436
+place ace ace0 at 1558, 357
+place ace ace1 at 1559, 260
+place village village0 at 1418, 205
+place alchemist alchemist0 at 1543, 188
+upgrade ace0 path 0
+upgrade ace0 path 0
+upgrade ace0 path 2
+upgrade ace0 path 2
+upgrade ace0 path 2
+upgrade ace1 path 0
+upgrade ace1 path 0
+upgrade ace1 path 2
+upgrade ace1 path 2
+upgrade ace1 path 2
+upgrade village0 path 0
+upgrade village0 path 0
+upgrade village0 path 1
+upgrade village0 path 1
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+upgrade alchemist0 path 1
+upgrade alchemist0 path 1

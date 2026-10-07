@@ -1,0 +1,60 @@
+# source: https://github.com/ThuyTran735/BTD6-Everything-Macro (MIT, copyright 2026 ThuyTran735) commit 715790be2fbfac0f799ef75f324a5748f5a6473f
+# source file: Maps/Beginner/One Two Tree/Medium/OneTwoTreeReverse.ahk
+# source mode: reverse; converted to 1920x1080 AutoBTD6 actions
+# conversion: exact scheduled rounds, placement positions, upgrade order and targeting; no source actions omitted
+# outcome: unverified in BloonsPlus; eligible only for missing medals, not validation gameplay
+# generator: import-public-routes.py (existing Everything Macro converter)
+place quincy hero0 at 964, 270
+round 3
+place sniper sniper0 at 444, 267
+retarget sniper0
+retarget sniper0
+retarget sniper0
+round 6
+place sniper sniper1 at 521, 264
+round 7
+upgrade sniper0 path 0
+upgrade sniper0 path 1
+round 10
+upgrade sniper1 path 1
+upgrade sniper1 path 1
+upgrade sniper1 path 2
+upgrade sniper1 path 2
+round 17
+upgrade sniper0 path 0
+upgrade sniper0 path 1
+round 24
+place sniper sniper2 at 602, 265
+upgrade sniper2 path 1
+upgrade sniper2 path 1
+upgrade sniper2 path 2
+upgrade sniper2 path 2
+round 34
+upgrade sniper1 path 2
+upgrade sniper1 path 2
+round 39
+upgrade sniper0 path 0
+round 41
+upgrade sniper2 path 2
+upgrade sniper2 path 2
+round 48
+upgrade sniper0 path 0
+round 49
+place sniper sniper3 at 687, 259
+upgrade sniper3 path 0
+upgrade sniper3 path 0
+upgrade sniper3 path 2
+upgrade sniper3 path 2
+upgrade sniper3 path 2
+upgrade sniper3 path 2
+round 52
+place sniper sniper4 at 774, 262
+retarget sniper4
+retarget sniper4
+retarget sniper4
+upgrade sniper4 path 0
+upgrade sniper4 path 0
+upgrade sniper4 path 0
+upgrade sniper4 path 0
+upgrade sniper4 path 1
+upgrade sniper4 path 1

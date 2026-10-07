@@ -1,0 +1,55 @@
+# source: https://github.com/ThuyTran735/BTD6-Everything-Macro (MIT, copyright 2026 ThuyTran735) commit 715790be2fbfac0f799ef75f324a5748f5a6473f
+# source file: Maps/Beginner/One Two Tree/Easy/OneTwoTreeEasy.ahk
+# source mode: easy; converted to 1920x1080 AutoBTD6 actions
+# conversion: exact scheduled rounds, placement positions, upgrade order and targeting; no source actions omitted
+# outcome: unverified in BloonsPlus; eligible only for missing medals, not validation gameplay
+# generator: import-public-routes.py (existing Everything Macro converter)
+place quincy hero0 at 210, 781
+place dart dart0 at 207, 857
+round 3
+place boomerang boomerang0 at 288, 801
+round 5
+upgrade boomerang0 path 2
+upgrade boomerang0 path 2
+round 7
+upgrade boomerang0 path 0
+upgrade boomerang0 path 0
+round 8
+upgrade dart0 path 2
+upgrade dart0 path 2
+round 10
+upgrade dart0 path 1
+upgrade dart0 path 1
+round 12
+upgrade dart0 path 2
+round 17
+upgrade boomerang0 path 2
+retarget boomerang0
+round 25
+upgrade boomerang0 path 2
+round 28
+upgrade dart0 path 2
+round 30
+place dart dart1 at 204, 320
+upgrade dart1 path 1
+upgrade dart1 path 1
+upgrade dart1 path 2
+upgrade dart1 path 2
+upgrade dart1 path 2
+upgrade dart1 path 2
+round 36
+place dart dart2 at 293, 318
+upgrade dart2 path 1
+upgrade dart2 path 1
+upgrade dart2 path 2
+upgrade dart2 path 2
+upgrade dart2 path 2
+upgrade dart2 path 2
+round 38
+place dart dart3 at 243, 393
+upgrade dart3 path 1
+upgrade dart3 path 1
+upgrade dart3 path 2
+upgrade dart3 path 2
+upgrade dart3 path 2
+upgrade dart3 path 2
