@@ -93,6 +93,9 @@ internal class WindowsInstallerOperations : IDisposable
             }
 
     }
+    protected virtual long AvailableInstallBytes() {
+        return new DriveInfo(Path.GetPathRoot(installRoot)).AvailableFreeSpace;
+    }
     public virtual void InstallAppFiles(string tempZip) {
             RecoverAppFiles();
             SetStatus("Preparing Bloons+ files…", InstallerStage.Files, 0);
@@ -119,6 +122,23 @@ internal class WindowsInstallerOperations : IDisposable
                         parent = Path.GetDirectoryName(parent);
                     }
                 }
+                // Stage and rollback copies coexist on the installation volume.
+                // Unchanged files need neither copy. Reserve additional room for
+                // allocation overhead and the journal; later I/O can still fail
+                // if another process consumes space, so retain transaction recovery.
+                long requiredBytes = 16L * 1024 * 1024;
+                foreach (ZipArchiveEntry entry in archive.Entries) {
+                    Cancellation.ThrowIfCancellationRequested();
+                    if (IsArchiveDirectory(entry)) continue;
+                    string destination = AppFileTransaction.Destination(installRoot, entry.FullName);
+                    if (SameAsArchiveEntry(entry, destination)) continue;
+                    requiredBytes = checked(requiredBytes + entry.Length);
+                    if (File.Exists(destination)) requiredBytes = checked(requiredBytes + new FileInfo(destination).Length);
+                }
+                if (AvailableInstallBytes() < requiredBytes)
+                    throw new IOException("Not enough free disk space to prepare app files and keep recovery copies. Free at least "
+                        + Math.Ceiling(requiredBytes / (1024.0 * 1024)).ToString("N0")
+                        + " MB on the installation drive, then continue setup.");
                 long totalBytes = Math.Max(1, archive.Entries.Sum(entry => entry.Length));
                 long writtenBytes = 0;
                 long reusedBytes = 0;

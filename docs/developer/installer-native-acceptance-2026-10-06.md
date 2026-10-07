@@ -521,3 +521,22 @@ This is measured evidence for a dependency-aware preflight design, not a newly
 implemented path restriction. It does not certify every wheel, generated cache
 file, long-path-enabled application or Windows configuration. No registry,
 installation location or runtime setting was changed by the scan.
+
+### App deployment capacity preflight — 7 October
+
+The native file deployment now checks installation-drive free space before
+creating a new staging transaction. It counts changed archive contents and the
+existing files' rollback copies, plus a 16 MiB metadata/allocation allowance.
+Files whose exact content already matches the archive need no extra copy.
+Insufficient capacity reports the required free-space total and leaves the
+installed app unchanged. Pending transaction recovery still runs first.
+
+The compiled production deployment fixture rejects a one-byte shortfall before
+creating transaction state, accepts the exact threshold, and reuses unchanged
+files without budgeting duplicate copies. Unlisted user data is preserved in all
+three cases. All 54 native installer tests and the full 428-test Python suite
+pass; independent review found no blocker. This is an app-file preflight;
+the separate Python runtime space check remains, and dependency-wide capacity,
+custom-path handling and clean-machine acceptance are still open. Concurrent
+disk consumption can still cause an I/O failure; transaction recovery remains
+necessary.
