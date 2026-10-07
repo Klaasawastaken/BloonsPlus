@@ -31,7 +31,7 @@ Official [57.0 update notes](https://www.reddit.com/r/btd6/comments/1wzgvfn/bloo
 
 - [ ] Add **Ship Capture**, the new Advanced map: confirm its live map-menu location, authoritative save identifier, thumbnail and mechanics before admitting a dedicated missing-medal route.
 - [ ] Add **Sniper Paragon** catalog/unlock support using verified in-game names and save fields; audit its two abilities and changed degree contributions before route support.
-- [ ] Read individually disabled Monkey Knowledge points as inactive, including the new partly-enabled state; owning a point no longer proves it is enabled.
+- [x] Read individually disabled Monkey Knowledge points as inactive, including the new partly-enabled state; owning a point no longer proves it is enabled. The approved decoder, route checks, free-placement launch flags and app labels share one activation policy. Synthetic regressions cover disabled points, malformed ownership/switches and older saves. The live save confirms the new list's presence; observing a populated list during normal use remains separate acceptance. Packaging/deployment status is recorded above.
 - [ ] Check the swapped Reverse/Apopalypse badge locations against visual fallback logic. Keep saved medals authoritative.
 - [ ] Audit the Sniper Supply Drop ammo toggle, revised Engineer trap income timing and route-sensitive balance changes. Preserve original CHIMPS recordings.
 - [ ] Distinguish the optional end-of-round memory-cleanup pause from a real stall using observed progression.

@@ -1,3 +1,19 @@
+## Preview 99 Monkey Knowledge activation hotfix — 7 October 2026
+
+### Additions
+
+- Read per-point disabled knowledge from each user's save and show active/inactive purchased nodes.
+- Add synthetic decoder, route, free-placement flag and app-label checks without personal stats.
+
+### Changes
+
+- Distinguish owned knowledge from active knowledge for route eligibility and free Dart/Glue assumptions.
+- Preserve legacy saves and unknown malformed data. Game/save files remain read-only.
+
+### Removed
+
+- Remove the assumption that global enablement activates every owned knowledge point.
+
 ## Preview 99 installer recovery and hero picker hotfix — 7 October 2026
 
 ### Additions

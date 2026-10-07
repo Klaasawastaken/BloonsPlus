@@ -1429,7 +1429,8 @@ function renderProfileUnlocks() {
   if (!profile?.available) { status.textContent = 'Waiting for read-only Profile.Save data.'; return; }
   const heroes = profile.heroes?.unlocked || [];
   const knowledge = profile.monkeyKnowledge;
-  const mkState = knowledge?.enabled === true ? 'enabled' : knowledge?.enabled === false ? 'disabled' : 'state unavailable';
+  const knowledgeSummary = BloonsKnowledge.summarize(knowledge);
+  const mkState = {enabled:'enabled', disabled:'disabled', partial:'partly enabled', unknown:'state unavailable'}[knowledgeSummary.state];
   const bonusState = knowledge?.bonusMonkey === true ? 'Bonus Monkey unlocked' : knowledge?.bonusMonkey === false ? 'Bonus Monkey not unlocked' : 'Bonus Monkey unknown';
   const glueState = knowledge?.bonusGlueGunner === true ? 'Bonus Glue Gunner unlocked' : knowledge?.bonusGlueGunner === false ? 'Bonus Glue Gunner not unlocked' : 'Bonus Glue Gunner unknown';
   status.textContent = `${heroes.length} heroes unlocked${heroes.length ? ` · ${heroes.join(', ')}` : ''} · Monkey Knowledge ${mkState} · ${bonusState} · ${glueState}`;
@@ -1440,13 +1441,19 @@ function renderProfileUnlocks() {
     const points = Number.isFinite(knowledge?.pointsAvailable) ? `${knowledge.pointsAvailable} point${knowledge.pointsAvailable === 1 ? '' : 's'} available` : 'points unavailable';
     knowledgeStatus.replaceChildren();
     const summary = document.createElement('small');
-    summary.textContent = `${knowledge?.enabled === true ? 'Enabled' : knowledge?.enabled === false ? 'Disabled' : 'Enabled state unavailable'} · ${spent.length} purchased node${spent.length === 1 ? '' : 's'} · ${points}`;
+    summary.textContent = `${mkState} · ${spent.length} purchased node${spent.length === 1 ? '' : 's'} · ${points}`;
     knowledgeStatus.append(summary);
     if (spent.length) {
       const details = document.createElement('details');
       const caption = document.createElement('summary'); caption.textContent = 'View purchased knowledge';
       const list = document.createElement('ul');
-      for (const id of spent) { const item = document.createElement('li'); item.textContent = prettyName(id); list.append(item); }
+      for (const entry of spent) {
+        const id = typeof entry === 'string' ? entry : entry?.id || entry?.name || '';
+        const active = BloonsKnowledge.activity(knowledge, id);
+        const item = document.createElement('li');
+        item.textContent = `${prettyName(id)} — ${active === true ? 'active' : active === false ? 'inactive' : 'active state unknown'}`;
+        list.append(item);
+      }
       details.append(caption, list); knowledgeStatus.append(details);
     }
     knowledgeStatus.title = 'Read from Profile.Save. Bloons+ does not change Monkey Knowledge or game files.';
@@ -1479,14 +1486,14 @@ function renderTowerRequirements() {
   }
   for (const id of needs.knowledge || []) {
     const mk = detectedProgress.localProfile?.monkeyKnowledge || {};
-    const owned = Array.isArray(mk.acquired) && mk.acquired.some(item => mapProgressKey(typeof item === 'string' ? item : item?.id || item?.name || '') === mapProgressKey(id));
-    const ready = mk.enabled === true && owned;
-    const unknown = mk.enabled !== false && (mk.enabled == null || !Array.isArray(mk.acquired));
+    const active = BloonsKnowledge.activity(mk, id);
+    const ready = active === true;
+    const unknown = active === null;
     const row = document.createElement('div'); row.className = 'tower-requirement-card';
     const title = document.createElement('div'); title.className = 'tower-requirement-title';
     const name = document.createElement('b'); name.textContent = id === 'MasterDoubleCross' ? 'Master Double Cross' : id;
     const note = document.createElement('small');
-    note.textContent = ready ? 'Acquired and Monkey Knowledge enabled' : mk.enabled === false ? 'Monkey Knowledge is disabled' : unknown ? 'Waiting for knowledge data' : 'Not acquired in game save';
+    note.textContent = ready ? 'Acquired and active' : mk.enabled === false ? 'Monkey Knowledge is disabled' : unknown ? 'Waiting for knowledge data' : 'Not acquired or individually disabled';
     const pill = document.createElement('span'); pill.className = `tier-pill ${ready ? 'valid' : unknown ? 'unknown' : 'invalid'}`;
     pill.textContent = `${ready ? '✓' : unknown ? '?' : '×'} Required knowledge`;
     title.append(name, note); row.append(title, pill); cards.push(row);
