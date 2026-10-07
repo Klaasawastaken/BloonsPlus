@@ -296,5 +296,26 @@ its natural exit. Killing the observer as well leaves ownership unknown and
 blocked. A failed startup handshake prevents the dependency from launching;
 stale/malformed receipts cannot establish idle. All 48 installer checks and the
 full 409-test Python suite pass. An independent reviewer found no actionable
-findings. Direct interruption in the tiny handshake-to-launch interval has not
-been separately exercised; clean-machine and broader interruption gates remain.
+findings. Clean-machine and broader interruption gates remain.
+
+### Owner exit before dependency launch
+
+An additional native fixture now pauses at the handshake-to-launch boundary.
+It creates an isolated named job and the same pending receipt as production,
+then invokes the unchanged production observer. While the exact owner remains
+alive, six hundred milliseconds of repeated checks show no empty observation;
+a second installer is blocked. After terminating only that fixture owner, the
+observer records an empty job and recovery becomes idle. The receipt still has
+neither a terminal-success claim nor a dependency exit code.
+
+Two private source copies confirm the test detects broken behavior: permitting
+empty observation before launch fails the pending-owner assertions; removing
+owner-exit detection fails the eventual-idle assertion. Negative-control cleanup
+signals only its own named launch event so a deliberately broken helper cannot
+linger. The initial negative-control run exposed that fixture-cleanup omission;
+it was corrected without changing production behavior.
+
+This exercises the real observer and recovery reader at a deterministic boundary,
+not a physical power interruption or a timed kill inside `OwnedProcess.Start`.
+The final full Python suite passes 410 checks, including all 49 installer checks;
+both private negative controls also fail for their expected behavior assertions.
