@@ -155,6 +155,34 @@ This does not exercise an actual reboot or prove boot detection on another PC.
 The focused process-tree test passes, and the complete Python discovery run
 passes **402 tests**. No installed app, VM, Steam or game data was changed.
 
+### Published-package selective removal — 7 October
+
+The actual Preview 99 diagnostics hotfix archive was extracted through the
+unmodified native `ReadEmbeddedPackage` and `InstallAppFiles` operations into
+a fresh application-owned fixture directory. Its observed release identity
+matched `0.1.12-preview.99`, and all 1,707 inventoried files passed integrity
+inspection before the fixture modified its own `server.js`.
+
+Selective removal deleted 1,706 unchanged inventoried files, including the
+installed executable. The deliberately modified source remained. Unlisted
+fixture configuration, a fixture route, unlisted user data and an adjacent
+unrelated sentinel remained unchanged. The resulting installation correctly
+reported unhealthy; repeating removal deleted no retained data.
+
+An inventory containing a valid app entry followed by an escaping path was
+rejected before any app removal. An already-held installation lock also blocked
+another owner before removal. The same guarded native call sequence used by the
+installer's confirmed uninstall action was exercised, but its interactive dialog
+was not clicked and no fixture application was launched. No dependency, Steam,
+game or VM provisioning occurred. This verifies the selective file-removal
+contract, not running-app interaction or a complete clean-machine uninstall.
+
+An initial private assertion compared equivalent Windows paths with different
+slash forms and falsely flagged the retained modified source. Canonicalizing
+that assertion corrected the fixture; the production operations were unchanged.
+Only account-free observations are published. The fixture and extracted files
+were removed from their verified application-owned temporary directory.
+
 ### Remaining recovery checks
 
 After the approved checkpoint repair, repeat these checks and add deterministic
