@@ -46,3 +46,34 @@ that one Engineer can have every listed path tier simultaneously. The check does
 not establish every tower's catalog mapping, missing/unknown upgrade display,
 narrow-view layout or renderer behavior during a disconnected VM. Those remain
 P-01, P-04, P-05 and P-07 acceptance work in the active TODO.
+
+## Host and guest route catalogs
+
+A fresh comparison on 7 October at 02:31 UTC covered all map/mode pairs from
+both controllers: 535 host pairs and 558 guest pairs. Each of the 23 guest-only
+pairs has an exact-hash local victory receipt in the guest's catalog. All 23
+target medals are already owned in the independently fetched authoritative
+VM save, and all 23 route files match the host bytes and pass current target-mode
+legality checks. They must not be played again to reconcile the catalogs.
+
+For map/mode pairs present on both sides, 281 candidate entries differ in local
+verification or candidate presence. All 281 are guest-verified and all target
+medals are already owned; none has unreadable ownership. Four entries are
+absent from the host's corresponding candidate list. The underlying endpoint
+uses the controller's own verification history; the desktop catalog endpoint
+does not relay guest history. Private account history must not be copied into
+public source merely to make those counts equal.
+
+An exhaustive byte comparison covered the 174 distinct files referenced by
+these 281 entries, with no failed reads. Of those, 173 match exactly. The guest's
+Rake Reverse file places Sauda before the first Tack Shooter, whereas the host
+does the reverse. Apart from line-ending representation, the remaining command
+sequence matches. The guest snapshot is retained privately for a deliberate
+reconciliation; neither file was replaced during this audit.
+
+This evidence rules out these catalog differences as a source of additional
+missing-medal opportunities at this observation. It does not certify historical
+verification receipts as saved-medal evidence, prove every route's strategy,
+or complete restart/disconnect synchronization acceptance. The stopped sweep's
+fresh Obyn/Psi picker failures are separate blockers; restarting without their
+repair repeats navigation failures rather than earning medals.
