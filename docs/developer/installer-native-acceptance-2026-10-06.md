@@ -540,3 +540,10 @@ the separate Python runtime space check remains, and dependency-wide capacity,
 custom-path handling and clean-machine acceptance are still open. Concurrent
 disk consumption can still cause an I/O failure; transaction recovery remains
 necessary.
+
+Preview `v0.1.31-preview.99` package checks pass: 247,033,650-byte installer,
+127 runtime-source comparisons, all 1,738 inventory hashes, four version
+identities, exact appended payload and seven exact icon frames for both the
+installer and app. Publication scanning reports zero findings; the pending
+Sunken Columns draft is excluded. No guest installation was performed for this
+batch.
