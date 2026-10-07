@@ -122,6 +122,39 @@ Rendered native frames retain the official Engineer art. These are isolated
 font-scaling fixtures, not proof of Windows text-scale settings, per-monitor
 DPI changes, physical screen-reader behavior or every scroll interaction.
 
+### Actual process-tree interruption — 7 October
+
+The new `test_installer_process_tree_interruption.py` compiles the complete production native
+source list and uses `OwnedProcess.Start` to launch a fixture parent inside its
+Windows job. That parent starts a longer-lived descendant and exits. The live
+installer observer reports running, rejects terminal completion and refuses a
+second installation. After interruption of the fixture installer itself, the
+descendant remains alive and the reopened installation lock remains blocked.
+The descendant then finishes naturally and writes its own terminal marker.
+Only the fixture's own processes and temporary directory are used.
+
+This passes the concurrency safety requirement. It does **not** prove complete
+interruption recovery: the reopened observer reports unknown both while the
+descendant survives and after it finishes, and still blocks another installer.
+The lost observer does not provide an observed empty job or terminal receipt.
+This recovery limitation remains open; unavailable process state must never be
+converted into permission to start competing dependency work.
+
+The first private harness incorrectly requested an exit code from a process
+attached through `GetProcessById`, causing an unhandled fixture exception and an
+observation timeout. The corrected harness observes exit plus its own terminal
+marker and catches fixture exceptions explicitly. No production repair was
+made to obtain a passing result.
+
+The sandbox also denied the exact Windows Management Instrumentation boot-time
+query. A separate read-only probe outside the sandbox confirmed that the
+production boot reader succeeds. Repeating the process-tree probe there retained
+the same safety and unknown-recovery observations with a known boot identity.
+This does not exercise an actual reboot or prove boot detection on another PC.
+
+The focused process-tree test passes, and the complete Python discovery run
+passes **402 tests**. No installed app, VM, Steam or game data was changed.
+
 ### Remaining recovery checks
 
 After the approved checkpoint repair, repeat these checks and add deterministic
