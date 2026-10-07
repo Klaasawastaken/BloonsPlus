@@ -1,0 +1,489 @@
+# source: https://github.com/j-miet/BTD6bot (license MIT (c) 2025 Jani Miettinen) commit 2d6dac0957a0d55d0af201bd497afbebf7f3e5c2
+# source file: btd6bot/plans/sanctuaryHardChimps.py
+# Source round flow, waits, targeted specials and moved selectors preserved.
+# Requires saved control bindings; no fallback keys or validation-only gameplay.
+# Separate unverified candidate; original recordings remain unchanged.
+# generator: import-public-routes.py
+autostart on
+source round 6
+autostart off
+place desperado desperado0 at 1029, 275
+place desperado desperado1 at 319, 399
+play twice
+wait 9 seconds
+retarget desperado1 at 448, 454
+retarget desperado1 at 448, 454
+retarget desperado1 at 448, 454
+play once
+wait 0.2 seconds
+source round 7 after play
+wait 11 seconds
+retarget desperado1 at 615, 453
+play once
+wait 0.2 seconds
+source round 8 after play
+place sniper sniper0 at 1375, 915
+retarget sniper0
+retarget sniper0
+retarget sniper0
+wait 5 seconds
+play once
+wait 0.2 seconds
+source round 9 after play
+wait 8 seconds
+play once
+wait 0.2 seconds
+source round 10 after play
+place engineer engineer0 at 1245, 431
+retarget engineer0
+retarget engineer0
+retarget engineer0
+wait 13 seconds
+play once
+wait 0.2 seconds
+source round 11 after play
+wait 8 seconds
+play once
+wait 0.2 seconds
+source round 12 after play
+wait 7 seconds
+place sub sub0 at 932, 191
+upgrade sub0 path 0
+play once
+wait 0.2 seconds
+source round 13 after play
+wait 13 seconds
+play once
+wait 0.2 seconds
+source round 14 after play
+wait 10 seconds
+upgrade sub0 path 0 at 940, 175
+play once
+wait 0.2 seconds
+source round 15 after play
+wait 2 seconds
+retarget sniper0 at 1462, 941
+wait 7 seconds
+retarget sniper0 at 1462, 941
+retarget sniper0 at 1462, 941
+retarget sniper0 at 1462, 941
+play once
+wait 0.2 seconds
+source round 16 after play
+wait 8 seconds
+upgrade sub0 path 2 at 946, 187
+play once
+wait 0.2 seconds
+source round 17 after play
+wait 4 seconds
+play once
+wait 0.2 seconds
+source round 18 after play
+wait 12 seconds
+play once
+wait 0.2 seconds
+source round 19 after play
+wait 8 seconds
+retarget sniper0 at 1244, 857
+play once
+wait 0.2 seconds
+source round 20 after play
+wait 3 seconds
+upgrade sub0 path 2 at 942, 185
+play once
+wait 0.2 seconds
+source round 21 after play
+wait 7 seconds
+upgrade sniper0 path 0 at 1456, 937
+retarget sniper0 at 1456, 937
+retarget sniper0 at 1456, 937
+retarget sniper0 at 1456, 937
+play once
+wait 0.2 seconds
+source round 22 after play
+wait 5 seconds
+play once
+wait 0.2 seconds
+source round 23 after play
+wait 4 seconds
+upgrade desperado0 path 1 at 752, 277
+place boomerang boomerang0 at 530, 460
+retarget boomerang0
+special boomerang0
+play once
+wait 0.2 seconds
+source round 24 after play
+wait 4 seconds
+play once
+wait 0.2 seconds
+source round 25 after play
+wait 9 seconds
+play once
+wait 0.2 seconds
+source round 26 after play
+wait 7 seconds
+retarget sniper0 at 1380, 916
+play once
+wait 0.2 seconds
+source round 27 after play
+wait 14 seconds
+retarget sniper0 at 1380, 916
+retarget sniper0 at 1380, 916
+retarget sniper0 at 1380, 916
+play once
+wait 0.2 seconds
+source round 28 after play
+wait 5 seconds
+play once
+wait 0.2 seconds
+source round 29 after play
+wait 7 seconds
+place captain_churchill hero0 at 945, 272
+play once
+wait 0.2 seconds
+source round 30 after play
+wait 7 seconds
+play once
+wait 0.2 seconds
+source round 31 after play
+wait 7 seconds
+play once
+wait 0.2 seconds
+source round 32 after play
+upgrade sub0 path 2 at 931, 186
+upgrade sniper0 path 1 at 1387, 902
+wait 4 seconds
+play once
+wait 0.2 seconds
+source round 33 after play
+wait 10 seconds
+play once
+wait 0.2 seconds
+source round 34 after play
+wait 14 seconds
+click map at 785, 296
+wait 1 seconds
+click map at 1449, 680
+click map at 960, 540
+play once
+wait 0.2 seconds
+source round 35 after play
+wait 13 seconds
+play once
+wait 0.2 seconds
+source round 36 after play
+wait 9 seconds
+place alchemist alchemist0 at 897, 70
+upgrade alchemist0 path 0
+upgrade alchemist0 path 0
+play once
+wait 0.2 seconds
+source round 37 after play
+wait 17 seconds
+play once
+wait 0.2 seconds
+source round 38 after play
+wait 2 seconds
+place village village0 at 841, 158
+upgrade village0 path 0
+upgrade village0 path 0
+upgrade village0 path 0
+wait 5 seconds
+play once
+wait 0.2 seconds
+source round 39 after play
+wait 14 seconds
+upgrade alchemist0 path 0 at 745, 44
+play once
+wait 0.2 seconds
+source round 40 after play
+ability 1
+wait 3 seconds
+upgrade alchemist0 path 1 at 897, 62
+upgrade alchemist0 path 1 at 897, 62
+play once
+wait 0.2 seconds
+source round 41 after play
+wait 17 seconds
+play once
+wait 0.2 seconds
+source round 42 after play
+upgrade village0 path 0 at 839, 160
+wait 3 seconds
+play once
+wait 0.2 seconds
+source round 43 after play
+wait 1 seconds
+place glue glue0 at 799, 236
+upgrade glue0 path 0
+upgrade glue0 path 0
+upgrade glue0 path 1
+wait 1 seconds
+play once
+wait 0.2 seconds
+source round 44 after play
+upgrade glue0 path 0 at 951, 252
+wait 3 seconds
+play once
+wait 0.2 seconds
+source round 45 after play
+wait 20 seconds
+play once
+wait 0.2 seconds
+source round 46 after play
+wait 5 seconds
+play once
+wait 0.2 seconds
+source round 47 after play
+wait 10 seconds
+play once
+wait 0.2 seconds
+source round 48 after play
+wait 2 seconds
+upgrade glue0 path 0 at 964, 266
+upgrade glue0 path 1 at 964, 266
+wait 6 seconds
+play once
+wait 0.2 seconds
+source round 49 after play
+wait 18 seconds
+retarget sub0 at 1083, 158
+retarget sub0 at 1083, 158
+retarget sub0 at 1083, 158
+autostart on
+play once
+wait 0.2 seconds
+source round 50 after play
+round 51
+source round 51
+round 52
+source round 52
+round 53
+source round 53
+round 54
+source round 54
+round 55
+source round 55
+round 56
+source round 56
+round 57
+source round 57
+ability 1 after 1 seconds
+round 58
+source round 58
+round 59
+source round 59
+wait 1 seconds
+upgrade glue0 path 0 at 810, 230
+round 60
+source round 60
+round 61
+source round 61
+round 62
+source round 62
+round 63
+source round 63
+round 64
+source round 64
+round 65
+source round 65
+wait 2 seconds
+place village village1 at 880, 1020
+upgrade village1 path 2
+upgrade village1 path 2
+place spike spike0 at 932, 928
+upgrade spike0 path 2
+upgrade spike0 path 2
+upgrade spike0 path 2
+upgrade spike0 path 0
+retarget spike0 reverse
+place alchemist alchemist1 at 980, 1006
+upgrade alchemist1 path 0
+upgrade alchemist1 path 0
+upgrade alchemist1 path 0
+round 66
+source round 66
+round 67
+source round 67
+round 68
+source round 68
+wait 1 seconds
+upgrade alchemist1 path 0 at 837, 1005
+round 69
+source round 69
+wait 1 seconds
+upgrade spike0 path 2
+round 70
+source round 70
+round 71
+source round 71
+wait 1 seconds
+upgrade village0 path 1 at 694, 162
+upgrade village0 path 1 at 694, 162
+round 72
+source round 72
+round 73
+source round 73
+round 74
+source round 74
+round 75
+source round 75
+round 76
+source round 76
+round 77
+source round 77
+round 78
+source round 78
+round 79
+source round 79
+round 80
+source round 80
+round 81
+source round 81
+round 82
+source round 82
+wait 2 seconds
+upgrade spike0 path 2 at 765, 908
+ability 1
+ability 2
+upgrade village1 path 0 at 715, 1003
+upgrade village1 path 0 at 715, 1003
+wait 5 seconds
+ability 1
+round 83
+source round 83
+wait 2 seconds
+upgrade alchemist0 path 0 at 755, 53
+round 84
+source round 84
+wait 1 seconds
+place boomerang boomerang1 at 729, 247
+play twice
+upgrade boomerang1 path 2
+upgrade boomerang1 path 2
+upgrade boomerang1 path 2
+upgrade boomerang1 path 2
+upgrade boomerang1 path 1
+upgrade boomerang1 path 1
+retarget boomerang1
+retarget boomerang1
+retarget boomerang1
+retarget boomerang0
+retarget boomerang0
+upgrade boomerang0 path 2 at 249, 227
+upgrade boomerang0 path 2 at 249, 227
+upgrade boomerang0 path 2 at 249, 227
+upgrade boomerang0 path 2 at 249, 227
+upgrade boomerang0 path 1 at 249, 227
+upgrade boomerang0 path 1 at 249, 227
+play twice
+round 85
+source round 85
+round 86
+source round 86
+round 87
+source round 87
+wait 1 seconds
+place boomerang boomerang2 at 1357, 431
+upgrade boomerang2 path 2
+upgrade boomerang2 path 2
+upgrade boomerang2 path 2
+upgrade boomerang2 path 2
+upgrade boomerang2 path 1
+upgrade boomerang2 path 1
+retarget boomerang2
+retarget boomerang2
+retarget boomerang2
+round 88
+source round 88
+round 89
+source round 89
+round 90
+source round 90
+round 91
+source round 91
+wait 1 seconds
+place mortar mortar0 at 487, 841
+retarget mortar0 to 843, 399
+upgrade mortar0 path 2
+upgrade mortar0 path 2
+upgrade mortar0 path 2
+round 92
+source round 92
+wait 1 seconds
+upgrade mortar0 path 2 at 415, 877
+upgrade mortar0 path 1 at 415, 877
+upgrade mortar0 path 1 at 415, 877
+round 93
+source round 93
+wait 1 seconds
+place boomerang boomerang3 at 193, 355
+retarget boomerang3
+retarget boomerang3
+retarget boomerang3
+upgrade boomerang3 path 2
+upgrade boomerang3 path 2
+upgrade boomerang3 path 2
+upgrade boomerang3 path 2
+upgrade boomerang3 path 1
+upgrade boomerang3 path 1
+round 94
+source round 94
+wait 1 seconds
+place boomerang boomerang4 at 1475, 229
+retarget boomerang4
+retarget boomerang4
+retarget boomerang4
+upgrade boomerang4 path 2
+upgrade boomerang4 path 2
+upgrade boomerang4 path 2
+upgrade boomerang4 path 2
+upgrade boomerang4 path 1
+upgrade boomerang4 path 1
+round 95
+source round 95
+wait 1 seconds
+place boomerang boomerang5 at 645, 527
+retarget boomerang5
+retarget boomerang5
+retarget boomerang5
+upgrade boomerang5 path 2
+upgrade boomerang5 path 2
+upgrade boomerang5 path 2
+upgrade boomerang5 path 2
+upgrade boomerang5 path 1
+upgrade boomerang5 path 1
+round 96
+source round 96
+wait 1 seconds
+place boomerang boomerang6 at 1245, 551
+retarget boomerang6
+retarget boomerang6
+retarget boomerang6
+upgrade boomerang6 path 2
+upgrade boomerang6 path 2
+upgrade boomerang6 path 2
+upgrade boomerang6 path 2
+upgrade boomerang6 path 1
+upgrade boomerang6 path 1
+round 97
+source round 97
+wait 1 seconds
+place boomerang boomerang7 at 1117, 543
+retarget boomerang7
+retarget boomerang7
+retarget boomerang7
+upgrade boomerang7 path 2
+upgrade boomerang7 path 2
+upgrade boomerang7 path 2
+upgrade boomerang7 path 2
+upgrade boomerang7 path 1
+upgrade boomerang7 path 1
+round 98
+source round 98
+round 99
+source round 99
+round 100
+source round 100
+ability 2 after 2 seconds
+ability 1 after 3 seconds

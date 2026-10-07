@@ -9,7 +9,7 @@ The [production acceptance matrix](production-1.0-gates.md) separates implemente
 - **Current priority:** the installer and first-launch redesign, app polish, folders and the website alongside missing-medal gameplay.
 - **Release target:** milestone 100 is the full **v1.0.0** release. Use Previews 97–99 for preparation and complete production acceptance before publishing 1.0. Future notes use only **Additions**, **Changes**, and **Removed**; see the [release policy](release-policy.md) and [template](../releases/TEMPLATE.md).
 - **After 1.0 — v1.2:** add Quests, Races, Boss Rush and Boss Events automation, plus a dedicated Quests tab marked **Coming soon** until usable. Finish the required 1.0 work first; these are planned capabilities, not current features.
-- **Sweep:** After the previous queue exhausted its eligible candidates, eighteen separately reviewed source conversions were installed at an idle boundary. Middle of the Road Military Only, Primary Only and Deflation then earned victories and independently confirmed saved medals. The sweep advanced to One Two Tree Military Only with three clears and zero defeats. It skips owned medals and preserves failure history. The five-minute monitor is active; the separate observations-file repair awaits approval. These results do not certify the other new conversions.
+- **Sweep:** Four clears from the additional routes have victory plus authoritative saved-medal evidence: Middle of the Road Military Only, Primary Only and Deflation, and One Two Tree Military Only; zero defeats were counted. Town Center Reverse exposed a menu-color classification collision at round 24. The reviewed classifier fix and four new complete-control candidates were installed at an idle boundary; the sweep restarted with Bazaar Easy. Fresh status is authoritative. The five-minute monitor remains active, skips owned medals and preserves failure history.
 
 - **Recent clears:** Bloonarius Prime ABR, Impoppable and CHIMPS; Balance Hard; Rake Hard and Reverse; Quarry Magic Monkeys Only; Chutes Medium and Hard; Quiet Street, Downstream, Streambed and Encrypted Magic Monkeys Only; Spring Spring Hard; Cubism Half Cash; Skulltweak Military Monkeys Only and Reverse; Three Mines 'Round Primary Only, Military Monkeys Only and Deflation; Spa Pits Military Monkeys Only; Frozen Over Magic Monkeys Only, Double HP MOABs and Half Cash; In the Loop Military Monkeys Only; X Factor ABR. Each has victory plus saved-medal evidence.
 - **Open failures:** Balance Magic Monkeys Only and Rake ABR. The former exposed a held-placement recognition bug now repaired; the latter lost at round 30 with confirmed upgrades and needs strategy review. Sunken Columns ABR also remains open.
@@ -27,6 +27,10 @@ The [production acceptance matrix](production-1.0-gates.md) separates implemente
 - **Production gates:** clean supported Windows setup, UAC/reboot recovery, physical accessibility and broader gameplay acceptance remain open. Published hotfixes do not certify 1.0 readiness.
 
 ## Work order
+
+### New candidate batch
+
+Four separate source-preserving candidates for Bazaar, Geared, Sanctuary and Sunset Gulch pass offline checks and independent review. Geared includes the source handler's implicit Heli targeting inputs. Original recordings stay intact. The four candidates were deployed at an idle boundary; local victories are not yet claimed. [Evidence](complete-controls-route-batch-2026-10-07.md).
 
 ### Newly released game update: BTD6 57.0
 

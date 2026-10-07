@@ -1,0 +1,61 @@
+{
+  "source": "https://github.com/j-miet/BTD6bot",
+  "commit": "2d6dac0957a0d55d0af201bd497afbebf7f3e5c2",
+  "license": "MIT",
+  "localWinVerified": false,
+  "sourceHandler": "btd6bot/bot/commands/monkey.py",
+  "sourceHandlerSha256": "010fe99df982b92095edf17b4d2534faab1a096c5dcb357bdf3fec2b312ceb7b",
+  "notes": "Separate CHIMPS candidates with source control flow and targeted specials preserved. Geared expands four implicit Heli initialization inputs from the pinned source handler. Original recordings unchanged. Saved medals, prerequisites and failure history still gate gameplay.",
+  "routes": [
+    {
+      "file": "bazaar#chimps#1920x1080#converted#source_btd6bot#complete-controls.btd6",
+      "map": "bazaar",
+      "mode": "chimps",
+      "source": "bazaarHardChimps.py",
+      "sourceSha256": "1230754b1536056599ef9f7bcef5f83f63c8c5a86963a54da11a4fb548aa4f8c",
+      "routeSha256": "db3b98a8c4f474e7b73980400d39cd9a8bd9c70098f76694e85cb0a2ac0d6358",
+      "actions": 58,
+      "notes": [],
+      "lossy": []
+    },
+    {
+      "file": "geared#chimps#1920x1080#converted#source_btd6bot#complete-controls.btd6",
+      "map": "geared",
+      "mode": "chimps",
+      "source": "gearedHardChimps.py",
+      "sourceSha256": "8bacfe693c3631bf62c86f4c843b6dcda55fa6821550b678508de4ab6d153b4f",
+      "routeSha256": "8b13f8ed415edc93dea57801ebde16441304b2a5849b2b393d09cc45d539bf6f",
+      "actions": 397,
+      "notes": [],
+      "lossy": [],
+      "implicitSourceCommands": [
+        "retarget heli0",
+        "special heli0 to 835, 905",
+        "retarget heli1",
+        "special heli1 to 660, 313"
+      ]
+    },
+    {
+      "file": "sanctuary#chimps#1920x1080#converted#source_btd6bot#complete-controls.btd6",
+      "map": "sanctuary",
+      "mode": "chimps",
+      "source": "sanctuaryHardChimps.py",
+      "sourceSha256": "c670476c573fede34ec299c10cc7ffa52b151b9179cdb73cbbf73e7b784296ab",
+      "routeSha256": "2718e665b30af0b28e0fbb728bea812f41fb4e520b8418bbe0bb4067a4b22e27",
+      "actions": 483,
+      "notes": [],
+      "lossy": []
+    },
+    {
+      "file": "sunset_gulch#chimps#1920x1080#converted#source_btd6bot#complete-controls.btd6",
+      "map": "sunset_gulch",
+      "mode": "chimps",
+      "source": "sunset_gulchHardChimps.py",
+      "sourceSha256": "1e938686e77d8c9545dd09caa316b495bce2a36699f72b82aebf2bcde542a356",
+      "routeSha256": "2a3963dc277120235994de845e4db3f8e20b1148d2a02101b37296b8ef92c91f",
+      "actions": 347,
+      "notes": [],
+      "lossy": []
+    }
+  ]
+}

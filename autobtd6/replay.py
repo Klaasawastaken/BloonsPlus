@@ -331,9 +331,11 @@ def recognizeScreen(img, comparisonImages, ignoreFocus=False):
         if all(int(green) > 175 and int(green) > int(red) * 1.35 and int(green) > int(blue) * 1.35
                for blue, green, red in samples):
             return Screen.STARTMENU
-    if mapSelectionChromeVisible(img):
-        return Screen.MAP_SELECTION
     recognized = _recognizeScreen(img, comparisonImages, ignoreFocus=True)
+    # Menu colors can also occur behind a selected tower's upgrade panel.
+    # Use this fallback only when no precise screen reference matched.
+    if recognized == Screen.UNKNOWN and mapSelectionChromeVisible(img):
+        return Screen.MAP_SELECTION
     return recognized
 
 smallActionDelay = 0.05
