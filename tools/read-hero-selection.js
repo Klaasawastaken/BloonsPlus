@@ -24,35 +24,47 @@ const normalize = value => String(value).toLowerCase().replace(/[^a-z]/g, '');
     classify: (r, g, b) => r > 180 && g > 65 && b < 125 && r > g * 1.05 });
   const violetTitle = await readTitle(png, titleBox, { tighten: true,
     classify: (r, g, b) => b > 145 && r > 100 && g > 70 && b > g * 1.15 && r > g * 0.9 });
+  const magentaTitle = await readTitle(png, titleBox, { tighten: true,
+    classify: (r, g, b) => r > 160 && b > 120 && g < 110 && r > g * 1.4 && b > g * 1.4 });
   const naturalTitle = await readNaturalText(png, titleBox);
   const buttonBox = scale({ x: 1300, y: 760, w: 430, h: 110 });
   const outlinedButton = await readTitle(png, buttonBox);
   const naturalButton = await readNaturalText(png, buttonBox);
-  const buttons = [outlinedButton, naturalButton].map(normalize);
-  // The current green Select button defeats text OCR on some resolutions.
-  // A filled button covers most of this box; the small green SELECTED label
-  // occupies much less. Both states were measured on live 960x540 VM frames.
-  let green = 0, pixels = 0;
+  // Isolate the bright label: green hero scenery otherwise turns SELECTED
+  // into a supposed filled Select button. Density can corroborate text, but
+  // cannot establish selection on its own.
+  const isBrightLabel = (r, g, b) => g > 180 && r > 75 && b < 110 && g > r * 1.25 && g > b * 1.8;
+  const labelButton = await readTitle(png, buttonBox, { tighten: true, classify: isBrightLabel });
+  // Crop inside the white frame: including that frame merges Select's letters
+  // into it at 1080p and produces readings such as "selecr".
+  const whiteButton = await readTitle(png, scale({ x: 1390, y: 790, w: 230, h: 65 }),
+    { tighten: true, classify: (r, g, b) => r > 200 && g > 200 && b > 200 });
+  const buttons = [outlinedButton, naturalButton, labelButton, whiteButton].map(normalize);
+  let green = 0, bright = 0, pixels = 0;
   const x0 = Math.max(0, buttonBox.x), y0 = Math.max(0, buttonBox.y);
   for (let y = y0; y < Math.min(image.height, y0 + buttonBox.h); y++) {
     for (let x = x0; x < Math.min(image.width, x0 + buttonBox.w); x++) {
       const i = (y * image.width + x) * 4;
       const r = image.data[i], g = image.data[i + 1], b = image.data[i + 2];
       if (g > 105 && g > r * 1.3 && g > b * 1.1) green++;
+      if (isBrightLabel(r, g, b)) bright++;
       pixels++;
     }
   }
   const greenFraction = pixels ? green / pixels : 0;
-  const button = buttons.some(value => value.includes('selected')) ? 'selected'
-    : buttons.some(value => value.includes('select')) ? 'select' : 'unknown';
-  const visualButton = greenFraction > 0.42 ? 'select' : greenFraction > 0.05 ? 'selected' : 'unknown';
-  // OCR can truncate SELECTED to SELECT. Require the measured label-sized green
-  // region before resolving that specific ambiguity; retain unknown for other cases.
-  const resolvedButton = button === 'select' && greenFraction >= 0.08 && greenFraction <= 0.20
-    ? 'selected' : button === 'unknown' ? visualButton : button;
-  const titleCandidates = [...new Set([title, warmTitle, violetTitle, naturalTitle].map(normalize).filter(Boolean))];
+  const brightFraction = pixels ? bright / pixels : 0;
+  // These two narrow readings come from retained Selected frames. Do not fuzzy
+  // match arbitrary words, infer ownership, or accept color without readable text.
+  const label = normalize(labelButton);
+  const repairedLabel = ['selecyeo', 'selecvep'].includes(label)
+    && brightFraction >= 0.04 && brightFraction <= 0.22;
+  const conflicting = buttons.some(value => /unlock|purchase|buy/.test(value));
+  const resolvedButton = conflicting ? 'unknown'
+    : buttons.includes('selected') || repairedLabel ? 'selected'
+    : buttons.includes('select') ? 'select' : 'unknown';
+  const titleCandidates = [...new Set([title, warmTitle, violetTitle, magentaTitle, naturalTitle].map(normalize).filter(Boolean))];
   process.stdout.write(JSON.stringify({ title: titleCandidates[0] || '', titleCandidates,
     button: resolvedButton, buttonCandidates: [...new Set(buttons.filter(Boolean))],
-    greenFraction: Number(greenFraction.toFixed(3)) }));
+    greenFraction: Number(greenFraction.toFixed(3)), brightFraction: Number(brightFraction.toFixed(3)) }));
 })().catch(error => { process.stderr.write(error.message); process.exitCode = 2; })
   .finally(() => shutdown());

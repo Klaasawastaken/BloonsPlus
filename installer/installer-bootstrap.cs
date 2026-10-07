@@ -111,7 +111,8 @@ internal sealed class InstallerForm : Form {
 internal static class InstallerBootstrap {
     [DllImport("user32.dll")]private static extern bool SetProcessDpiAwarenessContext(IntPtr value);
     [DllImport("shell32.dll",CharSet=CharSet.Unicode)]private static extern int SetCurrentProcessExplicitAppUserModelID(string value);
-    [STAThread]private static void Main() {
+    [STAThread]private static void Main(string[] args) {
+        if (InstallerProcessObserver.TryRun(args)) return;
         try {SetProcessDpiAwarenessContext(new IntPtr(-4));}catch(EntryPointNotFoundException){}
         SetCurrentProcessExplicitAppUserModelID("com.bloonsplus.setup");
         Application.EnableVisualStyles();Application.SetCompatibleTextRenderingDefault(false);Application.Run(new InstallerForm());

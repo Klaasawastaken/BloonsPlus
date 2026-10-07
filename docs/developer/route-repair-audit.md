@@ -984,3 +984,26 @@ manual source clock correctly prevents the round-six candidate from being reused
 unchanged at those opening rounds. These three missing medals need dedicated
 replacements. The bounded admission repair remains pending approval, and current
 runtime admission is unchanged.
+
+## Approved hero-picker repair — 7 October 2026
+
+User approval covers the bounded title-mask and Select/Selected repair. The
+retained Obyn failure has a visibly Selected label, but green scenery made the
+old density fallback report Select. Isolating bright label letters recovers the
+two observed Selected readings without treating color alone as confirmation.
+Three retained Select frames remain Select; an inner white-letter crop addresses
+the outlined button's truncated OCR at 1080p. A separate magenta mask recovers
+Ezili's title. Exact hero-title matching is still required by replay.
+
+Synthetic checks cover 960, 1920 and 2560 widths, blank labels, misleading green
+backgrounds, conflicting purchase text and dense fills. Private captured frames
+are checked locally and excluded from publication. The first deployed helper
+correctly read Obyn live, but Psi's title remained unreadable during Three Mines
+'Round Deflation. That pass ended before gameplay, with no route attempt consumed;
+Psi still requires its own captured-title repair before readiness is claimed.
+
+The preceding X Factor Impoppable run lost at round 24 after an unconfirmed
+Sniper upgrade. Its retained upgrade observation shows the Desperado unlock page
+while replay expected an in-game Sniper panel. This is evidence of an unexpected
+screen, not proof of its cause or of an unaffordable strategy. The failure remains
+persistent and the original CHIMPS recording is unchanged.

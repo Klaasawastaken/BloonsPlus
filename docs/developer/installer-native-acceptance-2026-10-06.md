@@ -279,3 +279,22 @@ the observed `BcdOpenStore` collision. The hive-list observation likewise does
 not prove the full root cause. Further clean-VM work needs a safe, evidenced
 provisioning path; another blind image build or changing this PC's boot store
 would not close the acceptance gate.
+
+## Retained dependency observer — 7 October
+
+The approved native ownership/recovery contract now uses a hidden transient mode
+of the same installer executable to retain a query-only Windows job handle. It
+handshakes before a dependency starts, waits until the launch attempt ends or its
+exact parent exits, then records an atomic, exact-job empty observation. The
+observer does not declare installation success; normal component checks remain
+required. It adds no service or runtime and never kills a dependency.
+
+The real process-tree interruption fixture first reproduced permanent unknown
+ownership after the surviving descendant exited. With the observer, installation
+remains blocked while that descendant lives and becomes idle for recovery after
+its natural exit. Killing the observer as well leaves ownership unknown and
+blocked. A failed startup handshake prevents the dependency from launching;
+stale/malformed receipts cannot establish idle. All 48 installer checks and the
+full 409-test Python suite pass. An independent reviewer found no actionable
+findings. Direct interruption in the tiny handshake-to-launch interval has not
+been separately exercised; clean-machine and broader interruption gates remain.

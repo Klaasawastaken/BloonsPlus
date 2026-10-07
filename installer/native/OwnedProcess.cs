@@ -105,7 +105,12 @@ internal sealed class OwnedProcess : IDisposable
         if (jobHandle == IntPtr.Zero) throw new Win32Exception();
         Write(new Receipt { Executable = Path.GetFullPath(executable), Kind = "python_dependency", JobName = name, BootIdentity = bootIdentity() });
         InstallerChildProcess child;
-        try { child = InstallerChildProcess.Start(executable, arguments, directory, jobHandle); }
+        try {
+            // The query observer must retain the job before any package child
+            // can start. It survives this installer's UI/process interruption.
+            using (var observer = InstallerProcessObserver.Start(Path.GetDirectoryName(Path.GetDirectoryName(file)), name))
+                child = InstallerChildProcess.Start(executable, arguments, directory, jobHandle);
+        }
         catch { RecordTerminal(-1); throw; }
         using (var process = Process.GetProcessById(child.Id)) Attach(process);
         return child;
@@ -139,6 +144,7 @@ internal sealed class OwnedProcess : IDisposable
                 if (count > 0) return "running";
                 if (count == 0 && receipt.ExitCode.HasValue) return "idle";
                 if (receipt.Pid.HasValue && receipt.CreatedUtcTicks.HasValue && Matches(receipt.Pid.Value, receipt.CreatedUtcTicks.Value, receipt.Executable)) return "running";
+                if (InstallerProcessObserver.ObservedEmpty(Path.GetDirectoryName(Path.GetDirectoryName(file)), receipt.JobName)) return "idle";
                 return "unknown";
             }
             return receipt.Pid.HasValue && receipt.CreatedUtcTicks.HasValue && Matches(receipt.Pid.Value, receipt.CreatedUtcTicks.Value, receipt.Executable)

@@ -17,6 +17,7 @@ using System.Threading;
 internal static class TreeChecks {
     static void Check(bool value, string why) { if (!value) throw new Exception(why); }
     static void Main(string[] args) {
+        if (InstallerProcessObserver.TryRun(args)) return;
         if (args.Length > 0 && args[0] == "hold") { Thread.Sleep(30000); return; }
         if (args.Length > 0 && args[0] == "owner") {
             using (var recorded = new OwnedProcess(args[1]))
@@ -56,8 +57,9 @@ internal static class TreeChecks {
             try { using (InstallerEngine.AcquireInstallLock(root)) {} throw new Exception("Reopened installer ignored surviving job"); }
             catch (InvalidOperationException) {}
             descendantProcess.Kill(); descendantProcess.WaitForExit();
-            Thread.Sleep(100); // Allow the kernel to release this exited fixture job.
-            Check(new OwnedProcess(root).Observe() == "unknown", "Unobserved exit was guessed successful");
+            var observed = Stopwatch.StartNew();
+            while(new OwnedProcess(root).Observe() != "idle" && observed.ElapsedMilliseconds < 3000) Thread.Sleep(50);
+            Check(new OwnedProcess(root).Observe() == "idle", "Observer did not confirm empty job after child exit");
         } finally {
             if (descendantProcess != null) { try { if (!descendantProcess.HasExited) {descendantProcess.Kill();descendantProcess.WaitForExit();} } catch {} descendantProcess.Dispose(); }
             if (Directory.Exists(root)) Directory.Delete(root, true);
