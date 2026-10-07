@@ -414,6 +414,39 @@ ZIP payload pass inspection. License notices remain intact and the separately
 pending route draft is excluded. This verifies the artifact, not a clean Windows
 installation or resolution of the outstanding gameplay failures.
 
+### Real HTTP download boundaries — 7 October
+
+`tests/test-setup-download-http.js` exercises the unchanged setup downloader
+against a real loopback HTTP server, including a socket closed during transfer.
+It verifies exact-byte resume, refusal of an incorrect range, preserved completed
+and partial files after HTTP 404 or a failed fresh retry, a fresh request after
+416, replacement when a server ignores Range, and a chunked response with no
+known total. A fifteen-second fixture watchdog closes sockets; cleanup removes
+only the test's own temporary directory. The existing mocked range checks also
+pass.
+
+`tests/test_installer_download_http.py` compiles the unchanged native installer
+sources and feeds actual `HttpWebResponse` streams into `CopyRuntimeDownload`.
+It covers complete and chunked copies, truncated bodies, HTML responses,
+oversized declared lengths, HTTP 404 and cancellation from the progress callback.
+Oversized declarations must fail before any stream read or output write.
+Cancellation must stop after the first read, leaving incomplete output.
+
+Six isolated negative controls prove the assertions catch broken behavior:
+truncating resumed output, ignoring HTTP 404, omitting the native length check,
+omitting the executable-header check, removing the initial size bound, and
+deferring cancellation until the final callback. An independent review found
+the last two cases initially allowed false positives; the assertions were
+strengthened, and all six controls now fail for their intended reasons. The
+reviewed production-source fixtures pass, as does the existing native runtime
+and controller guard check.
+
+No product behavior changes, external downloads, installer execution, UAC
+actions or gameplay inputs occur in these tests. They verify transfer handling
+and the existing executable-header boundary, not publisher signatures, the real
+Microsoft redirect/TLS path, complete installation, reboot recovery or clean
+Windows acceptance. Those remain separate production gates.
+
 ### Locked package rollback and fresh-process retry
 
 `tests/test_installer_locked_rollback.py` compiles the unchanged production native

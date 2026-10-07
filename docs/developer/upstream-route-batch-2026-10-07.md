@@ -40,3 +40,9 @@ That Middle of the Road Military Only run subsequently logged a round-60
 saved Military Only medal. The sweep advanced to the missing Primary Only medal
 with one clear and zero defeats. This establishes one target's observed success;
 it does not certify all eighteen conversions or justify replaying the earned medal.
+
+Primary Only subsequently reached a round-40 victory, followed by a fresh
+authoritative saved-medal confirmation. The sweep then advanced to the newly
+eligible missing Deflation medal with two clears and zero defeats. Its first
+Deflation observation had completed the planned setup and continued through
+round 37; no Deflation clear is claimed from that observation.
