@@ -247,6 +247,29 @@ is included here.
 
 ## Still required
 
+### Measured navigation and scrolling — 7 October
+
+An isolated actual Electron renderer used the current app files and route
+catalog, synthetic idle/profile APIs, and 2,000 synthetic log lines. Network
+access was restricted to its fixture server. It measured all seven sections at
+1440 × 900 with software rendering, both normally and with fourfold CPU
+throttling. No gameplay, real save reads or controller mutations occurred.
+
+The initial document load took 87.5 ms in this run. Navigation to Map Progress
+took 123.2 ms normally and 433.5 ms under CPU throttling; that throttled visit
+included a 330 ms main-thread task while rendering 86 map cards. Other section
+visits took 7.5–39.1 ms normally and 32.3–109.8 ms throttled. These are measured
+click-to-two-frame times, not promises for every computer or completed network
+refresh.
+
+After each section settled, 87 programmatic scroll-frame intervals were
+measured. Their 95th percentile was 16.7–16.8 ms, with none above 50 ms. The
+Boss Events section had no scrollable overflow, so its frame samples do not
+prove scrolling. Physical wheel input, populated real profiles, live VM capture,
+hardware acceleration and actual weak hardware remain separate acceptance
+work. The map-navigation stall is a concrete performance target; this check
+does not establish that all app scrolling feels smooth.
+
 - Apply approved repairs, then repeat their actual-renderer checks and the broader
   layout cases before publishing an app hotfix.
 - Repair the evidenced unavailable-save requirements/hero failures and repeat

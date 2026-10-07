@@ -217,3 +217,30 @@ Independent review found the shutdown race, then confirmed its repair. This
 closes the two observed interpreter-ownership gaps; it does not fence applications
 independently launched during later installation stages, prove a clean-machine
 installation or require any running VM to reload.
+
+### Separate clean Windows attempts — 7 October
+
+Two separate, fresh App Sandbox fixtures were requested with an existing Windows
+11 ISO, 4 GB RAM, two CPU cores, a 64 GB disk and no GPU sharing. Capacity was
+checked first. Neither fixture cloned the gameplay VM or copied game/profile
+data. The active gameplay VM remained online and its missing-medal replay
+continued during both attempts.
+
+Both builds failed in App Sandbox before Windows became ready and before the
+Bloons+ installer was copied or executed. The backend reported `bcdboot` exit
+code **183**, removed each failed fixture from its VM list, and recorded
+`BcdOpenStore` failures with status `c0000035`. The second build reached an
+observed 94% before that failure. A fresh name did not resolve it. No host boot
+store, registry hive, BitLocker setting, existing VM disk or daemon privilege
+was changed to work around it. This is a failed clean-environment prerequisite,
+not a clean-install pass or a Bloons+ installer crash.
+
+The approved setup-diagnostics contract now retains this specific observed
+failure instead of replacing it with a generic vanished-VM message and building
+three images automatically. It reads at most 64 KiB of newly appended backend
+log data, matches the exact requested VM, and exposes only the numeric boot-file
+error. Old entries, unrelated VMs and replaced/truncated logs cannot supply the
+diagnosis. Unknown disappearances keep their existing bounded retry behavior.
+Four offline regressions cover those boundaries; the failure was reproduced
+before the repair. The clean Windows, UAC/reboot and Steam/bridge gates remain
+open, and the boot-store failure itself remains unresolved.

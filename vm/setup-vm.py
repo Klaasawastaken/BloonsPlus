@@ -362,10 +362,45 @@ def create_logon_task(info):
                    check=True, capture_output=True)
 
 
+def vm_build_log_marker():
+    """Record the current SDK installation's log boundary, without reading old details."""
+    sdk_file = getattr(asb, '__file__', None)
+    if not sdk_file:
+        return None
+    target = Path(sdk_file).resolve().parent.parent / 'appsandbox.log'
+    try:
+        observed = target.stat()
+        return target, observed.st_size, observed.st_ino
+    except FileNotFoundError:
+        return target, 0, None
+    except OSError:
+        return None
+
+
+def observed_boot_file_failure(marker, name):
+    """Return only a numeric error from this attempt and exact VM; never echo log text."""
+    if marker is None:
+        return None
+    target, offset, identity = marker
+    try:
+        with target.open('rb') as stream:
+            observed = os.fstat(stream.fileno())
+            if observed.st_size < offset or (identity is not None and observed.st_ino != identity):
+                return None
+            stream.seek(max(offset, observed.st_size - 65536))
+            recent = stream.read(65536).decode('utf-8', errors='replace')
+    except OSError:
+        return None
+    pattern = r'^Error creating VM "%s": Failed to install boot files \(bcdboot exit code ([0-9]{1,5})\)\s*$' % re.escape(name)
+    match = re.search(pattern, recent, re.MULTILINE)
+    return int(match[1]) if match else None
+
+
 def create_vm(client, iso):
     # App Sandbox can fail a build at its bcdboot step and then delete the VM (issue #62: remnants of a
     # failed build break the next one with the same name), so each retry uses a fresh name.
     for attempt, name in enumerate(VM_NAMES):
+        build_log = vm_build_log_marker()
         code, body = client.create(name=name, osType='Windows', imagePath=str(iso), ramMb=16384, cpuCores=8, hddGb=120,
                                    gpuMode=1, networkMode=1, adminUser=USER, adminPass=PASSWORD,
                                    sshEnabled=True, sshDeployKey=True)
@@ -375,6 +410,15 @@ def create_vm(client, iso):
         try:
             return client.wait_online(name, timeout=3600)
         except RuntimeError as error:
+            if 'vanished' in str(error):
+                boot_error = observed_boot_file_failure(build_log, name)
+                if boot_error is not None:
+                    # A failed Windows boot-file operation needs diagnosis, not three full
+                    # image builds. Keep unknown disappearances on the existing bounded path.
+                    raise RuntimeError('App Sandbox could not install Windows boot files '
+                                       '(bcdboot exit code %d). Check App Sandbox setup diagnostics, '
+                                       'then retry setup. Guest application installation has not started.'
+                                       % boot_error) from error
             if 'vanished' not in str(error) or attempt + 1 == len(VM_NAMES):
                 raise
             log('App Sandbox dropped %s during its build; retrying under a new name in 30 s' % name)

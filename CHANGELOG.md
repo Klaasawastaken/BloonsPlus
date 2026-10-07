@@ -1,3 +1,18 @@
+## Preview 99 VM build diagnostics hotfix — 7 October 2026
+
+### Additions
+
+- Add exact-VM, fresh-log setup diagnostics with stale/unrelated/replaced-log regressions.
+
+### Changes
+
+- Preserve observed `bcdboot` error codes and stop repeating full Windows image builds after a confirmed boot-file failure.
+- Verify 407 Python tests and 65 approved JavaScript check files. Two actual clean-environment attempts failed before Bloons+ ran; the underlying App Sandbox boot-store issue remains open.
+
+### Removed
+
+- Remove the generic vanished-VM error for this confirmed setup failure.
+
 ## Preview 99 installer diagnostics hotfix — 7 October 2026
 
 ### Additions
