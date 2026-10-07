@@ -15,7 +15,7 @@ Updated 7 October 2026. **Production 1.0 is not ready for publication.** This ch
 
 | Area | Evidence available | Remaining gate | TODO |
 | --- | --- | --- | --- |
-| Medal ownership | Save-backed selection, persistent attempts and observed victory/save reconciliation; several missing medals earned | Verify unreadable/stale saves, profile changes and delayed saves cannot cause owned medals to replay | S-05–S-07 |
+| Medal ownership | Save-source ownership/attempt buckets; 19 complete-loop offline scenarios cover regressed reads, delayed saves, stop boundaries and source changes; v0.1.18 is installed and hash-verified | Observe live prevention; verify same-path Ninja Kiwi identity and broader save semantics. Synthetic scenarios do not certify all account changes | S-05–S-07 |
 | Route coverage | 86 maps; 535/1,204 eligible map/mode pairs; zero maps entirely without a candidate | 669 coverage gaps remain. A compatible candidate is not proof of victory or current balance compatibility | S-01–S-04, S-08 |
 | Source fidelity | Manual controls, waits, selectors, targeting, repeated abilities and second-special commands have offline coverage; 132 existing import signatures match current conversions | Forty-five import signatures differ; nine differing files remain host-catalog candidates, including eight with omitted command context. Resolve admission and coordinate adaptations; support other dialects' paid hero levels and exact Ace centering | R-01–R-04 |
 | Placements and upgrades | Visual selection and purchase checks, held-placement recovery and fixed Chutes policy have focused regressions | Observe remaining free/paid placement, hero selection, frozen/moving terrain and exact upgrade cases during missing-medal runs | R-05–R-11 |
