@@ -394,3 +394,17 @@ Published as `v0.1.37-preview.99`, with one 247,048,668-byte installer. The uplo
 digest matches the checked artifact. All 128 runtime source comparisons, 1,747
 inventory hashes, four identities, exact appended payload and both seven-frame
 application icons pass; source/payload privacy checks report zero findings.
+
+## All content pages: rendered contrast — 7 October 2026
+
+The existing contrast fixture now discovers every non-redirect HTML page instead
+of sampling eight pages. All 17 content pages pass in both themes: **34 cases and
+2,646 text observations**. The separate invisible-label negative control still
+fails as intended. This includes the remaining Wiki articles and policy pages.
+No product stylesheet or artwork change was needed for this extension.
+
+The same limits apply: normal desktop states, fallback fonts, computed foreground
+colors against rendered glyph backgrounds, and no ancestor-opacity or physical
+screen-reader claim. Enlarged-text, zoom, hover/focus and mobile checks remain
+separate evidence. This extends page coverage, not overall accessibility
+certification.

@@ -13,8 +13,8 @@ try {
   assert.ifError(run.error);
   assert.equal(run.status, 0, run.stdout + run.stderr);
   const result = JSON.parse(run.stdout.trim().split(/\r?\n/).at(-1));
-  assert.equal(result.pages, 16);
-  assert.ok(result.checks >= 1000, `Only ${result.checks} pixel contrast observations`);
+  assert.equal(result.pages, 34);
+  assert.ok(result.checks >= 2000, `Only ${result.checks} pixel contrast observations`);
   assert.deepEqual(result.failures, []);
   assert.deepEqual(result.errors, []);
   const negative = spawnSync(require('electron'), [path.join(__dirname, 'fixtures/site-pixel-contrast-renderer.cjs')], {

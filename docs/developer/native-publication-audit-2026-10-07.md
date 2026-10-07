@@ -25,6 +25,36 @@ The exact upstream App Sandbox MIT notice is retained beside the helper in `vm/l
 
 Earlier public commits and release artifacts can still contain the old helper. This repair changes future source and installers; it does not rewrite repository history or remove previously downloaded copies.
 
+## Historical inventory and proposed cleanup
+
+A read-only scan of 2,848 reachable text/native blobs (103,127,609 bytes) found
+the known original helper and one historical diagnostics test. The test contains
+an intentionally synthetic path and `secret-content` fixture, not a real key.
+No other pattern findings were returned. Pattern scanning is not proof that
+arbitrary personal text is absent.
+
+The remote inventory contains 138 branch/tag tips after annotated-tag peeling
+entries are excluded. The old helper is present at 122 tag tips. Of 136 public
+releases, 121 correspond to those tags and hold 124 assets, including three
+older checksum files. Fifteen newer releases use clean source snapshots.
+Local retained installer archives independently confirm that Preview .22
+contains the original helper and .23/.37 contain the repaired helper. Older
+remote installers have not all been downloaded; the conservative retirement
+scope is based on the affected release tags, not a claim of inspecting each
+asset's compressed contents.
+
+The proposed operation is to replace only the original helper blob throughout
+public history, preserve every other source byte, retain release notes, and
+retire the assets attached to those 121 affected releases. Newer clean release
+downloads remain. Before publication, verify replacement history, tag coverage
+and the exact remote-ref snapshot; retain a private recoverable backup. Force
+updates change commit IDs and require collaborators to resynchronize clones.
+Downloaded copies, forks and hosting caches cannot be erased by this operation.
+
+**Awaiting explicit approval:** no history, tag or release asset has been
+changed by this audit. Exact IDs and the proposed asset list are retained
+privately; personal paths are not reproduced here.
+
 ## Checked artifact
 
 Preview `v0.1.23-preview.99` has 422 passing Python tests and 71 passing approved JavaScript test files. Source and decompressed-payload publication guards report zero findings. The installer is 246,978,994 bytes with SHA-256 `3e068c9adad0850a90666180ba9021b0d9b7f74125ce36d01d18a83806d797d8`. Checks verified all 1,724 inventory hashes, 127 runtime source files, 1,245 unchanged data/route files, four package version identities, the exact appended payload and seven icon frames in each executable. The unapproved ABR draft is excluded. These checks do not establish clean Windows installation or resolve boot-file creation failures.

@@ -6,6 +6,18 @@ if (!profile) throw new Error('Use test-site-pixel-contrast-renderer.js for prof
 app.setPath('userData', profile); app.setPath('sessionData', profile); app.setPath('logs', profile);
 app.disableHardwareAcceleration(); app.on('window-all-closed', () => {});
 const errors = [];
+const contentPages = [];
+function collect(folder) {
+ for (const entry of fs.readdirSync(folder, { withFileTypes: true })) {
+  const file = path.join(folder, entry.name);
+  if (entry.isDirectory()) collect(file);
+  else if (entry.name.endsWith('.html') && !/<meta[^>]+http-equiv=["']refresh["']/i.test(fs.readFileSync(file, 'utf8'))) {
+   const relative = path.relative(root, file).replace(/\\/g, '/');
+   contentPages.push(relative === 'index.html' ? '' : relative.replace(/index[.]html$/, ''));
+  }
+ }
+}
+collect(root);
 let win, pages = 0;
 const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
 const server = http.createServer((req, res) => {
@@ -34,7 +46,7 @@ const contrast=(a,b)=>{a=lum(a);b=lum(b);return(Math.max(a,b)+.05)/(Math.min(a,b
  await send('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'reduce'}]});
  const results=[];
  const negativeControl=process.env.BLOONS_CONTRAST_NEGATIVE_CONTROL==='1';
- for(const theme of (negativeControl?['light']:['light','dark']))for(const page of (negativeControl?['']:['','features/','subscriptions/','download/','about/','contributors/','wiki/','wiki/getting-started/'])){
+ for(const theme of (negativeControl?['light']:['light','dark']))for(const page of (negativeControl?['']:contentPages)){
   await inspect(`localStorage.setItem('bloons-guide-theme',${JSON.stringify(theme)})`);
   console.log('Loading '+theme+' '+page);await win.loadURL(origin+'/'+page);await send('Emulation.setFocusEmulationEnabled',{enabled:true});
   await inspect(`(async()=>{await document.fonts.ready;await Promise.all([...document.images].map(i=>{i.loading='eager';return Promise.race([i.decode().catch(()=>{}),new Promise(r=>setTimeout(r,2000))])}));const s=document.createElement('style');s.textContent='html{scrollbar-width:none!important}::-webkit-scrollbar{display:none!important}*,*::before,*::after{animation:none!important;transition:none!important}.reveal{opacity:1!important;transform:none!important}';document.head.append(s)})()`);
