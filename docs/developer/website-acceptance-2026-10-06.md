@@ -219,3 +219,26 @@ application icons and zero privacy findings. The unapproved ABR draft is exclude
 The deployed VM Connection HTML matches the repaired source; deployed CSS and
 JavaScript match after normalizing Git's line endings. This HTTP content check
 complements the local actual-renderer checks; it is not a physical browser audit.
+
+
+## Wider zoom acceptance — 7 October 2026
+
+A fresh isolated Chromium run at source `5f20c40` used a 1,280 × 960 window
+and actual browser zoom factors of 100%, 200% and 400%. The measured CSS viewport
+widths were 1,280, 640 and 320 pixels respectively; every observation asserted
+that actual width and the selected theme before accepting its results.
+
+All 17 content pages in both themes passed at all three zoom levels: **102
+content observations**, plus **nine** canonical legacy redirects. There were
+no document-wide horizontal overflows, missing local requests, missing main
+fragments or heading/landmark mismatches. Every observed local image loaded
+following real page scrolling. Character art retained its fitting/proportions,
+and all 48 Wiki article observations selected exactly the current article.
+The named table region can scroll internally; document-wide overflow is the
+reflow condition checked here.
+
+No production code change was needed for this repeat. This extends the earlier
+1,280/390-pixel layout evidence; it does not establish physical display scaling,
+screen-reader speech, standalone text-only scaling, useful alternative-text
+wording, or every gradient/accent/interaction contrast combination. W-04 remains
+open for those remaining acceptance checks.

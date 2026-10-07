@@ -287,6 +287,8 @@ Requested **6 October**. Work alongside background missing-medal gameplay after 
   - New actual Chromium audit covers nine main pages at verified desktop/phone widths, native keyboard skip links, landmarks, reduced motion and both billing selections. The exact annual price/period is exposed as an atomic polite live region. Escape now restores the mobile menu toggle, with native keyboard traversal and closed-menu/pointer focus preservation covered by the new renderer regression. The deployed Download page now resolves v0.1.10-preview.99 and its matching asset size.
   - Complete local artwork/layout audit: 17 content pages, two widths, both themes and nine actual legacy redirects. All 212 local image observations load, 64 character checks preserve fitting/proportions, and all 32 article observations select the correct sidebar entry. VM Connection now wraps its setup table in a named keyboard-scrollable region; native Right Arrow scrolling and Tab exit pass. The complete 68 content observations and nine redirects now pass with no overflow or missing local requests. See the [evidence](website-acceptance-2026-10-06.md#complete-local-page-and-artwork-sweep--7-october-2026).
 
+  - Wider zoom acceptance passes all 17 content pages in both themes at actual 100/200/400% browser zoom: 102 content observations, nine redirects and measured CSS widths of 1,280/640/320 pixels. No document-wide overflow or missing local resources; all 48 article sidebar selections are correct. Physical screen readers, text-only scaling and remaining gradient/accent contrast remain open.
+
 ## 7. AI, bosses and Pro
 
 Start after core reliability. These are future work, not completed features.
