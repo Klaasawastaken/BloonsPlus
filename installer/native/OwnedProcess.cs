@@ -70,8 +70,21 @@ internal sealed class OwnedProcess : IDisposable
         return receipt;
     }
     private void Write(Receipt receipt) { InstallSession.AtomicWrite(file, serializer.Serialize(receipt)); }
+    internal static string CanonicalExecutable(string executable) {
+        // Framework's legacy Path parser rejects the extended spelling accepted
+        // by CreateProcess. Keep receipts comparable with MainModule.FileName;
+        // this changes spelling only, never the PID/creation-time identity check.
+        if (executable.StartsWith(@"\\?\UNC\", StringComparison.OrdinalIgnoreCase))
+            executable = @"\\" + executable.Substring(8);
+        else if (executable.StartsWith(@"\\?\", StringComparison.Ordinal)) {
+            if (executable.Length < 7 || !Char.IsLetter(executable[4]) || executable[5] != ':' || executable[6] != '\\')
+                throw new ArgumentException("Unsupported extended executable path.");
+            executable = executable.Substring(4);
+        }
+        return Path.GetFullPath(executable);
+    }
     public void RecordIntent(string executable, string kind) {
-        Write(new Receipt { Executable = Path.GetFullPath(executable), Kind = kind, BootIdentity = bootIdentity() });
+        Write(new Receipt { Executable = CanonicalExecutable(executable), Kind = kind, BootIdentity = bootIdentity() });
     }
     public void Attach(Process process) {
         var receipt = Read();
@@ -103,7 +116,7 @@ internal sealed class OwnedProcess : IDisposable
         if (jobHandle != IntPtr.Zero) { CloseHandle(jobHandle); jobHandle = IntPtr.Zero; }
         jobHandle = CreateJobObject(IntPtr.Zero, name);
         if (jobHandle == IntPtr.Zero) throw new Win32Exception();
-        Write(new Receipt { Executable = Path.GetFullPath(executable), Kind = "python_dependency", JobName = name, BootIdentity = bootIdentity() });
+        Write(new Receipt { Executable = CanonicalExecutable(executable), Kind = "python_dependency", JobName = name, BootIdentity = bootIdentity() });
         InstallerChildProcess child;
         try {
             // The query observer must retain the job before any package child
@@ -129,7 +142,7 @@ internal sealed class OwnedProcess : IDisposable
         try {
             using (var process = Process.GetProcessById(pid))
                 return !process.HasExited && process.StartTime.ToUniversalTime().Ticks == createdUtcTicks
-                    && String.Equals(Path.GetFullPath(process.MainModule.FileName), Path.GetFullPath(executable), StringComparison.OrdinalIgnoreCase);
+                    && String.Equals(CanonicalExecutable(process.MainModule.FileName), CanonicalExecutable(executable), StringComparison.OrdinalIgnoreCase);
         } catch { return false; }
     }
     public string Observe() {

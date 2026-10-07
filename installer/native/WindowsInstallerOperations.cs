@@ -451,16 +451,28 @@ internal class WindowsInstallerOperations : IDisposable
         if (!File.Exists(venvPython)) throw new FileNotFoundException("The private Python environment was not created.");
         SetStatus("Downloading Python dependencies (including TensorFlow); this may take a while…", InstallerStage.Python);
         RunInstallerProcess(venvPython, "-m ensurepip --upgrade", appRoot, "Could not repair pip");
+        // Deep wheel contents (notably TensorFlow headers) can exceed MAX_PATH
+        // even when the app and Python executable fit. Opt only pip into the
+        // extended spelling; venv bootstrap and normal runtime checks retain
+        // their original paths and import/metadata behavior.
+        string packagePython = PythonPackageExecutable(venvPython);
         string installArgs = "-m pip install --disable-pip-version-check --no-input --prefer-binary --retries 3 --timeout 60 -r " + Quote(pipRequirements);
-        RunInstallerProcess(venvPython, installArgs, appRoot, "Python dependency installation failed");
+        RunInstallerProcess(packagePython, installArgs, appRoot, "Python dependency installation failed");
         SetStatus("Verifying image processing, TensorFlow and keyboard dependencies…", InstallerStage.Python);
         if (!ProcessSucceeds(venvPython, probe, 120000) || !ProcessSucceeds(venvPython, "-m pip check")) {
             SetStatus("Repairing incomplete Python packages…", InstallerStage.Python);
-            RunInstallerProcess(venvPython, installArgs + " --force-reinstall", appRoot, "Python package repair failed");
+            RunInstallerProcess(packagePython, installArgs + " --force-reinstall", appRoot, "Python package repair failed");
         }
         RunInstallerProcess(venvPython, "-m pip check", appRoot, "Python dependencies are incompatible");
         RunInstallerProcess(venvPython, probe, appRoot, "Automation runtime verification failed");
         File.WriteAllText(stamp, requirementsHash);
+    }
+
+    internal static string PythonPackageExecutable(string executable)
+    {
+        string path = OwnedProcess.CanonicalExecutable(executable);
+        return path.StartsWith(@"\\", StringComparison.Ordinal)
+            ? @"\\?\UNC\" + path.Substring(2) : @"\\?\" + path;
     }
 
     public virtual void EnsureVisualCppRuntime()

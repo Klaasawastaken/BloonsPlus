@@ -571,3 +571,32 @@ runtime comparisons, all 1,739 inventory hashes, four version identities, exact
 appended-payload verification and both seven-frame icon comparisons. Its single
 GitHub asset matches the local size and digest. No guest update was performed
 during the recovered healthy missing-medal replay.
+
+### Approved deep Python package paths — 7 October
+
+The native setup now uses extended Windows executable spelling only for pip's
+install and force-reinstall operations. Venv creation, ensurepip, runtime checks
+and app execution keep their normal paths. Ownership receipts normalize the two
+spellings before comparing the executable, while retaining the existing PID,
+creation-time and job-observer checks. No Windows registry setting is changed.
+
+Before the repair, the compiled native fixture failed with WinError 206 while
+installing a synthetic wheel whose header path exceeded 260 characters. The
+process identity fixture separately rejected the extended executable spelling.
+Both now pass, including healthy reuse, deliberately damaged-package repair,
+concurrent-install rejection and the observer's natural exit. UNC spelling and
+device-namespace rejection have lexical coverage; no network-share install is
+claimed.
+
+The actual production `ConfigurePython` method also completed fresh installation,
+healthy reuse and force-reinstall after a deliberately removed dependency file,
+using all pinned requirements in an isolated 88-character installation root.
+The observed deepest TensorFlow header consequently had a 290-character path.
+Normal-path runtime imports and `pip check` passed after installation and repair.
+The complete **431-test Python suite** passes; independent review found no
+actionable issue. No installed app, VM, game or save was changed by these checks.
+
+This closes the observed deep-wheel failure at a custom root whose application
+files and Python launcher still fit the existing path limits. It does not claim
+arbitrarily long application roots, network-share installation, clean Windows,
+physical reboot recovery or all installer acceptance gates.
