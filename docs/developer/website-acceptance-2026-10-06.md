@@ -433,3 +433,30 @@ was not downloaded or launched during this check.
 This extends font and live-link evidence. It does not establish physical Windows
 text scaling, all interaction states, assistive-technology acceptance or a clean
 installation. The earlier contrast measurements still use fallback fonts.
+
+## Subscription controls including faded labels — 7 October
+
+A scoped hidden-renderer probe covers both billing periods in light/dark themes,
+at 1,280/390 CSS pixels, with the selected button in normal, hover and
+focus-visible states: **24 cases and
+72 text observations**. It asserts the requested selected/hover/focus state before
+measuring. All observations pass, with a minimum ratio of **5.652:1** against the
+small-text threshold of 4.5:1. Twelve observations include the active annual
+savings label's 0.85 opacity, which the broader normal-page audit had excluded.
+
+The probe uses the existing independent black/white glyph-mask method and actual
+rendered backgrounds. For these transparent leaf spans, foreground alpha includes
+the span's opacity. Non-unit ancestor opacity or a faded leaf background/image
+rejects the probe as unsupported; this does not claim general group compositing.
+An intentionally faint 0.1-opacity savings label fails in all 24 cases, while the
+other 48 observations remain passing. No product CSS change was needed.
+
+These checks use fallback fonts and emulated Chromium focus/pointer events. They
+cover the selected-button states and both controls’ displayed text. They do not
+measure unselected-button hover/focus or focus-indicator contrast, physical
+screen-reader output, every site state,
+all partially transparent containers or full accessibility certification.
+
+Independent review found no blocking issue within this scope. The probe emits
+JSON even for contrast failures; acceptance uses its explicit observation and
+failure counts, not process exit status alone.
