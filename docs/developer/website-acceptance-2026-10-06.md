@@ -328,3 +328,31 @@ four matching version identities, 127 runtime source comparisons, 1,737 inventor
 hashes, the exact appended payload and seven exact frames in both application
 icons. Publication scans report zero findings; the pending route draft is
 excluded. This is artifact verification, not a clean-machine installation claim.
+
+## Rendered-background contrast repair — 7 October 2026
+
+The follow-up fixes the evidenced faint preview labels, feature symbols, step
+numbers and coming-soon badges with existing theme tokens. The homepage map
+caption now has a darker background beneath its white text; the Routes chip also
+has a darker backing. Official artwork, proportions and the hero concept remain.
+
+The permanent isolated Electron fixture covers Home, Features, Subscriptions,
+Download, About, Contributors, Wiki and Getting Started in both themes at a
+1,280-pixel viewport: **16 cases and 1,270 text observations pass**. It samples
+actual rendered backgrounds, including map artwork, and applies 4.5:1 for small
+text and 3:1 for large text. External requests are blocked; no desktop or VM
+capture is used. All **79 approved JavaScript suites pass**.
+
+Review exposed a false negative in the first checker: detecting glyphs from the
+original foreground alone could skip invisible text. Independent black/white
+glyph masks now locate text regardless of its original color. A deliberately
+invisible label must fail at 1:1, and visible text without a measurable glyph
+mask fails instead of silently disappearing. Captures use stable scrollbar
+geometry. Each page must expose its main heading. Independent follow-up review
+found no further actionable issue.
+
+This is normal-state evidence for these eight pages, not complete accessibility
+certification. Non-rendered content, off-page rectangles, partially transparent
+ancestors, screen-reader-only text and logo marks are outside this measurement.
+Physical assistive technology, standalone text scaling and other pages/states
+remain separate acceptance work.
