@@ -60,7 +60,7 @@ and rendered version label all identified **v0.1.0-preview.95**. The page displa
 The checked desktop viewport had no horizontal overflow. Preview 95 is now the
 latest-download evidence; the observations above record earlier releases.
 
-## Open readability defect
+## Secondary-text readability defect and repair
 
 After Preview 98 publication, the deployed HTTPS Download page resolved both
 installer and release-note links to **v0.1.0-preview.98**. Its rendered label
@@ -74,10 +74,9 @@ the `#f5f6f1` page background and **4.12:1** against white. Both combinations
 fall below the **4.5:1** normal-text target in
 [W3C's contrast guidance](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html).
 
-Proposed narrow repair: change the light-theme secondary-text token to `#56685e`.
-Computed contrast against the five main light surfaces is 4.84–5.94:1. Preserve
-dark-theme colors, artwork and layout. The bounded design is awaiting review;
-the CSS has not been changed. Translucent/gradient surfaces and accent-colored
+The authorized website polish now changes the light-theme secondary-text token
+to `#56685e`. Computed contrast against the five main light surfaces is
+4.84–5.94:1. Dark-theme colors, artwork and layout are retained. Translucent/gradient surfaces and accent-colored
 small text require separate rendered checks; this token calculation does not
 prove every text/background combination passes.
 
@@ -107,9 +106,8 @@ for focus, viewport and media preferences; these are simulated browser condition
 
 **New focus defect:** Escape closes the mobile navigation while a link has
 focus, but focus falls back to the page body. A narrower repair would return
-focus to the menu button for that keyboard dismissal. Its approval is pending
-alongside the existing light secondary-text repair. Menu closing alone is not
-claimed as complete focus-restoration acceptance.
+focus to the menu button for that keyboard dismissal. This was repaired in the follow-up below. Escape restores focus only when the
+menu was open; pointer dismissal and Escape with a closed menu do not take focus.
 
 The fixture first rejected evidence from an unfocused hidden window and a
 390 px window whose real CSS viewport was wider. Explicit Chromium focus and
@@ -128,9 +126,8 @@ observed. The temporary tab was closed without downloading or executing the
 installer. This is the latest download evidence; prior observations above are
 historical.
 
-- Repair and recheck the evidenced secondary-text contrast issue.
-- Return keyboard focus when Escape dismisses the mobile navigation, then check
-  its reverse traversal and subsequent Tab destination.
+- The evidenced secondary-text contrast, mobile Escape focus and table overflow
+  repairs are verified below; broader states remain in scope for acceptance.
 - Measure other text, controls and focus indicators on actual rendered surfaces.
 - Complete keyboard traversal, focus restoration and skip-link checks across
   articles and longer pages, including zoom and text scaling.
@@ -169,11 +166,45 @@ so the entire page scrolls horizontally. The table lacks the existing
 `.wiki-table-scroll` wrapper and inherits the site's mobile table minimum width.
 The other 66 content observations remained within the viewport.
 
-The proposed bounded repair uses that existing scroll wrapper with a descriptive
-region name and keyboard focus, retaining the native caption, column headings,
-row headings and content. Its approval is pending. The fixture deliberately exits
-with failure for the two overflowing observations; this audit is not recorded as
-a full layout pass. Earlier light contrast and Escape-focus repairs also remain
-pending.
+The implemented repair uses the existing scroll wrapper, labelled by its native
+caption, with keyboard focus and a visible outline. The caption, column headings,
+row headings and content remain intact. The original audit failed explicitly for
+the two overflowing observations; the repaired repeat is recorded below.
 
 W-04 remains open until the outstanding checks and defects are resolved.
+
+
+## Website polish verification — 7 October 2026
+
+This batch implements the existing website polish request with three bounded
+repairs. It adds no page content, artwork, gameplay behavior or account data.
+
+- The permanent isolated renderer regression passes **12 page/theme/viewport
+  cases** across Home, Subscriptions and VM Connection, and **60 secondary-text
+  contrast observations** against the five solid theme surfaces. The original
+  light token failed all five surfaces; the replacement passes each one.
+- Native Chromium Enter/Tab/Escape input opens the phone menu, enters its links,
+  restores its toggle on Escape, then reaches visible main content with Tab.
+  Reverse traversal returns to the toggle. Escape while closed and pointer
+  dismissal preserve the current focus.
+- VM Connection retains both column headers and all eight row headers. Its
+  caption labels the scroll region, Right Arrow scrolls the table, and Tab exits
+  the region. Both phone theme cases now keep the document inside the viewport.
+- The broader **18** main-page keyboard/motion checks pass, including a stronger
+  assertion that Escape restores the actual toggle, skip links, landmarks,
+  reduced motion and atomic annual/monthly price exposure.
+- The complete **68** content-page/theme/width observations and **9** legacy
+  redirects pass with no missing local requests or layout failures. This is a
+  repeat of the complete artwork audit above, not a claim about external avatars.
+- All **74** approved JavaScript test files pass.
+- Independent review found no actionable defect in the scoped product change
+  or regression fixture. Its own temporary profile is removed after Electron
+  exits; external network traffic is blocked.
+
+The first new fixture omitted Chromium's Enter character event and incorrectly
+assumed the theme toggle followed the menu button. Those fixture errors were
+corrected to the existing proven input sequence and actual DOM order before
+accepting the results. Product code was not changed to accommodate them.
+
+These checks do not certify gradients, every accent-colored text state, physical
+screen readers or all zoom combinations. W-04 remains open for those checks.

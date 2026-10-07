@@ -72,18 +72,24 @@
     if (link.dataset.nav === currentPage) link.setAttribute('aria-current', 'page');
     else link.removeAttribute('aria-current');
   });
-  function closeMenu() {
-    if (!mobileNav) return;
+  function closeMenu(restoreFocus = false) {
+    if (!mobileNav || mobileNav.hidden) return;
     mobileNav.hidden = true;
     menuButton.setAttribute('aria-expanded', 'false');
     menuButton.setAttribute('aria-label', 'Open navigation');
+    if (restoreFocus) menuButton.focus({ preventScroll: true });
   }
   menuButton?.addEventListener('click', () => {
     mobileNav.hidden = !mobileNav.hidden;
     menuButton.setAttribute('aria-expanded', String(!mobileNav.hidden));
     menuButton.setAttribute('aria-label', mobileNav.hidden ? 'Open navigation' : 'Close navigation');
   });
-  document.addEventListener('keydown', event => { if (event.key === 'Escape') closeMenu(); });
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && mobileNav && !mobileNav.hidden) {
+      event.preventDefault();
+      closeMenu(true);
+    }
+  });
   mobileNav?.addEventListener('click', event => { if (event.target.closest('a')) closeMenu(); });
   document.addEventListener('click', event => { if (mobileNav && !event.target.closest('.topbar')) closeMenu(); });
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
