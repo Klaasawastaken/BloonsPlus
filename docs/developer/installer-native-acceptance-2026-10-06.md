@@ -152,6 +152,24 @@ production boot reader succeeds. Repeating the process-tree probe there retained
 the same safety and unknown-recovery observations with a known boot identity.
 This does not exercise an actual reboot or prove boot detection on another PC.
 
+A further isolated probe queried the exact fixture job name with
+`OpenJobObject(JOB_OBJECT_QUERY)` at each boundary. It succeeds before the fixture
+installer is interrupted. After that installer exits, the same call returns
+Windows error **2** while the fixture descendant is independently confirmed
+alive. It also returns error 2 after the descendant's natural exit. Both reopened
+observations remain unknown and block a second installer; no production source
+was changed to obtain this result.
+
+This rules out treating a missing job name as evidence of an empty process tree.
+Microsoft's [job-object documentation](https://learn.microsoft.com/en-us/windows/win32/procthread/job-objects)
+describes job lifetime in terms of handles and associated processes. The actual
+probe establishes that reopening this fixture's name is unavailable at both
+distinct states. Recovery needs durable observation that distinguishes those
+states; a filename-not-found exception, receipt deletion or the direct parent's
+exit alone cannot provide it. The probe touches only its own fixture processes,
+which finish or are identity-checked before cleanup. Installer interruption
+recovery remains an open production gate.
+
 The focused process-tree test passes, and the complete Python discovery run
 passes **402 tests**. No installed app, VM, Steam or game data was changed.
 
