@@ -6,7 +6,7 @@ if (!profile) throw new Error('Use test-site-accessibility-renderer.js for profi
 app.setPath('userData', profile); app.setPath('sessionData', profile); app.setPath('logs', profile);
 app.disableHardwareAcceleration(); app.on('window-all-closed', () => {});
 const failures = [], errors = [];
-let win, pages = 0, contrasts = 0, context;
+let win, pages = 0, contrasts = 0, interactions = 0, context;
 const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
 const check = (condition, issue, details) => { if (!condition) failures.push({ ...context, issue, details }); };
 const server = http.createServer((req, res) => {
@@ -39,7 +39,7 @@ async function press(keyCode, modifiers = []) {
   for (const width of [1280, 390]) for (const theme of ['light', 'dark']) {
     await win.webContents.debugger.sendCommand('Emulation.setDeviceMetricsOverride', { width, height: 900, deviceScaleFactor: 1, mobile: false });
     await inspect(`localStorage.setItem('bloons-guide-theme',${JSON.stringify(theme)})`);
-    for (const page of ['', 'subscriptions/', 'wiki/vm-connection/']) {
+    for (const page of ['', 'subscriptions/', 'wiki/vm-connection/', 'download/']) {
       context = { width, theme, page }; await win.loadURL(origin + '/' + page); win.webContents.focus();
       await win.webContents.debugger.sendCommand('Emulation.setFocusEmulationEnabled', { enabled: true });
       await pause(120); pages++;
@@ -51,6 +51,31 @@ async function press(keyCode, modifiers = []) {
         return ['bg','solid','soft','mint','blue'].map(name=>{const probe=document.createElement('span');probe.style.cssText='color:var(--muted);background:var(--'+name+')';document.body.append(probe);const style=getComputedStyle(probe),a=l(style.color),b=l(style.backgroundColor);probe.remove();return {surface:name,ratio:(Math.max(a,b)+.05)/(Math.min(a,b)+.05)}});
       })()`);
       for (const value of ratios) { contrasts++; check(Number.isFinite(value.ratio) && value.ratio >= 4.5, 'Secondary text contrast', value); }
+      await win.webContents.debugger.sendCommand('DOM.enable');
+      await win.webContents.debugger.sendCommand('CSS.enable');
+      const {root: domRoot} = await win.webContents.debugger.sendCommand('DOM.getDocument');
+      const states = [
+        ['.site-footer>div:nth-child(2)>a', 'hover', 'color', 4.5],
+        ['.site-footer>div:nth-child(2)>a', 'focus-visible', 'outlineColor', 3],
+        ['#theme-toggle', 'focus-visible', 'outlineColor', 3],
+      ];
+      if(width===1280)states.push(['.topbar nav a:not([aria-current])','hover','color',4.5]);
+      if(page==='subscriptions/')states.push(['[data-billing="annual"]','focus-visible','outlineColor',3]);
+      if(page==='download/')states.push(['.download-faq summary','focus-visible','outlineColor',3]);
+      for(const [selector,pseudo,property,minimum] of states){
+        const {nodeId} = await win.webContents.debugger.sendCommand('DOM.querySelector',{nodeId:domRoot.nodeId,selector});
+        check(!!nodeId,'Interaction target missing',selector);if(!nodeId)continue;
+        await win.webContents.debugger.sendCommand('CSS.forcePseudoState',{nodeId,forcedPseudoClasses:[pseudo]});await pause(250);
+        const samples=await inspect(`(()=>{
+          const el=document.querySelector(${JSON.stringify(selector)}),style=getComputedStyle(el),foreground=style[${JSON.stringify(property)}];
+          const l=c=>{const v=c.match(/[\\d.]+/g).slice(0,3).map(Number).map(x=>{x/=255;return x<=.04045?x/12.92:((x+.055)/1.055)**2.4});return v[0]*.2126+v[1]*.7152+v[2]*.0722};
+          return ['bg','solid','soft','mint','blue'].map(name=>{const probe=document.createElement('span');probe.style.background='var(--'+name+')';document.body.append(probe);const background=getComputedStyle(probe).backgroundColor,a=l(foreground),b=l(background);probe.remove();return {surface:name,foreground,background,ratio:(Math.max(a,b)+.05)/(Math.min(a,b)+.05),outlineStyle:style.outlineStyle,outlineWidth:parseFloat(style.outlineWidth)}});
+        })()`);
+        for(const sample of samples){interactions++;check(Number.isFinite(sample.ratio)&&sample.ratio>=minimum&&
+          (property!=='outlineColor'||sample.outlineStyle!=='none'&&sample.outlineWidth>0),'Interaction contrast',{selector,pseudo,minimum,...sample});}
+        await win.webContents.debugger.sendCommand('CSS.forcePseudoState',{nodeId,forcedPseudoClasses:[]});await pause(250);
+      }
+
       if (width === 390) {
         await inspect("document.querySelector('.menu-toggle').focus()"); await press('Enter'); await press('Tab');
         check(await inspect("!document.querySelector('#mobile-nav').hidden && !!document.activeElement.closest('#mobile-nav')"), 'Menu did not open with keyboard');
@@ -80,6 +105,6 @@ async function press(keyCode, modifiers = []) {
       }
     }
   }
-  console.log(JSON.stringify({ pages, contrasts, failures, errors }));
+  console.log(JSON.stringify({ pages, contrasts, interactions, failures, errors }));
   win.destroy(); server.closeAllConnections(); server.close(() => app.exit(failures.length || errors.length ? 1 : 0));
 })().catch(error => { console.error(context, error.stack, errors); if (win && !win.isDestroyed()) win.destroy(); server.closeAllConnections(); app.exit(1); });

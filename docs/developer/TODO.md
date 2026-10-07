@@ -289,6 +289,8 @@ Requested **6 October**. Work alongside background missing-medal gameplay after 
 
   - Wider zoom acceptance passes all 17 content pages in both themes at actual 100/200/400% browser zoom: 102 content observations, nine redirects and measured CSS widths of 1,280/640/320 pixels. No document-wide overflow or missing local resources; all 48 article sidebar selections are correct. Physical screen readers, text-only scaling and remaining gradient/accent contrast remain open.
 
+  - Light link hover and keyboard outlines now use separate contrast-safe tokens while decorative coral and dark colors remain unchanged. Sixteen rendered page cases, 80 secondary-text and 320 interaction contrast observations pass, alongside all 74 approved JavaScript suites. Gradient/image backgrounds and physical assistive technology remain separate gates.
+
 ## 7. AI, bosses and Pro
 
 Start after core reliability. These are future work, not completed features.

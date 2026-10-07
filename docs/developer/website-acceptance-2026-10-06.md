@@ -242,3 +242,38 @@ No production code change was needed for this repeat. This extends the earlier
 screen-reader speech, standalone text-only scaling, useful alternative-text
 wording, or every gradient/accent/interaction contrast combination. W-04 remains
 open for those remaining acceptance checks.
+
+
+## Link hover and keyboard focus — 7 October 2026
+
+The remaining interaction audit found that hovered navigation/footer links and
+focus outlines reused the light decorative coral `#ef987e`. Its contrast against
+the five solid light surfaces ranged from **1.811:1 to 2.219:1**, below both the
+normal-text 4.5:1 target and the tested focus-indicator 3:1 target. The actual
+renderer reproduced **160 failing light-theme contrast observations**.
+
+The bounded CSS repair retains the decorative accent, artwork and layout. Hover
+text now uses `--link-ink: #934b38` (5.187–6.356:1 on those surfaces); focus uses
+`--focus: #8b523b` (5.089–6.235:1). Dark mode retains its existing `#f5aa8b` for
+both. The shared navigation/text-link/footer hover rules and all three existing
+focus-outline rules use the new tokens; outline sizes and offsets are unchanged.
+
+The permanent hidden-renderer regression now covers Home, Subscriptions,
+VM Connection and Download in both themes at 1,280 and 390 pixels:
+
+- **16** page cases and **80** secondary-text surface checks pass.
+- **320** interaction contrast observations pass. Chromium forces actual hover
+  and focus-visible states on existing navigation/footer links, theme controls,
+  annual billing controls and Download FAQ summaries after transitions settle.
+  Foreground/outline colors are measured against the five solid theme surfaces.
+- The preceding menu traversal, focus preservation, table scrolling and viewport
+  checks continue to pass. All **18** broader keyboard/motion/landmark checks pass.
+- All **74** approved JavaScript test files pass. Independent review found no
+  actionable defect and repeated the focused renderer check successfully.
+
+An initial fixture additionally required computed outlines of at least two
+pixels; Chromium reported 1.6 for declared two-pixel outlines on this display.
+That unrelated size assertion was removed. The test now requires a visible,
+nonzero outline and the stated contrast, and makes no physical focus-area or
+DPI-compliance claim. Gradient/image backgrounds, other accent-text states and
+physical assistive technology still require their separate acceptance evidence.
