@@ -15,9 +15,11 @@ try {
   const result = JSON.parse(run.stdout.trim().split(/\r?\n/).at(-1));
   assert.equal(result.contentPages, 17);
   assert.equal(result.pages, 68);
+  assert.equal(result.webFonts, process.env.BLOONS_SITE_WEB_FONTS === '1');
+  assert.equal(result.fontChecks, result.webFonts ? 136 : 0);
   assert.deepEqual(result.failures, []);
   assert.deepEqual(result.errors, []);
-  console.log('Website: all 17 content pages in both themes at 1280/390 px preserve document and heading bounds with doubled text sizes (68 cases).');
+  console.log((result.webFonts ? 'Web fonts confirmed: 136 observations. ' : 'Fallback fonts. ') + 'Website: all 17 content pages in both themes at 1280/390 px preserve document and heading bounds with doubled text sizes (68 cases).');
 } finally {
   assert.equal(path.dirname(path.resolve(profile)), path.resolve(os.tmpdir()));
   assert.ok(path.basename(profile).startsWith('bloons-site-test-'));

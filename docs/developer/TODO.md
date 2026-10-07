@@ -13,7 +13,7 @@ The [production acceptance matrix](production-1.0-gates.md) separates implemente
 | **Main setup blocker** | Both clean Windows fixtures stopped at boot-file creation before Bloons+ ran. The isolated recovery prototype is approved. Its copied-template configuration passed in a temporary guest file; host-side and actual boot checks remain. |
 | **Privacy cleanup** | Current source/payload checks pass. Historical helper cleanup and retirement of affected old downloads await explicit approval. [Scope and evidence](native-publication-audit-2026-10-07.md#historical-inventory-and-proposed-cleanup). |
 | **Sweep** | Latest direct controller check: stopped after exhausting eligible untried targets. Tree Stump remains excluded for cash-reading failures. Do not reset attempts or replay owned medals. Scheduled monitoring stays off. |
-| **Website** | All 17 content pages pass 34 theme/contrast cases and 68 doubled-text cases. Remaining interaction/accessibility work is tracked under W-04; these checks are not a full accessibility certification. |
+| **Website** | All 17 content pages pass 34 theme/contrast cases and 68 doubled-text cases in both fallback-font and verified web-font runs. Live download links identify .37. Remaining interaction/accessibility work is tracked under W-04; these checks are not a full accessibility certification. |
 | **After 1.0** | Quests, Races, Boss Rush and Boss Events are planned for **v1.2**. A Quests tab starts as **Coming soon**. |
 
 Recent fixes include scoped long-path package installation, persistent observations,
@@ -62,7 +62,7 @@ These are compatibility tasks, not claims that the installed game or existing ro
 | 2 | **I-04: publication privacy** | After explicit approval, replace the old helper in history and retire the identified old downloads. Preserve notes and newer clean installers. |
 | 3 | **A-01 / A-03 / A-05–A-07: app experience** | Finish measured navigation, accessibility and first/repeat-launch checks. The measured lazy-medal-artwork change awaits its design approval. |
 | 4 | **P-01–P-07: progress and connection** | Check live disconnect/reconnect, source changes, rate semantics and redacted diagnostics. Source projection and tower-name aliases are already implemented; do not reimplement them. |
-| 5 | **W-04: website acceptance** | Finish the remaining interactive states, artwork/accessibility checks and live download verification. All-page normal contrast and fixed-viewport text scaling pass. |
+| 5 | **W-04: website acceptance** | Finish the remaining interactive states and accessibility checks. All-page normal contrast and fixed-viewport text scaling pass; actual web-font usage and live .37 download links are verified. |
 | 6 | **Final 1.0 packaging** | Re-run the release acceptance matrix against the final source and installer, stamp every version, then publish with Additions / Changes / Removed notes. |
 
 **Already implemented:** approved installer redesign batches 1–5, post-install

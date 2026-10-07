@@ -408,3 +408,28 @@ colors against rendered glyph backgrounds, and no ancestor-opacity or physical
 screen-reader claim. Enlarged-text, zoom, hover/focus and mobile checks remain
 separate evidence. This extends page coverage, not overall accessibility
 certification.
+
+## Web-font layout and live download acceptance — 7 October 2026
+
+The enlarged-text fixture now has an explicit network acceptance mode:
+`BLOONS_SITE_WEB_FONTS=1`. Ordinary runs still block external requests. The
+opt-in permits only the site's two HTTPS Google Fonts hosts. It checks the
+renderer’s actual custom-font glyph usage for Manrope headings and DM Sans body
+text, rather than trusting CSS declarations or successful downloads.
+
+Both modes pass all **68 layout cases** across the 17 content pages, two themes
+and 1,280/390 CSS-pixel viewports. The web-font run confirms **136 font
+observations**. A private negative control blocks the font requests while
+retaining the assertions: it fails all 136 font observations as intended.
+Independent read-only review found no actionable issue in the two-file change.
+No product CSS or artwork changes were needed.
+
+A hidden browser also loaded the live Download page successfully. Its installer
+and release-notes links both identify `v0.1.37-preview.99`; the displayed size is
+235.6 MB, matching the published artifact when expressed in MiB. The inspected
+desktop page had no document overflow or console warnings/errors. The installer
+was not downloaded or launched during this check.
+
+This extends font and live-link evidence. It does not establish physical Windows
+text scaling, all interaction states, assistive-technology acceptance or a clean
+installation. The earlier contrast measurements still use fallback fonts.
