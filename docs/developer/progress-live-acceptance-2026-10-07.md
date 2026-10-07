@@ -154,3 +154,10 @@ excluded. Independent scoped review reported no actionable helper findings.
 The helper was atomically installed with a rollback copy at a freshly confirmed
 idle boundary and its hash verified. The missing-medal sweep was then resumed;
 selection, gameplay and medal outcome still require live confirmation.
+
+
+Live follow-up: the repaired helper verified the existing Psi layout hint, the
+picker completed, and Three Mines 'Round Deflation entered gameplay at its normal
+round-31 start. Psi's placement had cash confirmation; the replay continued through
+its planned tower placements and upgrades. No saved-medal clear is claimed here.
+The healthy replay stayed running while the installer was built.
