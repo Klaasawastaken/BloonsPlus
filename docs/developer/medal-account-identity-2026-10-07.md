@@ -51,3 +51,24 @@ independent review, then passed after explicit per-owner bucket initialization.
 All 71 approved JavaScript test files and 420 Python checks passed during this
 repair. No gameplay was launched for validation. Real account switching and
 broader clean-machine acceptance remain separate production gates.
+
+## Release and existing-VM acceptance
+
+Published as [v0.1.22-preview.99](https://github.com/Klaasawastaken/BloonsPlus/releases/tag/v0.1.22-preview.99).
+The installer passes 127 runtime source comparisons and all 1,721 inventory
+hashes, with matching embedded/staged version identities and both application
+icons. The pending Sunken Columns ABR draft is excluded.
+
+The normal update completed while the guest was idle. Its controller and
+inventory report the new version; six installed runtime hashes match source.
+A save-only medal refresh completed the migration. All prior positive medals
+and route-attempt records are present in the new account bucket, with old ledgers
+preserved. The private pre-migration snapshot passed semantic comparison; its
+PowerShell JSON parser had shortened timestamp fractions, so the audit compared
+those timestamps by their exact instants and all other values exactly. Copied
+attempts also match their retained original records exactly.
+
+The existing application task's privilege level/action are unchanged. No route
+or account-switch gameplay was launched. A new admission check still finds no
+usable installed missing-medal candidate outside the known Tree Stump exclusion;
+the locally modified ABR draft cannot supply installed eligibility.
