@@ -356,3 +356,13 @@ certification. Non-rendered content, off-page rectangles, partially transparent
 ancestors, screen-reader-only text and logo marks are outside this measurement.
 Physical assistive technology, standalone text scaling and other pages/states
 remain separate acceptance work.
+
+### Preview .36 publication
+
+Published as `v0.1.36-preview.99`: one 247,046,810-byte installer. The uploaded
+asset digest matches the checked local build. Verification covers 128 runtime
+source comparisons, 1,746 inventory hashes, four version identities, the exact
+appended payload and seven exact frames in each application icon. The packaged
+website stylesheet matches this repair; publication scans report zero findings.
+The unrelated pending route draft is excluded. This does not establish a clean
+Windows installation or complete production 1.0 acceptance.
