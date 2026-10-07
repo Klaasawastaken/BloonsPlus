@@ -400,3 +400,26 @@ been proposed for approval. The fixture above does not claim version accuracy.
 Final verification passes all **81 approved JavaScript suites**, with the
 unapproved ABR draft suite excluded. The source publication guard reports zero
 findings; all 55 local links across the revised task/audit documents resolve.
+
+## Viewer backend files and recovery — 7 October
+
+Seven isolated scenarios now exercise the actual `lib/live-screen.js` module
+with real temporary files and synthetic Node capture processes. They cover a
+fresh replay frame, the one-second response-cache boundary and ten-second lease
+renewal, eight simultaneous requests sharing one child, failed-child recovery,
+missing-runtime recovery, and stale/future-dated frame rejection. All seven pass,
+as do the existing freshness and frontend lifecycle checks. No game capture,
+VM request or gameplay input is performed. Synthetic bytes do not verify JPEG
+capture or Python process integration; earlier live relay evidence stays separate.
+
+A separate extracted-function check found a request-data defect in
+`publishViewerFrame`, called directly from the replay loop. A valid request
+publishes and an expired request skips. JSON `null` and an array each raise an
+uncaught `AttributeError`; a string expiry raises `TypeError`; a non-finite NaN
+expiry is accepted and publishes. The current handler catches file/JSON errors
+but does not validate the parsed shape or numeric expiry. These are isolated
+reproductions, not evidence that a recorded defeat had this cause.
+
+The bounded request-validation repair has been proposed for approval. No replay
+behavior was changed or deployed during this audit. Actual active-replay lease
+expiry and sustained live capture costs remain open acceptance work.
