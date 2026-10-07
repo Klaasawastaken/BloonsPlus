@@ -46,6 +46,12 @@ assert.equal(observe(sample(120, {rank:155, veteranRank:1, veteranXp:0})).xpPerH
 assert.equal(observe(sample(180, {rank:155, veteranRank:1, veteranXp:600})).xpPerHour, 36000,
   'A fresh veteran baseline can recover after entering the level cap');
 const format = vm.runInNewContext(source.match(/const formatRate = value => (.*);/)[0] + ';formatRate');
+observe = tracker();
+observe(sample(0, {file:'shared/Profile.Save',accountIdentity:'owner-a'}));
+assert.equal(observe(sample(60, {file:'shared/Profile.Save',accountIdentity:'owner-a',monkeyMoney:200})).monkeyMoneyPerHour,6000);
+const otherOwner=observe(sample(120, {file:'shared/Profile.Save',accountIdentity:'owner-b',monkeyMoney:9000,veteranXp:9000}));
+assert.equal(otherOwner.monkeyMoneyPerHour,null,'Same-path account changes must reset rates');
+assert.equal(otherOwner.xpPerHour,null);
 assert.equal(format(-6000), (-6000).toLocaleString(), 'Display signed net balance rates');
 assert.equal(format(-0.1), '0', 'Do not display negative zero');
 console.log('Profile rate freshness and signed balance checks passed.');

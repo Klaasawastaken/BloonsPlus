@@ -359,3 +359,14 @@ be replayed for validation.
 - Complete high-DPI, weak-hardware, scrolling and physical/live viewer acceptance.
 - Keep gameplay limited to missing medals; UI inspection never authorizes an owned
   medal replay or a validation-only game.
+
+
+## Approved profile-display repair — 7 October 2026
+
+The five previously observed failures were reproduced before editing: two disconnected ownership checks and three source-switch checks. The approved implementation now shares readable-save application between both pollers. It removes unscoped scanner medal and tower-XP claims before projecting authoritative save fields, so absent records cannot inherit another account's data on a later scan. Non-ownership artwork fields are preserved.
+
+A temporary disconnect preserves the last readable map ownership for run protection, while hero, knowledge and tier requirements redraw as unknown and numeric tower XP clears. Network/parse failures invalidate availability as well as explicit unavailable responses. A newer failed read also supersedes an older readable response. Same-path account changes reset rate baselines using the opaque account identity; no account values are built into the app.
+
+The shared matcher now recognizes Mortar **Shell Shock → Shockwave** and Skywarden **Storm Pulse → StormsPulse**, scoped to those towers. Browser matching and route readiness share the same catalog helper.
+
+Independent review found a late-scanner/disconnect sequence that could revive another account's tower XP. A deterministic regression failed before the repair and passes after clearing unscoped XP in the unavailable branch. Same-path rate mixing also failed its negative control before the identity change. All 26 final actual-renderer checks (17 populated/disconnected and nine source-switch checks) and all 78 approved JavaScript suites pass. Publication guard reports zero findings. These synthetic checks do not certify a real account switch, every save identifier, or all live rate semantics.

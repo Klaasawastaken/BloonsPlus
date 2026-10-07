@@ -9,7 +9,8 @@
   const groups = [
     [['ice', 'Ice Monkey'], { 'cold snap': 'Metal Freeze' }],
     [['boomerang', 'boomer', 'Boomerang Monkey'], { 'bionic boomerang': 'Bionc Boomerang' }],
-    [['mortar', 'Mortar Monkey'], { 'faster reload': 'Mortar Faster Reload', 'rapid reload': 'Mortar Rapid Reload' }],
+    [['mortar', 'Mortar Monkey'], { 'faster reload': 'Mortar Faster Reload', 'rapid reload': 'Mortar Rapid Reload', 'shell shock': 'Shockwave' }],
+    [['skywarden'], { 'storm pulse': 'StormsPulse' }],
     [['alchemist', 'alch'], { 'faster throwing': 'Alchemist Faster Throwing' }],
     [['sniper', 'Sniper Monkey'], { 'full auto riffle': 'Full Auto Rifle' }],
     [['spike', 'Spike Factory'], { 'smart spikes': 'Directed Spikes' }],

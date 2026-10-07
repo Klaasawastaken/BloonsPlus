@@ -23,7 +23,7 @@ function observeProfileRates(profile) {
   if (!Number.isFinite(at)) return;
   // Keep this identity only in memory. Switching saves (or correcting a guest
   // clock) must not compare balances from unrelated sampling windows.
-  const source = JSON.stringify([profile.source || '', profile.file || '']);
+  const source = JSON.stringify([profile.source || '', profile.sourceTransport || '', profile.file || '', profile.accountIdentity || '']);
   if (source !== profileRateSource || at < (profileRateSamples.at(-1)?.at ?? at)) {
     profileRateSamples = [];
     profileRates = { monkeyMoneyPerHour: null, xpPerHour: null };
@@ -818,14 +818,73 @@ function liveSyncLabel() {
   return { title: 'Waiting for game progress', detail: 'Check the game connection in Settings. Progress refreshes automatically from your save.' };
 }
 
+// Keep the last readable map ownership during a temporary disconnect. Never use
+// this cached profile to authorize current tower, hero or knowledge requirements.
+let lastReadableLocalProfile = null;
+function applySavedMapProgress(localSave) {
+  detectedProgress.maps ||= {};
+  // Scanner snapshots are not account-bound. When a readable save is available,
+  // absent records are unknown rather than inherited visual/previous-account wins.
+  for (const [key, value] of Object.entries(detectedProgress.maps)) {
+    const entry = { ...value };
+    for (const field of ['medals', 'blackBorder', 'localSaveRecord', 'localModes', 'localSaveSource', 'localSaveReadAt', 'completedModes', 'completedAt']) delete entry[field];
+    if (entry.status === 'completed') delete entry.status;
+    detectedProgress.maps[key] = entry;
+  }
+  detectedProgress.localMapProgress = localSave.mapProgress || {};
+  for (const [rawName, record] of Object.entries(localSave.mapProgress || {})) {
+    const key = rawName.toLowerCase().replace(/[^a-z0-9]+/g, '');
+    const modes = {};
+    for (const [difficulty, data] of Object.entries(record?.difficult || {})) {
+      for (const [mode, value] of Object.entries(data?.modes || {})) modes[`${difficulty}:${mode}`] = value;
+    }
+    const localMedals = medalsFromLocalRecord(record);
+    detectedProgress.maps[key] = { ...(detectedProgress.maps[key] || {}), medals: localMedals,
+      blackBorder: MEDAL_SLOTS.every(([mode]) => localMedals[mode] === true), localSaveRecord: record,
+      localModes: modes, localSaveSource: 'btd6-profile-save', localSaveReadAt: localSave.readAt };
+  }
+}
+function applyLocalSaveProgress(localSave) {
+  observeProfileRates(localSave);
+  lastReadableLocalProfile = localSave;
+  detectedProgress.localSave = { source: localSave.source, readAt: localSave.readAt };
+  detectedProgress.localProfile = localSave;
+  detectedProgress.player = { ...(detectedProgress.player || {}) };
+  delete detectedProgress.player.monkeyMoney;
+  if (Number.isFinite(localSave.monkeyMoney)) detectedProgress.player.monkeyMoney = localSave.monkeyMoney;
+  detectedProgress.heroes = localSave.heroes || {};
+  detectedProgress.towers ||= {};
+  for (const [name, value] of Object.entries(detectedProgress.towers)) {
+    const tower = { ...value };
+    for (const field of ['xp', 'xpSource', 'xpVerifiedAt']) delete tower[field];
+    detectedProgress.towers[name] = tower;
+  }
+  for (const [name, xp] of Object.entries(localSave.towerXp || {})) {
+    if ((typeof xp !== 'number' && typeof xp !== 'string') || !Number.isFinite(Number(xp))) continue;
+    const displayName = Object.values(TOWER_NAMES).find(label => label.toLowerCase().replace(/[^a-z0-9]/g, '') === name.toLowerCase().replace(/[^a-z0-9]/g, '')) || name;
+    detectedProgress.towers[displayName] = { ...(detectedProgress.towers[displayName] || {}), xp: Number(xp),
+      xpSource: 'btd6-profile-save', xpVerifiedAt: localSave.readAt };
+  }
+  applySavedMapProgress(localSave);
+  renderProfileUnlocks();
+}
 function markVmSaveUnavailable(payload = {}) {
+  if (lastReadableLocalProfile) applySavedMapProgress(lastReadableLocalProfile);
+  for (const [name, value] of Object.entries(detectedProgress.towers || {})) {
+    const tower = { ...value };
+    for (const field of ['xp', 'xpSource', 'xpVerifiedAt']) delete tower[field];
+    detectedProgress.towers[name] = tower;
+  }
+  detectedProgress.heroes = {};
   detectedProgress.localSave = { source: 'vm-unavailable', reason: payload.reason || 'VM profile save is unavailable.' };
   detectedProgress.localProfile = { available: false, source: 'vm-unavailable' };
   if (detectedProgress.player) {
     detectedProgress.player = { ...detectedProgress.player };
     delete detectedProgress.player.monkeyMoney;
   }
+  renderProfileUnlocks();
   render();
+  renderSpecificMapRequirements();
 }
 
 // Both progress pollers share a save read. Reapply the newest completed read
@@ -840,9 +899,15 @@ function readLocalSaveProgress() {
   if (pendingLocalSaveRead) return pendingLocalSaveRead;
   const sequence = ++localSaveReadSequence;
   pendingLocalSaveRead = (async () => {
-    const response = await fetch('/api/progress/local-save', { cache: 'no-store', signal: AbortSignal.timeout(10000) });
-    const profile = response.ok || response.status === 503 ? await response.json() : null;
-    const read = { sequence, ok: response.ok, status: response.status, profile };
+    let read;
+    try {
+      const response = await fetch('/api/progress/local-save', { cache: 'no-store', signal: AbortSignal.timeout(10000) });
+      const profile = response.ok || response.status === 503 ? await response.json() : null;
+      if (response.ok && (!profile || Array.isArray(profile) || typeof profile.available !== 'boolean')) throw new Error('Invalid profile response');
+      read = { sequence, ok: response.ok, status: response.status, profile };
+    } catch {
+      read = { sequence, ok: false, status: 503, profile: { available: false, source: 'vm-unavailable', reason: 'The VM profile reader could not be reached or returned unreadable data.' } };
+    }
     latestLocalSaveRead = read;
     return read;
   })().finally(() => { pendingLocalSaveRead = null; });
@@ -883,34 +948,9 @@ async function loadDetectedProgress() {
     if (saveRead.ok) {
       const localSave = saveRead.profile;
       if (localSave.available) {
-        observeProfileRates(localSave);
-        detectedProgress.localSave = { source: localSave.source, readAt: localSave.readAt };
-        detectedProgress.localProfile = localSave;
-        if (Number.isFinite(localSave.monkeyMoney)) detectedProgress.player = { ...(detectedProgress.player || {}), monkeyMoney: localSave.monkeyMoney };
-        detectedProgress.heroes = localSave.heroes || detectedProgress.heroes || {};
-        renderProfileUnlocks();
-        for (const [name, xp] of Object.entries(localSave.towerXp || {})) {
-          if (typeof xp !== 'number' && typeof xp !== 'string') continue;
-          const displayName = Object.values(TOWER_NAMES).find(label => label.toLowerCase().replace(/[^a-z0-9]/g, '') === name.toLowerCase().replace(/[^a-z0-9]/g, '')) || name;
-          const current = detectedProgress.towers[displayName] || {};
-          detectedProgress.towers[displayName] = { ...current, xp: Number(xp), xpSource: 'btd6-profile-save', xpVerifiedAt: localSave.readAt };
-        }
-        // Preserve the decoded map structure for the UI and future field-specific mapping.
-        detectedProgress.localMapProgress = localSave.mapProgress || {};
-        for (const [rawName, record] of Object.entries(localSave.mapProgress || {})) {
-          const key = rawName.toLowerCase().replace(/[^a-z0-9]+/g, '');
-          const existing = detectedProgress.maps[key] || {};
-          const modes = {};
-          for (const [difficulty, data] of Object.entries(record?.difficult || {})) {
-            for (const [mode, value] of Object.entries(data?.modes || {})) modes[`${difficulty}:${mode}`] = value;
-          }
-          const localMedals = medalsFromLocalRecord(record);
-          detectedProgress.maps[key] = { ...existing, medals: { ...(existing.medals || {}), ...localMedals },
-            blackBorder: MEDAL_SLOTS.every(([mode]) => localMedals[mode] === true), localSaveRecord: record, localModes: modes,
-            localSaveSource: 'btd6-profile-save', localSaveReadAt: localSave.readAt };
-        }
+        applyLocalSaveProgress(localSave);
       } else markVmSaveUnavailable(localSave);
-    } else if (saveRead.status === 503) {
+    } else {
       markVmSaveUnavailable(saveRead.profile || {});
     }
     applySteamAchievements();
@@ -924,37 +964,12 @@ async function refreshLocalSaveProgress() {
   try {
     const response = currentLocalSaveRead(await readLocalSaveProgress());
     if (!response.ok) {
-      if (response.status === 503) markVmSaveUnavailable(response.profile || {});
+      markVmSaveUnavailable(response.profile || {});
       return;
     }
     const localSave = response.profile;
     if (!localSave.available) { markVmSaveUnavailable(localSave); return; }
-    observeProfileRates(localSave);
-    detectedProgress.localSave = { source: localSave.source, readAt: localSave.readAt };
-    detectedProgress.localProfile = localSave;
-    if (Number.isFinite(localSave.monkeyMoney)) detectedProgress.player = { ...(detectedProgress.player || {}), monkeyMoney: localSave.monkeyMoney };
-    detectedProgress.heroes = localSave.heroes || detectedProgress.heroes || {};
-    renderProfileUnlocks();
-    detectedProgress.towers ||= {};
-    for (const [name, xp] of Object.entries(localSave.towerXp || {})) {
-      if (typeof xp !== 'number' && typeof xp !== 'string') continue;
-      const displayName = Object.values(TOWER_NAMES).find(label => label.toLowerCase().replace(/[^a-z0-9]/g, '') === name.toLowerCase().replace(/[^a-z0-9]/g, '')) || name;
-      detectedProgress.towers[displayName] = { ...(detectedProgress.towers[displayName] || {}), xp: Number(xp),
-        xpSource: 'btd6-profile-save', xpVerifiedAt: localSave.readAt };
-    }
-    detectedProgress.localMapProgress = localSave.mapProgress || {};
-    for (const [rawName, record] of Object.entries(localSave.mapProgress || {})) {
-      const key = rawName.toLowerCase().replace(/[^a-z0-9]+/g, '');
-      const modes = {};
-      for (const [difficulty, data] of Object.entries(record?.difficult || {})) {
-        for (const [mode, value] of Object.entries(data?.modes || {})) modes[`${difficulty}:${mode}`] = value;
-      }
-      const existing = detectedProgress.maps[key] || {};
-      const localMedals = medalsFromLocalRecord(record);
-      detectedProgress.maps[key] = { ...existing, medals: { ...(existing.medals || {}), ...localMedals },
-        blackBorder: MEDAL_SLOTS.every(([mode]) => localMedals[mode] === true), localSaveRecord: record,
-        localModes: modes, localSaveSource: 'btd6-profile-save', localSaveReadAt: localSave.readAt };
-    }
+    applyLocalSaveProgress(localSave);
     render();
     renderSpecificMapRequirements();
   } catch { /* local save is optional while Steam/VM is unavailable */ }
@@ -1428,7 +1443,12 @@ function renderProfileUnlocks() {
   const status = document.querySelector('#profile-unlock-status');
   if (!status) return;
   const profile = detectedProgress.localProfile;
-  if (!profile?.available) { status.textContent = 'Waiting for read-only Profile.Save data.'; return; }
+  if (!profile?.available) {
+    status.textContent = 'Waiting for read-only Profile.Save data.';
+    const knowledgeStatus = document.querySelector('#profile-monkey-knowledge');
+    if (knowledgeStatus) { knowledgeStatus.textContent = 'Waiting for knowledge data'; knowledgeStatus.removeAttribute('title'); }
+    return;
+  }
   const heroes = profile.heroes?.unlocked || [];
   const knowledge = profile.monkeyKnowledge;
   const knowledgeSummary = BloonsKnowledge.summarize(knowledge);
@@ -1475,7 +1495,7 @@ function renderTowerRequirements() {
   const ownedUpgrades = unlockedUpgradeSet();
   const cards = [];
   if (needs.hero) {
-    const unlockedHeroes = detectedProgress.heroes?.unlocked;
+    const unlockedHeroes = detectedProgress.localProfile?.available === true ? detectedProgress.localProfile.heroes?.unlocked : null;
     const enabled = Array.isArray(unlockedHeroes) && unlockedHeroes.some(hero => mapProgressKey(hero) === mapProgressKey(needs.hero));
     const row = document.createElement('div'); row.className = 'tower-requirement-card';
     const title = document.createElement('div'); title.className = 'tower-requirement-title';
@@ -1483,7 +1503,7 @@ function renderTowerRequirements() {
     const note = document.createElement('small'); note.textContent = enabled ? 'Unlocked in game save' : Array.isArray(unlockedHeroes) ? 'Not unlocked in game save' : 'Waiting for hero data';
     title.append(name, note);
     const pills = document.createElement('div'); pills.className = 'tier-pills';
-    const pill = document.createElement('span'); pill.className = `tier-pill ${enabled ? 'valid' : 'invalid'}`; pill.textContent = enabled ? '✓ Hero' : '× Hero';
+    const pill = document.createElement('span'); pill.className = `tier-pill ${enabled ? 'valid' : Array.isArray(unlockedHeroes) ? 'invalid' : 'unknown'}`; pill.textContent = enabled ? '✓ Hero' : Array.isArray(unlockedHeroes) ? '× Hero' : '? Hero';
     pills.append(pill); row.append(title, pills); cards.push(row);
   }
   for (const id of needs.knowledge || []) {
