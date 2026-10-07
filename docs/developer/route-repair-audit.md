@@ -916,3 +916,71 @@ medal as owned. The sweep then automatically entered Three Mines 'Round Primary
 Only, with four victories and zero defeats in the current job. No manual input,
 deployment or restart was needed. Skulltweak Reverse must remain skipped for
 this account.
+
+## Three Mines 'Round Primary Only — 7 October 2026
+
+The guest reported `VICTORY_CONFIRMED` at round 40 and `clear confirmed`.
+An independent VM profile request decoded the Primary Only medal as owned using
+the production decoder. All 49 planned route steps finished before victory.
+The current sweep counted five victories and zero defeats; this medal must stay
+excluded from future runs for this account.
+
+The next Deflation attempt ended before gameplay because the live hero search
+could not recognize Psi. It saved fresh structured hero-picker evidence, kept
+the route retryable and moved to other missing medals. The sweep subsequently
+started Spa Pits Military Monkeys Only and advanced through round 13. This is a
+navigation failure, not a gameplay defeat; no manual input or restart was used.
+
+A read-only captured Ezili frame separately reproduced a title-color gap: the
+production OCR returned unrelated title candidates while a private narrow
+magenta-mask probe returned `EZILS`, which satisfies the existing name matcher.
+The current cyan/warm/violet masks exclude the observed low-green magenta fill.
+The proposed bounded mask repair awaits approval. Psi still needs its own frame
+evidence; this Ezili result is not proof of the cause of every hero lookup failure.
+
+## Exact command comparison of pinned BTD6bot imports — 7 October 2026
+
+The follow-up audit compared each currently convertible source with its existing
+recording using the production command-signature function. Comments, whitespace
+and arbitrary tower identifiers were normalized; action order, waits, targets,
+coordinates and round controls were retained. Of 177 source-convertible files,
+132 have matching command signatures and 45 differ. This proves only that those
+132 command bodies agree with the current converter; it does not establish
+converter correctness, live timing, balance compatibility or victory.
+
+Read-only production host-catalog admission excluded 36 of the 45 differing
+files and admitted nine. Account prerequisites and guest-local verification were
+not part of this catalog probe. The differences need these separate treatments:
+
+| Map / source mode | Recorded difference | Exact-source alternative currently admitted |
+| --- | --- | --- |
+| Castle Revenge / CHIMPS | Two one-second waits missing | Timing-preserved candidate |
+| Dark Castle / Deflation | Manual source clock, Auto Start and Play context missing | Manual-preserved candidate |
+| Enchanted Glade / CHIMPS | Eleven-second wait missing | Timing-preserved candidate |
+| Encrypted / CHIMPS | Two quarter-second waits missing | Timing-preserved candidate |
+| Mushroom Grotto / CHIMPS | Manual source clock and Play context missing | Manual-preserved candidate |
+| #Ouch / ABR | Two move-only cursor targets missing | Cursor-preserved candidate |
+| Pat's Pond / CHIMPS | One-second wait missing | Timing-preserved candidate |
+| Sulfur Springs / CHIMPS | Placement coordinates differ | None with the exact current source signature; investigate intended adaptation |
+| Tricky Tracks / CHIMPS | Manual source clock and Play context missing | Manual-preserved candidate |
+
+In the host catalog, the older differing import sorts before its exact-source
+alternative for Castle Revenge, Mushroom Grotto, #Ouch and Tricky Tracks. Other
+maps can prioritize a native recording instead. Existing alternatives therefore
+do not by themselves prove the incomplete legacy copy will never be attempted.
+
+No recording, catalog guard, verification ledger or retry budget was changed by
+this audit. Original CHIMPS recordings remain intact. The next bounded admission
+repair should distinguish the eight evidenced command omissions from Sulfur
+Springs' coordinate adaptation and retain established target-win evidence.
+
+A private catalog probe substituted proposed guard metadata without writing the
+real guard. Its first negative check exposed a second Dark Castle Deflation
+alias after the older duplicate was excluded. Guarding nine exact legacy
+file/hash pairs then excluded all eight omission groups while preserving Sulfur
+Springs' coordinate adaptation. Coverage changed from 535 to 532 map/mode pairs:
+Mushroom Grotto Easy, Medium and Hard lost their old incomplete fallback; the
+manual source clock correctly prevents the round-six candidate from being reused
+unchanged at those opening rounds. These three missing medals need dedicated
+replacements. The bounded admission repair remains pending approval, and current
+runtime admission is unchanged.

@@ -27,6 +27,46 @@ three victories and zero defeats during this observation.
 No failure history, route, retry budget, save or gameplay state was changed by
 this audit. Missing context remains an open production gate.
 
+## Complete retained archive follow-up
+
+A later read-only SSH query retrieved the existing 666-record guest archive into
+ignored private diagnostics. This bypassed the HTTP response's 150-record limit
+without running setup, changing credentials or touching game/save files.
+
+An authoritative VM-save snapshot, decoded with the production medal decoder,
+classified 440 historical records as targeting medals now owned, 224 as targeting
+missing medals and two as having unknown ownership. Owned medals remain excluded;
+unknown ownership is not permission to replay.
+
+Only 65 archive records store a route hash and engine version. Of the 224
+missing-target records, 176 have no recorded route hash, 47 match the current
+recording bytes and one has different current bytes. The 47 matches cover 17
+distinct map/mode/recording combinations. The changed file is the unpublished
+Sunken Columns ABR draft; it remains untouched and excluded from publication and
+packaging. These are historical attempts, not 47 current unresolved bugs.
+
+The stored engine-version string remained unchanged across later hotfixes.
+Therefore a matching route hash and engine label do not prove the old failure ran
+the current input/HUD implementation. Older records need their actual logs and
+freshness context before a repair or retry decision.
+
+Two concrete findings survived this comparison:
+
+- Rake ABR lost at a fresh round 30 while waiting for the second middle-path
+  Village upgrade, with 1,920 cash against a 2,160 requirement. Lives fell from
+  27 to four before the observed defeat. Its ABR recording is byte-for-byte
+  identical to the flagged Hard recording. This establishes a failed adaptation
+  and missing early coverage, not a failed upgrade click. The previously proposed
+  flagged-Hard admission repair remains pending.
+- Repeated Dark Castle and Sanctuary navigation failures ended during hero
+  lookup or Select confirmation, before tower actions. They must not be treated
+  as evidence that the combat strategy lost. Older examples have no retained
+  screenshot reference, so a visual root cause cannot be reconstructed from the
+  title text alone.
+
+Raw archives, profile values, screenshot payloads and machine paths remain
+private. No attempts were reset and no owned medal was relaunched.
+
 ## Export redaction
 
 Synthetic probes reproduced a gap in the app's shared-log redactor: quoted JSON
