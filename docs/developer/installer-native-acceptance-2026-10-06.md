@@ -319,3 +319,40 @@ This exercises the real observer and recovery reader at a deterministic boundary
 not a physical power interruption or a timed kill inside `OwnedProcess.Start`.
 The final full Python suite passes 410 checks, including all 49 installer checks;
 both private negative controls also fail for their expected behavior assertions.
+
+### Boot identity in the prelaunch fixture
+
+A later complete suite outside the restricted execution sandbox reproduced a
+fixture defect: its receipt used `fixture-boot`, while the actual install lock
+could read Windows' real boot identity. The deliberate mismatch correctly took
+the installer's reboot-recovery branch and invalidated the fixture's expectation
+that a second installer remain blocked. It was not a new installer ownership
+failure.
+
+The fixture now uses the production boot identity for both its receipt and
+observer. The isolated check failed before this correction and passed afterward.
+Both private negative controls still fail for their intended premature-empty and
+missing-owner-exit assertions. Production ownership and reboot behavior were not
+changed. This correction does not prove physical reboot acceptance.
+
+### Transfer-manifest packaging boundary
+
+The staged installer contained an untracked `.scp-list.txt` deployment manifest.
+Inspection found a list of filenames, with no absolute paths or the checked
+private-runtime filenames; no credential exposure was established. The manifest
+has no role in an installed app.
+
+The approved packaging cleanup now excludes it at the root and inside copied
+directories. Private filename comparisons are case-insensitive, matching Windows
+behavior. An independent publication guard rejects the manifest even if an
+archive is assembled through another path. Synthetic regressions first reproduced
+both the staging and guard gaps, then passed. They also retain the public license
+and third-party notice paths. Independent review found no actionable issue in
+this bounded packaging change.
+
+The rebuilt `0.1.17-preview.99` artifact contains no transfer manifest. Its 127
+runtime source comparisons, all 1,714 inventory hashes, four package identities,
+native embedded inventory, both seven-frame executable icons and exact appended
+ZIP payload pass inspection. License notices remain intact and the separately
+pending route draft is excluded. This verifies the artifact, not a clean Windows
+installation or resolution of the outstanding gameplay failures.

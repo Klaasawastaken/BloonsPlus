@@ -64,7 +64,9 @@ internal static class ObserverPrelaunchChecks {
             Check(job!=IntPtr.Zero,"Fixture job creation failed");
             try {
                 InstallSession.AtomicWrite(receiptFile,serializer.Serialize(new OwnedProcess.Receipt {
-                    Executable=Self,Kind="python_dependency",JobName=name,BootIdentity="fixture-boot"
+                    // The real lock reads the real boot identity. A made-up
+                    // value would simulate a reboot whenever WMI is available.
+                    Executable=Self,Kind="python_dependency",JobName=name,BootIdentity=OwnedProcess.CurrentBootIdentity
                 }));
                 using(var observer=InstallerProcessObserver.Start(root,name)) {
                     InstallSession.AtomicWrite(readyFile,name);
@@ -84,7 +86,7 @@ internal static class ObserverPrelaunchChecks {
                 Check(File.Exists(readyFile),"Observer readiness missing");
                 string name=File.ReadAllText(readyFile);
                 observedJob=name;
-                using(var observation=new OwnedProcess(root,()=>"fixture-boot")) {
+                using(var observation=new OwnedProcess(root)) {
                     // An empty job is insufficient while the owner can still
                     // launch its dependency. Check across observer poll ticks.
                     var beforeWait=Stopwatch.StartNew();

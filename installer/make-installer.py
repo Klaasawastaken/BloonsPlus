@@ -44,6 +44,9 @@ PYTHON_HOME = Path(next((line.split("=", 1)[1].strip() for line in PYVENV_CONFIG
 SKIP_DIRS = {".git", ".superpowers", ".bloons-setup", "setup-handoff", "setup-sessions", "__pycache__", ".cache", ".pytest_cache", ".mypy_cache", ".claude", ".codex", ".agents", "btd6autoplay", "btd6bot", "failure-shots", "public-sources", "obsolete-conversions", "unsupported-conversions", "copied-drafts", "copied-btd6bot-aliases", "broken-guide-routes", "tools", "private", "tests"}
 PERSONAL_FILES = {"game-observations.json", "automation-progress.json", "game-state.json", "last-hero.json", "upgrade-memory.json", "route-checkpoint.json", "Profile.Save", "playthrough_stats.json", "experimental-ai-data.json", "route-failures.json", "route-verification.json", "route-strengthen-queue.json", "pending-automation.json", "live-frame.jpg", "live-frame.jpg.tmp", "viewer-request.json", "host.json", "pause.flag", "exit_after_game.flag"}
 SKIP_SUFFIXES = {".pyc", ".pyo", ".log", ".tmp"}
+# Deployment manifests are workspace artifacts. Match private names without case
+# sensitivity, as the Windows source and installation filesystems do.
+PERSONAL_FILES = {name.lower() for name in PERSONAL_FILES} | {".scp-list.txt"}
 # Base-Python parts never used at runtime: Tk GUI, IDLE, turtle demos, C headers/import libraries (every
 # pinned pip package ships a wheel), the base's own pip launchers (the private venv has its own) and the
 # CPython self-test modules. ensurepip and venv stay: setup creates the private venv from them.
@@ -69,7 +72,7 @@ def copy_tree(source: Path, target: Path, *, exclude_names: set[str] | None = No
         out_dir.mkdir(parents=True, exist_ok=True)
         for name in files:
             src = Path(current) / name
-            if name in PERSONAL_FILES or name.startswith((".env", "debug-", "id_appsandbox")) or src.suffix.lower() in SKIP_SUFFIXES | {".key", ".pem", ".save", ".pfx", ".p12"} or (relative / name) in excluded_paths:
+            if name.lower() in PERSONAL_FILES or name.startswith((".env", "debug-", "id_appsandbox")) or src.suffix.lower() in SKIP_SUFFIXES | {".key", ".pem", ".save", ".pfx", ".p12"} or (relative / name) in excluded_paths:
                 continue
             shutil.copy2(src, out_dir / name)
 
@@ -176,7 +179,7 @@ def stage_app(*, release_version: str | None = None) -> None:
             shutil.copy2(item, STAGE / item.name)
 
     for item in ROOT.iterdir():
-        if item.name in PERSONAL_FILES:
+        if item.name.lower() in PERSONAL_FILES:
             continue
         if item.name in {".venv", "node_modules", ".git", "dist", "__pycache__", "installer", "make-installer.ps1", "install-bloons-plus.ps1", "install-bloons-plus.cmd", "TODO.md"}:
             continue

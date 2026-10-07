@@ -8,6 +8,7 @@ The [production acceptance matrix](production-1.0-gates.md) separates implemente
 
 - **Current priority:** the installer and first-launch redesign, app polish, folders and the website alongside missing-medal gameplay.
 - **Release target:** milestone 100 is the full **v1.0.0** release. Use Previews 97–99 for preparation and complete production acceptance before publishing 1.0. Future notes use only **Additions**, **Changes**, and **Removed**; see the [release policy](release-policy.md) and [template](../releases/TEMPLATE.md).
+- **After 1.0 — v1.2:** add Quests, Races, Boss Rush and Boss Events automation, plus a dedicated Quests tab marked **Coming soon** until usable. Finish the required 1.0 work first; these are planned capabilities, not current features.
 - **Sweep:** Three Mines 'Round Military Monkeys Only and X Factor ABR are confirmed by victory plus independently decoded saved medals. The approved hero-picker repair now reads Obyn's Selected state correctly and recovers magenta titles. A resumed pass reached Three Mines Deflation, but Psi's title remains unreadable; its targeted visual investigation is ongoing. No owned medals were replayed, no failure history was reset and no new clear is claimed. The five-minute monitor remains active; the separate observations-file repair awaits approval.
 
 - **Recent clears:** Bloonarius Prime ABR, Impoppable and CHIMPS; Balance Hard; Rake Hard and Reverse; Quarry Magic Monkeys Only; Chutes Medium and Hard; Quiet Street, Downstream, Streambed and Encrypted Magic Monkeys Only; Spring Spring Hard; Cubism Half Cash; Skulltweak Military Monkeys Only and Reverse; Three Mines 'Round Primary Only and Military Monkeys Only; Spa Pits Military Monkeys Only; Frozen Over Magic Monkeys Only, Double HP MOABs and Half Cash; In the Loop Military Monkeys Only; X Factor ABR. Each has victory plus saved-medal evidence.
@@ -275,8 +276,25 @@ Requested **6 October**. Work alongside background missing-medal gameplay after 
 Start after core reliability. These are future work, not completed features.
 
 - [ ] **E-01 — Develop experimental assistance.** Use redacted observations and route evidence before live strategy or placement decisions.
-- [ ] **E-02 — Add executable boss routes.** Handle modifiers, restrictions, game versions and outcome checks first.
+- [ ] **E-02 — Add executable boss routes (v1.2).** Handle modifiers, restrictions, game versions and outcome checks first. This now belongs to the post-1.0 event roadmap below.
 - [ ] **E-03 — Finalize Pro.** Decide features, pricing and entitlements before launch. Proposed additions are not shipped; checkout does not exist yet.
+
+### v1.2 — Quests and events, after required 1.0 work
+
+Requested **7 October 2026**. Complete the necessary 1.0 implementation and
+acceptance work before starting this batch. Keep unavailable features clearly
+marked **Coming soon**; a tab or generated route alone does not establish support.
+
+- [ ] **V12-01 — Add the Quests tab.** Provide a dedicated app navigation entry and a polished **Coming soon** page before quest automation becomes available.
+- [ ] **V12-02 — Beat Quests.** Identify the selected quest and its requirements, execute a suitable strategy, and confirm completion and recorded progress.
+- [ ] **V12-03 — Beat Races.** Support race-specific round controls, event rules and executable strategies, with a confirmed finish and recorded result.
+- [ ] **V12-04 — Beat Boss Rush.** Detect its current stages and rules, execute stage-appropriate strategies and record the actual outcome/progress.
+- [ ] **V12-05 / E-02 — Beat Boss Events.** Detect the active boss, map, restrictions, modifiers and game version; provide executable Normal and Elite strategies with verified outcomes.
+
+Retain persistent failure evidence and version-specific strategy requirements.
+Do not present these modes as working until their respective completion checks
+are supported. The existing missing-medal sweep rules continue to apply to
+ordinary map/mode gameplay.
 
 ## Completed milestones
 

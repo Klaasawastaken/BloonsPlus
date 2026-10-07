@@ -1,3 +1,20 @@
+## Preview 99 package cleanup — 7 October 2026
+
+### Additions
+
+- Add the v1.2 roadmap for Quests, Races, Boss Rush and Boss Events after the required 1.0 work, including a future Quests Coming soon tab.
+- Add staging and publication checks for local transfer manifests.
+
+### Changes
+
+- Match private installer filenames regardless of letter case.
+- Use the real boot identity consistently in the isolated prelaunch interruption fixture; production ownership behavior is unchanged.
+- Record the remaining pinned-source command and upgrade-semantic gaps without modifying original recordings.
+
+### Removed
+
+- Exclude the unnecessary local file-transfer manifest from newly built installers.
+
 ## Preview 99 Monkey Knowledge activation hotfix — 7 October 2026
 
 ### Additions

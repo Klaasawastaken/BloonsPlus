@@ -43,6 +43,11 @@ native/staged identities and both verified application icons.
 
 Experimental assistance, boss automation and Pro entitlements remain explicitly unfinished. Their drafts must not be presented as shipped capability or used to conceal missing core acceptance. The private community bot stays outside public packages.
 
+On 7 October the user scheduled Quests, Races, Boss Rush and Boss Events for
+**v1.2, after the required 1.0 work**. This includes a dedicated Quests tab initially
+marked **Coming soon**. Their individual tasks and outcome requirements are in
+the active TODO's v1.2 section; they are not prerequisites for releasing 1.0.
+
 ## Release decision
 
 Keep publishing bounded Preview 99 repairs while production gates remain open. Do not rename an incomplete build to 1.0, erase unresolved failures or manufacture validation evidence. Once all supported account medals are earned, stop gameplay entirely and complete remaining offline or installer/UI acceptance separately.

@@ -14,7 +14,7 @@ spec.loader.exec_module(builder)
 
 
 class InstallerAtomicOutputTests(unittest.TestCase):
-    def staged_release(self, version=None):
+    def staged_release(self, version=None, transfer_manifests=False):
         with tempfile.TemporaryDirectory() as folder:
             base = Path(folder)
             root, stage = base / 'source', base / 'stage'
@@ -40,6 +40,11 @@ class InstallerAtomicOutputTests(unittest.TestCase):
                 file.write_text('fixture runtime')
             (root / 'autobtd6').mkdir(exist_ok=True)
             (root / 'autobtd6/userconfig.example.json').write_text('{}')
+            if transfer_manifests:
+                for relative in ('.SCP-LIST.TXT', 'assets/.scp-list.txt', 'ROUTE-FAILURES.JSON'):
+                    item = root / relative
+                    item.parent.mkdir(parents=True, exist_ok=True)
+                    item.write_text('synthetic local transfer metadata')
             with patch.multiple(builder, ROOT=root, STAGE=stage, ELECTRON=electron, PYTHON_HOME=python), \
                  patch.object(builder.runpy, 'run_path', return_value={'generate': lambda: None}), \
                  patch.object(builder.subprocess, 'run'), \
@@ -51,6 +56,11 @@ class InstallerAtomicOutputTests(unittest.TestCase):
                 builder.write_inventory(stage)
             staged = json.loads((stage / 'resources/app/package.json').read_text())
             inventory = json.loads((stage / 'bloons-package.json').read_text())
+            if transfer_manifests:
+                for relative in ('.SCP-LIST.TXT', 'assets/.scp-list.txt', 'ROUTE-FAILURES.JSON'):
+                    self.assertFalse((stage / 'resources/app' / relative).exists(), relative)
+                    self.assertFalse(any(entry['path'].lower() == ('resources/app/' + relative).lower()
+                                         for entry in inventory['files']), relative)
             self.assertEqual((root / 'package.json').read_bytes(), original, 'Build changed source version')
             self.assertEqual((root / 'package-lock.json').read_bytes(), original_lock, 'Build changed source lock')
             staged_lock = json.loads((stage / 'resources/app/package-lock.json').read_text())
@@ -63,6 +73,9 @@ class InstallerAtomicOutputTests(unittest.TestCase):
             entry = next(item for item in inventory['files'] if item['path'] == 'resources/app/package.json')
             self.assertEqual(entry['sha256'], hashlib.sha256((stage / entry['path']).read_bytes()).hexdigest())
             return staged, inventory
+
+    def test_local_transfer_manifests_never_enter_staged_app_or_inventory(self):
+        self.staged_release('v0.1.16-preview.99', transfer_manifests=True)
 
     def test_explicit_release_matches_packaged_app_and_native_inventory(self):
         for tag, expected in [('v0.1.4-preview.99', '0.1.4-preview.99'), ('v1.0.0', '1.0.0'),
