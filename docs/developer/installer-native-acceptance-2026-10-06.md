@@ -337,6 +337,56 @@ of why Windows rejects it. No host hive, firmware setting or boot store was
 changed, and no third full-image retry was launched. Clean provisioning remains
 an open production gate requiring an independently isolated, evidenced repair.
 
+### Offline boot-template investigation — 7 October
+
+A private diagnostic compiled the existing `bcd_patch` implementation from the
+locally installed App Sandbox macOS source, with only the Windows spelling of
+`strcasecmp` adapted. It processed a read-only copy of the guest's generic
+Windows BCD template: 28,672 input bytes became a 36,864-byte output file. Neither
+file was installed as an active boot store. No host boot settings, firmware,
+partition contents, game files or save files were changed.
+
+An independent structural walk found valid base-block checksums, matching
+sequence numbers, matching bin lengths and bounded cell sizes in both files.
+The generated store contains eight bins and 551 cells. These are structural
+observations, not proof that the guest can boot.
+
+The unprivileged host's BCDEdit could not open either private file; its private
+application-hive API also returned the same error for both the original and the
+generated file. These results cannot distinguish a generator defect from the
+validation environment. Read-only guest BCDEdit enumeration of the explicitly
+named temporary files succeeded. A second generated file using observed guest
+partition identifiers resolved its loader device and OS device to the intended
+Windows partition and exposed `winload.efi` when queried by exact object ID.
+No partition identifiers or temporary files are included in public packages.
+
+The loader is labelled **OS Target Template** and omitted from ordinary all-object
+enumeration, although the exact-object read succeeds. The initial hypothesis
+that the object was absent was therefore rejected. Template-object identity,
+loader cloning, x64 semantics, malformed-input handling and actual boot remain
+unproven. The macOS builder is not being shipped as a Windows fallback.
+
+The user approved an isolated prototype using Windows' own tools on a copied
+per-image boot template, followed by a separate empty test VM. Every BCDEdit
+operation must use an explicit private store path; the host boot configuration
+and existing gameplay VM configuration remain outside this experiment.
+
+The first copied-file experiment exposed a narrower prerequisite: cloning the
+OS target template fails with “existing display order / Element not found” when
+the source template has no display order. Initializing that order first allowed
+all 11 configure/read-back operations to succeed: clone the loader, set its
+device and OS device, set its loader path and system root, configure the copied
+boot manager, select the default/order/timeout, then enumerate the store. The
+input template's SHA-256 stayed unchanged. These operations affected only a
+private disposable file, never an active boot store.
+
+Host-side configuration and an actual boot are still required. A host probe is
+prepared with an input hash check, refusal to overwrite an existing output,
+explicit `/store` on every command and a private result receipt. This is not yet
+a production fallback or a successful clean-install claim. The host probe did
+not start: Windows returned “The operation was canceled by the user” at the
+administrator-consent step. No third VM build was launched.
+
 ## Retained dependency observer — 7 October
 
 The approved native ownership/recovery contract now uses a hidden transient mode

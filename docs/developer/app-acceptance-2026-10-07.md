@@ -370,3 +370,33 @@ A temporary disconnect preserves the last readable map ownership for run protect
 The shared matcher now recognizes Mortar **Shell Shock → Shockwave** and Skywarden **Storm Pulse → StormsPulse**, scoped to those towers. Browser matching and route readiness share the same catalog helper.
 
 Independent review found a late-scanner/disconnect sequence that could revive another account's tower XP. A deterministic regression failed before the repair and passes after clearing unscoped XP in the unavailable branch. Same-path rate mixing also failed its negative control before the identity change. All 26 final actual-renderer checks (17 populated/disconnected and nine source-switch checks) and all 78 approved JavaScript suites pass. Publication guard reports zero findings. These synthetic checks do not certify a real account switch, every save identifier, or all live rate semantics.
+
+## Issue-report keyboard and privacy acceptance — 7 October
+
+The actual app renderer passes **80 observations** across Run Logs and Settings,
+light/dark themes and 1,440 × 900 / 550 × 700 windows. Complete Chromium keyboard
+events open the report, traverse its controls, close it with Escape or its Close
+button, restore the launching control and preserve the current section. The
+dialog stays within the window with no horizontal overflow. Accessibility-tree
+reads expose its dialog title, description field, Close button and GitHub link.
+
+Synthetic log and description values are absent from both the preview and the
+constructed issue URL, while round/map context remains. No issue is submitted,
+external page opened, real profile read or VM command issued by this fixture.
+A plain native-dialog control independently reproduces Chromium's neutral BODY
+focus boundary in hidden windows; underlying app controls must still reject
+focus while the modal is open. This is Chromium keyboard/accessibility-tree
+evidence, not physical keyboard or screen-reader certification.
+
+An intentionally non-modal copy fails all eight modal-state and all eight
+background-focus checks. Independent read-only review found no actionable
+fixture issues. No production app behavior changed for this acceptance work.
+
+The audit separately found a real report-context defect: the checked .37 payload
+has package version `0.1.37-preview.99`, but its report body still hardcodes
+`0.1.0`. A bounded repair using the existing local controller identity API has
+been proposed for approval. The fixture above does not claim version accuracy.
+
+Final verification passes all **81 approved JavaScript suites**, with the
+unapproved ABR draft suite excluded. The source publication guard reports zero
+findings; all 55 local links across the revised task/audit documents resolve.
