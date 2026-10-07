@@ -277,3 +277,37 @@ That unrelated size assertion was removed. The test now requires a visible,
 nonzero outline and the stated contrast, and makes no physical focus-area or
 DPI-compliance claim. Gradient/image backgrounds, other accent-text states and
 physical assistive technology still require their separate acceptance evidence.
+
+
+## Expanded heading spacing — 7 October 2026
+
+A text-spacing stress check reproduced Contributors horizontal overflow at a
+390-pixel CSS viewport in both themes. With line height 1.5, letter spacing
+0.12em, word spacing 0.16em and paragraph-bottom spacing 2em, the heading's
+minimum-content width pushed Benjamin's right edge to 394.61 pixels. The
+shared Contributors/Subscriptions heading rule now allows long words to wrap
+with `overflow-wrap: anywhere`; image dimensions and proportions are unchanged.
+
+The permanent isolated renderer checks both pages at 1,280 and 390 pixels, both
+themes, and normal/expanded spacing: **16 cases**. The corrected baseline failed
+only the two expanded-spacing Contributors phone cases; all 16 pass after the
+CSS change. Checks assert actual theme/viewport, applied spacing, document
+horizontal reflow, heading horizontal bounds, loaded art and natural proportions.
+Independent review repeated the focused check and found no actionable defect.
+All **75** approved JavaScript test files pass.
+
+An initial assertion incorrectly treated glyph ascent beyond the normal line
+box as vertical clipping; it was removed before accepting the failing baseline.
+The test makes no comprehensive vertical-clipping or accessibility-conformance
+claim. The broader exploratory spacing audit did not complete and is not counted
+as acceptance. Physical screen readers, standalone text scaling and gradient
+contrast remain open gates. No guest update or gameplay input was needed.
+
+
+### Packaged repair
+
+The `v0.1.30-preview.99` artifact has 247,030,250 bytes. Verification confirms
+four matching version identities, 127 runtime source comparisons, 1,737 inventory
+hashes, the exact appended payload and seven exact frames in both application
+icons. Publication scans report zero findings; the pending route draft is
+excluded. This is artifact verification, not a clean-machine installation claim.
