@@ -77,3 +77,26 @@ verification receipts as saved-medal evidence, prove every route's strategy,
 or complete restart/disconnect synchronization acceptance. The stopped sweep's
 fresh Obyn/Psi picker failures are separate blockers; restarting without their
 repair repeats navigation failures rather than earning medals.
+
+## Live viewer backend
+
+Four actual requests on 7 October at 02:36 UTC exercised the host's screen relay
+and the guest's screen endpoint while the game was idle. Every response had
+HTTP 200, `image/jpeg`, `Cache-Control: no-store` and a successfully decoded
+960×540 frame of approximately 98 KB. Within each host/guest request pair, the
+response bytes matched exactly. After a two-second interval, the second pair
+contained different bytes, demonstrating a refreshed capture rather than a
+permanently stale frame.
+
+The two fresh host captures took 391 and 360 ms; their immediate guest cache
+reads took 15 and 31 ms. These are individual observations, not throughput or
+tail-latency estimates. The calls used the existing viewer endpoint and renewed
+its application-owned request lease. No image was saved, no game/save file was
+edited and no gameplay input was sent.
+
+This establishes actual backend capture, response decoding, cache reuse and
+host/guest transport at this observation. It does not establish renderer focus
+handling, the ten-second publisher expiry during an active replay, suspended
+browser behavior or sustained CPU/memory use. Those remain acceptance gates;
+the earlier fourteen isolated renderer lifecycle checks emulate focus/page
+events and must not be described as physical desktop validation.
