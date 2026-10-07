@@ -397,8 +397,8 @@ def observed_boot_file_failure(marker, name):
 
 
 def create_vm(client, iso):
-    # App Sandbox can fail a build at its bcdboot step and then delete the VM (issue #62: remnants of a
-    # failed build break the next one with the same name), so each retry uses a fresh name.
+    # A vanished build with no confirmed cause can use the bounded fresh-name retry below.
+    # Observed boot-file failures stop immediately; a new name did not repair our two fixtures.
     for attempt, name in enumerate(VM_NAMES):
         build_log = vm_build_log_marker()
         code, body = client.create(name=name, osType='Windows', imagePath=str(iso), ramMb=16384, cpuCores=8, hddGb=120,

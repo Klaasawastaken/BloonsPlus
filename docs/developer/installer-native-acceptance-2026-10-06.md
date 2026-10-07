@@ -316,6 +316,27 @@ not prove the full root cause. Further clean-VM work needs a safe, evidenced
 provisioning path; another blind image build or changing this PC's boot store
 would not close the acceptance gate.
 
+### Upstream diagnosis check — 7 October
+
+The current upstream `iso-patch.c` history was checked again. Its latest touching
+commit, [`6d2e10f`](https://github.com/jamesstringer90/appsandbox/blob/6d2e10fd0bd6b67994b6ed3beccf5a8bc190590d/tools/iso-patch/iso-patch.c),
+still invokes the host BCDBoot executable against the new image's Windows and
+EFI volumes. It supplies `/s` and `/f UEFI`; no separate registry namespace or
+new recovery path was added there. The upstream issue previously referenced in
+a local comment, [issue 62](https://github.com/jamesstringer90/appsandbox/issues/62),
+reports exit **193**, not the observed **183**, and does not establish a
+same-name-remnant cause or a successful fix. That unsupported comment is removed;
+runtime behavior is unchanged.
+
+The retained failing log narrows the boundary further: template access and boot
+file copying precede the failed creation/loading of the destination BCD store
+under `BCD00000000`. Both `/offline` attempts reach the same `c0000035` load-key
+failure. Thus changing locale or using another VM name has already failed to
+address this boundary. This is evidence about the failing operation, not proof
+of why Windows rejects it. No host hive, firmware setting or boot store was
+changed, and no third full-image retry was launched. Clean provisioning remains
+an open production gate requiring an independently isolated, evidenced repair.
+
 ## Retained dependency observer — 7 October
 
 The approved native ownership/recovery contract now uses a hidden transient mode
