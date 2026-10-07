@@ -145,6 +145,23 @@ internal sealed class InstallSession
             AtomicWrite(checkpoint, serializer.Serialize(state));
         }
     }
+    internal static void ReplaceCheckpoint(string temporary, string destination, Action<string, string> replace, Action<int> delay)
+    {
+        for (int attempt = 0; ; attempt++) {
+            try { replace(temporary, destination); return; }
+            catch (IOException error) {
+                uint result = unchecked((uint)error.HResult);
+                int code = (int)(result & 0xffff);
+                // Sharing/lock conflicts and ERROR_UNABLE_TO_REMOVE_REPLACED
+                // retain both original names. Other replacement errors may
+                // have different recovery semantics: never retry them blindly.
+                bool transient = (result & 0xffff0000) == 0x80070000
+                    && (code == 32 || code == 33 || code == 1175);
+                if (!transient || attempt >= 3 || !File.Exists(temporary) || !File.Exists(destination)) throw;
+                delay(50 << attempt);
+            }
+        }
+    }
     internal static void AtomicWrite(string destination, string text)
     {
         Directory.CreateDirectory(Path.GetDirectoryName(destination));
@@ -153,7 +170,8 @@ internal sealed class InstallSession
             using (var output = new FileStream(temporary, FileMode.CreateNew, FileAccess.Write, FileShare.None)) {
                 byte[] bytes = Encoding.UTF8.GetBytes(text); output.Write(bytes, 0, bytes.Length); output.Flush(true);
             }
-            if (File.Exists(destination)) File.Replace(temporary, destination, null);
+            if (File.Exists(destination)) ReplaceCheckpoint(temporary, destination,
+                (source, target) => File.Replace(source, target, null), System.Threading.Thread.Sleep);
             else File.Move(temporary, destination);
         } finally { if (File.Exists(temporary)) File.Delete(temporary); }
     }

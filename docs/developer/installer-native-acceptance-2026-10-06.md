@@ -547,3 +547,21 @@ identities, exact appended payload and seven exact icon frames for both the
 installer and app. Publication scanning reports zero findings; the pending
 Sunken Columns draft is excluded. No guest installation was performed for this
 batch.
+
+### Approved checkpoint replacement retry — 7 October
+
+The user approved the bounded persistence design after returning. Session
+checkpoint replacement now retries only Win32 sharing/lock errors 32/33 and
+the observed error 1175. Four total attempts use 50/100/200 ms backoff, and a
+retry requires both original filenames still to exist. Errors 1176/1177 and
+permission error 5 propagate immediately; no delete-and-replace fallback or
+permission change is used.
+
+The compiled fixture covers successful and persistent failures for all six
+codes, a disappearing replacement file, a real temporary Windows file lock,
+a persistent lock, the prior receipt and temporary-file cleanup. All 55 native
+installer tests pass, and independent review repeated the focused check without
+finding a blocker. This repairs the evidenced transient boundary; it does not
+claim recovery from every replacement error or complete clean-Windows setup.
+The complete 429-test Python suite also passes, and publication scanning reports
+zero findings.
