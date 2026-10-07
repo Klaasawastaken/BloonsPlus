@@ -37,7 +37,7 @@ produced the menu results above. An initial setup fixture also used an unsupport
 `ready` phase; that was corrected to `complete` before final acceptance. No product
 code was changed to make either fixture pass.
 
-## Confirmed remaining defects
+## Appearance defects and completed repair
 
 ### Intro preference clipping
 
@@ -51,10 +51,9 @@ zero available pixels. At 1,440 pixels Reduced's text needed 46 pixels but recei
 prove the selected value was readable.
 
 The field's `min-width: 0` enhancement combines with the surrounding nonwrapping
-Appearance row to permit this shrinkage. A bounded responsive-grid repair has been
-proposed: give the intro a readable column and move its explanation below the
-controls while retaining the narrow-layout stack and preference behavior. Approval
-is pending; the runtime is unchanged.
+Appearance row to permit this shrinkage. The approved startup/polish plan now
+provides a responsive grid: the intro has a readable column and its explanation
+sits below the controls. Narrow windows stack the fields; preference logic is unchanged.
 
 ### Text contrast
 
@@ -73,11 +72,39 @@ The dark Automation eyebrow uses `#5c6eaa`. Even against black it reaches only
 4.266:1, so it cannot meet 4.5:1 against the observed darker background. Its exact
 gradient-backed rendered ratio was not certified by the flat-background audit.
 
-A bounded repair is proposed for those text styles and the dark section label.
-Candidate light colors were checked mathematically: white on `#b5533d` is 4.919:1,
-invalid text `#a24b33` on its existing background is 4.779:1, and unknown text
-`#556a73` on its existing background is 4.800:1. These are design calculations,
-not evidence that a repair has been implemented or rendered. Approval is pending.
+The implemented repair separates action colors from decorative accent colors:
+white on `#b5533d` is 4.919:1, invalid text `#a24b33` on its existing background
+is 4.779:1, and unknown text `#556a73` on its existing background is 4.800:1.
+The dark section label uses the existing muted token. The old blue primary
+hover background also failed with dark text (2.338:1); hover now uses coral
+colors appropriate to each theme.
+
+### Repair verification
+
+The approved startup plan's preferences and theme acceptance scope covers this
+bounded CSS repair. No game, controller, account or save behavior changed.
+
+- The permanent hidden-renderer regression passes **60** selected-label,
+  persistence and geometry cases: Full/Reduced/Off, light/dark, 1,440 and 1,080
+  pixel windows at 100/125/150/200% zoom, plus 550 and 420 pixel widths.
+- All 20 menu openings retain their three choices inside the viewport. Native
+  Escape closes the menu and restores focus. Reinstating the old flex rule in
+  the isolated fixture reproduces clipping/layout failures.
+- **100** computed-style contrast checks pass, including forced primary-button
+  hover after transitions settle. The section label is checked against the
+  theme's solid background; this does not certify every gradient pixel.
+- The broader seven-section repeat passes all **28** layout/name cases with no
+  unexpected mutations or renderer errors. Its **108** flat/composited-background
+  contrast observations now have zero failures; the same 64 gradient/opacity
+  observations remain excluded.
+- All **73** approved JavaScript test files pass. Independent review found no
+  remaining actionable issue in the CSS or renderer fixture. Its temporary
+  profile is cleaned after Electron exits, and network access is restricted to
+  synthetic local responses.
+
+Physical DPI, assistive technology, real populated profiles and weak-hardware
+acceptance remain separate open gates. The unrelated unapproved ABR draft is
+excluded from this release.
 
 ## Populated-profile refresh — follow-up at `a7b2db6`
 
