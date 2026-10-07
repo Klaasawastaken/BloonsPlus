@@ -14,6 +14,7 @@ PATTERNS = {
 }
 PRIVATE_NAMES = {'live-frame.jpg', 'live-frame.jpg.tmp', 'viewer-request.json', 'profile.save', 'host.json', 'game-state.json', 'route-checkpoint.json', 'experimental-ai-data.json', 'route-failures.json', 'playthrough_stats.json', 'upgrade-memory.json', 'last-hero.json', 'pending-automation.json'}
 TEXT_SUFFIXES = {'.js','.py','.cs','.md','.json','.txt','.html','.yml','.yaml','.ps1','.cmd','.toml'}
+BINARY_SUFFIXES = {'.exe', '.dll', '.pyd'}
 PRIVATE_NAMES.update({'.scp-list.txt', 'automation-progress.json'})
 def inspect(name, data):
     findings=[]; path=Path(name)
@@ -26,6 +27,16 @@ def inspect(name, data):
         except UnicodeError: return findings
         for kind,pattern in PATTERNS.items():
             for match in pattern.finditer(content): findings.append((name+':'+str(content.count('\n',0,match.start())+1),kind))
+    elif path.suffix.lower() in BINARY_SUFFIXES:
+        # Native symbol metadata can retain the builder's home directory. Scan
+        # both UTF-16 alignments as PE strings need not begin at an even offset.
+        # Report the artifact and category only, never the embedded value.
+        content = data.decode('latin-1')
+        wide = (data.decode('utf-16-le', errors='ignore'),
+                data[1:].decode('utf-16-le', errors='ignore'))
+        for kind, pattern in PATTERNS.items():
+            if pattern.search(content) or any(pattern.search(value) for value in wide):
+                findings.append((name, kind))
     return findings
 
 def main():

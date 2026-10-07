@@ -32,6 +32,7 @@ REQUIRED_RUNTIME_FILES = (
     "lib/vm-setup.js", "lib/automation.js", "lib/route-validation.js", "assets/app/setup-bar.js", "vm/setup-vm.py", "vm/iso-patch.exe", "autobtd6/runtime_check.py", "autobtd6/placement_hints.py", "data/tower-upgrades.json", "lib/support-report.js", "lib/live-screen.js", "assets/app/vm-viewer.js", "autobtd6/live_capture.py", "tools/read-hero-selection.js", "tools/verify-map-page.js", "python/Lib/ensurepip/__init__.py", "python/Lib/venv/__init__.py",
     'lib/setup-session.js', 'lib/setup-controller.js', 'assets/app/setup-client.js',
     'assets/app/startup.js', 'assets/app/startup.css', 'assets/app/brand-tokens.css', 'assets/logo.svg',
+    'vm/licenses/AppSandbox-MIT.txt',
 )
 
 ELECTRON = ROOT / "node_modules" / "electron" / "dist"
@@ -47,8 +48,8 @@ SKIP_SUFFIXES = {".pyc", ".pyo", ".log", ".tmp"}
 # Deployment manifests are workspace artifacts. Match private names without case
 # sensitivity, as the Windows source and installation filesystems do.
 PERSONAL_FILES = {name.lower() for name in PERSONAL_FILES} | {".scp-list.txt"}
-# Base-Python parts never used at runtime: Tk GUI, IDLE, turtle demos, C headers/import libraries (every
-# pinned pip package ships a wheel), the base's own pip launchers (the private venv has its own) and the
+# Base-Python parts never used at runtime: Tk GUI, IDLE, turtle demos, C headers/import libraries (native
+# dependencies have wheels; the remaining source builds are pure Python), the base's own pip launchers and the
 # CPython self-test modules. ensurepip and venv stay: setup creates the private venv from them.
 PYTHON_EXCLUDES = {
     "Lib/site-packages", "Lib/test", "Lib/tkinter", "Lib/idlelib", "Lib/turtledemo", "Lib/turtle.py",

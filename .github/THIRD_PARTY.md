@@ -11,6 +11,7 @@ The root [PolyForm Noncommercial 1.0.0 license](../LICENSE.md) applies to code a
 | AutoBTD6 engine and imported recordings | Upstream documentation and per-recording source/provenance; BloonsPlus does not claim ownership of upstream material |
 | Other strategy sources | `route-library/` metadata and any source-specific license/notice |
 | Electron, Python and runtime libraries | Their distributed license notices and package metadata |
+| App Sandbox image helper (`vm/iso-patch.exe`, modified) | [Original MIT notice](../vm/licenses/AppSandbox-MIT.txt); [App Sandbox 0.1.9 source](https://github.com/jamesstringer90/appsandbox/tree/v0.1.9). The bundled helper adds boot diagnostics and retries; its local build-directory metadata has been removed. |
 | Official Bloons TD 6 artwork and game references | Ninja Kiwi retains its rights; these are excluded from the BloonsPlus license |
 
 Preserve applicable notices when copying or distributing material. Missing license metadata is not permission to relicense an imported work. Contributors should identify the source and applicable terms before introducing third-party material.

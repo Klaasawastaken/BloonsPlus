@@ -10,6 +10,22 @@ spec.loader.exec_module(guard)
 
 
 class PublicationGuardTests(unittest.TestCase):
+    def test_executable_private_paths_are_detected_without_disclosing_content(self):
+        private_path = 'C:' + r'\Users\fixture-person\build\helper.pdb'
+        for suffix in ('.exe', '.dll', '.pyd'):
+            for encoding in ('utf-8', 'utf-16-le'):
+                for padding in (b'\xff\x00', b'\xff'):
+                    with self.subTest(suffix=suffix, encoding=encoding, padding=padding):
+                        name = 'vm/helper' + suffix
+                        findings = guard.inspect(name, padding + private_path.encode(encoding) + b'\x00\x00')
+                        self.assertEqual(findings, [(name, 'personal Windows path')])
+                        self.assertNotIn('fixture-person', str(findings))
+
+    def test_executable_neutral_paths_and_relative_symbols_are_allowed(self):
+        for value in ('C:' + r'\Users\Public\helper.pdb', 'helper.pdb'):
+            for encoding in ('utf-8', 'utf-16-le'):
+                self.assertEqual(guard.inspect('helper.exe', value.encode(encoding)), [])
+
     def test_transfer_manifest_is_rejected_at_any_depth_and_case(self):
         for name in ('.scp-list.txt', 'resources/app/.scp-list.txt', 'assets/.SCP-LIST.TXT'):
             with self.subTest(name=name):
