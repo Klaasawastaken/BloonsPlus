@@ -208,3 +208,14 @@ accepting the results. Product code was not changed to accommodate them.
 
 These checks do not certify gradients, every accent-colored text state, physical
 screen readers or all zoom combinations. W-04 remains open for those checks.
+
+
+### Publication of this repair
+
+Preview `v0.1.28-preview.99` is published with one 247,025,830-byte installer.
+Package verification confirms all four version identities, 127 runtime source
+comparisons, 1,735 inventory hashes, exact appended payload, both seven-frame
+application icons and zero privacy findings. The unapproved ABR draft is excluded.
+The deployed VM Connection HTML matches the repaired source; deployed CSS and
+JavaScript match after normalizing Git's line endings. This HTTP content check
+complements the local actual-renderer checks; it is not a physical browser audit.
