@@ -477,3 +477,47 @@ focused fixture also passes. This closes a bounded file-lock recovery check,
 not the entire I-03 gate. It does not simulate physical power loss, a reboot, or
 interruption inside an individual filesystem operation. No installed app, VM,
 Steam directory or game save is modified by this fixture.
+
+
+### Process exit inside the production deployment pipeline
+
+The new `test_installer_deployment_exit.py` compiles the unchanged production
+native sources and executes `InstallAppFiles` on a three-file synthetic package.
+The fixture process exits without unwinding at three deterministic boundaries:
+after the first file is staged, after the prepared journal is durable, and after
+the first real replacement returns. Unlike the earlier manually assembled
+transaction fixture, these checkpoints are reached through the actual deployment
+pipeline. No installed app, VM, game, save, shortcut or global dependency is used.
+
+Before recovery, the parent verifies the expected journal phase and exact file
+contents, including the mixed old/new state after the first replacement. Fresh
+processes recover twice and then install the package successfully. Original and
+unlisted user data are preserved, an uncommitted new file stays absent, and both
+recovery and successful retry remove their transaction directories and journals.
+
+Both private negative controls fail the intended original-content assertion:
+removing recovery entirely, and skipping the prepared transaction's restoration.
+These mutations were confined to temporary source copies. Independent review
+found no blocker and requested the successful-retry staging cleanup assertion;
+that strengthened focused check passes. All **53 native installer tests** and
+the complete **427-test Python suite** pass.
+
+This establishes recovery at these observed process boundaries. It does not
+simulate physical power loss, a torn filesystem operation, a reboot, a killed
+external dependency or every setup phase. The checkpoint-write retry, long
+custom paths and clean-machine acceptance remain open.
+
+### Current custom-path budget observation
+
+A read-only scan of the Preview 30 payload finds its longest installed relative
+filename is 136 characters. The observed TensorFlow runtime includes a filename
+whose complete suffix below the install root is 201 characters, including
+`resources\app\.venv`. With a 259-character full-path budget, the root plus
+separator leaves only **57 characters** for that observed dependency path,
+compared with 122 for the payload. Copying the bundled app successfully therefore
+does not establish that its subsequently downloaded Python dependencies will fit.
+
+This is measured evidence for a dependency-aware preflight design, not a newly
+implemented path restriction. It does not certify every wheel, generated cache
+file, long-path-enabled application or Windows configuration. No registry,
+installation location or runtime setting was changed by the scan.
