@@ -860,6 +860,51 @@ implementation rather than producing another candidate. Fresh offline checks
 passed all ten targeted-special Python tests and the JavaScript binding and
 direct-start suites. Live Firing Range behavior remains unverified.
 
+## Remaining pinned-source commands — 7 October 2026
+
+A fresh read-only audit covered all **115 recognized map plans** in the local
+BTD6bot source pinned by the importer to
+`2d6dac0957a0d55d0af201bd497afbebf7f3e5c2`. The other two Python files in that
+directory are support modules. This count concerns source plans, not the larger
+set of existing recordings or compatibility copies.
+
+| Result | Plans | Follow-up |
+| --- | ---: | --- |
+| Converted without declared omissions | 102 | All 102 private outputs passed the full Python replay parser, executable-command counts and JavaScript route legality checks. This does not prove exact source semantics, balance compatibility or victory. |
+| Converted with declared omissions | 7 | Five Ace-centering plans, Ancient Portal Dartling targeting and Ravine Spike Close targeting remain incomplete. |
+| Rejected before complete conversion | 6 | Conflicting upgrade targets require source/strategy review; do not silently merge their paths or remove the rejection. |
+
+The six rejected plans are Dark Dungeons CHIMPS, Mesa CHIMPS, Moon Landing
+CHIMPS, Party Parade CHIMPS, Quad CHIMPS and Tricky Tracks ABR. Their first
+rejections all request a lower tier on a previously upgraded path. The source
+handler chooses the first differing path and later assigns the requested tier
+string to its internal state; it does not establish that lower tiers mean
+"leave this path unchanged." Interpreting them that way would invent semantics.
+
+The five otherwise convertible Ace plans are Bloonarius Prime, Muddy Puddles,
+Peninsula, Rake and Spice Islands. Their source has seven `center()` calls in
+total. Mesa has an additional centering call and a hero `force_target()` call,
+but already fails conversion for its Village upgrade. Centering selects the Ace,
+uses the source's separate `centered path` binding, clicks the specified target,
+and closes the panel. It must not be replaced with an assumed generic special
+key. The currently observed saved monkey-control names do not expose a separate
+centering action; the exact game binding/control still needs confirmation before
+adding executable support.
+
+Upgrade-call tracing also found one non-single-step request in an otherwise
+convertible plan: Cornfield CHIMPS requests Village `0-0-2` to `2-0-2` at round
+70. Bloons+'s converter emits both top-path purchases, while the pinned upstream
+handler chooses one path and verifies the next upgrade before updating its stored
+target. This is a source-semantic discrepancy requiring review, not evidence that
+either version wins or that an existing local clear is invalid. No automatic
+route rewrite or admission change was made.
+
+The audit wrote only private fixtures and reports. It did not execute the source
+plans, launch gameplay, regenerate original recordings, edit saved progress, or
+reset failure history. Existing pending route edits were left untouched. R-01
+remains open for the specific controls above and other source dialects; R-04
+remains open for exact semantics and existing-recording admission.
+
 ## Legacy BTD6bot admission audit — 7 October 2026
 
 The read-only source audit compared 184 existing BTD6bot-labelled recordings
