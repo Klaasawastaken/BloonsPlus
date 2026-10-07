@@ -194,3 +194,26 @@ atomicity, ownership and recovery rules.
 Then finish the separate clean supported Windows, UAC/reboot, complete VM
 provisioning and physical accessibility gates. Successful fixture checks or a
 temporary-root install do not close those gates.
+
+### Installed Python work during replacement — 7 October
+
+The approved installer ownership contract now observes all four exact installed
+Python and Pythonw paths in the private environment and bundled runtime. An
+active interpreter blocks update, repair or uninstall before installed files
+change. Python is observed only; the installer does not terminate it. Unrelated
+interpreters, including a similarly named adjacent installation, remain outside
+the guard. Unknown observations still block installation.
+
+An actual native fixture first reproduced the missing-controller case: installed
+Python survived, but replacement was allowed. A second fixture reproduced the
+shutdown race: an exact fixture controller started Python while its idle status
+was read, then exited while its child remained. Both now block file changes.
+The second observation occurs after confirmed controller shutdown. The fixture
+uses the production shutdown sequence with an isolated status reader, so it
+never contacts the live controller on port 4173. It verifies that Python survives
+and stops only its own exact executable in cleanup.
+
+Independent review found the shutdown race, then confirmed its repair. This
+closes the two observed interpreter-ownership gaps; it does not fence applications
+independently launched during later installation stages, prove a clean-machine
+installation or require any running VM to reload.

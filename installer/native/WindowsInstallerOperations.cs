@@ -323,6 +323,9 @@ internal class WindowsInstallerOperations : IDisposable
 
     public virtual void CloseInstalledControllers()
     {
+        // A replay or package operation can outlive its controller. Never remove
+        // its installed files or treat a missing controller as proof of idleness.
+        RequireInstalledPythonIdle();
         var owned = new List<Process>();
         try {
             foreach (string name in new[] { "node", "Bloons+" }) {
@@ -336,16 +339,10 @@ internal class WindowsInstallerOperations : IDisposable
                     finally { if (!retain) process.Dispose(); }
                 }
             }
-            if (owned.Count == 0) return;
+            if (owned.Count == 0) { RequireInstalledPythonIdle(); return; }
             SetStatus("Checking that the current replay has finished…", InstallerStage.Prepare);
-            var request = (HttpWebRequest)WebRequest.Create("http://127.0.0.1:4173/api/farm/status");
-            request.Timeout = request.ReadWriteTimeout = 5000;
-            request.Proxy = null;
-            using (var response = request.GetResponse())
-            using (var reader = new StreamReader(response.GetResponseStream())) {
-                if (!IsIdleResponse(reader.ReadToEnd()))
-                    throw new InvalidOperationException("Finish the current replay before updating Bloons+. No controller was closed.");
-            }
+            if (!IsIdleResponse(ReadInstalledControllerStatus()))
+                throw new InvalidOperationException("Finish the current replay before updating Bloons+. No controller was closed.");
             foreach (Process process in owned) {
                 if (process.HasExited) continue;
                 Log("Closing installed controller " + process.ProcessName + " PID " + process.Id);
@@ -353,6 +350,43 @@ internal class WindowsInstallerOperations : IDisposable
                 if (!process.WaitForExit(10000)) throw new InvalidOperationException("The old Bloons+ controller did not close; update cancelled.");
             }
         } finally { foreach (Process process in owned) process.Dispose(); }
+        // A controller may have started package or replay work while we read
+        // its status. Reobserve after it exits, before installed files change.
+        RequireInstalledPythonIdle();
+    }
+
+    internal virtual string ReadInstalledControllerStatus()
+    {
+        var request = (HttpWebRequest)WebRequest.Create("http://127.0.0.1:4173/api/farm/status");
+        request.Timeout = request.ReadWriteTimeout = 5000;
+        request.Proxy = null;
+        using (var response = request.GetResponse())
+        using (var reader = new StreamReader(response.GetResponseStream()))
+            return reader.ReadToEnd();
+    }
+
+    private void RequireInstalledPythonIdle()
+    {
+        string app = Path.Combine(installRoot, "resources", "app");
+        foreach (string name in new[] { "python", "pythonw" }) {
+            string executable = name + ".exe";
+            string privatePython = Path.GetFullPath(Path.Combine(app, ".venv", "Scripts", executable));
+            string bundledPython = Path.GetFullPath(Path.Combine(app, "python", executable));
+            foreach (Process process in Process.GetProcessesByName(name)) {
+                using (process) {
+                    try {
+                        if (process.HasExited) continue;
+                        string path = Path.GetFullPath(process.MainModule.FileName);
+                        if (String.Equals(path, privatePython, StringComparison.OrdinalIgnoreCase)
+                            || String.Equals(path, bundledPython, StringComparison.OrdinalIgnoreCase))
+                            throw new InvalidOperationException("Installed Python work is still running. Let it finish or stop it from Bloons+ before updating, repairing or uninstalling. Installed files have not been changed.");
+                    } catch (InvalidOperationException) {
+                        // Only a process that has actually exited is safe to ignore.
+                        if (!process.HasExited) throw;
+                    }
+                }
+            }
+        }
     }
 
     public virtual void ConfigurePython()
