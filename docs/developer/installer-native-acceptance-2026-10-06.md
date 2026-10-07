@@ -244,3 +244,20 @@ diagnosis. Unknown disappearances keep their existing bounded retry behavior.
 Four offline regressions cover those boundaries; the failure was reproduced
 before the repair. The clean Windows, UAC/reboot and Steam/bridge gates remain
 open, and the boot-store failure itself remains unresolved.
+
+### Read-only boot-store follow-up — 7 October
+
+A direct query of `BCD00000000` returned Windows access-denied code 5 in both
+registry views. That result cannot be treated as evidence that the hive is
+absent. A separate read of Windows' hive list showed it registered to the normal
+EFI Microsoft boot store, outside App Sandbox's path. No boot-store path,
+identifier or account detail is published. No hive was unloaded or changed.
+
+The installed BCDBoot help lists `/offline`; both attempted builders had already
+tried that option. Microsoft's [BCDBoot documentation](https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/bcdboot-command-line-options-techref-di?view=windows-11)
+describes it as offline boot-file servicing and documents that `/s` avoids
+creating a firmware entry. This does not establish that either option repairs
+the observed `BcdOpenStore` collision. The hive-list observation likewise does
+not prove the full root cause. Further clean-VM work needs a safe, evidenced
+provisioning path; another blind image build or changing this PC's boot store
+would not close the acceptance gate.

@@ -278,6 +278,48 @@ navigation/scroll boundary for deeper tracing. They do not distinguish every
 layout, paint or compositor cost, and the instrumented value is not comparable
 to the unprofiled navigation result as a performance regression.
 
+### Map-card rendering investigation — 7 October
+
+A follow-up used fresh hidden renderer windows, the same synthetic API fixture,
+fourfold CPU throttling and three cold samples per variant. Moving the scroll
+resets ahead of navigation shortened the synchronous handler but left first-frame
+readiness near the baseline. It shifted work to browser rendering rather than
+resolving the stall. A diagnostic variant that hid medal SVG artwork reduced
+style-recalculation time substantially, identifying that artwork as a material
+part of the cost. Hiding medals is not an acceptable product change.
+
+An offscreen-card containment probe also improved initial readiness, but its
+estimated card heights changed the document's scroll extent as cards rendered.
+That probe is not ready to ship. No containment rule or reordered navigation
+has been added to the app.
+
+A separate lazy-artwork probe retained every map card, medal span, title, earned
+state and filter, while attaching the decorative SVG artwork when its medal
+entered the viewport's 200-pixel margin. In three fresh samples each:
+
+| Observation | Current renderer | Fixture-only lazy artwork |
+| --- | --- | --- |
+| Median click-to-two-frame readiness | 729.4 ms | 327.5 ms |
+| Visible medals with artwork at that observation | 84 of 84 | 84 of 84 |
+| Document height before/after scrolling to the last card | 5,759 / 5,759 px | 5,759 / 5,759 px |
+| Last card's medals with artwork after settling | 14 of 14 | 14 of 14 |
+| Total attached map-medal SVGs after that jump | 1,204 | 400 |
+
+All six samples used the current 86-card catalog and reported no fixture errors.
+These timings are comparable within this probe, not directly with earlier runs
+on a differently loaded host. The probe changes only its own hidden renderer;
+the shipped app remains unchanged. The bounded production repair awaits design
+approval and must cover observer cleanup, unavailable-observer fallback, filters,
+data refresh, theme changes, scrolling and accessible labels before publication.
+Physical hardware, live capture and screen-reader acceptance remain open.
+
+During these checks, the repaired X Factor Alternate Bloons Rounds candidate
+earned its missing medal. The controller observed its round-80 victory, and a
+separate read of the actual guest save decoded that medal as earned. The sweep
+then moved to Mesa Alternate Bloons Rounds with one victory and zero defeats.
+No healthy replay was interrupted, and the newly owned X Factor medal must not
+be replayed for validation.
+
 - Apply approved repairs, then repeat their actual-renderer checks and the broader
   layout cases before publishing an app hotfix.
 - Repair the evidenced unavailable-save requirements/hero failures and repeat
