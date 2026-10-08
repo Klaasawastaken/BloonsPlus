@@ -155,8 +155,18 @@ and current source/payload privacy checks pass.
 The normal updater completed an existing idle guest update to .39 with unchanged
 account identity, task principal, six persistent configuration/history files and
 205 original CHIMPS files. This proves that update path, not clean provisioning.
-The observed host helper mismatch keeps environment validation false. Thirteen
+The previously observed host helper mismatch initially kept environment validation false.
+The installed .40 operator subsequently repaired that helper, and a fresh actual
+packaged coordinator now reaches `complete` with `environmentValidated: true`.
+Guest account/task/history and 205 original CHIMPS hashes remain unchanged. This
+verifies the existing-environment ready path; clean guest boot remains open. Thirteen
 focused offline sweep startup/recovery/medal suites pass; the live queue remains
 exhausted, with attempts and earned medals preserved. The separate clean guest
 boot repair still awaits the Windows administrator prompt that was canceled.
 See the [native acceptance record](installer-native-acceptance-2026-10-06.md#existing-idle-guest-update-and-runtime-map-health--8-october).
+
+
+Live download verification now passes for all four HTTP/HTTPS, root/www website
+variants: each returns 200 with metadata matching the public `.40` release. The
+[host helper repair record](installer-native-acceptance-2026-10-06.md#existing-host-helper-repair-and-packaged-ready-state--8-october)
+records the bounded repair and actual coordinator observation.

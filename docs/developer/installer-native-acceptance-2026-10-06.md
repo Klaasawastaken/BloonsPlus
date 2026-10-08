@@ -819,3 +819,30 @@ clean Windows provisioning. The separate guest boot gate remains open.
 Published as [v0.1.40-preview.99](https://github.com/Klaasawastaken/BloonsPlus/releases/tag/v0.1.40-preview.99),
 with one installer asset matching the tested size and digest. Website download
 metadata points to .40. Production 1.0 remains gated on clean setup acceptance.
+
+
+### Existing host helper repair and packaged ready state — 8 October
+
+The exact installed `.40` package's existing setup operator repaired the
+observed host image-helper mismatch. It retained a private backup and installed
+the checked published helper. A bounded acceptance driver permitted only that
+step; it refused other setup operations. Its first attempt stopped before any
+mutation because the fresh relay had not connected yet. A separate attempt
+waited for read-only connection observations, required every other setup step to
+be ready, then completed the helper repair.
+
+Fresh before/after guest reads prove that the account identity, existing app task,
+six persistent configuration/history files and all 205 original CHIMPS hashes
+are unchanged. Steam and BTD6 remain ready; no gameplay, guest update, VM restart,
+boot-disk repair, credential change or ACL change occurred.
+
+A fresh setup-only process from the installed `.40` package then observed the
+actual environment through the normal authenticated coordinator. Every observed
+step is ready; the coordinator reaches `complete` with
+`environmentValidated: true`, without starting a setup operation. Its validated
+release endpoint closes that exact owned observer normally. This resolves the
+previous helper mismatch and verifies the existing-environment ready path. It
+does **not** close clean Windows provisioning or physical app-window acceptance.
+
+Fresh requests to all four HTTP/HTTPS, root/www website variants return 200 and
+exactly match the published `.40` download metadata.
