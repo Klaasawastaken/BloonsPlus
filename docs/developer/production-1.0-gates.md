@@ -82,6 +82,20 @@ the copied BCD as a system store (`0xC0000098`), so complete guest setup and
 production integration remain open. The disk detached after inspection. Existing
 BTD6 VM, SSH and scheduled-task permissions were not changed.
 
+The next private-copy diagnosis found a missing `System=1` marker in the root
+Description key. Windows' offline hive API independently confirmed the missing
+value. Its repaired output preserves all 165 key paths, including empty keys,
+and every one of the 130 existing values; only the missing DWORD marker is added.
+The output was reopened and compared exactly, and the original file hash stayed
+unchanged. An independent byte-level reader also confirms the three root markers.
+This file repair has not been applied to a guest or integrated into production.
+Windows' explicit-store boot-entry verification now passes: both private copies
+return success, their full entry listings match and the original inputs remain
+unchanged. A fresh clean setup remains required. Earlier administrator prompts
+were canceled; the final explicitly requested resend succeeded. Earlier
+generic registry-loader experiments failed before the marker write and left no
+temporary registry keys; that approach was retired.
+
 The approved local app repair batch passes 48 actual-renderer map artwork checks,
 88 report-dialog checks and four focused viewer publisher cases. Reports use the
 observed controller version or `unknown`; malformed/deeply nested viewer requests
