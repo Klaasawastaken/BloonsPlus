@@ -95,6 +95,24 @@ unchanged. A fresh clean setup remains required. Earlier administrator prompts
 were canceled; the final explicitly requested resend succeeded. Earlier
 generic registry-loader experiments failed before the marker write and left no
 temporary registry keys; that approach was retired.
+The first fresh-image preparation stopped before formatting when the EFI store's
+hash differed. A read-only retained copy then passed a complete comparison: all
+165 key paths and 130 values were identical, so the difference was hive metadata.
+The next guarded preparation retained a new verified full-disk backup, applied
+the official Windows image successfully, and installed the exact repaired boot
+file. Both images detached, the temporary mount was removed, and the disk's
+permissions and source ISO stayed unchanged. The final detached-disk hash is
+required again before the next isolated boot, preventing stale fixture reuse.
+The first boot prompt was canceled before creation. The explicitly requested
+resend created and started the isolated fixture. No guest integration connection
+appeared within five minutes; its handle then closed. Read-only offline logs
+confirm that Windows successfully specialized the BCD store (`0x0`), completed
+specialization with return `0`, and transitioned to OOBE. The earlier system-store
+rejection is absent. This fixture was not staged with the normal unattended
+answer file; its logs explicitly identify that absence. Recovery-store warnings
+remain in the retained logs. The disk detached after inspection. These results
+prove the scoped boot-store repair, not complete guest or app installation;
+production integration and the full unattended setup remain required.
 
 The approved local app repair batch passes 48 actual-renderer map artwork checks,
 88 report-dialog checks and four focused viewer publisher cases. Reports use the
