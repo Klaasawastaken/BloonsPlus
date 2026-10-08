@@ -40,7 +40,15 @@ def publishViewerFrame(frame):
     _viewerLastFrame = time.time()
     try:
         with open('viewer-request.json', encoding='utf-8') as request:
-            if json.load(request).get('expiresAt', 0) < time.time() * 1000:
+            lease = json.load(request)
+            if not isinstance(lease, dict):
+                return
+            expires = lease.get('expiresAt')
+            # Reject malformed values before comparison or image work. A viewer
+            # request is optional and must never make the replay loop fail.
+            if type(expires) not in (int, float) or not -float('inf') < expires < float('inf'):
+                return
+            if expires < time.time() * 1000:
                 return
         if not windowed_input.is_game_foreground():
             return
@@ -50,7 +58,7 @@ def publishViewerFrame(frame):
             with open('live-frame.jpg.tmp', 'wb') as output:
                 output.write(encoded.tobytes())
             os.replace('live-frame.jpg.tmp', 'live-frame.jpg')
-    except (OSError, ValueError):
+    except (OSError, ValueError, RecursionError):
         pass  # The viewer must never interrupt a replay.
 ROUTE_CHECKPOINT_FILE = 'route-checkpoint.json'
 _route_checkpoint_lock = threading.Lock()

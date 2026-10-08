@@ -380,12 +380,14 @@ boot manager, select the default/order/timeout, then enumerate the store. The
 input template's SHA-256 stayed unchanged. These operations affected only a
 private disposable file, never an active boot store.
 
-Host-side configuration and an actual boot are still required. A host probe is
-prepared with an input hash check, refusal to overwrite an existing output,
-explicit `/store` on every command and a private result receipt. This is not yet
-a production fallback or a successful clean-install claim. The host probe did
-not start: Windows returned “The operation was canceled by the user” at the
-administrator-consent step. No third VM build was launched.
+The initial host probe was canceled at Windows administrator consent. On
+8 October the user explicitly requested the prompt again and accepted it.
+All 11 host copied-store configure/read-back operations returned exit code zero;
+the receipt records no error and the original template hash is unchanged.
+Every command uses an explicit private `/store` path, and the probe refuses to
+overwrite an existing output. Host boot configuration and the existing game VM
+remain outside the probe. An actual separate-fixture boot is still required;
+this is not yet a production fallback or a successful clean-install claim.
 
 ## Retained dependency observer — 7 October
 

@@ -1,6 +1,6 @@
 # Production 1.0 acceptance
 
-Updated 7 October 2026. **Production 1.0 is not ready for publication.** This checklist separates implemented behavior, offline evidence and remaining acceptance work. The [active TODO](TODO.md) holds individual tasks; the [repair audit](route-repair-audit.md) holds incident evidence.
+Updated 8 October 2026. **Production 1.0 is not ready for publication.** This checklist separates implemented behavior, offline evidence and remaining acceptance work. The [active TODO](TODO.md) holds individual tasks; the [repair audit](route-repair-audit.md) holds incident evidence.
 
 ## Scope and standing rules
 
@@ -19,10 +19,10 @@ Updated 7 October 2026. **Production 1.0 is not ready for publication.** This ch
 | Failure evidence | Complete 666-record archive audited privately against current saved ownership; 47 missing-target records match current route bytes across 17 combinations; retired tower uncertainties are separated | Legacy hash/version coverage is incomplete. Audit classifications and actual engine implementation; verify each required field and redaction at export boundaries | R-16–R-17 |
 | Profile and statistics | Fifteen host/guest profile groups matched through the relay; thirteen populated-renderer checks pass for tiers/T5, heroes, medals, cadence, late-response precedence and synthetic MM/XP rates; all 390 catalog tier slots and 1,176 candidate tower slugs map; new-source explicit values and rate reset pass | Approved disconnect/source projection and two tower-name alias repairs pass the original renderer regressions. Live disconnect/account switching, broader decoder coverage and live rate semantics remain open | P-01–P-05 |
 | Setup engine | Approved native redesign batches 1–5 implemented; actual published-package install and repair passed at a shorter isolated root, including pinned runtime imports, corrupted-file restoration and configuration preservation; real native/Node transport checks cover cancellation, resume, reconnect, restart deferral and validated release; actual published-archive selective removal preserved modified source and unlisted data/routes; exact installed Python/Pythonw guards cover missing controllers and work started during shutdown. A retained native observer now blocks while a descendant survives and permits recovery after observed natural exit; real observer-loss and failed-handshake checks pass; fresh-process recovery through actual deployment at staged/prepared/first-replacement boundaries preserves prior files and allows retry; real offline pip update failure and fresh-process retry preserve healthy packages/configuration and withhold a new success stamp until verified | Environment operators in the protocol fixture are faked. Losing the independent observer still leaves ownership unknown and safely blocks recovery. The approved transient checkpoint repair has deterministic error and actual Windows lock coverage; the observed deep-wheel path failure now passes actual native install/reuse/repair with pinned dependencies at a long custom root. Arbitrarily long application roots remain unproven alongside clean Windows, wider interruption recovery, permissions and complete dependency recovery | I-01–I-11 |
-| App and configuration | Isolated real renderer checks cover dark requirements, dropdown keyboard behavior, post-install layout and actual startup; 28 full-app layout/name observations, 60 repaired intro label/persistence cases, 100 normal/hover contrast checks, 108 broader flat-background contrast observations and 14 emulated viewer request/lifecycle checks pass; 80 real-renderer report-dialog keyboard, layout, naming and redaction observations pass, with a failing non-modal negative control; seven real-file/synthetic-process viewer backend scenarios pass | Malformed viewer request types can escape the replay publisher; the bounded validation repair awaits approval. Gradient/opacity contrast remains outside the flat-background audit. Physical keyboard/screen-reader, high DPI, weak hardware, live viewer/lease behavior and complete clean first/repeat-launch acceptance remain open | A-01–A-08 |
+| App and configuration | Isolated real renderer checks cover dark requirements, dropdown keyboard behavior, post-install layout and actual startup; 28 full-app layout/name observations, 60 repaired intro label/persistence cases, 100 normal/hover contrast checks, 108 broader flat-background contrast observations and 14 emulated viewer request/lifecycle checks pass; 88 real-renderer report-dialog version, keyboard, layout, naming and redaction observations pass, with a failing non-modal negative control; seven real-file/synthetic-process viewer backend scenarios pass | The approved malformed-request publisher repair passes focused checks, including excessive JSON nesting; packaging and deployment remain. Gradient/opacity contrast remains outside the flat-background audit. Physical keyboard/screen-reader, high DPI, weak hardware, live viewer/lease behavior and complete clean first/repeat-launch acceptance remain open | A-01–A-08 |
 | Website | Real BTD6 art, rebuilt pages and README; 18 keyboard/motion/landmark observations, atomic billing-price exposure, 60 secondary-text contrast checks and 68 complete content observations plus nine redirects pass. Mobile Escape focus and the Wiki table overflow are repaired; all 102 content observations at actual 100/200/400% zoom and 320 hover/focus contrast observations pass. All 17 content pages in both themes pass 2,646 normal-state rendered-background text observations, including map artwork; an invisible-text negative control is detected. All 68 fixed-viewport doubled-text cases pass with fallback fonts and actual web fonts (136 custom-font observations); the missing-font negative control fails as intended. Live download and notes links identify .37. Subscription controls pass 72 normal/hover/focus text observations including faded savings labels, with a 24-case low-opacity negative control | Finish remaining interactive-state and ancestor-opacity contrast, physical screen-reader and physical text-scaling acceptance | W-01–W-04 |
 | Performance | Nonblocking waits, logical round clocks and lighter guest rendering implemented | Record navigation, loading, round-boundary, result and deployment timings; avoid claiming unmeasured throughput improvements | R-02, A-04, I-06 |
-| Publication | Preview artifacts checked for source identity, inventory hashes, icons and private-file exclusion; native helper build paths removed and binary privacy scans added | Historical commits/installers still contain the original helper. Plan separately scoped cleanup; repeat all checks for the final artifact and confirm clean-machine gates before 1.0 | I-04, release policy |
+| Publication | Preview artifacts checked for source identity, inventory hashes, icons and private-file exclusion; native helper build paths removed and binary privacy scans added | Historical commits/installers still contain the original helper. The scoped cleanup is approved but not executed; repeat all checks for the final artifact and confirm clean-machine gates before 1.0 | I-04, release policy |
 
 Coverage was produced by `node tools/route-coverage-report.js` after adding eighteen separate Everything Macro conversions for Middle of the Road, One Two Tree and Town Center. They add ten eligible pairs, increasing coverage from 535 to 545. Subsequent missing-medal gameplay confirmed Middle of the Road Military Only, Primary Only and Deflation with both victory and fresh saved medals; the other conversions have no new local victory claim. The [source audit](upstream-route-batch-2026-10-07.md) records fidelity, opening budgets and exclusions. All 86 map names have explicit mechanics entries, which does not establish that every mechanic has a complete executable handling rule.
 
@@ -36,6 +36,19 @@ does not close clean provisioning or resolve the boot-store issue. All 407
 Python tests and 65 approved JavaScript checks pass. The published installer
 has 126 matching runtime comparisons, 1,710 valid inventory hashes, matching
 native/staged identities and both verified application icons.
+
+On 8 October the approved elevated host copied-template probe passed all 11
+configure/read-back operations with no error and unchanged source input. Every
+BCDEdit operation used an explicit private store. Actual boot of a separate
+fixture and complete clean installation remain open.
+
+The approved local app repair batch passes 48 actual-renderer map artwork checks,
+88 report-dialog checks and four focused viewer publisher cases. Reports use the
+observed controller version or `unknown`; malformed/deeply nested viewer requests
+are ignored before frame processing. A six-run 4x CPU-throttled fixture measured
+median Map navigation readiness of 1,078.7 ms with eager SVG and 433.2 ms with the
+repair, preserving all visible artwork and scroll height. Physical performance,
+accessibility and clean first-launch gates remain; local checks are not deployment.
 
 ## Deferred route and sweep acceptance
 
@@ -57,7 +70,9 @@ running when possible; an exhausted queue is not permission to reset attempts.
 Experimental assistance, boss automation and Pro entitlements remain explicitly unfinished. Their drafts must not be presented as shipped capability or used to conceal missing core acceptance. The private community bot stays outside public packages.
 
 On 7 October the user scheduled Quests, Races, Boss Rush and Boss Events for
-**v1.2, after the required 1.0 work**. This includes a dedicated Quests tab initially
+**v1.2, after the required 1.0 work**. Full Odyssey support was added to that
+roadmap on 8 October and is the first priority after 1.0, ahead of the other
+v1.2 modes. This includes a dedicated Quests tab initially
 marked **Coming soon**. Their individual tasks and outcome requirements are in
 the active TODO's v1.2 section; they are not prerequisites for releasing 1.0.
 

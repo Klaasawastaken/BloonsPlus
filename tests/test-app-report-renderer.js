@@ -13,7 +13,7 @@ try {
   assert.ifError(run.error);
   assert.equal(run.status, 0, run.stdout + run.stderr);
   const result = JSON.parse(run.stdout.trim().split(/\r?\n/).at(-1));
-  assert.equal(result.checks, 80);
+  assert.equal(result.checks, 88);
   assert.deepEqual(result.failures, []);
   assert.deepEqual(result.errors, []);
   const negative = spawnSync(require('electron'), [path.join(__dirname, 'fixtures/report-renderer.cjs')], {
@@ -24,11 +24,11 @@ try {
   assert.equal(negative.status, 1, 'Non-modal negative control must fail');
   assert.ok(negative.stdout.trim(), negative.stderr || 'Negative control returned no report');
   const rejected = JSON.parse(negative.stdout.trim().split(/\r?\n/).at(-1));
-  assert.equal(rejected.checks, 80);
+  assert.equal(rejected.checks, 88);
   assert.equal(rejected.failures.filter(f => f.kind === 'open-modal-focus').length, 8);
   assert.equal(rejected.failures.filter(f => f.kind === 'background-focus-blocked').length, 8);
   assert.deepEqual(rejected.errors, []);
-  console.log('Issue report: 80 checks pass for keyboard focus, bounds, accessible names, redacted context and dismissal in both themes and entry points.');
+  console.log('Issue report: 88 checks pass for observed version, keyboard focus, bounds, accessible names, redacted context and dismissal in both themes and entry points.');
 } finally {
   // Remove only the exact temporary profile created above, after Electron exits.
   assert.equal(path.dirname(path.resolve(profile)), path.resolve(os.tmpdir()));

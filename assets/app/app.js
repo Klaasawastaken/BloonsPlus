@@ -288,20 +288,24 @@ let mapsCategory = 'All';
 const iconSlug = name => name.toLowerCase().replace(/[^a-z0-9]/g, '');
 // Custom medal: hexagon badge with its own colour per mode, a star for the standard modes, an icon
 // for each variation, and a skull for Impoppable and CHIMPS. Not earned: light gray.
-function medalIcon(mode, earned) {
-  const [, tier, , label] = MEDAL_BY_MODE[mode] || [mode, 'hard', '?', mode];
-  const standard = ['easy', 'medium', 'hard'].includes(mode);
-  const skull = mode === 'impoppable' || mode === 'chimps';
-  const medal = document.createElement('span');
-  medal.className = `medal medal-${tier} mode-${mode} ${earned === true ? 'earned' : earned === false ? 'missing' : 'unknown'}`;
-  medal.title = `${label}: ${earned === true ? 'earned' : earned === false ? 'not earned yet' : 'not scanned'}`;
+const pendingMedalArtwork = new WeakMap();
+function appendMedalArtwork(medal, mode) {
   const ns = 'http://www.w3.org/2000/svg';
   const svg = document.createElementNS(ns, 'svg'); svg.setAttribute('viewBox', '0 0 24 28'); svg.setAttribute('aria-hidden', 'true');
   const shape = document.createElementNS(ns, 'use'); shape.setAttribute('href', '#medal-shape'); svg.append(shape);
   const mark = document.createElementNS(ns, 'use');
-  mark.setAttribute('href', skull ? '#medal-skull' : standard ? '#medal-star' : `#medal-${mode}`);
+  mark.setAttribute('href', mode === 'impoppable' || mode === 'chimps' ? '#medal-skull'
+    : ['easy', 'medium', 'hard'].includes(mode) ? '#medal-star' : `#medal-${mode}`);
   svg.append(mark);
   medal.append(svg);
+}
+function medalIcon(mode, earned, deferArtwork = false) {
+  const [, tier, , label] = MEDAL_BY_MODE[mode] || [mode, 'hard', '?', mode];
+  const medal = document.createElement('span');
+  medal.className = `medal medal-${tier} mode-${mode} ${earned === true ? 'earned' : earned === false ? 'missing' : 'unknown'}`;
+  medal.title = `${label}: ${earned === true ? 'earned' : earned === false ? 'not earned yet' : 'not scanned'}`;
+  if (deferArtwork) pendingMedalArtwork.set(medal, mode);
+  else appendMedalArtwork(medal, mode);
   return medal;
 }
 // The map's own tile art once the scanner has seen it on the map-select screen, initials until then.
@@ -331,6 +335,7 @@ function medalsFromLocalRecord(record) {
   return BloonsMedals.medalsFromMapRecord(record);
 }
 let lastMapRenderKey = null;
+let mapArtworkObserver = null;
 function renderMaps() {
   if (document.querySelector('#blackborder')?.classList.contains('hidden')) return;
   const grid = document.querySelector('#maps-grid'); if (!grid) return;
@@ -357,6 +362,9 @@ function renderMaps() {
   const renderKey = JSON.stringify([mapsCategory, query, hideDone, observations.map(map =>
     [map.name, map.category, map.done, Boolean(map.medals), MEDAL_SLOTS.map(([mode]) => map.medals?.[mode] ?? null)])]);
   if (renderKey === lastMapRenderKey) return;
+  mapArtworkObserver?.disconnect();
+  mapArtworkObserver = null;
+  const deferArtwork = typeof IntersectionObserver === 'function';
   const cards = observations.filter(map => (mapsCategory === 'All' || map.category === mapsCategory)
     && map.name.toLowerCase().includes(query) && !(hideDone && map.done)).map(map => {
     const medals = map.medals;
@@ -370,12 +378,38 @@ function renderMaps() {
     info.append(name, meta); head.append(mapThumb(map.name, map.category), info);
     const row = document.createElement('div'); row.className = 'medal-row';
     // A medal the scan did not report stays "not scanned" rather than counted as missing.
-    row.append(...MEDAL_SLOTS.map(([mode]) => medalIcon(mode, medals && mode in medals ? medals[mode] === true : undefined)));
+    row.append(...MEDAL_SLOTS.map(([mode]) => medalIcon(mode, medals && mode in medals ? medals[mode] === true : undefined, deferArtwork)));
     card.append(head, row);
     return card;
   });
   if (!cards.length) { const empty = document.createElement('p'); empty.className = 'muted'; empty.textContent = 'No maps match.'; cards.push(empty); }
   grid.replaceChildren(...cards);
+  if (deferArtwork && cards[0].classList.contains('map-card')) {
+    // The fixed-size medal spans keep labels and layout ready immediately.
+    // Build decorative SVG only as cards approach the viewport.
+    const loadArtwork = card => {
+      for (const medal of card.querySelectorAll('.medal')) {
+        if (!pendingMedalArtwork.has(medal)) continue;
+        appendMedalArtwork(medal, pendingMedalArtwork.get(medal));
+        pendingMedalArtwork.delete(medal);
+      }
+    };
+    const observer = new IntersectionObserver(entries => {
+      if (mapArtworkObserver !== observer) return;
+      for (const entry of entries) if (entry.isIntersecting) {
+        loadArtwork(entry.target);
+        observer.unobserve(entry.target);
+      }
+    }, { rootMargin: '200px' });
+    mapArtworkObserver = observer;
+    // Read bounds together before adding SVG, avoiding layout work per card.
+    // Visible cards must be ready even before the first observer callback.
+    const nearby = new Set(cards.filter(card => {
+      const bounds = card.getBoundingClientRect();
+      return bounds.width > 0 && bounds.bottom >= -200 && bounds.top <= window.innerHeight + 200;
+    }));
+    cards.forEach(card => nearby.has(card) ? loadArtwork(card) : observer.observe(card));
+  }
   document.querySelector('#queue-count').textContent = observations.filter(map => !map.done).length;
   lastMapRenderKey = renderKey;
 }
@@ -1619,14 +1653,44 @@ document.querySelector('a[href="/calibrate.html"]')?.addEventListener('click', e
 
 // Reports include only a reviewed, redacted excerpt; no private profile files.
 const reportDialog = document.querySelector('#issue-report-dialog');
+let reportVersion = 'unknown';
+let reportVersionController = null;
+function isIssueReportVersion(version) {
+  if (typeof version !== 'string' || version.length > 80) return false;
+  const parsed = /^(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)(?:-([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?(?:\+[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?$/.exec(version);
+  return Boolean(parsed) && !(parsed[1] || '').split('.').some(part => /^\d+$/.test(part) && part.length > 1 && part.startsWith('0'));
+}
+async function refreshIssueReportVersion() {
+  reportVersionController?.abort();
+  const controller = new AbortController();
+  reportVersionController = controller;
+  reportVersion = 'unknown';
+  updateIssueReport();
+  const timeout = setTimeout(() => controller.abort(), 4000);
+  try {
+    const response = await fetch('/api/setup/controller', { cache: 'no-store', signal: controller.signal });
+    if (!response.ok) return;
+    const identity = await response.json();
+    const version = identity?.version;
+    if (reportVersionController === controller && !controller.signal.aborted && identity?.protocolVersion === 1
+        && isIssueReportVersion(version)) {
+      reportVersion = version;
+      if (reportDialog.open) updateIssueReport();
+    }
+  } catch { /* Unknown is more useful than a guessed development/release version. */ }
+  finally {
+    clearTimeout(timeout);
+    if (reportVersionController === controller) reportVersionController = null;
+  }
+}
 function updateIssueReport() {
   const excerpt = window.BloonsSupport.redact(latestRunLog || 'No run log available.').slice(-4500);
   document.querySelector('#report-preview').textContent = excerpt;
   const description = window.BloonsSupport.redact(document.querySelector('#report-description').value).slice(0,1500);
-  const body = `## What happened\n${description || 'Describe what happened here.'}\n\n## Run context\nApp: Bloons+ 0.1.0\nEngine: ${latestAutomationStatus?.vm ? 'VM' : 'Local / unknown'}\n\n## Redacted log excerpt\n\`\`\`text\n${excerpt.replace(/\`/g, "'")}\n\`\`\`\n`;
+  const body = `## What happened\n${description || 'Describe what happened here.'}\n\n## Run context\nApp: Bloons+ ${reportVersion}\nEngine: ${latestAutomationStatus?.vm ? 'VM' : 'Local / unknown'}\n\n## Redacted log excerpt\n\`\`\`text\n${excerpt.replace(/\`/g, "'")}\n\`\`\`\n`;
   document.querySelector('#report-submit').href = 'https://github.com/Klaasawastaken/BloonsPlus/issues/new?title=' + encodeURIComponent('Run issue') + '&body=' + encodeURIComponent(body);
 }
-document.querySelectorAll('#report-issue, #settings-report-issue').forEach(button => button.addEventListener('click', () => { updateIssueReport(); reportDialog.showModal(); }));
+document.querySelectorAll('#report-issue, #settings-report-issue').forEach(button => button.addEventListener('click', () => { reportDialog.showModal(); refreshIssueReportVersion(); }));
 document.querySelector('#report-close').addEventListener('click', () => reportDialog.close());
 document.querySelector('#report-description').addEventListener('input', updateIssueReport);
 document.querySelector('#report-download').addEventListener('click', () => {

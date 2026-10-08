@@ -41,7 +41,7 @@ const elements = new Map();
 function element(id) {
   if (!elements.has(id)) elements.set(id, { value:'', handlers:{},
     addEventListener(type, handler) { this.handlers[type] = handler; },
-    showModal() {}, close() {}, click() {} });
+    showModal() { this.open = true; }, close() { this.open = false; }, click() {} });
   return elements.get(id);
 }
 const browser = { document: {
@@ -49,6 +49,7 @@ const browser = { document: {
   querySelectorAll: () => [element('#report-issue'), element('#settings-report-issue')],
   createElement: () => element('download-anchor'),
 }, latestRunLog: cases.join('\n'), latestAutomationStatus: {vm:true}, setTimeout: () => {},
+  clearTimeout: () => {}, AbortController, fetch: async () => ({ok:false}),
   URL: {createObjectURL(blob) { browser.download = blob.text; return 'blob:fixture'; }, revokeObjectURL() {}},
   Blob: class {constructor(parts) {this.text=parts.join('');}}, };
 browser.window = browser;

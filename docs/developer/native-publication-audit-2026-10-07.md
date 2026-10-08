@@ -51,8 +51,10 @@ and the exact remote-ref snapshot; retain a private recoverable backup. Force
 updates change commit IDs and require collaborators to resynchronize clones.
 Downloaded copies, forks and hosting caches cannot be erased by this operation.
 
-**Awaiting explicit approval:** no history, tag or release asset has been
-changed by this audit. Exact IDs and the proposed asset list are retained
+**Approved on 8 October:** the user authorized the scoped history replacement
+and affected-download retirement. Execution still requires a private recoverable
+backup and fresh remote-ref verification. No history, tag or release asset has
+been changed by this audit. Exact IDs and the proposed asset list are retained
 privately; personal paths are not reproduced here.
 
 ## Checked artifact

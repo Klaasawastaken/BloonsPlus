@@ -1,6 +1,6 @@
 # Bloons+ TODO
 
-Updated **7 October 2026**. This is the readable, active task list. Technical notes, past failures and release evidence are preserved in the [history archive](history/roadmap-2026-10-06.md).
+Updated **8 October 2026**. This is the readable, active task list. Technical notes, past failures and release evidence are preserved in the [history archive](history/roadmap-2026-10-06.md).
 
 The [production acceptance matrix](production-1.0-gates.md) separates implemented behavior, evidence and remaining release gates.
 
@@ -10,27 +10,27 @@ The [production acceptance matrix](production-1.0-gates.md) separates implemente
 | --- | --- |
 | **1.0 focus** | Installer/first launch, app polish, progress display, website and final packaging. Unfinished routes and sweep improvements are deferred by the user. |
 | **Latest installer** | [v0.1.37-preview.99](https://github.com/Klaasawastaken/BloonsPlus/releases/tag/v0.1.37-preview.99), published and checked. Preview 100 will be **v1.0.0** only after required acceptance. |
-| **Main setup blocker** | Both clean Windows fixtures stopped at boot-file creation before Bloons+ ran. The isolated recovery prototype is approved. Its copied-template configuration passed in a temporary guest file; host-side and actual boot checks remain. |
-| **Privacy cleanup** | Current source/payload checks pass. Historical helper cleanup and retirement of affected old downloads await explicit approval. [Scope and evidence](native-publication-audit-2026-10-07.md#historical-inventory-and-proposed-cleanup). |
+| **Main setup blocker** | Both clean Windows fixtures stopped at boot-file creation before Bloons+ ran. Copied-template configuration passed all 11 operations in both the temporary guest file and the approved elevated host probe, with the input unchanged. Actual separate-fixture boot remains. |
+| **Privacy cleanup** | The scoped historical helper cleanup and retirement of affected old downloads were approved on 8 October. Back up and revalidate remote refs before rewriting; preserve notes and newer clean installers. [Scope and evidence](native-publication-audit-2026-10-07.md#historical-inventory-and-proposed-cleanup). |
 | **Sweep** | Latest direct controller check: stopped after exhausting eligible untried targets. Tree Stump remains excluded for cash-reading failures. Do not reset attempts or replay owned medals. Scheduled monitoring stays off. |
 | **Website** | All 17 content pages pass 34 theme/contrast cases and 68 doubled-text cases in both fallback-font and verified web-font runs. Live download links identify .37. Remaining interaction/accessibility work is tracked under W-04; these checks are not a full accessibility certification. |
-| **After 1.0** | Quests, Races, Boss Rush and Boss Events are planned for **v1.2**. A Quests tab starts as **Coming soon**. |
+| **After 1.0** | **Full Odyssey support comes first** in v1.2, before Quests, Races, Boss Rush and Boss Events. A Quests tab starts as **Coming soon**. |
 
 Recent fixes include scoped long-path package installation, persistent observations,
 profile source/disconnect handling, theme contrast and enlarged-text wrapping.
 Their detailed evidence remains with the task entries below and in the
 [historical status snapshot](history/status-snapshot-2026-10-07.md).
 
-## Decisions needed for the remaining release work
+## Approved remaining release work
 
 | Decision | Prepared scope | Why it matters |
 | --- | --- | --- |
-| App repair batch | Viewport-based decorative medal artwork, installed-version report labels, malformed viewer-request rejection; each with offline checks | Addresses measured navigation lag and two reproduced diagnostic/replay defects |
-| Boot prototype prompt | Resend the canceled Windows admin prompt for the already-approved copied-template probe | Clean Windows acceptance cannot proceed until the isolated prototype is checked on the host and boots a separate fixture |
+| App repair batch | Viewport-based decorative medal artwork, installed-version report labels, malformed viewer-request rejection; approved 8 October | Addresses measured navigation lag and two reproduced diagnostic/replay defects; local implementation is under focused checks and review |
+| Boot prototype prompt | Approved prompt accepted; all 11 host copied-store operations passed, input unchanged | Actual separate-fixture boot is still needed before clean installer acceptance |
 | Historical privacy cleanup | Back up and recheck refs, replace only the affected helper blob, retire the scoped old downloads, preserve notes/newer downloads | Current source/payload scans do not remove personal build paths from older public history/assets |
 
-The grouped questions are pending in chat. No decision has been inferred from
-elapsed time. Scheduled sweep monitoring stays off. Signing also needs an
+The user explicitly approved this batch on 8 October. Scheduled sweep monitoring
+stays off. Signing also needs an
 external certificate: the current installer is unsigned and no usable local
 code-signing certificate was found in the CurrentUser or LocalMachine personal certificate store.
 
@@ -72,8 +72,8 @@ These are compatibility tasks, not claims that the installed game or existing ro
 | Priority | Task | Next action / dependency |
 | --- | --- | --- |
 | 1 | **I-01–I-03: clean setup and recovery** | Complete the approved isolated guest boot-store prototype, then clean installer → launch acceptance. Existing package install/repair and long-path checks already pass. |
-| 2 | **I-04: publication privacy** | After explicit approval, replace the old helper in history and retire the identified old downloads. Preserve notes and newer clean installers. |
-| 3 | **A-01 / A-03 / A-05–A-07: app experience** | Finish measured navigation, accessibility and first/repeat-launch checks. The measured lazy-medal-artwork change awaits its design approval. |
+| 2 | **I-04: publication privacy** | Execute the approved scoped helper replacement and old-download retirement after backup and ref verification. Preserve notes and newer clean installers. |
+| 3 | **A-01 / A-03 / A-05–A-07: app experience** | Check and review the approved navigation/report/viewer repair batch, then finish accessibility and first/repeat-launch acceptance. |
 | 4 | **P-01–P-07: progress and connection** | Check live disconnect/reconnect, source changes, rate semantics and redacted diagnostics. Source projection and tower-name aliases are already implemented; do not reimplement them. |
 | 5 | **W-04: website acceptance** | Finish the remaining interactive states and accessibility checks. All-page normal contrast and fixed-viewport text scaling pass; actual web-font usage and live .37 download links are verified. |
 | 6 | **Final 1.0 packaging** | Re-run the release acceptance matrix against the final source and installer, stamp every version, then publish with Additions / Changes / Removed notes. |
@@ -267,20 +267,20 @@ exhausted queue must wait for a genuinely eligible target.
 ## 5. App polish and files
 
 - [ ] **A-01 — Check app performance.** Scrolling and category changes should feel responsive.
-  - Fresh isolated layout probes identified medal SVG work as a material navigation cost. Moving scroll calls only shifts the stall; estimated offscreen-card heights alter scroll extent. A lazy-artwork probe preserves every map/medal label and page height, loads all visible medals, and reduces median first-frame readiness from 729.4 to 327.5 ms in three samples per variant. Its bounded production change awaits approval; no app rendering change has shipped. [Follow-up](app-acceptance-2026-10-07.md#map-card-rendering-investigation--7-october).
+  - The approved 8 October implementation builds visible medal artwork immediately and defers offscreen SVG with a 200 px margin. All map labels, slots, filters and scroll height remain present; replaced observers are disconnected. Forty-eight actual-renderer checks pass in both themes, including eager fallback, scrolling and save refresh. A fresh six-run probe at 4x CPU throttle measured median two-frame readiness of 1,078.7 ms for eager rendering and 433.2 ms for the repair; all visible medals and the last card loaded without changing scroll height. These fixture timings do not certify physical weak hardware. [Evidence](app-acceptance-2026-10-07.md#approved-app-repair-batch--8-october).
   - Actual isolated software-renderer measurements cover seven sections and 2,000 synthetic log lines at normal/fourfold-throttled CPU. Settled scroll-frame p95 is 16.7–16.8 ms; Map Progress navigation takes 123.2/433.5 ms and includes a throttled 330 ms task. Improve that navigation work, then repeat measurements; live capture and physical weak-hardware checks remain open. [Evidence](app-acceptance-2026-10-07.md#measured-navigation-and-scrolling--7-october).
   - Hidden card lists are deferred; unchanged medal data retains map cards. Overview and navigation counters remain live. Focused redraw/search/medal checks and browser search inspection pass; wider performance acceptance remains open.
 - [ ] **A-02 — Check the inline VM viewer.** Capture only while visible/focused, including browser cache restoration. Lifecycle checks exist; broader live performance remains open.
   - [Actual-renderer lifecycle check](app-acceptance-2026-10-07.md#viewer-request-lifecycle--follow-up-at-fbc27aa): fourteen checks pass for image decoding, two-second polling, focus/category stops, in-flight aborts, page suspension/restoration and HTTP/timeout recovery with at most one request. Focus and page events were emulated; no live VM capture or physical back/forward-cache behavior was certified. The guest's ten-second publication lease and live resource usage remain open.
   - Four actual idle-game backend requests passed through the host and guest: valid 960×540 JPEGs, HTTP 200 and `no-store`. Each host/guest pair had identical response bytes; the next pair after two seconds contained a fresh frame. Fresh host captures took 360–391 ms and guest cache reads 15–31 ms. No image was retained and no gameplay input was sent. This closes a scoped live relay/decoding check, not renderer focus, sustained resource usage or active-replay lease expiry. [Evidence](progress-live-acceptance-2026-10-07.md#live-viewer-backend).
-  - Seven real-file/synthetic-process backend scenarios pass for lease renewal, cache timing, concurrent requests, capture failure recovery and stale frames. A separate reproduction found uncaught malformed request types and accepted non-finite expiry in the replay frame publisher; its bounded validation repair awaits approval. No live deployment occurred. [Evidence](app-acceptance-2026-10-07.md#viewer-backend-files-and-recovery--7-october).
+  - Seven real-file/synthetic-process backend scenarios pass for lease renewal, cache timing, concurrent requests, capture failure recovery and stale frames. The approved publisher repair now ignores invalid request shapes, expiry types/non-finite values, unfinished JSON and excessive JSON nesting before frame processing. Four focused Python cases pass after reproducing the failures; no live deployment occurred. [Evidence](app-acceptance-2026-10-07.md#approved-app-repair-batch--8-october).
 - [ ] **A-03 — Finish accessibility checks.** Reduced motion and screen readers for Subscriptions, including price announcements.
   - [Full-app renderer audit](app-acceptance-2026-10-07.md): all seven sections in light/dark at default/minimum window sizes pass horizontal containment, active navigation and exposed button naming. Sixteen visible-menu openings/escape-focus checks and sixteen required-tier rows pass. The approved bounded CSS repair fixes the clipped intro values and evidenced action/tier/dark-label contrast defects, including the old blue dark-theme hover. Sixty real-renderer label/persistence cases, 100 normal/hover contrast checks and all 108 broader flat-background observations now pass. All 73 approved JavaScript suites pass; independent review is clear. Physical and populated-profile acceptance is still required.
   - Live dark-mode inspection found requirement labels at 2.06:1 contrast because rows retained a white overlay. The dark rows now use the existing control/background tokens. Actual production-CSS renderer checks measure label 6.05:1 and value 11.39:1 at independently initialized 1,266 px and 606 px widths; T1–T5 stays on one row and light styling is preserved. The repaired surface was also checked in the live host app. This is scoped evidence, not a full accessibility audit; included in the installed Magic placement hotfix; broader physical acceptance remains open.
   - Custom dropdowns now honor inherited fieldset disablement, native legend exceptions and options disabled while a menu is open. An isolated actual Electron renderer reproduces and checks the stale-row bug; physical screen-reader and broader keyboard acceptance remain open.
   - Additional actual Chromium input checks pass for arrow navigation, skipping disabled rows, Home/End, Escape focus restoration, Enter selection, Tab exit and search/Enter on long lists. The hidden fixture uses Electron's native key names and complete Enter character sequence; initial incomplete fixture input was rejected as evidence. This does not certify physical screen-reader or whole-app keyboard acceptance.
   - The issue-report dialog passes 80 actual-renderer observations for modal/background focus, keyboard dismissal, accessible names, narrow layout and redacted context. An intentionally non-modal control is rejected. Physical assistive-technology acceptance remains open. [Evidence](app-acceptance-2026-10-07.md#issue-report-keyboard-and-privacy-acceptance--7-october).
-  - Report context still hardcodes `0.1.0` in the checked .37 package. The proposed existing-controller-version lookup with an unknown fallback awaits approval; this diagnostic label needs correction before 1.0.
+  - The approved report repair reads the installed controller identity when the dialog opens and uses `unknown` on failure. Strict version validation, timeouts and stale-response checks pass. Eighty-eight actual-renderer observations cover version context alongside modal focus, labels, layout and redaction; the non-modal negative control is rejected. The .37 package still contains the old label until the next checked release.
 - [x] **A-04 — Organize folders.** The current committed root has 13 files and 14 directories, with app modules, backend modules, tools, installer code and documentation grouped by purpose. Backend layout checks, packaged runtime comparisons and publication guards pass. Private/generated files and the pending route draft are excluded from publication. Recheck these guards after future moves.
 
 ### App startup and first launch — requested 6 October
@@ -321,11 +321,13 @@ Start after core reliability. These are future work, not completed features.
 - [ ] **E-02 — Add executable boss routes (v1.2).** Handle modifiers, restrictions, game versions and outcome checks first. This now belongs to the post-1.0 event roadmap below.
 - [ ] **E-03 — Finalize Pro.** Decide features, pricing and entitlements before launch. Proposed additions are not shipped; checkout does not exist yet.
 
-### v1.2 — Quests and events, after required 1.0 work
+### v1.2 — Odyssey first, then Quests and events
 
 Requested **7 October 2026**. Complete the necessary 1.0 implementation and
 acceptance work before starting this batch. Keep unavailable features clearly
 marked **Coming soon**; a tab or generated route alone does not establish support.
+
+- [ ] **V12-06 — Full Odyssey support.** **First priority after 1.0**, requested 8 October: support the complete Odyssey journey, including available difficulties, crew selection and limits, island-specific rules, carried progress/resources, continuation after interruption, executable strategies and confirmed final completion. Implement after required 1.0 work; do not present partial navigation or a single island clear as full support.
 
 - [ ] **V12-01 — Add the Quests tab.** Provide a dedicated app navigation entry and a polished **Coming soon** page before quest automation becomes available.
 - [ ] **V12-02 — Beat Quests.** Identify the selected quest and its requirements, execute a suitable strategy, and confirm completion and recorded progress.

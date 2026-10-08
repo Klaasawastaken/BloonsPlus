@@ -423,3 +423,44 @@ reproductions, not evidence that a recorded defeat had this cause.
 The bounded request-validation repair has been proposed for approval. No replay
 behavior was changed or deployed during this audit. Actual active-replay lease
 expiry and sustained live capture costs remain open acceptance work.
+
+
+## Approved app repair batch — 8 October
+
+The user approved the measured map-artwork change, report-version correction and
+malformed viewer-request validation. These are local implementation results;
+publishing and guest deployment are recorded separately.
+
+Map cards retain every fixed-size medal span, title and earned/missing/unknown
+state. Artwork near the viewport is populated immediately after one grouped
+bounds read; offscreen cards are observed with a 200 px margin. Replacing cards
+disconnects the previous observer, and stale callbacks are ignored. Environments
+without IntersectionObserver use eager artwork. Forty-eight actual hidden-renderer
+checks cover both themes, scrolling to the last card, stable scroll height/labels,
+unchanged-data node retention, filtering, saved-medal changes, observer cleanup
+and eager fallback. Before the repair, the new checks rejected eager SVG loading
+and missing observer cleanup; after the repair all checks pass.
+
+Three fresh samples per variant at 4x CPU throttle measured median two-frame Map
+navigation readiness at 1,078.7 ms for the eager control and 433.2 ms for the
+production repair. All six runs retained the same 5,759 px scroll height, all 84
+visible medal artworks and all 14 artworks on the last card after scrolling.
+An initial timing probe exposed delayed first-observer delivery; the immediate
+nearby-card population above addresses that observed blank-artwork window.
+Software-rendered, synthetic fixture timings are not a physical hardware claim.
+
+Issue reports now request the current controller identity asynchronously when
+opened. Protocol/version validation, unknown fallback, edits during loading,
+request timeout and stale-response rejection have focused checks. The actual
+renderer passes 88 observations, including the returned synthetic release version
+in the GitHub issue body; the existing non-modal negative control still fails.
+No issue is submitted during these checks.
+
+The actual replay publisher is extracted without game imports for four Python
+cases. Invalid JSON shapes, expiry values, non-finite numbers, unfinished JSON
+and excessive nested arrays cause no frame work or publication. Valid leases
+still publish; expired leases and an unfocused game skip processing. A nested
+10,000-array fixture reproduced RecursionError on the project Python before the
+added exception guard, then passed. Existing viewer lifecycle, freshness and
+seven real-file/synthetic-process backend scenarios also pass. No live screenshot
+or gameplay input was used.

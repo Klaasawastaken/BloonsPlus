@@ -16,7 +16,7 @@ server=http.createServer((req,res)=>{
  if(route==='/fixture-prefs'){res.setHeader('Content-Type','text/html');res.end('<!doctype html><title>Private fixture</title>');return;}
  if(route.startsWith('/api/')){
   let body={};
-  if(route==='/api/setup/controller')body={protocolVersion:1};
+  if(route==='/api/setup/controller')body={protocolVersion:1,version:'9.8.7-fixture.1'};
   else if(route==='/api/setup/session')body=setup;
   else if(route==='/api/setup/status')body={applicable:true,allDone:true,vm:{state:'online'},job:{running:false},steps:['vmp','appsandbox','daemon','iso','vm','provision','connected','steam'].map(id=>({id,title:id,done:true,state:'complete'})),next:{message:'Ready'}};
   else if(route==='/api/progress/local-save')body={available:false,reason:'Synthetic unavailable profile; no real saves read'};
@@ -93,6 +93,7 @@ server=http.createServer((req,res)=>{
   await evaluate("document.getElementById('report-description').value='accountId=fixture-description-secret user@example.invalid';document.getElementById('report-description').dispatchEvent(new Event('input',{bubbles:true}))");
   const output=await evaluate("(()=>{const u=new URL(document.getElementById('report-submit').href);return {origin:u.origin,path:u.pathname,body:u.searchParams.get('body'),preview:document.getElementById('report-preview').textContent}})()");
   check(output.origin==='https://github.com'&&output.path==='/Klaasawastaken/BloonsPlus/issues/new'&&output.body.includes('round=60')&&output.preview.includes('cubism'),'reviewable-context',context);
+  check(output.body.includes('App: Bloons+ 9.8.7-fixture.1'),'observed-controller-version',context);
   check(!/fixture-private-value|FixtureAccount|fixture-description-secret|fixture-person@|user@example/i.test(output.body+output.preview),'redacted-preview-and-link',context);
   const ax=(await win.webContents.debugger.sendCommand('Accessibility.getFullAXTree')).nodes.filter(n=>!n.ignored);
   const has=(role,name)=>ax.some(n=>n.role?.value===role&&n.name?.value===name);
