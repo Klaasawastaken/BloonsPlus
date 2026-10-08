@@ -92,6 +92,17 @@ reset attempts or replay owned medals, and does not prove complete live reconnec
 or every route outcome. Current source and decompressed Preview .38 payload
 publication guards each return zero findings.
 
+The 8 October packaged acceptance continuation reproduced and repaired two
+native handoff blockers: temporary checkpoint filenames exceeding the valid
+destination's path budget, and null fresh-session operation flags. The reviewed
+Preview .39 artifact passes actual native fresh install/repair, dependency
+imports, preserved configuration and the installed controller's authenticated
+observation-only native transport. All 437 Python tests and 85 approved
+JavaScript suites pass; 1,749 inventory hashes, both icons and source/payload
+privacy guards pass. [Detailed evidence](installer-native-acceptance-2026-10-06.md#packaged-install-repair-and-fresh-native-handoff--8-october).
+The missing environment remains not ready; clean Windows guest boot and complete
+first launch are still open. No existing VM or game was changed.
+
 ## Deferred route coverage and broader acceptance
 
 On 8 October the user required sweep fixes for 1.0, while keeping complete route

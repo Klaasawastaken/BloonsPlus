@@ -26,6 +26,7 @@ Their detailed evidence remains with the task entries below and in the
 | Decision | Prepared scope | Why it matters |
 | --- | --- | --- |
 | App repair batch | Viewport-based decorative medal artwork, installed-version report labels, malformed viewer-request rejection; approved 8 October | Addresses measured navigation lag and two reproduced diagnostic/replay defects; published as .38 after focused checks, regression checks and independent review; broader acceptance remains |
+| Native setup handoff | Checkpoint temporary path budget and explicit fresh-session booleans | Reviewed .39 artifact passes actual isolated native install/repair and packaged controller observation; 437 Python tests and 85 approved JavaScript suites pass. Clean VM setup remains separate. [Evidence](installer-native-acceptance-2026-10-06.md#packaged-install-repair-and-fresh-native-handoff--8-october) |
 | Boot prototype | Separate disk creation and 12 copied-store operations pass; the user-approved three-file access grants allow HCS creation/start | Windows startup remains unconfirmed. Repair the evidenced host VHD references in the private boot store and observe guest boot before production integration |
 | Historical privacy cleanup | Completed with private backup, exact atomic ref leases, helper-only source comparison and fresh release readback | Final artifact privacy checks remain; downloaded copies and forks are outside this cleanup |
 

@@ -684,3 +684,49 @@ This verifies one real dependency-resolution failure and retry through the nativ
 pipeline. It does not establish physical power-loss, arbitrary interrupted pip
 transactions, external network recovery, clean Windows setup or reboot behavior.
 No production installer behavior changed for this acceptance batch.
+
+### Packaged install, repair and fresh native handoff — 8 October
+
+The published Preview .38 package completed a fresh isolated installation and
+repair through the actual native Windows operations. Python dependency imports
+passed, the deliberately damaged controller file was restored, and unlisted
+configuration remained unchanged. This used the existing host C++ runtime;
+shortcuts, normal app launch and VM setup were disabled.
+
+An observation-only connection from the native client to that installed
+controller exposed two defects: a valid 239-character handoff destination
+generated a 276-character temporary path, and a fresh checkpoint returned null
+operation flags that the native client could not consume as booleans.
+
+The checkpoint repair generates its temporary basename independently and fits it
+within the remaining Windows path budget. CreateNew collisions have a 16-attempt
+limit; cleanup applies only to a file created by this writer. Flush(true),
+same-directory atomic replacement and the existing replacement retry policy are
+retained. Regression checks cover a long destination name, a long directory with
+`session.json`, a reduced basename budget, Unicode, locked replacement, collision
+retry/exhaustion, original bytes and unrelated-file preservation. The original
+failure and the additional reviewer-found layout both failed before their fixes.
+Fresh setup snapshots now expose explicit false flags while preserving checkpoint
+identity matching and sequence checks; their regression also failed before repair.
+
+The final reviewed Preview .39 artifact passed a new actual native install and
+repair, runtime imports, configuration preservation and inventory validation.
+The installed packaged controller then passed the native authenticated loopback
+connection and observation with a private fresh profile. Owner, executable, PID,
+version and session identities matched; sequence advanced; all three operation
+flags were false. A missing VM remained explicitly not ready, and no setup
+operation, desktop window or gameplay was started. The exact fixture controller
+exited afterward.
+
+All **437 Python tests** and **85 approved JavaScript suites** pass. An earlier
+broad Python run completed its assertions but failed when deleting a temporary
+observer executable before its natural exit; the focused two-case rerun and final
+full run passed. That first result is retained privately. Independent review
+found no remaining critical or important finding in the two production repairs.
+
+The .39 installer has 128 matching runtime-source comparisons, 1,749 valid
+inventory hashes, four matching version identities, an exact embedded payload
+and both seven-frame application icons. Source and payload publication guards
+report zero findings. The unrelated pending ABR draft is excluded from the
+artifact. These checks do not establish clean Windows/VM provisioning, physical
+reboot recovery, arbitrary application path lengths or first-launch accessibility.

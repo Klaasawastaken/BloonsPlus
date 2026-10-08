@@ -164,15 +164,39 @@ internal sealed class InstallSession
     }
     internal static void AtomicWrite(string destination, string text)
     {
-        Directory.CreateDirectory(Path.GetDirectoryName(destination));
-        string temporary = destination + "." + Guid.NewGuid().ToString("N") + ".tmp";
-        try {
-            using (var output = new FileStream(temporary, FileMode.CreateNew, FileAccess.Write, FileShare.None)) {
-                byte[] bytes = Encoding.UTF8.GetBytes(text); output.Write(bytes, 0, bytes.Length); output.Flush(true);
-            }
-            if (File.Exists(destination)) ReplaceCheckpoint(temporary, destination,
-                (source, target) => File.Replace(source, target, null), System.Threading.Thread.Sleep);
-            else File.Move(temporary, destination);
-        } finally { if (File.Exists(temporary)) File.Delete(temporary); }
+        AtomicWrite(destination, text, () => Guid.NewGuid().ToString("N"));
+    }
+    internal static void AtomicWrite(string destination, string text, Func<string> temporaryIdentity)
+    {
+        string directory = Path.GetDirectoryName(Path.GetFullPath(destination));
+        Directory.CreateDirectory(directory);
+        // Keep the unique temporary name independent of the destination's long
+        // owner/session identifier; the final path can be valid while an
+        // appended GUID exceeds Windows' legacy path limit. Long directories
+        // also reduce the available filename budget (MAX_PATH excludes NUL).
+        int nameLength = Math.Min(32, 259 - directory.Length - 1);
+        if (nameLength < 1) throw new PathTooLongException("Setup checkpoint directory is too long.");
+        for (int attempt = 0; attempt < 16; attempt++) {
+            string identity = temporaryIdentity();
+            Guid parsed;
+            if (!Guid.TryParseExact(identity, "N", out parsed)) throw new ArgumentException("Invalid checkpoint temporary identity.");
+            string temporary = Path.Combine(directory, identity.Substring(0, nameLength));
+            bool created = false;
+            try {
+                using (var output = new FileStream(temporary, FileMode.CreateNew, FileAccess.Write, FileShare.None)) {
+                    created = true;
+                    byte[] bytes = Encoding.UTF8.GetBytes(text); output.Write(bytes, 0, bytes.Length); output.Flush(true);
+                }
+                if (File.Exists(destination)) ReplaceCheckpoint(temporary, destination,
+                    (source, target) => File.Replace(source, target, null), System.Threading.Thread.Sleep);
+                else File.Move(temporary, destination);
+                return;
+            } catch (IOException error) {
+                uint result = unchecked((uint)error.HResult);
+                int code = (int)(result & 0xffff);
+                bool collision = !created && (result & 0xffff0000) == 0x80070000 && (code == 80 || code == 183);
+                if (!collision || attempt == 15) throw;
+            } finally { if (created && File.Exists(temporary)) File.Delete(temporary); }
+        }
     }
 }
