@@ -103,6 +103,13 @@ privacy guards pass. [Detailed evidence](installer-native-acceptance-2026-10-06.
 The missing environment remains not ready; clean Windows guest boot and complete
 first launch are still open. No existing VM or game was changed.
 
+The same installed .39 assets also pass fresh/repeat hidden-renderer checks
+against the actual packaged setup-only controller: missing-environment navigation,
+intro preference persistence and an explicit Retry after a blocked readiness
+request. No commands or gameplay ran. This adds real coordinator integration to
+the renderer evidence; it does not close packaged main-process launch or clean
+Windows acceptance. [Scope](installer-native-acceptance-2026-10-06.md#installed-assets-startup-preferences-and-connection-retry--8-october).
+
 ## Deferred route coverage and broader acceptance
 
 On 8 October the user required sweep fixes for 1.0, while keeping complete route

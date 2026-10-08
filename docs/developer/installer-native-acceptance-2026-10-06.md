@@ -735,3 +735,32 @@ Published as [v0.1.39-preview.99](https://github.com/Klaasawastaken/BloonsPlus/r
 GitHub's sole installer asset matches the checked 247,064,282-byte artifact and
 its local digest. Download metadata now points to this release. The production
 1.0 gates remain open; no full guest update or gameplay occurred in this batch.
+
+### Installed assets: startup, preferences and connection retry — 8 October
+
+A new isolated profile loaded the unchanged .39 application assets from the
+actual packaged setup-only controller. The hidden renderer used the matching
+original Electron 33.4.11 runtime. A fresh launch exposed the shell, showed then
+dismissed the default Full branding, kept Settings reachable and showed the observed missing
+environment as actionable. The real coordinator remained idle with validation
+false and explicit false operation flags. Changing the actual intro dropdown to
+Off persisted; reopening the window retained the setting and omitted branding.
+
+Temporarily blocking only the controller identity request exposed the actual
+connection diagnostic and Retry button without disabling navigation. Restoring
+that request and pressing Retry recovered readiness against the same controller.
+All three scenarios pass, with no uncaught renderer error or prohibited mutation
+request. Only reads and same-origin observation-session bootstrap were allowed;
+no VM/setup commands or gameplay ran. The exact fixture processes exited.
+Review strengthened cleanup so an error for one owned process cannot skip
+the other; four isolated cleanup checks cover that case and bounded timeout
+handling. The final actual integration run passes, and independent re-review
+found no remaining important finding.
+
+The first harness attempt incorrectly assumed packaged Electron accepts an
+alternate main script. It ignored that argument and safely exited on the fixture
+controller's occupied port in setup-only mode. A second fixture error used the
+wrong Settings element ID. Both initial results remain private; the corrected
+first/repeat and recovery checks pass. These observations cover installed assets
+and the real setup coordinator, not the packaged main-process window launch,
+clean Windows, physical accessibility or a fully provisioned guest.
