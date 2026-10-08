@@ -55,8 +55,22 @@ native/staged identities and both verified application icons.
 
 On 8 October the approved elevated host copied-template probe passed all 11
 configure/read-back operations with no error and unchanged source input. Every
-BCDEdit operation used an explicit private store. Actual boot of a separate
-fixture and complete clean installation remain open.
+BCDEdit operation used an explicit private store. A subsequent separate 64 GB
+fixture applied the official Windows image and passed all 12 copied-store
+operations. The original template remained unchanged. This proves disk creation,
+not guest boot or complete installation. The corrected direct-HCS probe initially
+stopped during construction with access denied. The user explicitly approved
+Windows VM access grants for only the new private disk and two state files. All
+three grants returned success; original and observed permissions were retained
+privately and ownership was unchanged. HCS then created and started the fixture,
+but it exited before a Windows guest connection was observed. Read-only offline
+inspection found no startup logs, with kernel-file controls confirming the volume
+was readable. Boot-store readback exposed host VHD references in the three device
+entries. A reviewed, fixture-only repair uses explicit GPT disk/partition IDs and
+checks all three entries before installation. Its Windows administrator prompt
+was canceled, so that repair has not run; guest boot and production integration
+remain unconfirmed. Existing BTD6 VM, SSH and scheduled-task permissions were
+not changed.
 
 The approved local app repair batch passes 48 actual-renderer map artwork checks,
 88 report-dialog checks and four focused viewer publisher cases. Reports use the
@@ -64,8 +78,19 @@ observed controller version or `unknown`; malformed/deeply nested viewer request
 are ignored before frame processing. A six-run 4x CPU-throttled fixture measured
 median Map navigation readiness of 1,078.7 ms with eager SVG and 433.2 ms with the
 repair, preserving all visible artwork and scroll height. Preview .38 is published with checked source/payload identities, inventory,
-icons and privacy guards. Physical performance, accessibility, complete clean
-first-launch and guest deployment gates remain.
+icons and privacy guards. The viewer publisher repair was deployed at an idle
+guest boundary after verifying that every other replay-source byte matched
+(ignoring line endings); installed source and private backup matched their expected
+hashes. No controller restart or gameplay was used. Physical performance/accessibility stay in the
+backlog; complete clean first-launch belongs to the required installer gate.
+
+A fresh 13-suite offline sweep/setup check passes startup-failure retention,
+candidate fallback, account-bound ownership/history, ordering, outcome counts,
+delayed medal confirmation and setup operation/session checks. The current guest
+is idle after exhausting eligible untried targets. This is not permission to
+reset attempts or replay owned medals, and does not prove complete live reconnect
+or every route outcome. Current source and decompressed Preview .38 payload
+publication guards each return zero findings.
 
 ## Deferred route coverage and broader acceptance
 
