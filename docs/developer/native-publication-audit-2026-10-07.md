@@ -23,7 +23,9 @@ The source and payload publication checks now scan `.exe`, `.dll` and `.pyd` fil
 
 The exact upstream App Sandbox MIT notice is retained beside the helper in `vm/licenses/AppSandbox-MIT.txt` and required by the packager. The third-party index identifies its source and modifications. Setup wording now describes boot diagnostics instead of claiming the unresolved App Sandbox boot failure is fixed.
 
-Earlier public commits and release artifacts can still contain the old helper. This repair changes future source and installers; it does not rewrite repository history or remove previously downloaded copies.
+The historical cleanup below removes the original helper from reachable public
+branch/tag history and retires affected old downloads. Previously downloaded
+copies, forks and hosting caches cannot be erased by that operation.
 
 ## Historical inventory and proposed cleanup
 
@@ -51,11 +53,20 @@ and the exact remote-ref snapshot; retain a private recoverable backup. Force
 updates change commit IDs and require collaborators to resynchronize clones.
 Downloaded copies, forks and hosting caches cannot be erased by this operation.
 
-**Approved on 8 October:** the user authorized the scoped history replacement
-and affected-download retirement. Execution still requires a private recoverable
-backup and fresh remote-ref verification. No history, tag or release asset has
-been changed by this audit. Exact IDs and the proposed asset list are retained
-privately; personal paths are not reproduced here.
+**Completed on 8 October:** a privately retained Git bundle was verified before
+the helper-only rewrite. Comparison covered 493 commits and 2,687 trees, preserving
+all other source bytes, commit messages and tag annotations. Two commit signatures
+were removed because their tree/parent changes invalidated them; original signed
+objects remain in the private backup. An independent publisher review found no
+critical or important issues.
+
+Publication used an atomic push with exact per-ref leases. Fresh readback verified
+all 139 branch/tag refs. Retirement addressed only the 124 approved asset IDs on
+121 affected releases, after checking each name, size and digest. Final readback
+verified all 137 release notes and preserved downloads on 16 newer releases,
+including Preview .38. The local main pointer was synchronized only after proving
+its latest tree identical; pending work was preserved. Exact IDs, inventories and
+receipts stay private. Collaborators must resynchronize old clones before pushing.
 
 ## Checked artifact
 

@@ -8,12 +8,12 @@ The [production acceptance matrix](production-1.0-gates.md) separates implemente
 
 | Item | Current status |
 | --- | --- |
-| **1.0 focus** | Installer/first launch, app polish, progress display, website and final packaging. Unfinished routes and sweep improvements are deferred by the user. |
+| **1.0 focus** | Four gates only: finish the installer, fix the main setup blocker, privacy cleanup and sweep fixes. Remaining app/website polish and full route coverage are deferred. |
 | **Latest installer** | [v0.1.38-preview.99](https://github.com/Klaasawastaken/BloonsPlus/releases/tag/v0.1.38-preview.99), published and checked. Preview 100 will be **v1.0.0** only after required acceptance. |
 | **Main setup blocker** | Both clean Windows fixtures stopped at boot-file creation before Bloons+ ran. Copied-template configuration passed all 11 operations in both the temporary guest file and the approved elevated host probe, with the input unchanged. Actual separate-fixture boot remains. |
-| **Privacy cleanup** | The scoped historical helper cleanup and retirement of affected old downloads were approved on 8 October. Back up and revalidate remote refs before rewriting; preserve notes and newer clean installers. [Scope and evidence](native-publication-audit-2026-10-07.md#historical-inventory-and-proposed-cleanup). |
+| **Privacy cleanup** | Completed historical cleanup: 139 public refs verified, 124 affected assets retired, all 137 notes and 16 clean downloads preserved. Private backup verified; final 1.0 artifact scan remains. [Evidence](native-publication-audit-2026-10-07.md#historical-inventory-and-proposed-cleanup). |
 | **Sweep** | Latest direct controller check: stopped after exhausting eligible untried targets. Tree Stump remains excluded for cash-reading failures. Do not reset attempts or replay owned medals. Scheduled monitoring stays off. |
-| **Website** | All 17 content pages pass 34 theme/contrast cases and 68 doubled-text cases in both fallback-font and verified web-font runs. Download metadata identifies .38; a fresh live-page check remains. Remaining interaction/accessibility work is tracked under W-04; these checks are not a full accessibility certification. |
+| **Website** | All-page theme/text checks pass; live download and notes links identify .38. Remaining interaction/accessibility work is deferred under W-04; these checks are not a full accessibility certification. |
 | **After 1.0** | **Full Odyssey support comes first** in v1.2, before Quests, Races, Boss Rush and Boss Events. A Quests tab starts as **Coming soon**. |
 
 Recent fixes include scoped long-path package installation, persistent observations,
@@ -27,7 +27,7 @@ Their detailed evidence remains with the task entries below and in the
 | --- | --- | --- |
 | App repair batch | Viewport-based decorative medal artwork, installed-version report labels, malformed viewer-request rejection; approved 8 October | Addresses measured navigation lag and two reproduced diagnostic/replay defects; published as .38 after focused checks, regression checks and independent review; broader acceptance remains |
 | Boot prototype prompt | Approved prompt accepted; all 11 host copied-store operations passed, input unchanged | Actual separate-fixture boot is still needed before clean installer acceptance |
-| Historical privacy cleanup | Back up and recheck refs, replace only the affected helper blob, retire the scoped old downloads, preserve notes/newer downloads | Current source/payload scans do not remove personal build paths from older public history/assets |
+| Historical privacy cleanup | Completed with private backup, exact atomic ref leases, helper-only source comparison and fresh release readback | Final artifact privacy checks remain; downloaded copies and forks are outside this cleanup |
 
 The user explicitly approved this batch on 8 October. Scheduled sweep monitoring
 stays off. Signing also needs an
@@ -57,13 +57,12 @@ These are compatibility tasks, not claims that the installed game or existing ro
 
 | Order | Area | Main outcome |
 | --- | --- | --- |
-| **1 — 1.0 priority** | [Installer and release](#4-installer-and-release) | Reliable setup, recovery and checked final packaging |
-| **2 — 1.0 priority** | [App polish and files](#5-app-polish-and-files) | Responsive, accessible controls and organized folders |
-| **3 — 1.0 priority** | [Progress and VM connection](#3-progress-and-vm-connection) | Accurate live progress, counters and connection status |
-| **4 — 1.0 priority** | [Website redesign](#6-website-redesign) | Finish page acceptance and release downloads |
-| **5 — Deferred improvements** | [Replay reliability](#1-replay-reliability) | Preserve failures and improve routes after core release work |
-| **6 — Background when eligible** | [Routes and medals](#2-routes-and-medals) | Earn missing medals; unfinished coverage does not block 1.0 |
-| **7 — Experimental** | [AI, bosses and Pro](#7-ai-bosses-and-pro) | Separate development after core reliability |
+| **1 — Required for 1.0** | [Installer and release](#4-installer-and-release) | Finish installer, resolve clean VM setup and check final packaging |
+| **2 — Required for 1.0** | Privacy cleanup / I-04 | Historical cleanup complete; final source/payload checks remain |
+| **3 — Required for 1.0** | [Sweep behavior](#sweep-behavior) | Resolve startup, reconnect and recovery blockers; preserve owned-medal exclusions and failures |
+| **4 — Background when eligible** | [Routes and medals](#2-routes-and-medals) | Earn missing medals; full route coverage does not block 1.0 |
+| **5 — After 1.0** | [App polish](#5-app-polish-and-files), [website](#6-website-redesign), [progress](#3-progress-and-vm-connection) | Continue remaining improvements after release |
+| **6 — First for v1.2** | Full Odyssey support | Complete Odyssey before the other planned modes |
 
 **How to read this list:** unchecked tasks remain open, including tasks awaiting live evidence. Checked tasks have recorded completion evidence. Task IDs stay stable when priorities change. A shipped fix does not prove every route wins.
 
@@ -71,12 +70,11 @@ These are compatibility tasks, not claims that the installed game or existing ro
 
 | Priority | Task | Next action / dependency |
 | --- | --- | --- |
-| 1 | **I-01–I-03: clean setup and recovery** | Complete the approved isolated guest boot-store prototype, then clean installer → launch acceptance. Existing package install/repair and long-path checks already pass. |
-| 2 | **I-04: publication privacy** | Execute the approved scoped helper replacement and old-download retirement after backup and ref verification. Preserve notes and newer clean installers. |
-| 3 | **A-01 / A-03 / A-05–A-07: app experience** | Check and review the approved navigation/report/viewer repair batch, then finish accessibility and first/repeat-launch acceptance. |
-| 4 | **P-01–P-07: progress and connection** | Check live disconnect/reconnect, source changes, rate semantics and redacted diagnostics. Source projection and tower-name aliases are already implemented; do not reimplement them. |
-| 5 | **W-04: website acceptance** | Finish the remaining interactive states and accessibility checks. All-page normal contrast and fixed-viewport text scaling pass; actual web-font usage and live .37 download links are verified. |
-| 6 | **Final 1.0 packaging** | Re-run the release acceptance matrix against the final source and installer, stamp every version, then publish with Additions / Changes / Removed notes. |
+| 1 | **I-01–I-03: clean setup and recovery** | Complete the approved isolated guest boot-store prototype, then clean installer → launch acceptance. Existing native install/repair and long-path checks pass. |
+| 2 | **S-05–S-07 / core sweep blockers** | Diagnose actual terminal causes and startup/reconnect paths. Do not reset attempts, run owned medals or relaunch an exhausted queue. |
+| 3 | **I-04: final publication privacy** | Historical cleanup is complete. Recheck the final source and decompressed installer against privacy guards. |
+| 4 | **Final 1.0 packaging** | Verify the four scoped release gates, stamp every version, then publish with Additions / Changes / Removed notes. |
+| 5 | **Full Odyssey support, v1.2** | First development priority after 1.0. Other app/site backlog and planned modes remain tracked below. |
 
 **Already implemented:** approved installer redesign batches 1–5, post-install
 configuration (A-08), folder organization (A-04), README/banner and the rebuilt

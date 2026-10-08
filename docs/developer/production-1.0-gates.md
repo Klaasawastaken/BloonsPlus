@@ -11,7 +11,23 @@ Updated 8 October 2026. **Production 1.0 is not ready for publication.** This ch
 - Public source and installers exclude profiles, personal logs, screenshots, credentials, VM images and private Discord bot code.
 - Milestone 100 is `v1.0.0`. Release notes contain only **Additions**, **Changes** and **Removed**. Publish one installer asset, without `SHA256SUMS.txt`.
 
-## Acceptance matrix — required for 1.0
+## Required release gates — user scope, 8 October
+
+The user narrowed 1.0 to the following four gates. Remaining app, website,
+statistics and route-coverage improvements stay in the backlog; they do not
+delay 1.0. Existing privacy and missing-medal safeguards still apply.
+
+| Gate | Status | Required next evidence |
+| --- | --- | --- |
+| Finish the installer | Open | Clean installation through first launch, repair/retry and final packaged identities; retain the completed isolated native checks |
+| Fix the main setup blocker | Open | Boot a separate clean guest after the boot-store repair, then complete actual setup; copied-store configuration alone is insufficient |
+| Privacy cleanup | Historical cleanup complete; final artifact check remains | Recheck final source and decompressed installer; 139 public refs, 124 affected old assets, 137 retained notes and 16 clean downloads were verified after cleanup |
+| Sweep fixes | Open | Resolve evidenced startup/reconnect/recovery blockers while preserving account ownership, attempts and failures; full route coverage or every medal is not required |
+
+Full Odyssey support remains the first v1.2 priority after these gates and 1.0
+publication. Release notes use only Additions, Changes and Removed.
+
+## Existing evidence and remaining backlog
 
 | Area | Evidence available | Remaining gate | TODO |
 | --- | --- | --- | --- |
@@ -22,7 +38,7 @@ Updated 8 October 2026. **Production 1.0 is not ready for publication.** This ch
 | App and configuration | Isolated real renderer checks cover dark requirements, dropdown keyboard behavior, post-install layout and actual startup; 28 full-app layout/name observations, 60 repaired intro label/persistence cases, 100 normal/hover contrast checks, 108 broader flat-background contrast observations and 14 emulated viewer request/lifecycle checks pass; 88 real-renderer report-dialog version, keyboard, layout, naming and redaction observations pass, with a failing non-modal negative control; seven real-file/synthetic-process viewer backend scenarios pass | The approved malformed-request publisher repair passes focused checks, including excessive JSON nesting; published in .38; full guest deployment remains. Gradient/opacity contrast remains outside the flat-background audit. Physical keyboard/screen-reader, high DPI, weak hardware, live viewer/lease behavior and complete clean first/repeat-launch acceptance remain open | A-01–A-08 |
 | Website | Real BTD6 art, rebuilt pages and README; 18 keyboard/motion/landmark observations, atomic billing-price exposure, 60 secondary-text contrast checks and 68 complete content observations plus nine redirects pass. Mobile Escape focus and the Wiki table overflow are repaired; all 102 content observations at actual 100/200/400% zoom and 320 hover/focus contrast observations pass. All 17 content pages in both themes pass 2,646 normal-state rendered-background text observations, including map artwork; an invisible-text negative control is detected. All 68 fixed-viewport doubled-text cases pass with fallback fonts and actual web fonts (136 custom-font observations); the missing-font negative control fails as intended. Download metadata identifies .38; fresh live-page verification remains. Subscription controls pass 72 normal/hover/focus text observations including faded savings labels, with a 24-case low-opacity negative control | Finish remaining interactive-state and ancestor-opacity contrast, physical screen-reader and physical text-scaling acceptance | W-01–W-04 |
 | Performance | Nonblocking waits, logical round clocks and lighter guest rendering implemented | Record navigation, loading, round-boundary, result and deployment timings; avoid claiming unmeasured throughput improvements | R-02, A-04, I-06 |
-| Publication | Preview artifacts checked for source identity, inventory hashes, icons and private-file exclusion; native helper build paths removed and binary privacy scans added | Historical commits/installers still contain the original helper. The scoped cleanup is approved but not executed; repeat all checks for the final artifact and confirm clean-machine gates before 1.0 | I-04, release policy |
+| Publication | Preview artifacts checked for source identity, inventory hashes, icons and private-file exclusion; helper diagnostic build paths removed. Approved historical cleanup is published and verified: 139 refs, 124 retired assets, 137 retained notes and 16 preserved clean downloads | Repeat source/payload checks for the final artifact and confirm the four scoped release gates | I-04, release policy |
 
 Coverage was produced by `node tools/route-coverage-report.js` after adding eighteen separate Everything Macro conversions for Middle of the Road, One Two Tree and Town Center. They add ten eligible pairs, increasing coverage from 535 to 545. Subsequent missing-medal gameplay confirmed Middle of the Road Military Only, Primary Only and Deflation with both victory and fresh saved medals; the other conversions have no new local victory claim. The [source audit](upstream-route-batch-2026-10-07.md) records fidelity, opening budgets and exclusions. All 86 map names have explicit mechanics entries, which does not establish that every mechanic has a complete executable handling rule.
 
@@ -51,10 +67,12 @@ repair, preserving all visible artwork and scroll height. Preview .38 is publish
 icons and privacy guards. Physical performance, accessibility, complete clean
 first-launch and guest deployment gates remain.
 
-## Deferred route and sweep acceptance
+## Deferred route coverage and broader acceptance
 
-On 7 October the user explicitly said routes and sweep improvements do not have
-to be complete for 1.0. The following remain tracked work, not release blockers.
+On 8 October the user required sweep fixes for 1.0, while keeping complete route
+coverage and all-route outcome work outside the release gates. The following
+broader route work remains tracked; core sweep blockers belong to the required
+gate above.
 Existing owned-medal exclusions, account boundaries, failure retention and
 read-only game/save rules remain mandatory. Keep eligible missing-medal gameplay
 running when possible; an exhausted queue is not permission to reset attempts.
