@@ -1,6 +1,6 @@
 # Production 1.0 acceptance
 
-Updated 8 October 2026. **The four user-scoped production 1.0 blockers are resolved; publication is next.** This checklist separates implemented behavior, evidence and broader acceptance work. The [active TODO](TODO.md) holds individual tasks; the [repair audit](route-repair-audit.md) holds incident evidence.
+Updated 8 October 2026. **[Bloons+ 1.0 is published](https://github.com/Klaasawastaken/BloonsPlus/releases/tag/v1.0.0); the four user-scoped blockers are resolved.** This checklist separates implemented behavior, evidence and broader acceptance work. The [active TODO](TODO.md) holds individual tasks; the [repair audit](route-repair-audit.md) holds incident evidence.
 
 ## Scope and standing rules
 

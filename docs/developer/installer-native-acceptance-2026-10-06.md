@@ -909,3 +909,8 @@ combination or a single integrated fresh-guest Steam/BTD6/Bloons+ installation.
 Physical-window/accessibility checks, those broader environment combinations and
 complete route coverage remain recorded acceptance work; no gameplay was launched
 for this installer verification.
+
+Published as [Bloons+ 1.0](https://github.com/Klaasawastaken/BloonsPlus/releases/tag/v1.0.0)
+with exactly one installer. Fresh GitHub readback confirms the artifact's size
+and digest, stable release status and tag resolving to the checked source commit.
+Website download metadata now identifies 1.0.

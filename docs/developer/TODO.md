@@ -9,11 +9,11 @@ The [production acceptance matrix](production-1.0-gates.md) separates implemente
 | Item | Current status |
 | --- | --- |
 | **1.0 focus** | Four gates only: finish the installer, fix the main setup blocker, privacy cleanup and sweep fixes. Remaining app/website polish and full route coverage are deferred. |
-| **Latest installer** | [v0.1.40-preview.99](https://github.com/Klaasawastaken/BloonsPlus/releases/tag/v0.1.40-preview.99), published and checked. Actual isolated install/repair, native fresh-session handoff and runtime map health checks pass. Preview 100 will be **v1.0.0** only after required acceptance. |
+| **Latest installer** | [Bloons+ 1.0](https://github.com/Klaasawastaken/BloonsPlus/releases/tag/v1.0.0), published with one verified installer and Additions / Changes / Removed notes. Four scoped blockers are resolved; broader integrated/physical acceptance remains tracked. |
 | **Main setup blocker** | Resolved in the checked production helper. A fresh guest built through normal unattended staging successfully specialized Windows, completed both setup scripts and started its guest service. The fixture closed and detached with unchanged permissions. [Evidence and limits](installer-native-acceptance-2026-10-06.md#production-boot-recovery-and-final-candidate--8-october). |
 | **Privacy cleanup** | Completed historical cleanup: 139 public refs verified, 124 affected assets retired, all 137 notes and 16 clean downloads preserved. Private backup verified; exact final 1.0 candidate source/payload checks pass with zero findings. [Evidence](native-publication-audit-2026-10-07.md#historical-inventory-and-proposed-cleanup). |
 | **Sweep** | Latest direct controller check: stopped after exhausting eligible untried targets. Tree Stump remains excluded for cash-reading failures. Do not reset attempts or replay owned medals. Scheduled monitoring stays off. |
-| **Website** | All-page theme/text checks pass; download metadata identifies .40. Remaining interaction/accessibility work is deferred under W-04; these checks are not a full accessibility certification. |
+| **Website** | All-page theme/text checks pass; download metadata identifies 1.0. Remaining interaction/accessibility work is deferred under W-04; these checks are not a full accessibility certification. |
 | **After 1.0** | **Full Odyssey support comes first** in v1.2, before Quests, Races, Boss Rush and Boss Events. A Quests tab starts as **Coming soon**. |
 
 Recent fixes include scoped long-path package installation, persistent observations,
@@ -21,15 +21,15 @@ profile source/disconnect handling, theme contrast and enlarged-text wrapping.
 Their detailed evidence remains with the task entries below and in the
 [historical status snapshot](history/status-snapshot-2026-10-07.md).
 
-## Approved remaining release work
+## Release work record
 
 | Decision | Prepared scope | Why it matters |
 | --- | --- | --- |
 | App repair batch | Viewport-based decorative medal artwork, installed-version report labels, malformed viewer-request rejection; approved 8 October | Addresses measured navigation lag and two reproduced diagnostic/replay defects; published as .38 after focused checks, regression checks and independent review; broader acceptance remains |
 | Native setup handoff | Checkpoint temporary path budget and explicit fresh-session booleans | Reviewed .39 artifact passes actual isolated native install/repair and packaged controller observation; 437 Python tests and 85 approved JavaScript suites pass. Clean VM setup remains separate. [Evidence](installer-native-acceptance-2026-10-06.md#packaged-install-repair-and-fresh-native-handoff--8-october) |
 | Runtime map health | Validate the exact mutable map table with bounded schema checks; retain hashes for other files | Reviewed .40 installer accepts legitimate learned/discovered maps and rejects malformed data. All 438 Python tests, 85 approved JavaScript suites and actual isolated native install/repair pass. Existing guest updated to .39 with account/history and 205 original CHIMPS files preserved; host helper mismatch repaired through the existing operator; a fresh packaged .40 coordinator now reports complete with environment validated. Clean guest boot remains open |
-| Boot prototype | Three qualified GPT device references pass; fresh setup logs identify system-store rejection. Windows' offline hive API validates the one-marker file repair without mounting the host registry | Windows' boot tool confirms matching entries and unchanged inputs; the fresh image rebuild is verified. Fresh Windows logs prove BCD specialization succeeded and setup reached OOBE. Stage the normal unattended guest setup and complete production acceptance. No guest integration connection or complete app installation has been confirmed |
-| Historical privacy cleanup | Completed with private backup, exact atomic ref leases, helper-only source comparison and fresh release readback | Final artifact privacy checks remain; downloaded copies and forks are outside this cleanup |
+| Production boot recovery | Reviewed guest-only fallback for boot-file exit 183, qualified GPT devices and the missing system-store marker | Actual fresh unattended boot passes specialization, both setup scripts and guest service startup. Separate native install/repair and installed-assets startup checks pass; a fully integrated clean-guest application installation remains broader acceptance work |
+| Historical privacy cleanup | Completed with private backup, exact atomic ref leases, helper-only source comparison and fresh release readback | Final 1.0 source/payload checks pass; downloaded copies and forks are outside this cleanup |
 
 The user explicitly approved this batch on 8 October. Scheduled sweep monitoring
 stays off. Signing also needs an
@@ -72,11 +72,11 @@ These are compatibility tasks, not claims that the installed game or existing ro
 
 | Priority | Task | Next action / dependency |
 | --- | --- | --- |
-| 1 | **Final 1.0 publication** | The four scoped blockers now pass their recorded checks: installer, fresh guest boot recovery, final privacy and core sweep startup/recovery. Publish the checked artifact; broader integrated/physical acceptance remains tracked. |
-| 2 | **S-05–S-07 / core sweep blockers** | Diagnose actual terminal causes and startup/reconnect paths. Do not reset attempts, run owned medals or relaunch an exhausted queue. |
-| 3 | **I-04: final publication privacy** | Historical cleanup is complete. Recheck the final source and decompressed installer against privacy guards. |
-| 4 | **Final 1.0 packaging** | Verify the four scoped release gates, stamp every version, then publish with Additions / Changes / Removed notes. |
-| 5 | **Full Odyssey support, v1.2** | First development priority after 1.0. Other app/site backlog and planned modes remain tracked below. |
+| 1 | **Full Odyssey support, v1.2** | First development priority after the published 1.0 release. Keep broader integrated/physical acceptance and other backlog items visible. |
+| 2 | **S-05–S-07: eligible missing medals** | Continue when genuinely eligible untried targets exist. Preserve failures and attempts; never reset the exhausted queue or run owned medals. |
+| 3 | **I-01–I-03: broader installation acceptance** | Extend the recorded component checks to integrated clean-guest application installation and physical UI conditions. |
+| 4 | **App and website backlog** | Keep the remaining polish, performance and accessibility tasks tracked below. |
+| 5 | **Other v1.2 modes** | Quests, Races, Boss Rush and Boss Events follow full Odyssey support. |
 
 **Already implemented:** approved installer redesign batches 1–5, post-install
 configuration (A-08), folder organization (A-04), README/banner and the rebuilt
