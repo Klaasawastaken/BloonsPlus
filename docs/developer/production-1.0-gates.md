@@ -67,10 +67,14 @@ but it exited before a Windows guest connection was observed. Read-only offline
 inspection found no startup logs, with kernel-file controls confirming the volume
 was readable. Boot-store readback exposed host VHD references in the three device
 entries. A reviewed, fixture-only repair uses explicit GPT disk/partition IDs and
-checks all three entries before installation. Its Windows administrator prompt
-was canceled, so that repair has not run; guest boot and production integration
-remain unconfirmed. Existing BTD6 VM, SSH and scheduled-task permissions were
-not changed.
+checks all three entries before installation. After the user requested another
+administrator prompt, the repair ran successfully: all three qualified device
+references passed provider readback, the installed store matched the prepared
+copy, and the disk detached. Two earlier private attempts are retained: embedded
+WMI method dispatch failed, then an exact-path guard rejected the provider's NT
+path prefix. The corrected guard accepts only that exact private path. Guest
+boot and production integration remain unconfirmed. Existing BTD6 VM, SSH and
+scheduled-task permissions were not changed.
 
 The approved local app repair batch passes 48 actual-renderer map artwork checks,
 88 report-dialog checks and four focused viewer publisher cases. Reports use the
