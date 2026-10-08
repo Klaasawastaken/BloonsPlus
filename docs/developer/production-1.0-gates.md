@@ -72,9 +72,15 @@ administrator prompt, the repair ran successfully: all three qualified device
 references passed provider readback, the installed store matched the prepared
 copy, and the disk detached. Two earlier private attempts are retained: embedded
 WMI method dispatch failed, then an exact-path guard rejected the provider's NT
-path prefix. The corrected guard accepts only that exact private path. Guest
-boot and production integration remain unconfirmed. Existing BTD6 VM, SSH and
-scheduled-task permissions were not changed.
+path prefix. The corrected guard accepts only that exact private path.
+
+A subsequent bounded boot created and started the isolated fixture, but no guest
+integration connection appeared within five minutes. Its handle closed
+successfully. Read-only offline inspection then recovered fresh Windows setup
+and system-event logs, proving startup reached specialization. Setup rejected
+the copied BCD as a system store (`0xC0000098`), so complete guest setup and
+production integration remain open. The disk detached after inspection. Existing
+BTD6 VM, SSH and scheduled-task permissions were not changed.
 
 The approved local app repair batch passes 48 actual-renderer map artwork checks,
 88 report-dialog checks and four focused viewer publisher cases. Reports use the
