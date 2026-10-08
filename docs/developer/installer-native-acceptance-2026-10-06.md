@@ -814,3 +814,8 @@ isolated native install and repair pass: pinned runtime imports work, a damaged
 published file is restored and configuration is preserved. These checks did
 not request VM setup, launch the app or create shortcuts; they do not prove
 clean Windows provisioning. The separate guest boot gate remains open.
+
+
+Published as [v0.1.40-preview.99](https://github.com/Klaasawastaken/BloonsPlus/releases/tag/v0.1.40-preview.99),
+with one installer asset matching the tested size and digest. Website download
+metadata points to .40. Production 1.0 remains gated on clean setup acceptance.

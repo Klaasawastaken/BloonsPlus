@@ -9,11 +9,11 @@ The [production acceptance matrix](production-1.0-gates.md) separates implemente
 | Item | Current status |
 | --- | --- |
 | **1.0 focus** | Four gates only: finish the installer, fix the main setup blocker, privacy cleanup and sweep fixes. Remaining app/website polish and full route coverage are deferred. |
-| **Latest installer** | [v0.1.39-preview.99](https://github.com/Klaasawastaken/BloonsPlus/releases/tag/v0.1.39-preview.99), published and checked. Actual isolated install/repair and native fresh-session handoff pass. Preview 100 will be **v1.0.0** only after required acceptance. |
+| **Latest installer** | [v0.1.40-preview.99](https://github.com/Klaasawastaken/BloonsPlus/releases/tag/v0.1.40-preview.99), published and checked. Actual isolated install/repair, native fresh-session handoff and runtime map health checks pass. Preview 100 will be **v1.0.0** only after required acceptance. |
 | **Main setup blocker** | Separate Windows disk creation passes. Approved access for its three private files lets the fixture VM create and start, but Windows boot remains unconfirmed. Boot-store readback exposed host VHD references; an explicit GPT-device repair is prepared and reviewed. Production setup acceptance remains open. |
 | **Privacy cleanup** | Completed historical cleanup: 139 public refs verified, 124 affected assets retired, all 137 notes and 16 clean downloads preserved. Private backup verified; final 1.0 artifact scan remains. [Evidence](native-publication-audit-2026-10-07.md#historical-inventory-and-proposed-cleanup). |
 | **Sweep** | Latest direct controller check: stopped after exhausting eligible untried targets. Tree Stump remains excluded for cash-reading failures. Do not reset attempts or replay owned medals. Scheduled monitoring stays off. |
-| **Website** | All-page theme/text checks pass; download metadata identifies .39. Remaining interaction/accessibility work is deferred under W-04; these checks are not a full accessibility certification. |
+| **Website** | All-page theme/text checks pass; download metadata identifies .40. Remaining interaction/accessibility work is deferred under W-04; these checks are not a full accessibility certification. |
 | **After 1.0** | **Full Odyssey support comes first** in v1.2, before Quests, Races, Boss Rush and Boss Events. A Quests tab starts as **Coming soon**. |
 
 Recent fixes include scoped long-path package installation, persistent observations,
@@ -27,6 +27,7 @@ Their detailed evidence remains with the task entries below and in the
 | --- | --- | --- |
 | App repair batch | Viewport-based decorative medal artwork, installed-version report labels, malformed viewer-request rejection; approved 8 October | Addresses measured navigation lag and two reproduced diagnostic/replay defects; published as .38 after focused checks, regression checks and independent review; broader acceptance remains |
 | Native setup handoff | Checkpoint temporary path budget and explicit fresh-session booleans | Reviewed .39 artifact passes actual isolated native install/repair and packaged controller observation; 437 Python tests and 85 approved JavaScript suites pass. Clean VM setup remains separate. [Evidence](installer-native-acceptance-2026-10-06.md#packaged-install-repair-and-fresh-native-handoff--8-october) |
+| Runtime map health | Validate the exact mutable map table with bounded schema checks; retain hashes for other files | Reviewed .40 installer accepts legitimate learned/discovered maps and rejects malformed data. All 438 Python tests, 85 approved JavaScript suites and actual isolated native install/repair pass. Existing guest updated to .39 with account/history and 205 original CHIMPS files preserved; host helper mismatch remains actionable |
 | Boot prototype | Separate disk creation and 12 copied-store operations pass; the user-approved three-file access grants allow HCS creation/start | Windows startup remains unconfirmed. Repair the evidenced host VHD references in the private boot store and observe guest boot before production integration |
 | Historical privacy cleanup | Completed with private backup, exact atomic ref leases, helper-only source comparison and fresh release readback | Final artifact privacy checks remain; downloaded copies and forks are outside this cleanup |
 
