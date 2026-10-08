@@ -144,6 +144,17 @@ internal static class NativeTreeAcceptance {
                 try { if(!process.HasExited&&String.Equals(process.MainModule.FileName,Self,StringComparison.OrdinalIgnoreCase)){process.Kill();process.WaitForExit(5000);} } catch {}
                 process.Dispose();
             }
+            // Empty-job evidence can be written just before the observer's final
+            // process exit. Wait for this unique fixture executable to release
+            // its file before TemporaryDirectory tries to remove it.
+            foreach(var process in Process.GetProcessesByName(Path.GetFileNameWithoutExtension(Self)))using(process){
+                if(process.Id==Process.GetCurrentProcess().Id)continue;
+                try {
+                    if(!process.HasExited&&String.Equals(process.MainModule.FileName,Self,StringComparison.OrdinalIgnoreCase))
+                        Check(process.WaitForExit(5000),"Own fixture observer did not exit after its work ended");
+                } catch(InvalidOperationException) { if(!process.HasExited)throw; }
+                  catch(System.ComponentModel.Win32Exception) { if(!process.HasExited)throw; }
+            }
         }
         Console.WriteLine(new JavaScriptSerializer().Serialize(result));
     }

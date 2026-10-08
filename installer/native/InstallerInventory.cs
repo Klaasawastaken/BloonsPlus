@@ -52,6 +52,25 @@ internal sealed class InstallerInventory {
         if(!File.Exists(file))return false;
         using(var hash=SHA256.Create())using(var input=File.OpenRead(file))return String.Equals(BitConverter.ToString(hash.ComputeHash(input)).Replace("-","").ToLowerInvariant(),expected,StringComparison.Ordinal);
     }
+    private static bool ValidRuntimeMapTable(string file) {
+        // The app updates this table from its curated catalog and learned tile
+        // positions. Those expected writes are not damaged package binaries.
+        if(!File.Exists(file)||new FileInfo(file).Length>2*1024*1024)return false;
+        try {
+            var maps=new JavaScriptSerializer {MaxJsonLength=2*1024*1024,RecursionLimit=64}.Deserialize<Dictionary<string,object>>(File.ReadAllText(file));
+            if(maps==null||maps.Count==0||maps.Count>2000)return false;
+            var categories=new HashSet<string>(new[]{"beginner","intermediate","advanced","expert"},StringComparer.OrdinalIgnoreCase);
+            foreach(var map in maps) {
+                if(!Regex.IsMatch(map.Key,@"\A[a-z0-9_]{1,128}\z"))return false;
+                var row=map.Value as Dictionary<string,object>;object category,name,page,pos;
+                if(row==null||!row.TryGetValue("category",out category)||!(category is string)||!categories.Contains((string)category)
+                    ||!row.TryGetValue("name",out name)||!(name is string)||String.IsNullOrWhiteSpace((string)name)||((string)name).Length>256
+                    ||!row.TryGetValue("page",out page)||!(page is int)||(int)page<0
+                    ||!row.TryGetValue("pos",out pos)||!(pos is int)||(int)pos<0||(int)pos>5)return false;
+            }
+            return true;
+        }catch(ArgumentException){return false;}catch(InvalidOperationException){return false;}
+    }
     private static bool Preserve(string relative) {
         string value="/"+relative.Replace('\\','/').ToLowerInvariant()+"/";
         return value.Contains("/data/config/")||value.Contains("/route-library/")||value.Contains("/playthroughs/")||value.Contains("/.bloons-setup/")
@@ -65,7 +84,11 @@ internal sealed class InstallerInventory {
             var manifest=Read(root);if(manifest==null)return observed;
             observed.Version=manifest.version;
             observed.FilesHealthy=true;
-            foreach(var entry in manifest.files)if(!Matches(Destination(root,entry.path),entry.sha256)){observed.FilesHealthy=false;break;}
+            foreach(var entry in manifest.files) {
+                string file=Destination(root,entry.path);
+                bool runtimeMaps=String.Equals(entry.path.Replace('\\','/'),"resources/app/autobtd6/maps.json",StringComparison.OrdinalIgnoreCase);
+                if(!(runtimeMaps?ValidRuntimeMapTable(file):Matches(file,entry.sha256))){observed.FilesHealthy=false;break;}
+            }
             observed.DifferentBuild=!String.IsNullOrEmpty(expectedFingerprint)&&manifest.fingerprint!=expectedFingerprint;
         }catch(IOException){observed.FilesHealthy=false;}catch(UnauthorizedAccessException){observed.FilesHealthy=false;}catch(ArgumentException){observed.FilesHealthy=false;}
         return observed;

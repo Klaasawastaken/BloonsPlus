@@ -764,3 +764,53 @@ wrong Settings element ID. Both initial results remain private; the corrected
 first/repeat and recovery checks pass. These observations cover installed assets
 and the real setup coordinator, not the packaged main-process window launch,
 clean Windows, physical accessibility or a fully provisioned guest.
+
+### Existing idle guest update and runtime map health — 8 October
+
+The normal authenticated updater applied the exact published .39 installer to
+the existing idle VM and finished with a verified app connection. The guest
+controller reports .39. The account identity, existing app task principal,
+configuration and failure-history files, and all 205 existing CHIMPS file hashes
+are unchanged. No gameplay was started, earned medals or attempt budgets reset,
+or SSH/task privileges changed. This was an update of the existing environment,
+not a clean Windows installation.
+
+The installed inventory matches 1,748 of its 1,749 entries. The remaining file,
+the runtime map table, is valid JSON with one added map and three updated tile
+positions. The existing app intentionally synchronizes this file from its
+catalog and learned coordinates. The original native inventory nevertheless
+classifies that normal change as damaged installation data.
+
+A synthetic native regression reproduced the false repair warning. The bounded
+repair validates only that exact map table's structure, with a 2 MiB size limit,
+2,000-row limit, bounded JSON depth, map identifiers, category/name fields and
+integer page/tile positions. Other required files retain their SHA checks.
+Missing or malformed map data remains unhealthy. Separate native checks accept
+both the public defaults and the privately retained live table. Independent
+review found a trailing-newline identifier gap; its regression failed before
+strict whole-string anchors corrected it. Row-count and nesting limits also have
+direct negative cases, and final review is clear.
+
+The host's existing image helper differs from the packaged helper, so overall
+environment validation remains false even though the guest update completed.
+The normal packaged app process and controller are present; physical window
+acceptance is not claimed from cross-session process observations. Clean guest
+boot still depends on the prepared fixture-only repair whose administrator
+prompt was canceled.
+
+
+Final runtime-map health acceptance passes all **438 Python tests** and the
+**85 approved JavaScript suites**. The native interruption fixture now waits
+for its exact temporary observer executable to exit before deleting the test
+directory; production process ownership and recovery rules are unchanged.
+Independent read-only review found no remaining issues in the repair or its
+regression fixtures.
+
+The Preview 99 `.40` installer is **247,069,669 bytes**. All 128 runtime source
+comparisons, 1,751 inventory hashes, four version identities, the embedded
+installer identity, exact appended payload and both seven-frame icons pass.
+Source and decompressed-payload privacy guards report zero findings. An actual
+isolated native install and repair pass: pinned runtime imports work, a damaged
+published file is restored and configuration is preserved. These checks did
+not request VM setup, launch the app or create shortcuts; they do not prove
+clean Windows provisioning. The separate guest boot gate remains open.

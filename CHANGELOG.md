@@ -1,3 +1,18 @@
+## Preview 99 runtime map health — 8 October 2026
+
+### Additions
+
+- Native regression checks for learned map positions, discovered maps and invalid map data.
+
+### Changes
+
+- Validate the runtime map table as data so normal map synchronization does not produce a false installer repair warning.
+- Keep package hash checks for other installed files.
+
+### Removed
+
+- Nothing.
+
 ## Preview 99 app repairs — 8 October 2026
 
 ## Additions
