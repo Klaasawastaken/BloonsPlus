@@ -846,3 +846,66 @@ does **not** close clean Windows provisioning or physical app-window acceptance.
 
 Fresh requests to all four HTTP/HTTPS, root/www website variants return 200 and
 exactly match the published `.40` download metadata.
+
+### Production boot recovery and final candidate — 8 October
+
+The reviewed image helper now preserves normal App Sandbox image application,
+staging and unattended configuration. Only `bcdboot` exit 183 enables recovery.
+The fallback configures a copied guest template with explicit GPT references,
+adds the missing system-store marker through Windows' offline registry API, and
+verifies the result before writing the guest EFI files. Host boot stores and
+live registry hives are not opened. Other failures retain their original
+diagnostic and remain failures.
+
+A real production-function check exposed one additional requirement: initialize
+the copied template's display order before copying its loader. That regression
+failed before the change and passes afterward. All four focused offline checks
+pass, including partition guards, opaque values, empty keys and invalid-marker
+rejection. The corrected function completed on the isolated guest disk; the
+disk detached and its permissions remained unchanged.
+
+The exact shipped native helper then built a fresh image from the official ISO
+with 19 normal unattended/guest-resource files. All four ordinary boot-file
+attempts returned 183; the production fallback returned success. Both disk and
+ISO detached, and the source ISO remained unchanged. This proves real native
+image creation and staging. Unattended boot completion remains a separate check.
+
+The local **1.0.0 candidate**, not yet published, is **247,073,902 bytes**.
+All 128 runtime comparisons, 1,752 inventory hashes, four version identities,
+the embedded identity, exact appended payload, licenses and both seven-frame
+icons pass. The pending route draft is excluded without modifying its working
+copy. Actual native fresh install and repair pass with runtime imports,
+configuration preservation and restored published files. That isolated install
+did not launch a VM or the app. Current source/payload privacy checks pass;
+private fixture disks, generated credentials and setup logs remain excluded.
+
+The final installed 1.0 assets also pass the existing hidden-renderer first and
+repeat startup checks against their actual packaged setup-only controller.
+Fresh preferences show the intro, saved preferences survive reopening, and a
+blocked readiness request retains a diagnostic and recovers through explicit
+Retry. No VM operation, gameplay or desktop capture occurs. This proves installed
+startup logic, not a physical window, accessibility or clean-guest app launch.
+
+The first production-image boot used the fixture's retained firmware/runtime
+state. HCS created and started it, but the bounded observation produced no
+Windows startup or setup logs. A read-only collection confirmed that the Windows
+volume and kernel file were readable; it did not confirm Windows startup.
+The handle closed, the disk detached and existing permissions stayed unchanged.
+This is a failed acceptance check, not a successful setup. A separate retry
+uses fresh private state contents in the same approved files; its result remains
+pending. No new file-access grants or existing BTD6 VM changes are involved.
+
+The fresh-state retry **passed**. Actual Windows logs report BCD specialization
+status `0x0` and specialization return `0`. Both `SetupComplete.cmd` and
+`setup.cmd` record completion; the guest service records successful startup.
+The scripts were generated through the normal upstream provisioning functions,
+not a replacement setup flow. The fixture closed, the disk detached and all
+three approved files retained their permissions and verified backups.
+
+Together with real native installation/repair, installed-assets startup checks,
+existing-environment validated readiness and final publication checks, this
+closes the four user-scoped 1.0 blockers. It does not certify every clean-machine
+combination or a single integrated fresh-guest Steam/BTD6/Bloons+ installation.
+Physical-window/accessibility checks, those broader environment combinations and
+complete route coverage remain recorded acceptance work; no gameplay was launched
+for this installer verification.

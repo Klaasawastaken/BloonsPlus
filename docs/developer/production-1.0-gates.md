@@ -1,6 +1,6 @@
 # Production 1.0 acceptance
 
-Updated 8 October 2026. **Production 1.0 is not ready for publication.** This checklist separates implemented behavior, offline evidence and remaining acceptance work. The [active TODO](TODO.md) holds individual tasks; the [repair audit](route-repair-audit.md) holds incident evidence.
+Updated 8 October 2026. **The four user-scoped production 1.0 blockers are resolved; publication is next.** This checklist separates implemented behavior, evidence and broader acceptance work. The [active TODO](TODO.md) holds individual tasks; the [repair audit](route-repair-audit.md) holds incident evidence.
 
 ## Scope and standing rules
 
@@ -19,10 +19,10 @@ delay 1.0. Existing privacy and missing-medal safeguards still apply.
 
 | Gate | Status | Required next evidence |
 | --- | --- | --- |
-| Finish the installer | Open | Clean installation through first launch, repair/retry and final packaged identities; retain the completed isolated native checks |
-| Fix the main setup blocker | Open | Boot a separate clean guest after the boot-store repair, then complete actual setup; copied-store configuration alone is insufficient |
-| Privacy cleanup | Historical cleanup complete; final artifact check remains | Recheck final source and decompressed installer; 139 public refs, 124 affected old assets, 137 retained notes and 16 clean downloads were verified after cleanup |
-| Sweep fixes | Open | Resolve evidenced startup/reconnect/recovery blockers while preserving account ownership, attempts and failures; full route coverage or every medal is not required |
+| Finish the installer | Scoped checks pass | Actual 1.0 native install/repair and runtime imports pass; installed assets pass first/repeat startup and explicit connection retry. Physical packaged-window and integrated clean-guest app installation remain broader acceptance work |
+| Fix the main setup blocker | Pass | The shipped native helper builds the fresh normally staged image after boot-file exit 183. Actual Windows logs confirm successful specialization, both unattended setup scripts finished and guest service startup |
+| Privacy cleanup | Historical cleanup and final candidate checks pass | Source and exact decompressed candidate pass publication guards; 139 public refs, 124 affected old assets, 137 retained notes and 16 clean downloads were verified after cleanup |
+| Sweep fixes | Scoped startup/recovery checks pass | Thirteen focused suites pass; existing environment reaches validated readiness. An exhausted queue remains stopped with ownership, failures and attempts preserved; full route coverage is deferred |
 
 Full Odyssey support remains the first v1.2 priority after these gates and 1.0
 publication. Release notes use only Additions, Changes and Removed.
@@ -182,7 +182,11 @@ the active TODO's v1.2 section; they are not prerequisites for releasing 1.0.
 
 ## Release decision
 
-Keep publishing bounded Preview 99 repairs while production gates remain open. Do not rename an incomplete build to 1.0, erase unresolved failures or manufacture validation evidence. Once all supported account medals are earned, stop gameplay entirely and complete remaining offline or installer/UI acceptance separately.
+Publish the checked 1.0 artifact under the user's four-gate scope. Retain the
+limits of separate component checks: they do not certify one integrated clean
+guest Steam/BTD6/app installation, every physical UI condition or all routes.
+Do not erase unresolved failures or manufacture validation evidence. Once all
+supported account medals are earned, stop gameplay entirely.
 
 
 ### Latest installer and existing guest acceptance — 8 October
