@@ -9,11 +9,11 @@ The [production acceptance matrix](production-1.0-gates.md) separates implemente
 | Item | Current status |
 | --- | --- |
 | **1.0 focus** | Four gates only: finish the installer, fix the main setup blocker, privacy cleanup and sweep fixes. Remaining app/website polish and full route coverage are deferred. |
-| **Latest installer** | [v0.1.38-preview.99](https://github.com/Klaasawastaken/BloonsPlus/releases/tag/v0.1.38-preview.99), published and checked. Preview 100 will be **v1.0.0** only after required acceptance. |
+| **Latest installer** | [v0.1.39-preview.99](https://github.com/Klaasawastaken/BloonsPlus/releases/tag/v0.1.39-preview.99), published and checked. Actual isolated install/repair and native fresh-session handoff pass. Preview 100 will be **v1.0.0** only after required acceptance. |
 | **Main setup blocker** | Separate Windows disk creation passes. Approved access for its three private files lets the fixture VM create and start, but Windows boot remains unconfirmed. Boot-store readback exposed host VHD references; an explicit GPT-device repair is prepared and reviewed. Production setup acceptance remains open. |
 | **Privacy cleanup** | Completed historical cleanup: 139 public refs verified, 124 affected assets retired, all 137 notes and 16 clean downloads preserved. Private backup verified; final 1.0 artifact scan remains. [Evidence](native-publication-audit-2026-10-07.md#historical-inventory-and-proposed-cleanup). |
 | **Sweep** | Latest direct controller check: stopped after exhausting eligible untried targets. Tree Stump remains excluded for cash-reading failures. Do not reset attempts or replay owned medals. Scheduled monitoring stays off. |
-| **Website** | All-page theme/text checks pass; live download and notes links identify .38. Remaining interaction/accessibility work is deferred under W-04; these checks are not a full accessibility certification. |
+| **Website** | All-page theme/text checks pass; download metadata identifies .39. Remaining interaction/accessibility work is deferred under W-04; these checks are not a full accessibility certification. |
 | **After 1.0** | **Full Odyssey support comes first** in v1.2, before Quests, Races, Boss Rush and Boss Events. A Quests tab starts as **Coming soon**. |
 
 Recent fixes include scoped long-path package installation, persistent observations,

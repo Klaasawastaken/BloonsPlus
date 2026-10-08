@@ -730,3 +730,8 @@ and both seven-frame application icons. Source and payload publication guards
 report zero findings. The unrelated pending ABR draft is excluded from the
 artifact. These checks do not establish clean Windows/VM provisioning, physical
 reboot recovery, arbitrary application path lengths or first-launch accessibility.
+
+Published as [v0.1.39-preview.99](https://github.com/Klaasawastaken/BloonsPlus/releases/tag/v0.1.39-preview.99).
+GitHub's sole installer asset matches the checked 247,064,282-byte artifact and
+its local digest. Download metadata now points to this release. The production
+1.0 gates remain open; no full guest update or gameplay occurred in this batch.
