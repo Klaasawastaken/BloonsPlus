@@ -464,3 +464,18 @@ still publish; expired leases and an unfocused game skip processing. A nested
 added exception guard, then passed. Existing viewer lifecycle, freshness and
 seven real-file/synthetic-process backend scenarios also pass. No live screenshot
 or gameplay input was used.
+
+
+### Preview .38 publication
+
+Release v0.1.38-preview.99 is published with one 247,061,514-byte installer.
+Its SHA-256 is `2032ee3d3e501394f60d1fadefcbe271cccb96203ba1fe29941590a2488266f9`.
+The final artifact passes 128 runtime source comparisons, all 1,749 inventory
+hashes, four package identities, the native embedded identity, exact appended
+payload, both seven-frame application icons and source/payload privacy guards.
+The unrelated route draft is excluded. All 436 Python cases pass. The broad
+JavaScript run passed 83 of 84 suites; the remaining privacy fixture lacked the
+new local request globals, was corrected and passed its focused rerun. The
+original failure result is retained privately. No full guest update or
+validation-only gameplay was performed. Required clean Windows and physical
+acceptance gates remain open.
